@@ -1,67 +1,26 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
-	<meta charset="utf-8">
-	<title>senthil gopal - blogs, projects, notes </title>
-	<meta name="description" content="this is a simple static site used for logging my notes, writeups on my weekend projects and any blog posts">
-	<meta name="author" content="senthil gopal">
+---
+layout: default
+title: blog posts, talks, book writeups, projects
+---
 
-	<!-- Mobile Specific Metas
-  ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-	<!-- CSS
-  ================================================== -->
-	<link rel="stylesheet" href="css/base.css">
-	<link rel="stylesheet" href="css/skeleton.css">
-	<link rel="stylesheet" href="css/layout.css">
-	<link rel="stylesheet" href="css/screen.css">
-
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!-- Favicons
-	================================================== -->
-	<link rel="shortcut icon" href="images/favicon.ico">
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
-
-</head>
-<body>
-	<div class="container">
-		<div class="sixteen columns">
-			<h1 class="remove-bottom" style="margin-top: 40px">zen coding</h1>
-			<h5>blogs, projects, notes and thoughts</h5>
-			<hr />
-		</div>
-		<div class="one-third column">
-			<h3>about me</h3>
-			<p>I am a software developer working at <a href="http://www.ebay.com" target="_blank" alt="ebay">ebay</a> with primary expertise in developing web applications in java by day and everything else at night.</p>
-		</div>
-		<div class="one-third column">
-			<h3>Three Core Principles</h3>
-			<p>Skeleton is built on three core principles:</p>
-			<ul class="square">
-				<li><strong>A Responsive Grid Down To Mobile</strong>: Elegant scaling from a browser to tablets to mobile.</li>
-				<li><strong>Fast to Start</strong>: It's a tool for rapid development with best practices</li>
-				<li><strong>Style Agnostic</strong>: It provides the most basic, beautiful styles, but is meant to be overwritten.</li>
-			</ul>
-		</div>
-		<div class="one-third column">
-			<h3>Docs &amp; Support</h3>
-			<p>The easiest way to really get started with Skeleton is to check out the full docs and info at <a href="http://www.getskeleton.com">www.getskeleton.com.</a>. Skeleton is also open-source and has a <a href="https://github.com/dhgamache/skeleton">project on git</a>, so check that out if you want to report bugs or create a pull request. If you have any questions, thoughts, concerns or feedback, please don't hesitate to email me at <a href="mailto:hi@getskeleton.com">hi@getskeleton.com</a>.</p>
-		</div>
-	</div><!-- container -->
-	<div class="twelve column content">
-		<div class="disclaimer">
-			The views expressed in this site are exclusively my own and do not necesarily represent my employer's position or opinions.
-		</div>
-	</div>
-	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-</body>
-</html>
+<div id="home">
+  <h2>Blog Posts</h2>
+  <ul class="posts">
+    {% for post in site.categories.blog %}
+      <li><span>{{ post.date | date_to_string }} &raquo;</span><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <h2>Talks</h2>
+  <ul class="posts">
+    {% for post in site.categories.talk %}
+      <li><span>{{ post.date | date_to_string }} &raquo;</span><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+  <h2>Projects</h2>
+  <p>side projects - in various completion states</p>
+  
+  <ul class="posts">
+    <li><a href="https://github.com/sengopal/python-hardway">python-hardway</a> learning python the hard way excercises</li>
+    <li><a href="https://github.com/sengopal/Yamba">yamba</a>android learning examples primarily from O-reilly,  but includes others as well</li>
+</ul>
+</div>
