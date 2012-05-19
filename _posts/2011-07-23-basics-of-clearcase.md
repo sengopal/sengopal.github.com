@@ -2,14 +2,62 @@
 layout: post
 title: Basics of ClearCase
 tags:
-- dev tips
+- developer tips
 status: publish
-type: post
 published: true
 meta:
-  jabber_published: '1311439482'
-  _wpas_done_twitter: '1'
-  hl_twitter_has_auto_tweeted: ! 'wrote Basics of ClearCase, read it here: http://blog.zenhacking.com/?p=248'
-  _edit_last: '2'
+categories:
+ - blog
 ---
-<p>Rational ClearCase is a software tool for revision control (e.g. configuration management, SCM) of source code and other software development assets.</p>  <p>ClearCase provides more than just version control. The other features available are:</p>  <ol>   <li>Version Control </li>    <li>Workspace Management </li>    <li>Build Management </li>    <li>Process Control </li> </ol>  <h5><strong>Version Control</strong></h5>  <ol>   <li>Versions all file types </li>    <li>Versions directories </li>    <li>Stores objects in reliable, scalable Versioned Object Bases (VOBs) </li>    <li>Elements are read-only until checked out </li>    <li>Unlimited branching and merging </li>    <li>Easy checkout-edit-checkin model </li>    <li>Unlimited branching capability for parallel development </li>    <li>Graphical compare and intelligent merge utilities automatically merges non-conflicting changes </li> </ol>  <h5><strong>Workspace Management</strong></h5>  <ol>   <li>Provides access to all versioned objects from standard development tools </li>    <li>A way of seeing the objects in one or more VOBs </li>    <li>Version selection is based on user-defined rules </li>    <li>Easy way to manage multiple tasks </li>    <li>Controls the public/private nature of work </li> </ol>  <ol>There are two types of views available in ClearCase</ol>  <h6><strong>Dynamic Views</strong></h6>  <ol>   <li>VOB objects are displayed from the VOB cache </li>    <li>Transparent access to elements </li>    <li>Virtual filesystem </li>    <li>Always up-to-date </li>    <li>Provides build auditing <strong></strong></li> </ol>  <ol><strong>Snapshot Views</strong>     <li>VOB objects are copied to the client </li>    <li>Downloads files based on user-based rules </li>    <li>Allows work while disconnected from the network </li>    <li>Optimal build performance for prototype or test builds <strong></strong><strong></strong></li> </ol>  <ol><strong>Build Management</strong>     <li><em>clearmake</em> and <em>omake</em> </li>    <li>Compatible with standard makefiles </li>    <li>Automatic detection of header- and source-file dependencies </li>    <li>Software bill-of-materials guarantees complete reproducibility of every build <strong></strong><strong></strong><strong>Process Control</strong> </li>    <li>Enforces appropriate policies and processes across diverse development environments </li>    <li>Integrated with ClearCase as a set of flexible, customizable tools </li> </ol>
+Rational ClearCase is a software tool for revision control (e.g. configuration management, SCM) of source code and other software development assets.
+
+ClearCase provides more than just version control. The other features available are:
+
+1. Version Control 
+2. Workspace Management 
+3. Build Management 
+3. Process Control 
+
+###Version Control
+1. Versions all file types 
+2. Versions directories 
+3. Stores objects in reliable, scalable Versioned Object Bases (VOBs) 
+4. Elements are read-only until checked out 
+5. Unlimited branching and merging 
+6. Easy checkout-edit-checkin model 
+7. Unlimited branching capability for parallel development 
+8. Graphical compare and intelligent merge utilities automatically merges non-conflicting changes 
+
+###Workspace Management
+* Provides access to all versioned objects from standard development tools 
+* A way of seeing the objects in one or more VOBs 
+* Version selection is based on user-defined rules 
+* Easy way to manage multiple tasks 
+* Controls the public/private nature of work 
+
+There are two types of views available in ClearCase
+
+**Dynamic Views**
+
+1. VOB objects are displayed from the VOB cache 
+2. Transparent access to elements
+3. Virtual filesystem 
+4. Always up-to-date 
+5. Provides build auditing 
+
+**Snapshot Views**
+
+1. VOB objects are copied to the client 
+2. Downloads files based on user-based rules 
+3. Allows work while disconnected from the network 
+4. Optimal build performance for prototype or test builds 
+
+###Build Management
+1. __clearmake__ and __omake__
+2. Compatible with standard makefiles 
+3. Automatic detection of header- and source-file dependencies 
+4. Software bill-of-materials guarantees complete reproducibility of every build 
+
+###Process Control
+1. Enforces appropriate policies and processes across diverse development environments 
+2. Integrated with ClearCase as a set of flexible, customizable tools

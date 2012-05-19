@@ -4,10 +4,70 @@ title: Collection of useful java code snippets
 tags:
 - java
 status: publish
-type: post
 published: true
 meta:
-  jabber_published: '1309934036'
-  _wpas_done_twitter: '1'
+categories:
+ - blog
 ---
-<h4><strong>For Sending a POST request</strong></h4>  <p> Code snippet for making a HTTP call</p>  <blockquote>   <p>import java.io.IOException;      <br />import java.io.OutputStreamWriter;       <br />import java.net.HttpURLConnection;       <br />import java.net.URL;       <br />public class Test {       <br />public static void main(String[] args) throws IOException {       <br />&#160;&#160;&#160; URL url = new URL(&quot;<a href="http://localhost:8080/resttest/services/Order/3&quot;);">http://localhost:8080/resttest/services/Order/3&quot;);</a>       <br />&#160;&#160;&#160;&#160; HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();       <br />&#160;&#160;&#160;&#160; httpCon.setDoOutput(true);       <br />&#160;&#160;&#160;&#160;&#160; httpCon.setRequestMethod(&quot;POST&quot;);       <br />&#160;&#160;&#160;&#160; OutputStreamWriter out = new OutputStreamWriter(       <br />&#160;&#160;&#160;&#160; httpCon.getOutputStream());       <br />&#160;&#160;&#160;&#160; System.out.println(httpCon.getResponseCode());       <br />&#160;&#160;&#160;&#160; System.out.println(httpCon.getResponseMessage());       <br />&#160;&#160;&#160;&#160; out.close();       <br />}       <br />}</p> </blockquote>  <p>&#160;</p>  <h4><strong>Static Block and main()</strong></h4>  <p>Before calling main, the static block for the class is called to initialize the class.</p>  <blockquote>   <p>public class Main {      <br />&#160;&#160;&#160; static {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;Called first.&quot;);       <br />&#160;&#160;&#160; }       <br />&#160;&#160;&#160; public static void main(String... args) {       <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160; System.out.println(&quot;Hello world.&quot;);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong><em>Output:</em></strong></p>  <blockquote>   <p>Called first.</p>    <p>Hello world.</p> </blockquote>  <h4>&#160;</h4>  <h4><strong>Code without main()</strong></h4>  <p>Normally, if you don't have a main() method, you will get an error. However if your program exits before calling main() no error is produced.</p>  <blockquote>   <p>public class Main {      <br />&#160;&#160;&#160; static {       <br />&#160;&#160;&#160; System.out.println(&quot;Hello world.&quot;);       <br />&#160;&#160;&#160; System.exit(0);       <br />&#160;&#160;&#160; }       <br />}</p> </blockquote>  <p><strong><em>Output:</em></strong></p>  <blockquote>   <p>Hello world.</p> </blockquote>  <p>&#160;</p>  <h4><strong>premain </strong></h4>  <p>If you have Java agents, those agents can have a premain method which is called first. <a href="http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html">Instrument package</a></p>  <blockquote>   <p>public static void premain(String agentArgs, Instrumentation inst);</p> </blockquote>  <p>The Instrumentation class gives the agent access to each class' byte code after it is read and before it is linked, giving the agent the option to change byte code.    <br />One interesting feature of the Instrumentation class is the getObjectSize() which will give you the size of an object.</p>
+###For Sending a POST request###
+
+**Code snippet for making a HTTP call**
+
+    import java.io.IOException;
+    import java.io.OutputStreamWriter;
+    import java.net.HttpURLConnection;
+    import java.net.URL;
+    public class Test {
+    	public static void main(String[] args) throws IOException {
+    		URL url = new URL("<a href="http://localhost:8080/resttest/services/Order/3");
+    		HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+    		httpCon.setDoOutput(true);       
+    		httpCon.setRequestMethod("POST");       
+    		OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());        
+    		System.out.println(httpCon.getResponseCode());        
+    		System.out.println(httpCon.getResponseMessage());        
+    		out.close(); 
+    	}
+    }
+
+
+**Static Block and main()**
+
+Before calling main, the static block for the class is called to initialize the class.
+
+    public class Main {
+    	static {        
+    		System.out.println("Called first.");        
+    	}       
+    	public static void main(String... args) {        
+    		System.out.println("Hello world.");        
+    	}       
+    }
+
+_Output:_
+
+Called first.
+Hello world.
+
+**Code without main()**
+
+Normally, if you don't have a main() method, you will get an error. However if your program exits before calling main() no error is produced.
+
+	public class Main {
+		static {        
+			System.out.println("Hello world.");
+			System.exit(0);
+		}
+	}
+
+_Output:_
+
+Hello world.
+
+**premain**
+
+If you have Java agents, those agents can have a premain method which is called first. [Instrument package](http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html)
+
+	public static void premain(String agentArgs, Instrumentation inst);
+
+The Instrumentation class gives the agent access to each class' byte code after it is read and before it is linked, giving the agent the option to change byte code. One interesting feature of the Instrumentation class is the getObjectSize() which will give you the size of an object.
