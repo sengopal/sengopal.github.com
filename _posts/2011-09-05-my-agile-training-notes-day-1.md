@@ -36,9 +36,11 @@ Some of the criteria to satisfy before beginning a sprint are
 
 The key ingredients of a User Story are
 ---------------------------------------------
+
 | Define a Role	| As a User	| As a Showerer |
 | Define an Action	| I Want	| I Want my shower to be wide for scrubbing my back |
 | Define an Outcome	| So that	| So that I wont have dust on my back |
+
 -----------------------------------------------------------------------
  
 Note: __User story should not have implementation details__
