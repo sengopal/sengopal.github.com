@@ -11,7 +11,7 @@ meta:
   _wpas_done_twitter: '1'
 ---
 ###Checksum generation
-
+```java
 	public class SHACheckSumExample{
 	    public static void main(String[] args)throws Exception{
 	        MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -34,11 +34,11 @@ meta:
 	    	}   System.out.println("Hex format : " + hexString.toString());
 	    }
 	}
- 
+``` 
 
 ###Hashing of a String
 
-
+```java
 	public class SHAHashingExample{
 	    public static void main(String[] args)throws Exception    {
 	        String password = "123456";   
@@ -60,3 +60,5 @@ meta:
 	    	System.out.println("Hex format : " + hexString.toString());
 	    }
 	}
+	
+```	

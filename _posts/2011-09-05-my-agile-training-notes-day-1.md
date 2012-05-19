@@ -35,13 +35,12 @@ Some of the criteria to satisfy before beginning a sprint are
 ###User Story Template
 
 The key ingredients of a User Story are
----------------------------------------------
-| Define a Role	| As a User	| As a Showerer |
-| Define an Action	| I Want	| I Want my shower to be wide for scrubbing my back |
-| Define an Outcome	| So that	| So that I wont have dust on my back |
------------------------------------------------------------------------
- 
-Note: __User story should not have implementation details__
+
+1. Define a Role - *As a Showerer*
+2. Define an Action - *I Want my shower to be wide for scrubbing my back*
+3. Define a Outcome - *So that	 I wont have dust on my back*
+
+Note: _User story should not have implementation details_
 
 ###I.N.V.E.S.T
 
@@ -58,11 +57,10 @@ T stands for Testable
 
 The setup of a typical Agile project will be as follows:
 
-------------------------------------------------
-| Inception	| 2-4 weeks |
-| Initiation | 1-2 weeks |
-| Develop & Deploy	| 12+weeks with multiple iterations |
----------------------------------------------------------------
+1. Inception -  2-4 weeks
+2. Initiation -  1-2 weeks
+3. Develop & Deploy	- 12+weeks with multiple iterations
+
 
 ###Single Iteration	
 A single cycle of iteration is always Analyze, Design, Code, Test and Deploy
@@ -120,10 +118,9 @@ Refactoring is a concept shunned by many but has always proved to be the correct
 
 Agile methodology is very rewarding if all the basic necessities are available especially a Continuous Integration system which can execute automated Tests at least 2-3 times a day is needed to ensure that the code quality stays top notch. Agile ensure code quality through constant feedback which is built in at multiple levels.
 
----------------------------------
-| Level I | Pair Programming |
-| Level II	| Unit Testing |
-| Level III	| Continuous Integration |
+* Level I - Pair Programming
+* Level II - Unit Testing
+* Level III	- Continuous Integration
 
 ###Retrospective
 
@@ -131,6 +128,6 @@ Another important aspect of the feedback mechanism in Agile is performing an hon
 
 * What went well?
 * What didn’t go well?
-*Action Items from above
+* Action Items from above
 
 Please feel free to provide your bouquets and brickbats and as always all your comments are welcome.
