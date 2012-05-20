@@ -146,8 +146,8 @@ Some of the other salient Features that are available with PD4ML are:
 PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:
 {% highlight jsp %}
 
-<% @ taglib uri="http://pd4ml.com/tlds/pd4ml/2.5" prefix="pd4ml" %>
-<% @page contentType="text/html; charset=UTF-8" %>
+<%@taglib uri="http://pd4ml.com/tlds/pd4ml/2.5" prefix="pd4ml" %>
+<%@page contentType="text/html; charset=UTF-8" %>
 
 <pd4ml:transform
       screenWidth="400"
