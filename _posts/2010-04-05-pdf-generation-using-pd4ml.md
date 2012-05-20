@@ -185,3 +185,36 @@ PD4ML can be used in Web applications for online PDF generation from HTML, JSP a
 </pd4ml:transform>
 {% endhighlight %}
 
+In order to get a PDF output, we need to surround the HTML or JSP with <pd4ml:transform> tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.
+
+1. PD4ML JSP taglib declaration and opening transform tag. JSP content surrounded with
+   <pd4ml:transform> and </pd4ml:transform> tags is passed to the PD4ML converter.
+2. Image should be referenced with relative path. Absolute URLs, like src="http://myserver:80/path/to/img.gif" are allowed as well, but src="/path/to/img.gif" is not allowed.
+3. The directive forces PD4ML converter to insert a page break to the output PDF.
+4. Closing of the transformation tag. Any content that appears after the tag is ignored.
+
+####Defining PDF document footer (or header) with JSP custom tag
+The header and/or footer for the PDF can be declared in the jsp in the following fashion.
+
+{% highlight jsp %}
+<pd4ml:footer
+    titleTemplate="[${title}]"
+    pageNumberTemplate="page ${page}"
+    titleAlignment="left"
+    pageNumberAlignment="right"
+    color="#008000"
+    initialPageNumber="1"
+    pagesToSkip="1"
+    fontSize="14"
+    areaHeight="18"/>
+{% endhighlight %}
+
+####Description
+1. Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's <title> tag, ${page} for a page counter value.
+2. Page number template definition. A string with placeholder ${page} for a page counter value.
+3. The attribute initializes internal page counter with the given value. 
+4. The attribute defines, that 1 page should not contain footer information.
+5. Footer area height in points.
+
+####Adding Dynamic data
+Dynamic data like data from session or scriplets can be used in the PDF generation. A Simple Example is given below.
