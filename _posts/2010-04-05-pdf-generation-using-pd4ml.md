@@ -210,7 +210,7 @@ The header and/or footer for the PDF can be declared in the jsp in the following
 {% endhighlight %}
 
 ####Description
-1. Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's \<title\> tag, ${page} for a page counter value.
+1. Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's TITLE tag, ${page} for a page counter value.
 2. Page number template definition. A string with placeholder ${page} for a page counter value.
 3. The attribute initializes internal page counter with the given value. 
 4. The attribute defines, that 1 page should not contain footer information.
@@ -218,3 +218,28 @@ The header and/or footer for the PDF can be declared in the jsp in the following
 
 ####Adding Dynamic data
 Dynamic data like data from session or scriplets can be used in the PDF generation. A Simple Example is given below.
+
+{% highlight jsp %}
+<% String template = getFormattedDate() + ", page ${page} "; %>
+<pd4ml:footer 
+    pageNumberTemplate="<%=template%>"
+    .......
+    />
+{% endhighlight %}
+
+This means that the entire form generation for Presentation Frameworks like Struts etc., can be used just like a normal JSP. This provides a nice demarcation and seamless integration of the presentation (Format/Layout) of the PDF document and the business behind the generation
+
+####Temporary saving generated PDF to hard drive
+With ```<pd4ml:savefile>``` tag you have possibility to store just generated PDF to hard drive and redirect user's browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within <pd4ml:transform> and should not have a body.There are two ways of generating the PDF and redirecting the browser.
+
+####Routing the browser to the PDF generated
+Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.
+
+{% highlight jsp %}
+<pd4ml:savefile
+    uri="/WEB/savefile/saved/"
+    dir="D:/spool/generated_pdfs"
+    redirect="pdf"
+    debug="false"/>
+{% endhighlight %}
+
