@@ -74,7 +74,7 @@ ul.posts {
 }
 
 ul.posts li {
-  line-height: 22px;
+  line-height: 30px;
   font-size: 16px;
   margin-bottom: 0px;
 }
@@ -168,4 +168,14 @@ sup {
 .aside {
   font-size: 75%;
   color: #666;
+}
+
+div.post img{
+	display: inline;
+}
+
+img#rss{
+	display:inline;
+	margin:10px 0;
+	height:30px;
 }

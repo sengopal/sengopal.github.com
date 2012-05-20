@@ -1,6 +1,6 @@
 ---
 layout: default
-title: blog posts, talks, book writeups, projects
+title: blog posts, presentations, projects
 ---
 
 <div id="home">
@@ -10,17 +10,19 @@ title: blog posts, talks, book writeups, projects
       <li><span>{{ post.date | date_to_string }} &raquo;</span><a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
   </ul>
-  <h2>Talks</h2>
+  <h2>Presentations and Research</h2>
   <ul class="posts">
-    {% for post in site.categories.talk %}
+   {% for post in site.categories.research %}
       <li><span>{{ post.date | date_to_string }} &raquo;</span><a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
+	<li><a href=#">Developer Conferences</a><span>Simple walkthrough of conferences attended in 2011</span></li>
+	
   </ul>
   <h2>Projects</h2>
-  <p>side projects - in various completion states</p>
+  <p>Various spare time projects and learnings - in various completion states</p>
   
   <ul class="posts">
-    <li><a href="https://github.com/sengopal/python-hardway">python-hardway</a> learning python the hard way excercises</li>
-    <li><a href="https://github.com/sengopal/Yamba">yamba</a>android learning examples primarily from O-reilly,  but includes others as well</li>
+    <li><a href="https://github.com/sengopal/python-hardway">Python-Hardway</a><span>  Excercises from learning python the hard way</span></li>
+    <li><a href="https://github.com/sengopal/Yamba">Android Snippets</a><span>  Android learning examples primarily from O-reilly,  but includes others as well</span></li>
 </ul>
 </div>
