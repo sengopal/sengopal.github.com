@@ -181,5 +181,5 @@ PD4ML can be used in Web applications for online PDF generation from HTML, JSP a
       </body>
   </html>
 </pd4ml:transform>
-{% highlight %}
+{% endhighlight %}
 
