@@ -268,9 +268,12 @@ This macro is used to return the path to be used as SRC by the images in the HTM
 https://$host/$context/images/$imgName
 where $host, $context are context variables placed by the JAVA code
 {% endhighlight %}
-TEXT
+The macro looks like this
+
 {% highlight perl %}
-MACRO
+	#macro( IMGURL $imgName )
+		https://$host/$context/images/$imgName
+	#end
 {% endhighlight %}
 Example:
 {% highlight html %}
