@@ -117,8 +117,10 @@ __Velocity Template Merging__
 
 1. The best practice for storing the non-variables such as the SMTP connect parameters, the template names etc., either in a properties file or in a constants interface. In this example, a properties file, “mail. properties” has been used. Using the ClassLoader the properties file is loaded
 
+{% highlight java %}
 	Properties props = new Properties();
 	props.load(SendMessage.class.getClassLoader().getResourceAsStream("mail.properties"));
+{% endhighlight %}
 
 2. The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate
 Template template = Velocity.getTemplate("Mail.vm");
