@@ -264,8 +264,12 @@ __Image Path Macro__
 
 This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,
 
+{% highlight perl %}
+https://$host/$context/images/$imgName
+where $host, $context are context variables placed by the JAVA code
+{% endhighlight %}
 TEXT
-{% highlight %}
+{% highlight perl %}
 MACRO
 {% endhighlight %}
 Example:
