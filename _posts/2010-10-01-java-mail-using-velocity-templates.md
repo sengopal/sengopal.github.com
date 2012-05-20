@@ -283,7 +283,7 @@ This will get generated as:
 
 __Accessing the Bean Object__
 
-The variables in the MailBean object placed in the context can be accessed using, $MailBean.\<variable-name\>
+The variables in the MailBean object placed in the context can be accessed using, $MailBean.\[variable-name\]
 Example: Mail Content : $MailBean.content
 
 ####mail.properties
