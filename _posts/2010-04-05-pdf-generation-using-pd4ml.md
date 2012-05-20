@@ -71,3 +71,73 @@ html.setHtmlWidth( 750 );
 html.enableImgSplit( false );
 //allows to disable image splitting by page breaks. By default the option is true (splitting enabled).
 {% endhighlight %}
+
+####For Generating Text-Only Header and Footer
+Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:
+{% highlight java %}
+PD4PageMark header = new PD4PageMark();
+header.setAreaHeight( 20 );
+//defines height of the header or footer area
+header.setTitleTemplate( "title: $[title]" );
+//defines a template for page title representation.
+//No title is printed, if the titleTemplate is set to null. Default value is null.
+header.setTitleAlignment( PD4PageMark.CENTER_ALIGN );
+//defines alignment for the page title string in the document's header of footer
+header.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );
+//defines alignment for the page numbers in the document's header of footer area
+header.setPageNumberTemplate( "#$[page]" );
+//defines a template for page number representation
+PD4PageMark footer = new PD4PageMark();
+footer.setAreaHeight( 30 );
+//Already explained above
+footer.setFontSize( 20 );
+//sets font size for the header or footer
+footer.setColor( Color.red );
+//setColor() sets the color of header or footer text
+footer.setPagesToSkip( 1 );
+//defines a number of pages from the document beginning, that should not be marked with the header or footer info
+footer.setTitleTemplate( "[ $[title] ]" );
+//Already explained above
+footer.setPageNumberTemplate( "page: $[page]" );
+//Already explained above
+footer.setTitleAlignment( PD4PageMark.RIGHT_ALIGN );
+//Already explained above
+footer.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );
+//Already explained above
+
+pd4ml.setPageHeader( header );
+pd4ml.setPageFooter( footer );
+{% endhighlight %}
+
+####Protecting PDF documents
+A PDF document can be encrypted to protect its contents from unauthorized access. PD4ML supports PDF access permissions concept and allows a password to be specified for a document. If any passwords or access restrictions are specified with PD4ML.setPermissions (), the document is encrypted, and the permissions and information required to validate the passwords are stored to the resulting document. 
+
+The possible restrictions are:
+
+1. Modifying the document’s contents 
+2. Copying or otherwise extracting text and graphics from the document 
+3. Adding or modifying text annotations 
+4. Printing the document 
+
+The various types of pre-set Permissions available in the API are:
+
+* AllowAssembly 
+* AllowContentExtraction 
+* AllowCopy 
+* AllowDegradedPrint 
+* AllowModify 
+* AllowPrint 
+
+The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.
+
+	String password = "empty";
+	boolean strongEncryption = true;
+	int permissions = PD4Constants.AllowPrint | PD4Constants.AllowCopy;
+	pd4ml.setPermissions( password, permissions, strongEncryption );
+
+Some of the other salient Features that are available with PD4ML are:
+
+* Converting HTML headings or named anchors to PDF bookmarks
+* Named anchors
+* Inserting page breaks
+* generating and sending PDF by email
