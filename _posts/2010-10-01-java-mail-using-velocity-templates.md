@@ -1,16 +1,14 @@
 ---
 layout: post
 title: Java Mail Made Easy using Velocity Templates
-type:post
+type: post
 tags:
  - java
-status: publish
 published: true
 meta:
 categories:
  - research
 ---
-
 ###Introduction to Velocity
 Velocity is an open source templating tool developed by an international volunteer community and hosted by the Apache Software Foundation's Jakarta Project. You can download the freely available source code at the [Jakarta Velocity](http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources) Project Website.
 
@@ -147,7 +145,7 @@ StringWriter message = new StringWriter();
 template.merge(context, message);
 {% endhighlight %}
 
-__JAVA Mail – E-Mail Creation__
+__JAVA Mail - E-Mail Creation__
 
 1. The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host
 {% highlight java %}
@@ -164,7 +162,7 @@ MimeMultipart multipart = new MimeMultipart("related");
 __For adding the image to the e-mail__
 
 1. Create a body part for storing the image and embedding into the e-mail
-{% highlight java %}	
+{% highlight java %}
 BodyPart imageBodyPart = new MimeBodyPart();
 {% endhighlight %}
 
@@ -179,3 +177,4 @@ StringBuffer imgPath = new StringBuffer().append(File.separator).append("applica
 DataSource fds = new FileDataSource(imgPath.toString());
 imageBodyPart.setDataHandler(new DataHandler(fds));
 {% endhighlight %}
+
