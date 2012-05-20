@@ -57,3 +57,17 @@ URL base = new URL( "file:D:/tools/" );
 html.render( isr, fos, base );
 {%endhighlight %}
 
+###Formatting the PDF document generated
+The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:
+
+{% highlight java %}
+PD4ML html = new PD4ML();
+html.setPageSize( new Dimension(450, 450) );
+//defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.
+html.setPageInsets( new Insets(20, 50, 10, 10) );
+//specifies page insets in points
+html.setHtmlWidth( 750 );
+//defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize
+html.enableImgSplit( false );
+//allows to disable image splitting by page breaks. By default the option is true (splitting enabled).
+{% endhighlight %}
