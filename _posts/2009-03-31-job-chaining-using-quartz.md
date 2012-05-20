@@ -147,10 +147,12 @@ In the Execute method of the Job, once the Job gets fired for the first time by 
 			//PERFORM THE JOB EXECUTION STEPS HERE
 			//Chaining of the Job by re-scheduling
 			try {
-				logger.info("Scheduler Instance Id in Mail Processor: "+jobContext.getScheduler().getSchedulerInstanceId());
+				logger.info("Scheduler Instance Id in Mail Processor: "+ 
+					+ jobContext.getScheduler().getSchedulerInstanceId());
 			
 				//If Rescheduled Correctly, the Scheduler returns the next Scheduled Time of the JOB
-				Date nextScheduledTime = jobContext.getScheduler().rescheduleJob("MailProcessorJob", Scheduler.DEFAULT_GROUP, Util.getMailProcessorTrigger());
+				Date nextScheduledTime = jobContext.getScheduler().rescheduleJob
+					("MailProcessorJob", Scheduler.DEFAULT_GROUP, Util.getMailProcessorTrigger());
 				logger.info("Rescheduled at : "+nextScheduledTime);			
 			} catch (SchedulerException e) {
 				logger.error("Error in Scheduling the Job for the Next Iteration");
