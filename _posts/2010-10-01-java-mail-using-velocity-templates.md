@@ -146,3 +146,36 @@ context.put("context", "myApp");
 StringWriter message = new StringWriter();
 template.merge(context, message);
 {% endhighlight %}
+
+__JAVA Mail – E-Mail Creation__
+
+1. The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host
+{% highlight java %}
+Properties sysProperties = System.getProperties();
+sysProperties.put("mail.smtp.host", props.getProperty("smtpHost"));
+Session session = Session.getInstance(sysProperties, null);
+{% endhighlight %}
+
+2. Since the e-mail needs to contain text and an image file, create a MimeMultipart with the subtype declared as “related’ so that the image being put doesnt get lost if the images are blocked by the recipient
+{% highlight java %}
+MimeMultipart multipart = new MimeMultipart("related");
+{% endhighlight %}
+
+__For adding the image to the e-mail__
+
+1. Create a body part for storing the image and embedding into the e-mail
+{% highlight java %}	
+BodyPart imageBodyPart = new MimeBodyPart();
+{% endhighlight %}
+
+2. Use the FileDataSource to read the image from the Web deployment folder. 
+Note: _Using File.seperator takes care of the Windows/Unix environment issue_
+{% highlight java %}
+StringBuffer imgPath = new StringBuffer().append(File.separator).append("applications").append(File.separator).append("mailheader.GIF");
+{% endhighlight %}
+
+3. Then using the DataHandler object place the image into the BodyPart created
+{% highlight java %}
+DataSource fds = new FileDataSource(imgPath.toString());
+imageBodyPart.setDataHandler(new DataHandler(fds));
+{% endhighlight %}
