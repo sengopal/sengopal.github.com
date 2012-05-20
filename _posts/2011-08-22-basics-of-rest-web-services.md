@@ -2,7 +2,7 @@
 layout: post
 title: Basics of REST Web Services
 type: post
-published: false
+published: true
 draft: true
 tags:
  - java
