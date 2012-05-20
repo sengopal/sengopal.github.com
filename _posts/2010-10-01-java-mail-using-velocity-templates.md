@@ -179,7 +179,7 @@ imageBodyPart.setDataHandler(new DataHandler(fds));
 
 * Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding
 {% highlight java %}
-imageBodyPart.setHeader("Content-ID","");
+imageBodyPart.setHeader("Content-ID","<123>");
 {% endhighlight %}
 
 * Add the Image Body Part into the MimeMultiPart object
@@ -198,7 +198,7 @@ BodyPart messageBodyPart = new MimeBodyPart();
 {% highlight java %}
 StringBuffer messageBuffer = new StringBuffer();
 messageBuffer.append(message.toString());
-messageBuffer.append("");
+messageBuffer.append("<img src="cid:123\">");
 {% endhighlight %}
 
 * Set the Message content type as *text/html*, since our template VM is designed using HTML and add the message body part to the main MultiMime part
