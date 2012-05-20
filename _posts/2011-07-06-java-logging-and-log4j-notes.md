@@ -1,15 +1,15 @@
 ---
 layout: post
 title: Java Logging and Log4J Notes
-type:post
+type: post
 tags:
-- java
-status: publish
+ - java
 published: true
 meta:
 categories:
  - blog
 ---
+
 ####Some tips for Java Logging####
 1. Use isDebugEnabled() for putting debug log in Java   
 2. Choose which kind of message should go to which level for logging in Java

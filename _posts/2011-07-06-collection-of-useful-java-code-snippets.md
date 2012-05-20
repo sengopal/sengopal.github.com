@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Collection of useful java code snippets
-type:post
+type: post
 tags:
-- java
-status: publish
+ - java
 published: true
 meta:
 categories:

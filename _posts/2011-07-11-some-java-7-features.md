@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Some Java 7 features
-type:post
+type: post
 tags:
-- java
-status: publish
+ - java
 published: true
 meta:
 categories:

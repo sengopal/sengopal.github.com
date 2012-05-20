@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Basics of ClearCase
-type:post
+type: post
 tags:
-- developer tips
-status: publish
+ - java
 published: true
 meta:
 categories:

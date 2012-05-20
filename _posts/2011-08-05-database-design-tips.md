@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Database Design Tips
-type:post
+type: post
 tags:
-- developer tips
-status: publish
+ - java
 published: true
 meta:
 categories:
