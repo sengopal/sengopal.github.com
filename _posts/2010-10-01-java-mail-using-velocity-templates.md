@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Java Mail Made Easy using Velocity Templates
-type:post
+type: post
 tags:
  - java
-status: publish
 published: true
 meta:
 categories:
