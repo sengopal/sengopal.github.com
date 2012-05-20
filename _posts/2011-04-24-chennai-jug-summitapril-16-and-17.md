@@ -1,15 +1,15 @@
 ---
 layout: post
-title: Chennai JUG Summit–April 16 and 17
-type:post
+title: Chennai JUG Summit - April 16 and 17
+type: post
 tags:
-- java
-status: publish
+ - java
 published: true
 meta:
 categories:
  - blog
 ---
+
 Last week, I had a great opportunity to attend the <a href="http://jugchennai.in/chennaijavasummit/">Chennai JUG summit</a> for the first time. 
 It was a pleasant surprise to find such a huge following to the group and the language. It started with the traditional lamp lighting and a hearty welcome 
 <div id="photo" style="display:inline;float:right;margin:0;padding:0;"><a title="me @ JUG Summit" href="http://blog.zenhacking.com/wp-content/uploads/2011/09/dsc00452-8x61.jpg" rel="thumbnail"><img src="http://zengopal.files.wordpress.com/2011/04/dsc004521.png" alt="" width="277" height="258" border="0" /></a></div> by the group creator Raj Mahendra Hegde, whose passionate speech was very infecting. His group IGGUG caught everybody's attention and I for one will be enrolling in the group as soon as possible.

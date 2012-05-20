@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Installing Dropbox in Ubuntu Natty
-type:post
+type: post
 tags:
-- ubuntu
-status: publish
+ - java
 published: true
 meta:
 categories:
