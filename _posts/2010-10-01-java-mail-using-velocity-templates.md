@@ -187,3 +187,53 @@ imageBodyPart.setHeader("Content-ID","");
 {% highlight java %}
 multipart.addBodyPart(imageBodyPart);
 {% endhighlight %}
+
+__Adding the Message body content to the e-mail__
+
+1. Create a body part for storing the message content in the e-mail
+{% highlight java %}
+BodyPart messageBodyPart = new MimeBodyPart();
+{% endhighlight %}
+
+2. Combine the StringWriter Object and the image src code using a StringBuffer
+{% highlight java %}
+StringBuffer messageBuffer = new StringBuffer();
+messageBuffer.append(message.toString());
+messageBuffer.append("");
+{% endhighlight %}
+
+3. Set the Message content type as *text/html*, since our template VM is designed using HTML and add the message body part to the main MultiMime part
+{% highlight java %}
+messageBodyPart.setContent(messageBuffer.toString(), "text/html");
+multipart.addBodyPart(messageBodyPart);
+{% endhighlight %}		
+ 
+__Sending the E-Mail__
+
+1. Create a MimeMessage using the javax.mail.Session Object
+{% highlight java %}
+Message msg = new MimeMessage(session);
+{% endhighlight %}
+
+2. Set the content as the multimime part object created
+{% highlight java %}				
+msg.setContent(multipart);
+{% endhighlight %}
+
+3. The Recipients are added to the e-mail for the recipient types TO, CC and BCC
+{% highlight java %}
+msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse("someone@example.com"));
+msg.addRecipients(Message.RecipientType.CC,InternetAddress.parse("everyone@example.com"));
+if((null!=recipientsList)&&(!recipientsList.isEmpty())){
+	for(int i=0;i<recipientsList.size();i++){
+		msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(recipientsList.get(i)));
+	}
+}
+{% endhighlight %}
+
+4. The Subject Text, Sent Date and the From Address are set as below.
+{% highlight java %}
+msg.setSubject(subject);
+msg.setSentDate(new Date());
+msg.setFrom(new InternetAddress("SenthilGopal@zenhacking.com"));
+{% endhighlight %}
