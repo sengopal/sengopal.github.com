@@ -277,11 +277,11 @@ The macro looks like this
 {% endhighlight %}
 Example:
 {% highlight html %}
-	IMAGE 1
+	<img src="#IMGURL('mailheader.GIF')" border="0" width="980" height="61">
 {% endhighlight %}
 This will get generated as:
 {% highlight html %}
-	IMAGE 2
+	<img src="https://localhost/myapp/images/mailheader.GIF" border="0" width="980" height="61">
 {% endhighlight %}
 
 __Accessing the Bean Object__
