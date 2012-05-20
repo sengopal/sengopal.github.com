@@ -182,7 +182,7 @@ imageBodyPart.setDataHandler(new DataHandler(fds));
 
 4. Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding
 {% highlight java %}
-imageBodyPart.setHeader("Content-ID","\<123\>");
+imageBodyPart.setHeader("Content-ID","<123>");
 {% endhighlight %}
 
 5. Add the Image Body Part into the MimeMultiPart object
@@ -201,7 +201,7 @@ BodyPart messageBodyPart = new MimeBodyPart();
 {% highlight java %}
 StringBuffer messageBuffer = new StringBuffer();
 messageBuffer.append(message.toString());
-messageBuffer.append("\<img src=\"cid:123\"\>");
+messageBuffer.append("<img src="cid:123\">");
 {% endhighlight %}
 
 3. Set the Message content type as “text/html”, since our template VM is designed using HTML and add the message body part to the main MultiMime part
@@ -275,11 +275,13 @@ where $host, $context are context variables placed by the JAVA code
 	\#end
 {% endhighlight %}
 Example:
+{% highlight html %}
 	<img src="#IMGURL('mailheader.GIF')" border="0" width="980" height="61">
-
+{% endhighlight %}
 This will get generated as:
+{% highlight html %}
 	<img src="https://localhost/myapp/images/mailheader.GIF" border="0" width="980" height="61">
-
+{% endhighlight %}
 __Accessing the Bean Object__
 
 * The variables in the MailBean object placed in the context can be accessed using, $MailBean.\<variable-name\>
