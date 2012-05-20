@@ -210,7 +210,7 @@ The header and/or footer for the PDF can be declared in the jsp in the following
 {% endhighlight %}
 
 ####Description
-1. Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's <title> tag, ${page} for a page counter value.
+1. Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's \<title\> tag, ${page} for a page counter value.
 2. Page number template definition. A string with placeholder ${page} for a page counter value.
 3. The attribute initializes internal page counter with the given value. 
 4. The attribute defines, that 1 page should not contain footer information.
