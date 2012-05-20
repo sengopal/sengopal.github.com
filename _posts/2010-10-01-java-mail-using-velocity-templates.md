@@ -178,3 +178,12 @@ DataSource fds = new FileDataSource(imgPath.toString());
 imageBodyPart.setDataHandler(new DataHandler(fds));
 {% endhighlight %}
 
+4. Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding
+{% highlight java %}
+imageBodyPart.setHeader("Content-ID","");
+{% endhighlight %}
+
+5. Add the Image Body Part into the MimeMultiPart object
+{% highlight java %}
+multipart.addBodyPart(imageBodyPart);
+{% endhighlight %}
