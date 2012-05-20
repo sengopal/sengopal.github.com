@@ -34,7 +34,7 @@ categories:
 	    	}   System.out.println("Hex format : " + hexString.toString());
 	    }
 	}
-``` 
+```
 
 ###Hashing of a String
 
@@ -59,6 +59,5 @@ categories:
 	    	}
 	    	System.out.println("Hex format : " + hexString.toString());
 	    }
-	}
-	
-```	
+	}	
+``'

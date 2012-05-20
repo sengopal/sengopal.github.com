@@ -10,4 +10,66 @@ meta:
 categories:
  - blog
 ---
-<p>A humoristic mail about corporate lingo from one of my esteemed colleagues about the lingo used in corporate. Worth a laugh !</p>  <p><em>P.S: This post is in no-way intended to harm or demean anybody. Please read it with a smile on a lips and laughter in your thoughts.</em></p>  <p>   <br /><strong>Competitive salary</strong>    <br />We remain competitive by paying less than our competitors.    <br /><strong>Join our fast-paced company:     <br /></strong>We have no time to train you.    <br /><strong>Casual Work Atmosphere     <br /></strong>We don't pay enough to expect that you'll dress up-well, a couple of the real daring guys wear earrings.    <br /><strong>Must be deadline oriented     <br /></strong>You'll be six months behind schedule on your first day.    <br /><strong>Some overtime required     <br /></strong>Some time each night and some time each weekend.    <br /><strong>Duties will vary     <br /></strong>Anyone in the office can boss you around.    <br /><strong></strong></p>  <p><strong>Must have an eye for detail     <br /></strong>We have no quality control.    <br /><strong>Career-minded     <br /></strong>Female Applicants must be childless (and remain that way).    <br /><strong>Apply in person     <br /></strong>If you're old, fat or ugly you'll be told the position has been filled.    <br /><strong>No phone calls please     <br /></strong>We've filled the job, our call for resumes is just a legal formality.    <br /><strong>Seeking candidates with a wide variety of experience     <br /></strong>You'll need it to replace three people who just left.    <br /><strong>Problem-solving skills a must     <br /></strong>You're walking into a company in perpetual chaos.    <br /><strong>Requires team leadership skills     <br /></strong>You?ll have the responsibilities of a manager, without the pay or respect.    <br /><strong>Good communication skills     <br /></strong>Management communicates, you, figure out what they want and do.</p>  <p>&#160;</p>  <p>Some real time values found in resumes</p>  <p><strong>I am extremely adept at all manner of office organization:     <br /></strong>I've used Microsoft Office.    <br /><strong>I am honest, hardworking and dependable:     <br /></strong>I pilfer office supplies.    <br /><strong>I take pride in my work:     <br /></strong>I blame others for my mistakes.    <br /><strong>I am personable:     <br /></strong>I give lots of unsolicited personal advice to co- workers.    <br /><strong>I am extremely professional:     <br /></strong>I carry a Day-Timer.    <br /><strong>I am adaptable:     <br /></strong>I've changed jobs a lot.    <br /><strong>I am on the go:     <br /></strong>I'm never at my desk.</p>
+A humoristic mail about corporate lingo from one of my esteemed colleagues about the lingo used in corporate. Worth a laugh !
+
+P.S: This post is in no-way intended to harm or demean anybody. Please read it with a smile on a lips and laughter in your thoughts.
+
+**Competitive salary**
+We remain competitive by paying less than our competitors.    
+
+**Join our fast-paced company** We have no time to train you.    
+
+**Casual Work Atmosphere** We don't pay enough to expect that you'll dress up-well, a couple of the real daring guys wear earrings.    
+
+**Must be deadline oriented**    You'll be six months behind schedule on your first day.    
+
+**Some overtime required**
+Some time each night and some time each weekend.
+
+**Duties will vary**
+Anyone in the office can boss you around.    
+
+**Must have an eye for detail**
+We have no quality control.    
+
+**Apply in person**
+If you're old, fat or ugly you'll be told the position has been filled.    
+
+**No phone calls please**
+We've filled the job, our call for resumes is just a legal formality.    
+
+**Seeking candidates with a wide variety of experience**
+You'll need it to replace three people who just left.    
+
+**Problem-solving skills a must**
+You're walking into a company in perpetual chaos.    
+
+**Requires team leadership skills**
+You?ll have the responsibilities of a manager, without the pay or respect.    
+
+**Good communication skills**
+Management communicates, you, figure out what they want and do.
+
+
+###Some real time values found in resumes
+
+**I am extremely adept at all manner of office organization**
+I've used Microsoft Office.
+
+**I am honest, hardworking and dependable**
+I pilfer office supplies.    
+
+**I take pride in my work**
+I blame others for my mistakes.    
+
+**I am personable** 
+I give lots of unsolicited personal advice to co - workers.    
+
+**I am extremely professional**
+I carry a Day-Timer.    
+
+**I am adaptable**
+I've changed jobs a lot.    
+
+**I am on the go**
+I'm never at my desk.
