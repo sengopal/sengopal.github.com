@@ -1,9 +1,10 @@
 ---
 layout: post
 title: Java Mail Made Easy using Velocity Templates
-type: post
+type:post
 tags:
  - java
+status: publish
 published: true
 meta:
 categories:
@@ -117,137 +118,162 @@ __Velocity Template Merging__
 1. The best practice for storing the non-variables such as the SMTP connect parameters, the template names etc., either in a properties file or in a constants interface. In this example, a properties file, “mail. properties” has been used. Using the ClassLoader the properties file is loaded
 
 {% highlight java %}
-	Properties props = new Properties();
-	props.load(SendMessage.class.getClassLoader().getResourceAsStream("mail.properties"));
+Properties props = new Properties();
+props.load(SendMessage.class.getClassLoader().getResourceAsStream("mail.properties"));
 {% endhighlight %}
 
 2. The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate
 Template template = Velocity.getTemplate("Mail.vm");
-	VelocityContext context = new VelocityContext();
+{% highlight java %}
+VelocityContext context = new VelocityContext();
+{% endhighlight %}
 
 3. Then the user defined MailBean is placed in the velocity Context under the name “MailBean”
-	context.put("MailBean" , mailBean);
+{% highlight java %}
+context.put("MailBean" , mailBean);
+{% endhighlight %}
 
 4. Along with beans, we can place name value pairs directly in the velocity context
-	String host =  props.getProperty("hostname");
-	context.put("host", host);
-	context.put("imgName", "smile.gif");
-	context.put("context", "myApp");
+{% highlight java %}
+String host =  props.getProperty("hostname");
+context.put("host", host);
+context.put("imgName", "smile.gif");
+context.put("context", "myApp");
+{% endhighlight %}
 
 5. When the context is merged with the template and the results in placed in a StringWriter Object 
-
-	StringWriter message = new StringWriter();
-	template.merge(context, message);
+{% highlight java %}
+StringWriter message = new StringWriter();
+template.merge(context, message);
+{% endhighlight %}
 
 __JAVA Mail – E-Mail Creation__
 
 1. The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host
-
-	Properties sysProperties = System.getProperties();
-	sysProperties.put("mail.smtp.host", props.getProperty("smtpHost"));
-	Session session = Session.getInstance(sysProperties, null);
+{% highlight java %}
+Properties sysProperties = System.getProperties();
+sysProperties.put("mail.smtp.host", props.getProperty("smtpHost"));
+Session session = Session.getInstance(sysProperties, null);
+{% endhighlight %}
 
 2. Since the e-mail needs to contain text and an image file, create a MimeMultipart with the subtype declared as “related’ so that the image being put doesnt get lost if the images are blocked by the recipient
+{% highlight java %}
+MimeMultipart multipart = new MimeMultipart("related");
+{% endhighlight %}
 
-	MimeMultipart multipart = new MimeMultipart("related");
-		
 __For adding the image to the e-mail__
 
 1. Create a body part for storing the image and embedding into the e-mail
-	
-	BodyPart imageBodyPart = new MimeBodyPart();
+{% highlight java %}	
+BodyPart imageBodyPart = new MimeBodyPart();
+{% endhighlight %}
 
 2. Use the FileDataSource to read the image from the Web deployment folder. 
 Note: _Using File.seperator takes care of the Windows/Unix environment issue (/ or \\)_
-
-	StringBuffer imgPath = new StringBuffer().append(File.separator).append("applications")
-		.append(File.separator).append("mailheader.GIF");
+{% highlight java %}
+StringBuffer imgPath = new StringBuffer().append(File.separator).append("applications").append(File.separator).append("mailheader.GIF");
+{% endhighlight %}
 
 3. Then using the DataHandler object place the image into the BodyPart created
-
-	DataSource fds = new FileDataSource(imgPath.toString());
-	imageBodyPart.setDataHandler(new DataHandler(fds));
+{% highlight java %}
+DataSource fds = new FileDataSource(imgPath.toString());
+imageBodyPart.setDataHandler(new DataHandler(fds));
+{% endhighlight %}
 
 4. Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding
-
-	imageBodyPart.setHeader("Content-ID","<123>");
+{% highlight java %}
+imageBodyPart.setHeader("Content-ID","<123>");
+{% endhighlight %}
 
 5. Add the Image Body Part into the MimeMultiPart object
+{% highlight java %}
+multipart.addBodyPart(imageBodyPart);
+{% endhighlight %}		
 
-	multipart.addBodyPart(imageBodyPart);
-		
 __Adding the Message body content to the e-mail__
 
 1. Create a body part for storing the message content in the e-mail
-
-	BodyPart messageBodyPart = new MimeBodyPart();
+{% highlight java %}
+BodyPart messageBodyPart = new MimeBodyPart();
+{% endhighlight %}
 
 2. Combine the StringWriter Object and the image src code using a StringBuffer
-
-	StringBuffer messageBuffer = new StringBuffer();
-	messageBuffer.append(message.toString());
-	messageBuffer.append("<img src=\"cid:123\">");
+{% highlight java %}
+StringBuffer messageBuffer = new StringBuffer();
+messageBuffer.append(message.toString());
+messageBuffer.append("<img src=\"cid:123\">");
+{% endhighlight %}
 
 3. Set the Message content type as “text/html”, since our template VM is designed using HTML and add the message body part to the main MultiMime part
-
-	messageBodyPart.setContent(messageBuffer.toString(), "text/html");
-	multipart.addBodyPart(messageBodyPart);
-		
+{% highlight java %}
+messageBodyPart.setContent(messageBuffer.toString(), "text/html");
+multipart.addBodyPart(messageBodyPart);
+{% endhighlight %}		
  
 __Sending the E-Mail__
 
 1. Create a MimeMessage using the javax.mail.Session Object
-
-	Message msg = new MimeMessage(session);
+{% highlight java %}
+Message msg = new MimeMessage(session);
+{% endhighlight %}
 
 2. Set the content as the multimime part object created
-				
-	msg.setContent(multipart);
+{% highlight java %}				
+msg.setContent(multipart);
+{% endhighlight %}
 
 3. The Recipients are added to the e-mail for the recipient types TO, CC and BCC
-
-	msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse("someone@example.com"));
-	msg.addRecipients(Message.RecipientType.CC,InternetAddress.parse("everyone@example.com"));
-	if((null!=recipientsList)&&(!recipientsList.isEmpty())){
-		for(int i=0;i<recipientsList.size();i++){
-			msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(r  ecipientsList.get(i)));
-		}
+{% highlight java %}
+msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse("someone@example.com"));
+msg.addRecipients(Message.RecipientType.CC,InternetAddress.parse("everyone@example.com"));
+if((null!=recipientsList)&&(!recipientsList.isEmpty())){
+	for(int i=0;i<recipientsList.size();i++){
+		msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(r  ecipientsList.get(i)));
 	}
+}
+{% endhighlight %}
 
 4. The Subject Text, Sent Date and the From Address are set as below.
+{% highlight java %}
+msg.setSubject(subject);
+msg.setSentDate(new Date());
+msg.setFrom(new InternetAddress("SenthilGopal@zenhacking.com"));
+{% endhighlight %}
 
-	msg.setSubject(subject);
-	msg.setSentDate(new Date());
-	msg.setFrom(new InternetAddress("SenthilGopal@zenhacking.com"));
-	
 5. The Transport Object is used for creating the connection to the SMTP host and sending the e-mail. The transporter object below is obtained using the getTransport method and by giving the parameter as “smtp” as the protocol for the Transport Object
-
-	Transport transport = session.getTransport("smtp");
+{% highlight java %}
+Transport transport = session.getTransport("smtp");
+{% endhighlight %}
 
 6. Then the Transport is connected using the HOST, UserName and Password parameters from the properties file
-
-	transport.connect(props.getProperty("connectHost"), props.getProperty("connectUser"),props.getProperty("connectPassword"));
+{% highlight java %}
+transport.connect(props.getProperty("connectHost"), props.getProperty("connectUser"),props.getProperty("connectPassword"));
+{% endhighlight %}
 
 7. Then the e-mail is sent using the sendMessage to all the recipients
-
-	transport.sendMessage(msg,msg.getAllRecipients());
+{% highlight java %}
+transport.sendMessage(msg,msg.getAllRecipients());
+{% endhighlight %}
 
 8. The transport is closed to mark the end of the connection
-
-	transport.close();
+{% highlight java %}
+transport.close();
+{% endhighlight %}
 
 ####Mail.vm
 
 __Image Path Macro__
 
 1. This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,
-	https://$host/$context/images/$imgName
+{% highlight %}
+https://$host/$context/images/$imgName
+{% endhighlight %}
 where $host, $context are context variables placed by the JAVA code
-
+{% highlight %}
 	\#macro( IMGURL $imgName )
 		https://$host/$context/images/$imgName
 	\#end
-
+{% endhighlight %}
 Example:
 	<img src="#IMGURL('mailheader.GIF')" border="0" width="980" height="61">
 
