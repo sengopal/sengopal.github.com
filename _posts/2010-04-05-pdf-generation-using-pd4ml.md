@@ -270,7 +270,7 @@ However if the browser needs to be redirected to the next page instead of the PD
     debug="false"/>
 {% endhighlight %}
 
-The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=<pdfname>. So send_pdf_by_email.jsp can read file name using,
+The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=```<pdfname>```. So send_pdf_by_email.jsp can read file name using,
 
 {% highlight java %}
 String fileName = request.getParameter("filename");
