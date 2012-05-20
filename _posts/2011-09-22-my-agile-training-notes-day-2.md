@@ -4,7 +4,8 @@ title: My Agile training notes - Day 2
 type: post
 tags:
  - java
-published: false
+published: true
+draft: true
 meta:
 categories:
  - blog

@@ -4,7 +4,8 @@ title: Some Eclipse, tips, tricks and shortcuts
 type: post
 tags:
  - java
-published: false
+published: true
+draft: true
 meta:
 categories:
  - blog
