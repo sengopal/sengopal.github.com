@@ -2,10 +2,10 @@
 layout: post
 title: Basics of REST Web Services
 type: post
-tags:
- - java
 published: false
 draft: true
+tags:
+ - java
 meta:
 categories:
  - blog
