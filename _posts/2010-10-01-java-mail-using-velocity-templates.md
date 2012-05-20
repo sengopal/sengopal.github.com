@@ -216,7 +216,7 @@ Message msg = new MimeMessage(session);
 {% endhighlight %}
 
 2. Set the content as the multimime part object created
-{% highlight java %}				
+{% highlight java %}
 msg.setContent(multipart);
 {% endhighlight %}
 
@@ -237,3 +237,24 @@ msg.setSubject(subject);
 msg.setSentDate(new Date());
 msg.setFrom(new InternetAddress("SenthilGopal@zenhacking.com"));
 {% endhighlight %}
+
+5. The Transport Object is used for creating the connection to the SMTP host and sending the e-mail. The transporter object below is obtained using the getTransport method and by giving the parameter as *smtp* as the protocol for the Transport Object
+{% highlight java %}
+Transport transport = session.getTransport("smtp");
+{% endhighlight %}
+
+6. Then the Transport is connected using the HOST, UserName and Password parameters from the properties file
+{% highlight java %}
+transport.connect(props.getProperty("connectHost"), props.getProperty("connectUser"),props.getProperty("connectPassword"));
+{% endhighlight %}
+
+7. Then the e-mail is sent using the sendMessage to all the recipients
+{% highlight java %}
+transport.sendMessage(msg,msg.getAllRecipients());
+{% endhighlight %}
+
+8. The transport is closed to mark the end of the connection
+{% highlight java %}
+transport.close();
+{% endhighlight %}
+
