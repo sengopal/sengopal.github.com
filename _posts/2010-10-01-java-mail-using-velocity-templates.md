@@ -264,23 +264,6 @@ __Image Path Macro__
 
 This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,
 
-{% highlight %}
-MACRO
-{% endhighlight %}
-Example:
-{% highlight html %}
-	IMAGE 1
-{% endhighlight %}
-This will get generated as:
-{% highlight html %}
-	IMAGE 2
-{% endhighlight %}
-
-__Accessing the Bean Object__
-
-The variables in the MailBean object placed in the context can be accessed using, $MailBean.
-Example: Mail Content : $MailBean.content
-
 
 ####mail.properties
 * This file contains the connection and the other context parameter properties used by the java code
