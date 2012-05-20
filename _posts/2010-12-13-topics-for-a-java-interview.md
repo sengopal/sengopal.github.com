@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Topics for a java Interview
-type:post
+type: post
 tags:
  - java
-status: publish
 published: true
 meta:
 categories:
