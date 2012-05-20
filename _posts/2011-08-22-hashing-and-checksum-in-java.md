@@ -12,7 +12,6 @@ categories:
 ---
 ###Checksum generation
 {% highlight java %}
-```java
 	public class SHACheckSumExample{
 	    public static void main(String[] args)throws Exception{
 	        MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -35,12 +34,10 @@ categories:
 	    	}   System.out.println("Hex format : " + hexString.toString());
 	    }
 	}
-```
 {% endhighlight %}
 
 ###Hashing of a String
 {% highlight java %}
-```java
 	public class SHAHashingExample{
 	    public static void main(String[] args)throws Exception    {
 	        String password = "123456";   
@@ -62,5 +59,4 @@ categories:
 	    	System.out.println("Hex format : " + hexString.toString());
 	    }
 	}	
-``'
 {% endhighlight %}

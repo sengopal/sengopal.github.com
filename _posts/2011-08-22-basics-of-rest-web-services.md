@@ -4,7 +4,7 @@ title: Basics of REST Web Services
 type: post
 tags:
  - java
-published: true
+published: false
 meta:
 categories:
  - blog

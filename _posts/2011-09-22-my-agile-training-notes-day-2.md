@@ -1,10 +1,9 @@
 ---
 layout: post
-title: My Agile training notes – Day 2
-tags:
-- dev tips
-status: publish
+title: My Agile training notes - Day 2
 type: post
+tags:
+ - java
 published: false
 meta:
 categories:
