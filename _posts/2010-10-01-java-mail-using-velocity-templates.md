@@ -123,8 +123,8 @@ props.load(SendMessage.class.getClassLoader().getResourceAsStream("mail.properti
 {% endhighlight %}
 
 2. The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate
-Template template = Velocity.getTemplate("Mail.vm");
 {% highlight java %}
+Template template = Velocity.getTemplate("Mail.vm");
 VelocityContext context = new VelocityContext();
 {% endhighlight %}
 
@@ -169,7 +169,7 @@ BodyPart imageBodyPart = new MimeBodyPart();
 {% endhighlight %}
 
 2. Use the FileDataSource to read the image from the Web deployment folder. 
-Note: _Using File.seperator takes care of the Windows/Unix environment issue (/ or \\)_
+Note: _Using File.seperator takes care of the Windows/Unix environment issue_
 {% highlight java %}
 StringBuffer imgPath = new StringBuffer().append(File.separator).append("applications").append(File.separator).append("mailheader.GIF");
 {% endhighlight %}
@@ -182,7 +182,7 @@ imageBodyPart.setDataHandler(new DataHandler(fds));
 
 4. Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding
 {% highlight java %}
-imageBodyPart.setHeader("Content-ID","<123>");
+imageBodyPart.setHeader("Content-ID","");
 {% endhighlight %}
 
 5. Add the Image Body Part into the MimeMultiPart object
@@ -201,7 +201,7 @@ BodyPart messageBodyPart = new MimeBodyPart();
 {% highlight java %}
 StringBuffer messageBuffer = new StringBuffer();
 messageBuffer.append(message.toString());
-messageBuffer.append("<img src="cid:123\">");
+messageBuffer.append("");
 {% endhighlight %}
 
 3. Set the Message content type as “text/html”, since our template VM is designed using HTML and add the message body part to the main MultiMime part
@@ -228,7 +228,7 @@ msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse("someone@examp
 msg.addRecipients(Message.RecipientType.CC,InternetAddress.parse("everyone@example.com"));
 if((null!=recipientsList)&&(!recipientsList.isEmpty())){
 	for(int i=0;i<recipientsList.size();i++){
-		msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(r  ecipientsList.get(i)));
+		msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(recipientsList.get(i)));
 	}
 }
 {% endhighlight %}
@@ -270,21 +270,19 @@ https://$host/$context/images/$imgName
 {% endhighlight %}
 where $host, $context are context variables placed by the JAVA code
 {% highlight %}
-	\#macro( IMGURL $imgName )
-		https://$host/$context/images/$imgName
-	\#end
+MACRO
 {% endhighlight %}
 Example:
 {% highlight html %}
-	<img src="#IMGURL('mailheader.GIF')" border="0" width="980" height="61">
+	IMAGE 1
 {% endhighlight %}
 This will get generated as:
 {% highlight html %}
-	<img src="https://localhost/myapp/images/mailheader.GIF" border="0" width="980" height="61">
+	IMAGE 2
 {% endhighlight %}
 __Accessing the Bean Object__
 
-* The variables in the MailBean object placed in the context can be accessed using, $MailBean.\<variable-name\>
+* The variables in the MailBean object placed in the context can be accessed using, $MailBean.
 Example: Mail Content : $MailBean.content
 
 
