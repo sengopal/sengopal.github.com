@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Basics of ClearCase
+type:post
 tags:
 - developer tips
 status: publish

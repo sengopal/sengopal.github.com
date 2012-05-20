@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Database Design Tips
+type:post
 tags:
 - developer tips
 status: publish
@@ -11,9 +12,9 @@ categories:
 ---
 During the course of re-designing a database, i was struck with the lack of good tips and basics of good database design. On googling, came across this wonderful [article](http://codebalance.blogspot.com/2011/07/20-database-design-best-practices.html) which describes not only tips about creation and design, but also about deployment, maintainence and how to ensure that the usability is optimal.
 
-1. Use well defined and consistent names for tables and columns (e.g. School, StudentCourse, CourseID ...). 
+1. Use well defined and consistent names for tables and columns (e.g. School, StudentCourse, CourseID). 
 2. Use singular for table names (i.e. use StudentCourse instead of StudentCourses). Table represents a collection of entities, there is no need for plural names. 
-3. Don’t use spaces for table names. Otherwise you will have to use ‘{‘, ‘[‘, ‘“’ etc. characters to define tables (i.e. for accesing table Student Course you'll write “Student Course”. StudentCourse is much better). 
+3. Don’t use spaces for table names. Otherwise you will have to use ‘{‘, ‘[‘, ‘“’ etc. characters to define tables (i.e. for accessing table Student Course you'll write “Student Course”. StudentCourse is much better). 
 4. Don’t use unnecessary prefixes or suffixes for table names (i.e. use School instead of TblSchool, SchoolTable etc.). 
 5. Keep passwords as encrypted for security. Decrypt them in application when required. 
 6. Use integer id fields for all tables. If id is not required for the time being, it may be required in the future (for association tables, indexing ...). 

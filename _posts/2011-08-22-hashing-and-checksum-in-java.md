@@ -7,8 +7,8 @@ status: publish
 type: post
 published: true
 meta:
-  jabber_published: '1313995425'
-  _wpas_done_twitter: '1'
+categories:
+ - blog
 ---
 ###Checksum generation
 ```java

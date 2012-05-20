@@ -5,7 +5,7 @@ tags:
 - java
 status: publish
 type: post
-published: true
+published: false
 meta:
   jabber_published: '1312969823'
   _wpas_done_twitter: '1'

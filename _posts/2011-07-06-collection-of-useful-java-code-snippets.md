@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Collection of useful java code snippets
+type:post
 tags:
 - java
 status: publish

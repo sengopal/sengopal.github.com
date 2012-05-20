@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Topics for a java Interview
+type:post
 tags:
  - java
 status: publish

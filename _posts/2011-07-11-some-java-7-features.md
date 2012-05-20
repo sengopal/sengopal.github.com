@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Some Java 7 features
+type:post
 tags:
 - java
 status: publish

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Java Logging and Log4J Notes
+type:post
 tags:
 - java
 status: publish

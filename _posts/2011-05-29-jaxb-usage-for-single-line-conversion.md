@@ -7,7 +7,7 @@ status: publish
 type: post
 published: true
 meta:
-  categories:
+categories:
  - blog
 ---
 I came across a great article which introduces a utility Class [JAXB](http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXB.htm) which converts XML to Object and vice versa in a single line.
