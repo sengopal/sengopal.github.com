@@ -4,6 +4,7 @@ auto: true
 pygments: true
 title : zen coding
 tagline: Site Tagline
+markdown: maruku
 author :
   name : Senthil Gopal
   email : senthil777@gmail.com
