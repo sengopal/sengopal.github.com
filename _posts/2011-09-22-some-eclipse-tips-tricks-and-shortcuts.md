@@ -10,4 +10,83 @@ meta:
 categories:
  - blog
 ---
-<p>This page is updated regularly when i come across a very useful tip/shortcut that can save some keystrokes.</p>  <p>Some of the most useful and sometimes hidden tips and tricks in Eclipse are:</p>  <ol>   <li>Preferences -&gt; Type Filter -&gt; To remove packages from showing up in Code Completion </li>    <li>For completing a List - List&lt;String&gt; list = new ArLis&#160; and hit CTRL+SPC </li>    <li>Keep the cursor at the end of the line and CTRL+1 gives assign to local variable or field </li>    <li>Preferences --&gt; Type Prefix --&gt; Code Styles --&gt; for Variables add the m_ so that the Getters and setters generate with m_ </li>    <li>Use {@inheritDoc} for adding the JavaDoc </li>    <li>Preferences -&gt; Type error --&gt; Compiler --&gt; Errors/Warnings -&gt;&#160;&#160;&#160; Potential Null Pointers can be turned ON </li>    <li>In debug, Use &quot;Edit Detail formatter&quot; to get the values and it has Code Completion </li>    <li>Preferences --&gt; Step Filtering --&gt; To prevent debug going into packages that are not needed </li>    <li>Java Toolbar --&gt; Toggle Breadcrumb </li>    <li>Junit Test Results can be export in XML format </li>    <li>Debug Perspective -&gt; Rt-Click Customize --&gt; Adds the Menu or Toolbar needed </li>    <li>Generate getters and setters at the bottom of the class </li>    <li>Go to Java / Appearances, check the box and define your abbreviations </li> </ol>  <p>&#160;</p>  <p>Some of the commonly used shortcuts are:</p>  <table border="2" cellspacing="0" cellpadding="2" width="656"><tbody>     <tr>       <td valign="top" width="228">CTRL + 1</td>        <td valign="top" width="424">Do all – Perform all shortcut          <br />shows <i>options to fix it, like importing a class, or adding an argument to a method or fixing the method signature, assigning the resultant of code to a local variable, adding removing method parameters to fix compliation and many more</i></td>     </tr>      <tr>       <td valign="top" width="228">CTRL + D</td>        <td valign="top" width="424">Delete entire line of code</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + /</td>        <td valign="top" width="424">Comment out all lines of code that are highlighted</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + I</td>        <td valign="top" width="424">correct the Indent of lines of code</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + L</td>        <td valign="top" width="424">Navigate to a specific line number</td>     </tr>      <tr>       <td valign="top" width="228">ALT + UP / DOWN</td>        <td valign="top" width="424">Move the selected line of code UP / DOWN</td>     </tr>      <tr>       <td valign="top" width="228">SHIFT + F2</td>        <td valign="top" width="424">Opens the JavaDoc</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + UP / DOWN</td>        <td valign="top" width="424">Moves the cursor to the Previous/ Next method in the class</td>     </tr>      <tr>       <td valign="top" width="228">ALT + LEFT</td>        <td valign="top" width="424">Navigate backwards through the code navigation history</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + Q</td>        <td valign="top" width="424">Quick View List; O for Outline</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + ALT + H</td>        <td valign="top" width="424">Call Hierarchy</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + M </td>        <td valign="top" width="424">Add Import(s)</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + P</td>        <td valign="top" width="424">Go to matching bracket or paranthesis</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + F11</td>        <td valign="top" width="424">Reruns the last run configuration</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + R</td>        <td valign="top" width="424">Shows the Open Resource Dialog – For searching any type of File</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + O</td>        <td valign="top" width="424">Organize Import statements</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + T</td>        <td valign="top" width="424">Shows the Type Dialog – For searching any Java Class</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + L</td>        <td valign="top" width="424">Displays the list of shortcuts</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + SHIFT + F</td>        <td valign="top" width="424">Format highlighted lines of code or all if none selected.</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + O</td>        <td valign="top" width="424">Shows the methods and the properties of the class</td>     </tr>      <tr>       <td valign="top" width="228">CTRL + T</td>        <td valign="top" width="424">Opens the Type hierarchy</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + R</td>        <td valign="top" width="424">To Rename or Refactor</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + M</td>        <td valign="top" width="424">To extract a method from the selected code</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + C</td>        <td valign="top" width="424">Changing the method signature</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + L</td>        <td valign="top" width="424">To extract a local variable from the statement</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + T</td>        <td valign="top" width="424">Displays the Refactor Menu</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + S</td>        <td valign="top" width="424">Displays the Source Menu</td>     </tr>      <tr>       <td valign="top" width="228">ALT + SHIFT + X</td>        <td valign="top" width="424">Displays the a Quicklist Run Menu</td>     </tr>   </tbody></table>  <div align="center"></div>
+_This page is updated regularly when i come across a very useful tip/shortcut that  can save some keystrokes._
+
+###Some of the most useful and sometimes hidden tips and tricks in Eclipse are:
+   
+1. Preferences -> Type Filter -> To remove packages from showing up in Code Completion
+2. For completing a List - `List<String> list = new ArLis` and hit `CTRL+SPC`
+3. Keep the cursor at the end of the line and CTRL+1 gives assign to local variable or field
+4. Preferences -> Type Prefix -> Code Styles -> for Variables add the m_ so that the getters and setters generate with m_
+5. Use {@inheritDoc} for adding the JavaDoc
+6. Preferences -> Type error -> Compiler -> Errors/Warnings -> Potential Null Pointers can be turned ON
+7. In debug, Use "Edit Detail formatter" to get the values and it has Code Completion
+8. Preferences --> Step Filtering --> To prevent debug going into packages that are not needed
+9. Java Toolbar --> Toggle Breadcrumb
+10. Junit Test Results can be export in XML format
+11. Debug Perspective -> Rt-Click Customize --> Adds the Menu or Toolbar needed
+12. Generate getters and setters at the bottom of the class
+13. Go to Java / Appearances, check the box and define your abbreviations
+
+###Some of the commonly used shortcuts are:
+
+**CTRL + 1** - Do all / Perform all shortcut
+1. shows options to fix it
+2. like importing a class
+3. or adding an argument to a method or fixing the method signature
+4. assigning the resultant of code to a local variable
+5. adding removing method parameters to fix compliation and many more
+
+**CTRL + D** - Delete entire line of code
+
+**CTRL + /** - Comment out all lines of code that are highlighted
+
+**CTRL + I** - Correct the Indent of lines of code
+
+**CTRL + L** - Navigate to a specific line number
+
+**ALT + UP / DOWN** - Move the selected line of code UP / DOWN
+
+**SHIFT + F2** - Opens the JavaDoc
+
+**CTRL + SHIFT + UP / DOWN** - Moves the cursor to the Previous/ Next method in the class
+
+**ALT + LEFT** - Navigate backwards through the code navigation history
+
+**ALT + SHIFT + Q** - Quick View List; O for Outline
+
+**CTRL + **ALT + H** - Call Hierarchy
+
+**CTRL + SHIFT + M** - Add Import(s)
+
+**CTRL + SHIFT + P** - Go to matching bracket or paranthesis
+
+**CTRL + F11** - Reruns the last run configuration
+
+**CTRL + SHIFT + R** -  the Open Resource Dialog "For searching any type of File"
+
+**CTRL + SHIFT + O** - Organize Import statements
+
+**CTRL + SHIFT + T** - Shows the Type Dialog "For searching any Java Class"
+
+**CTRL + SHIFT + L** - Displays the list of shortcuts
+
+**CTRL + SHIFT + F** - Format highlighted lines of code or all if none selected.
+
+**CTRL + O** - Shows the methods and the properties of the class
+
+**CTRL + T** - Opens the Type hierarchy
+
+**ALT + SHIFT + R** - To Rename or Refactor
+
+**ALT + SHIFT + M** - To extract a method from the selected code
+
+**ALT + SHIFT + C** - Changing the method signature
+
+**ALT + SHIFT + L** - To extract a local variable from the statement
+
+**ALT + SHIFT + T** - Displays the Refactor Menu
+
+**ALT + SHIFT + S** - Displays the Source Menu
+
+**ALT + SHIFT + X** - Displays the a Quicklist Run Menu

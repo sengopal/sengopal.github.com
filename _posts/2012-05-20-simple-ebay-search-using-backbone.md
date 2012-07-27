@@ -22,24 +22,15 @@ Technologies used
 2. Backbone.js - for interaction and the main purpose of this excercise
 3. mustache.js - For easier templating
 
-Project code can be found here
+Project code can be found [here]("https://github.com/sengopal/ebay-search" "ebay-search")
 
-Git into current directory 
+Some of the tasks completed are:
+* Defining the model
+* Every Item result will display 
+	1. Item Title
+	2. Price
+	3. Time to finish
+	4. Shipping type
 
-git remote add origin 
-git pull origin master
-
-
-Adding the default bootstrap files
-
-Defining the model
-Every Item result will display 
-1. Item Title
-2. Price
-3. Time to finish
-4. Shipping type
-
-Item can be added to or removed from my watch list - To be made a drag and drop later
-
-
+Item can be added to or removed from my watch list - To be made a drag and drop later.
 	

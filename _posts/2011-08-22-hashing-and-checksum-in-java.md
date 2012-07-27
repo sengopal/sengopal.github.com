@@ -11,6 +11,7 @@ categories:
  - blog
 ---
 ###Checksum generation
+
 {% highlight java %}
 	public class SHACheckSumExample{
 	    public static void main(String[] args)throws Exception{
@@ -37,6 +38,7 @@ categories:
 {% endhighlight %}
 
 ###Hashing of a String
+
 {% highlight java %}
 	public class SHAHashingExample{
 	    public static void main(String[] args)throws Exception    {

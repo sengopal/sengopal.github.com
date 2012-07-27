@@ -5,9 +5,146 @@ type: post
 tags:
  - java
 published: true
-draft: true
 meta:
 categories:
  - blog
 ---
-<h5>Common Agile Practices</h5>  <p><b></b></p>  <ol>   <li>Every User story should have an Acceptance Test. </li>    <li>Before signing up, the Business and QA Acceptance Tests should have been finalized </li>    <li>Load and Performance Testing is performed every milestone at 3 months </li>    <li>Use a template for Acceptance Criteria      <ol>       <li>For Multiple Use cases </li>        <li>What is observed by the Customer for a successful completion </li>     </ol>   </li>    <li><font color="#000000">An Acceptance Criteria should be Specific, Measurable, Achievable, Relevant and Timely </font></li>    <li><font color="#000000">Acceptance Test Template should be “ Given <em>a condition </em>- When&#160; <em>a user action – </em>Then <em>a application response</em> </font></li> </ol>  <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; A good Example will be&#160; </p>  <ul>   <ul>     <li><strong>Given</strong> the customer has more than 20 Accts, </li>      <li><strong>When</strong> they have complete logging in, </li>      <li><strong>Then</strong> the screen should show the first 20 accounts (in acct. number order) only </li>   </ul> </ul>  <p>They should have <strong>[Context: Given] [Event: When] [Outcome: Then]</strong></p>  <h5>Different types of Development</h5>  <p><b></b></p>  <p>The different types of product development are:</p>  <ol>   <li>EDD - Example Driven </li>    <li>ATDD - Acceptance Test Driven </li>    <li>BDD - Behavior Driven </li> </ol>  <h5>Timelines</h5>  <p><b></b></p>  <ul>   <li>Acceptance Criteria + User Story is completed before “Ready for Dev” Status </li>    <li>Acceptance test cases Should be prepared for ‘N+1’ sprint </li>    <li>The QA’s responsibility lies      <ul>       <li>in Automation of the “N –1” iteration </li>        <li>Manual testing of the Nth iteration </li>        <li>Preparing Acceptance Tests for the N+1 Iteration </li>     </ul>   </li>    <li>A Spike is generally done to perform a POC for 2-3 days </li> </ul>  <h5><b>Collecting Stories</b></h5>  <p><b></b></p>  <ol>   <li>A good User Story Template is given by:      <ol>       <li><strong>Role</strong>           <ul>           <li>Specifies who the player/role is </li>            <li>Different kinds of users - 12 year old, 70 year old, school boy etc., </li>            <li>Every User story contains a Persona and this is attached to a role </li>            <li>Should be Low-fi prototyping </li>         </ul>       </li>        <li><strong>Goal</strong>: I want/need </li>        <li><strong>Value</strong>: So that </li>     </ol>   </li>    <li>Should be aligned with the Acceptance Criteria </li>    <li>Should be put up as part of the Story Board </li>    <li>Contain Contextual Design and Inquiry </li>    <li>Every Story has an Activity -&#160; Number of Tasks and Number of Sub Tasks </li>    <li>Classification of Story Cards      <table border="2" cellspacing="0" cellpadding="2" width="188"><tbody>         <tr>           <td valign="top" width="93">User Story</td>            <td valign="top" width="91">White</td>         </tr>          <tr>           <td valign="top" width="93">Bugs</td>            <td valign="top" width="91">Red</td>         </tr>          <tr>           <td valign="top" width="93">Tasks</td>            <td valign="top" width="91">Yellow</td>         </tr>          <tr>           <td valign="top" width="93">Others</td>            <td valign="top" width="91">Blue</td>         </tr>       </tbody></table>   </li>    <li>Should ensure Vertical Slicing of the development is addressed      <ul>       <li>EACH STORY represents a DIFFERENCT SLICE </li>        <li>EACH STORY MUST TOUCH ALL THE LAYERS </li>     </ul>   </li> </ol>  <h5><b>What should I do</b></h5>  <p><b></b></p>  <ol>   <li>Iteration and Sprint Planning </li>    <li>Sprint Estimation and Task Creation </li>    <li>Daily Standup      <ul>       <li>Standup Every day in the morning          <ol>           <li>What I did yesterday </li>            <li>What am I going to do today </li>            <li>Road blocks </li>         </ol>       </li>     </ul>   </li>    <li>Deciding on Releases </li>    <li>Estimating the Effort      <ol>       <li>NUTS - </li>        <li>Estimation is done in terms of NUTS[Nebulous Units of Time] in Fibonacci order [1,2,3,5,8] Story Points </li>        <li>Use Sample Story and fix the 1 pointer and relatively the others </li>        <li>Estimate the Sprint Velocity [No. of Story Points or Stories]/Sprint = Velocity </li>     </ol>   </li> </ol>  <h5><b>Should I follow the NUTS?</b></h5>  <p><b></b></p>  <ul>   <li>The Units of Estimation are totally up to the team, but the estimation should be for Ideal time </li>    <li>Velocity for the Iteration - Estimate Average Story Points in a Spring </li>    <li>Burn Down Graph: Story Points on Y-Axis and Sprint Number in X – Axis </li> </ul>  <h5><b>Managing the Process</b></h5>  <ul>   <li>IPM attended by the entire team </li>    <li>Milestone planning meeting </li>    <li>Release Planning Tests </li>    <li>Showcase </li>    <li>Retrospectives <em>An Outsider can facilitate</em>       <ul>       <li>STAR technique What should the team - <em>Keep doing, start doing, stop doing, do more, do less</em> </li>     </ul>   </li> </ul>  <h5><b>Maintaining Visibility and Communication</b></h5>  <p><b></b></p>  <ol>   <li>Information Radiators </li>    <li>Card Wall - Physical and Web based [RALLY] tool </li>    <li>Story Wall States -      <ul>       <li>Ready for Analysis </li>        <li>In Analysis </li>        <li>Ready for Dev </li>        <li>In Dev </li>        <li>Ready for Testing </li>        <li>In Testing </li>        <li>Ready for Signoff </li>        <li>Accepted </li>        <li>Deployed </li>     </ul>   </li> </ol>  <h5><b>Levels of transitioning to an Agile Project</b></h5>  <p><b></b></p>  <p><em>From Assessment to Execution</em></p>  <table border="2" cellspacing="0" cellpadding="2" width="400"><tbody>     <tr>       <td valign="top" width="80">Level I</td>        <td valign="top" width="320">Understand Agile</td>     </tr>      <tr>       <td valign="top" width="80">Level II</td>        <td valign="top" width="320">Identify Ideal targets</td>     </tr>      <tr>       <td valign="top" width="80">Level III</td>        <td valign="top" width="320">Form Roadmap from current to Ideal State</td>     </tr>      <tr>       <td valign="top" width="80">Level IV</td>        <td valign="top" width="320">Execute Agile Roadmap with periodic Reviews</td>     </tr>      <tr>       <td valign="top" width="80">Level V</td>        <td valign="top" width="320">Create Environment for faster success</td>     </tr>   </tbody></table>  <p><b></b></p>  <h5><b>Agile Tools</b></h5>  <p><b></b></p>  <p>Agile Project management, Continuous Integration, Automation and Testing Tools</p>  <h5><b>FAQs</b></h5>  <p><b></b></p>  <p><strong>What is a Story Wall</strong></p>  <p>A story wall is a physical representation of the different states&#160; in which the User Stories are present</p>  <p><strong>What is Dev Box Testing</strong></p>  <p>QA Testing on the DEV System</p>  <p><b>What is a Planning Poker</b></p>  <p>Performing the estimates&#160; viz., Iteration Level Estimate [List of Tasks] and Release Level Estimate which deals with Sprint Velocity, No. of Sprints and Estimation for the User Stories </p>  <p><b>What is needed for transitioning to Agile</b></p>  <ul>   <li>Vertical Commitment </li>    <li>Expect things to get slower before getting faster </li>    <li>Complete Transparency </li> </ul>  <p><b>What are the obstacles for an Agile project</b></p>  <ul>   <li>Miscommunication </li>    <li>Lack of understanding </li>    <li>Mixed or half-cooked support </li> </ul>
+###Common Agile Practices
+1. Every User story should have an Acceptance Test.
+2. Before signing up, the Business and QA Acceptance Tests should have been finalized
+3. Load and Performance Testing is performed every milestone at 3 months
+4. Use a template for Acceptance Criteria
+
+###For Multiple Use cases
+What is observed by the Customer for a successful completion
+An Acceptance Criteria should be Specific, Measurable, Achievable, Relevant and Timely
+**Acceptance Test Template** should be `Given a condition - When  a user action - Then a application response `
+
+A good Example will be 
+	* Given the customer has more than 20 Accts,
+	* When they have complete logging in,
+	* Then the screen should show the first 20 accounts (in acct. number order) only
+They should have ```[Context: Given] [Event: When] [Outcome: Then] ```
+
+###Different types of Development
+The different types of product development are:
+EDD - Example Driven
+ATDD - Acceptance Test Driven
+BDD - Behavior Driven
+
+###Timelines
+1. Acceptance Criteria + User Story is completed before "Ready for Dev" Status
+2. Acceptance test cases Should be prepared for `N+1` sprint
+3. The QA's responsibility lies
+	a. in Automation of the `Nth` iteration
+	b. Manual testing of the Nth iteration
+	c. Preparing Acceptance Tests for the N+1 Iteration
+4. A Spike is generally done to perform a POC for 2-3 days
+
+###Collecting Stories
+
+1. _A good User Story Template is given by:_
+	1. Role
+		* Specifies who the player/role is
+		* Different kinds of users - 12 year old, 70 year old, school boy etc.,
+		* Every User story contains a Persona and this is attached to a role
+		* Should be Low-fi prototyping
+	2. Goal: I want/need
+	3. Value: So that
+2. Should be aligned with the Acceptance Criteria
+3. Should be put up as part of the Story Board
+4. Contain Contextual Design and Inquiry
+5. Every Story has an Activity -  Number of Tasks and Number of Sub Tasks
+6. Should ensure Vertical Slicing of the development is addressed
+	* EACH STORY represents a DIFFERENCT SLICE
+	* EACH STORY MUST TOUCH ALL THE LAYERS
+7. Classification of Story Cards
+
+>>**User Story** _White_
+
+>>**Bugs** _Red_
+
+>>**Tasks** _Yellow_
+
+>>**others** _Blue_
+
+
+###What should I do
+1. Iteration and Sprint Planning
+2. Sprint Estimation and Task Creation
+3. Daily Standup
+	* Standup Every day in the morning
+	* What I did yesterday
+	* What am I going to do today
+	* Road blocks
+4. Deciding on Releases
+5. Estimating the Effort
+	* NUTS -
+	* Estimation is done in terms of NUTS[Nebulous Units of Time] in Fibonacci order [1,2,3,5,8] Story Points
+	* Use Sample Story and fix the 1 pointer and relatively the others
+	* Estimate the Sprint Velocity [No. of Story Points or Stories]/Sprint = Velocity
+
+###Should I follow the NUTS?
+1. The Units of Estimation are totally up to the team, but the estimation should be for Ideal time
+2. Velocity for the Iteration - Estimate Average Story Points in a Spring
+3. Burn Down Graph: Story Points on Y-Axis and Sprint Number in X â€“ Axis
+
+###Managing the Process
+1. IPM attended by the entire team
+2. Milestone planning meeting
+3. Release Planning Tests
+4. Showcase
+5. Retrospectives _An Outsider can facilitate_
+	* STAR technique What should the team - _Keep doing, start doing, stop doing, do more, do less_
+
+###Maintaining Visibility and Communication
+1. Information Radiators
+2. Card Wall - Physical and Web based [RALLY] tool
+3. Story Wall States -
+	* Ready for Analysis
+	* In Analysis
+	* Ready for Dev
+	* In Dev
+	* Ready for Testing
+	* In Testing
+	* Ready for Signoff
+	* Accepted
+	* Deployed
+
+###Levels of transitioning to an Agile Project
+_From Assessment to Execution_
+
+Level I _Understand Agile_
+Level II _Identify Ideal targets_
+Level III _Form Roadmap from current to Ideal State_
+Level IV _Execute Agile Roadmap with periodic Reviews_
+Level V _Create Environment for faster success_
+
+
+###Agile Tools
+Agile Project management, Continuous Integration, Automation and Testing Tools
+
+###FAQs
+**What is a Story Wall**
+
+A story wall is a physical representation of the different states  in which the User Stories are present
+
+**What is Dev Box Testing**
+
+QA Testing on the DEV System
+
+**What is a Planning Poker**
+
+Performing the estimates  viz., Iteration Level Estimate [List of Tasks] and Release Level Estimate which deals with Sprint Velocity, No. of Sprints and Estimation for the User Stories
+
+**What is needed for transitioning to Agile**
+
+1. Vertical Commitment
+2. Expect things to get slower before getting faster
+3. Complete Transparency
+
+**What are the obstacles for an Agile project**
+
+1. Miscommunication
+2. Lack of understanding
+3. Mixed or half-cooked support

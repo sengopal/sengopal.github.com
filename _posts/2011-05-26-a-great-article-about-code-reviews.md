@@ -11,12 +11,14 @@ categories:
  - blog
 ---
 Originally posted [here](http://www.developer.com/tech/article.php/3579756/Effective-Code-Reviews-Without-the-Pain.htm). It really draws out the perspective of developers considering themselves as the owner of the code and how they become defensive about it. Code reviews in most organizations are a painful experience for everyone involved. The developer often feels like it's a bashing session designed to beat out their will. The development leads are often confused as to what is important to point out and what isn't. And other developers that may be involved often use this as a chance to show how much better they can be by pointing out possible issues in the reviewed code. Code reviews, however, don't have to be painful
+
 ####Remembering the Purpose
 Code reviews have two purposes. Their first purpose is to make sure that the code that is being produced has sufficient quality to be released. In other words, it's the acid test for whether the code should be promoted to the next step in the process. Code reviews are very effective at finding errors of all types, including those caused by poor structure, those that don't match business process, and also those simple omissions. That's why they are an effective litmus test for the quality of the code.
 
 The second purpose is as a teaching tool to help developers learn when and how to apply techniques to improve code quality, consistency, and maintainability. Through thoughtfully evaluating code on a recurring basis, developers have the opportunity to learn different and potentially better ways of coding.
 
 Code reviews often start off on the wrong foot because they are perceived as an unnecessary step that has been forced upon the developers or, in some cases, evidence that management doesn't trust the developers. Neither of these perspectives is accurate. Code reviews are a proven, effective way to minimize defects. Whatever additional motivations the organization has for performing code reviews, they are, at their core, an industry best practice. 
+
 ###A Matter of Approach
 One of the other ways that a code review gets off track is by the participants approaching it as though the process is designed to demonstrate who the better programmer is. Code reviews often become mental jousting matches where people take shots at a target; in other words, the developer that wrote the code being reviewed. A better approach is a learning approach where the whole exercise is viewed as a forum to discuss and learn from everyone.
 
