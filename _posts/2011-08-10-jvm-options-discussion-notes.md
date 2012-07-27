@@ -5,11 +5,218 @@ type: post
 tags:
  - java
 published: true
+draft: true
 meta:
 categories:
  - blog
 ---
-<p>The following notes are either obtained from this <a href="http://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html">article</a> or other bits and pieces available from various posts. Not all command-line flags are necessarily supported by any VM other than the one from Sun/Oracle. The best way to find out whether a flag is supported is, of course, to try it and see if it works.</p>  <h5><strong>Classification</strong></h5>  <ul>   <li>Options that begin with <code>-X</code> are non-standard (not guaranteed to be supported on all VM implementations), and are subject to change without notice in subsequent releases of the JDK. </li>    <li>Options that are specified with <code>-XX</code> are not stable and are not recommended for casual use. These options are subject to change without notice. </li> </ul>  <h5><strong></strong><strong>Default Values</strong></h5>  <ul>   <li>Boolean options are turned on with <code>-XX:+&lt;option&gt;</code> and turned off with <code>-XX:-&lt;option&gt;</code>. </li>    <li>Numeric options are set with <code>-XX:&lt;option&gt;=&lt;number&gt;</code>. Numbers can include 'm' or 'M' for megabytes, 'k' or 'K' for kilobytes, and 'g' or 'G' for gigabytes (for example, 32k is the same as 32768). </li>    <li>String options are set with <code>-XX:&lt;option&gt;=&lt;string&gt;</code>, are usually used to specify a file, a path, or a list of commands </li> </ul>  <ul>As a developer, following are the five important parameters we need to remember, <a href="https://www.ibm.com/developerworks/java/library/j-5things11/">Reference</a></ul>  <h6><strong>DisableExplicitGC</strong></h6>  <ul>To prevent application developers from using System.gc() explicitly. The <code>-XX:+DisableExplicitGC</code> flag automatically turns a <code>System.gc()</code> call into a no-op</ul>  <h6><strong>HeapDumpOnOutOfMemoryError</strong></h6>  <p><code>XX:+HeapDumpOnOutOfMemoryError</code> command catches a snapshot of the heap right as the JVM is on its dying breath. The actual path to which the file is saved using the corresponding <code>-XX:HeapDumpPath</code> flag. </p>  <h6><strong>bootclasspath</strong></h6>  <ul><code>-Xbootclasspath</code> lets you set the complete boot classpath, which typically has to include a reference to <code>rt.jar</code>, plus a bunch of other JAR files that ship with the JDK that aren't part of <code>rt.jar</code>. <code>-Xbootclasspath/p</code> prepends the value to the existing bootclasspath, and <code>-Xbootclasspath/a</code> appends it.</ul>  <ul>   <h6><strong>verbose</strong></h6>   <code>-verbose</code> is a useful first-level diagnostic utility for virtually any type of Java application. The flag has three sub-flags: <code>gc</code>, <code>class</code>, and <code>jni</code>.</ul>  <p><code>gc</code>, is typically the first place developers go to try to figure out if the JVM garbage collector is acting up and causing poor performance.</p>  <p><code>class</code> can be a life-saver for trying to diagnose <code>ClassLoader</code> and/or mismatched class conflicts. It reports not only when a class is loaded, but also where the class was loaded from, including the path to the JAR file, assuming it came from a JAR.</p>  <p><code>jni</code> is of little use except when working with JNI and native libraries. When turned on, it will report various JNI events, such as when native libraries are loaded and methods are bound; again, the output can vary from one release or JVM to another.</p>  <h6><strong>-X</strong></h6>  <p>Running the command-line argument <code>-X</code> lists all the non-standard (but mostly safe) arguments that the JVM provides</p>  <ul>   <li><code>-Xint</code>, which runs the JVM in interpreted mode (which can be useful for testing whether the JIT compiler is actually having an effect on your code or verifying if you have a bug in the JIT compiler). </li>    <li><code>-Xloggc:</code>, which does the same thing as <code>-verbose:gc</code> but logs to a file instead of spewing to the command-line window. </li> </ul>  <ul>The not-so-exhaustive list is given below.</ul>  <ul>   <h5>     <ul><strong>Behavior Options</strong></ul>   </h5> </ul>  <table cellspacing="0" cellpadding="0" width="700" border="0"><tbody>     <tr>       <td valign="top" width="45%">         <p><b>Option and Default Value</b></p>       </td>        <td valign="top" width="415">         <p><b>Description</b></p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-AllowUserSignalHandlers</p>       </td>        <td valign="top" width="415">         <p>Do not complain if the application installs signal handlers. (Relevant to Solaris and Linux only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:AltStackSize=16384</p>       </td>        <td valign="top" width="415">         <p>Alternate signal stack size (in Kbytes). (Relevant to Solaris only, removed from 5.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-DisableExplicitGC</p>       </td>        <td valign="top" width="415">         <p>Disable calls to System.gc(), JVM still performs garbage collection when necessary.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+FailOverToOldVerifier</p>       </td>        <td valign="top" width="415">         <p>Fail over to old verifier when the new type checker fails. (Introduced in 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+HandlePromotionFailure</p>       </td>        <td valign="top" width="415">         <p>The youngest generation collection does not require a guarantee of full promotion of all live objects. (Introduced in 1.4.2 update 11) [5.0 and earlier: false.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+MaxFDLimit</p>       </td>        <td valign="top" width="415">         <p>Bump the number of file descriptors to max. (Relevant&#160; to Solaris only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:PreBlockSpin=10</p>       </td>        <td valign="top" width="415">         <p>Spin count variable for use with -XX:+UseSpinning. Controls the maximum spin iterations allowed before entering operating system thread synchronization code. (Introduced in 1.4.2.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-RelaxAccessControlCheck</p>       </td>        <td valign="top" width="415">         <p>Relax the access control checks in the verifier. (Introduced in 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+ScavengeBeforeFullGC</p>       </td>        <td valign="top" width="415">         <p>Do young generation GC prior to a full GC. (Introduced in 1.4.1.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseAltSigs</p>       </td>        <td valign="top" width="415">         <p>Use alternate signals instead of SIGUSR1 and SIGUSR2 for VM internal signals. (Introduced in 1.3.1 update 9, 1.4.1. Relevant to Solaris only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseBoundThreads</p>       </td>        <td valign="top" width="415">         <p>Bind user level threads to kernel threads. (Relevant to Solaris only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-UseConcMarkSweepGC</p>       </td>        <td valign="top" width="415">         <p>Use concurrent mark-sweep collection for the old generation. (Introduced in 1.4.1)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseGCOverheadLimit</p>       </td>        <td valign="top" width="415">         <p>Use a policy that limits the proportion of the VM's time that is spent in GC before an OutOfMemory error is thrown. (Introduced in 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseLWPSynchronization</p>       </td>        <td valign="top" width="415">         <p>Use LWP-based instead of thread based synchronization. (Introduced in 1.4.0. Relevant to Solaris only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX
-:-UseParallelGC</p>       </td>        <td valign="top" width="415">         <p>Use parallel garbage collection for scavenges. (Introduced in 1.4.1)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-UseParallelOldGC</p>       </td>        <td valign="top" width="415">         <p>Use parallel garbage collection for the full collections. Enabling this option automatically sets -XX:+UseParallelGC. (Introduced in 5.0 update 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-UseSerialGC</p>       </td>        <td valign="top" width="415">         <p>Use serial garbage collection. (Introduced in 5.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-UseSpinning</p>       </td>        <td valign="top" width="415">         <p>Enable naive spinning on Java monitor before entering operating system thread synchronizaton code. (Relevant to 1.4.2 and 5.0 only.) [1.4.2, multi-processor Windows platforms: true]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseTLAB</p>       </td>        <td valign="top" width="415">         <p>Use thread-local object allocation (Introduced in 1.4.0, known as UseTLE prior to that.) [1.4.2 and earlier, x86 or with -client: false]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseSplitVerifier</p>       </td>        <td valign="top" width="415">         <p>Use the new type checker with StackMapTable attributes. (Introduced in 5.0.)[5.0: false]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseThreadPriorities</p>       </td>        <td valign="top" width="415">         <p>Use native thread priorities.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseVMInterruptibleIO</p>       </td>        <td valign="top" width="415">         <p>Thread interrupt before or with EINTR for I/O operations results in OS_INTRPT. (Introduced in 6. Relevant to Solaris only.)</p>       </td>     </tr>   </tbody></table>  <p>&#160;</p>  <h5><strong>Performance Options</strong></h5>  <table cellspacing="0" cellpadding="0" border="0"><tbody>     <tr>       <td valign="top" width="45%">         <p><b>Option and Default Value</b></p>       </td>        <td valign="top" width="55%">         <p><b>Description</b></p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+AggressiveOpts</p>       </td>        <td valign="top">         <p>Turn on point performance compiler optimizations that are expected to be default in upcoming releases. (Introduced in 5.0 update 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:CompileThreshold=10000</p>       </td>        <td valign="top">         <p>Number of method invocations/branches before compiling [-client: 1,500]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:LargePageSizeInBytes=4m</p>       </td>        <td valign="top">         <p>Sets the large page size used for the Java heap. (Introduced in 1.4.0 update 1.) [amd64: 2m.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MaxHeapFreeRatio=70</p>       </td>        <td valign="top">         <p>Maximum percentage of heap free after GC to avoid shrinking.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MaxNewSize=size</p>       </td>        <td valign="top">         <p>Maximum size of new generation (in bytes). Since 1.4, MaxNewSize is computed as a function of NewRatio. [1.3.1 Sparc: 32m; 1.3.1 x86: 2.5m.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MaxPermSize=64m</p>       </td>        <td valign="top">         <p>Size of the Permanent Generation.&#160; [5.0 and newer: 64 bit VMs are scaled 30% larger; 1.4 amd64: 96m; 1.3.1 -client: 32m.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MinHeapFreeRatio=40</p>       </td>        <td valign="top">         <p>Minimum percentage of heap free after GC to avoid expansion.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:NewRatio=2</p>       </td>        <td valign="top">         <p>Ratio of new/old generation sizes. [Sparc -client: 8; x86 -server: 8; x86 -client: 12.]-client: 4 (1.3) 8 (1.3.1+), x86: 12]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:NewSize=2.125m</p>       </td>        <td valign="top">         <p>Default size of new generation (in bytes) [5.0 and newer: 64 bit VMs are scaled 30% larger; x86: 1m; x86, 5.0 and older: 640k]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:ReservedCodeCacheSize=32m</p>       </td>        <td valign="top">         <p>Reserved code cache size (in bytes) - maximum code cache size. [Solaris 64-bit, amd64, and -server x86: 48m; in 1.5.0_06 and earlier, Solaris 64-bit and and64: 1024m.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:SurvivorRatio=8</p>       </td>        <td valign="top">         <p>Ratio of eden/survivor space size [Solaris amd64: 6; Sparc in 1.3.1: 25; other Solaris platforms in 5.0 and earlier: 32]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:TargetSurvivorRatio=50</p>       </td>        <td valign="top">         <p>Desired percentage of survivor space used after scavenge.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:ThreadStackSize=512</p>       </td>        <td valign="top">         <p>Thread Stack Size (in Kbytes). (0 means use default stack size) [Sparc: 512; Solaris x86: 320 (was 256 prior in 5.0 and earlier); Sparc 64 bit: 1024; Linux amd64: 1024 (was 0 in 5.0 and earlier); all others 0.]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseBiasedLocking</p>       </td>        <td valign="top">         <p>Enable biased locking. For more details, see this<a href="http://www.oracle.com/technetwork/java/tuning-139912.html#section4.2.5">tuning example</a>. (Introduced in 5.0 update 6.) [5.0: false]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseFastAccessorMethods</p>       </td>        <td valign="top">         <p>Use optimized versions of Get&lt;Primitive&gt;Field.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-UseISM</p>       </td>        <td valign="top">         <p>Use Intimate Shared Memory. [Not accepted for non-Solaris platforms.] For details, see <a href="http://www.oracle.com/technetwork/java/ism-139376.html">Intimate Shared Memory</a>.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseLargePages</p>       </td>        <td valign="top">         <p>Use large page memory. (Introduced in 5.0 update 5.) For details, see <a href="http://www.oracle.com/technetwork/java/javase/tech/largememory-jsp-137182.html">Java Support for Large Memory Pages</a>.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseMPSS</p>       </td>        <td valign="top">         <p>Use Multiple Page Size Support w/4mb pages for the heap. Do not use with ISM as this replaces the need for ISM. (Introduced in 1.4.0 update 1, Relevant to Solaris 9 and newer.) [1.4.1 and earlier: false]</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseStringCache</p>       </td>        <td valign="top">         <p>Enables caching of commonly allocated strings.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:AllocatePrefetchLines=1</p>       </td>        <td valign="top">         <p>Number of cache lines to load after the last object allocation using prefetch instructions generated in JIT compiled code. Default values are 1 if the last allocated object was an instance and 3 if it was an array.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:AllocatePrefetchStyle=1</p>       </td>        <td valign="top">         <p>Generated code style for prefetch instructions.            <br />0 - no prefetch instructions are generate*d*,             <br />1 - execute prefetch instructions after each allocation,             <br />2 - use TL
-AB allocation watermark pointer to gate when prefetch instructions are executed.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseCompressedStrings</p>       </td>        <td valign="top">         <p>Use a byte[] for Strings which can be represented as pure ASCII. (Introduced in Java 6 Update 21 Performance Release)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+OptimizeStringConcat</p>       </td>        <td valign="top">         <p>Optimize String concatenation operations where possible. (Introduced in Java 6 Update 20)</p>       </td>     </tr>   </tbody></table>  <p>&#160;</p>  <h5><strong>Debugging Options</strong></h5>  <table cellspacing="0" cellpadding="0" border="0"><tbody>     <tr>       <td valign="top" width="45%">         <p><b>Option and Default Value</b></p>       </td>        <td valign="top" width="55%">         <p><b>Description</b></p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-CITime</p>       </td>        <td valign="top">         <p>Prints time spent in JIT Compiler. (Introduced in 1.4.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:ErrorFile=./hs_err_pid&lt;pid&gt;.log</p>       </td>        <td valign="top">         <p>If an error occurs, save the error data to this file. (Introduced in 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-ExtendedDTraceProbes</p>       </td>        <td valign="top">         <p>Enable performance-impacting <a href="http://java.sun.com/javase/6/docs/technotes/guides/vm/dtrace.html">dtrace</a> probes. (Introduced in 6. Relevant to Solaris only.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:HeapDumpPath=./java_pid&lt;pid&gt;.hprof</p>       </td>        <td valign="top">         <p>Path to directory or filename for heap dump.<i>Manageable</i>. (Introduced in 1.4.2 update 12, 5.0 update 7.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-HeapDumpOnOutOfMemoryError</p>       </td>        <td valign="top">         <p>Dump heap to file when java.lang.OutOfMemoryError is thrown. <i>Manageable</i>. (Introduced in 1.4.2 update 12, 5.0 update 7.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:OnError=&quot;&lt;cmd args&gt;;&lt;cmd args&gt;&quot;</p>       </td>        <td valign="top">         <p>Run user-defined commands on fatal error. (Introduced in 1.4.2 update 9.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:OnOutOfMemoryError=&quot;&lt;cmd args&gt;;            <br />&lt;cmd args&gt;&quot;</p>       </td>        <td valign="top">         <p>Run user-defined commands when an OutOfMemoryError is first thrown. (Introduced in 1.4.2 update 12, 6)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintClassHistogram</p>       </td>        <td valign="top">         <p>Print a histogram of class instances on Ctrl-Break.<i>Manageable</i>. (Introduced in 1.4.2.) The <a href="http://java.sun.com/javase/6/docs/technotes/tools/share/jmap.html">jmap -histo</a>command provides equivalent functionality.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintConcurrentLocks</p>       </td>        <td valign="top">         <p>Print java.util.concurrent locks in Ctrl-Break thread dump. <i>Manageable</i>. (Introduced in 6.) The <a href="http://java.sun.com/javase/6/docs/technotes/tools/share/jstack.html">jstack -l</a>command provides equivalent functionality.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintCommandLineFlags</p>       </td>        <td valign="top">         <p>Print flags that appeared on the command line. (Introduced in 5.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintCompilation</p>       </td>        <td valign="top">         <p>Print message when a method is compiled.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintGC</p>       </td>        <td valign="top">         <p>Print messages at garbage collection. <i>Manageable</i>.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintGCDetails</p>       </td>        <td valign="top">         <p>Print more details at garbage collection. <i>Manageable</i>. (Introduced in 1.4.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintGCTimeStamps</p>       </td>        <td valign="top">         <p>Print timestamps at garbage collection. <i>Manageable</i>(Introduced in 1.4.0.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-PrintTenuringDistribution</p>       </td>        <td valign="top">         <p>Print tenuring age information.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-TraceClassLoading</p>       </td>        <td valign="top">         <p>Trace loading of classes.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-TraceClassLoadingPreorder</p>       </td>        <td valign="top">         <p>Trace all classes loaded in order referenced (not loaded). (Introduced in 1.4.2.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-TraceClassResolution</p>       </td>        <td valign="top">         <p>Trace constant pool resolutions. (Introduced in 1.4.2.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-TraceClassUnloading</p>       </td>        <td valign="top">         <p>Trace unloading of classes.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:-TraceLoaderConstraints</p>       </td>        <td valign="top">         <p>Trace recording of loader constraints. (Introduced in 6.)</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+PerfSaveDataToFile</p>       </td>        <td valign="top">         <p>Saves jvmstat binary data on exit.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:ParallelGCThreads=</p>       </td>        <td valign="top">         <p>Sets the number of garbage collection threads in the young and old parallel garbage collectors. The default value varies with the platform on which the JVM is running.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+UseCompressedOops</p>       </td>        <td valign="top">         <p>Enables the use of compressed pointers (object references represented as 32 bit offsets instead of 64-bit pointers) for optimized 64-bit performance with Java heap sizes less than 32gb.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:+AlwaysPreTouch</p>       </td>        <td valign="top">         <p>Pre-touch the Java heap during JVM initialization. Every page of the heap is thus demand-zeroed during initialization rather than incrementally during application execution.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:AllocatePrefetchDistance=</p>       </td>        <td valign="top">         <p>Sets the prefetch distance for object allocation. Memory about to be written with the value of new objects is prefetched into cache at this distance (in bytes) beyond the address of the last allocated object. Each Java thread has its own allocation point. The default value varies with the platform on which the JVM is running.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:InlineSmallCode=</p>       </td>        <td valign="top">         <p>Inline a previously compiled method only if its generated native code size is less than this. The default value varies with the platform on which the JVM is running.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MaxInlineSize=35</p>       </td>        <td valign="top">         <p>Maximum bytecode size of a method to be inlined.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:FreqInlineSize=</p>       </td>        <td valign="top">         <p>Maximum bytecode size of a frequently executed method to be inlined. The default value varies with the platform on which t
-he JVM is running.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:LoopUnrollLimit=</p>       </td>        <td valign="top">         <p>Unroll loop bodies with server compiler intermediate representation node count less than this value. The limit used by the server compiler is a function of this value, not the actual value. The default value varies with the platform on which the JVM is running.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:InitialTenuringThreshold=7</p>       </td>        <td valign="top">         <p>Sets the initial tenuring threshold for use in adaptive GC sizing in the parallel young collector. The tenuring threshold is the number of times an object survives a young collection before being promoted to the old, or tenured, generation.</p>       </td>     </tr>      <tr>       <td valign="top">         <p>-XX:MaxTenuringThreshold=</p>       </td>        <td valign="top">         <p>Sets the maximum tenuring threshold for use in adaptive GC sizing. The current largest value is 15. The default value is 15 for the parallel collector and is 4 for CMS.</p>       </td>     </tr>   </tbody></table>
+##JVM Optimization and Parameters
+The following notes are obtained from bits and pieces available from various posts on the world wide web. Not all command-line flags are  necessarily supported by any VM other than the one from Sun/Oracle. The best way to  find out whether a flag is supported is, of course, to try it and see if it works.
+
+###Classification  
+Options that begin with -X are non-standard (not guaranteed to be supported on all VM implementations), and are subject to change without notice in    subsequent releases of the JDK. Options that are specified with -XX are not stable and are not recommended for casual use.
+ 
+ 
+###Default Values   
+Boolean options are turned on with `-XX:+<option>` and turned off with `-XX:-<option>`.
+   
+Numeric options are set with `-XX:<option>=<number>`. Numbers can include 'm' or 'M' for megabytes, 'k' or 'K' for kilobytes, and 'g' or'G' for gigabytes (for example, 32k is the same as 32768).
+   
+String options are set with `-XX:<option>=<string>` and are usually used to specify a file, a path or a list of commands
+
+_As a developer, following are the five important parameters we need to remember_
+
+####DisableExplicitGC
+To prevent application developers from using System.gc() explicitly. The `-XX:+DisableExplicitGC` flag automatically turns a System.gc() call into a no-op 
+ 
+####HeapDumpOnOutOfMemoryError
+`XX:+HeapDumpOnOutOfMemoryError` command catches a snapshot of the heap right as the JVM is on its dying breath. The actual path to which the file is saved  using the corresponding `-XX:HeapDumpPath` flag.
+
+####bootclasspath
+`-Xbootclasspath` lets you set the complete boot classpath, which typically has to include a reference to rt.jar, plus a bunch of other JAR files that ship with the JDK that aren't part of rt.jar. `-Xbootclasspath/p` prepends the value to the existing bootclasspath, and `-Xbootclasspath/a` appends it. 
+ 
+####verbose
+-verbose is a useful first-level diagnostic utility for virtually any type of Java application. The flag has three sub-flags: gc, class, and jni. 
+ 
+**gc** - is typically the first place developers go to try to figure out if the JVM garbage collector is acting up and causing poor performance.
+
+**class** - can be a life-saver for trying to diagnose ClassLoader and/or mismatched class conflicts. It reports not only when a class is loaded, but also where the class was loaded from, including the path to the JAR file, assuming it came from a JAR.
+
+**jni** - is of little use except when working with JNI and native libraries. When turned on, it will report various JNI events, such as when native libraries are loaded and methods are bound; again, the output can vary from one release or JVM to  another.
+
+
+###-X
+Running the command-line argument -X lists all the non-standard (but mostly safe) arguments that the JVM provides.
+   
+`-Xint` - which runs the JVM in interpreted mode (which can be useful for testing whether the JIT compiler is actually having an effect on your code or    verifying if you have a bug in the JIT compiler).
+   
+`-Xloggc` - which does the same thing as `-verbose:gc` but logs to a file instead of spewing to the command-line window.
+ 
+The "not-so-exhaustive" list is given below. 
+ 
+####Behavior Options 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+_Option and its default Value_ is given for better understanding
+      
+**-XX:-AllowUserSignalHandlers** - Do not complain if the application installs signal handlers.
+
+**-XX:AltStackSize=16384** - Alternate signal stack size (in Kbytes)
+         
+**-XX:-DisableExplicitGC** - Disable calls to System.gc(), JVM still performs garbage collection when          necessary.
+         
+**-XX:+FailOverToOldVerifier** - Fail over to old verifier when the new type checker fails.
+
+**-XX:+HandlePromotionFailure** - The youngest generation collection does not require a guarantee of full promotion of all live objects.
+
+**-XX:+MaxFDLimit** - Bump the number of file descriptors to max.
+         
+**-XX:PreBlockSpin=10** - Spin count variable for use with `**-XX:+UseSpinning`. Controls the maximum spin iterations allowed before entering operating system thread synchronization code.
+         
+**-XX:-RelaxAccessControlCheck** - Relax the access control checks in the verifier.
+         
+**-XX:+ScavengeBeforeFullGC** - Do young generation GC prior to a full GC.
+         
+**-XX:+UseAltSigs** - Use alternate signals instead of SIGUSR1 and SIGUSR2 for VM internal signals.
+         
+**-XX:+UseBoundThreads** - Bind user level threads to kernel threads.
+
+**-XX:-UseConcMarkSweepGC** - Use concurrent mark-sweep collection for the old generation.
+
+**-XX:+UseGCOverheadLimit** - Use a policy that limits the proportion of the VM's time that is spent in GC before an OutOfMemory error is thrown.
+
+**-XX:+UseLWPSynchronization** - Use LWP-based instead of thread based synchronization.
+
+**-XX :-UseParallelGC** - Use parallel garbage collection for scavenges.
+
+**-XX:-UseParallelOldGC** - Use parallel garbage collection for the full collections. Enabling this          option automatically sets `-XX:+UseParallelGC`
+
+**-XX:-UseSerialGC** - Use serial garbage collection.
+
+**-XX:-UseSpinning** - Enable naive spinning on Java monitor before entering operating system thread synchronizaton code.
+
+**-XX:+UseTLAB** - Use thread-local object allocation 
+
+**-XX:+UseSplitVerifier** - Use the new type checker with StackMapTable attributes.
+
+**-XX:+UseThreadPriorities** - Use native thread priorities.
+
+**-XX:+UseVMInterruptibleIO** - Thread interrupt before or with EINTR for I/O operations results in          OS_INTRPT.
+
+####Performance Options
+_Option and its default Value_ is given for better understanding
+         
+**-XX:+AggressiveOpts** - Turn on point performance compiler optimizations that are expected to be          default in upcoming releases.
+
+**-XX:CompileThreshold=10000** - Number of method invocations/branches before compiling [-client: 1,500]
+         
+**-XX:LargePageSizeInBytes=4m** - Sets the large page size used for the Java heap.
+
+**-XX:MaxHeapFreeRatio=70** - Maximum percentage of heap free after GC to avoid shrinking.
+
+**-XX:MaxNewSize=size** - Maximum size of new generation (in bytes).
+
+**-XX:MaxPermSize=64m** - Size of the Permanent Generation.
+
+**-XX:MinHeapFreeRatio=40** - Minimum percentage of heap free after GC to avoid expansion.
+
+**-XX:NewRatio=2** - Ratio of new/old generation sizes.
+
+**-XX:NewSize=2.125m** - Default size of new generation (in bytes)
+
+**-XX:ReservedCodeCacheSize=32m** - Reserved code cache size (in bytes) 
+
+**-XX:SurvivorRatio=8** - Ratio of eden/survivor space size 
+
+**-XX:TargetSurvivorRatio=50** - Desired percentage of survivor space used after scavenge.
+         
+**-XX:ThreadStackSize=512** - Thread Stack Size (in Kbytes). (0 means use default stack size) 
+
+**-XX:+UseBiasedLocking** - Enable biased locking.
+
+**-XX:+UseFastAccessorMethods** - Use optimized versions of Get<Primitive>Field.
+
+**-XX:-UseISM** - Use Intimate Shared Memory.
+
+**-XX:+UseLargePages** - Use large page memory.
+
+**-XX:+UseMPSS** - Use Multiple Page Size Support w/4mb pages for the heap._Do not use with ISM as this replaces the need for ISM_
+         
+**-XX:+UseStringCache** - Enables caching of commonly allocated strings.
+
+**-XX:AllocatePrefetchLines=1** - Number of cache lines to load after the last object allocation using prefetch instructions generated in JIT compiled code. _Default values are 1 if the last allocated object was an instance and 3 if it was an array_
+
+**-XX:AllocatePrefetchStyle=1** - Generate code style for prefetch instructions.
+``` 
+0 - no prefetch instructions are generated,
+1 - execute prefetch instructions after each allocation,
+2 - use TL AB allocation watermark pointer to gate when prefetch instructions are executed.
+```
+
+**-XX:+UseCompressedStrings** - Use a byte[] for Strings which can be represented as pure ASCII.
+
+**-XX:+OptimizeStringConcat** - Optimize String concatenation operations where possible.
+
+####Debugging Options
+_Option and its default Value_ is given for better understanding
+
+**-XX:-CITime** - Prints time spent in JIT Compiler.
+
+**-XX:ErrorFile=./hs_err_pid&lt;pid&gt;.log** - If an error occurs, save the error data to this file.
+
+**-XX:-ExtendedDTraceProbes** - Enable performance-impacting dtrace probes
+
+**-XX:HeapDumpPath=./java_pid&lt;pid&gt;.hprof** - Path to directory or filename for heap dump.
+
+**-XX:-HeapDumpOnOutOfMemoryError** - Dump heap to file when java.lang.OutOfMemoryError is thrown.
+
+**-XX:OnError="&lt;cmd args&gt;;&lt;cmd args&gt;"** - Run user-defined commands on fatal error
+
+**-XX:OnOutOfMemoryError="&lt;cmd args&gt;;&lt;cmd args&gt;"** - Run user-defined commands when an OutOfMemoryError is first thrown
+
+**-XX:-PrintClassHistogram** - Print a histogram of class instances on Ctrl-Break.
+
+**-XX:-PrintConcurrentLocks** - Print java.util.concurrent locks in Ctrl-Break thread dump.
+
+**-XX:-PrintCommandLineFlags** - Print flags that appeared on the command line.
+
+**-XX:-PrintCompilation** - Print message when a method is compiled.
+
+**-XX:-PrintGC** - Print messages at garbage collection.
+
+**-XX:-PrintGCDetails** - Print more details at garbage collection.
+
+**-XX:-PrintGCTimeStamps** - Print timestamps at garbage collection
+
+**-XX:-PrintTenuringDistribution** - Print tenuring age information.
+
+**-XX:-TraceClassLoading** - Trace loading of classes.
+
+**-XX:-TraceClassLoadingPreorder** - Trace all classes loaded in order referenced (not loaded)
+
+**-XX:-TraceClassResolution** - Trace constant pool resolutions
+
+**-XX:-TraceClassUnloading** - Trace unloading of classes
+
+**-XX:-TraceLoaderConstraints** - Trace recording of loader constraints
+
+**-XX:+PerfSaveDataToFile** - Saves jvmstat binary data on exit
+
+**-XX:ParallelGCThreads=** - Sets the number of garbage collection threads in the young and old parallel garbage collectors. _The default value varies with the platform on which the JVM is running._
+         
+**-XX:+UseCompressedOops** - Enables the use of compressed pointers (object references represented as 32 bit offsets instead of 64-bit pointers) for optimized 64-bit performance with Java heap sizes less than 32gb.
+
+**-XX:+AlwaysPreTouch** - Pre-touch the Java heap during JVM initialization. _Every page of the heap is thus demand-zeroed during initialization rather than incrementally during application execution._
+
+**-XX:AllocatePrefetchDistance=** - Sets the prefetch distance for object allocation. _Memory about to be written with the value of new objects is prefetched into cache at this distance (in bytes) beyond the address of the last allocated object. Each Java thread has its own allocation point. The default value varies with the platform on which the JVM is running._
+
+**-XX:InlineSmallCode=** - Inline a previously compiled method only if its generated native code size          is less than this. The default value varies with the platform on which the JVM is running
+
+**-XX:MaxInlineSize=35** - Maximum bytecode size of a method to be inlined.
+
+**-XX:FreqInlineSize=** - Maximum bytecode size of a frequently executed method to be inlined. The          default value varies with the platform on which the JVM is running
+
+**-XX:LoopUnrollLimit=** - Unroll loop bodies with server compiler intermediate representation node          count less than this value. 
+
+**-XX:InitialTenuringThreshold=7** - Sets the initial tenuring threshold for use in adaptive GC sizing in the parallel young collector. _The tenuring threshold is the number of times an object survives a young collection before being promoted to the old, or tenured, generation._
+
+**-XX:MaxTenuringThreshold=** - Sets the maximum tenuring threshold for use in adaptive GC sizing.
