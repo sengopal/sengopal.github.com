@@ -5,7 +5,6 @@ type: post
 tags:
  - java
 published: true
-draft: true
 meta:
 categories:
  - blog
