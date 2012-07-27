@@ -3,15 +3,7 @@ exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 auto: true
 pygments: true
 title : zen coding
-tagline: blog, notes and details
-safe: false
-markdown: maruku
-maruku:
-  use_tex:    false
-  use_divs:   false
-  png_engine: blahtex
-  png_dir:    images/latex
-  png_url:    /images/latex
+tagline: coding in the state of zen
 author :
   name : Senthil Gopal
   email : senthil777@gmail.com
