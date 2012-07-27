@@ -11,11 +11,11 @@ categories:
 ---
 
 ####Some tips for Java Logging####
-1. Use isDebugEnabled() for putting debug log in Java   
+1. Use isDebugEnabled() for putting debug log in Java
 2. Choose which kind of message should go to which level for logging in Java
 3. Use either log4j or java.util.logging for logging in Java
 4. Using log4j.xml you can have different logger configuration for different java classes
-5. Include Thread Name and fully qualified java class Name while printing logs    
+5. Include Thread Name and fully qualified java class Name while printing logs
 6. Use some kind of prefix and parametrized version of various log methods as they are faster compared to normal method
 
 ####Class Specific Log File####

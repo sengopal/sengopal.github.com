@@ -22,7 +22,7 @@ Technologies used
 2. Backbone.js - for interaction and the main purpose of this excercise
 3. mustache.js - For easier templating
 
-Project code can be found [here]("https://github.com/sengopal/ebay-search" "ebay-search")
+Project code can be found [here](https://github.com/sengopal/ebay-search "ebay-search")
 
 Some of the tasks completed are:
 * Defining the model

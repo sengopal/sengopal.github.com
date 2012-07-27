@@ -17,10 +17,10 @@ Due to the above mentioned fiascos, the keynote started a little late and was gi
 
 
 ###Itenary
-The intenary is available [here] ("http://www.slideshare.net/senthil777/google-dev-fest-2011-itenary" "itenary in slideshare")
+The intenary is available [here] (http://www.slideshare.net/senthil777/google-dev-fest-2011-itenary "itenary in slideshare")
 
 ###Android market place
-Then we had Tony explaining us about the growth of Android market which is 49%  global based on device activations which amounts to nearly 50k activations per day.  This year displays about 3x increase in US and 14x increase in Rest of the World. The app  Installations per device shows Honeycomb as the top leader which encourages development  in Tablets.
+Then we had Tony explaining us about the growth of Android market which is 49%  global based on device activations which amounts to nearly 50k activations per day. This year displays about 3x increase in US and 14x increase in Rest of the World. The app  Installations per device shows Honeycomb as the top leader which encourages development  in Tablets.
 
 
 Some salient but little known facts about the Android market that it has Checkout  Merchants in 29 countries, access to download error reports. This is given without any  stringent review process. In terms of application licensing, it can be modeled to  ensure that only licensed users can utilize the application. The android market gives  full control on how our app enforces its licensing policies.
@@ -41,6 +41,7 @@ Some of the recent features that have been enabled for the application developer
 ###Android ADK and fragment Accessory overview
  
 Fragments are reusable UI, app functionality components within an Activity which has  its Own lifecycle, back stack and its lifecycle is affected by the host Activity's  lifecycle. It is considered as the investment for the future and used for easier  reusability and supporting multiple devices. A fragment can be attached to a ViewGroup in the Activity view through `<fragment>` by XML or programmatically. In a   Fragment Lifecycle the activity state is tightly similar to fragment callback. Similar to a view, a fragment can declared in XML for UI Components and used programmatically for backend purposes.
+
 #####How to add a fragment by programmatically 
 1. FragmentManager
 	* findById - to find the ones available from XML
@@ -64,8 +65,10 @@ Device Descriptors which maps to UsbDevice of the API and provides the VendorId,
  
 #####Configuration Descriptor 
 which provides the Configuration Number, List of  interfaces, Max power usage and maps to UsbDevice of the API. Android devices have only  one configuration descriptor.
+
 #####Interface Descriptor 
 provides details about specific function implemented on the device  which also includes the Android interfaces, USB mass storage and Maps to USBInterface  API.
+
 #####Endpoint Descriptor 
 describes about the channels used for sending/receiving data,  Address, Type, Direction, Max Packet Size and maps to the UsbEndpoint of the API.
 
@@ -77,10 +80,10 @@ A simple USB host Device that can communicate to an Android Device which can sup
 Alfred Fuller gave a wonderful talk on Cloud Technology and how we can develop on  the Cloud and the various tools and services available such as SDKs, Memcache, mail,  XMPP, Task Queue, Images, Blobstore etc., Some of the new technologies on the horizon  for cloud development are:
 
  
-**Google Storage** which offers storage for files of any format, any amount, any time  with great APIs to access them. The use cases for this technology are unbounded such as  serving static content, backup, sharing,  App Engine, android, computation  storage, BigQuery, Prediction API with the sharing done either in private, public or  shared modes. The benefits are inherently known such as High performance,   scalability, strong security and privacy.
+**Google Storage** which offers storage for files of any format, any amount, any time  with great APIs to access them. The use cases for this technology are unbounded such as  serving static content, backup, sharing,  App Engine, android, computation  storage, BigQuery, Prediction API with the sharing done either in private, public or  shared modes. The benefits are inherently known such as High performance, scalability, strong security and privacy.
 
  
-**Google Storage** offers REST API for accessing the files and access controls for  Google Accounts. The means of authentication are either key based or entity based where  the files can be authenticate downloads, shared with individuals, group shared with  Google groups and also access controls for buckets and objects. Some of the other tools  that are provided are GSutil, GS manager, Google BigQuery and Prediction API and the  pricing stays free for 5GB this year end.
+**Google Storage** offers REST API for accessing the files and access controls for Google Accounts. The means of authentication are either key based or entity based where  the files can be authenticate downloads, shared with individuals, group shared with  Google groups and also access controls for buckets and objects. Some of the other tools  that are provided are GSutil, GS manager, Google BigQuery and Prediction API and the pricing stays free for 5GB this year end.
 
  
 **The Prediction API** provides results based on "learned" patterns. It finds relevant  features in the sample data during training and later uses these features during  prediction. The usability of this API can be in endless number of applications such as  usage in eBay to display "items you would like". Using the API involves uploading the  data[CSV files], Train[using POST to the REST API (async)] and  getting the predictions which can give multiple possibilities as well
@@ -92,4 +95,4 @@ The capabilities of this API ranges from handling numeric or unstructured text w
 **Big Query** offers the ability to perform large data adhoc analysis with SQL like  language. The usage varies with a variety of use cases such as spam, web dashboard  etc., This has the ability to process  billions of rows in seconds using SQL like  queries. The activities involve uploading the  data, importing into  BigQuery[even from spreadsheets] and querying the BigQuery using the SQL like  syntax along with a slew of SQL functions via REST such as tables/tablename or  query/q=.
 
  
-The security and privacy aspects are controlled using client login, OAuth, HTTPS  Support. The last part of this talk discussed about the App Engine IDENTITY API which  seeks to cryptographically secure authentication. The API exposes operations such as  app_identity. sign_blob and app_identity.  get_public_certificate.  The interactions goes like App A call the Identity  API to sign blob, then sends the string blob along with signature to App B. App A  publishes all public certificates and App B pulls the public certificates to recover  the signed Blob. Google uses the same type of API for Application sharing between  Google Docs, Google Calendar.
+The security and privacy aspects are controlled using client login, OAuth, HTTPS  Support. The last part of this talk discussed about the App Engine IDENTITY API which  seeks to cryptographically secure authentication. The API exposes operations such as  app_identity.sign_blob and app_identity.get_public_certificate.  The interactions goes like App A call the Identity  API to sign blob, then sends the string blob along with signature to App B. App A  publishes all public certificates and App B pulls the public certificates to recover  the signed Blob. Google uses the same type of API for Application sharing between Google Docs, Google Calendar.

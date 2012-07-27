@@ -27,9 +27,9 @@ The significant Integration points from the above success stories are taking  ad
 6. Sell your application with a one time fee of 100$
  
 #####Important Links
-* [Google Marketplaces]("http://www.google.com/enterprise/marketplace" "Google Marketplace")
-* [Google Code for Apps]("http://code.google.com/googleapps" "Google Code for Apps")
-* [Google Apps Blog]("http://googleappsdeveloper.blogspot.com" "Google Apps Blog")
+* [Google Marketplaces](http://www.google.com/enterprise/marketplace "Google Marketplace")
+* [Google Code for Apps](http://code.google.com/googleapps "Google Code for Apps")
+* [Google Apps Blog](http://googleappsdeveloper.blogspot.com "Google Apps Blog")
 
 ###Chrome Developer Tools
 
@@ -46,7 +46,7 @@ The future of the developer tools seems to hold a lot such as Chrome extensions 
 
 The last but not the least of the great features available in developer tools is the  ability for Remote Debugging which can be done using `-remote-debugging-port=31337`. This is currently being pursued as part of the project: `weinre`. The invocation goes like starting the webkit instance with remote debugging, opening the server instance and remote debugging can be done using that instance.
  
-There are lot many videos available on Chrome Dev Tools home page and [Chrome Bugs]("http://new.crbug.com" "Chrome Bugs") can be used to log any issues or submit  an idea for a new feature. 
+There are lot many videos available on Chrome Dev Tools home page and [Chrome Bugs](http://new.crbug.com "Chrome Bugs") can be used to log any issues or submit an idea for a new feature. 
 
 ###Web applications on High Replication Datastore
 We had a very informative session with Alfred about the Datastore and how it is being used across various platforms. With the cloud platform providing various SaaS, Paas and IaaS such as the App Engine, dynamic scaling and reliability are key aspects for the platform's success. The Datastore is schema-less, non-relational. Started in  January 2011, it has provided serial consistency, sync replication, high reliability  and availability,  consistent performance and no data-loss or downtime.

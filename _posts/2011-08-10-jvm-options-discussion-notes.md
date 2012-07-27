@@ -5,7 +5,6 @@ type: post
 tags:
  - java
 published: true
-draft: true
 meta:
 categories:
  - blog
@@ -133,7 +132,7 @@ _Option and its default Value_ is given for better understanding
 
 **-XX:+UseBiasedLocking** - Enable biased locking.
 
-**-XX:+UseFastAccessorMethods** - Use optimized versions of Get<Primitive>Field.
+**-XX:+UseFastAccessorMethods** - Use optimized versions of `Get<Primitive>Field`
 
 **-XX:-UseISM** - Use Intimate Shared Memory.
 
