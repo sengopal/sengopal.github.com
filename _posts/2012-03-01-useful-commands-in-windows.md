@@ -48,7 +48,6 @@ Recently came across this suprising list of command line tools in Windows. I hav
 
 18. **Code for checking firewall settings in windows**
 
-
 ```
 
 	netstat -a -b
