@@ -9,7 +9,6 @@ meta:
 categories:
  - blog
 ---
-###Topics for a Java Interview
 
 1. JVM – About JVM, JIT compiler, Bytecode, Classloader
 2. Garbage Colection – Conditions when JVM invokes garbage collection, System.gc()

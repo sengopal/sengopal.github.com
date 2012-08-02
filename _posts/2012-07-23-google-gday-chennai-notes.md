@@ -9,7 +9,6 @@ meta:
 categories:
  - blog
 ---
-#Google gday in Chennai
 Google conducted its first ever gday in India and the first event was held in Chennai Trade Center, Nandambakkam, Chennai. It was a very good crowd of around 1300 technology aspirants ranging from students, freshers, professionals and business folks as well. The keynote was delivered with an enthusiasm of a company who has just released one of the most advanced and sophisticated operating system for mobile - Jelly Bean.
 
 ##Welcome Address and Keynote

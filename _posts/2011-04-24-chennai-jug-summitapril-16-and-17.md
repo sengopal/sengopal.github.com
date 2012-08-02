@@ -9,7 +9,6 @@ meta:
 categories:
  - blog
 ---
-###Chennai JUG Summit 2011
 
 Last week, I had a great opportunity to attend the <a href="http://jugchennai.in/chennaijavasummit/">Chennai JUG summit</a> for the first time. 
 It was a pleasant surprise to find such a huge following to the group and the language. It started with the traditional lamp lighting and a hearty welcome 
