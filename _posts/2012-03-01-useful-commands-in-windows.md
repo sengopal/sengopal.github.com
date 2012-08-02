@@ -12,7 +12,7 @@ categories:
 Recently came across this suprising list of command line tools in Windows. I have used some of them and looking forward to use others as well. The below given commands are targeted for 32-bit OS.
 
 
-1. **EUDCEDIT** - Private Character Editor
+1. **eudcedit** - Private Character Editor
 
 2. **iexpress** - for conerting your files to EXCUTABLE files
 
