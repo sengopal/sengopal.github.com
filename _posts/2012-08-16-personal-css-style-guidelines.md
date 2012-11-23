@@ -297,24 +297,33 @@ h1, h2, h3 {
              <article>
                 <header>
                     <h2>Title Goes here</h2>
-                    <p>Posted on <time datetime="2012-07-28T13:00:24+01:00">July 28th 2012</time> by <a href="#">Author</a> - <a href="#comments">12 comments</a></p>
+                    <p>
+                      Posted on <time datetime="2012-07-28T13:00:24+01:00">July 28th 2012</time> 
+                      by <a href="#">Author</a> - <a href="#comments">12 comments</a>
+                    </p>
                 </header>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </article>
              <article>
                 <header>
                     <h2>Article title</h2>
-                    <p>Posted on <time datetime="2012-07-26T13:00:24+01:00">July 26th 2012</time> by <a href="#">Author</a> - <a href="#comments">9 comments</a></p>
+                    <p>
+                      Posted on <time datetime="2012-07-26T13:00:24+01:00">July 26th 2012</time> 
+                      by <a href="#">Author</a> - <a href="#comments">9 comments</a>
+                    </p>
                 </header>
                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
             </article>
          </section>
          <aside>
             <h2>Contact Us</h2>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+            <p>
+              It is a long established fact that a reader will be distracted by the readable content of 
+              a page when looking at its layout.
+            </p>
         </aside>
          <footer>
-            <p>Copyright 2012 DigiMantra Labs Â©</p>
+            <p>Copyright 2012©</p>
         </footer>
      </body>
  </html>
@@ -331,5 +340,3 @@ _TBD_
 3. <http://github.com/necolas/idiomatic-css>
 4. <http://csswizardry.com/2012/04/my-html-css-coding-style/>
 5. <http://make.wordpress.org/core/handbook/coding-standards/css/>
-
-Test
