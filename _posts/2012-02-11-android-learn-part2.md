@@ -3,12 +3,11 @@ layout: post
 title: Google gday in Chennai
 type: post
 tags:
- - css, design
+ - android
 published: true
-draft: true
 meta:
 categories:
- - draft
+ - android
 ---
 Hello Android Application creation steps
 

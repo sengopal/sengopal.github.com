@@ -9,6 +9,7 @@ meta:
 categories:
  - blog
 ---
+#CSS Style guidelines
 Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are given below
 
 * [HTML guidelines](#html-guidelines)
@@ -26,7 +27,6 @@ Though there are very detailed guidelines available for maintaining the CSS file
 * [References](#references)
 
 Like any coding standard, the purpose of this standard is to create a baseline for collaboration and review within various aspects of the verification platform projects. Files within a project should appear as though created by a single entity. Above all else, create code that is readable, meaningful, consistent, and beautiful.
-
 
 ## HTML guidelines
 1. Use a new line for every block, list, or table element, and indent every such child element.
@@ -47,16 +47,17 @@ Like any coding standard, the purpose of this standard is to create a baseline f
 6. Set the font-family as a list rather than only one value. {Ensure that there is atleast one web-safe font available in the list}
 7. Never nest more than 3 levels of selectors
 8. __If you are attempting to fix an issue, attempt to remove code before adding more.__
-9. DOM will change over time, target the element you want to use as opposed to “finding it” through its parents. Example: Use .highlight on the element as opposed to .highlight a (where the selector is on the parent)
+9. DOM will change over time, target the element you want to use as opposed to "finding it" through its parents. Example: Use .highlight on the element as opposed to .highlight a (where the selector is on the parent)
 10. Know when to use the height property. It should be used when you are including outside elements (such as images). Otherwise use line-height for more flexibility.
 11. Do not restate default property & value combinations (for instance display: block; on block-level elements).
 12. Avoid qualifying ID and class names with type selectors. Unless necessary (for example with helper classes), do not use element names in conjunction with IDs or classes. Avoiding unnecessary ancestor selectors, is useful for performance reasons.
 
-```
-/* Not recommended */
-ul#example {}
-div.error {}
-```
+  {% highlight html %}
+    /* Not recommended */
+    ul#example {}
+    div.error {}
+  {% endhighlight %}
+
 13. Use shorthand properties where possible. CSS offers a variety of shorthand properties (like font) that should be used whenever possible, even in cases where only one value is explicitly set. Using shorthand properties is useful for code efficiency and understandability.
 14. Try to minimize using markup for styling hooks. This will allow you to simplify the markup/DOM. Use media queries to override your "base" CSS properties.
 
@@ -66,7 +67,7 @@ div.error {}
 2. Where allowed, avoid specifying units for zero-values, e.g., margin: 0.
 3. Vendor prefixes should go longest (-webkit-) to shortest (unprefixed). Values should be right aligned with spaces after the colon provided that all the values are the same across all prefixes.
 
-```
+  {% highlight html %}
 .koop-shiny {
      -webkit-box-shadow: inset 0 0 1px 1px #eee;
      -moz-box-shadow:    inset 0 0 1px 1px #eee;
@@ -78,8 +79,7 @@ div.error {}
      -o-transition:      border-color 0.1s;
      transition:         border-color 0.1s;
 }
-```
-
+  {% endhighlight %}
 
 ##Naming Conventions
 
@@ -94,7 +94,7 @@ div.error {}
 1. Declarations should be ordered in accordance with a single principle. 
 2. Commonly used preference is for structurally important properties (e.g. positioning and box-model) to be declared prior to all others and group the properties based on TYPE.
 
-```
+  {% highlight html %}
 .selector {
   /* Positioning */
   position: absolute;
@@ -125,8 +125,8 @@ div.error {}
   /* Other */
   cursor: pointer;
 }
+  {% endhighlight %}
 
-```
 
 ##Comments
 > In situations where it would be useful for a developer to know exactly how a chunk of CSS applies to some HTML, I often include a snippet of HTML in a CSS comment.
@@ -136,7 +136,7 @@ div.error {}
 
 ##Formatting of rulesets
 
-Indent by 2 spaces at a time. (for both HTML and CSS). Don’t use tabs or mix tabs and spaces for indentation.
+Indent by 2 spaces at a time. (for both HTML and CSS). Donâ€™t use tabs or mix tabs and spaces for indentation.
 All code has to be lowercase: This applies to element names, attributes, attribute values (unless text/CDATA), selectors, properties, and property values (with the exception of strings such as `<img src="item.png" alt="Android Mobile Phone">`).
 
 1. Add two blank lines between sections and one blank line between blocks in a section. Separate each ruleset by a blank line.
@@ -153,22 +153,21 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 12. Include a semi-colon at the end of the last declaration in a declaration block.
 13. Place the closing brace of a ruleset in the same column as the first character of the ruleset.
 
-```
-.selector-1,
-.selector-2,
-.selector-3[type="text"] {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing:    border-box;
-    box-sizing:         border-box;
-    display: block;
-    font-family: helvetica, arial, sans-serif;
-    color: #333;
-    background: #fff;
-    background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));
-}
-```
-14. Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.
-
+  {% highlight html %}
+  .selector-1,
+  .selector-2,
+  .selector-3[type="text"] {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing:    border-box;
+      box-sizing:         border-box;
+      display: block;
+      font-family: helvetica, arial, sans-serif;
+      color: #333;
+      background: #fff;
+      background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));
+  }
+  {% endhighlight %}
+14. Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.  
 
 ##Responsive Web Design
 
@@ -179,21 +178,23 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 5. Maximize use of background images
 6. Set the sizing of images and other elements using relative width and percentages
 7. Use User Agent Switcher to verify the layout in various desktop and mobile browsers
-8. Use the meta name in the <head> tag
-  `<meta name="viewport" content="width=device-width,maximum-scale=1">`
+8. Use the meta name in the `<head>` tag
+  {% highlight html %}
+  <meta name="viewport" content="width=device-width,maximum-scale=1">
+  {% endhighlight %}
   Optional: initial-scale=1,user-scalable=n
 9. Always use min-width, max-width, device-pixel-ratio:2
 10. Maximize use of high pixel density displays, Minimize image downloads per platform
 
-```
-@media only all and
-(min-device-pixel-ratio:2){
-    #bg{
-  background:url(bg.png);
-  background-size: 50% 50%;   
-    }
-}
-```
+    {% highlight html %}
+  @media only all and
+  (min-device-pixel-ratio:2){
+      #bg{
+    background:url(bg.png);
+    background-size: 50% 50%;   
+      }
+  }
+    {% endhighlight %}
 11. Seperate stylesheet for high density displays
 12. Produce image scales by pixel-ratio
 13. Write CSS-to-device px compensation
@@ -202,34 +203,34 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 16. Media queries allow us to gracefully degrade the DOM for different screen sizes. If you are adding any, be sure to test above and below the break-point you are targeting. It is generally advisable to keep media queries grouped by media at the bottom of the stylesheet. 
 17. Rule sets for media queries should be indented one level in.
 
-```
-@media all and (max-width: 699px) and (min-width: 520px) {
-       /* Your selectors */
-}
-```
+    {% highlight html %}
+  @media all and (max-width: 699px) and (min-width: 520px) {
+         /* Your selectors */
+  }
+    {% endhighlight %}
 
-##Table of contents
+    ##Table of contents
 
 At the top of each CSS file, it is good to have a table of contents that maps to the section titles in the document.
 
-```
-/*------------------------------------*\
-    CONTENTS
-\*------------------------------------*/
-/*
-NOTES
-RESET
-SHARED     Share anything we can across elements.
-MAIN       HTML, BODY, etc.
-*/
-Section titles
+{% highlight html %}
+  /*------------------------------------*\
+      CONTENTS
+  \*------------------------------------*/
+  /*
+  NOTES
+  RESET
+  SHARED     Share anything we can across elements.
+  MAIN       HTML, BODY, etc.
+  */
+  Section titles
 
-Each section (layout, type, tables etc) of CSS would look like:
+  Each section (layout, type, tables etc) of CSS would look like:
 
-/*------------------------------------*\
-    $MAIN
-\*------------------------------------*/
-```
+  /*------------------------------------*\
+      $MAIN
+  \*------------------------------------*/
+  {% endhighlight %}
 
 ##CSS Categorization 
 
@@ -244,7 +245,7 @@ It is always recommended to use to a state-based design if the web application h
 For our design needs, we would be maintaining a common hierarchy as follows:
 
 1. Base CSS
-```
+{% highlight html %}
 html {
   background-color: #FFF;
   font-family: Arial, Helvetica, sans-serif;
@@ -257,7 +258,8 @@ body {
 h1, h2, h3 {
   margin: 1em 0;
 }
-```
+  {% endhighlight %}
+
 2. Layout CSS
    This CSS should contain the common styling for header, sidebar, content
 3. Module CSS
@@ -274,7 +276,8 @@ h1, h2, h3 {
    Examples: .theme-header{}, .theme-border{}, .theme-background{}
 
 ##HTML layout
-```
+
+{% highlight html %}
 <!DOCTYPE HTML>
  <html>
      <head>
@@ -311,11 +314,11 @@ h1, h2, h3 {
             <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
         </aside>
          <footer>
-            <p>Copyright 2012 DigiMantra Labs ©</p>
+            <p>Copyright 2012 DigiMantra Labs Â©</p>
         </footer>
      </body>
  </html>
-```
+  {% endhighlight %}
 
 ##Linting
 _TBD_
@@ -323,8 +326,8 @@ _TBD_
 
 ##References
 
-1. <https://github.com/styleguide/css>
+1. <http://github.com/styleguide/css>
 2. <http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml>
-3. <https://github.com/necolas/idiomatic-css>
+3. <http://github.com/necolas/idiomatic-css>
 4. <http://csswizardry.com/2012/04/my-html-css-coding-style/>
 5. <http://make.wordpress.org/core/handbook/coding-standards/css/>
