@@ -25,7 +25,7 @@ These are not my own findings, rather collected from various sources, newsletter
 
 1. <http://teambox.com/> - Complete project management - tools for sync, chat, documents etc.,
 2. <http://recurseapp.com/> - Revision Management
-3. <https://trello.com/> - Project collaboration tool - similar to dashboard
+3. <http://trello.com/> - Project collaboration tool - similar to dashboard
 
 ##Online meeting
 
@@ -71,13 +71,13 @@ _Source: [MakeUseOf](http://www.makeuseof.com/tag/create-web-comics-memes-free-t
 1. <http://www.mockflow.com>
 2. <http://www.gliffy.com>
 3. <http://creately.com>
-4. <https://cacoo.com>
+4. <http://cacoo.com>
 5. <http://sketchup.google.com>
 6. <http://gotiggr.com>
 7. <http://www.picmonkey.com>
-8. <https://moqups.com>
+8. <http://moqups.com>
 9. <http://infogr.am>
-10. <http://beautifulmind.io>
+10. <http://beautifulmindhttp.io>
 11. <http://www.diagram.ly>
 12. <http://create.visual.ly>
 13. <http://www.iorad.com>
@@ -98,20 +98,20 @@ _Source: [MakeUseOf](http://www.makeuseof.com/tag/create-web-comics-memes-free-t
 7. <http://www.joukuu.com>
 8. <http://www.openstack.org>
 9. <http://www.aeolusproject.org>
-10. <https://www.dotcloud.com>
+10. <http://www.dotcloud.com>
 11. <http://cloudfoundry.com>
-12. <https://www.appcloudy.com>
-13. <https://www.appfog.com>
+12. <http://www.appcloudy.com>
+13. <http://www.appfog.com>
 
 ##Cloud API
 
-1. <https://www.mashape.com>
+1. <http://www.mashape.com>
 
 ##Obsure Web Application APIs
 
-1. <https://one.ubuntu.com/developer>
+1. <http://one.ubuntu.com/developer>
 2. <http://www.innovate-conference.com>
 3. <http://www.imdbapi.com>
-4. <https://code.google.com/oauthplayground/>
+4. <http://code.google.com/oauthplayground/>
 5. <http://pusher.com/showcase>
 6. <http://sramana.in/indianrail-db>
