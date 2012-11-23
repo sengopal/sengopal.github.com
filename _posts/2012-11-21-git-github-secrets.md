@@ -9,7 +9,4 @@ meta:
 categories:
  - blog
 ---
-
-#Git and Github Secrets
-
 Recently came across a screencast held at Aloha Ruby Conference. Some of the shortcuts/useful tips mentioned were given below 
