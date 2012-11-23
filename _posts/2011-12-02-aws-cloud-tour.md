@@ -9,7 +9,6 @@ meta:
 categories:
  - blog
 ---
-#Amazon Cloud Tour 2011
 ##Keynote
 Amazon web services had arranged for a 1-day expo for customers, partners and enthusiasts alike at Hyatt Regency in Chennai. The main hosts Shane and Janakiram were warm and truly enthusiastic about the turnout for the event. The limelight of the event though was __Dr.Werner Vogel__, the CTO of Amazon and a wonderfully hearty person who enjoyed the keynote and the other interactions as much as the participants.
 
