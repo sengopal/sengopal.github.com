@@ -22,8 +22,8 @@ categories:
 
 ####INTENT-FILTER 
 
-1. Activity with "android.intent.action.MAIN" which will be started first 
-2. "android.intent.category.LAUNCHER" adds the Application to the Apps Menu Launcher
+1. Activity with `android.intent.action.MAIN` which will be started first 
+2. `android.intent.category.LAUNCHER` adds the Application to the Apps Menu Launcher
 3. Java packages available within Android SDK is not the exact same as Java SDK 
 
 ####Activity Lifecycle
@@ -31,6 +31,6 @@ categories:
 1. Always ensure super.onCreate is called. 
 2. Res/layout - user interface definition using XML 
 3. LinearLayout - Similar to Flow layout in AWT 
-4. Fill_parent - will fill the entire vertical portion [will not allow to place another component alongside] 
+4. Fill_parent - will fill the entire vertical portion \[will not allow to place another component alongside\] 
 5. wrap_content - wrap the content and allows other components to be placed along side 
 6. Activities, Services, Content Providers, BroadCast Recievers
