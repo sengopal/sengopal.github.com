@@ -9,4 +9,4 @@ meta:
 categories:
  - aws
 ---
-teste!
+teste
