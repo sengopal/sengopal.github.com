@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Make ubuntu better
+title: Ubuntu shortcuts and tips
 type: post
 tags:
  - ubuntu
@@ -80,7 +80,7 @@ http://maketecheasier.com/create-and-install-your-own-grub-splash-image/2009/01/
 1. apt-get install openssh-server
 2. cp /etc/ssh/sshd_config ~
 3. gedit /etc/ssh/sshd_config
-{% highlight xml %}
+{% highlight text %}
 		Port 22
 		PermitRootLogin no
 		AllowUsers non-root
@@ -94,7 +94,7 @@ http://maketecheasier.com/create-and-install-your-own-grub-splash-image/2009/01/
 1. gnome-app-install
 2. sudo apt-get update
 3. sudo dpkg -i package_name.deb
-4. sudo apt-get remove [--purge] <package> ¦ [complete removal] 
+4. `sudo apt-get remove [--purge] <package> ¦ [complete removal] `
 5. ps aux | grep fire*
 6. sudo apt-get clean
 7. nautilus
@@ -112,6 +112,6 @@ http://maketecheasier.com/create-and-install-your-own-grub-splash-image/2009/01/
 19. CTRL + ALT + T - Terminal
 20. CTRL + ALT + D - Desktop
 21. CTRL + ALT + L - Lock screen
-22. apt-cache search <package>
-23. sudo add-apt-repository ppa:<repo-name>
+22. `apt-cache search <package>`
+23. `sudo add-apt-repository ppa:<repo-name>`
 24. ~/.local/share/applications/defalult.list 
