@@ -107,4 +107,4 @@ _Advanced Compare View_
 Range - MASTER@{1.day.ago}...MASTER
 bookmark that page and see whats team upto in last 12 hours
 
-Test
+Test2
