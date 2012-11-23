@@ -74,7 +74,8 @@ SPOT Instances/On demand instances - Bid, win, Perform and the instance is shut 
     1. supports sticky sessions 
     2. supports IPv4 and IPv6 
     3. Request count and latency metrics in CloudWatch 
-    
+
+
 ####Amazon RDS - Relational Data services 
 1. Web service
 2. Automatic failover 
@@ -89,15 +90,16 @@ SPOT Instances/On demand instances - Bid, win, Perform and the instance is shut 
 6.Launch RDS DB instances in Multi AZ
 
 ##Arjun Chopra - Building AWS Apps
-1. This presentation was by Arjun Chopra, the CTO of Cambridge Tech. Enterprises and uses aws for cloud enablement.
-2. 24x7 management, starting at 9$ 
-3. why cloud makes sense 
+This presentation was by Arjun Chopra, the CTO of Cambridge Tech. Enterprises and uses aws for cloud enablement.
+
+1. 24x7 management, starting at 9$ 
+2. why cloud makes sense 
     1. no up front expense 
     2. pay as u go 
     3. on demand provisioning 
     4. Elastic scale 
     5. Pass benefits on to users 
-4. Cloud Goal Flip the equation
+3. Cloud Goal Flip the equation
 
 ###Build a Cloud ready App 
 1. Shared responsiblity model 
@@ -106,10 +108,46 @@ SPOT Instances/On demand instances - Bid, win, Perform and the instance is shut 
 4. on demand pay as u go infrastructure provided by AWS 
 
 ###Design Best Practices 
-1. Protect ur data 
-2. Design for failure so nothing fails 
-3. Decouple and make stateless 
-4. Handle reboots grcefully 
-5. Isolate traffic 
-    1. Static vs dynamic 
+1. Protect ur data
+2. Design for failure so nothing fails
+3. Decouple and make stateless
+4. Handle reboots grcefully
+5. Isolate traffic
+    1. Static vs dynamic
     2. Read Vs write
+
+
+###Operation Best practices 
+1. Secure the systems 
+2. Leverage the Regions and AZs for disaster receovery 
+3. Create the automation roadmap 
+4. Seperate enviornments and keep consistent 
+5. Establish monitoring and management parameters and alarms 
+6. Document, Test and Improve
+
+###Security 
+1. Deny all as default, except as mentioned below 
+2. Web Server Security Group \[80\+443\]
+3. app server secruity grp \[App server ports;comm from WS group members only\] 
+4. DB secrutiy grp \[DB ports; comm with App Server Grop members\] 
+5. Admin sec grp \[SSH port; admin security only\] 
+    
+###Harden all stack components 
+__Securing the DB__
+1. use TDE for easy app development 
+2. Use RDS aor ensure HA 
+3. Run on a hardened AMI 
+4. Seperation of duties 
+5. Access control and audit tools
+
+###Supporting Multiple customers 
+1. Dedeicated Cloudlets for Tenants 
+2. Hardend OS for entire stack 
+3. Dedicated cloudlet for multi tenant software 
+4. In flight and rest data secruity
+
+###Cloud Enables full SLA driven Opeartions 
+1. Pro active management
+2. Pro active monitoring 
+3. Configuration management
+
