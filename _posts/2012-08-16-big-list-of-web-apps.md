@@ -4,8 +4,7 @@ title: big list of Web apps
 type: post
 tags:
  - list, web apps
-published: false
-draft: true
+published: true
 meta:
 categories:
  - blog

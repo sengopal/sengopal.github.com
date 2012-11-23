@@ -5,7 +5,6 @@ type: post
 tags:
  - git, tools
 published: true
-draft: false
 meta:
 categories:
  - blog,git
