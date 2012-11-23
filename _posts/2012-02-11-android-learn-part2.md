@@ -75,4 +75,16 @@ Explicit Intents explicitly names the component which should be called by the An
 	i.putExtra("Value2", "This value two ActivityTwo");
 {% endhighlight %}
 
-Explicit Intents are typically used within on application as the classes in an application are controlled by the application developer.
+Explicit Intents are typically used within on application as the classes in an application are controlled by the application developer. 
+
+####Implicit Intents
+
+Implicit Intents do not specify the Java class which should be called. They specify the action which should be performed and optionally an URI which should be used for this action. For example the following tells the Android system to view a webpage. Typically the web browser is registered to this Intent but other component could also register themself to this event. 
+
+{% highlight java %}
+	Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.vogella.de"));
+{% endhighlight %}
+
+If these Intents are send to the Android system it searches for all components which are registered for the specific action and the data type. 
+
+If only one component is found, Android starts this component directly. If several components are identifier by the Android system, the user will get an selection dialog and can decide which component should be used for the Intent. 
