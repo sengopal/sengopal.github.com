@@ -4,8 +4,7 @@ title: Personal CSS style guidelines
 type: post
 tags:
  - css, style, guidelines
-published: false
-draft: true
+published: true
 meta:
 categories:
  - blog
