@@ -56,4 +56,4 @@ Example:
 
 __Pulls needn't be from a fork, but can be done from branches as well__
 
-__Github supports emoji's which are available under__ <emoji-cheat-sheet.com>
+__Github supports emoji's which are available under__ [Emoji-cheat-sheet](http://emoji-cheat-sheet.com "Emoji-cheat-sheet")
