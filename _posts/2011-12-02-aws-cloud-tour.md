@@ -156,8 +156,9 @@ __Securing the DB__
 3. Define RTOs and RPOs - receovery time 
 4. Define and develop data backup management 
 5. Account for security, encryption, key rotation and account termination
-6. Deliver automation when required 
-    
+6. Deliver automation when required
+
+
 ###Case studies 
 1. University of Cloud 
 2. Cloud readiness assessment 
@@ -294,8 +295,9 @@ Then followed a great Q&A session and the emphasis is
 
 ####Solution 
 1. Use S3 as aservice 
-2. IMDB - Store raw HTML for the feature in S3 - Amazon picks up from the S3 HTML Store 
-    
+2. IMDB - Store raw HTML for the feature in S3 - Amazon picks up from the S3 HTML Store
+
+
 ####Results 
 1. Reduced page latency 
 2. IMDB doesnt worry abt Scaling 
@@ -322,8 +324,9 @@ Then followed a great Q&A session and the emphasis is
 2. launched w/o any colo datacenter 
 3. True external performance metrics 
 4. Test site features in dev before launched 
-5. System scales horizontally large amounts of traffic 
-        
+5. System scales horizontally large amounts of traffic
+
+
 ###What about amazon.com web servers 
 1. 15% + highest peak for weekly traffic 
 2. 39% of capcity is not used at all due to the highs and lows 
@@ -344,7 +347,8 @@ Then followed a great Q&A session and the emphasis is
 1.Traffic for several Amazon retail sites is now served from AWS 
 2. Dynamically scale the fleet in increments as small as a single host 
 3. Traffic spikes can be handled with ease 
-    
+
+
 ###What is a DB use case? 
 1. All the old orders from 1997 available - historical data 
 
@@ -356,8 +360,9 @@ Then followed a great Q&A session and the emphasis is
 ####Problems 
 1. Cumulative data impacts scale 
 2. No DB scaling pattern is ideal 
-3. DB infrastructures is expensive 
-    
+3. DB infrastructures is expensive
+
+
 ####Solution 
 1. Tiered storage system with AWS 
 2. Ordering service - uses order database or S3 depending on data query 
@@ -384,5 +389,3 @@ Then followed a great Q&A session and the emphasis is
 4. Engage security early and treat as partners 
 5. Migrate to the cloud in concert with ur arch objectives 
 6. Cloud cant cover up for sloppy engineering
-
-
