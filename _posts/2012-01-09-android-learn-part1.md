@@ -5,7 +5,6 @@ tags:
 - android
 - basics
 - learning
-status: publish
 type: post
 published: true
 meta:
