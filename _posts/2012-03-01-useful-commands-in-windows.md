@@ -46,3 +46,9 @@ Recently came across this suprising list of command line tools in Windows. I hav
 17. **telnet** - Microsoft Telnet Client
 
 18. **Code for checking firewall settings in windows**
+
+{% highlight shell %}
+	netstat -a -b
+	netsh advfirewall firewall show rule name=all > firewallrules.txt
+	netsh advfirewall firewall show rule name | find "Block"
+{% endhighlight %}
