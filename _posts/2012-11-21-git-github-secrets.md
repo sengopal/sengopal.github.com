@@ -100,9 +100,9 @@ __Github supports emoji's which are available under__ [Emoji-cheat-sheet](http:/
 
 20. `git show :/<query>` - checks for the message or file name
 
-##Commit Comparison
+__Commit Comparison__
 LINE Linking - #L16, #L16-25
 
-Advanced Compare View
+_Advanced Compare View_
 Range - MASTER@{1.day.ago}...MASTER
 bookmark that page and see whats team upto in last 12 hours
