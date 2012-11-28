@@ -71,6 +71,11 @@ img {
   margin-right: auto;
 }
 
+p.social a{
+  font-size: 1.3em;
+  padding-right: 5px;
+}
+
 p.social a:hover{
   text-decoration: none;
   color: #333;
