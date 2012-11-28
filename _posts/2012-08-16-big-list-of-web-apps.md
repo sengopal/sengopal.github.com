@@ -1,6 +1,6 @@
 ---
 layout: post
-title: big list of Web apps
+title: Big List of Web apps
 type: post
 tags:
  - list, web apps

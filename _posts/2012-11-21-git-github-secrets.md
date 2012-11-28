@@ -108,4 +108,17 @@ Range - MASTER@{1.day.ago}...MASTER
 bookmark that page and see whats team upto in last 12 hours
 
 
-TEST2
+###Key Git commands in order of importance
+* Clone – Creates a repository from a network or local location
+* Status – What is staged, and in the working directory
+* Log – history of commits
+* Add – make a file ready for staging
+* Commit – Move staged files to a commit
+* Reset – Clean an entire working directory
+* Pull – Perform a fetch & merge operation
+* Push – send your changes to the parent repository
+* Branch – to create a new branch
+* Checkout – to grab one or more files
+* Clean – removing files that exist only in the working directory
+* Fetch – Get changes from the parent repository to store within the current repo
+* Merge – Combine two or more commits into one
