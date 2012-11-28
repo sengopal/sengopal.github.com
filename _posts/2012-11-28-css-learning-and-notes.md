@@ -59,9 +59,7 @@ The following are some of the important points that i had gathered during my lea
 		<meta name="viewport" content="initial-scale=1,width=device-width">
 	{% endhighlight %}
 5. Media query representation
-	{% highlight css %}
-		@media screen and (max-width: 980px){}
-	{% endhighlight %}
+	`@media screen and (max-width: 980px){}`
 6. Always create the smallest resolution first
 7. Try to use different images with different srcs to cater to different sizes
 
