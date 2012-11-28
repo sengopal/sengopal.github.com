@@ -4,8 +4,7 @@ title: CSS learning and notes
 type: post
 tags:
  - design
-published: false
-draft: true
+published: true
 meta:
 categories:
  - blog
@@ -39,7 +38,7 @@ The following are some of the important points that i had gathered during my lea
 6. Whenever u are adding a padding or margin, adjust the width or height appropriately
 7. Use `margin:auto;` to center the div within the container
 8. `#nav ul{ margin:0; padding:0;}` - remember for every UL block or use a reset
-9. Always use `ul{list-style-type: none;}
+9. Always use `ul{list-style-type: none;}`
 10. Give `li{display:block}` and provide width & height to get a BUTTON look and feel
 11. For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.
 12. always the target browsers and supported resolutions needs to be decided
