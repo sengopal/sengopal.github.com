@@ -193,7 +193,6 @@ margin: 10px 5px 15px;
 14. Animation using Keyframes
 	_Postion:fixed or other positioning important for animations to work_
 
-
 ###New Tags in HTML5
 1. New semantic tags - header, footer, nav, section, aside, article
 2. Multimedia tags - audio/sound,video
@@ -205,7 +204,8 @@ margin: 10px 5px 15px;
 2. ![Reset](http://meyerweb.com/eric/tools/css/reset/)
 3. ![Grid](http://vandelaydesign.com/blog/design/resources-grid-based-design/)
 4. ![IE support](http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/)
-5. ![html5shiv]()
-6. ![modernizer]()
-7. ![html5boilerplate]()
-Adobe Shadow, Brackets
+5. ![html5shiv](https://github.com/aFarkas/html5shiv)
+6. ![modernizer](http://modernizr.com/)
+7. ![html5boilerplate](http://html5boilerplate.com/)
+8. ![Adobe Inspect](http://html.adobe.com/edge/inspect/)
+9. ![Brackets](http://brackets.io/)
