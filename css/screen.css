@@ -1,7 +1,3 @@
-/*
- *  Basic Screen CSS: forked from swanson.github.com
- */
-
 * {
   margin: 0;
   padding: 0;
@@ -12,13 +8,22 @@ html, body {
 }
 
 body {
+  font-size: 16px;
   background-color: white;
   color: #222222;
   line-height: 24px;
+  margin: 0;
+  border-top: 7px solid #0C84E8;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: #181818;
+  font-family: "open sans", sans-serif;
+  font-weight: 600;
+}
+
+h1.title {
+  font-weight: 800;
 }
 
 h1 {
@@ -52,7 +57,7 @@ a:hover {
 }
 
 a:visited {
-  color: #446178;
+  color: #0C84E8;
 }
 
 table {
@@ -123,25 +128,46 @@ ul.posts span {
 
 .book-writeup p img 
 {
-  margin: 0 !important;
+  padding: 5px;
+  border: 1px solid #AAA;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+}
+
+.pic img 
+{
+  padding: 5px;
+  border: 1px solid #AAA;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+  margin-bottom: 15px;
 }
 
 .project-date {
-  color: #aaa;
+  color: #aaa !important;
   font-family: Monaco, "Courier New", monospace;
   font-size: 80%;
   font-weight: normal;
 }
 
-#sidebar {
-  width: 200px;
-  margin: 10px 0;
-  float: left;
-  font-size: 16px;
+.sidebar {
+  padding-top: 25px;
+  font-family: "open sans", sans-serif;
 }
 
-.container {
-  margin-top: 10px;
+.sidebar p {
+  font-weight: 200;
+}
+
+.sidebar a {
+  font-weight: 600;
+}
+
+.content {
+  font: 400 16px/22px "open sans", sans-serif;
+  border-left: 1px solid #DDD;
+  padding-left: 40px;
+  padding-top: 25px;
 }
 
 .footer {
@@ -169,12 +195,53 @@ sup {
   color: #666;
 }
 
-div#post img{
-	display: inline;
+#blog-posts a, #talk-posts a, #book-posts a {
+  color: #333;
 }
 
-img#rss{
-	display:inline;
-	margin:10px 0;
-	height:30px;
+#blog-posts a:visited, #talk-posts a:visited, #book-posts a:visited {
+  color: #AAA;
+}
+
+#home h2 {
+  color: #0C84E8;
+}
+
+#stalker i {
+  font-size: 24px;
+  margin-right: 5px;
+}
+
+#stalker a:hover {
+  text-decoration: none;
+  color: #0C84E8;
+}
+
+.icon-hn {
+  background-color: #0C84E8;
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  position: relative;
+  bottom: 5px;
+  margin-right: 5px;
+}
+
+.home {
+  font-size: 24px;
+  float: right;
+  color: #AAA;
+}
+
+.home:hover {
+  text-decoration: none;
+}
+
+.disclaimer p {
+  margin-top: 5px;
+  font-size: 11px;
+  text-align: center;
 }
