@@ -85,7 +85,7 @@
 
 /*	Blockquotes  */
 	blockquote, blockquote p { font-size: 17px; line-height: 24px; color: #777; font-style: italic; }
-	blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
+	blockquote { margin: 0px; padding: 0px 20px 0 15px; border-left: 2px solid #ddd; }
 	blockquote cite { display: block; font-size: 12px; color: #555; }
 	blockquote cite:before { content: "\2014 \0020"; }
 	blockquote cite a, blockquote cite a:visited, blockquote cite a:visited { color: #555; }
@@ -128,7 +128,7 @@
 /* #Buttons
 ================================================== */
 
-	.button,
+	a.button,
 	button,
 	input[type="submit"],
 	input[type="reset"],
@@ -155,11 +155,10 @@
 	  text-shadow: 0 1px rgba(255, 255, 255, .75);
 	  cursor: pointer;
 	  margin-bottom: 20px;
-	  line-height: normal;
-	  padding: 8px 10px;
+	  line-height: 21px;
 	  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-	.button:hover,
+	a.button:hover,
 	button:hover,
 	input[type="submit"]:hover,
 	input[type="reset"]:hover,
@@ -176,7 +175,7 @@
 	  border-top: 1px solid #aaa;
 	  border-left: 1px solid #aaa; }
 
-	.button:active,
+	a.button:active,
 	button:active,
 	input[type="submit"]:active,
 	input[type="reset"]:active,
@@ -199,13 +198,6 @@
 		padding-left: 0 !important;
 		padding-right: 0 !important;
 		text-align: center; }
-
-	/* Fix for odd Mozilla border & padding issues */
-	button::-moz-focus-inner,
-	input::-moz-focus-inner {
-    border: 0;
-    padding: 0;
-	}
 
 
 /* #Tabs (activate in tabs.js)
