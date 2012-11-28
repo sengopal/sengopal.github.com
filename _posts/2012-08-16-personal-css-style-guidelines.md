@@ -51,7 +51,7 @@ Like any coding standard, the purpose of this standard is to create a baseline f
 11. Do not restate default property & value combinations (for instance display: block; on block-level elements).
 12. Avoid qualifying ID and class names with type selectors. Unless necessary (for example with helper classes), do not use element names in conjunction with IDs or classes. Avoiding unnecessary ancestor selectors, is useful for performance reasons.
 
-  {% highlight html %}
+  {% highlight css %}
     /* Not recommended */
     ul#example {}
     div.error {}
@@ -66,7 +66,7 @@ Like any coding standard, the purpose of this standard is to create a baseline f
 2. Where allowed, avoid specifying units for zero-values, e.g., margin: 0.
 3. Vendor prefixes should go longest (-webkit-) to shortest (unprefixed). Values should be right aligned with spaces after the colon provided that all the values are the same across all prefixes.
 
-  {% highlight html %}
+  {% highlight css %}
 .koop-shiny {
      -webkit-box-shadow: inset 0 0 1px 1px #eee;
      -moz-box-shadow:    inset 0 0 1px 1px #eee;
@@ -93,7 +93,7 @@ Like any coding standard, the purpose of this standard is to create a baseline f
 1. Declarations should be ordered in accordance with a single principle. 
 2. Commonly used preference is for structurally important properties (e.g. positioning and box-model) to be declared prior to all others and group the properties based on TYPE.
 
-  {% highlight html %}
+  {% highlight css %}
 .selector {
   /* Positioning */
   position: absolute;
@@ -152,7 +152,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 12. Include a semi-colon at the end of the last declaration in a declaration block.
 13. Place the closing brace of a ruleset in the same column as the first character of the ruleset.
 
-  {% highlight html %}
+  {% highlight css %}
   .selector-1,
   .selector-2,
   .selector-3[type="text"] {
@@ -185,7 +185,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 9. Always use min-width, max-width, device-pixel-ratio:2
 10. Maximize use of high pixel density displays, Minimize image downloads per platform
 
-    {% highlight html %}
+    {% highlight css %}
   @media only all and
   (min-device-pixel-ratio:2){
       #bg{
@@ -202,7 +202,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 16. Media queries allow us to gracefully degrade the DOM for different screen sizes. If you are adding any, be sure to test above and below the break-point you are targeting. It is generally advisable to keep media queries grouped by media at the bottom of the stylesheet. 
 17. Rule sets for media queries should be indented one level in.
 
-    {% highlight html %}
+    {% highlight css %}
   @media all and (max-width: 699px) and (min-width: 520px) {
          /* Your selectors */
   }
@@ -212,7 +212,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 
 At the top of each CSS file, it is good to have a table of contents that maps to the section titles in the document.
 
-{% highlight html %}
+{% highlight css %}
   /*------------------------------------*\
       CONTENTS
   \*------------------------------------*/
@@ -244,7 +244,7 @@ It is always recommended to use to a state-based design if the web application h
 For our design needs, we would be maintaining a common hierarchy as follows:
 
 1. Base CSS
-{% highlight html %}
+{% highlight css %}
 html {
   background-color: #FFF;
   font-family: Arial, Helvetica, sans-serif;

@@ -13,7 +13,6 @@ html, body {
 
 body {
   background-color: white;
-  font: 16px Palatino, 'Palatino Linotype', Georgia, serif;
   color: #222222;
   line-height: 24px;
 }
@@ -74,7 +73,7 @@ ul.posts {
 }
 
 ul.posts li {
-  line-height: 30px;
+  line-height: 22px;
   font-size: 16px;
   margin-bottom: 0px;
 }
