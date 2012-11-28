@@ -93,6 +93,10 @@ ul.posts li {
   margin-bottom: 0px;
 }
 
+ul.posts li p{
+  margin-bottom: 0px;
+}
+
 ul.posts span {
   font-family: 'Lucida Console', 'Andale Mono', monospace;
   color: #aaa;

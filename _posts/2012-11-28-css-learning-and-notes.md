@@ -47,23 +47,28 @@ The following are some of the important points that i had gathered during my lea
 1. Change float to normal using the height/width/float properties for changing screen size
 2. Always use `margin,padding:0` - for reset
 3. Types of layouts - pure fluid / pure display oriented / hybrid
+
 	* Fluid Layout
 		1. system of relative layout instead of absolute pixels
 		2. height/width - only in percentages
+
 	* Adaptive Layout
 		1. using the @media tags
+
 	* Responsive Layout
 		1. Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags
+
 4. New way of setting the media value
-	{% highlight html %}
-		<meta name="viewport" content="initial-scale=1,width=device-width">
-	{% endhighlight %}
+{% highlight html %}
+<meta name="viewport" content="initial-scale=1,width=device-width">
+{% endhighlight %}
 5. Media query representation
 	`@media screen and (max-width: 980px){}`
 6. Always create the smallest resolution first
 7. Try to use different images with different srcs to cater to different sizes
 
 ###Types of Selectors
+
 1. Tag
 2. Class
 3. Pseudo-element \[first-line, first-character\] _This is the LEAST important selector_
