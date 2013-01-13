@@ -4,7 +4,8 @@ title: Jekyll Blog introduction
 type: post
 tags:
  - jekyll, blog
-published: true
+published: false
+draft: true
 meta:
 categories:
  - blog

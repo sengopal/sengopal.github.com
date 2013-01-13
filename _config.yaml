@@ -4,6 +4,7 @@ auto: true
 pygments: true
 title : zen coding
 tagline: coding in the state of zen
+permalink: /:year-:month-:day/:title
 author :
   name : Senthil Gopal
   email : senthil777@gmail.com

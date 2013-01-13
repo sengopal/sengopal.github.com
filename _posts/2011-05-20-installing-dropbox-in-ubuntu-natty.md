@@ -9,6 +9,8 @@ meta:
 categories:
  - blog
 ---
+<code>__This is an obsolete post as dropbox is now offering the installation files as deb packages.__</code>
+
 The first software that i always install after a clean OS install is [dropbox](http://www.dropbox.com) and this time it was no diiferent, when i installed the new Ubuntu 11.04 Natty. But the panel didnt show the dropbox and me being a newbie was not able to confirm whether it was actually installed or not. 
 1. I tried the Lens Search, but it didnt return any results. 
 2. Installing it though the software Center didnt bear any fruit.
