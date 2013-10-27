@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>JAXB Usage for single line conversion</title>
+        <link rel="stylesheet" href="sengopal.github.io/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="sengopal.github.io/">Senthil Gopal </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="sengopal.github.io/category/java.html">java</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="sengopal.github.io/.html" rel="bookmark"
+           title="Permalink to JAXB Usage for single line conversion">JAXB Usage for single line conversion</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2011-05-29T10:20:00">
+                Sun 29 May 2011
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="sengopal.github.io/author/senthil-gopal.html">Senthil Gopal</a>
+        </address>
+<p>In <a href="sengopal.github.io/category/java.html">java</a>. </p>
+<p>tags: <a href="sengopal.github.io/tag/jaxb.html">jaxb</a></p>
+</footer><!-- /.post-info -->      <p>I came across a great article which introduces a utility Class <a href="http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXB.htm">JAXB</a> which converts XML to Object and vice versa in a single line.</p>
+<p><strong>For Unmarshalling an XML to a Class Object</strong></p>
+<div class="highlight"><pre><span class="n">JAXBContext</span> <span class="n">context</span> <span class="o">=</span> <span class="n">JAXBContext</span><span class="p">.</span><span class="n">newInstance</span><span class="p">(</span><span class="n">ObjectToConvert</span><span class="p">.</span><span class="n">class</span><span class="p">);</span>
+<span class="n">Unmarshaller</span> <span class="n">u</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="n">createUnmarshaller</span><span class="p">();</span>
+<span class="k">return</span> <span class="p">(</span><span class="n">ObjectToConvert</span><span class="p">)</span> <span class="n">u</span><span class="p">.</span><span class="n">unmarshal</span><span class="p">(</span><span class="n">xmlInputStream</span><span class="p">);</span>
+
+<span class="c1">// becomes</span>
+<span class="k">return</span> <span class="p">(</span><span class="n">ClassToConvert</span><span class="p">)</span><span class="n">JAXB</span><span class="p">.</span><span class="n">unmarshal</span><span class="p">(</span><span class="n">xmlInputStream</span><span class="p">,</span> <span class="n">ObjectToConvert</span><span class="p">.</span><span class="n">class</span><span class="p">);</span>
+</pre></div>
+
+
+<p><strong>For Marshalling an Object to a XML</strong></p>
+<div class="highlight"><pre><span class="n">JAXBContext</span> <span class="n">context</span> <span class="o">=</span> <span class="n">JAXBContext</span><span class="p">.</span><span class="n">newInstance</span><span class="p">(</span><span class="n">objectInstanceToConvert</span><span class="p">.</span><span class="n">getClass</span><span class="p">());</span>
+<span class="n">Marshaller</span> <span class="n">m</span> <span class="o">=</span> <span class="n">jc</span><span class="p">.</span><span class="n">createMarshaller</span><span class="p">();</span>
+<span class="n">m</span><span class="p">.</span><span class="n">marshal</span><span class="p">(</span><span class="n">objectInstanceToConvert</span><span class="p">,</span> <span class="n">xmlOutputStream</span><span class="p">);</span>
+
+<span class="c1">// becomes</span>
+<span class="n">JAXB</span><span class="p">.</span><span class="n">marshall</span><span class="p">(</span><span class="n">objectInstanceToConvert</span><span class="p">,</span> <span class="n">xmlOutputStream</span><span class="p">)</span>
+</pre></div>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
