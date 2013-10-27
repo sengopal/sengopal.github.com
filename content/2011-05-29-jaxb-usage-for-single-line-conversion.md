@@ -1,9 +1,9 @@
 Title: JAXB Usage for single line conversion
 Date: 2011-05-29 10:20
-Tags: jaxb
+Tags: jaxb, java
 Slug: jaxb-usage-for-single-line-conversion
 Summary: A single line conversion utility for XML conversion
-Category: java
+Category: Java
 Author: Senthil Gopal
 
 I came across a great article which introduces a utility Class [JAXB](http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXB.htm) which converts XML to Object and vice versa in a single line.
