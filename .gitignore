@@ -2,3 +2,6 @@ _site/*
 !.gitkeep
 .project
 *.draft
+*.pid
+*.DS_Store
+*.pyc

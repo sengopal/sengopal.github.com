@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Java Mail Made Easy using Velocity Templates</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph tags -->
+
+            <meta property="og:type" content="article"/>
+            <meta property="og:title" content="Java Mail Made Easy using Velocity Templates"/>
+            <meta property="og:url" content="/java-mail-using-velocity-templates.html"/>
+            <meta property="og:description" content="Using velocity templates for simpler generation of Java mail templates and data"/>
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/theme/css/pygments.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="" class="navbar-brand">Senthil Gopal</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/android.html">Android</a>
+                        </li>
+                        <li >
+                            <a href="/category/design.html">Design</a>
+                        </li>
+                        <li >
+                            <a href="/category/java.html">Java</a>
+                        </li>
+                        <li >
+                            <a href="/category/lists.html">Lists</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/papers.html">Papers</a>
+                        </li>
+                        <li >
+                            <a href="/category/projects.html">Projects</a>
+                        </li>
+                        <li >
+                            <a href="/category/ramblings.html">Ramblings</a>
+                        </li>
+                        <li >
+                            <a href="/category/utilities.html">Utilities</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/archives.html"><i class="icon-th-list"></i>Archives</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!-- /.navbar -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/java-mail-using-velocity-templates.html"
+                       rel="bookmark"
+                       title="Permalink to Java Mail Made Easy using Velocity Templates">
+                        Java Mail Made Easy using Velocity Templates
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="icon-calendar"></i>01 Oct 2010
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/javamail.html">javamail</a>
+        /
+	<a href="/tag/java.html">java</a>
+        /
+	<a href="/tag/velocity.html">velocity</a>
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h3>Introduction to Velocity</h3>
+<p>Velocity is an open source templating tool developed by an international volunteer community and hosted by the Apache Software Foundation's Jakarta Project. You can download the freely available source code at the <a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources">Jakarta Velocity</a> Project Website.</p>
+<h3>Simple Velocity Template Example</h3>
+<p>Any application using Velocity requires two parts. The first is the template</p>
+<p><strong>Helloworld.vm</strong></p>
+<div class="highlight"><pre>Hello <span class="nv">$name</span>!  Welcome to Velocity!
+</pre></div>
+
+
+<p><strong>HelloWorld.java:</strong></p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.io.StringWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.velocity.Template</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.velocity.VelocityContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.velocity.app.Velocity</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span> <span class="n">String</span><span class="o">[]</span> <span class="n">args</span> <span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="cm">/*  Get the Template  */</span>
+        <span class="n">Template</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Velocity</span><span class="o">.</span><span class="na">getTemplate</span><span class="o">(</span><span class="s">&quot;Helloworld.vm&quot;</span> <span class="o">);</span>
+        <span class="cm">/*  create a context and add data */</span>
+        <span class="n">VelocityContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VelocityContext</span><span class="o">();</span>
+        <span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">,</span> <span class="s">&quot;World&quot;</span><span class="o">);</span>
+        <span class="cm">/* now render the template into a StringWriter */</span>
+        <span class="n">StringWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+        <span class="n">t</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span> <span class="n">context</span><span class="o">,</span> <span class="n">writer</span> <span class="o">);</span>
+        <span class="cm">/* show the World */</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span> <span class="n">writer</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span> <span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+<p><strong>Output</strong></p>
+<div class="highlight"><pre><span class="n">Hello</span> <span class="n">World</span><span class="o">!</span>  <span class="n">Welcome</span> <span class="n">to</span> <span class="n">Velocity</span><span class="o">!</span>
+</pre></div>
+
+
+<h3>Introduction to JAVA MAIL API</h3>
+<p>The Java Mail API provides the capability to develop email clients and mail-enabled Java applications. It supports the creation of sophisticated user interfaces for mail clients. It includes appropriate convenience classes, which encapsulate common mail functions and protocols. It fits with other packages for the Java platform in order to facilitate its use with other Java APIs. It provides a mail and messaging framework addition to the Java platform.</p>
+<p>Although the Java Mail API contains many more classes than those discussed here, concentrating on some of the core classes to start with makes it easy to understand the essence of the API. The following is a brief description of the core classes:</p>
+<h4>javax.mail.Session</h4>
+<p>The javax.mail.Session class is the top-level entry class for the Java Mail API, and its most commonly used methods provide the ability to control and load the classes that represent the service provider implementations (SPI) for various mail protocols (Note: A service provider is a developer and/or vendor that provides an implementation for an API; examples of Java Mail API implementations include POP3, SMTP, and IMAP4 -- some are available from Sun, others via third parties.)</p>
+<h4>javax.mail.Transport</h4>
+<p>The javax.mail.Transport class is another provider-implemented class and is used for sending a message over a specific protocol.</p>
+<h4>javax.mail.Message</h4>
+<p>The javax.mail.Message class is implemented by a provider and models all the details of an actual e-mail message, such as the subject line, sender/recipient e-mail address, sent date, and so on. The guidelines for providers who implement the javax.mail.Message dictate that the actual fetching of e-mail message components should be delayed as long as possible in order to make this class as lightweight as possible.</p>
+<h4>Simple JAVA Mail Example</h4>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">java.beans.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.mail.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.mail.internet.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+ <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MailBean</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="nf">MailBean</span><span class="o">(</span><span class="n">String</span> <span class="n">from</span><span class="o">,</span> <span class="n">String</span> <span class="n">userName</span><span class="o">,</span> <span class="n">String</span> <span class="n">subject</span><span class="o">,</span> <span class="n">String</span> <span class="n">content</span><span class="o">){</span>
+         <span class="k">try</span><span class="o">{</span>
+            <span class="n">mail</span><span class="o">(</span><span class="n">from</span><span class="o">,</span> <span class="n">userName</span><span class="o">,</span> <span class="n">subject</span><span class="o">,</span> <span class="n">content</span><span class="o">);</span>
+         <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">MessagingException</span> <span class="n">e</span><span class="o">)</span>  <span class="o">{}</span>
+       <span class="o">}</span>
+       <span class="kd">public</span> <span class="n">String</span> <span class="nf">getBenaInfo</span><span class="o">(){</span>
+            <span class="k">return</span> <span class="s">&quot;A Bean that sends mail&quot;</span><span class="o">;</span>
+      <span class="o">}</span>
+     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">mail</span><span class="o">(</span><span class="n">String</span> <span class="n">from</span><span class="o">,</span> <span class="n">String</span> <span class="n">userName</span><span class="o">,</span> <span class="n">String</span> <span class="n">subject</span><span class="o">,</span> <span class="n">String</span> <span class="n">content</span><span class="o">)</span><span class="kd">throws</span> <span class="n">MessagingException</span><span class="o">{</span>
+        <span class="n">String</span> <span class="n">smtpHost</span> <span class="o">=</span> <span class="s">&quot;00.00.00.00&quot;</span><span class="o">;</span>
+        <span class="c1">//start a session</span>
+        <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Properties</span> <span class="n">properties</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperties</span><span class="o">();</span>
+        <span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;mail.smtp.host&quot;</span><span class="o">,</span><span class="n">smtpHost</span><span class="o">);</span>
+        <span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">properties</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+
+        <span class="c1">//Construct a message object</span>
+        <span class="n">MimeMessage</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MimeMessage</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+        <span class="n">message</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">new</span> <span class="n">InternetAddress</span><span class="o">(</span><span class="n">from</span><span class="o">));</span>
+        <span class="n">message</span><span class="o">.</span><span class="na">addRecipient</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">TO</span><span class="o">,</span><span class="k">new</span> <span class="n">InternetAddress</span><span class="o">(</span><span class="n">userName</span><span class="o">));</span>
+        <span class="n">message</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">);</span>
+        <span class="n">message</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">content</span><span class="o">);</span>
+        <span class="n">message</span><span class="o">.</span><span class="na">setSentDate</span><span class="o">(</span><span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Date</span><span class="o">());</span>
+
+        <span class="c1">//connect to transport</span>
+        <span class="n">Transport</span> <span class="n">transport</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">getTransport</span><span class="o">(</span><span class="s">&quot;smtp&quot;</span><span class="o">);</span>
+        <span class="n">transport</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">smtpHost</span><span class="o">,</span><span class="s">&quot;&quot;</span><span class="o">,</span> <span class="s">&quot;&quot;</span><span class="o">);</span>
+
+        <span class="c1">//send the message and close the connection</span>
+        <span class="n">transport</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">message</span><span class="o">,</span><span class="n">message</span><span class="o">.</span><span class="na">getAllRecipients</span><span class="o">());</span>
+        <span class="n">transport</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+     <span class="o">}</span>
+ <span class="o">}</span>
+</pre></div>
+
+
+<p>As there are a lot of tutorials available for Velocity and Java Mail, this tutorial deals only with the integration of Velocity for easier and more customized mailing abilities.</p>
+<h3>Project Usage</h3>
+<p>Our Project required nearly fifty different mail formats to be sent on various stages of the application. The difficult part being that the templates contained loads of dynamic data. Also these templates were being updated on a regular basis making it more difficult for developing the application.</p>
+<p>We used Velocity Templates for storing the design and the layout of the mail which needs to be sent and used them for integrating the dynamic attributes into the layout and hence providing a seamless abstraction between the presentation and the business layer.</p>
+<h2>Step-by-Step Explanation of the Code</h2>
+<h3>SendMessage.java</h3>
+<p><strong>Velocity Template Merging</strong></p>
+<ul>
+<li>
+<p>The best practice for storing the non-variables such as the SMTP connect parameters, the template names etc., either in a properties file or in a constants interface. In this example, a properties file, “mail. properties” has been used. Using the ClassLoader the properties file is loaded</p>
+<div class="highlight"><pre><span class="n">Properties</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+<span class="n">props</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">SendMessage</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getClassLoader</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&quot;mail.properties&quot;</span><span class="o">));</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate</p>
+<div class="highlight"><pre><span class="n">Template</span> <span class="n">template</span> <span class="o">=</span> <span class="n">Velocity</span><span class="o">.</span><span class="na">getTemplate</span><span class="o">(</span><span class="s">&quot;Mail.vm&quot;</span><span class="o">);</span>
+<span class="n">VelocityContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VelocityContext</span><span class="o">();</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Then the user defined MailBean is placed in the velocity Context under the name “MailBean”</p>
+<div class="highlight"><pre><span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;MailBean&quot;</span> <span class="o">,</span> <span class="n">mailBean</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Along with beans, we can place name value pairs directly in the velocity context</p>
+<div class="highlight"><pre><span class="n">String</span> <span class="n">host</span> <span class="o">=</span>  <span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;hostname&quot;</span><span class="o">);</span>
+<span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;host&quot;</span><span class="o">,</span> <span class="n">host</span><span class="o">);</span>
+<span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;imgName&quot;</span><span class="o">,</span> <span class="s">&quot;smile.gif&quot;</span><span class="o">);</span>
+<span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;context&quot;</span><span class="o">,</span> <span class="s">&quot;myApp&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>When the context is merged with the template and the results in placed in a StringWriter Object</p>
+<div class="highlight"><pre><span class="n">StringWriter</span> <span class="n">message</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+<span class="n">template</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">message</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p><strong>JAVA Mail - E-Mail Creation</strong></p>
+<ul>
+<li>
+<p>The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host</p>
+<div class="highlight"><pre><span class="n">Properties</span> <span class="n">sysProperties</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperties</span><span class="o">();</span>
+<span class="n">sysProperties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&quot;mail.smtp.host&quot;</span><span class="o">,</span> <span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;smtpHost&quot;</span><span class="o">));</span>
+<span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="o">.</span><span class="na">getInstance</span><span class="o">(</span><span class="n">sysProperties</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Since the e-mail needs to contain text and an image file, create a MimeMultipart with the subtype declared as “related’ so that the image being put doesnt get lost if the images are blocked by the recipient</p>
+<div class="highlight"><pre><span class="n">MimeMultipart</span> <span class="n">multipart</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MimeMultipart</span><span class="o">(</span><span class="s">&quot;related&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p><strong>For adding the image to the e-mail</strong></p>
+<ul>
+<li>
+<p>Create a body part for storing the image and embedding into the e-mail</p>
+<div class="highlight"><pre><span class="n">BodyPart</span> <span class="n">imageBodyPart</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MimeBodyPart</span><span class="o">();</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Use the FileDataSource to read the image from the Web deployment folder.
+Note: <em>Using File.seperator takes care of the Windows/Unix environment issue</em></p>
+<div class="highlight"><pre><span class="n">StringBuffer</span> <span class="n">imgPath</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">().</span><span class="na">append</span><span class="o">(</span><span class="n">File</span><span class="o">.</span><span class="na">separator</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;applications&quot;</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">File</span><span class="o">.</span><span class="na">separator</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;mailheader.GIF&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Then using the DataHandler object place the image into the BodyPart created</p>
+<div class="highlight"><pre><span class="n">DataSource</span> <span class="n">fds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileDataSource</span><span class="o">(</span><span class="n">imgPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+<span class="n">imageBodyPart</span><span class="o">.</span><span class="na">setDataHandler</span><span class="o">(</span><span class="k">new</span> <span class="n">DataHandler</span><span class="o">(</span><span class="n">fds</span><span class="o">));</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding</p>
+<div class="highlight"><pre><span class="n">imageBodyPart</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&quot;Content-ID&quot;</span><span class="o">,</span><span class="s">&quot;&lt;123&gt;&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Add the Image Body Part into the MimeMultiPart object</p>
+<div class="highlight"><pre><span class="n">multipart</span><span class="o">.</span><span class="na">addBodyPart</span><span class="o">(</span><span class="n">imageBodyPart</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p><strong>Adding the Message body content to the e-mail</strong></p>
+<ul>
+<li>
+<p>Create a body part for storing the message content in the e-mail</p>
+<div class="highlight"><pre><span class="n">BodyPart</span> <span class="n">messageBodyPart</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MimeBodyPart</span><span class="o">();</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Combine the StringWriter Object and the image src code using a StringBuffer</p>
+<div class="highlight"><pre><span class="n">StringBuffer</span> <span class="n">messageBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+<span class="n">messageBuffer</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">message</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+<span class="n">messageBuffer</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&quot;&lt;img src=&quot;</span><span class="nl">cid:</span><span class="mi">123</span><span class="err">\</span><span class="s">&quot;&gt;&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Set the Message content type as <em>text/html</em>, since our template VM is designed using HTML and add the message body part to the main MultiMime part</p>
+<div class="highlight"><pre><span class="n">messageBodyPart</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">messageBuffer</span><span class="o">.</span><span class="na">toString</span><span class="o">(),</span> <span class="s">&quot;text/html&quot;</span><span class="o">);</span>
+<span class="n">multipart</span><span class="o">.</span><span class="na">addBodyPart</span><span class="o">(</span><span class="n">messageBodyPart</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+</ul>
+<p><strong>Sending the E-Mail</strong></p>
+<ul>
+<li>
+<p>Create a MimeMessage using the javax.mail.Session Object</p>
+<div class="highlight"><pre><span class="n">Message</span> <span class="n">msg</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MimeMessage</span><span class="o">(</span><span class="n">session</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Set the content as the multimime part object created</p>
+<div class="highlight"><pre><span class="n">msg</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">multipart</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>The Recipients are added to the e-mail for the recipient types TO, CC and BCC</p>
+<div class="highlight"><pre><span class="n">msg</span><span class="o">.</span><span class="na">addRecipients</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">TO</span><span class="o">,</span> <span class="n">InternetAddress</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&quot;someone@example.com&quot;</span><span class="o">));</span>
+<span class="n">msg</span><span class="o">.</span><span class="na">addRecipients</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">CC</span><span class="o">,</span><span class="n">InternetAddress</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="s">&quot;everyone@example.com&quot;</span><span class="o">));</span>
+<span class="k">if</span><span class="o">((</span><span class="kc">null</span><span class="o">!=</span><span class="n">recipientsList</span><span class="o">)&amp;&amp;(!</span><span class="n">recipientsList</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())){</span>
+    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">recipientsList</span><span class="o">.</span><span class="na">size</span><span class="o">();</span><span class="n">i</span><span class="o">++){</span>
+        <span class="n">msg</span><span class="o">.</span><span class="na">addRecipients</span><span class="o">(</span><span class="n">Message</span><span class="o">.</span><span class="na">RecipientType</span><span class="o">.</span><span class="na">BCC</span><span class="o">,</span><span class="n">InternetAddress</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">recipientsList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>The Subject Text, Sent Date and the From Address are set as below.</p>
+<div class="highlight"><pre><span class="n">msg</span><span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">subject</span><span class="o">);</span>
+<span class="n">msg</span><span class="o">.</span><span class="na">setSentDate</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+<span class="n">msg</span><span class="o">.</span><span class="na">setFrom</span><span class="o">(</span><span class="k">new</span> <span class="n">InternetAddress</span><span class="o">(</span><span class="s">&quot;dummy@example.com&quot;</span><span class="o">));</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>The Transport Object is used for creating the connection to the SMTP host and sending the e-mail. The transporter object below is obtained using the getTransport method and by giving the parameter as <em>smtp</em> as the protocol for the Transport Object</p>
+<div class="highlight"><pre><span class="n">Transport</span> <span class="n">transport</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="na">getTransport</span><span class="o">(</span><span class="s">&quot;smtp&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Then the Transport is connected using the HOST, UserName and Password parameters from the properties file</p>
+<div class="highlight"><pre><span class="n">transport</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;connectHost&quot;</span><span class="o">);</span>
+<span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;connectUser&quot;</span><span class="o">);</span>
+<span class="n">props</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&quot;connectPassword&quot;</span><span class="o">);</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Then the e-mail is sent using the sendMessage to all the recipients</p>
+<div class="highlight"><pre><span class="n">transport</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">,</span><span class="n">msg</span><span class="o">.</span><span class="na">getAllRecipients</span><span class="o">());</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>The transport is closed to mark the end of the connection</p>
+<div class="highlight"><pre><span class="n">transport</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</pre></div>
+
+
+</li>
+</ul>
+<h4>Mail.vm</h4>
+<p><strong>Image Path Macro</strong></p>
+<p>This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,</p>
+<div class="highlight"><pre>https://<span class="nv">$host</span>/<span class="nv">$context</span>/images/<span class="nv">$imgName</span>
+</pre></div>
+
+
+<p>where $host, $context are context variables placed by the JAVA code</p>
+<p>The macro looks like this</p>
+<div class="highlight"><pre><span class="c">#macro( IMGURL $imgName )</span>
+    https://<span class="nv">$host</span>/<span class="nv">$context</span>/images/<span class="nv">$imgName</span>
+<span class="c">#end</span>
+</pre></div>
+
+
+<p>Example:</p>
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;#IMGURL(&#39;mailheader.GIF&#39;)&quot;</span> <span class="na">border=</span><span class="s">&quot;0&quot;</span> <span class="na">width=</span><span class="s">&quot;980&quot;</span> <span class="na">height=</span><span class="s">&quot;61&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+
+
+<p>This will get generated as:</p>
+<div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://localhost/myapp/images/mailheader.GIF&quot;</span> <span class="na">border=</span><span class="s">&quot;0&quot;</span> <span class="na">width=</span><span class="s">&quot;980&quot;</span> <span class="na">height=</span><span class="s">&quot;61&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+
+
+<p><strong>Accessing the Bean Object</strong></p>
+<p>The variables in the MailBean object placed in the context can be accessed using, <code>$MailBean.\[variable-name\]</code>
+Example: <code>Mail Content : $MailBean.content</code></p>
+<h4>mail.properties</h4>
+<p>This file contains the connection and the other context parameter properties used by the java code</p>
+<h3>Advantages</h3>
+<p>Designed as an easy-to-use general templating tool, Velocity is useful in any Java application area that requires data formatting and presentation. Their salient advantages being:
+<em> It adapts to many application areas.
+</em> It offers a simple, clear syntax for the template designer.
+<em> It offers a simple programming model for the developer.
+</em> Because templates and code are separate, you can develop and maintain them independently.
+<em> The Velocity engine easily integrates into any Java application environment, especially Servlets.
+</em> Velocity enables templates to access any public method of data objects in the context.</p>
+<p>References</p>
+<ul>
+<li><a href="http://velocity.apache.org/">http://velocity.apache.org/</a></li>
+<li><a href="http://www.roseindia.net/software-tutorials/detail/3131">http://www.roseindia.net/software-tutorials/detail/3131</a></li>
+<li><a href="http://java.sun.com/developer/">http://java.sun.com/developer/</a></li>
+<li><a href="http://kickjava.com/2876.htm">http://kickjava.com/2876.htm</a></li>
+<li><a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html">http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html</a></li>
+<li><a href="http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html">http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html</a></li>
+<li><a href="http://www.javasoft.com/products/javamail">http://www.javasoft.com/products/javamail</a></li>
+</ul>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-lg-3 well well-sm" id="sidebar">
+<aside>
+    <section>
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h4><i class="icon-home icon-large"></i>Social</h4></li>
+                    <li class="list-group-item"><a href="https://twitter.com/sengopal"><i
+                            class="icon-twitter-sign icon-large"></i>twitter
+                    </a></li>
+                    <li class="list-group-item"><a href="http://github.com/sengopal/"><i
+                            class="icon-github-sign icon-large"></i>github
+                    </a></li>
+
+
+
+        </ul>
+    </section>
+
+
+    <section>
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item"><h4><i class="icon-github icon-large"></i>GitHub Repos</h4></li>
+        <div id="gh_repos">
+            <p class="list-group-item">Status updating...</p>
+        </div>
+    </ul>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                if (!window.jXHR) {
+                    var jxhr = document.createElement('script');
+                    jxhr.type = 'text/javascript';
+                    jxhr.src = '/theme/js/jXHR.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(jxhr, s);
+                }
+
+                github.showRepos({
+                    user: 'sengopal',
+                    count: 5,
+                    skip_forks: true,
+                    target: '#gh_repos'
+                });
+            });
+        </script>
+        <script src="/theme/js/github.js" type="text/javascript"></script>
+    </section>
+</aside>        </div>
+    </div>
+</div>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+</body>
+</html>
