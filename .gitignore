@@ -2,3 +2,4 @@ _site/*
 !.gitkeep
 .project
 *.draft
+*.pid
