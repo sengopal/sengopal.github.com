@@ -117,6 +117,10 @@ footer {
     .archive li{
         padding-bottom: 20px;
     }
+
+    .navbar-nav{
+        display: none;
+    }
 }
 
 .img-links{
