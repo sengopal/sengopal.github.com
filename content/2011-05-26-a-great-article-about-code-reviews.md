@@ -1,10 +1,9 @@
-Title: Notes about code review
+Title: A great article about Code reviews
 Date: 2010-12-13 15:00
 Tags: nontech
-Slug: notes-about-code-reviews.md
+Slug: notes-about-code-reviews
 Summary: Notes about code review and how important that is from few other articles
 Category: Misc
-Author: Senthil Gopal
 
 
 Originally posted [here](http://www.developer.com/tech/article.php/3579756/Effective-Code-Reviews-Without-the-Pain.htm). It really draws out the perspective of developers considering themselves as the owner of the code and how they become defensive about it. Code reviews in most organizations are a painful experience for everyone involved. The developer often feels like it's a bashing session designed to beat out their will. The development leads are often confused as to what is important to point out and what isn't. And other developers that may be involved often use this as a chance to show how much better they can be by pointing out possible issues in the reviewed code. Code reviews, however, don't have to be painful
