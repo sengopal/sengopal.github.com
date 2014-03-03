@@ -3,7 +3,7 @@ Date: 2012-07-23 15:00
 Tags: conference, nontech, android
 Slug: google-gday-chennai-notes
 Summary: Notes about the happenings in Google GDay that happened in chennai
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 Google conducted its first ever gday in India and the first event was held in Chennai Trade Center, Nandambakkam, Chennai. It was a very good crowd of around 1300 technology aspirants ranging from students, freshers, professionals and business folks as well. The keynote was delivered with an enthusiasm of a company who has just released one of the most advanced and sophisticated operating system for mobile - Jelly Bean.

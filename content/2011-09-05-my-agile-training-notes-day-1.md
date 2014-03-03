@@ -3,7 +3,7 @@ Date: 2011-09-05 15:00
 Tags: agile, nontech
 Slug: my-agile-training-notes-day-1
 Summary: Tips and notes from my agile training part 1
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 Recently I took part in a two day Agile training workshop and the following are some of my notes during that session. It is both lecture based and workshop oriented where we would try to solve a given problem with our Agile learning applied to it.

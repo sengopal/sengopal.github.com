@@ -3,7 +3,7 @@ Date: 2009-03-31 11:00
 Tags: quartz, java
 Slug: job-chaining-using-quartz
 Summary: Using Quartz to chain jobs rather than scheduling for indeterminate running time
-Category: Papers
+Category: Java
 Author: Senthil Gopal
 
 

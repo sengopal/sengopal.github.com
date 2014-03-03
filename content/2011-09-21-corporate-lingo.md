@@ -3,7 +3,7 @@ Date: 2011-09-21 15:00
 Tags: humor, nontech
 Slug: corporate-lingo-humor
 Summary: Few Corporate lingo which has a humoristic meaning attached
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 A humoristic mail about corporate lingo from one of my esteemed colleagues about the lingo used in corporate. Worth a laugh !

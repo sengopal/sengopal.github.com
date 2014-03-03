@@ -3,7 +3,7 @@ Date: 2011-04-24 09:00
 Tags: java, conference
 Slug: chennai-jug-summitapril-16-and-17
 Summary: A small write up on the Chennai JUG summit that happened on April 16 and 17th
-Category: Java
+Category: Misc
 Author: Senthil Gopal
 
 

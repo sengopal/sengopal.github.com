@@ -3,7 +3,7 @@ Date: 2010-10-01 11:00
 Tags: javamail, java, velocity
 Slug: java-mail-using-velocity-templates
 Summary: Using velocity templates for simpler generation of Java mail templates and data
-Category: Papers
+Category: Java
 Author: Senthil Gopal
 
 

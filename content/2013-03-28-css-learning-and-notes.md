@@ -1,9 +1,9 @@
 Title: CSS learning and notes
-Date: 2012-11-28 15:00
+Date: 2013-03-28 15:00
 Tags: design, notes
 Slug: css-learning-and-notes
 Summary: A dump of the learnings for CSS and notes
-Category: Design
+Category: JS & CSS
 Author: Senthil Gopal
 
 The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.
@@ -56,10 +56,14 @@ The following are some of the important points that i had gathered during my lea
 
 4. New way of setting the media value
 
-        `<meta name="viewport" content="initial-scale=1,width=device-width">`
+        <meta name="viewport" content="initial-scale=1,width=device-width">
 
 5. Media query representation
-    `@media screen and (max-width: 980px){}`
+
+        @media screen and (max-width: 980px){
+            ....
+        }
+
 6. Always create the smallest resolution first
 7. Try to use different images with different srcs to cater to different sizes
 

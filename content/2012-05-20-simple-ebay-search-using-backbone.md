@@ -3,7 +3,7 @@ Date: 2012-05-20 15:00
 Tags: js, backbone
 Slug: simple-ebay-search-using-backbone
 Summary: A simple attempt to setup an eBay Search using Backbone
-Category: Projects
+Category: JS & CSS
 Author: Senthil Gopal
 
 After going through some of the tutorials available, backbone seems to be a good bet for a client intensive application. So as a weekend project trying to build a working application using the eBay FindingAPI.

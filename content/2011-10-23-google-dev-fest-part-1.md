@@ -3,7 +3,7 @@ Date: 2011-10-23 15:00
 Tags: conference, nontech
 Slug: google-dev-fest-part-1
 Summary: Notes about the happenings in Google developer fest 2011 Part 1
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 ###Keynote

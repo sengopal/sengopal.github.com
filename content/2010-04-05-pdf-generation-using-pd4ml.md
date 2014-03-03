@@ -3,7 +3,7 @@ Date: 2010-04-05 11:00
 Tags: pd4ml, java
 Slug: pdf-generation-using-pd4ml
 Summary: Using PD4ML for authoring PDFs in Java
-Category: Papers
+Category: Java
 Author: Senthil Gopal
 
 ###Project Usage

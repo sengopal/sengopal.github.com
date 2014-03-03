@@ -1,9 +1,9 @@
 Title: Big List of Web apps
 Date: 2012-08-16 15:00
-Tags: nontech, lists
+Tags: list, webapps
 Slug: big-list-of-web-apps
 Summary: An inprogress list of web applications that are recorded for future use
-Category: Lists
+Category: Utilities
 Author: Senthil Gopal
 
 

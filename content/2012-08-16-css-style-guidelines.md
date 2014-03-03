@@ -3,7 +3,7 @@ Date: 2012-08-16 15:00
 Tags: css, design
 Slug: css-style-guidelines
 Summary: Collection of CSS style guidelines for creation and maintainence of CSS
-Category: Design
+Category: JS & CSS
 Author: Senthil Gopal
 
 Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are given below

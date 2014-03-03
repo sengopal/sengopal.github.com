@@ -3,7 +3,7 @@ Date: 2011-12-02 15:00
 Tags: aws, nontech, conference
 Slug: aws-cloud-tour
 Summary: Notes and presentations from the AWS Cloud Tour Chennai in 2011
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 ##Keynote

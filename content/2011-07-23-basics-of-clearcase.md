@@ -3,7 +3,7 @@ Date: 2011-07-23 15:00
 Tags: nontech, clearcase
 Slug: basics-of-clearcase
 Summary: Simple writeup on Clearcase source control system
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 

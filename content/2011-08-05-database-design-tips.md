@@ -3,7 +3,7 @@ Date: 2011-08-05 15:00
 Tags: nontech, database
 Slug: database-design-tips
 Summary: Tips for database design and schema creation
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 During the course of re-designing a database, i was struck with the lack of good tips and basics of good database design. On googling, came across this wonderful [article](http://codebalance.blogspot.com/2011/07/20-database-design-best-practices.html) which describes not only tips about creation and design, but also about deployment, maintainence and how to ensure that the usability is optimal.

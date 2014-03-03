@@ -3,7 +3,7 @@ Date: 2011-09-22 15:00
 Tags: agile, nontech
 Slug: my-agile-training-notes-day-2
 Summary: Tips and notes from my agile training part 2
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 ###Common Agile Practices

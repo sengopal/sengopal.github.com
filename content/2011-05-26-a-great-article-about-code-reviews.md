@@ -3,7 +3,7 @@ Date: 2010-12-13 15:00
 Tags: nontech
 Slug: notes-about-code-reviews.md
 Summary: Notes about code review and how important that is from few other articles
-Category: Ramblings
+Category: Misc
 Author: Senthil Gopal
 
 
