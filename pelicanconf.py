@@ -15,7 +15,7 @@ DATE_FORMATS = {
 }
 
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
+FEED_ALL_ATOM = 'atom.xml'
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
@@ -39,11 +39,11 @@ SOCIAL = (
 
 DEFAULT_PAGINATION = 10
 
-STATIC_PATHS = ['images']
+STATIC_PATHS = ['static']
 
 # Uncomment following line if you want document-relative URLs when developing
 RELATIVE_URLS = True
 
 #Theme
-THEME = "/Users/sengopal/git/pelican-bootstrap3"
+THEME = 'theme'
 BOOTSTRAP_THEME = 'flatly'
