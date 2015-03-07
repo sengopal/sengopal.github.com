@@ -466,6 +466,10 @@ footer{
   margin: 0 20px;
 }
 
+.archive p{
+  font-family: 'Lucida Console', 'Andale Mono', monospace;
+}
+
 @media (min-width: 30em) {
   .pagination {
     margin: 1rem 0;
