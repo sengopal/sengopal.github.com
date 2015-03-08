@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Database Design Tips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Database Design Tips</h1>
+				</div>
+
+				<p><em>05 August 2011</em></p>
+
+				<p><p>During the course of re-designing a database, i was struck with the lack of good tips and basics of good database design. On googling, came across this wonderful <a href="http://codebalance.blogspot.com/2011/07/20-database-design-best-practices.html">article</a> which describes not only tips about creation and design, but also about deployment, maintainence and how to ensure that the usability is optimal.</p>
+<ol>
+  <li>Use well defined and consistent names for tables and columns (e.g. School, StudentCourse, CourseID).</li>
+  <li>Use singular for table names (i.e. use StudentCourse instead of StudentCourses). Table represents a collection of entities, there is no need for plural names.</li>
+  <li>Don’t use spaces for table names. Otherwise you will have to use ‘{‘, ‘[‘, ‘“’ etc. characters to define tables (i.e. for accessing table Student Course you'll write “Student Course”. StudentCourse is much better).</li>
+  <li>Don’t use unnecessary prefixes or suffixes for table names (i.e. use School instead of TblSchool, SchoolTable etc.).</li>
+  <li>Keep passwords as encrypted for security. Decrypt them in application when required.</li>
+  <li>Use integer id fields for all tables. If id is not required for the time being, it may be required in the future (for association tables, indexing ...).</li>
+  <li>Choose columns with the integer data type (or its variants) for indexing. varchar column indexing will cause performance problems.</li>
+  <li>Use bit fields for boolean values. Using integer or varchar is unnecessarily storage consuming. Also start those column names with “Is”.</li>
+  <li>Provide authentication for database access. Don’t give admin role to each user.</li>
+  <li>Avoid “select *” queries until it is really needed. Use &quot;select [required_columns_list]&quot; for better performance.
+</li>
+  <li>Use an ORM (object relational mapping) framework (i.e. hibernate, iBatis ...) if application code is big enough. Performance issues of ORM frameworks can be handled by detailed configuration parameters.</li>
+  <li>Partition big and unused/rarely used tables/table parts to different physical storages for better query performance.</li>
+  <li>For big, sensitive and mission critic database systems, use disaster recovery and security services like failover clustering, auto backups, replication etc.</li>
+  <li>Use constraints (foreign key, check, not null ...) for data integrity. Don’t give whole control to application code.</li>
+  <li>Lack of database documentation is evil. Document your database design with ER schemas and instructions. Also write comment lines for your triggers, stored procedures and other scripts.</li>
+  <li>Use indexes for frequently used queries on big tables. Analyser tools can be used to determine where indexes will be defined. For queries retrieving a range of rows, clustered indexes are usually better. For point queries, non-clustered indexes are usually better.</li>
+  <li>Database server and the web server must be placed in different machines. This will provide more security (attackers can’t access data directly) and server CPU and memory performance will be better because of reduced request number and process usage.</li>
+  <li>Image and blob data columns must not be defined in frequently queried tables because of performance issues. These data must be placed in separate tables and their pointer can be used in queried tables.</li>
+  <li>Normalization must be used as required, to optimize the performance. Under-normalization will cause excessive repetition of data, over-normalization will cause excessive joins across too many tables. Both of them will get worse performance.</li>
+  <li>Spend time for database modeling and design as much as required. Otherwise saved(!) design time will cause (saved(!) design time) * 10/100/1000 maintenance and re-design time.</li>
+</ol></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

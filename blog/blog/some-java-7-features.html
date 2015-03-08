@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Some Java 7 features</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Some Java 7 features</h1>
+				</div>
+
+				<p><em>11 July 2011</em></p>
+
+				<p><h3>Switch Case for Strings</h3>
+<pre><code>:::java
+switch(someString) {
+    case &quot;Bubba&quot;:
+        return bubbaStringResult;
+    case &quot;Sue&quot;:
+        return sueStringResult;
+    default:
+        return new BrokenSwitchException(&quot;Odd String!&quot;);
+}
+</code></pre><h3>Simple IO Handling – Just a try and catch</h3>
+<pre><code>:::java
+try (FileOutputStream fos = new FileOutputStream(file)) {
+    // perform some op using the stated resources
+} catch (AnyExceptionThrownByThatOp aetbto) {
+    // handle the exception byfm
+} // Nothing to do. The FileOutputStream will be autoclosed.
+</code></pre><h3>Multiple Exceptions in a single catch</h3>
+<pre><code>:::java
+try {
+    // perform some op that can throw various exceptions,
+    // where some subset of them should be handles &quot;thisway&quot;
+} catch (FirstSimilarException | SecondSimilarException e) {
+    // deal with it thisway(e), whatever it is
+} catch (Exception ex) {
+    // deal with it thatway(ex)
+}
+</code></pre><h3>Underscore in digits to facilitate easier readability</h3>
+<pre><code>:::java
+long creditCard = 5440_4440_3330_0005L;
+long phoneNumber = 213_555_1212L;
+</code></pre><h3>Binary Literals are also supported</h3>
+<pre><code>:::java
+int x = 0b1010110;
+</code></pre></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

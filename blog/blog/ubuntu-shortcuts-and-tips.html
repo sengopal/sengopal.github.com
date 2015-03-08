@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>50 Ubuntu shortcuts and tips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>50 Ubuntu shortcuts and tips</h1>
+				</div>
+
+				<p><em>11 April 2012</em></p>
+
+				<p><p>These are various tips, tricks, changes to make ubuntu better. Obviously these are plagarized from various forums and posts <em>and i will be happy to provide attribution if you contact me.</em></p><h3>Customizing the Grub 2</h3>
+<ol>
+  <li><a href="http://maketecheasier.com/mastering-grub-2-the-easy-way/2009/11/19">http://maketecheasier.com/mastering-grub-2-the-easy-way/2009/11/19</a></li>
+  <li><a href="http://maketecheasier.com/create-and-install-your-own-grub-splash-image/2009/01/27">http://maketecheasier.com/create-and-install-your-own-grub-splash-image/2009/01/27</a></li>
+</ol><h3>Installing Ruby on Rails</h3>
+<ol>
+  <li>sudo apt-get install ruby irb ri rdoc ruby1.8</li>
+  <li>sudo apt-get install rubygems</li>
+  <li>sudo gem update --systemNow</li>
+  <li>sudo gem install rails --include-dependencies</li>
+  <li>rails name_of_app - To create new project type</li>
+</ol><h3>Uninstalling ROR</h3>
+<ol>
+  <li>sudo gem uninstall rails</li>
+  <li>sudo apt-get remove rubygems ruby irb ri rdoc ruby1.8</li>
+</ol><h3>To Install RPM file</h3>
+<ol>
+  <li>sudo apt-get install alien</li>
+  <li>sudo alien -k filename.rpm - creates the deb file</li>
+</ol><h3>To install BIN files</h3>
+<ol>
+  <li>sudo chmod +x filename.bin</li>
+  <li>./filename.bin</li>
+</ol><h3>Installing a Tar.Gz Archive</h3>
+<ol>
+  <li>extract</li>
+  <li>cd into the folder</li>
+  <li>program-installer. -&gt; type in the Terminal: sh program-installer</li>
+</ol><h3>Setting Up Lamp server</h3>
+<ol>
+  <li>sudo apt-get install lamp-server^</li>
+  <li>sudo apt-get install phpmyadmin</li>
+</ol><h3>Configuring Virtual Hosts</h3>
+<ol>
+  <li>sudo a2enmod rewrite</li>
+  <li>sudo /etc/init.d/apache2 restart</li>
+  <li>Create /home/sengopal/www</li>
+  <li>cd /etc/apache2/sites-available</li>
+  <li>sudo cp default local.dev</li>
+  <li><p>sudo gedit local.dev</p>
+  <pre><code>:::xml
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+    serverName your server name here
+    DocumentRoot /home/sengopal/www
+    &lt;Directory /&gt;
+        Options FollowSymLinks
+        AllowOverride All
+    &lt;/Directory&gt;
+    &lt;Directory /home/sengopal/www&gt;
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre></li>
+  <li><p>sudo a2ensite local.dev</p></li>
+  <li>sudo /etc/init.d/apache2 reload</li>
+  <li>sudo gedit /etc/hosts - <code>127.0.0.1  local.dev</code></li>
+  <li>sudo /etc/init.d/apache2 reload</li>
+  <li><a href="http://local.dev">http://local.dev</a></li>
+</ol><h3>Configuring SSH</h3>
+<ol>
+  <li>apt-get install openssh-server</li>
+  <li>cp /etc/ssh/sshd_config ~</li>
+  <li><p>gedit /etc/ssh/sshd_config</p>
+  <pre><code>:::text
+Port 22
+PermitRootLogin no
+AllowUsers non-root
+</code></pre></li>
+  <li><p>/etc/init.d/ssh restart</p></li>
+  <li>telnet localhost 22</li>
+  <li>ssh <a href="mailto:&#110;o&#110;&#x2d;&#x72;o&#x6f;&#116;&#64;&#109;&#x61;&#99;h&#x69;&#110;&#101;">&#110;o&#110;&#x2d;&#x72;o&#x6f;&#116;&#64;&#109;&#x61;&#99;h&#x69;&#110;&#101;</a> -p 22</li>
+</ol><h3>Simple Commands</h3>
+<ol>
+  <li>gnome-app-install</li>
+  <li>sudo apt-get update</li>
+  <li>sudo dpkg -i package_name.deb</li>
+  <li><code>sudo apt-get remove [--purge] &lt;package&gt; ¦ [complete removal]</code></li>
+  <li>ps aux | grep fire*</li>
+  <li>sudo apt-get clean</li>
+  <li>nautilus</li>
+  <li>sfdisk -luM</li>
+  <li>Alt + F2</li>
+  <li>gconf-editor</li>
+  <li>netstat -antlp</li>
+  <li>CTRL + H (nautilius)</li>
+  <li>dpkg-reconfigure -all</li>
+  <li>df -h</li>
+  <li>update-java-alternatives -s java-6-sun</li>
+  <li>env vars in /etc/environment</li>
+  <li>tail -f /var/log/syslog</li>
+  <li>change user of a file /folder:</li>
+  <li>CTRL + ALT + T - Terminal</li>
+  <li>CTRL + ALT + D - Desktop</li>
+  <li>CTRL + ALT + L - Lock screen</li>
+  <li><code>apt-cache search &lt;package&gt;</code></li>
+  <li><code>sudo add-apt-repository ppa:&lt;repo-name&gt;</code></li>
+  <li>~/.local/share/applications/default.list</li>
+</ol></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Basics of ClearCase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Basics of ClearCase</h1>
+				</div>
+
+				<p><em>23 July 2011</em></p>
+
+				<p><p>Rational ClearCase is a software tool for revision control (e.g. configuration management, SCM) of source code and other software development assets.</p><p>ClearCase provides more than just version control. The other features available are:</p>
+<ol>
+  <li>Version Control</li>
+  <li>Workspace Management</li>
+  <li>Build Management</li>
+  <li>Process Control</li>
+</ol><h3>Version Control</h3>
+<ol>
+  <li>Versions all file types</li>
+  <li>Versions directories</li>
+  <li>Stores objects in reliable, scalable Versioned Object Bases (VOBs)</li>
+  <li>Elements are read-only until checked out</li>
+  <li>Unlimited branching and merging</li>
+  <li>Easy checkout-edit-checkin model</li>
+  <li>Unlimited branching capability for parallel development</li>
+  <li>Graphical compare and intelligent merge utilities automatically merges non-conflicting changes</li>
+</ol><h3>Workspace Management</h3>
+<ul>
+  <li>Provides access to all versioned objects from standard development tools</li>
+  <li>A way of seeing the objects in one or more VOBs</li>
+  <li>Version selection is based on user-defined rules</li>
+  <li>Easy way to manage multiple tasks</li>
+  <li>Controls the public/private nature of work</li>
+</ul><p>There are two types of views available in ClearCase</p><p><strong>Dynamic Views</strong></p>
+<ol>
+  <li>VOB objects are displayed from the VOB cache</li>
+  <li>Transparent access to elements</li>
+  <li>Virtual filesystem</li>
+  <li>Always up-to-date</li>
+  <li>Provides build auditing</li>
+</ol><p><strong>Snapshot Views</strong></p>
+<ol>
+  <li>VOB objects are copied to the client</li>
+  <li>Downloads files based on user-based rules</li>
+  <li>Allows work while disconnected from the network</li>
+  <li>Optimal build performance for prototype or test builds</li>
+</ol><h3>Build Management</h3>
+<ol>
+  <li><strong>clearmake</strong> and <strong>omake</strong></li>
+  <li>Compatible with standard makefiles</li>
+  <li>Automatic detection of header- and source-file dependencies</li>
+  <li>Software bill-of-materials guarantees complete reproducibility of every build</li>
+</ol><h3>Process Control</h3>
+<ol>
+  <li>Enforces appropriate policies and processes across diverse development environments</li>
+  <li>Integrated with ClearCase as a set of flexible, customizable tools</li>
+</ol></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

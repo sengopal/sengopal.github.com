@@ -1,1 +1,1 @@
-This branch contains the migrated blog generated using pelican.
+This branch contains the migrated blog generated using JBake.

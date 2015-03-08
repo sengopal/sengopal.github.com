@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>PDF Generation using PD4ML</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>PDF Generation using PD4ML</h1>
+				</div>
+
+				<p><em>05 April 2010</em></p>
+
+				<p><h3>Project Usage</h3><p>Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet</p><p>PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.</p><h3>Introduction to PD4ML</h3><p>PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.</p><h3>PD4ML as a Command Line Operation</h3><p>PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:</p><h4>Creating a PDF from an URL String</h4><p>The PDF can be generated using a html file whose URL can be in the render () method</p>
+<pre><code>  import org.zefer.pd4ml.PD4ML;
+  import org.zefer.pd4ml.PD4Constants;
+  ........
+
+  File f = new File(&quot;D:/tools/test.pdf&quot;);
+  java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
+  PD4ML pd4ml = new PD4ML();
+  pd4ml.render( urlstring, fos );
+</code></pre><p><strong>Steps Involved</strong></p>
+<ol>
+  <li>Import the PD4ML converter class</li>
+  <li>Define HTML-to-PDF converting parameter values if needed such as user space width, HTML elements arrangement, vertical size etc.,</li>
+  <li>Preparing output stream for PDF generation.</li>
+  <li>Instantiating PD4ML converter.</li>
+  <li>Passing to it HTML-to-PDF converting parameters.</li>
+  <li>Performing HTML-to-PDF translation.</li>
+</ol><p><strong>Converting HTML obtained from input stream to PDF</strong></p><p>Using an URL for converting an HTML into a PDF is not mandatory. PD4ML can read a source HTML from input stream and then use the input stream for conversion into the PDF</p>
+<pre><code>  File f = new File(&quot;D:/tools/test.pdf&quot;);
+  java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
+  File fz = new File(&quot;D:/tools/yahoo.htm&quot;);
+  java.io.FileInputStream fis = new java.io.FileInputStream(fz);
+  InputStreamReader isr = new InputStreamReader( fis, &quot;UTF-8&quot; );
+  PD4ML html = new PD4ML();
+  URL base = new URL( &quot;file:D:/tools/&quot; );
+  html.render( isr, fos, base );
+</code></pre><h3>Formatting the PDF document generated</h3><p>The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:</p>
+<pre><code>  PD4ML html = new PD4ML();
+  html.setPageSize( new Dimension(450, 450) );
+  //defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.
+  html.setPageInsets( new Insets(20, 50, 10, 10) );
+  //specifies page insets in points
+  html.setHtmlWidth( 750 );
+  //defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize
+  html.enableImgSplit( false );
+  //allows to disable image splitting by page breaks. By default the option is true (splitting enabled).
+</code></pre><h4>For Generating Text-Only Header and Footer</h4><p>Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:</p>
+<pre><code>  PD4PageMark header = new PD4PageMark();
+  header.setAreaHeight( 20 );
+  //defines height of the header or footer area
+  header.setTitleTemplate( &quot;title: $[title]&quot; );
+  //defines a template for page title representation.
+  //No title is printed, if the titleTemplate is set to null. Default value is null.
+  header.setTitleAlignment( PD4PageMark.CENTER_ALIGN );
+  //defines alignment for the page title string in the document&#39;s header of footer
+  header.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );
+  //defines alignment for the page numbers in the document&#39;s header of footer area
+  header.setPageNumberTemplate( &quot;#$[page]&quot; );
+  //defines a template for page number representation
+  PD4PageMark footer = new PD4PageMark();
+  footer.setAreaHeight( 30 );
+  //Already explained above
+  footer.setFontSize( 20 );
+  //sets font size for the header or footer
+  footer.setColor( Color.red );
+  //setColor() sets the color of header or footer text
+  footer.setPagesToSkip( 1 );
+  //defines a number of pages from the document beginning, that should not be marked with the header or footer info
+  footer.setTitleTemplate( &quot;[ $[title] ]&quot; );
+  //Already explained above
+  footer.setPageNumberTemplate( &quot;page: $[page]&quot; );
+  //Already explained above
+  footer.setTitleAlignment( PD4PageMark.RIGHT_ALIGN );
+  //Already explained above
+  footer.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );
+  //Already explained above
+
+  pd4ml.setPageHeader( header );
+  pd4ml.setPageFooter( footer );
+</code></pre><h4>Protecting PDF documents</h4><p>A PDF document can be encrypted to protect its contents from unauthorized access. PD4ML supports PDF access permissions concept and allows a password to be specified for a document. If any passwords or access restrictions are specified with PD4ML.setPermissions (), the document is encrypted, and the permissions and information required to validate the passwords are stored to the resulting document.</p><p>The possible restrictions are:</p>
+<ol>
+  <li>Modifying the document’s contents</li>
+  <li>Copying or otherwise extracting text and graphics from the document</li>
+  <li>Adding or modifying text annotations</li>
+  <li>Printing the document</li>
+</ol><p>The various types of pre-set Permissions available in the API are:</p>
+<ul>
+  <li>AllowAssembly</li>
+  <li>AllowContentExtraction</li>
+  <li>AllowCopy</li>
+  <li>AllowDegradedPrint</li>
+  <li>AllowModify</li>
+  <li>AllowPrint</li>
+</ul><p>The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.</p>
+<pre><code>  String password = &quot;empty&quot;;
+  boolean strongEncryption = true;
+  int permissions = PD4Constants.AllowPrint | PD4Constants.AllowCopy;
+  pd4ml.setPermissions( password, permissions, strongEncryption );
+</code></pre><p>Some of the other salient Features that are available with PD4ML are:</p>
+<ul>
+  <li>Converting HTML headings or named anchors to PDF bookmarks</li>
+  <li>Named anchors</li>
+  <li>Inserting page breaks</li>
+  <li>generating and sending PDF by email</li>
+</ul><h3>Using PD4ML in Web applications for online PDF generation</h3><p>PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:</p>
+<pre><code>  &lt;taglib uri=&quot;http://pd4ml.com/tlds/pd4ml/2.5&quot; prefix=&quot;pd4ml&quot;&gt;
+  &lt;page contentType=&quot;text/html; charset=UTF-8&quot;&gt;
+
+  &lt;pd4ml:transform
+        screenWidth=&quot;400&quot;
+        pageFormat=&quot;A5&quot;
+        pageOrientation=&quot;landscape&quot;
+        pageInsets=&quot;100,100,100,100,points&quot;
+        enableImageSplit=&quot;false&quot;&gt;
+
+    &lt;html&gt;
+        &lt;head&gt;
+              &lt;title&gt;pd4ml test&lt;/title&gt;
+              &lt;style type=&quot;text/css&quot;&gt;
+                    body {
+                          color: red;
+                          background-color: #FFFFFF;
+                          font-family: Tahoma, &quot;Sans-Serif&quot;;
+                          font-size: 10pt;
+                    }
+              &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+             &lt;img src=&quot;images/logos.gif&quot; width=&quot;125&quot; height=&quot;74&quot;&gt;
+              &lt;p&gt;
+              Hello, World!
+          &lt;pd4ml:page.break/&gt;
+              &lt;table width=&quot;100%&quot; style=&quot;background-color: #f4f4f4; color: #000000&quot;&gt;
+              &lt;tr&gt;
+              &lt;td&gt;
+                    Hello, New Page!
+              &lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;/table&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+  &lt;/pd4ml:transform&gt;
+</code></pre><p>In order to get a PDF output, we need to surround the HTML or JSP with &lt;pd4ml:transform&gt; tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.</p>
+<ol>
+  <li>PD4ML JSP taglib declaration and opening transform tag. JSP content surrounded with<br/> <code>&lt;pd4ml:transform&gt;</code> and <code>&lt;/pd4ml:transform&gt;</code> tags is passed to the PD4ML converter.</li>
+  <li>Image should be referenced with relative path. Absolute URLs, like <code>src=&quot;http://myserver:80/path/to/img.gif&quot;</code> are allowed as well, but <code>src=&quot;/path/to/img.gif&quot;</code> is not allowed.</li>
+  <li>The directive forces PD4ML converter to insert a page break to the output PDF.</li>
+  <li>Closing of the transformation tag. Any content that appears after the tag is ignored.</li>
+</ol><h4>Defining PDF document footer (or header) with JSP custom tag</h4><p>The header and/or footer for the PDF can be declared in the jsp in the following fashion.</p>
+<pre><code>  &lt;pd4ml:footer
+      titleTemplate=&quot;[${title}]&quot;
+      pageNumberTemplate=&quot;page ${page}&quot;
+      titleAlignment=&quot;left&quot;
+      pageNumberAlignment=&quot;right&quot;
+      color=&quot;#008000&quot;
+      initialPageNumber=&quot;1&quot;
+      pagesToSkip=&quot;1&quot;
+      fontSize=&quot;14&quot;
+      areaHeight=&quot;18&quot;/&gt;
+</code></pre><h4>Description</h4>
+<ol>
+  <li>Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML's TITLE tag, ${page} for a page counter value.</li>
+  <li>Page number template definition. A string with placeholder ${page} for a page counter value.</li>
+  <li>The attribute initializes internal page counter with the given value.</li>
+  <li>The attribute defines, that 1 page should not contain footer information.</li>
+  <li>Footer area height in points.</li>
+</ol><h4>Adding Dynamic data</h4><p>Dynamic data like data from session or scriplets can be used in the PDF generation. A Simple Example is given below.</p>
+<pre><code>  &lt;% String template = getFormattedDate() + &quot;, page ${page} &quot;; %&gt;
+  &lt;pd4ml:footer
+      pageNumberTemplate=&quot;&lt;%=template%&gt;&quot;
+      .......
+      /&gt;
+</code></pre><p>This means that the entire form generation for Presentation Frameworks like Struts etc., can be used just like a normal JSP. This provides a nice demarcation and seamless integration of the presentation (Format/Layout) of the PDF document and the business behind the generation</p><h4>Temporary saving generated PDF to hard drive</h4><p>With <code>&lt;pd4ml:savefile&gt;</code> tag you have possibility to store just generated PDF to hard drive and redirect user's browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within <code>&lt;pd4ml:transform&gt;</code> and should not have a body.There are two ways of generating the PDF and redirecting the browser.</p><h4>Routing the browser to the PDF generated</h4><p>Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.</p>
+<pre><code>  &lt;pd4ml:savefile
+      uri=&quot;/WEB/savefile/saved/&quot;
+      dir=&quot;D:/spool/generated_pdfs&quot;
+      redirect=&quot;pdf&quot;
+      debug=&quot;false&quot;/&gt;
+</code></pre><p>The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an autogenerated name.It is expected, that local directory D:/spool/generated_pdfs corresponds to URL <code>http://yourserver.com/WEB/savefile/saved/</code> (as given in "uri" attribute)</p><p>After generation PD4ML will send to client's browser a redirect command with URL like that:<br/><code>http://yourserver.com/WEB/savefile/saved/generated_name.pdf</code><br/>where,</p><p><code>http://yourserver.com</code> - Context path</p><p><code>/WEB/savefile/saved</code> - URI given</p><p><code>generated_name.pdf</code> - Auto generated file Name</p><h4>Routing the browser to the next page</h4><p>However if the browser needs to be redirected to the next page instead of the PDF generated, it can be done in the following way.</p>
+<pre><code>  &lt;pd4ml:savefile
+      dir=&quot;D:/spool/generated_pdfs&quot;
+      redirect=&quot;/mywebapp/send_pdf_by_email.jsp&quot;
+      debug=&quot;false&quot;/&gt;
+</code></pre><p>The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=<code>&lt;pdfname&gt;</code>. So send_pdf_by_email.jsp can read file name using,</p>
+<pre><code>  String fileName = request.getParameter(&quot;filename&quot;);
+  //Building the full path of the PDF generated
+  String path = &quot;D:/spool/generated_pdfs&quot; + &quot;/&quot; + fileName;
+</code></pre><p>Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).</p><p>In both cases above you can predefine PDF file name with "name" attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.</p><h3>Instructions for Installation</h3><p>PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)<br/>• pd4ml.jar<br/>• pd4ml_tl.jar(for the tag library)</p><h3>Professional Version Features</h3><p>Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:</p>
+<ul>
+  <li>TTF embedding</li>
+  <li>Configuring Fonts directory</li>
+  <li>Embedding fonts to PDF from Java API</li>
+  <li>Embedding fonts to PDF from JSP</li>
+  <li>Watermark images</li>
+  <li>Table of contents</li>
+  <li>General notes</li>
+</ul><h4>References</h4>
+<ul>
+  <li><a href="http://pd4ml.com/api/index.html">http://pd4ml.com/api/index.html</a></li>
+  <li><a href="http://pd4ml.com/index.htm">http://pd4ml.com/index.htm</a></li>
+</ul></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

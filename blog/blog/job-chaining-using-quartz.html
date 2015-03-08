@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Job chaining using Quartz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Job chaining using Quartz</h1>
+				</div>
+
+				<p><em>31 March 2009</em></p>
+
+				<p><h3>Project Usage</h3><p>Our Project had the requirement of reading a set of records from a table which acts as a queue and sends the pending mails. This reading /sending of mails has to happen every five minutes. However, since the SMTP server needs to address online mailing at times, this job may run more than the given five minutes. Also, if the number of records in the table is high, the Job exceeds the expected time of completion of five minutes. Hence it was decided to “chain” the jobs with a five minute delay.</p><h3>Introduction to Quartz</h3><p>Quartz is an open source job scheduling framework that provides simple but powerful mechanisms for job scheduling in Java applications. Quartz allows developers to schedule jobs by time interval or by time of day. It implements many-to-many relationships for jobs and triggers and can associate multiple jobs with different triggers.<br/>Applications that incorporate Quartz can reuse jobs from different events and also group multiple jobs for a single event. While you can configure Quartz through a property file (in which you can specify a data source for JDBC transactions, global job and/or trigger listeners, plug-ins, thread pools, and more) it is not at all integrated with the application server's context or references.</p><h3>Jobs and triggers</h3><p>The two fundamental units of Quartz's scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.</p><h3>Simple Job Example</h3><p>An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed</p><h4>SimpleQuartzJob.java</h4>
+<pre><code>import java.util.Date;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+
+public class SimpleQuartzJob implements Job {
+
+    public SimpleQuartzJob() {
+    }
+
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        System.out.println(&quot;In SimpleQuartzJob - executing its JOB at &quot;
+                + new Date() + &quot; by &quot; + context.getTrigger().getName());
+    }
+}
+</code></pre><p><em>Notice that the execute method takes a JobExecutionContext object as an argument. This object provides the runtime context around the job instance. Specifically, it gives access to the scheduler and trigger, which collaborated to initiate execution of the job as well as the job's JobDetail object. Quartz separates the execution and the surrounding state of a job by placing the state in a JobDetail object and having the JobDetail constructor initiate an instance of a job. The JobDetail object stores the job's listeners, group, data map, description, and other properties of the job.</em></p><h4>Simple Trigger Example</h4><p>A trigger develops a schedule for job execution. Quartz offers a few different trigger options of varying complexity. The SimpleTrigger given below shows the fundamentals of triggers.</p><h4>SimpleTriggerRunner.java</h4>
+<pre><code>import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerUtils;
+import org.quartz.impl.StdSchedulerFactory;
+
+public class Test{
+    public void scheduleTask() throws SchedulerException {
+        try{
+            logger.info(&quot;Starting the scheduler in Quartz&quot;);
+            StdSchedulerFactory schedFact = new StdSchedulerFactory();
+            Scheduler sched = schedFact.getScheduler();
+            logger.info(&quot;Scheduling a Tickler job in Quartz&quot;);
+
+                //Making a daily Trigger for the Job
+            Trigger simpleTrigger = TriggerUtils.makeDailyTrigger(2, 00);
+            simpleTrigger.setName(&quot;SimpleQuartzTrigger&quot;);
+            simpleTrigger.setGroup(Scheduler.DEFAULT_GROUP);
+            JobDetail simpleJob = new JobDetail(&quot;SimpleQuartzJob&quot;, Scheduler.DEFAULT_GROUP, SimpleQuartzJob.class);
+            sched.scheduleJob(simpleJob,simpleTrigger);
+            logger.info(&quot;Tickler Mail Job Scheduled&quot;);
+        }
+        catch(Exception e){
+            logger.info(&quot;Error while scheduling the jobs.&quot;);
+            logger.error(e);
+        }
+    }
+}
+</code></pre><p>The scheduling method starts by instantiating a SchedulerFactory and getting the scheduler. As discussed earlier, the JobDetail object is created by taking the Job (SimpleQuartzJob) as an argument to its constructor. The TriggerUtils.makeDailyTrigger creates a simple trigger which executes the associated job(s) at 2:00 am everyday<br/>There are a number of other ways to manipulate a SimpleTrigger. In addition to a specified number of repeats and a specified repeat interval, jobs may be schedules to execute at a specific calendar time, given a maximum time of execution, or given a priority. Some of the advanced concepts include CronTriggers, Job Stores, and JobMap etc.,</p><h3>Need for Job Chaining</h3><p>The job known as “MailProcessor” needs to be scheduled every 5 minutes i.e., this job has to execute every five minutes. The code which was used for scheduling the job is given below:</p>
+<pre><code>Trigger mailProcTrigger = TriggerUtils.makeMinutelyTrigger(5);
+mailProcTrigger.setName(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME);
+mailProcTrigger.setGroup(Scheduler.DEFAULT_GROUP);
+JobDetail mailProc = new JobDetail(SchedulingConstants.MAILPROCESSOR_JOB_NAME, Scheduler.DEFAULT_GROUP, MailProcessor.class);
+sched.scheduleJob(mailProc,mailProcTrigger);
+logger.info(&quot;Mail Processor Scheduled&quot;);
+</code></pre><p>Following are the issues faced with this kind of scheduling</p>
+<ol>
+  <li>The SMTP Server needs to address online mailing at times.</li>
+  <li>The number of records in the table is high and hence the number of mails to be sent are higher in number</li>
+  <li>Due to the above reasons, this job may have a completion of time of more than five minutes, which means that the next schedule of the same will get triggered even before the first one completes.</li>
+</ol><p><strong>Solution</strong></p><p>Hence to resolve this, we need to chain the jobs such that the job gets “re-scheduled” only after the first job is completed. This is known as “Job-Chaining”</p><h3>Job Chaining – How it was implemented</h3>
+<ol>
+  <li>A Utility Method for returning the time 5 minutes from now and another Utility method for returning a SimpleTrigger using the NextScheduledTime are created.</li>
+  <li>The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance</li>
+</ol>
+<pre><code>//The Utility method to return the Next Scheduling time 5 minutes from now
+public static Date getNextMailScheduledTime() {
+    Calendar cal = Calendar.getInstance();
+    System.out.println(&quot;Date Current: &quot;+cal.getTimeInMillis());
+    cal.add(Calendar.MINUTE,1);
+    System.out.println(&quot;Date after addition: &quot;+cal.getTimeInMillis());
+    return cal.getTime();
+}
+
+//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time
+public static Trigger getMailProcessorTrigger() {
+    Date newDate = VsimsUtil.getNextMailScheduledTime();
+    Trigger mailTrigger = new SimpleTrigger(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME, Scheduler.DEFAULT_GROUP,newDate);
+    mailTrigger.setJobName(SchedulingConstants.MAILPROCESSOR_JOB_NAME);
+    mailTrigger.setJobGroup(Scheduler.DEFAULT_GROUP);
+    return mailTrigger;
+}
+</code></pre><h3>Scheduling the Job for the First Run</h3>
+<ol>
+  <li>Using the Utility methods the “MailProcessor” Job is scheduled to run after Five minutes from the current Instance</li>
+  <li>Since a specific time instance is given for the Trigger, this Job will get Triggered only once</li>
+</ol>
+<pre><code>JobDetail mailJobDetail = new JobDetail(&quot;MailProcessorJob&quot;,Scheduler.DEFAULT_GROUP, MailProcessor.class);
+sched.scheduleJob(mailJobDetail,VsimsUtil Util.getMailProcessorTrigger());
+logger.info(&quot;Mail Processor Scheduled&quot;);
+</code></pre><p>Note: <em>Since the Job is being scheduled for the first time we have to use sched.scheduleJob() for scheduling the job</em></p><p>In the Execute method of the Job, once the Job gets fired for the first time by the Trigger created, the Job Execution steps are completed and then the job gets “re-scheduled’ after five minutes using the same Utility method</p>
+<pre><code>public void execute(JobExecutionContext jobContext) throws JobExecutionException {
+        logger.info(&quot;MailProcessor execute - start&quot;);
+
+        //PERFORM THE JOB EXECUTION STEPS HERE
+        //Chaining of the Job by re-scheduling
+        try {
+            logger.info(&quot;Scheduler Instance Id in Mail Processor: &quot;+
+                + jobContext.getScheduler().getSchedulerInstanceId());
+
+            //If Rescheduled Correctly, the Scheduler returns the next Scheduled Time of the JOB
+            Date nextScheduledTime = jobContext.getScheduler().rescheduleJob
+                (&quot;MailProcessorJob&quot;, Scheduler.DEFAULT_GROUP, Util.getMailProcessorTrigger());
+            logger.info(&quot;Rescheduled at : &quot;+nextScheduledTime);
+        } catch (SchedulerException e) {
+            logger.error(&quot;Error in Scheduling the Job for the Next Iteration&quot;);
+            e.printStackTrace();
+        }
+
+}
+</code></pre><p>Note: <em>Since the same job is being chained, we have to use rescheduleJob().</em></p><p>The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs</p><p>References<br/>* <a href="http://quartz.sourceforge.net/firstTutorial.html">http://quartz.sourceforge.net/firstTutorial.html</a><br/>* <a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/">http://www-128.ibm.com/developerworks/java/library/j-quartz/</a></p></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

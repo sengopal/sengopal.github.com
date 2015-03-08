@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Android Application development notes - Part 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Android Application development notes - Part 2</h1>
+				</div>
+
+				<p><em>09 January 2012</em></p>
+
+				<p><h2>Hello Android Application creation steps</h2>
+<ol>
+  <li>Create an android Project and just run without any changes</li>
+  <li>Individual manufacturer specific emulator skins are available for downloads</li>
+</ol><h3>AndroidManifest.xml</h3>
+<ol>
+  <li>Usage of @drawable, @string</li>
+  <li>Application Definition</li>
+  <li>Activity Definition</li>
+</ol><h4>INTENT-FILTER</h4>
+<ol>
+  <li>Activity with <code>android.intent.action.MAIN</code> which will be started first</li>
+  <li><code>android.intent.category.LAUNCHER</code> adds the Application to the Apps Menu Launcher</li>
+  <li>Java packages available within Android SDK is not the exact same as Java SDK</li>
+</ol><h4>Activity Lifecycle</h4>
+<ol>
+  <li>Always ensure super.onCreate is called.</li>
+  <li>Res/layout - user interface definition using XML</li>
+  <li>LinearLayout - Similar to Flow layout in AWT</li>
+  <li>Fill_parent - will fill the entire vertical portion [will not allow to place another component alongside]</li>
+  <li>wrap_content - wrap the content and allows other components to be placed along side</li>
+  <li>Activities, Services, Content Providers, BroadCast Recievers</li>
+</ol><h4>Activity Structure</h4>
+<ol>
+  <li>Concrete Class, extends Activity, Needs Entry in AndroidManifest</li>
+  <li>One Activity with IntentFilter MAIN</li>
+  <li>A view hierarchy is placed in Activity using setContentView()</li>
+</ol><h4>Activity LifeCycle</h4>
+<ol>
+  <li>onCreate() - View Creation</li>
+  <li>onStart()</li>
+  <li>onResume()</li>
+</ol><h4>Activity Lifecycle Diagram</h4>
+<ol>
+  <li>Perform setView on onCreate as it needs to be done only once</li>
+  <li>What is a Bundle? - Similar to eBay V3 batch restarted data</li>
+  <li><strong>Store Key-Pair value for retrieval in case of Dalvik VM stops and starts again calling onCreate ()</strong></li>
+  <li>So always check for specific values in Bundle and then proceed.</li>
+  <li>Save the values using onStop(), so that it picks when onCreate is called</li>
+  <li>Bundle will be stored in System Server</li>
+  <li>Multiple Screens can be shown using the same Activity. <em>Just by calling the setContentView</em> - <em>But navigation will be a problem</em></li>
+</ol><h3>Android Intents</h3><h4>Overview</h4><p>Intents are asynchronous messages which allow Android components to request functionality from other components of the Android system. For example an Activity can send an Intents to the Android system which starts another Activity. Therefore Intents allow to combine loosely coupled components to perform certain tasks. Intents can be used to signal to the Android system that a certain event has occurred. Other components in Android can register to this event and will get notified. Intents are instances of the <code>android.content.Intent</code> class. Intents are send to the Android system. Depending on how the Intent was constructed the Android system will run an receiver determination and determine what to do.</p><p>An Intent can also contain data. This data can be used by the receiving component. For example your application can calls via an Intent a browser<br/>component. As data is it may send the URL to the browser component. Android supports explicit and implicit Intents.</p><h4>Explicit Intents</h4><p>Explicit Intents explicitly names the component which should be called by the Android system, by using the the Java class as identifier. The following shows an explicit Intent. If that Intent is correctly send to the Android system, it will start the associated class.</p>
+<pre><code>:::java
+Intent i = new Intent(this, ActivityTwo.class);
+i.putExtra(&quot;Value1&quot;, &quot;This value one for ActivityTwo &quot;);
+i.putExtra(&quot;Value2&quot;, &quot;This value two ActivityTwo&quot;);
+</code></pre><p>Explicit Intents are typically used within on application as the classes in an application are controlled by the application developer.</p><h4>Implicit Intents</h4><p>Implicit Intents do not specify the Java class which should be called. They specify the action which should be performed and optionally an URI which should be used for this action. For example the following tells the Android system to view a webpage. Typically the web browser is registered to this Intent but other component could also register themself to this event.</p>
+<pre><code>:::java
+Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;http://www.vogella.de&quot;));
+</code></pre><p>If these Intents are send to the Android system it searches for all components which are registered for the specific action and the data type.</p><p>If only one component is found, Android starts this component directly. If several components are identifier by the Android system, the user will get an selection dialog and can decide which component should be used for the Intent.</p></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

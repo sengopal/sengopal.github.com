@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Collection of useful java code snippets</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Collection of useful java code snippets</h1>
+				</div>
+
+				<p><em>06 July 2011</em></p>
+
+				<p><h3>For Sending a POST request</h3><p><strong>Code snippet for making a HTTP call</strong></p>
+<pre><code>    import java.io.IOException;
+    import java.io.OutputStreamWriter;
+    import java.net.HttpURLConnection;
+    import java.net.URL;
+    public class Test {
+        public static void main(String[] args) throws IOException {
+            URL url = new URL(&quot;&lt;a href=&quot;http://localhost:8080/resttest/services/Order/3&quot;);
+            HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+            httpCon.setDoOutput(true);
+            httpCon.setRequestMethod(&quot;POST&quot;);
+            OutputStreamWriter out = new OutputStreamWriter(httpCon.getOutputStream());
+            System.out.println(httpCon.getResponseCode());
+            System.out.println(httpCon.getResponseMessage());
+            out.close();
+        }
+    }
+</code></pre><p><strong>Static Block and main()</strong></p><p>Before calling main, the static block for the class is called to initialize the class.</p>
+<pre><code>    public class Main {
+        static {
+            System.out.println(&quot;Called first.&quot;);
+        }
+        public static void main(String... args) {
+            System.out.println(&quot;Hello world.&quot;);
+        }
+    }
+</code></pre><p><em>Output:</em></p><p><code>Called first.
+Hello world.</code></p><p><strong>Code without main()</strong></p><p>Normally, if you don't have a main() method, you will get an error. However if your program exits before calling main() no error is produced.</p>
+<pre><code>    public class Main {
+        static {
+            System.out.println(&quot;Hello world.&quot;);
+            System.exit(0);
+        }
+    }
+</code></pre><p><em>Output:</em></p>
+<pre><code>`Hello world.`
+</code></pre><p><strong>premain</strong></p><p>If you have Java agents, those agents can have a premain method which is called first. <a href="http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html">Instrument package</a></p>
+<pre><code>  public static void premain(String agentArgs, Instrumentation inst);
+</code></pre><p>The Instrumentation class gives the agent access to each class' byte code after it is read and before it is linked, giving the agent the option to change byte code. One interesting feature of the Instrumentation class is the getObjectSize() which will give you the size of an object.</p></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

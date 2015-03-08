@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Java Logging and Log4J Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="generator" content="JBake">
+
+  <!-- Le styles -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/asciidoctor.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <!-- Fav and touch icons -->
+  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
+  <link rel="shortcut icon" href="../favicon.ico">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../">Senthilkumar Gopal</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="../archive.html">Posts</a></li>
+        <li><a href="..//pages/projects.html">Projects</a></li>
+        <li><a href="../feed.xml">Subscribe</a></li>
+        <li><a href="..//pages/reviews.html">Reviews</a></li>
+        <li><a href="..//pages/resume.html">Resume</a></li>
+        <li><a href="../pages/about.html">About Me</a></li>
+
+        <li><a href="">Github</a></li>
+        <li><a href="">Twitter</a></li>
+        <li><a href="">LinkedIn</a></li>
+
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+			<div class="container">
+				<div class="page-header">
+					<h1>Java Logging and Log4J Notes</h1>
+				</div>
+
+				<p><em>06 July 2011</em></p>
+
+				<p><h4>Some tips for Java Logging</h4>
+<ol>
+  <li>Use isDebugEnabled() for putting debug log in Java</li>
+  <li>Choose which kind of message should go to which level for logging in Java</li>
+  <li>Use either log4j or java.util.logging for logging in Java</li>
+  <li>Using log4j.xml you can have different logger configuration for different java classes</li>
+  <li>Include Thread Name and fully qualified java class Name while printing logs</li>
+  <li>Use some kind of prefix and parametrized version of various log methods as they are faster compared to normal method</li>
+</ol><h4>Class Specific Log File</h4><p>For example, if we have a class which is logging using the log4j.</p>
+<pre><code>:::java
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+public class WebTrackingLogger {
+    private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
+    public static void log(Sting ip, String url, String.... otherValues) {
+        log.info(IP + &quot; &quot; + URL);
+        ....
+        log.warn(IP + &quot; &quot; + URL, e);
+    }
+}
+</code></pre><p>The logs from this code alone can be rolled seperately using,</p>
+<pre><code>:::java
+log4j.category.com.company.WebTrackingLogger.INFO, PL
+log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.PL.layout=org.apache.log4j.PatternLayout
+log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
+log4j.appender.PL.File=/var/log/app/web-tracking-log
+log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd&lt;/p&gt;&lt;/blockquote&gt;
+</code></pre></p>
+
+				<hr />
+
+				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake v2.3.2</a></p>
+  </div>
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>
