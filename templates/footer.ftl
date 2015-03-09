@@ -1,7 +1,5 @@
 <div id="footer">
-  <div class="container">
-    <p class="muted credit">&copy; 2014 | Mixed with <a href="http://getbootstrap.com/">Bootstrap v3.1.1</a> | Baked with <a href="http://jbake.org">JBake ${version}</a></p>
-  </div>
+    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
 <!-- Le javascript

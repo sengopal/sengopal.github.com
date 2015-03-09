@@ -1,25 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <#include "header.ftl">
-<#include "menu.ftl">
+	<body>
+		<div id="wrap">
 
-	<div class="page-header">
-		<h1>Blog Archive</h1>
-	</div>
+			<div class="container">
+				<#include "menu.ftl">
 
-		<#list published_posts as post>
-		<#if (last_month)??>
-			<#if post.date?string("MMMM yyyy") != last_month>
-				</ul>
-				<h4>${post.date?string("MMMM yyyy")}</h4>
+				<div class="header">
+					<h1>Archive</h1>
+				</div>
+
 				<ul>
-			</#if>
-		<#else>
-			<h4>${post.date?string("MMMM yyyy")}</h4>
-			<ul>
-		</#if>
+					<#list published_posts as post>
+						<li>
+							<span class="arch-date">${post.date?string("dd MMM yyyy")}</span> -
+							<a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape></a>
+						</li>
+					</#list>
+				</ul>
 
-		<li>${post.date?string("dd")} - <a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape></a></li>
-		<#assign last_month = post.date?string("MMMM yyyy")>
-		</#list>
-	</ul>
+				<hr />
 
-<#include "footer.ftl">
+				<p>Older posts are available in the <a href="/${config.archive_file}">archive</a>.</p>
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+		<#include "footer.ftl">
+
+</body>
+</html>
