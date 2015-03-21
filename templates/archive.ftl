@@ -20,11 +20,7 @@
 						</li>
 					</#list>
 				</ul>
-
 				<hr />
-
-				<p>Older posts are available in the <a href="/${config.archive_file}">archive</a>.</p>
-
 			</div>
 			<div id="push"></div>
 		</div>

@@ -106,7 +106,7 @@ For more details, refer to
 ###Shorthand syntax
 ####background
 
-    :::css
+
     background: url(example.gif);
     background-color: #eaeaea ;
     background-repeat: repeat-x;
@@ -119,7 +119,7 @@ can be written as:
 
 ####border
 
-    :::css
+
     border-color: red;
     border-width: 1px;
     border-style: solid;
@@ -131,7 +131,7 @@ can be written as:
 
 ####list
 
-    :::css
+
     list-style-position: outside;
     list-style-image: none;
     list-style-type: disc;
@@ -147,7 +147,7 @@ the general format for a list style is:
 
 ####font
 
-    :::css
+
     font-family: Arial, Helvetica;
     font-weight: bold;
     font-style: italic;
@@ -162,7 +162,7 @@ can be written as:
 ####margin
 The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.
 
-    :::css
+
     /* top=10px, right=5px, bottom=15px, left=20px */
     margin: 10px 5px 15px 20px;
 

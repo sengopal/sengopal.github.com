@@ -2,15 +2,19 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>CSS style guidelines</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Thoughts, Code, ramblings and notes">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
   <meta name="author" content="Senthilkumar Gopal">
-  <meta name="keywords" content="Senthilkumar, gopal, blog, java">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
   <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <!-- Le styles -->
   <link href="../css/base.css" rel="stylesheet">
   <link href="../css/highlight.min.css" rel="stylesheet">
   <link href="../css/screen.css" rel="stylesheet">
@@ -21,12 +25,6 @@
     <script src="../js/html5shiv.min.js"></script>
   <![endif]-->
 
-  <!-- Fav and touch icons -->
-  <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-
   <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
 </head>
@@ -35,8 +33,8 @@
 
 			<div class="container">
 <div class="header">
-  <h1><a href="/">Senthilkumar Gopal</a></h1>
-  <h2>Thoughts, Code, ramblings and notes</h2>
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
     <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt"></i></a></li>
     <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter"></i></a></li>
@@ -55,6 +53,7 @@
     <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
+				
 				<div class="page-header">
 					<h1>CSS style guidelines</h1>
 				</div>
@@ -186,8 +185,23 @@
   <li>Quote attribute values in selectors, e.g., input[type="checkbox"].</li>
   <li>Include a space after each comma in comma-separated property or function values.</li>
   <li>Include a semi-colon at the end of the last declaration in a declaration block.</li>
-  <li><p>Place the closing brace of a ruleset in the same column as the first character of the ruleset.</p><p>:::css<br/>.selector-1,<br/>.selector-2,<br/>.selector-3[type="text"] {<br/> -webkit-box-sizing: border-box;<br/> -moz-box-sizing: border-box;<br/> box-sizing: border-box;<br/> display: block;<br/> font-family: helvetica, arial, sans-serif;<br/> color: #333;<br/> background: #fff;<br/> background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));<br/>}</p></li>
-  <li><p>Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.</p></li>
+  <li>Place the closing brace of a ruleset in the same column as the first character of the ruleset.</li>
+</ol>
+<pre><code>.selector-1,
+.selector-2,
+.selector-3[type=&quot;text&quot;] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+    display: block;
+    font-family: helvetica, arial, sans-serif;
+    color: #333;
+    background: #fff;
+    background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));
+}
+</code></pre>
+<ol>
+  <li>Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.</li>
 </ol><h2>Responsive Web Design</h2>
 <ol>
   <li>Start with a flexible grid layout</li>
@@ -199,8 +213,7 @@
   <li>Use User Agent Switcher to verify the layout in various desktop and mobile browsers</li>
   <li>Use the meta name in the <code>&lt;head&gt;</code> tag<br/> {% highlight html %}<br/> <meta name="viewport" content="width=device-width,maximum-scale=1"></li>
 </ol><p>Optional: initial-scale=1,user-scalable=n<br/>9. Always use min-width, max-width, device-pixel-ratio:2<br/>10. Maximize use of high pixel density displays, Minimize image downloads per platform</p>
-<pre><code>:::css
-@media only all and
+<pre><code>@media only all and
 (min-device-pixel-ratio:2){
     #bg{
   background:url(bg.png);
@@ -215,12 +228,16 @@
   <li>Apply media query features to value ranges using min- and max-</li>
   <li>Supply a core stylesheet that maintains appearance that is independent of media queries</li>
   <li>Media queries allow us to gracefully degrade the DOM for different screen sizes. If you are adding any, be sure to test above and below the break-point you are targeting. It is generally advisable to keep media queries grouped by media at the bottom of the stylesheet.</li>
-  <li><p>Rule sets for media queries should be indented one level in.</p><p>:::css<br/>@media all and (max-width: 699px) and (min-width: 520px) {<br/> /* Your selectors */<br/>}</p></li>
+  <li>Rule sets for media queries should be indented one level in.</li>
 </ol>
-<pre><code>##Table of contents
+<pre><code>@media all and (max-width: 699px) and (min-width: 520px) {
+       /* Your selectors */
+}
+
+
+##Table of contents
 </code></pre><p>At the top of each CSS file, it is good to have a table of contents that maps to the section titles in the document.</p>
-<pre><code>:::css
-/*------------------------------------*\
+<pre><code>/*------------------------------------*\
     CONTENTS
 \*------------------------------------*/
 /*
@@ -245,8 +262,21 @@ Each section (layout, type, tables etc) of CSS would look like:
   <li>Media query states</li>
 </ul><p>For our design needs, we would be maintaining a common hierarchy as follows:</p>
 <ol>
-  <li><p>Base CSS</p><p>:::css<br/>html {<br/> background-color: #FFF;<br/> font-family: Arial, Helvetica, sans-serif;<br/> font-size: 14px;<br/>}<br/>body {<br/> margin: 0;<br/> padding: 0;<br/>}<br/>h1, h2, h3 {<br/> margin: 1em 0;<br/>}</p></li>
+  <li>Base CSS</li>
 </ol>
+<pre><code>html {
+  background-color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3 {
+  margin: 1em 0;
+}
+</code></pre>
 <ol>
   <li><p>Layout CSS<br/> This CSS should contain the common styling for header, sidebar, content</p></li>
   <li><p>Module CSS<br/> This CSS should contain the styling for customized list, buttons, tabs<br/> Examples : <code>.tab{}, .listview{}, .btn{}</code></p></li>
@@ -254,8 +284,7 @@ Each section (layout, type, tables etc) of CSS would look like:
   <li>State<br/> This CSS should have classes defined for state specific behaviour such as hover, active-state, default-state<br/> Examples: <code>.tab{}, .is-tab-active{}</code></li>
   <li>Theme<br/> This CSS will have classes specific to theming<br/> Examples: <code>.theme-header{}, .theme-border{}, .theme-background{}</code></li>
 </ol><h2>HTML layout</h2>
-<pre><code>:::css
-&lt;!DOCTYPE HTML&gt;
+<pre><code>&lt;!DOCTYPE HTML&gt;
  &lt;html&gt;
      &lt;head&gt;
         &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
@@ -325,9 +354,6 @@ Each section (layout, type, tables etc) of CSS would look like:
     <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
-<!-- Le javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="../js/jquery-1.11.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/highlight.min.js"></script>

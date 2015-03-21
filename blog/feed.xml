@@ -6,8 +6,8 @@
     <atom:link href="http://sengopal.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sun, 8 Mar 2015 23:13:07 -0700</pubDate>
-    <lastBuildDate>Sun, 8 Mar 2015 23:13:07 -0700</lastBuildDate>
+    <pubDate>Sat, 21 Mar 2015 01:20:46 -0700</pubDate>
+    <lastBuildDate>Sat, 21 Mar 2015 01:20:46 -0700</lastBuildDate>
 
     <item>
       <title>CSS learning and notes</title>
@@ -112,31 +112,26 @@
   &lt;li&gt;The descendant selector&lt;/li&gt;
   &lt;li&gt;The tag selector&lt;/li&gt;
 &lt;/ol&gt;&lt;h3&gt;Shorthand syntax&lt;/h3&gt;&lt;h4&gt;background&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-background: url(example.gif);
+&lt;pre&gt;&lt;code&gt;background: url(example.gif);
 background-color: #eaeaea ;
 background-repeat: repeat-x;
 background-position: top left;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;can be written as:&lt;/p&gt;&lt;p&gt;&lt;code&gt;background: #eaeaea url(example.gif) repeat-x top left;&lt;/code&gt;&lt;/p&gt;&lt;h4&gt;border&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-border-color: red;
+&lt;pre&gt;&lt;code&gt;border-color: red;
 border-width: 1px;
 border-style: solid;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;can be written as:&lt;/p&gt;&lt;p&gt;&lt;code&gt;border: 1px solid red;&lt;/code&gt;&lt;/p&gt;&lt;h4&gt;list&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-list-style-position: outside;
+&lt;pre&gt;&lt;code&gt;list-style-position: outside;
 list-style-image: none;
 list-style-type: disc;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;can be written as:&lt;/p&gt;&lt;p&gt;&lt;code&gt;list-style: disc outside;&lt;/code&gt;&lt;/p&gt;&lt;p&gt;the general format for a list style is:&lt;/p&gt;&lt;p&gt;&lt;code&gt;list-style: [list-style-type] [list-style-position] [list-style-image];&lt;/code&gt;&lt;/p&gt;&lt;h4&gt;font&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-font-family: Arial, Helvetica;
+&lt;pre&gt;&lt;code&gt;font-family: Arial, Helvetica;
 font-weight: bold;
 font-style: italic;
 font-size: 1em;
 line-height: 1.5em;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;can be written as:&lt;/p&gt;&lt;p&gt;&lt;code&gt;font: bold italic 1em/1.5em Arial, Helvetica;&lt;/code&gt;&lt;/p&gt;&lt;h4&gt;margin&lt;/h4&gt;&lt;p&gt;The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-/* top=10px, right=5px, bottom=15px, left=20px */
+&lt;pre&gt;&lt;code&gt;/* top=10px, right=5px, bottom=15px, left=20px */
 margin: 10px 5px 15px 20px;
 
 /* top=10px, right=5px, bottom=10px, left=5px*/
@@ -410,8 +405,23 @@ margin: 10px 5px 15px;
   &lt;li&gt;Quote attribute values in selectors, e.g., input[type=&quot;checkbox&quot;].&lt;/li&gt;
   &lt;li&gt;Include a space after each comma in comma-separated property or function values.&lt;/li&gt;
   &lt;li&gt;Include a semi-colon at the end of the last declaration in a declaration block.&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Place the closing brace of a ruleset in the same column as the first character of the ruleset.&lt;/p&gt;&lt;p&gt;:::css&lt;br/&gt;.selector-1,&lt;br/&gt;.selector-2,&lt;br/&gt;.selector-3[type=&quot;text&quot;] {&lt;br/&gt; -webkit-box-sizing: border-box;&lt;br/&gt; -moz-box-sizing: border-box;&lt;br/&gt; box-sizing: border-box;&lt;br/&gt; display: block;&lt;br/&gt; font-family: helvetica, arial, sans-serif;&lt;br/&gt; color: #333;&lt;br/&gt; background: #fff;&lt;br/&gt; background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));&lt;br/&gt;}&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;Place the closing brace of a ruleset in the same column as the first character of the ruleset.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;.selector-1,
+.selector-2,
+.selector-3[type=&amp;quot;text&amp;quot;] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing:    border-box;
+    box-sizing:         border-box;
+    display: block;
+    font-family: helvetica, arial, sans-serif;
+    color: #333;
+    background: #fff;
+    background: linear-gradient(#fff, rgba(0, 0, 0, 0.8));
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+  &lt;li&gt;Remove trailing white spaces as trailing white spaces are unnecessary and can complicate diffs.&lt;/li&gt;
 &lt;/ol&gt;&lt;h2&gt;Responsive Web Design&lt;/h2&gt;
 &lt;ol&gt;
   &lt;li&gt;Start with a flexible grid layout&lt;/li&gt;
@@ -423,8 +433,7 @@ margin: 10px 5px 15px;
   &lt;li&gt;Use User Agent Switcher to verify the layout in various desktop and mobile browsers&lt;/li&gt;
   &lt;li&gt;Use the meta name in the &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; tag&lt;br/&gt; {% highlight html %}&lt;br/&gt; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,maximum-scale=1&quot;&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;p&gt;Optional: initial-scale=1,user-scalable=n&lt;br/&gt;9. Always use min-width, max-width, device-pixel-ratio:2&lt;br/&gt;10. Maximize use of high pixel density displays, Minimize image downloads per platform&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-@media only all and
+&lt;pre&gt;&lt;code&gt;@media only all and
 (min-device-pixel-ratio:2){
     #bg{
   background:url(bg.png);
@@ -439,12 +448,16 @@ margin: 10px 5px 15px;
   &lt;li&gt;Apply media query features to value ranges using min- and max-&lt;/li&gt;
   &lt;li&gt;Supply a core stylesheet that maintains appearance that is independent of media queries&lt;/li&gt;
   &lt;li&gt;Media queries allow us to gracefully degrade the DOM for different screen sizes. If you are adding any, be sure to test above and below the break-point you are targeting. It is generally advisable to keep media queries grouped by media at the bottom of the stylesheet.&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Rule sets for media queries should be indented one level in.&lt;/p&gt;&lt;p&gt;:::css&lt;br/&gt;@media all and (max-width: 699px) and (min-width: 520px) {&lt;br/&gt; /* Your selectors */&lt;br/&gt;}&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;Rule sets for media queries should be indented one level in.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;##Table of contents
+&lt;pre&gt;&lt;code&gt;@media all and (max-width: 699px) and (min-width: 520px) {
+       /* Your selectors */
+}
+
+
+##Table of contents
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At the top of each CSS file, it is good to have a table of contents that maps to the section titles in the document.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-/*------------------------------------*\
+&lt;pre&gt;&lt;code&gt;/*------------------------------------*\
     CONTENTS
 \*------------------------------------*/
 /*
@@ -469,8 +482,21 @@ Each section (layout, type, tables etc) of CSS would look like:
   &lt;li&gt;Media query states&lt;/li&gt;
 &lt;/ul&gt;&lt;p&gt;For our design needs, we would be maintaining a common hierarchy as follows:&lt;/p&gt;
 &lt;ol&gt;
-  &lt;li&gt;&lt;p&gt;Base CSS&lt;/p&gt;&lt;p&gt;:::css&lt;br/&gt;html {&lt;br/&gt; background-color: #FFF;&lt;br/&gt; font-family: Arial, Helvetica, sans-serif;&lt;br/&gt; font-size: 14px;&lt;br/&gt;}&lt;br/&gt;body {&lt;br/&gt; margin: 0;&lt;br/&gt; padding: 0;&lt;br/&gt;}&lt;br/&gt;h1, h2, h3 {&lt;br/&gt; margin: 1em 0;&lt;br/&gt;}&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;Base CSS&lt;/li&gt;
 &lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;html {
+  background-color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3 {
+  margin: 1em 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;p&gt;Layout CSS&lt;br/&gt; This CSS should contain the common styling for header, sidebar, content&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;Module CSS&lt;br/&gt; This CSS should contain the styling for customized list, buttons, tabs&lt;br/&gt; Examples : &lt;code&gt;.tab{}, .listview{}, .btn{}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
@@ -478,8 +504,7 @@ Each section (layout, type, tables etc) of CSS would look like:
   &lt;li&gt;State&lt;br/&gt; This CSS should have classes defined for state specific behaviour such as hover, active-state, default-state&lt;br/&gt; Examples: &lt;code&gt;.tab{}, .is-tab-active{}&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Theme&lt;br/&gt; This CSS will have classes specific to theming&lt;br/&gt; Examples: &lt;code&gt;.theme-header{}, .theme-border{}, .theme-background{}&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;h2&gt;HTML layout&lt;/h2&gt;
-&lt;pre&gt;&lt;code&gt;:::css
-&amp;lt;!DOCTYPE HTML&amp;gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE HTML&amp;gt;
  &amp;lt;html&amp;gt;
      &amp;lt;head&amp;gt;
         &amp;lt;meta http-equiv=&amp;quot;Content-Type&amp;quot; content=&amp;quot;text/html; charset=UTF-8&amp;quot; /&amp;gt;

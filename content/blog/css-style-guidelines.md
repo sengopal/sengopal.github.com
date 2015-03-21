@@ -150,7 +150,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 12. Include a semi-colon at the end of the last declaration in a declaration block.
 13. Place the closing brace of a ruleset in the same column as the first character of the ruleset.
 
-    :::css
+
     .selector-1,
     .selector-2,
     .selector-3[type="text"] {
@@ -183,7 +183,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 9. Always use min-width, max-width, device-pixel-ratio:2
 10. Maximize use of high pixel density displays, Minimize image downloads per platform
 
-    :::css
+
     @media only all and
     (min-device-pixel-ratio:2){
         #bg{
@@ -200,7 +200,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 16. Media queries allow us to gracefully degrade the DOM for different screen sizes. If you are adding any, be sure to test above and below the break-point you are targeting. It is generally advisable to keep media queries grouped by media at the bottom of the stylesheet.
 17. Rule sets for media queries should be indented one level in.
 
-    :::css
+
     @media all and (max-width: 699px) and (min-width: 520px) {
            /* Your selectors */
     }
@@ -210,7 +210,7 @@ All code has to be lowercase: This applies to element names, attributes, attribu
 
 At the top of each CSS file, it is good to have a table of contents that maps to the section titles in the document.
 
-    :::css
+
     /*------------------------------------*\
         CONTENTS
     \*------------------------------------*/
@@ -243,7 +243,7 @@ For our design needs, we would be maintaining a common hierarchy as follows:
 
 1. Base CSS
 
-    :::css
+
     html {
       background-color: #FFF;
       font-family: Arial, Helvetica, sans-serif;
@@ -277,7 +277,7 @@ For our design needs, we would be maintaining a common hierarchy as follows:
 
 ##HTML layout
 
-    :::css
+
     <!DOCTYPE HTML>
      <html>
          <head>

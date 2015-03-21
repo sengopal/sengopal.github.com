@@ -10,13 +10,13 @@
 
 				<#list posts as post>
 			  		<#if (post.status == "published")>
-			  			<a href="${post.uri}"><h1><#escape x as x?xml>${post.title}</#escape></h1></a>
-			  			<p>${post.date?string("dd MMMM yyyy")}</p>
-			  			<p>${post.summary}</p>
+			  			<a href="${post.uri}"><h2><#escape x as x?xml>${post.title}</#escape></h2></a>
+			  			<p class="post_date">${post.date?string("dd MMMM yyyy")}</p>
+			  			<p>${post.body}</p>
+			  			<hr />
 			  		</#if>
+			  		<#if post_index = 3><#break></#if>
 			  	</#list>
-
-				<hr />
 
 				<p>Older posts are available in the <a href="/${config.archive_file}">archive</a>.</p>
 

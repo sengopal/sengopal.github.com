@@ -1,6 +1,6 @@
 <div class="header">
-  <h1><a href="/">Senthilkumar Gopal</a></h1>
-  <h2>Thoughts, Code, ramblings and notes</h2>
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
     <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt"></i></a></li>
     <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter"></i></a></li>
