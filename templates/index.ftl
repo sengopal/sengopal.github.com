@@ -15,10 +15,8 @@
 			  			<p>${post.body}</p>
 			  			<hr />
 			  		</#if>
-			  		<#if post_index = 3><#break></#if>
+			  		<#if post_index = 2><#break></#if>
 			  	</#list>
-
-				<p>Older posts are available in the <a href="/${config.archive_file}">archive</a>.</p>
 
 			</div>
 			<div id="push"></div>
