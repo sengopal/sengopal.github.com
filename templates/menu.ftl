@@ -13,9 +13,9 @@
 <div class="nav" role="navigation">
   <ul>
     <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>archive.html">Posts</a></li>
-    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>/pages/projects.html">Projects</a></li>
-    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>/pages/reviews.html">Reviews</a></li>
-    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>/pages/resume.html">Resume</a></li>
+    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/projects.html">Projects</a></li>
+    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/reviews.html">Reviews</a></li>
+    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/resume.html">Resume</a></li>
     <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/about.html">About Me</a></li>
   </ul>
 </div>

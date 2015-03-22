@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JBake</title>
-    <link>http://sengopal.github.io/</link>
-    <atom:link href="http://sengopal.github.io//feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://sengopal.github.io/blog/</link>
+    <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sun, 22 Mar 2015 13:14:42 -0700</pubDate>
-    <lastBuildDate>Sun, 22 Mar 2015 13:14:42 -0700</lastBuildDate>
+    <pubDate>Sun, 22 Mar 2015 13:19:44 -0700</pubDate>
+    <lastBuildDate>Sun, 22 Mar 2015 13:19:44 -0700</lastBuildDate>
 
     <item>
       <title>CSS learning and notes</title>
-      <link>http://sengopal.github.io//blog/css-learning-and-notes.html</link>
+      <link>http://sengopal.github.io/blog//blog/css-learning-and-notes.html</link>
       <pubDate>Thu, 28 Mar 2013 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/css-learning-and-notes.html</guid>
       	<description>
@@ -184,7 +184,7 @@ margin: 10px 5px 15px;
     </item>
     <item>
       <title>Big List of Web apps</title>
-      <link>http://sengopal.github.io//blog/big-list-of-web-apps.html</link>
+      <link>http://sengopal.github.io/blog//blog/big-list-of-web-apps.html</link>
       <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/big-list-of-web-apps.html</guid>
       	<description>
@@ -276,7 +276,7 @@ margin: 10px 5px 15px;
     </item>
     <item>
       <title>CSS style guidelines</title>
-      <link>http://sengopal.github.io//blog/css-style-guidelines.html</link>
+      <link>http://sengopal.github.io/blog//blog/css-style-guidelines.html</link>
       <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/css-style-guidelines.html</guid>
       	<description>
@@ -565,7 +565,7 @@ h1, h2, h3 {
     </item>
     <item>
       <title>Git and Github secrets</title>
-      <link>http://sengopal.github.io//blog/git-github-secrets.html</link>
+      <link>http://sengopal.github.io/blog//blog/git-github-secrets.html</link>
       <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/git-github-secrets.html</guid>
       	<description>
@@ -616,7 +616,7 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
     </item>
     <item>
       <title>Google GDay in Chennai</title>
-      <link>http://sengopal.github.io//blog/google-gday-chennai-notes.html</link>
+      <link>http://sengopal.github.io/blog//blog/google-gday-chennai-notes.html</link>
       <pubDate>Mon, 23 Jul 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/google-gday-chennai-notes.html</guid>
       	<description>
@@ -727,7 +727,7 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
     </item>
     <item>
       <title>Simple eBay Search using Backbone</title>
-      <link>http://sengopal.github.io//blog/simple-ebay-search-using-backbone.html</link>
+      <link>http://sengopal.github.io/blog//blog/simple-ebay-search-using-backbone.html</link>
       <pubDate>Sun, 20 May 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/simple-ebay-search-using-backbone.html</guid>
       	<description>
@@ -752,7 +752,7 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
     </item>
     <item>
       <title>50 Ubuntu shortcuts and tips</title>
-      <link>http://sengopal.github.io//blog/ubuntu-shortcuts-and-tips.html</link>
+      <link>http://sengopal.github.io/blog//blog/ubuntu-shortcuts-and-tips.html</link>
       <pubDate>Wed, 11 Apr 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/ubuntu-shortcuts-and-tips.html</guid>
       	<description>
@@ -862,7 +862,7 @@ AllowUsers non-root
     </item>
     <item>
       <title>18 Useful command line tools in Windows</title>
-      <link>http://sengopal.github.io//blog/useful-commands-in-windows.html</link>
+      <link>http://sengopal.github.io/blog//blog/useful-commands-in-windows.html</link>
       <pubDate>Thu, 1 Mar 2012 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/useful-commands-in-windows.html</guid>
       	<description>
@@ -896,7 +896,7 @@ netsh advfirewall firewall show rule name | find &amp;quot;Block&amp;quot;
     </item>
     <item>
       <title>Android Application development notes - Part 1</title>
-      <link>http://sengopal.github.io//blog/android-learn-part1.html</link>
+      <link>http://sengopal.github.io/blog//blog/android-learn-part1.html</link>
       <pubDate>Mon, 9 Jan 2012 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/android-learn-part1.html</guid>
       	<description>
@@ -905,7 +905,7 @@ netsh advfirewall firewall show rule name | find &amp;quot;Block&amp;quot;
     </item>
     <item>
       <title>Android Application development notes - Part 2</title>
-      <link>http://sengopal.github.io//blog/android-learn-part2.html</link>
+      <link>http://sengopal.github.io/blog//blog/android-learn-part2.html</link>
       <pubDate>Mon, 9 Jan 2012 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/android-learn-part2.html</guid>
       	<description>
@@ -963,7 +963,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>AWS Cloud Tour Chennai 2011</title>
-      <link>http://sengopal.github.io//blog/aws-cloud-tour.html</link>
+      <link>http://sengopal.github.io/blog//blog/aws-cloud-tour.html</link>
       <pubDate>Fri, 2 Dec 2011 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/aws-cloud-tour.html</guid>
       	<description>
@@ -1286,7 +1286,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>Google Developer Fest 2011 - Random Notes</title>
-      <link>http://sengopal.github.io//blog/google-dev-fest-part-1.html</link>
+      <link>http://sengopal.github.io/blog//blog/google-dev-fest-part-1.html</link>
       <pubDate>Thu, 22 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/google-dev-fest-part-1.html</guid>
       	<description>
@@ -1318,7 +1318,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>Google Developer Fest 2011 - Random Notes Part 2</title>
-      <link>http://sengopal.github.io//blog/google-dev-fest-part-2.html</link>
+      <link>http://sengopal.github.io/blog//blog/google-dev-fest-part-2.html</link>
       <pubDate>Thu, 22 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/google-dev-fest-part-2.html</guid>
       	<description>
@@ -1353,7 +1353,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>Some Eclipse, tips, tricks and shortcuts</title>
-      <link>http://sengopal.github.io//blog/some-eclipse-tips-tricks-and-shortcuts.html</link>
+      <link>http://sengopal.github.io/blog//blog/some-eclipse-tips-tricks-and-shortcuts.html</link>
       <pubDate>Thu, 22 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/some-eclipse-tips-tricks-and-shortcuts.html</guid>
       	<description>
@@ -1377,7 +1377,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>Corporate Lingo</title>
-      <link>http://sengopal.github.io//blog/corporate-lingo.html</link>
+      <link>http://sengopal.github.io/blog//blog/corporate-lingo.html</link>
       <pubDate>Wed, 21 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/corporate-lingo.html</guid>
       	<description>
@@ -1386,7 +1386,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>My Agile training notes - Day 1</title>
-      <link>http://sengopal.github.io//blog/my-agile-training-notes-day-1.html</link>
+      <link>http://sengopal.github.io/blog//blog/my-agile-training-notes-day-1.html</link>
       <pubDate>Mon, 5 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/my-agile-training-notes-day-1.html</guid>
       	<description>
@@ -1460,7 +1460,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>My Agile training notes - Day 2</title>
-      <link>http://sengopal.github.io//blog/my-agile-training-notes-day-2.html</link>
+      <link>http://sengopal.github.io/blog//blog/my-agile-training-notes-day-2.html</link>
       <pubDate>Mon, 5 Sep 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/my-agile-training-notes-day-2.html</guid>
       	<description>
@@ -1569,7 +1569,7 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
     </item>
     <item>
       <title>ashing and Checksum in Java</title>
-      <link>http://sengopal.github.io//blog/hashing-and-checksum-in-java.html</link>
+      <link>http://sengopal.github.io/blog//blog/hashing-and-checksum-in-java.html</link>
       <pubDate>Mon, 22 Aug 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/hashing-and-checksum-in-java.html</guid>
       	<description>
@@ -1625,7 +1625,7 @@ public class SHAHashingExample{
     </item>
     <item>
       <title>List of JVM command line options</title>
-      <link>http://sengopal.github.io//blog/jvm-options-discussion-notes.html</link>
+      <link>http://sengopal.github.io/blog//blog/jvm-options-discussion-notes.html</link>
       <pubDate>Wed, 10 Aug 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/jvm-options-discussion-notes.html</guid>
       	<description>
@@ -1638,7 +1638,7 @@ public class SHAHashingExample{
     </item>
     <item>
       <title>Database Design Tips</title>
-      <link>http://sengopal.github.io//blog/database-design-tips.html</link>
+      <link>http://sengopal.github.io/blog//blog/database-design-tips.html</link>
       <pubDate>Fri, 5 Aug 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/database-design-tips.html</guid>
       	<description>
@@ -1670,7 +1670,7 @@ public class SHAHashingExample{
     </item>
     <item>
       <title>Basics of ClearCase</title>
-      <link>http://sengopal.github.io//blog/basics-of-clearcase.html</link>
+      <link>http://sengopal.github.io/blog//blog/basics-of-clearcase.html</link>
       <pubDate>Sat, 23 Jul 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/basics-of-clearcase.html</guid>
       	<description>
@@ -1725,7 +1725,7 @@ public class SHAHashingExample{
     </item>
     <item>
       <title>Some Java 7 features</title>
-      <link>http://sengopal.github.io//blog/some-java-7-features.html</link>
+      <link>http://sengopal.github.io/blog//blog/some-java-7-features.html</link>
       <pubDate>Mon, 11 Jul 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/some-java-7-features.html</guid>
       	<description>
@@ -1768,7 +1768,7 @@ int x = 0b1010110;
     </item>
     <item>
       <title>Collection of useful java code snippets</title>
-      <link>http://sengopal.github.io//blog/collection-of-useful-java-code-snippets.html</link>
+      <link>http://sengopal.github.io/blog//blog/collection-of-useful-java-code-snippets.html</link>
       <pubDate>Wed, 6 Jul 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/collection-of-useful-java-code-snippets.html</guid>
       	<description>
@@ -1815,7 +1815,7 @@ Hello world.&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Code without main()&lt
     </item>
     <item>
       <title>Java Logging and Log4J Notes</title>
-      <link>http://sengopal.github.io//blog/java-logging-and-log4j-notes.html</link>
+      <link>http://sengopal.github.io/blog//blog/java-logging-and-log4j-notes.html</link>
       <pubDate>Wed, 6 Jul 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/java-logging-and-log4j-notes.html</guid>
       	<description>
@@ -1853,7 +1853,7 @@ log4j.appender.PL.DatePattern=&amp;#39;.&amp;#39;yyyy-MM-dd&amp;lt;/p&amp;gt;&am
     </item>
     <item>
       <title>JAXB Usage for single line conversion</title>
-      <link>http://sengopal.github.io//blog/jaxb-usage-for-single-line-conversion.html</link>
+      <link>http://sengopal.github.io/blog//blog/jaxb-usage-for-single-line-conversion.html</link>
       <pubDate>Sun, 29 May 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/jaxb-usage-for-single-line-conversion.html</guid>
       	<description>
@@ -1876,7 +1876,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>Chennai JUG Summit - April 16 and 17</title>
-      <link>http://sengopal.github.io//blog/chennai-jug-summitapril-16-and-17.html</link>
+      <link>http://sengopal.github.io/blog//blog/chennai-jug-summitapril-16-and-17.html</link>
       <pubDate>Sun, 24 Apr 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/chennai-jug-summitapril-16-and-17.html</guid>
       	<description>
@@ -1885,7 +1885,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>A great article about Code reviews</title>
-      <link>http://sengopal.github.io//blog/a-great-article-about-code-reviews.html</link>
+      <link>http://sengopal.github.io/blog//blog/a-great-article-about-code-reviews.html</link>
       <pubDate>Mon, 13 Dec 2010 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/a-great-article-about-code-reviews.html</guid>
       	<description>
@@ -1912,7 +1912,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>Topics for a java Interview</title>
-      <link>http://sengopal.github.io//blog/topics-for-a-java-interview.html</link>
+      <link>http://sengopal.github.io/blog//blog/topics-for-a-java-interview.html</link>
       <pubDate>Mon, 13 Dec 2010 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/topics-for-a-java-interview.html</guid>
       	<description>
@@ -1952,7 +1952,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>Java Mail Made Easy using Velocity Templates</title>
-      <link>http://sengopal.github.io//blog/java-mail-using-velocity-templates.html</link>
+      <link>http://sengopal.github.io/blog//blog/java-mail-using-velocity-templates.html</link>
       <pubDate>Fri, 1 Oct 2010 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/java-mail-using-velocity-templates.html</guid>
       	<description>
@@ -2143,7 +2143,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>PDF Generation using PD4ML</title>
-      <link>http://sengopal.github.io//blog/pdf-generation-using-pd4ml.html</link>
+      <link>http://sengopal.github.io/blog//blog/pdf-generation-using-pd4ml.html</link>
       <pubDate>Mon, 5 Apr 2010 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/pdf-generation-using-pd4ml.html</guid>
       	<description>
@@ -2342,7 +2342,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
     </item>
     <item>
       <title>Job chaining using Quartz</title>
-      <link>http://sengopal.github.io//blog/job-chaining-using-quartz.html</link>
+      <link>http://sengopal.github.io/blog//blog/job-chaining-using-quartz.html</link>
       <pubDate>Tue, 31 Mar 2009 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/job-chaining-using-quartz.html</guid>
       	<description>
