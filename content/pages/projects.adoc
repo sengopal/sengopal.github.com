@@ -1,0 +1,13 @@
+= Projects
+Senthilkumar Gopal
+2015-03-22
+:jbake-type: page
+:jbake-tags: project
+:jbake-status: published
+
+I have worked on many side projects, primarily work related which has helped me learn many new aspects of not just programming but different facets of web application architecture, basic user experience and other minute details which generally go unnoticed during development, but becomes painfully obvious after the release. This page attempts to chronicle these learnings (mistakes!) which i keep track of to prevent any reoccurence.
+
+[quote, Oscar Wilde]
+Experience is simply the name we give our mistakes.
+
+
