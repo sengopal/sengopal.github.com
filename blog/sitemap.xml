@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://sengopal.github.io/pages/about.html</loc>
-        <lastmod>2009-07-23</lastmod>
+        <loc>http://sengopal.github.io/pages/resume.html</loc>
+        <lastmod>2013-10-17</lastmod>
     </url>
     <url>
-        <loc>http://sengopal.github.io/pages/resume.html</loc>
+        <loc>http://sengopal.github.io/pages/about.html</loc>
         <lastmod>2009-07-23</lastmod>
     </url>
     <url>
