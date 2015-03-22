@@ -15,6 +15,7 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
+  <link href="../css/normalize.css" rel="stylesheet">
   <link href="../css/base.css" rel="stylesheet">
   <link href="../css/highlight.min.css" rel="stylesheet">
   <link href="../css/screen.css" rel="stylesheet">
@@ -171,8 +172,6 @@ logger.info(&quot;Mail Processor Scheduled&quot;);
 </code></pre><p>Note: <em>Since the same job is being chained, we have to use rescheduleJob().</em></p><p>The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs</p><p>References<br/>* <a href="http://quartz.sourceforge.net/firstTutorial.html">http://quartz.sourceforge.net/firstTutorial.html</a><br/>* <a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/">http://www-128.ibm.com/developerworks/java/library/j-quartz/</a></p></p>
 
 				<hr />
-
-				<p>Older posts are available in the <a href="/archive.html">archive</a>.</p>
 
 			</div>
 			<div id="push"></div>

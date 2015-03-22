@@ -13,7 +13,11 @@ body {
   font-family: "Gentium Basic", serif;
   font-size: 18px;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.4;
+}
+
+p{
+  margin: 0;
 }
 
 a {
@@ -38,6 +42,10 @@ code {
 
 h1, h2, h3 {
   font-weight: normal;
+  margin: 5px 0 0;
+}
+h4, h5 {
+  margin: 5px 0 0;
 }
 
 .header h1 {
@@ -59,8 +67,6 @@ h1, h2, h3 {
 
 .nav {
   font-family: "Domine", serif;
-  margin: 30px 0;
-  padding: 10px 0;
   text-align: center;
   border-top: 1px dashed #eee;
   border-bottom: 1px dashed #eee;
@@ -68,6 +74,7 @@ h1, h2, h3 {
 
 .nav ul{
   padding: 0;
+  margin: 10px 0;
 }
 
 .nav li {
@@ -130,7 +137,7 @@ h1, h2, h3 {
 }
 
 .external{
-  margin: 20px 0;
+  margin: 10px 0 0;
   display: block;
   text-align: center;
 }
@@ -143,4 +150,8 @@ h1, h2, h3 {
 
 i{
   color: #aaa;
+}
+
+ol{
+  margin: 5px 0;
 }

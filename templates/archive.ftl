@@ -9,7 +9,7 @@
 				<#include "menu.ftl">
 
 				<div class="header">
-					<h1>Archive</h1>
+					<h1>Previous Posts</h1>
 				</div>
 
 				<ul>

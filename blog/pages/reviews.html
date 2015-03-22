@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>ashing and Checksum in Java</title>
+  <title>Reviews</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Senthilkumar Gopal blog and home page">
   <meta name="author" content="Senthilkumar Gopal">
@@ -56,59 +56,14 @@
 </div>
 				
 				<div class="page-header">
-					<h1>ashing and Checksum in Java</h1>
+					<h1>Reviews</h1>
 				</div>
 
-				<p><em>22 August 2011</em></p>
+				<p><em>22 March 2015</em></p>
 
-				<p><h3>Checksum generation</h3>
-<pre><code>:::java
-public class SHACheckSumExample{
-    public static void main(String[] args)throws Exception{
-        MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);
-        FileInputStream fis = new FileInputStream(&quot;c:loging.log&quot;);
-        byte[] dataBytes = new byte[1024];   int nread = 0;
-        while ((nread = fis.read(dataBytes)) != -1) {
-          md.update(dataBytes, 0, nread);
-        };
-        //convert the byte to hex format method 1
-        byte[] mdbytes = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i &lt; mdbytes.length; i++) {
-          sb.append(Integer.toString((mdbytes[i] &amp; 0xff) + 0x100, 16).substring(1));
-        }
-        //convert the byte to hex format method 2
-        System.out.println(&quot;Hex format : &quot; + sb.toString());
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0;i&lt;mdbytes.length;i++) {
-          hexString.append(Integer.toHexString(0xFF &amp; mdbytes[i]));
-        }   System.out.println(&quot;Hex format : &quot; + hexString.toString());
-    }
-}
-</code></pre><h3>Hashing of a String</h3>
-<pre><code>:::java
-public class SHAHashingExample{
-    public static void main(String[] args)throws Exception    {
-        String password = &quot;123456&quot;;
-        MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);
-        md.update(password.getBytes());
-        byte byteData[] = md.digest();   //convert the byte to hex format method 1
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i &lt; byteData.length; i++) {
-         sb.append(Integer.toString((byteData[i] &amp; 0xff) + 0x100, 16).substring(1));
-        }
-        //convert the byte to hex format method 2
-        System.out.println(&quot;Hex format : &quot; + sb.toString());
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0;i&lt;byteData.length;i++) {
-            String hex=Integer.toHexString(0xff &amp; byteData[i]);
-            if(hex.length()==1) hexString.append(&#39;0&#39;);
-            hexString.append(hex);
-        }
-        System.out.println(&quot;Hex format : &quot; + hexString.toString());
-    }
-}
-</code></pre></p>
+				<p><div class="paragraph">
+<p>I find myself tinkering with many frameworks, tools and different technologies. This page captures my findings, notes and other interesting facts and aspects which would be useful for someone reviewing them for their own purpose.</p>
+</div></p>
 
 				<hr />
 
