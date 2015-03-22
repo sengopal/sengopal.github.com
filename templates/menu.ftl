@@ -2,10 +2,10 @@
   <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
   <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
-    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt"></i></a></li>
-    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter"></i></a></li>
-    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin"></i></a></li>
-    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>${config.feed_file}"><i class="fa fa-rss"></i></a></li>
+    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>${config.feed_file}"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
   </ul>
 
 </div>

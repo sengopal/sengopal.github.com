@@ -1,0 +1,40 @@
+= Using Netflix Hystrix for Resiliency
+Senthilkumar Gopal
+2015-02-28
+:jbake-type: post
+:jbake-tags: hystrix
+:jbake-slug: using-netflix-hystrix
+:jbake-status: draft
+
+
+=== What is Resiliency?
+
+
+=== Why should we have Resiliency?
+Indefinite retries, safeguard endpoint
+
+=== Simple Resiliency system - Circuit Breaker Design pattern
+Auto mark down, Bot check, monitoring, 
+
+=== Netflix Hystrix
+
+
+=== How to use?
+
+
+=== Out of the box components
+Monitoring
+runtime config management
+
+
+=== Usage in eBay
+Authentication adaptor
+
+
+
+=== References
+http://techblog.netflix.com/2012/11/hystrix.html
+https://github.com/Netflix/Hystrix/wiki
+
+
+hystrix.command.r1raptorIAFGetTokenByRefCommand.execution.isolation.thread.timeoutInMilliseconds

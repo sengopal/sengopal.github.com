@@ -17,6 +17,7 @@
   <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/highlight.min.css" rel="stylesheet">
   <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/screen.css" rel="stylesheet">
   <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/font-awesome.min.css" rel="stylesheet">
+  <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/hover-min.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>

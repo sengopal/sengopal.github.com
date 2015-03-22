@@ -155,3 +155,7 @@ i{
 ol{
   margin: 5px 0;
 }
+
+.row{
+  clear: both;
+}

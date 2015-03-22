@@ -1,22 +1,16 @@
-.intro {
+.intro, row {
   font-size: 1.25em;
   line-height: 1.3em;
   font-weight: 300;
   max-width: 1020px;
-  page-break-inside: avoid; }
-  .intro a {
-    font-weight: bolder; }
+  page-break-inside: avoid; 
+}
+.intro a {
+    font-weight: bolder; 
+}
 
 h1 + .intro {
   max-width: 100%; }
-
-.intro {
-  font-size: 1.25em;
-  line-height: 1.3em;
-  font-weight: 300;
-  max-width: 1020px;
-  page-break-inside: avoid;
-}
 
 .callout {
   width: 266.66667px;
@@ -125,4 +119,10 @@ h5 {
   color: #D5D4D4;
   font-style: italic;
   margin: 5px 0;
+}
+.external{
+  display: inline-block;
+}
+i{
+  color: #4F76AC;
 }
