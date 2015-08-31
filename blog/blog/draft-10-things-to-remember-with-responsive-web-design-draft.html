@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Ten things to remember about responsive web design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
+  <meta name="author" content="Senthilkumar Gopal">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
+  <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
+
+  <link href="../css/normalize.css" rel="stylesheet">
+  <link href="../css/base.css" rel="stylesheet">
+  <link href="../css/highlight.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/hover-min.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+			<div class="container">
+<div class="header">
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
+  <ul class="external">
+    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+  </ul>
+
+</div>
+
+<div class="nav" role="navigation">
+  <ul>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
+    <!--
+    <li><a href="../pages/reviews.html">Reviews</a></li>
+    -->
+    <li><a href="../pages/about.html">About Me</a></li>
+  </ul>
+</div>
+				
+				<div class="page-header">
+					<h1>Ten things to remember about responsive web design</h1>
+				</div>
+
+				<p><em>28 July 2015</em></p>
+
+				<p><h1>Responsive Web Design</h1><p>Starting with the first coining of the term “Responsive web design” in 2010, RWD has gone from strength to strength as a strong design approach for enabling easier access to web pages in a variety of devices. With a rapid shift in landscape from simple web browsers to rapidly growing list of devices, such as tablets, mobile phones, game controllers to name a few, RWD helps web designers create a flexible but optimized version of the pages best suited for </p><p>Our basic design for the web always centers around a desktop oriented approach and with multiple devices beginning to overrun desktop usage, responsive design forms a strong and simpler means of reaching users with optimal design custom fit for the device in question. Responsive design takes the moral higher ground of creating a connected experience across devices rather than having totally different designs for each and every device.</p><p>RWD as an implementation is nothing new and has been possible since CSS 2.1. This presentation goes through how RWD has evolved since then, RWD versus the native app, good and bad usage with few code samples, a simple implementation and next steps.</p><h2>Tools</h2><p>hammerformac<br/>codekit<br/>Koala<br/>mixture.io</p><p>Watch Sass / Less / Stylus<br/>Watch CoffeeScript<br/>Watch Jade / Haml<br/>LiveReload<br/>JS / CSS Linting</p><p>Code linting<br/>Running unit tests<br/>Compile everything<br/>Minify and concatenate<br/>Generate images / icons<br/>Optimize performance<br/>HTTP Server<br/>Deployment<br/>Build</p><p>COMPASS APP<br/>Scout</p><p>Scaffold, write less with Yo<br/>Build, preview and test with Grunt<br/>Manage dependencies with Bower</p><p>Grunt does<br/> Linting Compiling Minification Testing Conversion Documentation Deployment And more</p><p>grunt-responsive-images<br/>grunt-contrib-imageoptim<br/>grunt-concurrent<br/>grunt-newer<br/>grunt-uncss</p><p>bower search<br/>bower search angular<br/>bower install<br/>bower list</p><p>npm install generator-bootstrap -g<br/>yo bootstrap</p><p>gruntsync</p><p>yo express-angular</p><p>yo chrome-extension</p><p>JET Brains Chrome Extension</p><p>JsConsole</p><p>How i created a modern webapp in 48 hours and an opinionated front end webstack</p><p>What i already had?<br/> A good raptor backend ginger sec</p><p>What i am developing<br/> An internal tool for reading DB</p><p>RoadBlock<br/> Recursion in JSTL<br/> Boilerplate JSP code</p><p>Needed tools<br/> Fast CSS protyping (preferably bootstrap)<br/> livereload<br/> watch compile<br/> SASS source maps<br/> remove unwanted css<br/> simple HTTP server</p><p>Chosen<br/> SASS<br/> sass-with-bootstrap<br/> JSP - Handlebar( Could use Angular but no need for two way binding)</p><p>Used with dissatisfaction<br/> Compass<br/> SASS Watch<br/> Live reload app</p><p>Found Grunt</p><p><a href="http://handlebarsjs.com/">http://handlebarsjs.com/</a><br/><a href="http://handlebarsjs.com/block_helpers.html">http://handlebarsjs.com/block_helpers.html</a><br/><a href="http://www.slideshare.net/MindfireSolutions/introduction-to-javascript-templating-using-handlebarsjs">http://www.slideshare.net/MindfireSolutions/introduction-to-javascript-templating-using-handlebarsjs</a></p><p>Precompiling - <a href="http://berzniz.com/post/24743062344/handling-handlebars-js-like-a-pro">http://berzniz.com/post/24743062344/handling-handlebars-js-like-a-pro</a></p></p>
+
+				<hr />
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+</div>
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

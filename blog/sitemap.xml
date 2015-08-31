@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://sengopal.github.io/blog/pages/projects.html</loc>
-        <lastmod>2015-03-22</lastmod>
+        <loc>http://sengopal.github.io/blog/pages/about.html</loc>
+        <lastmod>2015-08-10</lastmod>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/pages/resume.html</loc>
+        <loc>http://sengopal.github.io/blog/pages/projects.html</loc>
         <lastmod>2015-03-22</lastmod>
     </url>
     <url>
@@ -13,8 +13,8 @@
         <lastmod>2015-03-22</lastmod>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/pages/about.html</loc>
-        <lastmod>2009-07-23</lastmod>
+        <loc>http://sengopal.github.io/blog/blog/tips-presentation-notes-hints.html</loc>
+        <lastmod>2014-12-20</lastmod>
     </url>
     <url>
         <loc>http://sengopal.github.io/blog/blog/css-learning-and-notes.html</loc>
@@ -35,10 +35,6 @@
     <url>
         <loc>http://sengopal.github.io/blog/blog/google-gday-chennai-notes.html</loc>
         <lastmod>2012-07-23</lastmod>
-    </url>
-    <url>
-        <loc>http://sengopal.github.io/blog/blog/simple-ebay-search-using-backbone.html</loc>
-        <lastmod>2012-05-20</lastmod>
     </url>
     <url>
         <loc>http://sengopal.github.io/blog/blog/ubuntu-shortcuts-and-tips.html</loc>

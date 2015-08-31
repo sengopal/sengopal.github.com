@@ -50,178 +50,41 @@
   <ul>
     <li><a href="archive.html">Posts</a></li>
     <li><a href="pages/projects.html">Projects</a></li>
+    <!--
     <li><a href="pages/reviews.html">Reviews</a></li>
-    <li><a href="pages/resume.html">Resume</a></li>
+    -->
     <li><a href="pages/about.html">About Me</a></li>
   </ul>
 </div>
 
-			  			<a href="blog/css-learning-and-notes.html"><h2>CSS learning and notes</h2></a>
-			  			<p class="post_date">28 March 2013</p>
-			  			<p><p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p><h3>Slicing techniques</h3>
+			  			<a href="blog/tips-presentation-notes-hints.html"><h2>Tips for an awesome presention</h2></a>
+			  			<p class="post_date">20 December 2014</p>
+			  			<p><p>Recently, I came across this oldie, but great article on public speaking on <a href="http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html">OReilly</a>. Some of the most important aspects from that article are:</p><h3>How to structure the talk</h3>
 <ol>
-  <li>Do not slice the logo</li>
-  <li>Figure out the gradient for repeating along the x -axis</li>
-  <li>Dont start with the slice tool from the toolbar</li>
-  <li>Always design with a wrapper div - for a row or a column - to be enclosed as a container tag</li>
-  <li>Decide upon only one type of slicing for a given layout - for the wrapper divs and then perform the slicing</li>
-  <li>First horizontal - because the flow goes from right to left</li>
-  <li>After selecting the slice, divide the slice and give the number of dividers you would need</li>
-  <li>Save for Web and Devices - Gif and PNG for transparent ones</li>
-  <li>Quality generally set up as 75-85%</li>
-</ol><h3>Remember</h3>
+  <li>Answer most 5 common Questions the audience would have. Structure the talk around it</li>
+  <li>Practice, Dont rehearse</li>
+  <li>Take an interesting angle - Title should define it</li>
+  <li>Create Slides LATE in the process</li>
+  <li>Enjoy yourself</li>
+</ol><h3>How to set the title for your presentation</h3>
 <ol>
-  <li>height, width, padding, margin, float - main important properties</li>
-  <li><p>use the following (or use a reset)</p>
-  <pre><code>body{
-    padding:0;
-    margin:0;
-}
-</code></pre></li>
-  <li><p>Give Wrapper <code>margin:auto;</code> to make the whole container centered</p></li>
-  <li>Give fixed width and height to get the margin auto to work properly</li>
-  <li>Div dimensions: width + margin + padding + border</li>
-  <li>Whenever u are adding a padding or margin, adjust the width or height appropriately</li>
-  <li>Use <code>margin:auto;</code> to center the div within the container</li>
-  <li><code>#nav ul{ margin:0; padding:0;}</code> - remember for every UL block or use a reset</li>
-  <li>Always use <code>ul{list-style-type: none;}</code></li>
-  <li>Give <code>li{display:block}</code> and provide width &amp; height to get a BUTTON look and feel</li>
-  <li>For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.</li>
-  <li>always the target browsers and supported resolutions needs to be decided</li>
-</ol><h3>Media Queries</h3>
+  <li>5 weaving skills you can learn today vs. Intro to Basket weaving</li>
+  <li>Important questions about vs. Panel</li>
+  <li>Lessons vs. Analysis</li>
+</ol><h3>Be a good listener</h3>
 <ol>
-  <li>Change float to normal using the height/width/float properties for changing screen size</li>
-  <li>Always use <code>margin,padding:0</code> - for reset</li>
-  <li><p>Types of layouts - pure fluid / pure display oriented / hybrid</p>
-  <ul>
-    <li>Fluid Layout
-    <ol>
-      <li>system of relative layout instead of absolute pixels</li>
-      <li>height/width - only in percentages</li>
-    </ol></li>
-  </ul>
-  <ul>
-    <li>Adaptive Layout
-    <ol>
-      <li>using the @media tags</li>
-    </ol></li>
-  </ul>
-  <ul>
-    <li>Responsive Layout
-    <ol>
-      <li>Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</li>
-    </ol></li>
-  </ul></li>
-  <li><p>New way of setting the media value</p>
-  <pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,width=device-width&quot;&gt;
-</code></pre></li>
-  <li><p>Media query representation</p>
-  <pre><code>@media screen and (max-width: 980px){
-    ....
-}
-</code></pre></li>
-  <li><p>Always create the smallest resolution first</p></li>
-  <li>Try to use different images with different srcs to cater to different sizes</li>
-</ol><h3>Types of Selectors</h3>
+  <li>Pay more attention to people who are listening</li>
+  <li>STOP halfway - ask to ask a question</li>
+  <li>Poll the audience - Never done X? Done it multiple times?</li>
+  <li>Shorten each section - get to Q&amp;A soon - Let audience drive, the better</li>
+</ol><h3>Practice, Practive and more Practive</h3>
 <ol>
-  <li>Tag</li>
-  <li>Class</li>
-  <li>Pseudo-element [first-line, first-character] <em>This is the LEAST important selector</em></li>
-  <li>Contextual/Conditional - selective styling - <code>p strong{}</code></li>
-  <li>Group/Compound selector - more than 1 tag</li>
-  <li>Pseudo-class [link,active,hover,visited] - <em>MORE important than the other pseudo-element</em></li>
-  <li>ID Selector</li>
-  <li>when to use id vs class?
-  <ul>
-    <li>Use Class references with Less weightage</li>
-    <li>Use the TAG selectors first</li>
-  </ul></li>
-</ol><h3>Selectors Precedence</h3>
+  <li>Practice is greater than rehearsal.</li>
+  <li>Aim for comfort, not perfection.</li>
+</ol><h3>Quick wins</h3>
 <ol>
-  <li>The precedence for any style flows as : <code>inline &gt; Embedded &gt; External</code></li>
-  <li>The precedence for any selector: id &gt; class &gt; tag</li>
-</ol><p>For more details, refer to</p>
-<ul>
-  <li><a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">Specificity</a></li>
-  <li><a href="http://www.w3.org/TR/CSS2/selector.html">Selector</a></li>
-  <li><a href="http://css-tricks.com/specifics-on-css-specificity/">CSS Tricks</a></li>
-</ul><h3>Hierarchy of precedence</h3>
-<ol>
-  <li>The ID selector</li>
-  <li>The attribute selector</li>
-  <li>The class selector</li>
-  <li>The child selector</li>
-  <li>The adjacent sibling selector - <code>.blog-img + p</code></li>
-  <li>The descendant selector</li>
-  <li>The tag selector</li>
-</ol><h3>Shorthand syntax</h3><h4>background</h4>
-<pre><code>background: url(example.gif);
-background-color: #eaeaea ;
-background-repeat: repeat-x;
-background-position: top left;
-</code></pre><p>can be written as:</p><p><code>background: #eaeaea url(example.gif) repeat-x top left;</code></p><h4>border</h4>
-<pre><code>border-color: red;
-border-width: 1px;
-border-style: solid;
-</code></pre><p>can be written as:</p><p><code>border: 1px solid red;</code></p><h4>list</h4>
-<pre><code>list-style-position: outside;
-list-style-image: none;
-list-style-type: disc;
-</code></pre><p>can be written as:</p><p><code>list-style: disc outside;</code></p><p>the general format for a list style is:</p><p><code>list-style: [list-style-type] [list-style-position] [list-style-image];</code></p><h4>font</h4>
-<pre><code>font-family: Arial, Helvetica;
-font-weight: bold;
-font-style: italic;
-font-size: 1em;
-line-height: 1.5em;
-</code></pre><p>can be written as:</p><p><code>font: bold italic 1em/1.5em Arial, Helvetica;</code></p><h4>margin</h4><p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p>
-<pre><code>/* top=10px, right=5px, bottom=15px, left=20px */
-margin: 10px 5px 15px 20px;
-
-/* top=10px, right=5px, bottom=10px, left=5px*/
-margin: 10px 5px;
-
-/* top=10px, right=5px, bottom=15px, left=5px*/
-margin: 10px 5px 15px;
-</code></pre><h3>Form features in HTML5</h3>
-<ol>
-  <li>Placeholder text</li>
-  <li>Slider control</li>
-  <li>Calendar/Date picker</li>
-  <li>autocomplete</li>
-  <li>Input type Search</li>
-</ol><h3>CSS features in HTML5</h3>
-<ol>
-  <li>Shadow - box shadow, text shadow</li>
-  <li>Gradient</li>
-  <li>Blur</li>
-  <li>column text</li>
-  <li>transform / transitions</li>
-  <li>Rounded corners (using border radius)</li>
-  <li>CSS Regions</li>
-  <li>Exclusions</li>
-  <li>Shaders</li>
-  <li>Shadow DOM</li>
-  <li>Multiple Images in background</li>
-  <li>Alpha</li>
-  <li>Font-faces</li>
-  <li>Animation using Keyframes<br/><em>Postion:fixed or other positioning important for animations to work</em></li>
-</ol><h3>New Tags in HTML5</h3>
-<ol>
-  <li>New semantic tags - header, footer, nav, section, aside, article</li>
-  <li>Multimedia tags - audio/sound,video</li>
-  <li>Drawing based tags - canvas, svg</li>
-  <li>Form based new tags - Date, slider, time, spinner</li>
-</ol><h3>Important Links</h3>
-<ol>
-  <li><a href="http://css3generator.com/">Css3Generator</a></li>
-  <li><a href="http://meyerweb.com/eric/tools/css/reset/">Reset</a></li>
-  <li><a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/">Grid</a></li>
-  <li><a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">IE support</a></li>
-  <li><a href="https://github.com/aFarkas/html5shiv">html5shiv</a></li>
-  <li><a href="http://modernizr.com/">modernizer</a></li>
-  <li><a href="http://html5boilerplate.com/">html5boilerplate</a></li>
-  <li><a href="http://html.adobe.com/edge/inspect/">Adobe Inspect</a></li>
-  <li><a href="http://brackets.io/">Brackets</a></li>
+  <li>Good to start talks with a story - No intros</li>
+  <li>Warm up act - then the lecture</li>
 </ol></p>
 			  			<hr />
 

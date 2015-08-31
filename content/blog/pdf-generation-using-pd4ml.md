@@ -270,7 +270,7 @@ PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as eit
 •   pd4ml.jar
 •   pd4ml_tl.jar(for the tag library)
 
-###Professional Version Features
+#### Professional Version Features
 Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:
 
 * TTF embedding
@@ -280,6 +280,18 @@ Apart from the various features discussed above, the licensed professional versi
 * Watermark images
 * Table of contents
 * General notes
+
+#### Other libraries
+Few other libraries that are available for PDF generation are [Apache FOP](http://xmlgraphics.apache.org/fop/) and [iText](http://itextpdf.com/functionality)
+
+
+**Apache FOP**
+
+> Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.
+
+**iText**
+> iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation." 
+> - http://itextpdf.com/  
 
 ####References
 * <http://pd4ml.com/api/index.html>

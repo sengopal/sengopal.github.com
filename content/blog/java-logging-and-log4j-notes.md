@@ -20,7 +20,7 @@ status=published
 ####Class Specific Log File####
 For example, if we have a class which is logging using the log4j.
 
-    :::java
+ ```java
     import org.apache.commons.logging.Log;
     import org.apache.commons.logging.LogFactory;
 
@@ -32,13 +32,15 @@ For example, if we have a class which is logging using the log4j.
             log.warn(IP + " " + URL, e);
         }
     }
+```
 
 The logs from this code alone can be rolled seperately using,
 
-    :::java
+```
     log4j.category.com.company.WebTrackingLogger.INFO, PL
     log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
     log4j.appender.PL.layout=org.apache.log4j.PatternLayout
     log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
     log4j.appender.PL.File=/var/log/app/web-tracking-log
-    log4j.appender.PL.DatePattern='.'yyyy-MM-dd</p></blockquote>
+    log4j.appender.PL.DatePattern='.'yyyy-MM-dd
+```

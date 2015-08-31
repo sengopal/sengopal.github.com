@@ -6,7 +6,7 @@ summary=Setting up eBay Search using Backbone
 category=Javascript
 author=Senthilkumar Gopal
 type=post
-status=published
+status=draft
 ~~~~~~
 
 After going through some of the tutorials available, backbone seems to be a good bet for a client intensive application. So as a weekend project trying to build a working application using the eBay FindingAPI.

@@ -16,10 +16,6 @@ body {
   line-height: 1.4;
 }
 
-p{
-  margin: 0;
-}
-
 a {
   color: #4F76AC;
   text-decoration: none;
@@ -40,13 +36,9 @@ code {
   padding: 0 20px;
 }
 
-h1, h2, h3 {
-  font-weight: normal;
+h1, h2, h3, h4, h5 {
   margin: 5px 0 0;
-}
-h4, h5 {
-  margin: 5px 0 0;
-}
+} 
 
 .header h1 {
   font-family: "Domine", serif;
@@ -54,6 +46,7 @@ h4, h5 {
   text-align: center;
   line-height: 1.0;
   margin: 10px 0;
+  font-weight: normal;
 }
 
 .header h2 {
@@ -63,6 +56,7 @@ h4, h5 {
   line-height: 1.0;
   margin: 0;
   font-style: italic;
+  font-weight: normal;
 }
 
 .nav {

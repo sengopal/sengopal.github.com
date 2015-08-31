@@ -50,8 +50,9 @@
   <ul>
     <li><a href="../archive.html">Posts</a></li>
     <li><a href="../pages/projects.html">Projects</a></li>
+    <!--
     <li><a href="../pages/reviews.html">Reviews</a></li>
-    <li><a href="../pages/resume.html">Resume</a></li>
+    -->
     <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
@@ -239,7 +240,7 @@
 <pre><code>  String fileName = request.getParameter(&quot;filename&quot;);
   //Building the full path of the PDF generated
   String path = &quot;D:/spool/generated_pdfs&quot; + &quot;/&quot; + fileName;
-</code></pre><p>Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).</p><p>In both cases above you can predefine PDF file name with "name" attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.</p><h3>Instructions for Installation</h3><p>PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)<br/>• pd4ml.jar<br/>• pd4ml_tl.jar(for the tag library)</p><h3>Professional Version Features</h3><p>Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:</p>
+</code></pre><p>Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).</p><p>In both cases above you can predefine PDF file name with "name" attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.</p><h3>Instructions for Installation</h3><p>PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)<br/>• pd4ml.jar<br/>• pd4ml_tl.jar(for the tag library)</p><h4>Professional Version Features</h4><p>Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:</p>
 <ul>
   <li>TTF embedding</li>
   <li>Configuring Fonts directory</li>
@@ -248,7 +249,11 @@
   <li>Watermark images</li>
   <li>Table of contents</li>
   <li>General notes</li>
-</ul><h4>References</h4>
+</ul><h4>Other libraries</h4><p>Few other libraries that are available for PDF generation are <a href="http://xmlgraphics.apache.org/fop/">Apache FOP</a> and <a href="http://itextpdf.com/functionality">iText</a></p><p><strong>Apache FOP</strong></p>
+<blockquote><p>Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.</p>
+</blockquote><p><strong>iText</strong></p>
+<blockquote><p>iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation."<br/>- <a href="http://itextpdf.com/">http://itextpdf.com/</a> </p>
+</blockquote><h4>References</h4>
 <ul>
   <li><a href="http://pd4ml.com/api/index.html">http://pd4ml.com/api/index.html</a></li>
   <li><a href="http://pd4ml.com/index.htm">http://pd4ml.com/index.htm</a></li>

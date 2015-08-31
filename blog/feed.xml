@@ -6,9 +6,44 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sun, 22 Mar 2015 16:01:34 -0700</pubDate>
-    <lastBuildDate>Sun, 22 Mar 2015 16:01:34 -0700</lastBuildDate>
+    <pubDate>Mon, 31 Aug 2015 10:51:14 -0700</pubDate>
+    <lastBuildDate>Mon, 31 Aug 2015 10:51:14 -0700</lastBuildDate>
 
+    <item>
+      <title>Tips for an awesome presention</title>
+      <link>http://sengopal.github.io/blog//blog/tips-presentation-notes-hints.html</link>
+      <pubDate>Sat, 20 Dec 2014 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/tips-presentation-notes-hints.html</guid>
+      	<description>
+	&lt;p&gt;Recently, I came across this oldie, but great article on public speaking on &lt;a href=&quot;http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html&quot;&gt;OReilly&lt;/a&gt;. Some of the most important aspects from that article are:&lt;/p&gt;&lt;h3&gt;How to structure the talk&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Answer most 5 common Questions the audience would have. Structure the talk around it&lt;/li&gt;
+  &lt;li&gt;Practice, Dont rehearse&lt;/li&gt;
+  &lt;li&gt;Take an interesting angle - Title should define it&lt;/li&gt;
+  &lt;li&gt;Create Slides LATE in the process&lt;/li&gt;
+  &lt;li&gt;Enjoy yourself&lt;/li&gt;
+&lt;/ol&gt;&lt;h3&gt;How to set the title for your presentation&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;5 weaving skills you can learn today vs. Intro to Basket weaving&lt;/li&gt;
+  &lt;li&gt;Important questions about vs. Panel&lt;/li&gt;
+  &lt;li&gt;Lessons vs. Analysis&lt;/li&gt;
+&lt;/ol&gt;&lt;h3&gt;Be a good listener&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Pay more attention to people who are listening&lt;/li&gt;
+  &lt;li&gt;STOP halfway - ask to ask a question&lt;/li&gt;
+  &lt;li&gt;Poll the audience - Never done X? Done it multiple times?&lt;/li&gt;
+  &lt;li&gt;Shorten each section - get to Q&amp;amp;A soon - Let audience drive, the better&lt;/li&gt;
+&lt;/ol&gt;&lt;h3&gt;Practice, Practive and more Practive&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Practice is greater than rehearsal.&lt;/li&gt;
+  &lt;li&gt;Aim for comfort, not perfection.&lt;/li&gt;
+&lt;/ol&gt;&lt;h3&gt;Quick wins&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Good to start talks with a story - No intros&lt;/li&gt;
+  &lt;li&gt;Warm up act - then the lecture&lt;/li&gt;
+&lt;/ol&gt;
+	</description>
+    </item>
     <item>
       <title>CSS learning and notes</title>
       <link>http://sengopal.github.io/blog//blog/css-learning-and-notes.html</link>
@@ -723,31 +758,6 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
     &lt;li&gt;geocoding&lt;/li&gt;
   &lt;/ul&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;h2&gt;Android Development Workshop - Advanced&lt;/h2&gt;&lt;p&gt;Some of the topics covered or demoed were:&lt;/p&gt;&lt;h3&gt;Connecting to a backend server&lt;/h3&gt;&lt;p&gt;Important points to remember where How to choose a HTTP Client. Since Android provides its own implementation of &lt;em&gt;HttpClient and HttpURLConnection&lt;/em&gt; which supports https as well. The application would need permissions in the manifest file for &lt;strong&gt;INTERNET, ACCESS_NETWORK_STATE&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Some of the code snippets shown were about using the HttpClient to make an HTTPGet Request and get the data (using new DefaultHttpClient). The code snippets also explained about how to use the HttpResponse and converting into a valid String and using the JSONObject to extract the information from JSON based REST services. Also various XML Parsers available to Android application are DOM Parsers, SAX Parsers, PullParser[recommended] and XmlPullParser.&lt;/p&gt;&lt;p&gt;They also briefly touched upon Fragments which are single piece of code adaptable for various form factors and also about the fragment life cycle.&lt;/p&gt;&lt;p&gt;Some of the newly introduced ICS features were also explained such as Action Bar and Split Action Bar. Also the design paradigm behind the action bar was discussed using the YouTube App&apos;s UI Organization. The advantage of using a Stacked ActionBar which acts as a Action Bar + Tabs, it gets mashed into a single bar in a tablet or in the landscape mode.&lt;/p&gt;&lt;h2&gt;Google APIs for MAPS&lt;/h2&gt;&lt;p&gt;The Google Maps API was a little too detailed session with less of demo and more of API detailing. They discussed about the &lt;strong&gt;Google Maps Static API&lt;/strong&gt; and its various parameter needs and usage such as depending on https:// the parameters might be different and others. They also explained about the &lt;strong&gt;Google Street View Image API&lt;/strong&gt; and the &lt;strong&gt;Google Maps Javascript API V3&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;Some of the demos described about obtaining the API Key at &lt;a href=&quot;http://code.google.com/apis/comsole&quot;&gt;http://code.google.com/apis/comsole&lt;/a&gt; and &lt;strong&gt;Maps Events&lt;/strong&gt;. They also described about Overlays and Layers and how the prebuilt aspects such as markers, ploylines, polygons can be used. They also explained about Layers and how they reflect collection of objects that are added on top of the map for association such as weather, traffic, heat maps etc.,&lt;/p&gt;&lt;p&gt;They also briefly touched upon the Direction API, the distance matrix, the elevation data which can be used by trekking and hiking applications, geocoding and street view.&lt;/p&gt;&lt;h2&gt;HTML5&lt;/h2&gt;&lt;p&gt;Guessing by the crowd, this was one of the most anticipated sessions of the day and it truly lived upto the expectations.&lt;br/&gt;The features were divided into 8 categories and presented.&lt;/p&gt;&lt;h4&gt;CSS3&lt;/h4&gt;&lt;p&gt;Some of the features that were explained and demoed were &lt;strong&gt;border-radius, HTML5 slider, box-shadow, text-shadow, text strokes&lt;/strong&gt;. Some of the obscure ones were &lt;strong&gt;image cropping (using clip : rect), opacity, columns (using column-count,column-rule,column-gap)&lt;/strong&gt;. The demoes extended to &lt;strong&gt;text-wrap (using text-overflow ellipsis,clip), gradients(linear or radial), reflection (box-reflect)&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;There were also demoes on transformations and transitions (this is the effect which describes the time to get the transformation) using &lt;strong&gt;transform,translate,scale,rotate,skew&lt;/strong&gt;. They also walked us through creating full fledged animations using @keyframes.&lt;/p&gt;&lt;h4&gt;3D Graphics&lt;/h4&gt;&lt;p&gt;There were great demoes on a **3D CSS cube, a CSS cubic bezier builder and a google chrome logo spin created using a bit of rendering using canvas and vector graphics using svg. There was also a quick note on putting text on a path using svg.&lt;/p&gt;&lt;p&gt;&lt;em&gt;Note to myself: Canvas needs js&lt;/em&gt;&lt;/p&gt;&lt;h4&gt;Multimedia&lt;/h4&gt;&lt;p&gt;Some demoes using the audio and video tags and fallbacks for formats.&lt;/p&gt;&lt;h4&gt;Connectivity&lt;/h4&gt;&lt;p&gt;&lt;em&gt;Not sure what was demoed ???&lt;/em&gt;&lt;/p&gt;&lt;h4&gt;Device Access&lt;/h4&gt;&lt;p&gt;The folks explained about achieving native drag and drop and the usage of the File Systems API. There was a really cool demo of a Html5 terminal using file systems API and drag drop. There were also demoes about a web based file directory browser and a great demo on using the device orientation which feeds the parameters using alpha, beta and gamma. There were also demoes on how to use the &lt;em&gt;navigator, geolocation and xspeech&lt;/em&gt;.&lt;/p&gt;&lt;h4&gt;Semantics&lt;/h4&gt;&lt;p&gt;There were quite a few tags being introduced and other modifications to streamline the web such as new input types for color,date etc., and new input constraints. They also explained about the changes to the Selector API.&lt;/p&gt;&lt;h4&gt;Offline&lt;/h4&gt;&lt;p&gt;They discussed briefly on the online and offline handlers network and local/session storage&lt;/p&gt;&lt;h4&gt;Performance and Integration&lt;/h4&gt;&lt;p&gt;There was a simple demo of application cache and explanation about the Web sockets and the History API which can now push and pop states to govern the back button of the browser.&lt;/p&gt;&lt;h2&gt;Conclusion&lt;/h2&gt;&lt;p&gt;All in all, it was a day well spent though many topics seemed targetted for a fresh audience rather than professionals. However, shedding some light into the content earlier and better facilities would surely make the next gday a grander success.&lt;/p&gt;
-	</description>
-    </item>
-    <item>
-      <title>Simple eBay Search using Backbone</title>
-      <link>http://sengopal.github.io/blog//blog/simple-ebay-search-using-backbone.html</link>
-      <pubDate>Sun, 20 May 2012 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/simple-ebay-search-using-backbone.html</guid>
-      	<description>
-	&lt;p&gt;After going through some of the tutorials available, backbone seems to be a good bet for a client intensive application. So as a weekend project trying to build a working application using the eBay FindingAPI.&lt;/p&gt;&lt;p&gt;The use cases are simple enough:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;search for an item&lt;/li&gt;
-  &lt;li&gt;save the item in your list&lt;/li&gt;
-  &lt;li&gt;See a live timer of each item counting down&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Technologies used&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Twitter bootstrap - to build a quick UI&lt;/li&gt;
-  &lt;li&gt;Backbone.js - for interaction and the main purpose of this excercise&lt;/li&gt;
-  &lt;li&gt;mustache.js - For easier templating&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Project code can be found &lt;a href=&quot;https://github.com/sengopal/ebay-search&quot; title=&quot;ebay-search&quot;&gt;here&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Some of the tasks completed are:&lt;br/&gt;* Defining the model&lt;br/&gt;* Every Item result will display&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Item Title&lt;/li&gt;
-  &lt;li&gt;Price&lt;/li&gt;
-  &lt;li&gt;Time to finish&lt;/li&gt;
-  &lt;li&gt;Shipping type&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;Item can be added to or removed from my watch list - To be made a drag and drop later.&lt;/p&gt;
 	</description>
     </item>
     <item>
@@ -2324,7 +2334,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
 &lt;pre&gt;&lt;code&gt;  String fileName = request.getParameter(&amp;quot;filename&amp;quot;);
   //Building the full path of the PDF generated
   String path = &amp;quot;D:/spool/generated_pdfs&amp;quot; + &amp;quot;/&amp;quot; + fileName;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;&lt;p&gt;In both cases above you can predefine PDF file name with &quot;name&quot; attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.&lt;/p&gt;&lt;h3&gt;Instructions for Installation&lt;/h3&gt;&lt;p&gt;PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)&lt;br/&gt;• pd4ml.jar&lt;br/&gt;• pd4ml_tl.jar(for the tag library)&lt;/p&gt;&lt;h3&gt;Professional Version Features&lt;/h3&gt;&lt;p&gt;Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;&lt;p&gt;In both cases above you can predefine PDF file name with &quot;name&quot; attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.&lt;/p&gt;&lt;h3&gt;Instructions for Installation&lt;/h3&gt;&lt;p&gt;PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)&lt;br/&gt;• pd4ml.jar&lt;br/&gt;• pd4ml_tl.jar(for the tag library)&lt;/p&gt;&lt;h4&gt;Professional Version Features&lt;/h4&gt;&lt;p&gt;Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;TTF embedding&lt;/li&gt;
   &lt;li&gt;Configuring Fonts directory&lt;/li&gt;
@@ -2333,7 +2343,11 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
   &lt;li&gt;Watermark images&lt;/li&gt;
   &lt;li&gt;Table of contents&lt;/li&gt;
   &lt;li&gt;General notes&lt;/li&gt;
-&lt;/ul&gt;&lt;h4&gt;References&lt;/h4&gt;
+&lt;/ul&gt;&lt;h4&gt;Other libraries&lt;/h4&gt;&lt;p&gt;Few other libraries that are available for PDF generation are &lt;a href=&quot;http://xmlgraphics.apache.org/fop/&quot;&gt;Apache FOP&lt;/a&gt; and &lt;a href=&quot;http://itextpdf.com/functionality&quot;&gt;iText&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Apache FOP&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.&lt;/p&gt;
+&lt;/blockquote&gt;&lt;p&gt;&lt;strong&gt;iText&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation.&quot;&lt;br/&gt;- &lt;a href=&quot;http://itextpdf.com/&quot;&gt;http://itextpdf.com/&lt;/a&gt; &lt;/p&gt;
+&lt;/blockquote&gt;&lt;h4&gt;References&lt;/h4&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://pd4ml.com/api/index.html&quot;&gt;http://pd4ml.com/api/index.html&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://pd4ml.com/index.htm&quot;&gt;http://pd4ml.com/index.htm&lt;/a&gt;&lt;/li&gt;
