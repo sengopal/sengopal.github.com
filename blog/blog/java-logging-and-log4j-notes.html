@@ -71,12 +71,8 @@
   <li>Using log4j.xml you can have different logger configuration for different java classes</li>
   <li>Include Thread Name and fully qualified java class Name while printing logs</li>
   <li>Use some kind of prefix and parametrized version of various log methods as they are faster compared to normal method</li>
-</ol><h4>Class Specific Log File</h4><p>For example, if we have a class which is logging using the log4j.</p>
-<pre><code>:::java
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-public class WebTrackingLogger {
+</ol><h4>Class Specific Log File</h4><p>For example, if we have a class which is logging using the log4j.</p><p>```java<br/> import org.apache.commons.logging.Log;<br/> import org.apache.commons.logging.LogFactory;</p>
+<pre><code>public class WebTrackingLogger {
     private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
     public static void log(Sting ip, String url, String.... otherValues) {
         log.info(IP + &quot; &quot; + URL);
@@ -84,15 +80,17 @@ public class WebTrackingLogger {
         log.warn(IP + &quot; &quot; + URL, e);
     }
 }
-</code></pre><p>The logs from this code alone can be rolled seperately using,</p>
-<pre><code>:::java
-log4j.category.com.company.WebTrackingLogger.INFO, PL
+</code></pre>
+<pre><code><br/>The logs from this code alone can be rolled seperately using,
+
+</code></pre>
+<pre><code>log4j.category.com.company.WebTrackingLogger.INFO, PL
 log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.PL.layout=org.apache.log4j.PatternLayout
 log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
 log4j.appender.PL.File=/var/log/app/web-tracking-log
-log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd&lt;/p&gt;&lt;/blockquote&gt;
-</code></pre></p>
+log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd
+</code></pre><p>```</p></p>
 
 				<hr />
 
