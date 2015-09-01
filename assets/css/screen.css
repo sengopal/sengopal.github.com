@@ -153,3 +153,8 @@ ol{
 .row{
   clear: both;
 }
+
+div.spacer {
+    margin: 10px;
+    display: block;
+}
