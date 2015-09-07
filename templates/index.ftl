@@ -9,7 +9,7 @@
 
 			<#list posts as post>
 		  		<#if (post.status == "published")>
-		  			<h2><a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape></a></h2>
+		  			<h2><a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape> → </a></h2>
 		  			<em>${post.date?string("dd MMMM yyyy")}</em>
 		  			<p class="summary">${post.summary}</p>
 			  		<#if post_index = 6>
