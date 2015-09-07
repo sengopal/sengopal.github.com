@@ -20,7 +20,7 @@ status=published
 ####Class Specific Log File####
 For example, if we have a class which is logging using the log4j.
 
- ```java
+```java
     import org.apache.commons.logging.Log;
     import org.apache.commons.logging.LogFactory;
 
@@ -36,7 +36,8 @@ For example, if we have a class which is logging using the log4j.
 
 The logs from this code alone can be rolled seperately using,
 
-```
+
+```java
     log4j.category.com.company.WebTrackingLogger.INFO, PL
     log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
     log4j.appender.PL.layout=org.apache.log4j.PatternLayout

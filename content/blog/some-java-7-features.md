@@ -11,7 +11,7 @@ status=published
 
 ###Switch Case for Strings
 
-    :::java
+```java
     switch(someString) {
         case "Bubba":
             return bubbaStringResult;
@@ -20,19 +20,21 @@ status=published
         default:
             return new BrokenSwitchException("Odd String!");
     }
+```
 
 ###Simple IO Handling – Just a try and catch
 
-    :::java
+```java
     try (FileOutputStream fos = new FileOutputStream(file)) {
         // perform some op using the stated resources
     } catch (AnyExceptionThrownByThatOp aetbto) {
         // handle the exception byfm
     } // Nothing to do. The FileOutputStream will be autoclosed.
+```
 
 ###Multiple Exceptions in a single catch
 
-    :::java
+```java
     try {
         // perform some op that can throw various exceptions,
         // where some subset of them should be handles "thisway"
@@ -41,14 +43,17 @@ status=published
     } catch (Exception ex) {
         // deal with it thatway(ex)
     }
+```
 
 ###Underscore in digits to facilitate easier readability
 
-    :::java
+```java
     long creditCard = 5440_4440_3330_0005L;
     long phoneNumber = 213_555_1212L;
+```
 
 ###Binary Literals are also supported
 
-    :::java
+```java
     int x = 0b1010110;
+```

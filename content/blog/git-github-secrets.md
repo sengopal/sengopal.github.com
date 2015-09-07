@@ -6,19 +6,19 @@ summary=Some git and github usage secrets for quick reference
 category=Utilities
 author=Senthilkumar Gopal
 type=post
+summary=Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below.
 status=published
 ~~~~~~
-
-Recently came across a screencast held at Aloha Ruby Conference. Some of the shortcuts/useful tips mentioned were given below
+Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.
 
 ###Github
 __Adding .diff or .patch to the URL provides more clearer textual representation__
 
-    :::html
+```html
     https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
     https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
     https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
-
+```
 
 __Remove Whitespace differences using__ `?w=1`
 
@@ -104,7 +104,7 @@ __Commit Comparison__
 LINE Linking - #L16, #L16-25
 
 _Advanced Compare View_
-Range - MASTER@{1.day.ago}...MASTER
+Range - `MASTER@{1.day.ago}...MASTER`
 bookmark that page and see whats team upto in last 12 hours
 
 

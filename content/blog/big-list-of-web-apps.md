@@ -6,9 +6,9 @@ summary=Big list of web applications that are recorded for future use
 category=Utilities
 author=Senthilkumar Gopal
 type=post
+summary=Since my list of bookmarks is growing huge, and i dont use these web applications often, it seemed more appropriate to maintain it as a reference list rather than bookmarks.
 status=published
 ~~~~~~
-
 Since my list of bookmarks is growing huge, and i dont use these web applications often, it seemed more appropriate to maintain it as a reference list rather than bookmarks.
 
 _last updated on: 16th august, 2012_

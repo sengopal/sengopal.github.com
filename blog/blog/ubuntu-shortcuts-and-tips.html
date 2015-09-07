@@ -15,12 +15,8 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <link href="../css/normalize.css" rel="stylesheet">
-  <link href="../css/base.css" rel="stylesheet">
-  <link href="../css/highlight.min.css" rel="stylesheet">
-  <link href="../css/screen.css" rel="stylesheet">
   <link href="../css/font-awesome.min.css" rel="stylesheet">
-  <link href="../css/hover-min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -102,25 +98,26 @@
   <li>Create /home/sengopal/www</li>
   <li>cd /etc/apache2/sites-available</li>
   <li>sudo cp default local.dev</li>
-  <li><p>sudo gedit local.dev</p>
-  <pre><code>:::xml
-&lt;VirtualHost *:80&gt;
-    ServerAdmin webmaster@localhost
-    serverName your server name here
-    DocumentRoot /home/sengopal/www
-    &lt;Directory /&gt;
-        Options FollowSymLinks
-        AllowOverride All
-    &lt;/Directory&gt;
-    &lt;Directory /home/sengopal/www&gt;
-        Options Indexes FollowSymLinks MultiViews
-        AllowOverride All
-        Order allow,deny
-        allow from all
-    &lt;/Directory&gt;
-&lt;/VirtualHost&gt;
-</code></pre></li>
-  <li><p>sudo a2ensite local.dev</p></li>
+  <li>sudo gedit local.dev</li>
+</ol>
+<pre><code class="xml">        &lt;VirtualHost *:80&gt;
+            ServerAdmin webmaster@localhost
+            serverName your server name here
+            DocumentRoot /home/sengopal/www
+            &lt;Directory /&gt;
+                Options FollowSymLinks
+                AllowOverride All
+            &lt;/Directory&gt;
+            &lt;Directory /home/sengopal/www&gt;
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+            &lt;/Directory&gt;
+        &lt;/VirtualHost&gt;
+</code></pre>
+<ol>
+  <li>sudo a2ensite local.dev</li>
   <li>sudo /etc/init.d/apache2 reload</li>
   <li>sudo gedit /etc/hosts - <code>127.0.0.1  local.dev</code></li>
   <li>sudo /etc/init.d/apache2 reload</li>
@@ -129,15 +126,16 @@
 <ol>
   <li>apt-get install openssh-server</li>
   <li>cp /etc/ssh/sshd_config ~</li>
-  <li><p>gedit /etc/ssh/sshd_config</p>
-  <pre><code>:::text
-Port 22
-PermitRootLogin no
-AllowUsers non-root
-</code></pre></li>
-  <li><p>/etc/init.d/ssh restart</p></li>
+  <li>gedit /etc/ssh/sshd_config</li>
+</ol>
+<pre><code class="text">        Port 22
+        PermitRootLogin no
+        AllowUsers non-root
+</code></pre>
+<ol>
+  <li>/etc/init.d/ssh restart</li>
   <li>telnet localhost 22</li>
-  <li>ssh <a href="mailto:&#110;o&#110;&#x2d;&#x72;o&#x6f;&#116;&#64;&#109;&#x61;&#99;h&#x69;&#110;&#101;">&#110;o&#110;&#x2d;&#x72;o&#x6f;&#116;&#64;&#109;&#x61;&#99;h&#x69;&#110;&#101;</a> -p 22</li>
+  <li>ssh <a href="mailto:&#110;&#111;&#110;&#45;&#114;&#x6f;&#x6f;&#116;&#64;&#109;&#97;&#x63;&#104;&#105;&#110;&#x65;">&#110;&#111;&#110;&#45;&#114;&#x6f;&#x6f;&#116;&#64;&#109;&#97;&#x63;&#104;&#105;&#110;&#x65;</a> -p 22</li>
 </ol><h3>Simple Commands</h3>
 <ol>
   <li>gnome-app-install</li>
@@ -173,7 +171,7 @@ AllowUsers non-root
 		</div>
 
 <div id="footer">
-    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
 <script src="../js/jquery-1.11.1.min.js"></script>

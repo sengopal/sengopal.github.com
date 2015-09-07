@@ -1,4 +1,4 @@
-title=ashing and Checksum in Java
+title=Hashing and Checksum in Java
 date=2011-08-22
 tags=java, snippets
 slug=hashing-and-checksum-in-java
@@ -11,7 +11,7 @@ status=published
 
 ###Checksum generation
 
-    :::java
+```java
     public class SHACheckSumExample{
         public static void main(String[] args)throws Exception{
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -34,10 +34,11 @@ status=published
             }   System.out.println("Hex format : " + hexString.toString());
         }
     }
+```
 
 ###Hashing of a String
 
-    :::java
+```java
     public class SHAHashingExample{
         public static void main(String[] args)throws Exception    {
             String password = "123456";
@@ -59,3 +60,4 @@ status=published
             System.out.println("Hex format : " + hexString.toString());
         }
     }
+```

@@ -6,8 +6,8 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Mon, 31 Aug 2015 12:28:58 -0700</pubDate>
-    <lastBuildDate>Mon, 31 Aug 2015 12:28:58 -0700</lastBuildDate>
+    <pubDate>Sun, 6 Sep 2015 21:49:07 -0700</pubDate>
+    <lastBuildDate>Sun, 6 Sep 2015 21:49:07 -0700</lastBuildDate>
 
     <item>
       <title>Tips for an awesome presention</title>
@@ -15,7 +15,7 @@
       <pubDate>Sat, 20 Dec 2014 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/tips-presentation-notes-hints.html</guid>
       	<description>
-	&lt;p&gt;Recently, I came across this oldie, but great article on public speaking on &lt;a href=&quot;http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html&quot;&gt;OReilly&lt;/a&gt;. Some of the most important aspects from that article are:&lt;/p&gt;&lt;h3&gt;How to structure the talk&lt;/h3&gt;
+	&lt;p&gt;Recently, I came across this oldie, but great article on public speaking on &lt;a href=&quot;http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html&quot;&gt;OReilly&lt;/a&gt;. Though they had some really good tips and notes about presenting some of the most important aspects from that article that captured my attention and which i would recall every time i present something are below.&lt;/p&gt;&lt;h3&gt;How to structure the talk&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;Answer most 5 common Questions the audience would have. Structure the talk around it&lt;/li&gt;
   &lt;li&gt;Practice, Dont rehearse&lt;/li&gt;
@@ -315,7 +315,7 @@ margin: 10px 5px 15px;
       <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/css-style-guidelines.html</guid>
       	<description>
-	&lt;p&gt;Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are given below&lt;/p&gt;
+	&lt;p&gt;As a web application developer, many a times we fix up on a few rules while creating styling files. However, during development the team infers their own understanding of the rules, leading to difficulties in editing and maintaining the CSS files. Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are detailed below.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;#html-guidelines&quot;&gt;HTML guidelines&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#best-practices&quot;&gt;Best Practices&lt;/a&gt;&lt;/li&gt;
@@ -604,11 +604,10 @@ h1, h2, h3 {
       <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/git-github-secrets.html</guid>
       	<description>
-	&lt;p&gt;Recently came across a screencast held at Aloha Ruby Conference. Some of the shortcuts/useful tips mentioned were given below&lt;/p&gt;&lt;h3&gt;Github&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::html
-https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
-https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
-https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
+	&lt;p&gt;Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.&lt;/p&gt;&lt;h3&gt;Github&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
+    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
+    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt; &lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt;&lt;br/&gt;Usage: &lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href=&quot;https://github.com/github/linguist&quot; title=&quot;Linguist&quot;&gt;Linguist&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt; &lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt;&lt;br/&gt;Hub is a command line tool that wraps git in order to extend it with extra features and commands that make working with GitHub easier.&lt;br/&gt;&lt;a href=&quot;https://github.com/defunkt/hub&quot; title=&quot;hub repo&quot;&gt;hub repo&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt;&lt;br/&gt;Press in repo page&lt;br/&gt;&lt;code&gt;t&lt;/code&gt; - for File Finder&lt;br/&gt;&lt;code&gt;w&lt;/code&gt; - branch selector&lt;br/&gt;&lt;code&gt;s&lt;/code&gt; - quick search&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&quot;&gt;&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&lt;/a&gt; - adds person to the conversation&lt;br/&gt;&lt;a href=&quot;mailto:&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&quot;&gt;&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&lt;/a&gt; - adds the organization/team to the conversation&lt;/p&gt;&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue number&lt;/strong&gt;&lt;br/&gt;Example: using a commit message such as &quot;closes &lt;code&gt;#1291&lt;/code&gt;&quot; autolinks to the issue&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt; &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;br/&gt;&lt;em&gt;Useful for your resume !&lt;/em&gt;&lt;br/&gt;Example:&lt;br/&gt;{% highlight html %}&lt;br/&gt; &lt;a href=&quot;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&quot;&gt;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Pulls needn&apos;t be from a fork, but can be done from branches as well&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Github supports emoji&apos;s which are available under&lt;/strong&gt; &lt;a href=&quot;http://emoji-cheat-sheet.com&quot; title=&quot;Emoji-cheat-sheet&quot;&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Git line quirks&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
@@ -631,7 +630,7 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
   &lt;li&gt;&lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to &lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or file name&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;a href=&quot;mailto:&amp;#77;&amp;#65;&amp;#83;&amp;#84;&amp;#69;&amp;#x52;&amp;#x40;&amp;#123;&amp;#49;&amp;#46;&amp;#100;&amp;#x61;&amp;#121;&amp;#46;&amp;#97;&amp;#x67;&amp;#111;&amp;#125;&amp;#x2e;&amp;#46;&amp;#x2e;&amp;#x4d;&amp;#x41;&amp;#x53;&amp;#84;&amp;#x45;&amp;#82;&quot;&gt;&amp;#77;&amp;#65;&amp;#83;&amp;#84;&amp;#69;&amp;#x52;&amp;#x40;&amp;#123;&amp;#49;&amp;#46;&amp;#100;&amp;#x61;&amp;#121;&amp;#46;&amp;#97;&amp;#x67;&amp;#111;&amp;#125;&amp;#x2e;&amp;#46;&amp;#x2e;&amp;#x4d;&amp;#x41;&amp;#x53;&amp;#84;&amp;#x45;&amp;#82;&lt;/a&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
+&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
   &lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
@@ -805,25 +804,26 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
   &lt;li&gt;Create /home/sengopal/www&lt;/li&gt;
   &lt;li&gt;cd /etc/apache2/sites-available&lt;/li&gt;
   &lt;li&gt;sudo cp default local.dev&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;sudo gedit local.dev&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;:::xml
-&amp;lt;VirtualHost *:80&amp;gt;
-    ServerAdmin webmaster@localhost
-    serverName your server name here
-    DocumentRoot /home/sengopal/www
-    &amp;lt;Directory /&amp;gt;
-        Options FollowSymLinks
-        AllowOverride All
-    &amp;lt;/Directory&amp;gt;
-    &amp;lt;Directory /home/sengopal/www&amp;gt;
-        Options Indexes FollowSymLinks MultiViews
-        AllowOverride All
-        Order allow,deny
-        allow from all
-    &amp;lt;/Directory&amp;gt;
-&amp;lt;/VirtualHost&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;sudo a2ensite local.dev&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;sudo gedit local.dev&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;xml&quot;&gt;        &amp;lt;VirtualHost *:80&amp;gt;
+            ServerAdmin webmaster@localhost
+            serverName your server name here
+            DocumentRoot /home/sengopal/www
+            &amp;lt;Directory /&amp;gt;
+                Options FollowSymLinks
+                AllowOverride All
+            &amp;lt;/Directory&amp;gt;
+            &amp;lt;Directory /home/sengopal/www&amp;gt;
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+            &amp;lt;/Directory&amp;gt;
+        &amp;lt;/VirtualHost&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+  &lt;li&gt;sudo a2ensite local.dev&lt;/li&gt;
   &lt;li&gt;sudo /etc/init.d/apache2 reload&lt;/li&gt;
   &lt;li&gt;sudo gedit /etc/hosts - &lt;code&gt;127.0.0.1  local.dev&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;sudo /etc/init.d/apache2 reload&lt;/li&gt;
@@ -832,15 +832,16 @@ https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007f
 &lt;ol&gt;
   &lt;li&gt;apt-get install openssh-server&lt;/li&gt;
   &lt;li&gt;cp /etc/ssh/sshd_config ~&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;gedit /etc/ssh/sshd_config&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;:::text
-Port 22
-PermitRootLogin no
-AllowUsers non-root
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;/etc/init.d/ssh restart&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;gedit /etc/ssh/sshd_config&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;text&quot;&gt;        Port 22
+        PermitRootLogin no
+        AllowUsers non-root
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+  &lt;li&gt;/etc/init.d/ssh restart&lt;/li&gt;
   &lt;li&gt;telnet localhost 22&lt;/li&gt;
-  &lt;li&gt;ssh &lt;a href=&quot;mailto:&amp;#110;o&amp;#110;&amp;#x2d;&amp;#x72;o&amp;#x6f;&amp;#116;&amp;#64;&amp;#109;&amp;#x61;&amp;#99;h&amp;#x69;&amp;#110;&amp;#101;&quot;&gt;&amp;#110;o&amp;#110;&amp;#x2d;&amp;#x72;o&amp;#x6f;&amp;#116;&amp;#64;&amp;#109;&amp;#x61;&amp;#99;h&amp;#x69;&amp;#110;&amp;#101;&lt;/a&gt; -p 22&lt;/li&gt;
+  &lt;li&gt;ssh &lt;a href=&quot;mailto:&amp;#110;&amp;#111;&amp;#110;&amp;#45;&amp;#114;&amp;#x6f;&amp;#x6f;&amp;#116;&amp;#64;&amp;#109;&amp;#97;&amp;#x63;&amp;#104;&amp;#105;&amp;#110;&amp;#x65;&quot;&gt;&amp;#110;&amp;#111;&amp;#110;&amp;#45;&amp;#114;&amp;#x6f;&amp;#x6f;&amp;#116;&amp;#64;&amp;#109;&amp;#97;&amp;#x63;&amp;#104;&amp;#105;&amp;#110;&amp;#x65;&lt;/a&gt; -p 22&lt;/li&gt;
 &lt;/ol&gt;&lt;h3&gt;Simple Commands&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;gnome-app-install&lt;/li&gt;
@@ -895,22 +896,12 @@ AllowUsers non-root
   &lt;li&gt;&lt;p&gt;&lt;strong&gt;sysedit&lt;/strong&gt; - System Configuration Editor&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;strong&gt;syskey&lt;/strong&gt; - Syskey&lt;/p&gt;&lt;/li&gt;
   &lt;li&gt;&lt;p&gt;&lt;strong&gt;telnet&lt;/strong&gt; - Microsoft Telnet Client&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;strong&gt;Code for checking firewall settings in windows&lt;/strong&gt;&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;:::bat
-netstat -a -b
-netsh advfirewall firewall show rule name=all &amp;gt; firewallrules.txt
-netsh advfirewall firewall show rule name | find &amp;quot;Block&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;strong&gt;Code for checking firewall settings in windows&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-	</description>
-    </item>
-    <item>
-      <title>Android Application development notes - Part 1</title>
-      <link>http://sengopal.github.io/blog//blog/android-learn-part1.html</link>
-      <pubDate>Mon, 9 Jan 2012 00:00:00 -0800</pubDate>
-      <guid isPermaLink="false">blog/android-learn-part1.html</guid>
-      	<description>
-	&lt;p&gt;Today I am starting with a new series for learning application development in Android. This series will have five parts and will consists of all the basics that someone needs to understand, learn and kick start developing using Android.&lt;/p&gt;&lt;h3&gt;What is Android?&lt;/h3&gt;&lt;p&gt;Android is an operating system primarily for mobile devices created by Andy Rubin, the owner of Android Inc. It is being developed by OHA [Open Handset Alliance], a non-profit organization created in 2007 by around 79 companies which include contributions from software, hardware and device management corporations. The first Android phone was introduced by HTC in 2008 and the recent one being the Samsung Galaxy Nexus in late 2011.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://upload.wikimedia.org/wikipedia/commons/a/a1/Android_home.png&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;http://upload.wikimedia.org/wikipedia/commons/a/a1/Android_home.png&quot; width=&quot;231&quot; height=&quot;383&quot; /&gt;&lt;/a&gt;&lt;br/&gt;&lt;a href=&quot;http://upload.wikimedia.org/wikipedia/commons/e/e7/Android_4.0.png&quot; target=&quot;_blank&quot;&gt;&lt;img style=&quot;margin: 0px 0px 0px 90px&quot; src=&quot;http://upload.wikimedia.org/wikipedia/commons/e/e7/Android_4.0.png&quot; width=&quot;217&quot; height=&quot;385&quot; /&gt;&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Design&lt;/h3&gt;&lt;p&gt;Android is a Linux based operating system customized to primarily work with mobile devices. The architecture/design of the Android ecosystem consists of the &lt;strong&gt;Linux Kernel&lt;/strong&gt; which takes care of the device drivers, the &lt;strong&gt;Libraries&lt;/strong&gt; such as Surface managers, LIBC written in C / C++,** Application framework** which exposes the handlers for creating custom applications, **Android Runtime **which contains the Core Libraries [written in Java] and the custom made **Dalvik Virtual Machine **which reads the DEX files [dalvik executable]&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/File:System-architecture.jpg&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;http://upload.wikimedia.org/wikipedia/commons/6/63/System-architecture.jpg&quot; width=&quot;548&quot; height=&quot;394&quot; /&gt;&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Concept of DEX&lt;/h3&gt;&lt;p&gt;The Android toolkit compiler takes care of compiling, building and packaging the applications created using the application framework. The advent of .dex files saves the creation of hundreds of class files and generates one single dex file for an application. The drawback of this approach is that normal JAR files will not work in Android JVM, they need to be built again to ensure it works similar to how the &quot;Core Libraries&quot; have been created from source.&lt;/p&gt;&lt;h2&gt;Boot up Sequence&lt;/h2&gt;&lt;p&gt;Though Android is built on Linux Kernel, it does not follow the same boot up sequence of the Linux kernel. On powering up, the bootloader reads the OS from ROM and loads into RAM. Then the init() of the linux kernel is invoked which loads these main four background[Daemon] processes.&lt;br/&gt;1. USB daemon&lt;br/&gt;2. Android Debug Bridge&lt;br/&gt;3. Debugger Daemon&lt;br/&gt;4. Radio Interface Layer Daemon&lt;/p&gt;&lt;p&gt;After the daemon process, Android Runtime and Zygote [MASTER DALVIK VM] will then be started. Zygote will create individual Dalvik VMs for every application. The philosophy behind the Dalvik JVM creation is that every application will run in its own DVM wherein around 15-30 MB of RAM space for a DVM Process will be allocated. When there is a shortage of memory, the Zygote finds the Least Used Application, terminates and reclaims the RAM space. The System Server process is never terminated ahead of application space. Because of this termination/reclaiming process, application state storage/retrieval, needs to be built into the application itself.&lt;/p&gt;&lt;h3&gt;Android SDK&lt;/h3&gt;&lt;p&gt;The first Android version was released in 2008 called Apple pie with the latest version being called the “Ice cream sandwich” with version 4.0. The full list of Android releases and the supported features is available &lt;a href=&quot;http://socialcompare.com/en/comparison/android-versions-comparison&quot;&gt;here&lt;/a&gt;. Some of the modern usage of the Android application development tools involve jQuery Mobile, HTML 5 using the Webkit introduced with Android Gingerbread. More detailed developer videos are available at &lt;a href=&quot;http://developer.android.com/videos/index.html&quot;&gt;http://developer.android.com/videos/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;bat&quot;&gt;        netstat -a -b
+        netsh advfirewall firewall show rule name=all &amp;gt; firewallrules.txt
+        netsh advfirewall firewall show rule name | find &amp;quot;Block&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 	</description>
     </item>
     <item>
@@ -961,14 +952,21 @@ netsh advfirewall firewall show rule name | find &amp;quot;Block&amp;quot;
   &lt;li&gt;Bundle will be stored in System Server&lt;/li&gt;
   &lt;li&gt;Multiple Screens can be shown using the same Activity. &lt;em&gt;Just by calling the setContentView&lt;/em&gt; - &lt;em&gt;But navigation will be a problem&lt;/em&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;h3&gt;Android Intents&lt;/h3&gt;&lt;h4&gt;Overview&lt;/h4&gt;&lt;p&gt;Intents are asynchronous messages which allow Android components to request functionality from other components of the Android system. For example an Activity can send an Intents to the Android system which starts another Activity. Therefore Intents allow to combine loosely coupled components to perform certain tasks. Intents can be used to signal to the Android system that a certain event has occurred. Other components in Android can register to this event and will get notified. Intents are instances of the &lt;code&gt;android.content.Intent&lt;/code&gt; class. Intents are send to the Android system. Depending on how the Intent was constructed the Android system will run an receiver determination and determine what to do.&lt;/p&gt;&lt;p&gt;An Intent can also contain data. This data can be used by the receiving component. For example your application can calls via an Intent a browser&lt;br/&gt;component. As data is it may send the URL to the browser component. Android supports explicit and implicit Intents.&lt;/p&gt;&lt;h4&gt;Explicit Intents&lt;/h4&gt;&lt;p&gt;Explicit Intents explicitly names the component which should be called by the Android system, by using the the Java class as identifier. The following shows an explicit Intent. If that Intent is correctly send to the Android system, it will start the associated class.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-Intent i = new Intent(this, ActivityTwo.class);
-i.putExtra(&amp;quot;Value1&amp;quot;, &amp;quot;This value one for ActivityTwo &amp;quot;);
-i.putExtra(&amp;quot;Value2&amp;quot;, &amp;quot;This value two ActivityTwo&amp;quot;);
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    Intent i = new Intent(this, ActivityTwo.class);
+    i.putExtra(&amp;quot;Value1&amp;quot;, &amp;quot;This value one for ActivityTwo &amp;quot;);
+    i.putExtra(&amp;quot;Value2&amp;quot;, &amp;quot;This value two ActivityTwo&amp;quot;);
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Explicit Intents are typically used within on application as the classes in an application are controlled by the application developer.&lt;/p&gt;&lt;h4&gt;Implicit Intents&lt;/h4&gt;&lt;p&gt;Implicit Intents do not specify the Java class which should be called. They specify the action which should be performed and optionally an URI which should be used for this action. For example the following tells the Android system to view a webpage. Typically the web browser is registered to this Intent but other component could also register themself to this event.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vogella.de&amp;quot;));
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vogella.de&amp;quot;));
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If these Intents are send to the Android system it searches for all components which are registered for the specific action and the data type.&lt;/p&gt;&lt;p&gt;If only one component is found, Android starts this component directly. If several components are identifier by the Android system, the user will get an selection dialog and can decide which component should be used for the Intent.&lt;/p&gt;
+	</description>
+    </item>
+    <item>
+      <title>Android Application development notes - Part 1</title>
+      <link>http://sengopal.github.io/blog//blog/android-learn-part1.html</link>
+      <pubDate>Sun, 8 Jan 2012 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/android-learn-part1.html</guid>
+      	<description>
+	&lt;p&gt;Today I am starting with a new series for learning application development in Android. This series will have five parts and will consists of all the basics that someone needs to understand, learn and kick start developing using Android.&lt;/p&gt;&lt;h3&gt;What is Android?&lt;/h3&gt;&lt;p&gt;Android is an operating system primarily for mobile devices created by Andy Rubin, the owner of Android Inc. It is being developed by OHA [Open Handset Alliance], a non-profit organization created in 2007 by around 79 companies which include contributions from software, hardware and device management corporations. The first Android phone was introduced by HTC in 2008 and the recent one being the Samsung Galaxy Nexus in late 2011.&lt;/p&gt;&lt;h3&gt;Design&lt;/h3&gt;&lt;p&gt;Android is a Linux based operating system customized to primarily work with mobile devices. The architecture/design of the Android ecosystem consists of the &lt;strong&gt;Linux Kernel&lt;/strong&gt; which takes care of the device drivers, the &lt;strong&gt;Libraries&lt;/strong&gt; such as Surface managers, LIBC written in C / C++,** Application framework** which exposes the handlers for creating custom applications, **Android Runtime **which contains the Core Libraries [written in Java] and the custom made **Dalvik Virtual Machine **which reads the DEX files [dalvik executable]&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://source.android.com/devices/tech/security/images/android_software_stack.png&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://source.android.com/devices/tech/security/images/android_software_stack.png&quot;/&gt;&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Concept of DEX&lt;/h3&gt;&lt;p&gt;The Android toolkit compiler takes care of compiling, building and packaging the applications created using the application framework. The advent of .dex files saves the creation of hundreds of class files and generates one single dex file for an application. The drawback of this approach is that normal JAR files will not work in Android JVM, they need to be built again to ensure it works similar to how the &quot;Core Libraries&quot; have been created from source.&lt;/p&gt;&lt;h2&gt;Boot up Sequence&lt;/h2&gt;&lt;p&gt;Though Android is built on Linux Kernel, it does not follow the same boot up sequence of the Linux kernel. On powering up, the bootloader reads the OS from ROM and loads into RAM. Then the init() of the linux kernel is invoked which loads these main four background[Daemon] processes.&lt;br/&gt;1. USB daemon&lt;br/&gt;2. Android Debug Bridge&lt;br/&gt;3. Debugger Daemon&lt;br/&gt;4. Radio Interface Layer Daemon&lt;/p&gt;&lt;p&gt;After the daemon process, Android Runtime and Zygote [MASTER DALVIK VM] will then be started. Zygote will create individual Dalvik VMs for every application. The philosophy behind the Dalvik JVM creation is that every application will run in its own DVM wherein around 15-30 MB of RAM space for a DVM Process will be allocated. When there is a shortage of memory, the Zygote finds the Least Used Application, terminates and reclaims the RAM space. The System Server process is never terminated ahead of application space. Because of this termination/reclaiming process, application state storage/retrieval, needs to be built into the application itself.&lt;/p&gt;&lt;h3&gt;Android SDK&lt;/h3&gt;&lt;p&gt;The first Android version was released in 2008 called Apple pie with the latest version being called the “Ice cream sandwich” with version 4.0. The full list of Android releases and the supported features is available &lt;a href=&quot;http://socialcompare.com/en/comparison/android-versions-comparison&quot;&gt;here&lt;/a&gt;. Some of the modern usage of the Android application development tools involve jQuery Mobile, HTML 5 using the Webkit introduced with Android Gingerbread. More detailed developer videos are available at &lt;a href=&quot;http://developer.android.com/videos/index.html&quot;&gt;http://developer.android.com/videos/index.html&lt;/a&gt;&lt;/p&gt;
 	</description>
     </item>
     <item>
@@ -1578,58 +1576,56 @@ Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(&amp;quot;http://www.vo
 	</description>
     </item>
     <item>
-      <title>ashing and Checksum in Java</title>
+      <title>Hashing and Checksum in Java</title>
       <link>http://sengopal.github.io/blog//blog/hashing-and-checksum-in-java.html</link>
       <pubDate>Mon, 22 Aug 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/hashing-and-checksum-in-java.html</guid>
       	<description>
 	&lt;h3&gt;Checksum generation&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-public class SHACheckSumExample{
-    public static void main(String[] args)throws Exception{
-        MessageDigest md = MessageDigest.getInstance(&amp;quot;SHA-256&amp;quot;);
-        FileInputStream fis = new FileInputStream(&amp;quot;c:loging.log&amp;quot;);
-        byte[] dataBytes = new byte[1024];   int nread = 0;
-        while ((nread = fis.read(dataBytes)) != -1) {
-          md.update(dataBytes, 0, nread);
-        };
-        //convert the byte to hex format method 1
-        byte[] mdbytes = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i &amp;lt; mdbytes.length; i++) {
-          sb.append(Integer.toString((mdbytes[i] &amp;amp; 0xff) + 0x100, 16).substring(1));
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    public class SHACheckSumExample{
+        public static void main(String[] args)throws Exception{
+            MessageDigest md = MessageDigest.getInstance(&amp;quot;SHA-256&amp;quot;);
+            FileInputStream fis = new FileInputStream(&amp;quot;c:loging.log&amp;quot;);
+            byte[] dataBytes = new byte[1024];   int nread = 0;
+            while ((nread = fis.read(dataBytes)) != -1) {
+              md.update(dataBytes, 0, nread);
+            };
+            //convert the byte to hex format method 1
+            byte[] mdbytes = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i &amp;lt; mdbytes.length; i++) {
+              sb.append(Integer.toString((mdbytes[i] &amp;amp; 0xff) + 0x100, 16).substring(1));
+            }
+            //convert the byte to hex format method 2
+            System.out.println(&amp;quot;Hex format : &amp;quot; + sb.toString());
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0;i&amp;lt;mdbytes.length;i++) {
+              hexString.append(Integer.toHexString(0xFF &amp;amp; mdbytes[i]));
+            }   System.out.println(&amp;quot;Hex format : &amp;quot; + hexString.toString());
         }
-        //convert the byte to hex format method 2
-        System.out.println(&amp;quot;Hex format : &amp;quot; + sb.toString());
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0;i&amp;lt;mdbytes.length;i++) {
-          hexString.append(Integer.toHexString(0xFF &amp;amp; mdbytes[i]));
-        }   System.out.println(&amp;quot;Hex format : &amp;quot; + hexString.toString());
     }
-}
 &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Hashing of a String&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-public class SHAHashingExample{
-    public static void main(String[] args)throws Exception    {
-        String password = &amp;quot;123456&amp;quot;;
-        MessageDigest md = MessageDigest.getInstance(&amp;quot;SHA-256&amp;quot;);
-        md.update(password.getBytes());
-        byte byteData[] = md.digest();   //convert the byte to hex format method 1
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i &amp;lt; byteData.length; i++) {
-         sb.append(Integer.toString((byteData[i] &amp;amp; 0xff) + 0x100, 16).substring(1));
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    public class SHAHashingExample{
+        public static void main(String[] args)throws Exception    {
+            String password = &amp;quot;123456&amp;quot;;
+            MessageDigest md = MessageDigest.getInstance(&amp;quot;SHA-256&amp;quot;);
+            md.update(password.getBytes());
+            byte byteData[] = md.digest();   //convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i &amp;lt; byteData.length; i++) {
+             sb.append(Integer.toString((byteData[i] &amp;amp; 0xff) + 0x100, 16).substring(1));
+            }
+            //convert the byte to hex format method 2
+            System.out.println(&amp;quot;Hex format : &amp;quot; + sb.toString());
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0;i&amp;lt;byteData.length;i++) {
+                String hex=Integer.toHexString(0xff &amp;amp; byteData[i]);
+                if(hex.length()==1) hexString.append(&amp;#39;0&amp;#39;);
+                hexString.append(hex);
+            }
+            System.out.println(&amp;quot;Hex format : &amp;quot; + hexString.toString());
         }
-        //convert the byte to hex format method 2
-        System.out.println(&amp;quot;Hex format : &amp;quot; + sb.toString());
-        StringBuffer hexString = new StringBuffer();
-        for (int i=0;i&amp;lt;byteData.length;i++) {
-            String hex=Integer.toHexString(0xff &amp;amp; byteData[i]);
-            if(hex.length()==1) hexString.append(&amp;#39;0&amp;#39;);
-            hexString.append(hex);
-        }
-        System.out.println(&amp;quot;Hex format : &amp;quot; + hexString.toString());
     }
-}
 &lt;/code&gt;&lt;/pre&gt;
 	</description>
     </item>
@@ -1740,39 +1736,34 @@ public class SHAHashingExample{
       <guid isPermaLink="false">blog/some-java-7-features.html</guid>
       	<description>
 	&lt;h3&gt;Switch Case for Strings&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-switch(someString) {
-    case &amp;quot;Bubba&amp;quot;:
-        return bubbaStringResult;
-    case &amp;quot;Sue&amp;quot;:
-        return sueStringResult;
-    default:
-        return new BrokenSwitchException(&amp;quot;Odd String!&amp;quot;);
-}
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    switch(someString) {
+        case &amp;quot;Bubba&amp;quot;:
+            return bubbaStringResult;
+        case &amp;quot;Sue&amp;quot;:
+            return sueStringResult;
+        default:
+            return new BrokenSwitchException(&amp;quot;Odd String!&amp;quot;);
+    }
 &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Simple IO Handling – Just a try and catch&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-try (FileOutputStream fos = new FileOutputStream(file)) {
-    // perform some op using the stated resources
-} catch (AnyExceptionThrownByThatOp aetbto) {
-    // handle the exception byfm
-} // Nothing to do. The FileOutputStream will be autoclosed.
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    try (FileOutputStream fos = new FileOutputStream(file)) {
+        // perform some op using the stated resources
+    } catch (AnyExceptionThrownByThatOp aetbto) {
+        // handle the exception byfm
+    } // Nothing to do. The FileOutputStream will be autoclosed.
 &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Multiple Exceptions in a single catch&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-try {
-    // perform some op that can throw various exceptions,
-    // where some subset of them should be handles &amp;quot;thisway&amp;quot;
-} catch (FirstSimilarException | SecondSimilarException e) {
-    // deal with it thisway(e), whatever it is
-} catch (Exception ex) {
-    // deal with it thatway(ex)
-}
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    try {
+        // perform some op that can throw various exceptions,
+        // where some subset of them should be handles &amp;quot;thisway&amp;quot;
+    } catch (FirstSimilarException | SecondSimilarException e) {
+        // deal with it thisway(e), whatever it is
+    } catch (Exception ex) {
+        // deal with it thatway(ex)
+    }
 &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Underscore in digits to facilitate easier readability&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-long creditCard = 5440_4440_3330_0005L;
-long phoneNumber = 213_555_1212L;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    long creditCard = 5440_4440_3330_0005L;
+    long phoneNumber = 213_555_1212L;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Binary Literals are also supported&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;:::java
-int x = 0b1010110;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    int x = 0b1010110;
 &lt;/code&gt;&lt;/pre&gt;
 	</description>
     </item>
@@ -1837,26 +1828,26 @@ Hello world.&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Code without main()&lt
   &lt;li&gt;Using log4j.xml you can have different logger configuration for different java classes&lt;/li&gt;
   &lt;li&gt;Include Thread Name and fully qualified java class Name while printing logs&lt;/li&gt;
   &lt;li&gt;Use some kind of prefix and parametrized version of various log methods as they are faster compared to normal method&lt;/li&gt;
-&lt;/ol&gt;&lt;h4&gt;Class Specific Log File&lt;/h4&gt;&lt;p&gt;For example, if we have a class which is logging using the log4j.&lt;/p&gt;&lt;p&gt;```java&lt;br/&gt; import org.apache.commons.logging.Log;&lt;br/&gt; import org.apache.commons.logging.LogFactory;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;public class WebTrackingLogger {
-    private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
-    public static void log(Sting ip, String url, String.... otherValues) {
-        log.info(IP + &amp;quot; &amp;quot; + URL);
-        ....
-        log.warn(IP + &amp;quot; &amp;quot; + URL, e);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;&lt;br/&gt;The logs from this code alone can be rolled seperately using,
+&lt;/ol&gt;&lt;h4&gt;Class Specific Log File&lt;/h4&gt;&lt;p&gt;For example, if we have a class which is logging using the log4j.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    import org.apache.commons.logging.Log;
+    import org.apache.commons.logging.LogFactory;
 
+    public class WebTrackingLogger {
+        private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
+        public static void log(Sting ip, String url, String.... otherValues) {
+            log.info(IP + &amp;quot; &amp;quot; + URL);
+            ....
+            log.warn(IP + &amp;quot; &amp;quot; + URL, e);
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The logs from this code alone can be rolled seperately using,&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    log4j.category.com.company.WebTrackingLogger.INFO, PL
+    log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
+    log4j.appender.PL.layout=org.apache.log4j.PatternLayout
+    log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
+    log4j.appender.PL.File=/var/log/app/web-tracking-log
+    log4j.appender.PL.DatePattern=&amp;#39;.&amp;#39;yyyy-MM-dd
 &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;log4j.category.com.company.WebTrackingLogger.INFO, PL
-log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.PL.layout=org.apache.log4j.PatternLayout
-log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
-log4j.appender.PL.File=/var/log/app/web-tracking-log
-log4j.appender.PL.DatePattern=&amp;#39;.&amp;#39;yyyy-MM-dd
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;```&lt;/p&gt;
 	</description>
     </item>
     <item>
@@ -1888,7 +1879,7 @@ JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
       <pubDate>Sun, 24 Apr 2011 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/chennai-jug-summitapril-16-and-17.html</guid>
       	<description>
-	&lt;p&gt;Last week, I had a great opportunity to attend the &lt;a href=&quot;http://jugchennai.in/chennaijavasummit/&quot;&gt;Chennai JUG summit&lt;/a&gt; for the first time.&lt;br/&gt;It was a pleasant surprise to find such a huge following to the group and the language. It started with the traditional lamp lighting and a hearty welcome by the group creator &lt;strong&gt;Raj Mahendra Hegde&lt;/strong&gt;, whose passionate speech was very infecting. His group IGGUG caught everybody&apos;s attention and I for one will be enrolling in the group as soon as possible.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Kaushik Sathupadi&lt;/strong&gt; had everyone enthralled with his presentation full of Bollywood and Hollywood scenes. It was fun and educating about how Java and JVM has evolved to great heights. It was a great presentation on Fanthom and the Tales framework that he is working on. His lines like &quot;Make the compiler do more work and complain less&quot; made people think why we are still stuck with Java.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Mani Duraisamy&lt;/strong&gt; - The best speaker for the day [IMHO] held everyone&apos;s attention with not only his Q&amp;amp;A and pranks but also with his informative talk about how and why Cloud computing going to change the world [Though irony strikes with the recent Amazon EC2 failure]. His presentation was so good that I was looking forward for each slide. Quotes such as &lt;code&gt;Businesses shouldn&amp;#39;t own software&lt;/code&gt; and &lt;code&gt;Because &amp;quot;Owning is the root cause of all &amp;#39;evil&amp;#39;&amp;quot;&lt;/code&gt; really got everyone rooted with laughter and yet made folks get new ideas for their own/employing businesses.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;A.Senthil Nayagam&lt;/strong&gt; - a very talented engineer who has this zest for languages spoke about Mirah, the next JVM language in the fold. He gave a wonderful comparison of where Ruby is lacking and how JVM and Ruby would be the best marriage for a software engineer. He showed how an open source language in its baby step looks like and an open invitation to participate in its growth.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;static/jug-chennai-2011.png&quot; alt=&quot;&quot; width=&quot;277&quot; height=&quot;258&quot; border=&quot;0&quot; /&gt;&lt;/p&gt;
+	&lt;p&gt;Last week, I had a great opportunity to attend the &lt;a href=&quot;http://jugchennai.in/chennaijavasummit/&quot;&gt;Chennai JUG summit&lt;/a&gt; for the first time.&lt;br/&gt;It was a pleasant surprise to find such a huge following to the group and the language. It started with the traditional lamp lighting and a hearty welcome by the group creator &lt;strong&gt;Raj Mahendra Hegde&lt;/strong&gt;, whose passionate speech was very infecting. His group IGGUG caught everybody&apos;s attention and I for one will be enrolling in the group as soon as possible.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Kaushik Sathupadi&lt;/strong&gt; had everyone enthralled with his presentation full of Bollywood and Hollywood scenes. It was fun and educating about how Java and JVM has evolved to great heights. It was a great presentation on Fanthom and the Tales framework that he is working on. His lines like &quot;Make the compiler do more work and complain less&quot; made people think why we are still stuck with Java.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Mani Duraisamy&lt;/strong&gt; - The best speaker for the day [IMHO] held everyone&apos;s attention with not only his Q&amp;amp;A and pranks but also with his informative talk about how and why Cloud computing going to change the world [Though irony strikes with the recent Amazon EC2 failure]. His presentation was so good that I was looking forward for each slide. Quotes such as &lt;code&gt;Businesses shouldn&amp;#39;t own software&lt;/code&gt; and &lt;code&gt;Because &amp;quot;Owning is the root cause of all &amp;#39;evil&amp;#39;&amp;quot;&lt;/code&gt; really got everyone rooted with laughter and yet made folks get new ideas for their own/employing businesses.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;A.Senthil Nayagam&lt;/strong&gt; - a very talented engineer who has this zest for languages spoke about Mirah, the next JVM language in the fold. He gave a wonderful comparison of where Ruby is lacking and how JVM and Ruby would be the best marriage for a software engineer. He showed how an open source language in its baby step looks like and an open invitation to participate in its growth.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;/static/jug-chennai-2011.png&quot; alt=&quot;&quot; width=&quot;277&quot; height=&quot;258&quot; border=&quot;0&quot; /&gt;&lt;/p&gt;
 	</description>
     </item>
     <item>

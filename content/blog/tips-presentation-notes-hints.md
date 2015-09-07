@@ -6,9 +6,10 @@ summary=Few tips for performing an awesome presention
 category=Nontech
 author=Senthilkumar Gopal
 type=post
+summary=Recently, I came across this oldie, but great article on public speaking on OReilly. Though they had some really good tips and notes about presenting some of the most important aspects from that article that captured my attention and which i would recall every time i present something are below.
 status=published
 ~~~~~~
-Recently, I came across this oldie, but great article on public speaking on [OReilly](http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html). Some of the most important aspects from that article are:
+Recently, I came across this oldie, but great article on public speaking on [OReilly](http://www.oreillynet.com/pub/a/social-media/excerpts/9780596802004/public-speaker-butterflies.html). Though they had some really good tips and notes about presenting some of the most important aspects from that article that captured my attention and which i would recall every time i present something are below.
 
 ### How to structure the talk
 1. Answer most 5 common Questions the audience would have. Structure the talk around it

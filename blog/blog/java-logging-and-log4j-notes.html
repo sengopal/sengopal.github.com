@@ -15,12 +15,8 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <link href="../css/normalize.css" rel="stylesheet">
-  <link href="../css/base.css" rel="stylesheet">
-  <link href="../css/highlight.min.css" rel="stylesheet">
-  <link href="../css/screen.css" rel="stylesheet">
   <link href="../css/font-awesome.min.css" rel="stylesheet">
-  <link href="../css/hover-min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -71,26 +67,26 @@
   <li>Using log4j.xml you can have different logger configuration for different java classes</li>
   <li>Include Thread Name and fully qualified java class Name while printing logs</li>
   <li>Use some kind of prefix and parametrized version of various log methods as they are faster compared to normal method</li>
-</ol><h4>Class Specific Log File</h4><p>For example, if we have a class which is logging using the log4j.</p><p>```java<br/> import org.apache.commons.logging.Log;<br/> import org.apache.commons.logging.LogFactory;</p>
-<pre><code>public class WebTrackingLogger {
-    private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
-    public static void log(Sting ip, String url, String.... otherValues) {
-        log.info(IP + &quot; &quot; + URL);
-        ....
-        log.warn(IP + &quot; &quot; + URL, e);
-    }
-}
-</code></pre>
-<pre><code><br/>The logs from this code alone can be rolled seperately using,
+</ol><h4>Class Specific Log File</h4><p>For example, if we have a class which is logging using the log4j.</p>
+<pre><code class="java">    import org.apache.commons.logging.Log;
+    import org.apache.commons.logging.LogFactory;
 
-</code></pre>
-<pre><code>log4j.category.com.company.WebTrackingLogger.INFO, PL
-log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.PL.layout=org.apache.log4j.PatternLayout
-log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
-log4j.appender.PL.File=/var/log/app/web-tracking-log
-log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd
-</code></pre><p>```</p></p>
+    public class WebTrackingLogger {
+        private static final Log log = LogFactory.getLog(WebTrackingLogger.class);
+        public static void log(Sting ip, String url, String.... otherValues) {
+            log.info(IP + &quot; &quot; + URL);
+            ....
+            log.warn(IP + &quot; &quot; + URL, e);
+        }
+    }
+</code></pre><p>The logs from this code alone can be rolled seperately using,</p>
+<pre><code class="java">    log4j.category.com.company.WebTrackingLogger.INFO, PL
+    log4j.appender.PL=org.apache.log4j.DailyRollingFileAppender
+    log4j.appender.PL.layout=org.apache.log4j.PatternLayout
+    log4j.appender.PL.layout.ConversionPattern=%d %x - %m%n
+    log4j.appender.PL.File=/var/log/app/web-tracking-log
+    log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd
+</code></pre></p>
 
 				<hr />
 
@@ -99,7 +95,7 @@ log4j.appender.PL.DatePattern=&#39;.&#39;yyyy-MM-dd
 		</div>
 
 <div id="footer">
-    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
 <script src="../js/jquery-1.11.1.min.js"></script>

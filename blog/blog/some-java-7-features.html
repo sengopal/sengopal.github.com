@@ -15,12 +15,8 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <link href="../css/normalize.css" rel="stylesheet">
-  <link href="../css/base.css" rel="stylesheet">
-  <link href="../css/highlight.min.css" rel="stylesheet">
-  <link href="../css/screen.css" rel="stylesheet">
   <link href="../css/font-awesome.min.css" rel="stylesheet">
-  <link href="../css/hover-min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -64,39 +60,34 @@
 				<p><em>11 July 2011</em></p>
 
 				<p><h3>Switch Case for Strings</h3>
-<pre><code>:::java
-switch(someString) {
-    case &quot;Bubba&quot;:
-        return bubbaStringResult;
-    case &quot;Sue&quot;:
-        return sueStringResult;
-    default:
-        return new BrokenSwitchException(&quot;Odd String!&quot;);
-}
+<pre><code class="java">    switch(someString) {
+        case &quot;Bubba&quot;:
+            return bubbaStringResult;
+        case &quot;Sue&quot;:
+            return sueStringResult;
+        default:
+            return new BrokenSwitchException(&quot;Odd String!&quot;);
+    }
 </code></pre><h3>Simple IO Handling – Just a try and catch</h3>
-<pre><code>:::java
-try (FileOutputStream fos = new FileOutputStream(file)) {
-    // perform some op using the stated resources
-} catch (AnyExceptionThrownByThatOp aetbto) {
-    // handle the exception byfm
-} // Nothing to do. The FileOutputStream will be autoclosed.
+<pre><code class="java">    try (FileOutputStream fos = new FileOutputStream(file)) {
+        // perform some op using the stated resources
+    } catch (AnyExceptionThrownByThatOp aetbto) {
+        // handle the exception byfm
+    } // Nothing to do. The FileOutputStream will be autoclosed.
 </code></pre><h3>Multiple Exceptions in a single catch</h3>
-<pre><code>:::java
-try {
-    // perform some op that can throw various exceptions,
-    // where some subset of them should be handles &quot;thisway&quot;
-} catch (FirstSimilarException | SecondSimilarException e) {
-    // deal with it thisway(e), whatever it is
-} catch (Exception ex) {
-    // deal with it thatway(ex)
-}
+<pre><code class="java">    try {
+        // perform some op that can throw various exceptions,
+        // where some subset of them should be handles &quot;thisway&quot;
+    } catch (FirstSimilarException | SecondSimilarException e) {
+        // deal with it thisway(e), whatever it is
+    } catch (Exception ex) {
+        // deal with it thatway(ex)
+    }
 </code></pre><h3>Underscore in digits to facilitate easier readability</h3>
-<pre><code>:::java
-long creditCard = 5440_4440_3330_0005L;
-long phoneNumber = 213_555_1212L;
+<pre><code class="java">    long creditCard = 5440_4440_3330_0005L;
+    long phoneNumber = 213_555_1212L;
 </code></pre><h3>Binary Literals are also supported</h3>
-<pre><code>:::java
-int x = 0b1010110;
+<pre><code class="java">    int x = 0b1010110;
 </code></pre></p>
 
 				<hr />
@@ -106,7 +97,7 @@ int x = 0b1010110;
 		</div>
 
 <div id="footer">
-    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
 <script src="../js/jquery-1.11.1.min.js"></script>

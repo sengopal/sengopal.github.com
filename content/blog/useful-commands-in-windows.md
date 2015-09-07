@@ -47,7 +47,8 @@ Recently came across this suprising list of command line tools in Windows. I hav
 
 18. **Code for checking firewall settings in windows**
 
-        :::bat
+```bat
         netstat -a -b
         netsh advfirewall firewall show rule name=all > firewallrules.txt
         netsh advfirewall firewall show rule name | find "Block"
+```

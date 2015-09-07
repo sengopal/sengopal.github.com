@@ -6,10 +6,10 @@ summary=Collection of CSS style guidelines for creation and maintainence of CSS
 category=CSS
 author=Senthilkumar Gopal
 type=post
+summary=As a web application developer, many a times we fix up on a few rules while creating styling files. However, during development the team infers their own understanding of the rules, leading to difficulties in editing and maintaining the CSS files.
 status=published
 ~~~~~~
-
-Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are given below
+As a web application developer, many a times we fix up on a few rules while creating styling files. However, during development the team infers their own understanding of the rules, leading to difficulties in editing and maintaining the CSS files. Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are detailed below.
 
 * [HTML guidelines](#html-guidelines)
 * [Best Practices](#best-practices)

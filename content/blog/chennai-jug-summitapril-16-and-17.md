@@ -19,4 +19,4 @@ It was a pleasant surprise to find such a huge following to the group and the la
 **A.Senthil Nayagam** - a very talented engineer who has this zest for languages spoke about Mirah, the next JVM language in the fold. He gave a wonderful comparison of where Ruby is lacking and how JVM and Ruby would be the best marriage for a software engineer. He showed how an open source language in its baby step looks like and an open invitation to participate in its growth.
 
 
-<img src="static/jug-chennai-2011.png" alt="" width="277" height="258" border="0" />
+<img src="/static/jug-chennai-2011.png" alt="" width="277" height="258" border="0" />

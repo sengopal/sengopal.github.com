@@ -15,12 +15,8 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <link href="../css/normalize.css" rel="stylesheet">
-  <link href="../css/base.css" rel="stylesheet">
-  <link href="../css/highlight.min.css" rel="stylesheet">
-  <link href="../css/screen.css" rel="stylesheet">
   <link href="../css/font-awesome.min.css" rel="stylesheet">
-  <link href="../css/hover-min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -82,13 +78,12 @@
   <li><p><strong>sysedit</strong> - System Configuration Editor</p></li>
   <li><p><strong>syskey</strong> - Syskey</p></li>
   <li><p><strong>telnet</strong> - Microsoft Telnet Client</p></li>
-  <li><p><strong>Code for checking firewall settings in windows</strong></p>
-  <pre><code>:::bat
-netstat -a -b
-netsh advfirewall firewall show rule name=all &gt; firewallrules.txt
-netsh advfirewall firewall show rule name | find &quot;Block&quot;
-</code></pre></li>
-</ol></p>
+  <li><p><strong>Code for checking firewall settings in windows</strong></p></li>
+</ol>
+<pre><code class="bat">        netstat -a -b
+        netsh advfirewall firewall show rule name=all &gt; firewallrules.txt
+        netsh advfirewall firewall show rule name | find &quot;Block&quot;
+</code></pre></p>
 
 				<hr />
 
@@ -97,7 +92,7 @@ netsh advfirewall firewall show rule name | find &quot;Block&quot;
 		</div>
 
 <div id="footer">
-    <p class="muted credit">&copy; 2014 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
 <script src="../js/jquery-1.11.1.min.js"></script>

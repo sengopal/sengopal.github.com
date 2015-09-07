@@ -1,5 +1,5 @@
 title=Android Application development notes - Part 1
-date=2012-01-09
+date=2012-01-08
 tags=android
 slug=android-learn-part1
 summary=Android application development notes part 1
@@ -14,14 +14,10 @@ Today I am starting with a new series for learning application development in An
 ###What is Android?
 Android is an operating system primarily for mobile devices created by Andy Rubin, the owner of Android Inc. It is being developed by OHA [Open Handset Alliance], a non-profit organization created in 2007 by around 79 companies which include contributions from software, hardware and device management corporations. The first Android phone was introduced by HTC in 2008 and the recent one being the Samsung Galaxy Nexus in late 2011.
 
-<a href="http://upload.wikimedia.org/wikipedia/commons/a/a1/Android_home.png" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/a/a1/Android_home.png" width="231" height="383" /></a>
-<a href="http://upload.wikimedia.org/wikipedia/commons/e/e7/Android_4.0.png" target="_blank"><img style="margin: 0px 0px 0px 90px" src="http://upload.wikimedia.org/wikipedia/commons/e/e7/Android_4.0.png" width="217" height="385" /></a>
-
-
 ###Design
 Android is a Linux based operating system customized to primarily work with mobile devices. The architecture/design of the Android ecosystem consists of the **Linux Kernel** which takes care of the device drivers, the **Libraries** such as Surface managers, LIBC written in C / C++,** Application framework** which exposes the handlers for creating custom applications, **Android Runtime **which contains the Core Libraries [written in Java] and the custom made **Dalvik Virtual Machine **which reads the DEX files [dalvik executable]
 
-<a href="http://en.wikipedia.org/wiki/File:System-architecture.jpg" target="_blank"><img src="http://upload.wikimedia.org/wikipedia/commons/6/63/System-architecture.jpg" width="548" height="394" /></a>
+<a href="https://source.android.com/devices/tech/security/images/android_software_stack.png" target="_blank"><img src="https://source.android.com/devices/tech/security/images/android_software_stack.png"/></a>
 
 ###Concept of DEX
 The Android toolkit compiler takes care of compiling, building and packaging the applications created using the application framework. The advent of .dex files saves the creation of hundreds of class files and generates one single dex file for an application. The drawback of this approach is that normal JAR files will not work in Android JVM, they need to be built again to ensure it works similar to how the "Core Libraries" have been created from source.

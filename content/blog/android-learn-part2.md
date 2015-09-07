@@ -67,11 +67,11 @@ component. As data is it may send the URL to the browser component. Android supp
 
 Explicit Intents explicitly names the component which should be called by the Android system, by using the the Java class as identifier. The following shows an explicit Intent. If that Intent is correctly send to the Android system, it will start the associated class.
 
-    :::java
+```java
     Intent i = new Intent(this, ActivityTwo.class);
     i.putExtra("Value1", "This value one for ActivityTwo ");
     i.putExtra("Value2", "This value two ActivityTwo");
-
+```
 
 Explicit Intents are typically used within on application as the classes in an application are controlled by the application developer.
 
@@ -79,9 +79,9 @@ Explicit Intents are typically used within on application as the classes in an a
 
 Implicit Intents do not specify the Java class which should be called. They specify the action which should be performed and optionally an URI which should be used for this action. For example the following tells the Android system to view a webpage. Typically the web browser is registered to this Intent but other component could also register themself to this event.
 
-    :::java
+```java
     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.vogella.de"));
-
+```
 
 If these Intents are send to the Android system it searches for all components which are registered for the specific action and the data type.
 

@@ -4,25 +4,29 @@
 <#include "header.ftl">
 	<body>
     <div id="wrap">
+		<div class="container">
+			<#include "menu.ftl">
 
-			<div class="container">
-				<#include "menu.ftl">
-
-				<#list posts as post>
-			  		<#if (post.status == "published")>
-			  			<a href="${post.uri}"><h2><#escape x as x?xml>${post.title}</#escape></h2></a>
-			  			<p class="post_date">${post.date?string("dd MMMM yyyy")}</p>
-			  			<p>${post.body}</p>
-			  			<hr />
+			<#list posts as post>
+		  		<#if (post.status == "published")>
+		  			<h2><a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape></a></h2>
+		  			<em>${post.date?string("dd MMMM yyyy")}</em>
+		  			<p class="summary">${post.summary}</p>
+			  		<#if post_index = 6>
+			  			<#break>
+					<#else>
+						<hr />
 			  		</#if>
-			  		<#if post_index = 2><#break></#if>
-			  	</#list>
-
+		  		</#if>
+		  	</#list>
+			<div id="push">
+				<p>Older articles can be found in the 
+					<a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>archive.html">archives</a>
+				</p>
 			</div>
 			<div id="push"></div>
 		</div>
-
-		<#include "footer.ftl">
-
+	</div>
+	<#include "footer.ftl">
 	</body>
 </html>

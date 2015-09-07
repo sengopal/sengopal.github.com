@@ -9,10 +9,10 @@
 				<#include "menu.ftl">
 
 				<div class="header">
-					<h2>Posts Archive</h2>
+					<h2>Archive</h2>
 				</div>
 
-				<ul>
+				<ul class="archive">
 					<#list published_posts as post>
 						<li>
 							<span class="arch-date">${post.date?string("dd MMM yyyy")}</span> -

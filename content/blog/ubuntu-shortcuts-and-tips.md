@@ -51,7 +51,7 @@ These are various tips, tricks, changes to make ubuntu better. Obviously these a
 5. sudo cp default local.dev
 6. sudo gedit local.dev
 
-        :::xml
+```xml
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
             serverName your server name here
@@ -67,6 +67,7 @@ These are various tips, tricks, changes to make ubuntu better. Obviously these a
                 allow from all
             </Directory>
         </VirtualHost>
+```
 
 7. sudo a2ensite local.dev
 8. sudo /etc/init.d/apache2 reload
@@ -80,10 +81,11 @@ These are various tips, tricks, changes to make ubuntu better. Obviously these a
 2. cp /etc/ssh/sshd_config ~
 3. gedit /etc/ssh/sshd_config
 
-        :::text
+```text
         Port 22
         PermitRootLogin no
         AllowUsers non-root
+```
 
 4. /etc/init.d/ssh restart
 5. telnet localhost 22
