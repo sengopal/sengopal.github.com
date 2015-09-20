@@ -14,6 +14,7 @@
   <ul>
     <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>archive.html">Posts</a></li>
     <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/projects.html">Projects</a></li>
+    <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
     <!--
     <li><a href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>pages/reviews.html">Reviews</a></li>
     -->

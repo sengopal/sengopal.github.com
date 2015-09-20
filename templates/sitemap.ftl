@@ -4,6 +4,7 @@
     <url>
         <loc>${config.site_host}${content.uri}</loc>
         <lastmod>${content.date?string("yyyy-MM-dd")}</lastmod>
+        <changefreq>monthly</changefreq>
     </url>
 </#list>
 </urlset>

@@ -1,41 +1,42 @@
-title=HTMl5 APIs Usage
+title=HTML5 APIs Usage
 date=2015-01-08
 tags=web
 slug=html5-apis-usage
-summary=HTMl5 APIs Usage
+summary=Recently came across a few HTML5 apis which attempt to bring native capabilities to the Web. We have all started using Hangouts on web, but the following is a list of other capabilities that are available as part of HTML5.
 category=Web Development
 author=Senthilkumar Gopal
 type=post
-status=draft
+status=published
 ~~~~~~
 
-HTML5 Device Access and other APIs
+Recently came across a few HTML5 apis which attempt to bring native capabilities to the Web. We have all started using Hangouts on web, but the following is a list of other capabilities that are available as part of HTML5. These APIs are available as part of modern browsers and as a good developer, it is always recommended to perform feature detection before using each API.
 
 ### Fullscreen API
-The awesome Fullscreen API allows developers to programmatically launch the browser into fullscreen mode, pending user approval:
+The awesome Fullscreen API allows developers to programmatically launch the browser into fullscreen mode. All video sites use this by default now.
 
-```java
-// Find the right method, call on correct element
-function launchFullScreen(element) {
-	if(element.requestFullScreen) {
-		element.requestFullScreen();
-	} else if(element.mozRequestFullScreen) {
-		element.mozRequestFullScreen();
-	} else if(element.webkitRequestFullScreen) {
-		element.webkitRequestFullScreen();
+```javascript
+	// Find the right method, call on correct element
+	function launchFullScreen(element) {
+		if(element.requestFullScreen) {
+			element.requestFullScreen();
+		} else if(element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		} else if(element.webkitRequestFullScreen) {
+			element.webkitRequestFullScreen();
+		}
 	}
-}
 
-// Launch fullscreen for browsers that support it!
-launchFullScreen(document.documentElement); // the whole page
-launchFullScreen(document.getElementById("videoElement")); // any individual element
+	// Launch fullscreen for browsers that support it!
+	launchFullScreen(document.documentElement); // the whole page
+	launchFullScreen(document.getElementById("videoElement")); // any individual element
 ```
-	
-Any element can be pushed to fullscreen, and there's even a CSS pseudo-class to allow some control over the screen while in fullscreen mode. This API is especially useful for JavaScript game development; especially first person shooters like BananaBread!
+
+Any element can be pushed to fullscreen, and there's even a CSS pseudo-class `:fullscreen' to allow some control over the screen while in fullscreen mode.
 
 ### Page Visibility API
 The Page Visibility API provides developers an event to listen in on, telling developers when the user focuses on a page's tab, and also when the user moves to another tab or window:
 
+```javascript
 	// Adapted slightly from Sam Dutton
 	// Set name of hidden property and visibility change event
 	// since some browsers only offer vendor-prefixed support
@@ -62,12 +63,14 @@ The Page Visibility API provides developers an event to listen in on, telling de
 	document.addEventListener(visibilityChange, function(e) {
 		// Start or stop processing depending on state
 	}, false);
+```
 
-When used properly, a developer can avoid expensive tasks (like AJAX polling or animating) when the tab isn't in focus.
+This can be used to a great extent to save bandwidth, especially on mobile web browsing to save bandwidth when the tab is not focused.
 
 ### getUserMedia API
-The getUserMedia API is incredibly interesting; this API provides access to device media, like your MacBook's camera! Using this API, the `<video>` tag, and canvas, you can take beautiful photos within your browser!
+The getUserMedia API is incredibly interesting; this API provides access to device media, like your camera. Using this API, the `<video>` tag, and canvas, you can take beautiful photos from within your web browser. This opens capabilities on all devices to be used by your web applications.
 
+```javascript
 	// Put event listeners into place
 	window.addEventListener("DOMContentLoaded", function() {
 		// Grab elements, create settings, etc.
@@ -92,12 +95,12 @@ The getUserMedia API is incredibly interesting; this API provides access to devi
 			}, errBack);
 		}
 	}, false);
-	
-Look forward to using this API quite a bit in the future -- interactivity within the browser will be the norm a year from now!
+```
 
 ### Battery API
-The Battery API is obviously a mobile-targeted API providing insight into the device's battery level and status
+The Battery API is obviously a mobile-targeted API providing insight into the device's battery level and status.
 
+```javascript
 	// Get the battery!
 	var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
 	// A few useful battery properties
@@ -108,21 +111,24 @@ The Battery API is obviously a mobile-targeted API providing insight into the de
 	battery.addEventListener("chargingchange", function(e) {
 		console.warn("Battery charge change: ", battery.charging);
 	}, false);
+```
 
-Knowing battery API and status can signal to the web application not to use battery-intensive processes and the like. Not a groundbreaking API but surely a helpful one.
+Knowing battery API and status can signal to the web application not to use battery-intensive processes.
 
 ### Link Prefetching
 Link prefetching allows developers to silently preload site contents to project a more fluid, seamless web experience
 
+```html
 	<!-- full page -->
 	<link rel="prefetch" href="http://davidwalsh.name/css-enhancements-user-experience" />
-	
 	<!-- just an image -->
 	<link rel="prefetch" href="http://davidwalsh.name/wp-content/themes/walshbook3/images/sprite.png" />
+```
 
 ### Element.classList
-The classList API provides the basic CSS controls our JavaScript libraries have been giving us for years
+This is one of the most sought APIs by JS developers for simplifying plugin and other JS development.
 
+```javascript
 	// Add a class to an element
 	myElement.classList.add("newClass");
 	// Remove a class to an element
@@ -131,12 +137,12 @@ The classList API provides the basic CSS controls our JavaScript libraries have 
 	myElement.classList.contains("oneClass");
 	// Toggle a class
 	myElement.classList.toggle("anotherClass");
-	
-The epitome of a great API addition: simple and intelligent. 
+```
 
 ### ContextMenu API
-The new ContextMenu API is excellent: instead of overriding the browser context menu, the new ContextMenu API allows you to simply add items to the browser's context menu
+The new ContextMenu API opens the web pages context menu and instead of overriding the browser context menu, the new ContextMenu API allows the developers to simply add items to the browser's context menu.
 
+```html
 	<section contextmenu="mymenu">
 		<menu type="context" id="mymenu">
 			<menuitem label="Refresh Post" onclick="window.location.reload();" icon="/images/refresh-icon.png"></menuitem>
@@ -145,14 +151,14 @@ The new ContextMenu API is excellent: instead of overriding the browser context 
 			<menuitem label="Facebook" icon="/images/facebook_icon16x16.gif" onclick="goTo('//facebook.com/sharer/sharer.php?u=' + window.location.href);"></menuitem>
 		</menu>
 	</section>
-	
-Note that it's best to create your menu markup with JavaScript since JS is required to make item actions work, and you wouldn't want the HTML in the page if JS is turned off.
+```
 
 ### Element.dataset
 The dataset API allows developers to get and set data- attribute values
 
-	/* Assuming element:
-	<div id="myDiv" data-name="myDiv" data-id="myId" data-my-custom-key="This is the value"></div>
+```html
+	/* Assuming the html has the following element
+		<div id="myDiv" data-name="myDiv" data-id="myId" data-my-custom-key="This is the value"></div>
 	*/
 	// Get the element
 	var element = document.getElementById("myDiv");
@@ -164,12 +170,12 @@ The dataset API allows developers to get and set data- attribute values
 	element.dataset.myCustomKey = "Some other value";
 	// Element becomes:
 	// <div id="myDiv" data-name="myDiv" data-id="myId" data-my-custom-key="Some other value"></div>
-	
-Not much more to say; just like classList, simple and effective.
+```
 
 ### window.postMessage API
-The postMessage API, which has even been supported in IE8 for years, allows for message sending between windows and IFRAME elements
+For web applications, whic acts as gateway and providers, this is a most sought after API. The postMessage API allows for messaging between windows and IFRAME elements.
 
+```javascript
 	// From window or frame on domain 1, send a message to the iframe which hosts another domain
 	var iframeWindow = document.getElementById("iframe").contentWindow;
 	iframeWindow.postMessage("Hello from the first window!");
@@ -183,22 +189,18 @@ The postMessage API, which has even been supported in IE8 for years, allows for 
 			event.source.postMessage("Hello back!");
 		}
 	]);
-	
-Messages may only be strings, but you could always use JSON.stringify and JSON.parse for more meaningful data!
+```
+
+Though the sessages can be strings only. JSON.stringify and JSON.parse can be used for more extensive messaging structure.
 
 ### autofocus Attribute
 The autofocus attribute ensures that a given BUTTON, INPUT, or TEXTAREA element is focused on when the page is ready
 
+```html
 	<input autofocus="autofocus" />
 	<button autofocus="autofocus">Hi!</button>
 	<textarea autofocus="autofocus"></textarea>
-
-Admittedly the autofocus attribute is disorienting for the visually impaired, but on simple search pages, it's the perfect addition.
-Browser support for each API differs, so use feature detection before using each API. Take a few moments to read the detailed posts on each feature above -- you'll learn a lot and hopefully get a chance to tinker with each API!
-
-
-
-
+```
 
 
 

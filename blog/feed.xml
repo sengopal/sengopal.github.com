@@ -6,9 +6,151 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sat, 19 Sep 2015 12:52:43 -0700</pubDate>
-    <lastBuildDate>Sat, 19 Sep 2015 12:52:43 -0700</lastBuildDate>
+    <pubDate>Sat, 19 Sep 2015 17:30:43 -0700</pubDate>
+    <lastBuildDate>Sat, 19 Sep 2015 17:30:43 -0700</lastBuildDate>
 
+    <item>
+      <title>HTML5 APIs Usage</title>
+      <link>http://sengopal.github.io/blog//blog/html5-apis-usage.html</link>
+      <pubDate>Thu, 8 Jan 2015 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/html5-apis-usage.html</guid>
+      	<description>
+	&lt;p&gt;Recently came across a few HTML5 apis which attempt to bring native capabilities to the Web. We have all started using Hangouts on web, but the following is a list of other capabilities that are available as part of HTML5. These APIs are available as part of modern browsers and as a good developer, it is always recommended to perform feature detection before using each API.&lt;/p&gt;&lt;h3&gt;Fullscreen API&lt;/h3&gt;&lt;p&gt;The awesome Fullscreen API allows developers to programmatically launch the browser into fullscreen mode. All video sites use this by default now.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// Find the right method, call on correct element
+	function launchFullScreen(element) {
+		if(element.requestFullScreen) {
+			element.requestFullScreen();
+		} else if(element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		} else if(element.webkitRequestFullScreen) {
+			element.webkitRequestFullScreen();
+		}
+	}
+
+	// Launch fullscreen for browsers that support it!
+	launchFullScreen(document.documentElement); // the whole page
+	launchFullScreen(document.getElementById(&amp;quot;videoElement&amp;quot;)); // any individual element
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Any element can be pushed to fullscreen, and there&apos;s even a CSS pseudo-class `:fullscreen&apos; to allow some control over the screen while in fullscreen mode.&lt;/p&gt;&lt;h3&gt;Page Visibility API&lt;/h3&gt;&lt;p&gt;The Page Visibility API provides developers an event to listen in on, telling developers when the user focuses on a page&apos;s tab, and also when the user moves to another tab or window:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// Adapted slightly from Sam Dutton
+	// Set name of hidden property and visibility change event
+	// since some browsers only offer vendor-prefixed support
+	var hidden, state, visibilityChange;
+	if (typeof document.hidden !== &amp;quot;undefined&amp;quot;) {
+		hidden = &amp;quot;hidden&amp;quot;;
+		visibilityChange = &amp;quot;visibilitychange&amp;quot;;
+		state = &amp;quot;visibilityState&amp;quot;;
+	} else if (typeof document.mozHidden !== &amp;quot;undefined&amp;quot;) {
+		hidden = &amp;quot;mozHidden&amp;quot;;
+		visibilityChange = &amp;quot;mozvisibilitychange&amp;quot;;
+		state = &amp;quot;mozVisibilityState&amp;quot;;
+	} else if (typeof document.msHidden !== &amp;quot;undefined&amp;quot;) {
+		hidden = &amp;quot;msHidden&amp;quot;;
+		visibilityChange = &amp;quot;msvisibilitychange&amp;quot;;
+		state = &amp;quot;msVisibilityState&amp;quot;;
+	} else if (typeof document.webkitHidden !== &amp;quot;undefined&amp;quot;) {
+		hidden = &amp;quot;webkitHidden&amp;quot;;
+		visibilityChange = &amp;quot;webkitvisibilitychange&amp;quot;;
+		state = &amp;quot;webkitVisibilityState&amp;quot;;
+	}
+	
+	// Add a listener that constantly changes the title
+	document.addEventListener(visibilityChange, function(e) {
+		// Start or stop processing depending on state
+	}, false);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This can be used to a great extent to save bandwidth, especially on mobile web browsing to save bandwidth when the tab is not focused.&lt;/p&gt;&lt;h3&gt;getUserMedia API&lt;/h3&gt;&lt;p&gt;The getUserMedia API is incredibly interesting; this API provides access to device media, like your camera. Using this API, the &lt;code&gt;&amp;lt;video&amp;gt;&lt;/code&gt; tag, and canvas, you can take beautiful photos from within your web browser. This opens capabilities on all devices to be used by your web applications.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// Put event listeners into place
+	window.addEventListener(&amp;quot;DOMContentLoaded&amp;quot;, function() {
+		// Grab elements, create settings, etc.
+		var canvas = document.getElementById(&amp;quot;canvas&amp;quot;),
+		context = canvas.getContext(&amp;quot;2d&amp;quot;),
+		video = document.getElementById(&amp;quot;video&amp;quot;),
+		videoObj = { &amp;quot;video&amp;quot;: true },
+		errBack = function(error) {
+			console.log(&amp;quot;Video capture error: &amp;quot;, error.code);
+		};
+	
+		// Put video listeners into place
+		if(navigator.getUserMedia) { // Standard
+			navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+			}, errBack);
+		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+			navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+			}, errBack);
+		}
+	}, false);
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Battery API&lt;/h3&gt;&lt;p&gt;The Battery API is obviously a mobile-targeted API providing insight into the device&apos;s battery level and status.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// Get the battery!
+	var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+	// A few useful battery properties
+	console.warn(&amp;quot;Battery charging: &amp;quot;, battery.charging); // true
+	console.warn(&amp;quot;Battery level: &amp;quot;, battery.level); // 0.58
+	console.warn(&amp;quot;Battery discharging time: &amp;quot;, battery.dischargingTime);
+	// Add a few event listeners
+	battery.addEventListener(&amp;quot;chargingchange&amp;quot;, function(e) {
+		console.warn(&amp;quot;Battery charge change: &amp;quot;, battery.charging);
+	}, false);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Knowing battery API and status can signal to the web application not to use battery-intensive processes.&lt;/p&gt;&lt;h3&gt;Link Prefetching&lt;/h3&gt;&lt;p&gt;Link prefetching allows developers to silently preload site contents to project a more fluid, seamless web experience&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;	&amp;lt;!-- full page --&amp;gt;
+	&amp;lt;link rel=&amp;quot;prefetch&amp;quot; href=&amp;quot;http://davidwalsh.name/css-enhancements-user-experience&amp;quot; /&amp;gt;
+	&amp;lt;!-- just an image --&amp;gt;
+	&amp;lt;link rel=&amp;quot;prefetch&amp;quot; href=&amp;quot;http://davidwalsh.name/wp-content/themes/walshbook3/images/sprite.png&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Element.classList&lt;/h3&gt;&lt;p&gt;This is one of the most sought APIs by JS developers for simplifying plugin and other JS development.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// Add a class to an element
+	myElement.classList.add(&amp;quot;newClass&amp;quot;);
+	// Remove a class to an element
+	myElement.classList.remove(&amp;quot;existingClass&amp;quot;);
+	// Check for existence
+	myElement.classList.contains(&amp;quot;oneClass&amp;quot;);
+	// Toggle a class
+	myElement.classList.toggle(&amp;quot;anotherClass&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;ContextMenu API&lt;/h3&gt;&lt;p&gt;The new ContextMenu API opens the web pages context menu and instead of overriding the browser context menu, the new ContextMenu API allows the developers to simply add items to the browser&apos;s context menu.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;	&amp;lt;section contextmenu=&amp;quot;mymenu&amp;quot;&amp;gt;
+		&amp;lt;menu type=&amp;quot;context&amp;quot; id=&amp;quot;mymenu&amp;quot;&amp;gt;
+			&amp;lt;menuitem label=&amp;quot;Refresh Post&amp;quot; onclick=&amp;quot;window.location.reload();&amp;quot; icon=&amp;quot;/images/refresh-icon.png&amp;quot;&amp;gt;&amp;lt;/menuitem&amp;gt;
+			&amp;lt;menu label=&amp;quot;Share on...&amp;quot; icon=&amp;quot;/images/share_icon.gif&amp;quot;&amp;gt;
+			&amp;lt;menuitem label=&amp;quot;Twitter&amp;quot; icon=&amp;quot;/images/twitter_icon.gif&amp;quot; onclick=&amp;quot;goTo(&amp;#39;//twitter.com/intent/tweet?text=&amp;#39; + document.title + &amp;#39;: &amp;#39; + window.location.href);&amp;quot;&amp;gt;&amp;lt;/menuitem&amp;gt;
+			&amp;lt;menuitem label=&amp;quot;Facebook&amp;quot; icon=&amp;quot;/images/facebook_icon16x16.gif&amp;quot; onclick=&amp;quot;goTo(&amp;#39;//facebook.com/sharer/sharer.php?u=&amp;#39; + window.location.href);&amp;quot;&amp;gt;&amp;lt;/menuitem&amp;gt;
+		&amp;lt;/menu&amp;gt;
+	&amp;lt;/section&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Element.dataset&lt;/h3&gt;&lt;p&gt;The dataset API allows developers to get and set data- attribute values&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;	/* Assuming the html has the following element
+		&amp;lt;div id=&amp;quot;myDiv&amp;quot; data-name=&amp;quot;myDiv&amp;quot; data-id=&amp;quot;myId&amp;quot; data-my-custom-key=&amp;quot;This is the value&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+	*/
+	// Get the element
+	var element = document.getElementById(&amp;quot;myDiv&amp;quot;);
+	// Get the id
+	var id = element.dataset.id;
+	// Retrieves &amp;quot;data-my-custom-key&amp;quot;
+	var customKey = element.dataset.myCustomKey;
+	// Sets the value to something else
+	element.dataset.myCustomKey = &amp;quot;Some other value&amp;quot;;
+	// Element becomes:
+	// &amp;lt;div id=&amp;quot;myDiv&amp;quot; data-name=&amp;quot;myDiv&amp;quot; data-id=&amp;quot;myId&amp;quot; data-my-custom-key=&amp;quot;Some other value&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;window.postMessage API&lt;/h3&gt;&lt;p&gt;For web applications, whic acts as gateway and providers, this is a most sought after API. The postMessage API allows for messaging between windows and IFRAME elements.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;	// From window or frame on domain 1, send a message to the iframe which hosts another domain
+	var iframeWindow = document.getElementById(&amp;quot;iframe&amp;quot;).contentWindow;
+	iframeWindow.postMessage(&amp;quot;Hello from the first window!&amp;quot;);
+	// From inside the iframe on different host, receive message
+	window.addEventListener(&amp;quot;message&amp;quot;, function(event) {
+		// Make sure we trust the sending domain
+		if(event.origin == &amp;quot;http://davidwalsh.name&amp;quot;) {
+			// Log out the message
+			console.log(event.data);
+			// Send a message back
+			event.source.postMessage(&amp;quot;Hello back!&amp;quot;);
+		}
+	]);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Though the sessages can be strings only. JSON.stringify and JSON.parse can be used for more extensive messaging structure.&lt;/p&gt;&lt;h3&gt;autofocus Attribute&lt;/h3&gt;&lt;p&gt;The autofocus attribute ensures that a given BUTTON, INPUT, or TEXTAREA element is focused on when the page is ready&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;	&amp;lt;input autofocus=&amp;quot;autofocus&amp;quot; /&amp;gt;
+	&amp;lt;button autofocus=&amp;quot;autofocus&amp;quot;&amp;gt;Hi!&amp;lt;/button&amp;gt;
+	&amp;lt;textarea autofocus=&amp;quot;autofocus&amp;quot;&amp;gt;&amp;lt;/textarea&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+	</description>
+    </item>
     <item>
       <title>Tips for an awesome presention</title>
       <link>http://sengopal.github.io/blog//blog/tips-presentation-notes-hints.html</link>

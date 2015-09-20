@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>HTML5 APIs Usage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
+  <meta name="author" content="Senthilkumar Gopal">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
+  <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
+
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67843911-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+			<div class="container">
+<div class="header">
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
+  <ul class="external">
+    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+  </ul>
+
+</div>
+
+<div class="nav" role="navigation">
+  <ul>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
+    <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
+    <!--
+    <li><a href="../pages/reviews.html">Reviews</a></li>
+    -->
+    <li><a href="../pages/about.html">About Me</a></li>
+  </ul>
+</div>
+				
+				<div class="page-header">
+					<h1>HTML5 APIs Usage</h1>
+				</div>
+
+				<p><em>08 January 2015</em></p>
+
+				<p><p>Recently came across a few HTML5 apis which attempt to bring native capabilities to the Web. We have all started using Hangouts on web, but the following is a list of other capabilities that are available as part of HTML5. These APIs are available as part of modern browsers and as a good developer, it is always recommended to perform feature detection before using each API.</p><h3>Fullscreen API</h3><p>The awesome Fullscreen API allows developers to programmatically launch the browser into fullscreen mode. All video sites use this by default now.</p>
+<pre><code class="javascript">	// Find the right method, call on correct element
+	function launchFullScreen(element) {
+		if(element.requestFullScreen) {
+			element.requestFullScreen();
+		} else if(element.mozRequestFullScreen) {
+			element.mozRequestFullScreen();
+		} else if(element.webkitRequestFullScreen) {
+			element.webkitRequestFullScreen();
+		}
+	}
+
+	// Launch fullscreen for browsers that support it!
+	launchFullScreen(document.documentElement); // the whole page
+	launchFullScreen(document.getElementById(&quot;videoElement&quot;)); // any individual element
+</code></pre><p>Any element can be pushed to fullscreen, and there's even a CSS pseudo-class `:fullscreen' to allow some control over the screen while in fullscreen mode.</p><h3>Page Visibility API</h3><p>The Page Visibility API provides developers an event to listen in on, telling developers when the user focuses on a page's tab, and also when the user moves to another tab or window:</p>
+<pre><code class="javascript">	// Adapted slightly from Sam Dutton
+	// Set name of hidden property and visibility change event
+	// since some browsers only offer vendor-prefixed support
+	var hidden, state, visibilityChange;
+	if (typeof document.hidden !== &quot;undefined&quot;) {
+		hidden = &quot;hidden&quot;;
+		visibilityChange = &quot;visibilitychange&quot;;
+		state = &quot;visibilityState&quot;;
+	} else if (typeof document.mozHidden !== &quot;undefined&quot;) {
+		hidden = &quot;mozHidden&quot;;
+		visibilityChange = &quot;mozvisibilitychange&quot;;
+		state = &quot;mozVisibilityState&quot;;
+	} else if (typeof document.msHidden !== &quot;undefined&quot;) {
+		hidden = &quot;msHidden&quot;;
+		visibilityChange = &quot;msvisibilitychange&quot;;
+		state = &quot;msVisibilityState&quot;;
+	} else if (typeof document.webkitHidden !== &quot;undefined&quot;) {
+		hidden = &quot;webkitHidden&quot;;
+		visibilityChange = &quot;webkitvisibilitychange&quot;;
+		state = &quot;webkitVisibilityState&quot;;
+	}
+	
+	// Add a listener that constantly changes the title
+	document.addEventListener(visibilityChange, function(e) {
+		// Start or stop processing depending on state
+	}, false);
+</code></pre><p>This can be used to a great extent to save bandwidth, especially on mobile web browsing to save bandwidth when the tab is not focused.</p><h3>getUserMedia API</h3><p>The getUserMedia API is incredibly interesting; this API provides access to device media, like your camera. Using this API, the <code>&lt;video&gt;</code> tag, and canvas, you can take beautiful photos from within your web browser. This opens capabilities on all devices to be used by your web applications.</p>
+<pre><code class="javascript">	// Put event listeners into place
+	window.addEventListener(&quot;DOMContentLoaded&quot;, function() {
+		// Grab elements, create settings, etc.
+		var canvas = document.getElementById(&quot;canvas&quot;),
+		context = canvas.getContext(&quot;2d&quot;),
+		video = document.getElementById(&quot;video&quot;),
+		videoObj = { &quot;video&quot;: true },
+		errBack = function(error) {
+			console.log(&quot;Video capture error: &quot;, error.code);
+		};
+	
+		// Put video listeners into place
+		if(navigator.getUserMedia) { // Standard
+			navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+			}, errBack);
+		} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+			navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+			}, errBack);
+		}
+	}, false);
+</code></pre><h3>Battery API</h3><p>The Battery API is obviously a mobile-targeted API providing insight into the device's battery level and status.</p>
+<pre><code class="javascript">	// Get the battery!
+	var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+	// A few useful battery properties
+	console.warn(&quot;Battery charging: &quot;, battery.charging); // true
+	console.warn(&quot;Battery level: &quot;, battery.level); // 0.58
+	console.warn(&quot;Battery discharging time: &quot;, battery.dischargingTime);
+	// Add a few event listeners
+	battery.addEventListener(&quot;chargingchange&quot;, function(e) {
+		console.warn(&quot;Battery charge change: &quot;, battery.charging);
+	}, false);
+</code></pre><p>Knowing battery API and status can signal to the web application not to use battery-intensive processes.</p><h3>Link Prefetching</h3><p>Link prefetching allows developers to silently preload site contents to project a more fluid, seamless web experience</p>
+<pre><code class="html">	&lt;!-- full page --&gt;
+	&lt;link rel=&quot;prefetch&quot; href=&quot;http://davidwalsh.name/css-enhancements-user-experience&quot; /&gt;
+	&lt;!-- just an image --&gt;
+	&lt;link rel=&quot;prefetch&quot; href=&quot;http://davidwalsh.name/wp-content/themes/walshbook3/images/sprite.png&quot; /&gt;
+</code></pre><h3>Element.classList</h3><p>This is one of the most sought APIs by JS developers for simplifying plugin and other JS development.</p>
+<pre><code class="javascript">	// Add a class to an element
+	myElement.classList.add(&quot;newClass&quot;);
+	// Remove a class to an element
+	myElement.classList.remove(&quot;existingClass&quot;);
+	// Check for existence
+	myElement.classList.contains(&quot;oneClass&quot;);
+	// Toggle a class
+	myElement.classList.toggle(&quot;anotherClass&quot;);
+</code></pre><h3>ContextMenu API</h3><p>The new ContextMenu API opens the web pages context menu and instead of overriding the browser context menu, the new ContextMenu API allows the developers to simply add items to the browser's context menu.</p>
+<pre><code class="html">	&lt;section contextmenu=&quot;mymenu&quot;&gt;
+		&lt;menu type=&quot;context&quot; id=&quot;mymenu&quot;&gt;
+			&lt;menuitem label=&quot;Refresh Post&quot; onclick=&quot;window.location.reload();&quot; icon=&quot;/images/refresh-icon.png&quot;&gt;&lt;/menuitem&gt;
+			&lt;menu label=&quot;Share on...&quot; icon=&quot;/images/share_icon.gif&quot;&gt;
+			&lt;menuitem label=&quot;Twitter&quot; icon=&quot;/images/twitter_icon.gif&quot; onclick=&quot;goTo(&#39;//twitter.com/intent/tweet?text=&#39; + document.title + &#39;: &#39; + window.location.href);&quot;&gt;&lt;/menuitem&gt;
+			&lt;menuitem label=&quot;Facebook&quot; icon=&quot;/images/facebook_icon16x16.gif&quot; onclick=&quot;goTo(&#39;//facebook.com/sharer/sharer.php?u=&#39; + window.location.href);&quot;&gt;&lt;/menuitem&gt;
+		&lt;/menu&gt;
+	&lt;/section&gt;
+</code></pre><h3>Element.dataset</h3><p>The dataset API allows developers to get and set data- attribute values</p>
+<pre><code class="html">	/* Assuming the html has the following element
+		&lt;div id=&quot;myDiv&quot; data-name=&quot;myDiv&quot; data-id=&quot;myId&quot; data-my-custom-key=&quot;This is the value&quot;&gt;&lt;/div&gt;
+	*/
+	// Get the element
+	var element = document.getElementById(&quot;myDiv&quot;);
+	// Get the id
+	var id = element.dataset.id;
+	// Retrieves &quot;data-my-custom-key&quot;
+	var customKey = element.dataset.myCustomKey;
+	// Sets the value to something else
+	element.dataset.myCustomKey = &quot;Some other value&quot;;
+	// Element becomes:
+	// &lt;div id=&quot;myDiv&quot; data-name=&quot;myDiv&quot; data-id=&quot;myId&quot; data-my-custom-key=&quot;Some other value&quot;&gt;&lt;/div&gt;
+</code></pre><h3>window.postMessage API</h3><p>For web applications, whic acts as gateway and providers, this is a most sought after API. The postMessage API allows for messaging between windows and IFRAME elements.</p>
+<pre><code class="javascript">	// From window or frame on domain 1, send a message to the iframe which hosts another domain
+	var iframeWindow = document.getElementById(&quot;iframe&quot;).contentWindow;
+	iframeWindow.postMessage(&quot;Hello from the first window!&quot;);
+	// From inside the iframe on different host, receive message
+	window.addEventListener(&quot;message&quot;, function(event) {
+		// Make sure we trust the sending domain
+		if(event.origin == &quot;http://davidwalsh.name&quot;) {
+			// Log out the message
+			console.log(event.data);
+			// Send a message back
+			event.source.postMessage(&quot;Hello back!&quot;);
+		}
+	]);
+</code></pre><p>Though the sessages can be strings only. JSON.stringify and JSON.parse can be used for more extensive messaging structure.</p><h3>autofocus Attribute</h3><p>The autofocus attribute ensures that a given BUTTON, INPUT, or TEXTAREA element is focused on when the page is ready</p>
+<pre><code class="html">	&lt;input autofocus=&quot;autofocus&quot; /&gt;
+	&lt;button autofocus=&quot;autofocus&quot;&gt;Hi!&lt;/button&gt;
+	&lt;textarea autofocus=&quot;autofocus&quot;&gt;&lt;/textarea&gt;
+</code></pre></p>
+
+				<hr />
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+</div>
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>
