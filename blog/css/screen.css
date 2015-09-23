@@ -12,7 +12,8 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 }
 
 body {
-  font-family: "PT Serif", Georgia, "Times New Roman", "Gentium Basic", serif;
+  /*font-family: "PT Serif", Georgia, "Times New Roman", "Gentium Basic", serif;*/
+  font-family: "Avenir", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-size: 18px;
   color: #333;
   line-height: 1.4;
