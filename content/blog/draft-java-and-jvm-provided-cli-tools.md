@@ -1,3 +1,15 @@
+title=Java CLI Commands
+date=2015-05-20
+tags=android
+slug=java-cli-commands
+summary=Java CLI Commands
+category=Java
+author=Senthilkumar Gopal
+type=post
+status=draft
+~~~~~~
+
+
 Java Commands
 
 basic

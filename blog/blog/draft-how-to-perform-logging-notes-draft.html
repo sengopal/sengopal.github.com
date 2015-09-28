@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Senthilkumar Gopal</title>
+  <title>Notes to keep in mind when planning logging</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Senthilkumar Gopal blog and home page">
   <meta name="author" content="Senthilkumar Gopal">
@@ -15,16 +15,16 @@
   <link rel="me" href="https://plus.google.com/+sengopal">
   <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
 
-  <link href="css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/screen.css" rel="stylesheet">
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
-    <script src="js/html5shiv.min.js"></script>
+    <script src="../js/html5shiv.min.js"></script>
   <![endif]-->
 
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -36,9 +36,10 @@
 
 </script>
 </head>
-	<body>
+	<body onload="prettyPrint()">
     <div id="wrap">
-		<div class="container">
+
+			<div class="container">
 <div class="header">
   <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
   <h2>thoughts, code, ramblings and notes</h2>
@@ -46,53 +47,44 @@
     <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
     <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
     <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
-    <li><a href="feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
   </ul>
 
 </div>
 
 <div class="nav" role="navigation">
   <ul>
-    <li><a href="archive.html">Posts</a></li>
-    <li><a href="pages/projects.html">Projects</a></li>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
     <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
     <!--
-    <li><a href="pages/reviews.html">Reviews</a></li>
+    <li><a href="../pages/reviews.html">Reviews</a></li>
     -->
-    <li><a href="pages/about.html">About Me</a></li>
+    <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
+				
+				<div class="page-header">
+					<h1>Notes to keep in mind when planning logging</h1>
+				</div>
 
-		  			<h2><a href="blog/html5-apis-usage.html">HTML5 APIs Usage → </a></h2>
-		  			<em>08 January 2015</em>
-		  			<p class="summary">Recently came across a few HTML5 apis which attempt to bring native capabilities to the Web. We have all started using Hangouts on web, but the following is a list of other capabilities that are available as part of HTML5.</p>
-						<hr />
-		  			<h2><a href="blog/tips-presentation-notes-hints.html">Tips for an awesome presention → </a></h2>
-		  			<em>20 December 2014</em>
-		  			<p class="summary">Recently, I came across this oldie, but great article on public speaking on OReilly. Though they had some really good tips and notes about presenting some of the most important aspects from that article that captured my attention and which i would recall every time i present something are below.</p>
-						<hr />
-		  			<h2><a href="blog/css-learning-and-notes.html">CSS learning and notes → </a></h2>
-		  			<em>28 March 2013</em>
-		  			<p class="summary">The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p>
-						<hr />
-		  			<h2><a href="blog/big-list-of-web-apps.html">Big List of Web apps → </a></h2>
-		  			<em>16 August 2012</em>
-		  			<p class="summary">Since my list of bookmarks is growing huge, and i dont use these web applications often, it seemed more appropriate to maintain it as a reference list rather than bookmarks.</p>
-			<div id="push">
-				<p>Older articles can be found in the 
-					<a href="archive.html">archives</a>
-				</p>
+				<p><em>08 January 2012</em></p>
+
+				<p><p>“The bedrock for success is logging. Logging provides a window into the cadence, or typical run behavior, of your program. Every program has a cadence, whether you pay attention to it or not. Once you learn this cadence you can understand what is normal and what is not. This can be done through logging of important data and events.</p><p>Tallies are logged for work that is encountered and successfully processed, as well as for failed work, and other interesting dispositions. Tallies can be calculated by grepping through all of the log files or, more efficiently, they can be tracked and logged directly. Counts need to be tallied and balanced. Counts that don’t add up are anomalies to be further investigated. Logged errors need to be investigated, not ignored. Paying attention to these anomalies and not dismissing them is the key to robustness. Anomalies are indicators of errors, misunderstandings, and weaknesses. Rare and intermittent anomalies also need to be isolated and pursued. Once an anomaly is understood the system needs to be corrected. As you learn your programs behavior you need to handle the errors in a graceful ”</p><p>Excerpt From: Shirish Padalkar. “97 Things Every Programmer Should Know - Extended.” iBooks. </p></p>
+
+				<hr />
+
 			</div>
 			<div id="push"></div>
 		</div>
-	</div>
+
 <div id="footer">
     <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>
 
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/highlight.min.js"></script>
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
 
 <script type="text/javascript">
 	  $(function() {
@@ -100,5 +92,6 @@
 	    hljs.initHighlighting();
 	  });
 </script>
+
 	</body>
 </html>

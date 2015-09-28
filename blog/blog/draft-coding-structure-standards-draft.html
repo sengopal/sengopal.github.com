@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>coding-structure-standards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
+  <meta name="author" content="Senthilkumar Gopal">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
+  <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
+
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67843911-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+
+			<div class="container">
+<div class="header">
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
+  <ul class="external">
+    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+  </ul>
+
+</div>
+
+<div class="nav" role="navigation">
+  <ul>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
+    <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
+    <!--
+    <li><a href="../pages/reviews.html">Reviews</a></li>
+    -->
+    <li><a href="../pages/about.html">About Me</a></li>
+  </ul>
+</div>
+				
+				<div class="page-header">
+					<h1>coding-structure-standards</h1>
+				</div>
+
+				<p><em>08 January 2012</em></p>
+
+				<p><p>“Code Is Hard to Read</p><p>By Dave Anderson</p><p>Each programmer has an idea in their head regarding hard to read and easy to read. Readability depends on many factors:</p><p>Implementation language. Some syntax just is easier to read than others. XSLT anyone?<br/>Code layout and formatting. Personal preferences and pet hates, like “Where do I place the curly brace?” and indentation.<br/>Naming conventions. userStatus versus _userstatus versus x.<br/>Viewer. Choice of IDE, editor, or other tool used will contribute to readability.”</p><p>“Solution design. The most common problem – “I see what’s happening here… but it could be done better.”</p><p>“When you have the opportunity, try deodorizing the smelly code. Don’t rush. Just take small steps. In Martin Fowler’s Refactoring the steps of the refactorings presented are outlined in great detail, so it’s easy to follow. I would suggest doing the steps at least once manually to get a feeling for the preconditions and side effects of each refactoring. Thinking about what you’re doing is absolutely necessary when refactoring.”</p><p>Choosing DataTypes and parameters</p><p>Decouple the UI</p><p>Dont use too much magic</p><p>“n recent years convention over configuration has been an emerging software design paradigm. By taking advantage of it, developers only need specify the non-common part of their application, because the tools that follow this approach provide meaningful behavior for all the aspects covered by the tool itself. These default behaviors often fit the most typical needs. The defaults can be replaced by custom implementations where something more specific is needed. ”</p><p>“Execution Speed versus Maintenance Effort”</p><p>“Improved Testability Leads to Better Design”</p><p>Interface design<br/>“The conclusion on this is that setters and getters are alien constructs that do not reveal the intention and responsibility of a behavior-centric interface. Therefore you should try to avoid using them; there are better alternatives.”</p><p>Complexity<br/>“While a low line count is a good starting point, the overall cognitive load can be further reduced by keeping the cyclomatic complexity low – ideally under 3 or 4, definitely under 10. Cyclomatic complexity is a numeric value that can easily be computed by many tools and is roughly equivalent to the number of execution paths through a method. A high cyclomatic complexity complicates unit testing and has been empirically shown to correlate with bugs.”</p><p>Small Methods / Name methods</p><p>“The list of attributes I use (in no particular order) are:</p><p>Correctness: Does the code do its job?<br/>Modifiability: How easy is the code to modify?<br/>Performance: How fast does the code run? How much memory, disk space, CPU, network usage, etc. will it use?<br/>Speed of production: How quickly will the code be constructed?<br/>Reusability: To what degree will the code be architected to allow later projects to reuse code?<br/>Approachability: How difficult is it for people who are proficient in the languages and tools used to be able to take on future maintenance tasks?”</p><p>“Process strictness: How important is it that the nominated development process and coding procedure is followed? In other words, is anyone going to be sacked if they don’t follow the identified processes?<br/>Standards compliance: How important is it to comply with the various relevant standards?”</p><p>Comments<br/>“Comment to supplement the source code.”<br/>“Comment to explain the unusual.”<br/>“Comment to document hardware/software interactions.”<br/>“Comment with maintenance in mind.”</p><p>“Understand Principles behind Practices”</p><p>“Use Aggregate Objects to Reduce Coupling</p><p>”</p><p>Method Structure</p><p>“Keep each method as short as possible: 15 lines of code is a reasonable upper limit that you should be wary of ”</p><p>“limit that you should be wary of exceeding.<br/>Give each method a single responsibility: If you are trying to give a meaningful name to the method and you find the name contains an <code />and</code>, there is a good chance that you are breaking this rule.<br/>Declare methods with the lowest number of parameters possible: If you need more than 3 parameters it could be a good idea to do a small refactor by grouping them as properties of a single object.<br/>Avoid nested loops or conditions where possible: You can improve both readability and reusability by putting them in little separated methods.<br/>Write comments only when strictly necessary and keep them in sync with the code: There is nothing more useless than a comment that explains what you can easily read from the code or more ”</p><p>“confounding than a comment that says something different from what the code actually does.<br/>Establish a set of shared coding standards: Programmers can understand a piece of code faster if they don’t encounter unexpected surprises while reading it.<br/>By making your code easily readable by other programmers you are making their job simpler. And this is no bad thing when you consider that the next programmer to read the code could be you.”</p></p>
+
+				<hr />
+
+			</div>
+			<div id="push"></div>
+		</div>
+
+<div id="footer">
+    <p class="muted credit">&copy; 2015 | Senthilkumar Gopal. The opinions expressed here are my own and do not  reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+</div>
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>
