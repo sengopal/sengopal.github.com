@@ -6,9 +6,29 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Sun, 4 Oct 2015 12:47:08 -0700</pubDate>
-    <lastBuildDate>Sun, 4 Oct 2015 12:47:08 -0700</lastBuildDate>
+    <pubDate>Fri, 9 Oct 2015 00:11:10 -0700</pubDate>
+    <lastBuildDate>Fri, 9 Oct 2015 00:11:10 -0700</lastBuildDate>
 
+    <item>
+      <title>Mac Android Emulator slow without HAX</title>
+      <link>http://sengopal.github.io/blog//blog/mac-android-emulator-slow-failure-hax.html</link>
+      <pubDate>Thu, 8 Oct 2015 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/mac-android-emulator-slow-failure-hax.html</guid>
+      	<description>
+	&lt;p&gt;After installing the Mac ADT bundle, starting the AVD with a new device was very slow and with the error message.&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;emulator: Failed to open the hax module HAX is not working and emulator runs in emulation mode&lt;/p&gt;
+&lt;/blockquote&gt;&lt;p&gt;Thanks to this &lt;a href=&quot;http://stackoverflow.com/questions/10761696/running-the-new-intel-emulator-for-android&quot;&gt;stackoverflow&lt;/a&gt; post, this can be resolved.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Install the IntelHAXM from the &lt;a href=&quot;http://software.intel.com/en-us/articles/intel-hardware-accelerated-execution-manager/&quot;&gt;Intel&lt;/a&gt; site.&lt;/li&gt;
+  &lt;li&gt;If you are using 10.9 (Mavericks), install the hotfix as well from the &lt;a href=&quot;http://software.intel.com/en-us/articles/intel-hardware-accelerated-execution-manager/&quot;&gt;Intel&lt;/a&gt; site.&lt;/li&gt;
+  &lt;li&gt;Install the Intel x86Emulator Accelerator in Android SDK Manager (under Extras) if not installed yet.&lt;/li&gt;
+  &lt;li&gt;Remember to check the &quot;Use Host GPU&quot;, once the setup is completed to actually use the GPU.&lt;/li&gt;
+  &lt;li&gt;Restart Eclipse (optional) and you should be able to see now the message&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;&lt;p&gt;HAX is working and emulator runs in fast virt mode&lt;/p&gt;
+&lt;/blockquote&gt;
+	</description>
+    </item>
     <item>
       <title>HTML5 APIs Usage</title>
       <link>http://sengopal.github.io/blog//blog/html5-apis-usage.html</link>

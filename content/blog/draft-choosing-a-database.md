@@ -1,11 +1,13 @@
-= Eight steps in choosing a Database
-Senthilkumar Gopal
-2015-04-19
-:jbake-type: post
-:jbake-tags: database, design
-:jbake-slug: choosing-a-database
-:jbake-status: draft
-
+title=Eight steps in choosing a database
+date=2012-01-08
+tags=architecture,database
+slug=eight-steps-in-choosing-a-database
+summary=Eight steps in choosing a database
+category=Architecture
+author=Senthilkumar Gopal
+type=post
+status=draft
+~~~~~~
 
 Today, experts instead suggest a multi-database solution, or polyglot persistence approach.
 

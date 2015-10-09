@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Eight steps in choosing a database</title>
+  <title>Mac Android Emulator slow without HAX</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Senthilkumar Gopal blog and home page">
   <meta name="author" content="Senthilkumar Gopal">
@@ -66,12 +66,23 @@
 </div>
 				
 				<div class="page-header">
-					<h1>Eight steps in choosing a database</h1>
+					<h1>Mac Android Emulator slow without HAX</h1>
 				</div>
 
-				<p><em>08 January 2012</em></p>
+				<p><em>08 October 2015</em></p>
 
-				<p><p>Today, experts instead suggest a multi-database solution, or polyglot persistence approach.</p><p>Scaling a traditional RDBMS is difficult at best. Partitioning schemes, multi-master configurations, and redundancy systems offered by Oracle, SQL Server, and DB2 are expensive and problematic at best. They often fail to meet the needs of high-scale applications</p><p>Organizations need to identify the patterns and characteristics of their systems, data, and applications and use the right data technologies for the job</p><p>key-value stores<br/>The market is crowded with K-V stores such as Aerospike, Redis, and Riak, all of which are simple to implement.</p><p>coluMn-faMily Databases<br/>The two most popular, Cassandra and HBase, are both based on Hadoop but<br/>have different write semantics. HBase offers strong write integrity; Cassandra offers “eventual consistency.</p><p>coluMn-orienteD rDbMs<br/>Conceptually, think of turning a table sideways: make your rows columns and columns into rows.<br/>In addition to HANA, there is also Splice Machine, which is built on top of HBase and Hadoop. </p><p>DocuMent Databases<br/> However, document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don’t require transactional integrity across entities. T<br/> MongoDB and Couchbase are typically the leaders in this sector.</p><p>graPh Databases<br/> Social networks<br/>and recommendation systems are classic use cases for graph databases, but you should note that there are a few different types of graph databases. Some are aimed more at operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).</p><p>rDbMs</p><p>what about haDooP?<br/>. HDFS (Hadoop Distributed File System) distributes blocks of data redundantly across nodes, similar to Red Hat’s Gluster, EMC’s IFS, or Ceph.</p></p>
+				<p><p>After installing the Mac ADT bundle, starting the AVD with a new device was very slow and with the error message.</p>
+<blockquote><p>emulator: Failed to open the hax module HAX is not working and emulator runs in emulation mode</p>
+</blockquote><p>Thanks to this <a href="http://stackoverflow.com/questions/10761696/running-the-new-intel-emulator-for-android">stackoverflow</a> post, this can be resolved.</p>
+<ol>
+  <li>Install the IntelHAXM from the <a href="http://software.intel.com/en-us/articles/intel-hardware-accelerated-execution-manager/">Intel</a> site.</li>
+  <li>If you are using 10.9 (Mavericks), install the hotfix as well from the <a href="http://software.intel.com/en-us/articles/intel-hardware-accelerated-execution-manager/">Intel</a> site.</li>
+  <li>Install the Intel x86Emulator Accelerator in Android SDK Manager (under Extras) if not installed yet.</li>
+  <li>Remember to check the "Use Host GPU", once the setup is completed to actually use the GPU.</li>
+  <li>Restart Eclipse (optional) and you should be able to see now the message</li>
+</ol>
+<blockquote><p>HAX is working and emulator runs in fast virt mode</p>
+</blockquote></p>
 
 				<hr />
 
