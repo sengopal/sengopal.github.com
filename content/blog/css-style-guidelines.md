@@ -1,5 +1,5 @@
 title=CSS style guidelines
-date=2012-08-16
+date=2013-01-03
 tags=css, design
 slug=css-style-guidelines
 summary=Collection of CSS style guidelines for creation and maintainence of CSS
@@ -34,7 +34,7 @@ Like any coding standard, the purpose of this standard is to create a baseline f
 4. Always use appropriate semantics including HTML5 tags such as header, footer, aside, nav etc.,
 
 
-##Best Practices
+## Best Practices
 
 > I have a blanket-ban on IDs in CSS. There is literally no point in them, and they only ever cause harm.
 

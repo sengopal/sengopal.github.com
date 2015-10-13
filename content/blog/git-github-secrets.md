@@ -1,5 +1,5 @@
 title=Git and Github secrets
-date=2012-08-16
+date=2014-01-23
 tags=nontech, lists
 slug=git-github-secrets
 summary=Some git and github usage secrets for quick reference

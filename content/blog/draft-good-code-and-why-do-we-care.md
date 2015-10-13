@@ -1,13 +1,67 @@
-title=coding-structure-standards
-date=2012-01-08
-tags=android
-slug=android-learn-part1
-summary=Coding structure and standards
-category=Android
+title=Good code and Why do we care?
+date=2015-10-10
+tags=architecture,coding
+slug=Good code and why do we care?
+summary=Good code and why do we care?
+category=Architecture
 author=Senthilkumar Gopal
 type=post
 status=draft
 ~~~~~~
+
+As a developer, writing code is an activity that we do day-in, day-out. However, unlike a sculptor who carves his work, most of the time, we go about grabbing code snippets and stiching up a patched dress instead of a Armani or a Ralph Lauren.
+We never care about finess as we don't value the code that we produce on the same lines of an artist with his fine brush strokes. Recently i came across a [blog post](http://blog.d3in.org/post/130288777151/10-principles-for-good-code) which attempts to list reasons to consider your code a *canvas for your artwork rather than a boring task to get over with.* 
+
+Some of the characteristics that we definitely need to ensure that our code act as:
+
+1. Simplest as possible
+2. Asthetic and consistent
+3. Help understand the Product function
+4. Commented for reason
+
+
+## 1.Simplest as possible
+One of the sayings that we have in our team is
+> The best bug-free code is the one which is never written.
+
+Before writing any piece of code, check the same is already available, as part of your code base or external libraries. The simplest reason being it would have been definitely tested, does not need additional junits in our code base and definitely has lot less bugs that the code that we would write to perform the same function. Quite a few times, there might be minor discrepancies in terms of parameters, types. In that case, as a seasoned developer, try to weigh in the options of if its really necessary to recreate or if your code should actually be using the parameter structure of the established library.
+
+My personal preference is 
+> Even in case, if its not directly usable, attempt to verify if the re-usable code can be best aligned by minor changes in your code base.
+
+## 2. Asthetic and consistent
+There are so many style guides, such as from [Google](https://google.github.io/styleguide/javaguide.html) or even from [Oracle](http://www.oracle.com/technetwork/java/codeconvtoc-136057.html) itself. However, it doesn't really matter which one as long as the team agrees and adheres to it. One of the easiest ways to ensure consistency is to use Eclipse Formatter or Intellj Idea preferences or similar common formatters for the IDE of your teams choice.
+
+#### Why is this important?
+Assume the team is working on a code base consisting of thousands of files and someone is attempting to identify a bug in the middle of the night. *It would be better to have a line width of 200 rather than a line width of 80 and half the screen white and needing the developer to scroll multiple times to view a single function.*
+
+Irrespective of the formatter rules, there are few common and mostly sensible practices that we follow.
+
+1. Never have a function span more than 10-15 lines of code.
+2. Ensure each function performs only one action
+3. Name the function appropriately. 
+
+   a. Remember the types of parameters or parameter names are not necessary in the function name. For example, it is better to name a function add(int i, int j) rather than addIntegers(int i, int j)
+   
+	b. One other quirk is to not have the return parameter type or name as part of the function name. For Example: public JSONObject convertStringToJSONObject(String s) is better named as public JSONObject convert(String s).
+
+4. Ensure that your class encapsulates the function of one object.
+5. Ideally any class should have at a maximum of 6 or 7 functions. If there are more check if refactoring to more atomic classes are needed.
+
+
+Good code is aesthetic
+The aesthetic quality of a product is integral to its usefulness because products are used every day and have an effect on people and their well-being. Only well-executed objects can be beautiful.
+Note that while this obviously applies to the web interface or the mobile app’s interface, it also applies to a back-end API.
+Since code is written to be primarily read by human beings, there’s no reason it can’t take inspiration from literature. Describing how code can be made to be aesthetically pleasing would take a much longer blog post, but here’s some ideas:
+Consistency of code style
+Structure showing clarity of thoughts
+Absence of cruft (TODO, FIXME, etc.)
+Orthography and grammar for comments
+Appropriate naming
+Conciseness of code, comments, naming, function
+Reusability of concepts and routines
+
+
 
 
 
@@ -103,8 +157,6 @@ Write comments only when strictly necessary and keep them in sync with the code:
 “confounding than a comment that says something different from what the code actually does.
 Establish a set of shared coding standards: Programmers can understand a piece of code faster if they don’t encounter unexpected surprises while reading it.
 By making your code easily readable by other programmers you are making their job simpler. And this is no bad thing when you consider that the next programmer to read the code could be you.”
-
-
 
 
 

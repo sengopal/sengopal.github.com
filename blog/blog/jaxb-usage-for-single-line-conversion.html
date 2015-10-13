@@ -72,19 +72,18 @@
 				<p><em>29 May 2011</em></p>
 
 				<p><p>I came across a great article which introduces a utility Class <a href="http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXB.htm">JAXB</a> which converts XML to Object and vice versa in a single line.</p><p><strong>For Unmarshalling an XML to a Class Object</strong></p>
-<pre><code>JAXBContext context = JAXBContext.newInstance(ObjectToConvert.class);
-Unmarshaller u = context.createUnmarshaller();
-return (ObjectToConvert) u.unmarshal(xmlInputStream);
+<pre><code class="java">    JAXBContext context = JAXBContext.newInstance(ObjectToConvert.class);
+    Unmarshaller u = context.createUnmarshaller();
+    return (ObjectToConvert) u.unmarshal(xmlInputStream);
 
-// becomes
-return (ClassToConvert)JAXB.unmarshal(xmlInputStream, ObjectToConvert.class);
+    // becomes
+    return (ClassToConvert)JAXB.unmarshal(xmlInputStream, ObjectToConvert.class);
 </code></pre><p><strong>For Marshalling an Object to a XML</strong></p>
-<pre><code>JAXBContext context = JAXBContext.newInstance(objectInstanceToConvert.getClass());
-Marshaller m = jc.createMarshaller();
-m.marshal(objectInstanceToConvert, xmlOutputStream);
-
-// becomes
-JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
+<pre><code class="java">    JAXBContext context = JAXBContext.newInstance(objectInstanceToConvert.getClass());
+    Marshaller m = jc.createMarshaller();
+    m.marshal(objectInstanceToConvert, xmlOutputStream);
+    // becomes
+    JAXB.marshall(objectInstanceToConvert, xmlOutputStream);
 </code></pre></p>
 
 				<hr />

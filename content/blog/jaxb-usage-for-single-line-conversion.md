@@ -2,7 +2,7 @@ title=JAXB Usage for single line conversion
 date=2011-05-29
 tags=jaxb, java
 slug=jaxb-usage-for-single-line-conversion
-summary=A single line conversion utility for XML conversion
+summary=Simple utility for single line conversion from and to XML conversion and Java objects.
 category=Java
 author=Senthilkumar Gopal
 type=post
@@ -13,19 +13,21 @@ I came across a great article which introduces a utility Class [JAXB](http://dow
 
 **For Unmarshalling an XML to a Class Object**
 
+```java
     JAXBContext context = JAXBContext.newInstance(ObjectToConvert.class);
     Unmarshaller u = context.createUnmarshaller();
     return (ObjectToConvert) u.unmarshal(xmlInputStream);
 
     // becomes
     return (ClassToConvert)JAXB.unmarshal(xmlInputStream, ObjectToConvert.class);
-
+```
 
 **For Marshalling an Object to a XML**
 
+```java
     JAXBContext context = JAXBContext.newInstance(objectInstanceToConvert.getClass());
     Marshaller m = jc.createMarshaller();
     m.marshal(objectInstanceToConvert, xmlOutputStream);
-
     // becomes
-    JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
+    JAXB.marshall(objectInstanceToConvert, xmlOutputStream);
+```

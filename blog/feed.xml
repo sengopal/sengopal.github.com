@@ -6,8 +6,8 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Fri, 9 Oct 2015 00:11:10 -0700</pubDate>
-    <lastBuildDate>Fri, 9 Oct 2015 00:11:10 -0700</lastBuildDate>
+    <pubDate>Mon, 12 Oct 2015 17:33:47 -0700</pubDate>
+    <lastBuildDate>Mon, 12 Oct 2015 17:33:47 -0700</lastBuildDate>
 
     <item>
       <title>Mac Android Emulator slow without HAX</title>
@@ -207,6 +207,148 @@
 	</description>
     </item>
     <item>
+      <title>Git and Github secrets</title>
+      <link>http://sengopal.github.io/blog//blog/git-github-secrets.html</link>
+      <pubDate>Thu, 23 Jan 2014 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/git-github-secrets.html</guid>
+      	<description>
+	&lt;p&gt;Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.&lt;/p&gt;&lt;h3&gt;Github&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
+    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
+    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt; &lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt;&lt;br/&gt;Usage: &lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href=&quot;https://github.com/github/linguist&quot; title=&quot;Linguist&quot;&gt;Linguist&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt; &lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt;&lt;br/&gt;Hub is a command line tool that wraps git in order to extend it with extra features and commands that make working with GitHub easier.&lt;br/&gt;&lt;a href=&quot;https://github.com/defunkt/hub&quot; title=&quot;hub repo&quot;&gt;hub repo&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt;&lt;br/&gt;Press in repo page&lt;br/&gt;&lt;code&gt;t&lt;/code&gt; - for File Finder&lt;br/&gt;&lt;code&gt;w&lt;/code&gt; - branch selector&lt;br/&gt;&lt;code&gt;s&lt;/code&gt; - quick search&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&quot;&gt;&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&lt;/a&gt; - adds person to the conversation&lt;br/&gt;&lt;a href=&quot;mailto:&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&quot;&gt;&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&lt;/a&gt; - adds the organization/team to the conversation&lt;/p&gt;&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue number&lt;/strong&gt;&lt;br/&gt;Example: using a commit message such as &quot;closes &lt;code&gt;#1291&lt;/code&gt;&quot; autolinks to the issue&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt; &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;br/&gt;&lt;em&gt;Useful for your resume !&lt;/em&gt;&lt;br/&gt;Example:&lt;br/&gt;{% highlight html %}&lt;br/&gt; &lt;a href=&quot;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&quot;&gt;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Pulls needn&apos;t be from a fork, but can be done from branches as well&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Github supports emoji&apos;s which are available under&lt;/strong&gt; &lt;a href=&quot;http://emoji-cheat-sheet.com&quot; title=&quot;Emoji-cheat-sheet&quot;&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Git line quirks&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --no-merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --contains &amp;lt;sha&amp;gt;&lt;/code&gt; - which branch has this SHA&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch_name&amp;gt; --&amp;lt;path to file&amp;gt;&lt;/code&gt; - checkout that file from that branch into your current branch&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git log branchA ^branchB&lt;/code&gt; - commits in A not in B&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git fsck ==lost-found&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --stat&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -w&lt;/code&gt; - to avoid whitespace as commits&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -M&lt;/code&gt; - original commit and not the move commit&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -C&lt;/code&gt; - same as M except looks in the same commit&lt;br/&gt;&lt;em&gt;-CC, -CCC are the other variations available&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git status -sb&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --word-diff&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global help.autocorrect 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global rerere.enabled 1&lt;/code&gt; - long running branches, remembers merge conflicts&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global color.ui 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-amend&lt;/code&gt; - alias to &lt;code&gt;git commit --amend -C HEAD&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git undo&lt;/code&gt; - alias to &lt;code&gt;git reset --soft HEAD^&lt;/code&gt; - retains commit as staged&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to &lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or file name&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
+  &lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
+  &lt;li&gt;Log – history of commits&lt;/li&gt;
+  &lt;li&gt;Add – make a file ready for staging&lt;/li&gt;
+  &lt;li&gt;Commit – Move staged files to a commit&lt;/li&gt;
+  &lt;li&gt;Reset – Clean an entire working directory&lt;/li&gt;
+  &lt;li&gt;Pull – Perform a fetch &amp;amp; merge operation&lt;/li&gt;
+  &lt;li&gt;Push – send your changes to the parent repository&lt;/li&gt;
+  &lt;li&gt;Branch – to create a new branch&lt;/li&gt;
+  &lt;li&gt;Checkout – to grab one or more files&lt;/li&gt;
+  &lt;li&gt;Clean – removing files that exist only in the working directory&lt;/li&gt;
+  &lt;li&gt;Fetch – Get changes from the parent repository to store within the current repo&lt;/li&gt;
+  &lt;li&gt;Merge – Combine two or more commits into one&lt;/li&gt;
+&lt;/ul&gt;
+	</description>
+    </item>
+    <item>
+      <title>Big List of Web apps</title>
+      <link>http://sengopal.github.io/blog//blog/big-list-of-web-apps.html</link>
+      <pubDate>Tue, 10 Dec 2013 00:00:00 -0800</pubDate>
+      <guid isPermaLink="false">blog/big-list-of-web-apps.html</guid>
+      	<description>
+	&lt;p&gt;Since my list of bookmarks is growing huge, and i dont use these web applications often, it seemed more appropriate to maintain it as a reference list rather than bookmarks.&lt;/p&gt;&lt;p&gt;&lt;em&gt;last updated on: 16th august, 2012&lt;/em&gt;&lt;/p&gt;&lt;p&gt;These are not my own findings, rather collected from various sources, newsletters, emails etc.,&lt;/p&gt;&lt;h2&gt;Twitter Bootstrap Templates&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://ajkochanowicz.github.com/Kickstrap/themes.html&quot;&gt;http://ajkochanowicz.github.com/Kickstrap/themes.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Project Management&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://teambox.com/&quot;&gt;http://teambox.com/&lt;/a&gt; - Complete project management - tools for sync, chat, documents etc.,&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://recurseapp.com/&quot;&gt;http://recurseapp.com/&lt;/a&gt; - Revision Management&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://trello.com/&quot;&gt;http://trello.com/&lt;/a&gt; - Project collaboration tool - similar to dashboard&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Online meeting&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://doattend.com/&quot;&gt;http://doattend.com/&lt;/a&gt; - online event management, ticket sales etc.,&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;File Viewers&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://gallery.proficad.eu/tools/AutoCAD-Viewer.aspx&quot;&gt;http://gallery.proficad.eu/tools/AutoCAD-Viewer.aspx&lt;/a&gt; - AutoCAD viewer&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Miscelleneous&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.blurb.com/&quot;&gt;http://www.blurb.com/&lt;/a&gt; - Book creation&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.free-ocr.com/&quot;&gt;http://www.free-ocr.com/&lt;/a&gt; - Free OCR reader&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Education&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.minglebox.com/&quot;&gt;http://www.minglebox.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Comic Creation&lt;/h2&gt;&lt;p&gt;&lt;em&gt;Source: &lt;a href=&quot;http://www.makeuseof.com/tag/create-web-comics-memes-free-tools/&quot;&gt;MakeUseOf&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.pixton.com/&quot;&gt;http://www.pixton.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://stripgenerator.com/&quot;&gt;http://stripgenerator.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.toondoo.com/&quot;&gt;http://www.toondoo.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.bitstrips.com/&quot;&gt;http://www.bitstrips.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://marvel.com/games/play/34/create_your_own_comic&quot;&gt;http://marvel.com/games/play/34/create_your_own_comic&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.doink.com/&quot;&gt;http://www.doink.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://toonlet.com/&quot;&gt;http://toonlet.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://builder.cheezburger.com/builder/rage&quot;&gt;http://builder.cheezburger.com/builder/rage&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://memegenerator.net/&quot;&gt;http://memegenerator.net/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.memecenter.com/&quot;&gt;http://www.memecenter.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Freelancing Tools&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.freelancer.com/users/changeuserinfo.php&quot;&gt;http://www.freelancer.com/users/changeuserinfo.php&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://stalkninja.com/&quot;&gt;http://stalkninja.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.efactor.com/&quot;&gt;http://www.efactor.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Wireframes, Prototyping&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.mockflow.com&quot;&gt;http://www.mockflow.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.gliffy.com&quot;&gt;http://www.gliffy.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://creately.com&quot;&gt;http://creately.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://cacoo.com&quot;&gt;http://cacoo.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sketchup.google.com&quot;&gt;http://sketchup.google.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://gotiggr.com&quot;&gt;http://gotiggr.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.picmonkey.com&quot;&gt;http://www.picmonkey.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://moqups.com&quot;&gt;http://moqups.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://infogr.am&quot;&gt;http://infogr.am&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://beautifulmindhttp.io&quot;&gt;http://beautifulmindhttp.io&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.diagram.ly&quot;&gt;http://www.diagram.ly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://create.visual.ly&quot;&gt;http://create.visual.ly&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.iorad.com&quot;&gt;http://www.iorad.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.tildee.com&quot;&gt;http://www.tildee.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Photo printing&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.zoomin.com&quot;&gt;http://www.zoomin.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Web Application Hosting&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.gladinet.com&quot;&gt;http://www.gladinet.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://openstack.com&quot;&gt;http://openstack.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://cloudfoundry.org&quot;&gt;http://cloudfoundry.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.heroku.com&quot;&gt;http://www.heroku.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.cloudbees.com&quot;&gt;http://www.cloudbees.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://owncloud.org&quot;&gt;http://owncloud.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.joukuu.com&quot;&gt;http://www.joukuu.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.openstack.org&quot;&gt;http://www.openstack.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.aeolusproject.org&quot;&gt;http://www.aeolusproject.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.dotcloud.com&quot;&gt;http://www.dotcloud.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://cloudfoundry.com&quot;&gt;http://cloudfoundry.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.appcloudy.com&quot;&gt;http://www.appcloudy.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.appfog.com&quot;&gt;http://www.appfog.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Cloud API&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.mashape.com&quot;&gt;http://www.mashape.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;h2&gt;Obsure Web Application APIs&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://one.ubuntu.com/developer&quot;&gt;http://one.ubuntu.com/developer&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.innovate-conference.com&quot;&gt;http://www.innovate-conference.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.imdbapi.com&quot;&gt;http://www.imdbapi.com&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://code.google.com/oauthplayground/&quot;&gt;http://code.google.com/oauthplayground/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://pusher.com/showcase&quot;&gt;http://pusher.com/showcase&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sramana.in/indianrail-db&quot;&gt;http://sramana.in/indianrail-db&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+	</description>
+    </item>
+    <item>
       <title>CSS learning and notes</title>
       <link>http://sengopal.github.io/blog//blog/css-learning-and-notes.html</link>
       <pubDate>Thu, 28 Mar 2013 00:00:00 -0700</pubDate>
@@ -380,101 +522,9 @@ margin: 10px 5px 15px;
 	</description>
     </item>
     <item>
-      <title>Big List of Web apps</title>
-      <link>http://sengopal.github.io/blog//blog/big-list-of-web-apps.html</link>
-      <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/big-list-of-web-apps.html</guid>
-      	<description>
-	&lt;p&gt;Since my list of bookmarks is growing huge, and i dont use these web applications often, it seemed more appropriate to maintain it as a reference list rather than bookmarks.&lt;/p&gt;&lt;p&gt;&lt;em&gt;last updated on: 16th august, 2012&lt;/em&gt;&lt;/p&gt;&lt;p&gt;These are not my own findings, rather collected from various sources, newsletters, emails etc.,&lt;/p&gt;&lt;h2&gt;Twitter Bootstrap Templates&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://ajkochanowicz.github.com/Kickstrap/themes.html&quot;&gt;http://ajkochanowicz.github.com/Kickstrap/themes.html&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Project Management&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://teambox.com/&quot;&gt;http://teambox.com/&lt;/a&gt; - Complete project management - tools for sync, chat, documents etc.,&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://recurseapp.com/&quot;&gt;http://recurseapp.com/&lt;/a&gt; - Revision Management&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://trello.com/&quot;&gt;http://trello.com/&lt;/a&gt; - Project collaboration tool - similar to dashboard&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Online meeting&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://doattend.com/&quot;&gt;http://doattend.com/&lt;/a&gt; - online event management, ticket sales etc.,&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;File Viewers&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://gallery.proficad.eu/tools/AutoCAD-Viewer.aspx&quot;&gt;http://gallery.proficad.eu/tools/AutoCAD-Viewer.aspx&lt;/a&gt; - AutoCAD viewer&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Miscelleneous&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.blurb.com/&quot;&gt;http://www.blurb.com/&lt;/a&gt; - Book creation&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.free-ocr.com/&quot;&gt;http://www.free-ocr.com/&lt;/a&gt; - Free OCR reader&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Education&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.minglebox.com/&quot;&gt;http://www.minglebox.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Comic Creation&lt;/h2&gt;&lt;p&gt;&lt;em&gt;Source: &lt;a href=&quot;http://www.makeuseof.com/tag/create-web-comics-memes-free-tools/&quot;&gt;MakeUseOf&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.pixton.com/&quot;&gt;http://www.pixton.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://stripgenerator.com/&quot;&gt;http://stripgenerator.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.toondoo.com/&quot;&gt;http://www.toondoo.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.bitstrips.com/&quot;&gt;http://www.bitstrips.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://marvel.com/games/play/34/create_your_own_comic&quot;&gt;http://marvel.com/games/play/34/create_your_own_comic&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.doink.com/&quot;&gt;http://www.doink.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://toonlet.com/&quot;&gt;http://toonlet.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://builder.cheezburger.com/builder/rage&quot;&gt;http://builder.cheezburger.com/builder/rage&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://memegenerator.net/&quot;&gt;http://memegenerator.net/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.memecenter.com/&quot;&gt;http://www.memecenter.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Freelancing Tools&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.freelancer.com/users/changeuserinfo.php&quot;&gt;http://www.freelancer.com/users/changeuserinfo.php&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://stalkninja.com/&quot;&gt;http://stalkninja.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.efactor.com/&quot;&gt;http://www.efactor.com/&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Wireframes, Prototyping&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.mockflow.com&quot;&gt;http://www.mockflow.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.gliffy.com&quot;&gt;http://www.gliffy.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://creately.com&quot;&gt;http://creately.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://cacoo.com&quot;&gt;http://cacoo.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://sketchup.google.com&quot;&gt;http://sketchup.google.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://gotiggr.com&quot;&gt;http://gotiggr.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.picmonkey.com&quot;&gt;http://www.picmonkey.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://moqups.com&quot;&gt;http://moqups.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://infogr.am&quot;&gt;http://infogr.am&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://beautifulmindhttp.io&quot;&gt;http://beautifulmindhttp.io&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.diagram.ly&quot;&gt;http://www.diagram.ly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://create.visual.ly&quot;&gt;http://create.visual.ly&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.iorad.com&quot;&gt;http://www.iorad.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.tildee.com&quot;&gt;http://www.tildee.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Photo printing&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.zoomin.com&quot;&gt;http://www.zoomin.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Web Application Hosting&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.gladinet.com&quot;&gt;http://www.gladinet.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://openstack.com&quot;&gt;http://openstack.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://cloudfoundry.org&quot;&gt;http://cloudfoundry.org&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.heroku.com&quot;&gt;http://www.heroku.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.cloudbees.com&quot;&gt;http://www.cloudbees.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://owncloud.org&quot;&gt;http://owncloud.org&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.joukuu.com&quot;&gt;http://www.joukuu.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.openstack.org&quot;&gt;http://www.openstack.org&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.aeolusproject.org&quot;&gt;http://www.aeolusproject.org&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.dotcloud.com&quot;&gt;http://www.dotcloud.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://cloudfoundry.com&quot;&gt;http://cloudfoundry.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.appcloudy.com&quot;&gt;http://www.appcloudy.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.appfog.com&quot;&gt;http://www.appfog.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Cloud API&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.mashape.com&quot;&gt;http://www.mashape.com&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;h2&gt;Obsure Web Application APIs&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://one.ubuntu.com/developer&quot;&gt;http://one.ubuntu.com/developer&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.innovate-conference.com&quot;&gt;http://www.innovate-conference.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.imdbapi.com&quot;&gt;http://www.imdbapi.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://code.google.com/oauthplayground/&quot;&gt;http://code.google.com/oauthplayground/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://pusher.com/showcase&quot;&gt;http://pusher.com/showcase&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://sramana.in/indianrail-db&quot;&gt;http://sramana.in/indianrail-db&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-	</description>
-    </item>
-    <item>
       <title>CSS style guidelines</title>
       <link>http://sengopal.github.io/blog//blog/css-style-guidelines.html</link>
-      <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
+      <pubDate>Thu, 3 Jan 2013 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/css-style-guidelines.html</guid>
       	<description>
 	&lt;p&gt;As a web application developer, many a times we fix up on a few rules while creating styling files. However, during development the team infers their own understanding of the rules, leading to difficulties in editing and maintaining the CSS files. Though there are very detailed guidelines available for maintaining the CSS files, the most commonly used ones which we follow are detailed below.&lt;/p&gt;
@@ -758,56 +808,6 @@ h1, h2, h3 {
   &lt;li&gt;&lt;a href=&quot;http://csswizardry.com/2012/04/my-html-css-coding-style/&quot;&gt;http://csswizardry.com/2012/04/my-html-css-coding-style/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://make.wordpress.org/core/handbook/coding-standards/css/&quot;&gt;http://make.wordpress.org/core/handbook/coding-standards/css/&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-	</description>
-    </item>
-    <item>
-      <title>Git and Github secrets</title>
-      <link>http://sengopal.github.io/blog//blog/git-github-secrets.html</link>
-      <pubDate>Thu, 16 Aug 2012 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/git-github-secrets.html</guid>
-      	<description>
-	&lt;p&gt;Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.&lt;/p&gt;&lt;h3&gt;Github&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;html&quot;&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
-    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
-    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt; &lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt;&lt;br/&gt;Usage: &lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href=&quot;https://github.com/github/linguist&quot; title=&quot;Linguist&quot;&gt;Linguist&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt; &lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt;&lt;br/&gt;Hub is a command line tool that wraps git in order to extend it with extra features and commands that make working with GitHub easier.&lt;br/&gt;&lt;a href=&quot;https://github.com/defunkt/hub&quot; title=&quot;hub repo&quot;&gt;hub repo&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt;&lt;br/&gt;Press in repo page&lt;br/&gt;&lt;code&gt;t&lt;/code&gt; - for File Finder&lt;br/&gt;&lt;code&gt;w&lt;/code&gt; - branch selector&lt;br/&gt;&lt;code&gt;s&lt;/code&gt; - quick search&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&quot;&gt;&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&lt;/a&gt; - adds person to the conversation&lt;br/&gt;&lt;a href=&quot;mailto:&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&quot;&gt;&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&lt;/a&gt; - adds the organization/team to the conversation&lt;/p&gt;&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue number&lt;/strong&gt;&lt;br/&gt;Example: using a commit message such as &quot;closes &lt;code&gt;#1291&lt;/code&gt;&quot; autolinks to the issue&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt; &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;br/&gt;&lt;em&gt;Useful for your resume !&lt;/em&gt;&lt;br/&gt;Example:&lt;br/&gt;{% highlight html %}&lt;br/&gt; &lt;a href=&quot;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&quot;&gt;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Pulls needn&apos;t be from a fork, but can be done from branches as well&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Github supports emoji&apos;s which are available under&lt;/strong&gt; &lt;a href=&quot;http://emoji-cheat-sheet.com&quot; title=&quot;Emoji-cheat-sheet&quot;&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Git line quirks&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --no-merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --contains &amp;lt;sha&amp;gt;&lt;/code&gt; - which branch has this SHA&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch_name&amp;gt; --&amp;lt;path to file&amp;gt;&lt;/code&gt; - checkout that file from that branch into your current branch&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git log branchA ^branchB&lt;/code&gt; - commits in A not in B&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git fsck ==lost-found&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --stat&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -w&lt;/code&gt; - to avoid whitespace as commits&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -M&lt;/code&gt; - original commit and not the move commit&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -C&lt;/code&gt; - same as M except looks in the same commit&lt;br/&gt;&lt;em&gt;-CC, -CCC are the other variations available&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git status -sb&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --word-diff&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global help.autocorrect 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global rerere.enabled 1&lt;/code&gt; - long running branches, remembers merge conflicts&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global color.ui 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-amend&lt;/code&gt; - alias to &lt;code&gt;git commit --amend -C HEAD&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git undo&lt;/code&gt; - alias to &lt;code&gt;git reset --soft HEAD^&lt;/code&gt; - retains commit as staged&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to &lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or file name&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
-  &lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
-  &lt;li&gt;Log – history of commits&lt;/li&gt;
-  &lt;li&gt;Add – make a file ready for staging&lt;/li&gt;
-  &lt;li&gt;Commit – Move staged files to a commit&lt;/li&gt;
-  &lt;li&gt;Reset – Clean an entire working directory&lt;/li&gt;
-  &lt;li&gt;Pull – Perform a fetch &amp;amp; merge operation&lt;/li&gt;
-  &lt;li&gt;Push – send your changes to the parent repository&lt;/li&gt;
-  &lt;li&gt;Branch – to create a new branch&lt;/li&gt;
-  &lt;li&gt;Checkout – to grab one or more files&lt;/li&gt;
-  &lt;li&gt;Clean – removing files that exist only in the working directory&lt;/li&gt;
-  &lt;li&gt;Fetch – Get changes from the parent repository to store within the current repo&lt;/li&gt;
-  &lt;li&gt;Merge – Combine two or more commits into one&lt;/li&gt;
-&lt;/ul&gt;
 	</description>
     </item>
     <item>
@@ -2019,19 +2019,18 @@ Hello world.&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Code without main()&lt
       <guid isPermaLink="false">blog/jaxb-usage-for-single-line-conversion.html</guid>
       	<description>
 	&lt;p&gt;I came across a great article which introduces a utility Class &lt;a href=&quot;http://download.oracle.com/javase/6/docs/api/javax/xml/bind/JAXB.htm&quot;&gt;JAXB&lt;/a&gt; which converts XML to Object and vice versa in a single line.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;For Unmarshalling an XML to a Class Object&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;JAXBContext context = JAXBContext.newInstance(ObjectToConvert.class);
-Unmarshaller u = context.createUnmarshaller();
-return (ObjectToConvert) u.unmarshal(xmlInputStream);
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    JAXBContext context = JAXBContext.newInstance(ObjectToConvert.class);
+    Unmarshaller u = context.createUnmarshaller();
+    return (ObjectToConvert) u.unmarshal(xmlInputStream);
 
-// becomes
-return (ClassToConvert)JAXB.unmarshal(xmlInputStream, ObjectToConvert.class);
+    // becomes
+    return (ClassToConvert)JAXB.unmarshal(xmlInputStream, ObjectToConvert.class);
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;For Marshalling an Object to a XML&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;JAXBContext context = JAXBContext.newInstance(objectInstanceToConvert.getClass());
-Marshaller m = jc.createMarshaller();
-m.marshal(objectInstanceToConvert, xmlOutputStream);
-
-// becomes
-JAXB.marshall(objectInstanceToConvert, xmlOutputStream)
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;    JAXBContext context = JAXBContext.newInstance(objectInstanceToConvert.getClass());
+    Marshaller m = jc.createMarshaller();
+    m.marshal(objectInstanceToConvert, xmlOutputStream);
+    // becomes
+    JAXB.marshall(objectInstanceToConvert, xmlOutputStream);
 &lt;/code&gt;&lt;/pre&gt;
 	</description>
     </item>
