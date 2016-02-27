@@ -34,4 +34,3 @@ Decorator – Used with a core capability that ”
 Command – Used to encapsulate information that is used to call a piece of code repeatedly. Can also be used to support undo/redo functionality. The commands can be reusable across different product interfaces and act as entry points to invoke backend logic. For instance, I have used this pattern to support invocation of services from a self-service portal and interactive voice response channels.
 
 These are just a few examples of patterns that help with reuse. When you get a problem, pause and reflect to see if a pattern is applicable.
-

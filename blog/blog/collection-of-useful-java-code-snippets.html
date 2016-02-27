@@ -105,9 +105,7 @@ Hello world.</code></p><p><strong>Code without main()</strong></p><p>Normally, i
             System.exit(0);
         }
     }
-</code></pre><p><em>Output:</em></p>
-<pre><code>`Hello world.`
-</code></pre><p><strong>premain</strong></p><p>If you have Java agents, those agents can have a premain method which is called first. <a href="http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html">Instrument package</a></p>
+</code></pre><p><em>Output:</em></p><p><code>Hello world.</code></p><p><strong>premain</strong></p><p>If you have Java agents, those agents can have a premain method which is called first. <a href="http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html">Instrument package</a></p>
 <pre><code>  public static void premain(String agentArgs, Instrumentation inst);
 </code></pre><p>The Instrumentation class gives the agent access to each class' byte code after it is read and before it is linked, giving the agent the option to change byte code. One interesting feature of the Instrumentation class is the getObjectSize() which will give you the size of an object.</p></p>
 

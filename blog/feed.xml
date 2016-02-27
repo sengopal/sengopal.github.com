@@ -6,8 +6,8 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>JBake Bootstrap Template</description>
     <language>en-gb</language>
-    <pubDate>Mon, 12 Oct 2015 17:33:47 -0700</pubDate>
-    <lastBuildDate>Mon, 12 Oct 2015 17:33:47 -0700</lastBuildDate>
+    <pubDate>Sat, 27 Feb 2016 15:04:54 -0800</pubDate>
+    <lastBuildDate>Sat, 27 Feb 2016 15:04:54 -0800</lastBuildDate>
 
     <item>
       <title>Mac Android Emulator slow without HAX</title>
@@ -1969,9 +1969,7 @@ Hello world.&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Code without main()&lt
             System.exit(0);
         }
     }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;Output:&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;`Hello world.`
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;premain&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;If you have Java agents, those agents can have a premain method which is called first. &lt;a href=&quot;http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html&quot;&gt;Instrument package&lt;/a&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;Output:&lt;/em&gt;&lt;/p&gt;&lt;p&gt;&lt;code&gt;Hello world.&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;premain&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;If you have Java agents, those agents can have a premain method which is called first. &lt;a href=&quot;http://download.oracle.com/javase/6/docs/api/java/lang/instrument/package-summary.html&quot;&gt;Instrument package&lt;/a&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  public static void premain(String agentArgs, Instrumentation inst);
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Instrumentation class gives the agent access to each class&apos; byte code after it is read and before it is linked, giving the agent the option to change byte code. One interesting feature of the Instrumentation class is the getObjectSize() which will give you the size of an object.&lt;/p&gt;
 	</description>

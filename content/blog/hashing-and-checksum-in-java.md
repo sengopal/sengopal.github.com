@@ -9,7 +9,7 @@ type=post
 status=published
 ~~~~~~
 
-###Checksum generation
+### Checksum generation
 
 ```java
     public class SHACheckSumExample{
@@ -36,7 +36,7 @@ status=published
     }
 ```
 
-###Hashing of a String
+### Hashing of a String
 
 ```java
     public class SHAHashingExample{

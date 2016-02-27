@@ -9,7 +9,7 @@ type=post
 status=published
 ~~~~~~
 
-###Project Usage
+### Project Usage
 Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet
 
 PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.
@@ -290,7 +290,7 @@ Few other libraries that are available for PDF generation are [Apache FOP](http:
 > Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.
 
 **iText**
-> iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation." 
+> iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation."
 > - http://itextpdf.com/  
 
 ####References
