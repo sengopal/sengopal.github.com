@@ -16,8 +16,18 @@
         <changefreq>monthly</changefreq>
     </url>
     <url>
+        <loc>http://sengopal.github.io/blog/blog/8-steps-in-choosing-a-database.html</loc>
+        <lastmod>2016-01-20</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>http://sengopal.github.io/blog/blog/mac-android-emulator-slow-failure-hax.html</loc>
         <lastmod>2015-10-08</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://sengopal.github.io/blog/blog/10-things-to-remember-with-responsive-web-design.html</loc>
+        <lastmod>2015-07-28</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>

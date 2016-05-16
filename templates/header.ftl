@@ -1,6 +1,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Senthilkumar Gopal</#if></title>
+  <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>Java, JVM and Random Thoughts - Senthilkumar Gopal</#if></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Senthilkumar Gopal blog and home page">
   <meta name="author" content="Senthilkumar Gopal">

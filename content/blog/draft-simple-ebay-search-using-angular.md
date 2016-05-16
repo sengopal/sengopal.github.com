@@ -1,8 +1,8 @@
 title=Simple eBay Search using Backbone
 date=2012-05-20
-tags=javascript, backbone
-slug=simple-ebay-search-using-backbone
-summary=Setting up eBay Search using Backbone
+tags=javascript, angular
+slug=simple-ebay-search-using-angular
+summary=Setting up eBay Search using AngularJS
 category=Javascript
 author=Senthilkumar Gopal
 type=post
