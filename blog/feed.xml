@@ -4,10 +4,10 @@
     <title>JBake</title>
     <link>http://sengopal.github.io/blog/</link>
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
-    <description>JBake Bootstrap Template</description>
-    <language>en-gb</language>
-    <pubDate>Sun, 15 May 2016 21:18:59 -0700</pubDate>
-    <lastBuildDate>Sun, 15 May 2016 21:18:59 -0700</lastBuildDate>
+    <description>Java, JVM and Random Thoughts - Senthilkumar Gopal</description>
+    <language>en-US</language>
+    <pubDate>Sun, 15 May 2016 22:08:37 -0700</pubDate>
+    <lastBuildDate>Sun, 15 May 2016 22:08:37 -0700</lastBuildDate>
 
     <item>
       <title>Eight steps in choosing a database</title>
@@ -2937,5 +2937,5 @@ logger.info(&amp;quot;Mail Processor Scheduled&amp;quot;);
 	</description>
     </item>
 
-  </channel> 
+  </channel>
 </rss>
