@@ -7,7 +7,7 @@ category=Javascript
 author=Senthilkumar Gopal
 type=post
 summary=The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.
-status=published
+status=draft
 ~~~~~~
 
 The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.

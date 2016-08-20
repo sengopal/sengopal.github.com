@@ -2,7 +2,7 @@ title=PDF Generation using PD4ML
 date=2010-04-05
 tags=pd4ml,java
 slug=pdf-generation-using-pd4ml
-summary=Using PD4ML for authoring PDFs in Java
+summary=Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet.
 category=Papers
 author=Senthilkumar Gopal
 type=post
@@ -10,11 +10,9 @@ status=published
 ~~~~~~
 
 ### Project Usage
-Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet
+Our project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet. PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.
 
-PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.
-
-###Introduction to PD4ML
+### Introduction to PD4ML
 PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.
 
 ###PD4ML as a Command Line Operation

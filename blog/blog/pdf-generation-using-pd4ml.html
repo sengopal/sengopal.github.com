@@ -39,15 +39,15 @@
 </head>
 	<body onload="prettyPrint()">
     <div id="wrap">
-
 			<div class="container">
 <div class="header">
   <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
   <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
-    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
-    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
-    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="https://medium.com/@sengopal/" target="_blank"><i class="fa fa-medium hvr-grow-rotate"></i></a></li>
+    <li><a href="http://github.com/sengopal" target="_blank"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal" target="_blank"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
     <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
   </ul>
 
@@ -61,17 +61,13 @@
     <!--
     <li><a href="../pages/reviews.html">Reviews</a></li>
     -->
-    <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
-				
 				<div class="page-header">
 					<h1>PDF Generation using PD4ML</h1>
 				</div>
-
 				<p><em>05 April 2010</em></p>
-
-				<p><h3>Project Usage</h3><p>Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet</p><p>PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.</p><h3>Introduction to PD4ML</h3><p>PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.</p><h3>PD4ML as a Command Line Operation</h3><p>PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:</p><h4>Creating a PDF from an URL String</h4><p>The PDF can be generated using a html file whose URL can be in the render () method</p>
+				<p><h3>Project Usage</h3><p>Our project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet. PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.</p><h3>Introduction to PD4ML</h3><p>PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.</p><h3>PD4ML as a Command Line Operation</h3><p>PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:</p><h4>Creating a PDF from an URL String</h4><p>The PDF can be generated using a html file whose URL can be in the render () method</p>
 <pre><code>  import org.zefer.pd4ml.PD4ML;
   import org.zefer.pd4ml.PD4Constants;
   ........
@@ -266,13 +262,11 @@
   <li><a href="http://pd4ml.com/api/index.html">http://pd4ml.com/api/index.html</a></li>
   <li><a href="http://pd4ml.com/index.htm">http://pd4ml.com/index.htm</a></li>
 </ul></p>
-
-				<hr />
-
 			</div>
 			<div id="push"></div>
 		</div>
 
+    <hr/>
 <div id="footer">
     <p class="muted credit">&copy; 2005-2016 | Senthilkumar Gopal. The opinions expressed here are my own and do not reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>

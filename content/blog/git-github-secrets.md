@@ -6,7 +6,7 @@ summary=Some git and github usage secrets for quick reference
 category=Utilities
 author=Senthilkumar Gopal
 type=post
-summary=Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below.
+summary=Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized in this post.
 status=published
 ~~~~~~
 Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.

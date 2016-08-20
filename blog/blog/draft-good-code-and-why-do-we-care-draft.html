@@ -39,15 +39,15 @@
 </head>
 	<body onload="prettyPrint()">
     <div id="wrap">
-
 			<div class="container">
 <div class="header">
   <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
   <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
-    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
-    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
-    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="https://medium.com/@sengopal/" target="_blank"><i class="fa fa-medium hvr-grow-rotate"></i></a></li>
+    <li><a href="http://github.com/sengopal" target="_blank"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal" target="_blank"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
     <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
   </ul>
 
@@ -61,45 +61,260 @@
     <!--
     <li><a href="../pages/reviews.html">Reviews</a></li>
     -->
-    <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
-				
 				<div class="page-header">
 					<h1>Good code and Why do we care?</h1>
 				</div>
-
-				<p><em>10 October 2015</em></p>
-
-				<p><p>As a developer, writing code is an activity that we do day-in, day-out. However, unlike a sculptor who carves his work, most of the time, we go about grabbing code snippets and stiching up a patched dress instead of a Armani or a Ralph Lauren.<br/>We never care about finess as we don't value the code that we produce on the same lines of an artist with his fine brush strokes. Recently i came across a <a href="http://blog.d3in.org/post/130288777151/10-principles-for-good-code">blog post</a> which attempts to list reasons to consider your code a <em>canvas for your artwork rather than a boring task to get over with.</em> </p><p>Some of the characteristics that we definitely need to ensure that our code act as:</p>
-<ol>
-  <li>Simplest as possible</li>
-  <li>Asthetic and consistent</li>
-  <li>Help understand the Product function</li>
-  <li>Commented for reason</li>
-</ol><h2>1.Simplest as possible</h2><p>One of the sayings that we have in our team is</p>
-<blockquote><p>The best bug-free code is the one which is never written.</p>
-</blockquote><p>Before writing any piece of code, check the same is already available, as part of your code base or external libraries. The simplest reason being it would have been definitely tested, does not need additional junits in our code base and definitely has lot less bugs that the code that we would write to perform the same function. Quite a few times, there might be minor discrepancies in terms of parameters, types. In that case, as a seasoned developer, try to weigh in the options of if its really necessary to recreate or if your code should actually be using the parameter structure of the established library.</p><p>My personal preference is </p>
-<blockquote><p>Even in case, if its not directly usable, attempt to verify if the re-usable code can be best aligned by minor changes in your code base.</p>
-</blockquote><h2>2. Asthetic and consistent</h2><p>There are so many style guides, such as from <a href="https://google.github.io/styleguide/javaguide.html">Google</a> or even from <a href="http://www.oracle.com/technetwork/java/codeconvtoc-136057.html">Oracle</a> itself. However, it doesn't really matter which one as long as the team agrees and adheres to it. One of the easiest ways to ensure consistency is to use Eclipse Formatter or Intellj Idea preferences or similar common formatters for the IDE of your teams choice.</p><h4>Why is this important?</h4><p>Assume the team is working on a code base consisting of thousands of files and someone is attempting to identify a bug in the middle of the night. <em>It would be better to have a line width of 200 rather than a line width of 80 and half the screen white and needing the developer to scroll multiple times to view a single function.</em></p><p>Irrespective of the formatter rules, there are few common and mostly sensible practices that we follow.</p>
-<ol>
-  <li>Never have a function span more than 10-15 lines of code.</li>
-  <li>Ensure each function performs only one action</li>
-  <li>Name the function appropriately.</li>
-</ol><p>a. Remember the types of parameters or parameter names are not necessary in the function name. For example, it is better to name a function add(int i, int j) rather than addIntegers(int i, int j)</p>
-<pre><code>b. One other quirk is to not have the return parameter type or name as part of the function name. For Example: public JSONObject convertStringToJSONObject(String s) is better named as public JSONObject convert(String s).
-</code></pre>
-<ol>
-  <li>Ensure that your class encapsulates the function of one object.</li>
-  <li>Ideally any class should have at a maximum of 6 or 7 functions. If there are more check if refactoring to more atomic classes are needed.</li>
-</ol><p>Good code is aesthetic<br/>The aesthetic quality of a product is integral to its usefulness because products are used every day and have an effect on people and their well-being. Only well-executed objects can be beautiful.<br/>Note that while this obviously applies to the web interface or the mobile app’s interface, it also applies to a back-end API.<br/>Since code is written to be primarily read by human beings, there’s no reason it can’t take inspiration from literature. Describing how code can be made to be aesthetically pleasing would take a much longer blog post, but here’s some ideas:<br/>Consistency of code style<br/>Structure showing clarity of thoughts<br/>Absence of cruft (TODO, FIXME, etc.)<br/>Orthography and grammar for comments<br/>Appropriate naming<br/>Conciseness of code, comments, naming, function<br/>Reusability of concepts and routines</p><p>“Code Is Hard to Read</p><p>By Dave Anderson</p><p>Each programmer has an idea in their head regarding hard to read and easy to read. Readability depends on many factors:</p><p>Implementation language. Some syntax just is easier to read than others. XSLT anyone?<br/>Code layout and formatting. Personal preferences and pet hates, like “Where do I place the curly brace?” and indentation.<br/>Naming conventions. userStatus versus _userstatus versus x.<br/>Viewer. Choice of IDE, editor, or other tool used will contribute to readability.”</p><p>“Solution design. The most common problem – “I see what’s happening here… but it could be done better.”</p><p>“When you have the opportunity, try deodorizing the smelly code. Don’t rush. Just take small steps. In Martin Fowler’s Refactoring the steps of the refactorings presented are outlined in great detail, so it’s easy to follow. I would suggest doing the steps at least once manually to get a feeling for the preconditions and side effects of each refactoring. Thinking about what you’re doing is absolutely necessary when refactoring.”</p><p>Choosing DataTypes and parameters</p><p>Decouple the UI</p><p>Dont use too much magic</p><p>“n recent years convention over configuration has been an emerging software design paradigm. By taking advantage of it, developers only need specify the non-common part of their application, because the tools that follow this approach provide meaningful behavior for all the aspects covered by the tool itself. These default behaviors often fit the most typical needs. The defaults can be replaced by custom implementations where something more specific is needed. ”</p><p>“Execution Speed versus Maintenance Effort”</p><p>“Improved Testability Leads to Better Design”</p><p>Interface design<br/>“The conclusion on this is that setters and getters are alien constructs that do not reveal the intention and responsibility of a behavior-centric interface. Therefore you should try to avoid using them; there are better alternatives.”</p><p>Complexity<br/>“While a low line count is a good starting point, the overall cognitive load can be further reduced by keeping the cyclomatic complexity low – ideally under 3 or 4, definitely under 10. Cyclomatic complexity is a numeric value that can easily be computed by many tools and is roughly equivalent to the number of execution paths through a method. A high cyclomatic complexity complicates unit testing and has been empirically shown to correlate with bugs.”</p><p>Small Methods / Name methods</p><p>“The list of attributes I use (in no particular order) are:</p><p>Correctness: Does the code do its job?<br/>Modifiability: How easy is the code to modify?<br/>Performance: How fast does the code run? How much memory, disk space, CPU, network usage, etc. will it use?<br/>Speed of production: How quickly will the code be constructed?<br/>Reusability: To what degree will the code be architected to allow later projects to reuse code?<br/>Approachability: How difficult is it for people who are proficient in the languages and tools used to be able to take on future maintenance tasks?”</p><p>“Process strictness: How important is it that the nominated development process and coding procedure is followed? In other words, is anyone going to be sacked if they don’t follow the identified processes?<br/>Standards compliance: How important is it to comply with the various relevant standards?”</p><p>Comments<br/>“Comment to supplement the source code.”<br/>“Comment to explain the unusual.”<br/>“Comment to document hardware/software interactions.”<br/>“Comment with maintenance in mind.”</p><p>“Understand Principles behind Practices”</p><p>“Use Aggregate Objects to Reduce Coupling</p><p>”</p><p>Method Structure</p><p>“Keep each method as short as possible: 15 lines of code is a reasonable upper limit that you should be wary of ”</p><p>“limit that you should be wary of exceeding.<br/>Give each method a single responsibility: If you are trying to give a meaningful name to the method and you find the name contains an <code />and</code>, there is a good chance that you are breaking this rule.<br/>Declare methods with the lowest number of parameters possible: If you need more than 3 parameters it could be a good idea to do a small refactor by grouping them as properties of a single object.<br/>Avoid nested loops or conditions where possible: You can improve both readability and reusability by putting them in little separated methods.<br/>Write comments only when strictly necessary and keep them in sync with the code: There is nothing more useless than a comment that explains what you can easily read from the code or more ”</p><p>“confounding than a comment that says something different from what the code actually does.<br/>Establish a set of shared coding standards: Programmers can understand a piece of code faster if they don’t encounter unexpected surprises while reading it.<br/>By making your code easily readable by other programmers you are making their job simpler. And this is no bad thing when you consider that the next programmer to read the code could be you.”</p></p>
-
-				<hr />
-
+				<p><em>12 May 2016</em></p>
+				<p><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a developer, writing code is an activity that we do day-in, day-out. However, unlike a sculptor who carves his work, most of the time, we go about grabbing code snippets and stiching up a patched dress instead of a Armani or a Ralph Lauren.</p>
+</div>
+<div class="paragraph">
+<p>We never care about finess as we don&#8217;t value the code that we produce on the same lines of an artist with his fine brush strokes. Recently i came across a [blog post](<a href="http://blog.d3in.org/post/130288777151/10-principles-for-good-code" class="bare">http://blog.d3in.org/post/130288777151/10-principles-for-good-code</a>) which attempts to list reasons to consider your code a</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>canvas for your artwork rather than a boring task to get over with.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Some of the characteristics that we definitely need to ensure that our code act as:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Simplest as possible</p>
+</li>
+<li>
+<p>Asthetic and consistent</p>
+</li>
+<li>
+<p>Help understand the Product function</p>
+</li>
+<li>
+<p>Commented for reason</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_simplest_as_possible">1.Simplest as possible</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the sayings that we have in our team is</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The best bug-free code is the one which is never written.</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p>Before writing any piece of code, check the same is already available, as part of your code base or external libraries. The simplest reason being it would have been definitely tested, does not need additional junits in our code base and definitely has lot less bugs that the code that we would write to perform the same function. Quite a few times, there might be minor discrepancies in terms of parameters, types. In that case, as a seasoned developer, try to weigh in the options of if its really necessary to recreate or if your code should actually be using the parameter structure of the established library.</p>
+</div>
+<div class="paragraph">
+<p>My personal preference is</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Even in case, if its not directly usable, attempt to verify if the re-usable code can be best aligned by minor changes in your code base.</p>
+</div>
+</blockquote>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_2_asthetic_and_consistent">2. Asthetic and consistent</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are so many style guides, such as from <a href="https://google.github.io/styleguide/javaguide.html">Google</a> or even from <a href="http://www.oracle.com/technetwork/java/codeconvtoc-136057.html">Oracle</a> itself. However, it doesn&#8217;t really matter which one as long as the team agrees and adheres to it. One of the easiest ways to ensure consistency is to use Eclipse Formatter or Intellj Idea preferences or similar common formatters for the IDE of your teams choice.</p>
+</div>
+<div class="sect2">
+<h3 id="_why_is_this_important">Why is this important?</h3>
+<div class="paragraph">
+<p>Assume the team is working on a code base consisting of thousands of files and someone is attempting to identify a bug in the middle of the night. <strong>It would be better to have a line width of 200 rather than a line width of 80 and half the screen white and needing the developer to scroll multiple times to view a single function.</strong></p>
+</div>
+<div class="paragraph">
+<p>Irrespective of the formatter rules, there are few common and mostly sensible practices that we follow.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Never have a function span more than 10-15 lines of code.</p>
+</li>
+<li>
+<p>Ensure each function performs only one action</p>
+</li>
+<li>
+<p>Name the function appropriately.</p>
+</li>
+<li>
+<p>Remember the types of parameters or parameter names are not necessary in the function name. For example, it is better to name a function add(int i, int j) rather than addIntegers(int i, int j)</p>
+</li>
+<li>
+<p>One other quirk is to not have the return parameter type or name as part of the function name. For Example: public JSONObject convertStringToJSONObject(String s) is better named as public JSONObject convert(String s).</p>
+</li>
+<li>
+<p>Ensure that your class encapsulates the function of one object.</p>
+</li>
+<li>
+<p>Ideally any class should have at a maximum of 6 or 7 functions. If there are more check if refactoring to more atomic classes are needed.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_good_code_is_aesthetic">Good code is aesthetic</h3>
+<div class="paragraph">
+<p><em>Inspired by <a href="http://blog.d3in.org/post/130288777151/10-principles-for-good-code">principles of good code</a></em></p>
+</div>
+<div class="paragraph">
+<p>Any product created should have its purpose served best by its utility. From a simple spoon to a complex rocket ship can be appreciated of its beauty only if its usefulness is completely appreciated. Aesthetic structure is not just for web or native applications, but also for API designs, code written, even for comments.</p>
+</div>
+<div class="paragraph">
+<p>Maintaining symmetry and consistency is appreciated if it serves its usefulness, similar to:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Code style Consistency</p>
+</li>
+<li>
+<p>Absence of unstructured notes (TODO, FIXME, etc.)</p>
+</li>
+<li>
+<p>Comments</p>
+</li>
+<li>
+<p>Naming conventions</p>
+</li>
+<li>
+<p>Conciseness</p>
+</li>
+<li>
+<p>Reusability</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>“Code Is Hard to Read</p>
+</div>
+<div class="paragraph">
+<p>By Dave Anderson</p>
+</div>
+<div class="paragraph">
+<p>Each programmer has an idea in their head regarding hard to read and easy to read. Readability depends on many factors:</p>
+</div>
+<div class="paragraph">
+<p>Implementation language. Some syntax just is easier to read than others. XSLT anyone?
+Code layout and formatting. Personal preferences and pet hates, like “Where do I place the curly brace?” and indentation.
+Naming conventions. userStatus versus _userstatus versus x.
+Viewer. Choice of IDE, editor, or other tool used will contribute to readability.”</p>
+</div>
+<div class="paragraph">
+<p>“Solution design. The most common problem – “I see what’s happening here… but it could be done better.”</p>
+</div>
+<div class="paragraph">
+<p>“When you have the opportunity, try deodorizing the smelly code. Don’t rush. Just take small steps. In Martin Fowler’s Refactoring the steps of the refactorings presented are outlined in great detail, so it’s easy to follow. I would suggest doing the steps at least once manually to get a feeling for the preconditions and side effects of each refactoring. Thinking about what you’re doing is absolutely necessary when refactoring.”</p>
+</div>
+<div class="paragraph">
+<p>Choosing DataTypes and parameters</p>
+</div>
+<div class="paragraph">
+<p>Decouple the UI</p>
+</div>
+<div class="paragraph">
+<p>Dont use too much magic</p>
+</div>
+<div class="paragraph">
+<p>“n recent years convention over configuration has been an emerging software design paradigm. By taking advantage of it, developers only need specify the non-common part of their application, because the tools that follow this approach provide meaningful behavior for all the aspects covered by the tool itself. These default behaviors often fit the most typical needs. The defaults can be replaced by custom implementations where something more specific is needed. ”</p>
+</div>
+<div class="paragraph">
+<p>“Execution Speed versus Maintenance Effort”</p>
+</div>
+<div class="paragraph">
+<p>“Improved Testability Leads to Better Design”</p>
+</div>
+<div class="paragraph">
+<p>Interface design
+“The conclusion on this is that setters and getters are alien constructs that do not reveal the intention and responsibility of a behavior-centric interface. Therefore you should try to avoid using them; there are better alternatives.”</p>
+</div>
+<div class="paragraph">
+<p>Complexity
+“While a low line count is a good starting point, the overall cognitive load can be further reduced by keeping the cyclomatic complexity low – ideally under 3 or 4, definitely under 10. Cyclomatic complexity is a numeric value that can easily be computed by many tools and is roughly equivalent to the number of execution paths through a method. A high cyclomatic complexity complicates unit testing and has been empirically shown to correlate with bugs.”</p>
+</div>
+<div class="paragraph">
+<p>Small Methods / Name methods</p>
+</div>
+<div class="paragraph">
+<p>“The list of attributes I use (in no particular order) are:</p>
+</div>
+<div class="paragraph">
+<p>Correctness: Does the code do its job?
+Modifiability: How easy is the code to modify?
+Performance: How fast does the code run? How much memory, disk space, CPU, network usage, etc. will it use?
+Speed of production: How quickly will the code be constructed?
+Reusability: To what degree will the code be architected to allow later projects to reuse code?
+Approachability: How difficult is it for people who are proficient in the languages and tools used to be able to take on future maintenance tasks?”</p>
+</div>
+<div class="paragraph">
+<p>“Process strictness: How important is it that the nominated development process and coding procedure is followed? In other words, is anyone going to be sacked if they don’t follow the identified processes?
+Standards compliance: How important is it to comply with the various relevant standards?”</p>
+</div>
+<div class="paragraph">
+<p>Comments
+“Comment to supplement the source code.”
+“Comment to explain the unusual.”
+“Comment to document hardware/software interactions.”
+“Comment with maintenance in mind.”</p>
+</div>
+<div class="paragraph">
+<p>“Understand Principles behind Practices”</p>
+</div>
+<div class="paragraph">
+<p>“Use Aggregate Objects to Reduce Coupling</p>
+</div>
+<div class="paragraph">
+<p>”</p>
+</div>
+<div class="paragraph">
+<p>Method Structure</p>
+</div>
+<div class="paragraph">
+<p>“Keep each method as short as possible: 15 lines of code is a reasonable upper limit that you should be wary of ”</p>
+</div>
+<div class="paragraph">
+<p>“limit that you should be wary of exceeding.
+Give each method a single responsibility: If you are trying to give a meaningful name to the method and you find the name contains an &lt;code /&gt;and&lt;/code&gt;, there is a good chance that you are breaking this rule.
+Declare methods with the lowest number of parameters possible: If you need more than 3 parameters it could be a good idea to do a small refactor by grouping them as properties of a single object.
+Avoid nested loops or conditions where possible: You can improve both readability and reusability by putting them in little separated methods.
+Write comments only when strictly necessary and keep them in sync with the code: There is nothing more useless than a comment that explains what you can easily read from the code or more ”</p>
+</div>
+<div class="paragraph">
+<p>Predictability</p>
+</div>
+<div class="paragraph">
+<p>Establish a set of shared coding standards: Programmers can understand a piece of code faster if they don’t encounter unexpected surprises while reading it.</p>
+</div>
+<div class="paragraph">
+<p>keep in mind that the code should be readable by the next person debugging the code, even ourself after six months.</p>
+</div>
+</div>
+</div>
+</div></p>
 			</div>
 			<div id="push"></div>
 		</div>
 
+    <hr/>
 <div id="footer">
     <p class="muted credit">&copy; 2005-2016 | Senthilkumar Gopal. The opinions expressed here are my own and do not reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>

@@ -39,15 +39,15 @@
 </head>
 	<body onload="prettyPrint()">
     <div id="wrap">
-
 			<div class="container">
 <div class="header">
   <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
   <h2>thoughts, code, ramblings and notes</h2>
   <ul class="external">
-    <li><a href="http://github.com/sengopal"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
-    <li><a href="https://twitter.com/sengopal"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
-    <li><a href="https://www.linkedin.com/in/senthilkumargopal"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="https://medium.com/@sengopal/" target="_blank"><i class="fa fa-medium hvr-grow-rotate"></i></a></li>
+    <li><a href="http://github.com/sengopal" target="_blank"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal" target="_blank"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
     <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
   </ul>
 
@@ -61,16 +61,12 @@
     <!--
     <li><a href="../pages/reviews.html">Reviews</a></li>
     -->
-    <li><a href="../pages/about.html">About Me</a></li>
   </ul>
 </div>
-				
 				<div class="page-header">
 					<h1>Job chaining using Quartz</h1>
 				</div>
-
 				<p><em>31 March 2009</em></p>
-
 				<p><h3>Project Usage</h3><p>Our Project had the requirement of reading a set of records from a table which acts as a queue and sends the pending mails. This reading /sending of mails has to happen every five minutes. However, since the SMTP server needs to address online mailing at times, this job may run more than the given five minutes. Also, if the number of records in the table is high, the Job exceeds the expected time of completion of five minutes. Hence it was decided to “chain” the jobs with a five minute delay.</p><h3>Introduction to Quartz</h3><p>Quartz is an open source job scheduling framework that provides simple but powerful mechanisms for job scheduling in Java applications. Quartz allows developers to schedule jobs by time interval or by time of day. It implements many-to-many relationships for jobs and triggers and can associate multiple jobs with different triggers.<br/>Applications that incorporate Quartz can reuse jobs from different events and also group multiple jobs for a single event. While you can configure Quartz through a property file (in which you can specify a data source for JDBC transactions, global job and/or trigger listeners, plug-ins, thread pools, and more) it is not at all integrated with the application server's context or references.</p><h3>Jobs and triggers</h3><p>The two fundamental units of Quartz's scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.</p><h3>Simple Job Example</h3><p>An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed</p><h4>SimpleQuartzJob.java</h4>
 <pre><code>import java.util.Date;
 import org.quartz.Job;
@@ -180,13 +176,11 @@ logger.info(&quot;Mail Processor Scheduled&quot;);
 
 }
 </code></pre><p>Note: <em>Since the same job is being chained, we have to use rescheduleJob().</em></p><p>The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs</p><p>References<br/>* <a href="http://quartz.sourceforge.net/firstTutorial.html">http://quartz.sourceforge.net/firstTutorial.html</a><br/>* <a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/">http://www-128.ibm.com/developerworks/java/library/j-quartz/</a></p></p>
-
-				<hr />
-
 			</div>
 			<div id="push"></div>
 		</div>
 
+    <hr/>
 <div id="footer">
     <p class="muted credit">&copy; 2005-2016 | Senthilkumar Gopal. The opinions expressed here are my own and do not reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
 </div>

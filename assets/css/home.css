@@ -1,6 +1,6 @@
 .intro, row {
   font-size: 1.25em;
-  line-height: 1.3em;
+  line-height: 1.5em;
   font-weight: 300;
   max-width: 1020px;
   page-break-inside: avoid;
@@ -8,7 +8,12 @@
 }
 
 .intro a {
-    font-weight: bolder;
+    font-weight: bold;
+}
+
+img {
+    width: 172px;
+    height: 172px;
 }
 
 h1 + .intro {
@@ -39,10 +44,13 @@ h1 + .intro {
   line-height: 1.6em;
   margin-top: 0px; }
 
-.detail {
-  font-size: 0.85em;
-  page-break-inside: avoid;
-  line-height: 1.6em; }
+  .detail {
+      font-size: 0.75em;
+      page-break-inside: avoid;
+      line-height: 1.6em;
+      color: #636161;
+      font-style: italic;
+  }
 
 .bio {
   font-size: 0.85em;
@@ -75,6 +83,7 @@ p + ul, div + ul {
 /* compact lists */
 ul.compact li {
   margin: 0;
+  line-height: 1.8em;
 }
 
 body {

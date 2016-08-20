@@ -3,7 +3,7 @@ Senthilkumar Gopal
 2016-01-20
 :jbake-type: post
 :jbake-tags: backend,services,database,architecture
-:jbake-status: published
+:jbake-status: draft
 :summary: This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities
 
 We are planning a database architecture rewrite for an existing service and the needs of the project are:
@@ -28,7 +28,7 @@ The other common databases available are Cassandra and HBase are both based on H
 
 === Document Databases ===
 Document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don't require transactional integrity across entities. Typically, MongoDB and Couchbase are typically the leaders in this sector.
- 
+
 === Graph Databases ===
 Social networks and recommendation systems are classic use cases for graph databases, but there are a few different types of graph databases. Some of them are custom made for operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).
 
@@ -41,5 +41,3 @@ Using the above descriptions and also based on availability or support within ou
 | Cassandra     |  Heavy writes for Async metadata
 | Cassandra     |  Heavy writes for Audit log
 |====================================================
-
-
