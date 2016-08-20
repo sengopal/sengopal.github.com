@@ -11,4 +11,14 @@ I have worked on many side projects, primarily work related which has helped me 
 [quote, Oscar Wilde]
 Experience is simply the name we give our mistakes.
 
+Some of the projects that I have recently worked on are
 
+=== Udacity Android Nanodegree Capstone project
+ "Author Follow" is an app that I developed as part of my Capstone project for the Android developer Nanodegree. This app allows you to keep tabs on upcoming and recent releases of your favorite book authors, search for new authors and more. This app uses Amazon’s product release API to scour for their favorite authors’ publications.
+
+=== One Time use code for Authentication
+I worked on building the application for single use code based authentication for eBay. Users can use the "Signin with a single use code" link on the login page to request a one-time code to be delivered to their registered phone number via text messaging. Then the user can type in the code from the text message into the input field, securely getting into the account without the hassle of remembering nor exposing their original password. This was recently cited in the following articles as well.
+
+1. http://9to5mac.com/2016/08/08/ebay-adds-support-for-touch-id-introduces-new-one-time-password-login-method/
+2. https://www.ebayinc.com/stories/news/ebays-mobile-app-wraps-in-one-time-password-touch-id-and-android-wear-support/
+3. http://www.cnet.com/news/ebay-tries-to-ease-the-pain-of-remembering-your-password/
