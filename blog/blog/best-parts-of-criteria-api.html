@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Criteria API in Hibernate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
+  <meta name="author" content="Senthilkumar Gopal">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
+  <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
+
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67843911-1', 'auto');
+  ga('send', 'pageview');
+  ga('create', 'UA-68428477-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+			<div class="container">
+<div class="header">
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
+  <ul class="external">
+    <li><a href="https://medium.com/@sengopal/" target="_blank"><i class="fa fa-medium hvr-grow-rotate"></i></a></li>
+    <li><a href="http://github.com/sengopal" target="_blank"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal" target="_blank"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+  </ul>
+
+</div>
+
+<div class="nav" role="navigation">
+  <ul>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
+    <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
+    <!--
+    <li><a href="../pages/reviews.html">Reviews</a></li>
+    -->
+  </ul>
+</div>
+				<div class="page-header">
+					<h1>Criteria API in Hibernate</h1>
+				</div>
+				<p><em>30 May 2008</em></p>
+				<p><div class="sect2">
+<h3 id="_drawbacks_of_hql">Drawbacks of HQL</h3>
+<div class="paragraph">
+<p>Currently HQL (Hibernate Query Language) is used widely to query data using Hibernate. However, there are many drawbacks such as:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>SQL-like syntax and Non Extensible</p>
+</li>
+<li>
+<p>Relational methodology instead of OO methodology</p>
+</li>
+<li>
+<p>Problem in creating search queries on the fly</p>
+</li>
+<li>
+<p>Complexity increases with number of variable conditions</p>
+</li>
+<li>
+<p>Error-prone String concatenation</p>
+</li>
+<li>
+<p>Direct use of query parameters in the query string</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>A sample usage for HQL Query:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">String query = "select o from Order as o join o.products as p where o.priceTotal &gt; :priceTotalLower and o.priceTotal &lt; :priceTotalUpper";           
+Query q = sess.createQuery(query);
+q.setDouble("priceTotalLower", Double.parseDouble(lower));
+q.setDouble("priceTotalUpper",Double.parseDouble(upper));
+List list = q.list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In comparison to the Criteria API, the above query gets reduced to simple two lines with more comprehension and understanding of the functionality.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">List list = sess.createCriteria(Order.class)
+.add(Restrictions.between(lower,upper).list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In addition to the conciseness and readability, following are some of the best parts of using the Criteria API</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Aspects of the relational approach</p>
+</li>
+<li>
+<p>Reduces the complexity</p>
+</li>
+<li>
+<p>Multi-criteria search functionalities</p>
+</li>
+<li>
+<p>Building Hibernate Queries on the fly</p>
+</li>
+<li>
+<p>Knowledge of SQL not necessary</p>
+</li>
+<li>
+<p><strong>Extensible</strong> since it uses OO methodology</p>
+</li>
+<li>
+<p><strong>Interoperable</strong> since it has provision for including native SQL clauses also</p>
+</li>
+<li>
+<p>Rich set of comparison operators</p>
+</li>
+<li>
+<p>Business Objects as query parameters, without having to use primary and foreign key references</p>
+</li>
+<li>
+<p>Optimizing queries by providing various JOIN Strategies</p>
+</li>
+<li>
+<p>Provides cleaner, clearer, more reliable and more maintainable code.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_is_criteria_api">What is Criteria API?</h3>
+<div class="paragraph">
+<p>There are five core components of the Criteria API.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Criteria</p>
+</li>
+<li>
+<p>Criterion</p>
+</li>
+<li>
+<p>Restrictions</p>
+</li>
+<li>
+<p>Projection</p>
+</li>
+<li>
+<p>Order</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Criteria class provides the gateway to working with criteria APIs. Criterion class is the object-oriented representation of the relational criterion. Restriction API provides the built-in types for Criterion. Essentially, the Restriction class is a factory to the Criterion class. All of its methods are static.</p>
+</div>
+<div class="paragraph">
+<p>In Hibernate 2.x, the Expression class provided the services that are now provided by the Restriction class. The Restriction class provides almost all the required restrictions such as equals (eq()), logical and (and()), like (like())
+Aggregation and Grouping are provided by the Projection class. Order class represents the "order by" clause of SQL.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_order_interface">Order Interface</h3>
+<div class="paragraph">
+<p>In HQL (and SQL), the order by clause allows you to order your query results.
+This is done using the addOrder() method and the Order class
+The SQL will have the order clause in the sequence the Order objects were added to the Critieria.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Criteria crit = session.createCriteria(Sale.class) ;
+crit.addOrder( Order.desc("date") );
+crit.addOrder( Order.asc("product.number") );</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_simple_criteria_query">Simple Criteria Query</h3>
+<div class="paragraph">
+<p>The following code shows how a simple Criteria query is built.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>It selects the Insurance Object</p>
+</li>
+<li>
+<p>Includes a Where clause insurance name like ‘%a%’</p>
+</li>
+<li>
+<p>Includes another Where clause investmentAmount value between 1000 and 2500 inclusive</p>
+</li>
+<li>
+<p>Sets the number of maximum results as 5</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">session = sessionFactory.openSession();
+Criteria crit = session.createCriteria(Insurance.class);
+crit.add(Restrictions.like("insuranceName", "%a%")); 
+crit.add(Expression.between("investAmount", new Integer(1000),new Integer(2500))); 
+crit.setMaxResults(5); 
+List insurances = crit.list();
+for(Iterator it =insurances.iterator();it.hasNext();){
+	Insurance insurance = (Insurance) it.next();
+  System.out.println("ID: " + insurance.getLngInsuranceId());
+  System.out.println("Name: " + insurance.getInsuranceName());
+  System.out.println("Amount: " + insurance.getInvestAmount());
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_criterion_chaining">Criterion Chaining</h3>
+<div class="paragraph">
+<p>This is a popular method of adding Restrictions, Expressions, Projections and Order object without the need to create additional Objects. This is particularly useful when the Criteria Objects which are extensible are needed to be passed between methods.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">List sales = session.createCriteria(Sale.class)
+    .add(Expression.ge("date",startDate)
+    .add(Expression.le("date",endDate)
+    .addOrder( Order.asc("date") )
+    .setFirstResult(0)
+    .setMaxResults(10)
+    .list();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_restriction_for_where_property">Restriction for WHERE property</h3>
+<div class="paragraph">
+<p>The WHERE clause or <em>Restrictions</em> can be easily applied via <code>Restriction.eqProperty()</code>, <code>Restriction.neProperty()</code>, <code>Restriction.leProperty()</code> and <code>Restriction.geProperty()</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">// Adds a WHERE Clause for comparing two columns,
+session.createCriteria(Sale.class)
+    .eqProperty("saleDate","releaseDate")
+    .list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Restriction still allows custom restrictions added using <code>Restrictions.sqlRestriction</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">// Adds a native SQL Restriction in the WHERE Clause
+sess.createCriteria(Cat.class)
+.add(Restrictions.sqlRestriction("lower({alias}.name) like lower(?)", "Fritz%",Hibernate.STRING) ) .list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>All the static methods available in Restrictions are also available in the Expression API. Also it contains some additional methods such as ilike("columnname") which does a lower(columnname) in the query.</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disjunction_and_conjunction">Disjunction and Conjunction:</h3>
+<div class="paragraph">
+<p>Disjunction and Conjunction are excellent APIs which help perform complex search criteria simple to develop and maintain.</p>
+</div>
+<div class="paragraph">
+<p><strong>Disjunction</strong> indicates a group of Criterion to be <strong>ORed</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Disjunction disList = Restrictions.disjunction();
+disList.add(Restrictions.eq("id",new Integer(1));
+disList.add(Restrictions.eq("id",new Integer(2));
+sess.createCriteria(Cat.class) .add(disList);
+// This gives the WHERE Clause WHERE (id=1 OR id=2)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Conjunction</strong> indicates a group of Critierion to be <strong>ANDed</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Conjunction conList = Restrictions.conjunction();
+conList.add(Restrictions.eq("id",new Integer(1));
+conList.add(Restrictions.eq("id",new Integer(2));
+sess.createCriteria(Cat.class) .add(conList);
+// This gives the WHERE Clause WHERE (id=1 AND id=2)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>_The Disjunctions and Conjunctions can be nested as well and also along with group of Restrictions.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Conjunction conList = Restrictions.conjunction();
+conList.add(Restrictions.disjunction()
+       .add(Restrictions.eq("id",new Integer(1))));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_join_tables_using_criteria_api">How to join Tables using Criteria API</h3>
+<div class="paragraph">
+<p>Using HQLs, joins resemble SQL closely.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">// use LEFT JOIN FETCH for optimizing queries
+from Sale sale where sale.date &gt; :startDate left join fetch sale.product</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The same can be achieved using Criteria API with the help of <code>setFetchMode()</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">session.createCriteria(Sale.class)
+      .setFetchMode("product",FetchMode.EAGER)
+      .setFetchMode("category",FetchMode.EAGER)
+      .list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using Criteria API, even <strong>Restriction</strong> can be applied on the joined tables.Criteria API uses the createCriteria() or createAlias() (no new instance) to create an inner join between the two tables.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">// to find all the shirt models with sizes over 40.
+// HQL: from Shirt shirt join shirt.availableSizes size where size.number &gt; 40
+
+Session.createCriteria(Shirt.class)
+      .createCriteria("availableSizes")
+      .add(Expression.gt("number", new Integer(40)))
+      .list();</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_projections_aggregation_and_grouping">Projections - Aggregation and Grouping</h3>
+<div class="paragraph">
+<p>The Projections API is used for aggregation and grouping functionality. A simple example which returns the count of number of cats with age greater than 10.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">// Simple Projection
+session.createCriteria(Cat.class)
+      .add(Restrictions.gt("age", new Integer(10))
+      .setProjection(Projections.rowCount())
+      .list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A number of aggregations can be done in a single Criteria and can be done along with a group by clause.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Criteria crit = session.createCriteria(Cat.class)
+ProjectionList projList = Projections.projectionList();
+projList.add(Projections.rowCount() );
+projList.add(Projections.avg("weight") ) ;
+projList.add(Projections.max("weight") ) ;
+projList.add(Projections.groupProperty("color") ) ) ;
+List result = crit.setProjection(projList).list();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To allow the users to query only the required columns Hibernate 3 introduced the <strong>Projections.property()</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">Criteria crit = session.createCriteria(Employee.class);
+crit.add(Restrictions.eq("zipCode", zipCode));
+crit.add(Restrictions.gt("salary", new Integer(10000));
+ProjectionList projList = Projections.projectionList();
+projList.add(Projections.property("name"));
+projList.add(Projections.property("age"));
+projList.add(Projections.property("county"));
+projList.add(Projections.property("job"));
+crit.setProjection(projList);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>This really helps when the table being queried contains 50 to 60 columns and we need only 4 to 5 columns.</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_query_by_example_api">Query By Example API</h3>
+<div class="paragraph">
+<p>The Example API helps to optimize the query by initializing the text values and by providing extensibility of the Criterion Object.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-java" data-lang="java">// Initializing the text values to be used
+Accommodation accommodationEx = new Accommodation();
+accommodationEx.setCountry(country);
+accommodationEx.setCapacity(capacity);
+
+// Creating and fine tuning the example object
+Example example = Example.create(accommodationEx)
+    .ignoreCase() //Queries are case insensitive
+    .excludeZeroes()  //zero-valued fields are ignored
+    .excludeProperty("doNotUse") // this property is excluded
+    .enableLike(MatchMode.ANYWHERE); //query string matching uses ‘%X%’
+
+// Using the Example Object and adding further restrictions
+List list = session.createCriteria(Accommodation.class)
+    .add(example)
+    .add(Expression.between("availabilityDate", startDate, endDate))
+    .list();</code></pre>
+</div>
+</div>
+</div></p>
+			</div>
+			<div id="push"></div>
+		</div>
+
+    <hr/>
+<div id="footer">
+    <p class="muted credit">&copy; 2005-2016 | Senthilkumar Gopal. The opinions expressed here are my own and do not reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+</div>
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>
