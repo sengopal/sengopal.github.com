@@ -1,0 +1,119 @@
+= Steps for secure Android Application development
+Senthilkumar Gopal
+2015-03-22
+:jbake-type: post
+:jbake-tags: development,coding,android,security
+:jbake-status: published
+:summary: In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.
+
+In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post. Its the responsibility of every Android app developer to keep themselves appraised about new threats using OWASP Mobile Top 10 Risks.
+
+=== Data classification and Handling Standards
+
+1. All data persisted should be encrypted - sqlliteDB, files, dataprovider etc.,
+2. Don't transmit sensitive data to unapproved 3rd party.
+3. Don't put sensitive data into Intents
+
+=== Mobile privacy
+1. Respect user's privacy by collecting minimum amount of data
+2. GPS & location data - fine grain vs. coarse grain GPS data
+3. Contact Info
+4. Microphone and Camera use
+5. Tracking and Analytics IDs
+
+=== Attack Surface Analysis
+1. Third party code automatically inherits app permissions. Treat new versions of library as a new version of your app.
+2. Use Google Alerts for any security disclosures regarding the 3rd party library.
+
+=== Securing logs
+1. Do not enable crash logs by default. Get user consent before logging.
+2. Do not store crash logs for too long
+3. Do not send plain-text logs over HTTP
+4. Mask sensitive user information in the logs - starbucks usecase
+5. Minimize the number of permissions - dont ask for what you dont need - Incoming SMS messages -
+
+=== Securing Intents 
+1. Use PendingIntents as delayed callbacks to private Broadcast receivers
+2. Use Explicit intents as much as possible
+
+[source,java]
+----
+context.sendBroadcast(intent,"custom-permission");
+context.startActivity(intent);
+----
+
+=== Permissions and Intents
+
+1. Use custom permission for 3rd party or other apps to subscribe for notifications
+2. For sensitive activities, set FLAG_SECURE constant flag in WindowManager.LayoutParams
+3. Perform intent data validation
+4. For private activities, use explicit intent
+5. Seperate services in AndroidManifest with explicit and seperate permissions
+6. Use explicit intent to call Service
+7. Use `checkCallingPermission()` to verify if permission is available to the caller
+
+=== Data Security
+1. Use record level delegation feature to share a specific record or file without sharing the entire database to provide minimum access.
+2. Never trust the parameters passed to content providers. Sanatize for injection attacks.
+3. Securing ContentProviders. Always set `exported=false` in your **AndroidManifest.xml**
+4. Ppecify explicit permissions for reading and writing.
+5. Use dynamic `grantUriPermissions` attribute to true to grant permission for certain portion for certain amount of time.
+
+=== WebView Security
+1. Disable JS and Plugin support if not needed
+2. No local file access
+3. Do not load 3rd party hosts unless validated
+4. Do not follow redirect requests in the server response unless validated
+5. If possible, use only https
+6. Disable form auto-fill feature by using `WebView.WebSettings.setSaveFormData()` as false
+7. Reject unexpected content - only allow HTML for main page (reject PDFs etc.,)
+8. Secure Page Rendering in WebView  - shouldOverrideUrlLoading
+9. Access Modifiers should not be trusted for sensitivity.
+10. Clear the cache after Webview of a Sensitive page. 
+
+[source,java]
+----
+onPageFinished(Webview view, String Url){
+    view.clearCache(true);
+}
+----
+11. Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to prevent click jacking Use `setFilterTouchesWhenObscured(true)` or android:setFilterTouchesWhenObscured for activity declaration.
+
+
+=== Development practices
+1. Keep sensitive data in RAM no longer than required such as Encryption keys, Authn, Authz tokens, passwords.
+2. Variables should be nullified after use
+3. Use byte[] and char[] for sensitive data rather than Strings which helps in cleaning easier.
+
+===== Internal Storage
+1. Accessible only to your app
+2. clean the cache using deleteFile()
+
+===== External Storage
+1. Globally readable and writable
+2. Can be physically removed
+3. Avoid using this storage for sensitive apps in general. Use `preferInternal` to prevent app being installed in external storage.
+4. Use Keychain API for system wide credentials
+5. Use Keystore to stores its own credentials
+6. `file.delete()` does not securely delete. 
+7. Always delete cache files when user logs out
+8. Do not keep files with any sensitive data any longer than absolutely needed.
+9. Do not create files with MODE_WORLD_READABLE or writeable
+10. Do not use modes such as 0666, 0777, 0663 with chmod binary or syscalls accepting a file modes
+11. Only share info using content providers instead of file system
+
+=== Cryptography
+1. Dont store plain-text secret key
+2. Never roll your own CRYPTO libraries. use the approved ones
+3. Never store secrets using string - only char[] and byte[]
+4. Never seed SecureRandom
+
+=== Camera feed
+1. Use default CAmera app/services
+2. Or, create SurfaceView to display a Camera Preview and click button to convert to Picture
+
+=== URL Connections
+1. Use TLS instead of SSLv3.
+2. Use only https
+3. SSLSocket class can be used but with caution. It does not do hostname verification.
+4. If overriding, check `getDefaultHostNameVerifier()` or `HostNameVerifier.verify()` returns boolean true.

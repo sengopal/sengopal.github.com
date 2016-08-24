@@ -11,6 +11,11 @@
         <changefreq>monthly</changefreq>
     </url>
     <url>
+        <loc>http://sengopal.github.io/blog/blog/steps-for-secure-android-app-development.html</loc>
+        <lastmod>2015-03-22</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>http://sengopal.github.io/blog/blog/git-github-secrets.html</loc>
         <lastmod>2014-01-23</lastmod>
         <changefreq>monthly</changefreq>
