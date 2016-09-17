@@ -157,3 +157,33 @@ Predictability
 Establish a set of shared coding standards: Programmers can understand a piece of code faster if they don’t encounter unexpected surprises while reading it.
 
 keep in mind that the code should be readable by the next person debugging the code, even ourself after six months.
+
+
+
+
+
+
+
+Don’t forget to write (good) code comments.
+  Try to write good code first (and tests!).
+  Try to write a one-sentence comment.
+  Refactor the code (make it easier).
+  Delete unnecessary comments.
+  Rewrite bad comments
+  (all good writing requires rewriting)
+  Add detail where needed
+
+
+
+
+
+  Object oriented design principle 1 -  DRY (Don't repeat yourself) 
+  Object oriented design principle 2 - Encapsulate what varies
+  Object oriented design principle 3 - Open Closed principle
+  Object oriented design principle 4 - Single Responsibility Principle (SRP)
+  Object oriented design principle 5 - Dependency Injection or Inversion principle
+  Object oriented design principle 6 - Favour Composition over Inheritance
+  Object oriented design principle 7 - Liskov Substitution Principle (LSP)
+  Object oriented design principle 8 - Interface Segregation principle (ISP)
+  Object oriented design principle 9 - Programming for Interface not implementation
+  Object oriented design principle 10 - Delegation principle
