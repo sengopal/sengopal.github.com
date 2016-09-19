@@ -6,9 +6,31 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>Java, JVM and Random Thoughts - Senthilkumar Gopal</description>
     <language>en-US</language>
-    <pubDate>Wed, 24 Aug 2016 17:00:59 -0700</pubDate>
-    <lastBuildDate>Wed, 24 Aug 2016 17:00:59 -0700</lastBuildDate>
+    <pubDate>Sun, 18 Sep 2016 20:24:19 -0700</pubDate>
+    <lastBuildDate>Sun, 18 Sep 2016 20:24:19 -0700</lastBuildDate>
 
+    <item>
+      <title>My journey with Udacity Android Developer Nanodegree</title>
+      <link>http://sengopal.github.io/blog//blog/my-journey-with-udacity-android-developer-nanodegree.html</link>
+      <pubDate>Sun, 4 Sep 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/my-journey-with-udacity-android-developer-nanodegree.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is medium post on how I journeyed through my Android Nanodegree program offered by Udacity - &lt;a href=&quot;https://medium.com/@sengopal/my-journey-with-udacity-android-developer-nanodegree-5d24bd9f3dff#.53n2m9sw6&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>How to give an awesome presentation</title>
+      <link>http://sengopal.github.io/blog//blog/tips-for-giving-an-awesome-presention.html</link>
+      <pubDate>Sat, 20 Aug 2016 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/tips-for-giving-an-awesome-presention.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is medium post on few tips in giving a great presentation and engaging your audience. &lt;a href=&quot;https://medium.com/@sengopal/tips-for-giving-an-awesome-presention-9c56c00d5242#.3nqk3m4tj&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>Steps for secure Android Application development</title>
       <link>http://sengopal.github.io/blog//blog/steps-for-secure-android-app-development.html</link>

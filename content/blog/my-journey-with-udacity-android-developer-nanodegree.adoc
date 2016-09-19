@@ -1,0 +1,12 @@
+= My journey with Udacity Android Developer Nanodegree
+Senthilkumar Gopal
+2016-09-04
+:jbake-type: post
+:jbake-tags: android,medium,nanodegree
+:jbake-status: published
+:external: true
+:link: https://medium.com/@sengopal/my-journey-with-udacity-android-developer-nanodegree-5d24bd9f3dff#.53n2m9sw6
+:summary: A medium post on how I journeyed through my Android Nanodegree program offered by Udacity.
+
+
+This is medium post on how I journeyed through my Android Nanodegree program offered by Udacity - https://medium.com/@sengopal/my-journey-with-udacity-android-developer-nanodegree-5d24bd9f3dff#.53n2m9sw6[Actual post]

@@ -9,7 +9,17 @@
 
 			<#list posts as post>
 		  		<#if (post.status == "published")>
-		  			<h2 class="list-title"><a href="${post.uri}"><#escape x as x?xml>${post.title}</#escape></a></h2>
+		  			<h2 class="list-title">
+              <#if (post.external?? == true)>
+                <a href="${post.link}" target="_blank">
+                  <#escape x as x?xml>${post.title}</#escape>
+                </a>
+              <#else>
+                <a href="${post.uri}">
+                  <#escape x as x?xml>${post.title}</#escape>
+                </a>
+              </#if>
+            </h2>
 		  			<em>${post.date?string("dd MMMM yyyy")}</em>
 		  			<p class="summary">${post.summary}</p>
 			  		<#if post_index = 6>
