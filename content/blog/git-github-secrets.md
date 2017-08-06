@@ -50,9 +50,7 @@ Example: using a commit message such as "closes `#1291`" autolinks to the issue
 __Adding__ `?author=sengopal` __or email address to__ `github.com/repo/commits/master` __gives the list of commits by that author.__
 _Useful for your resume !_
 Example:
-{% highlight html %}
-    https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal
-{% endhighlight html %}
+https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal
 
 __Pulls needn't be from a fork, but can be done from branches as well__
 
