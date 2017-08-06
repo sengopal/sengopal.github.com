@@ -1,0 +1,12 @@
+= Finite-State Machine for Single-Use Code Authentication
+Senthilkumar Gopal
+2016-08-30
+:jbake-type: post
+:jbake-tags: security,medium,authentication
+:jbake-status: published
+:external: true
+:link: http://www.ebaytechblog.com/2016/08/30/finite-state-machine-for-single-use-code-authentication/
+:summary: A technical blog post on how we implemented a single use code based authentication by utilizing a finite state machine structure.
+
+
+This is a technical blog post on how we implemented a single use code based authentication by utilizing a finite state machine structure. - http://www.ebaytechblog.com/2016/08/30/finite-state-machine-for-single-use-code-authentication[Actual post]
