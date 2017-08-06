@@ -52,7 +52,7 @@ _Useful for your resume !_
 Example:
 {% highlight html %}
     https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal
-
+{% endhighlight html %}
 
 __Pulls needn't be from a fork, but can be done from branches as well__
 
