@@ -1,0 +1,11 @@
+= Good code and Why should we care?
+Senthilkumar Gopal
+2017-08-05
+:jbake-type: post
+:jbake-tags: code,medium,nanodegree,standards,architecture
+:jbake-status: published
+:external: true
+:link: https://medium.com/@sengopal/good-code-and-why-should-we-care-d376e1efd775
+:summary: A medium post on how to write good code and why we should care about it.
+
+This is medium post on how A medium post on how to write good code and why we should care about it - https://medium.com/@sengopal/good-code-and-why-should-we-care-d376e1efd775[Actual post]

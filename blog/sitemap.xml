@@ -11,6 +11,16 @@
         <changefreq>monthly</changefreq>
     </url>
     <url>
+        <loc>http://sengopal.github.io/blog/blog/google-sign-in-integration-for-the-ebay-android-app.html</loc>
+        <lastmod>2017-10-24</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://sengopal.github.io/blog/blog/good-code-and-why-should-we-care.html</loc>
+        <lastmod>2017-08-05</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>http://sengopal.github.io/blog/blog/my-journey-with-udacity-android-developer-nanodegree.html</loc>
         <lastmod>2016-09-04</lastmod>
         <changefreq>monthly</changefreq>

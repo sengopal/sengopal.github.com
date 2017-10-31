@@ -67,7 +67,8 @@
 					<h1>CSS learning and notes</h1>
 				</div>
 				<p><em>28 March 2013</em></p>
-				<p><p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p><h3>Slicing techniques</h3>
+				<p><p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p>
+<h3>Slicing techniques</h3>
 <ol>
   <li>Do not slice the logo</li>
   <li>Figure out the gradient for repeating along the x -axis</li>
@@ -78,16 +79,19 @@
   <li>After selecting the slice, divide the slice and give the number of dividers you would need</li>
   <li>Save for Web and Devices - Gif and PNG for transparent ones</li>
   <li>Quality generally set up as 75-85%</li>
-</ol><h3>Remember</h3>
+</ol>
+<h3>Remember</h3>
 <ol>
   <li>height, width, padding, margin, float - main important properties</li>
-  <li><p>use the following (or use a reset)</p>
-  <pre><code>body{
+  <li>use the following (or use a reset)
+    <pre><code>body{
     padding:0;
     margin:0;
 }
-</code></pre></li>
-  <li><p>Give Wrapper <code>margin:auto;</code> to make the whole container centered</p></li>
+</code></pre>
+  </li>
+  <li>
+  <p>Give Wrapper <code>margin:auto;</code> to make the whole container centered</p></li>
   <li>Give fixed width and height to get the margin auto to work properly</li>
   <li>Div dimensions: width + margin + padding + border</li>
   <li>Whenever u are adding a padding or margin, adjust the width or height appropriately</li>
@@ -97,41 +101,51 @@
   <li>Give <code>li{display:block}</code> and provide width &amp; height to get a BUTTON look and feel</li>
   <li>For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.</li>
   <li>always the target browsers and supported resolutions needs to be decided</li>
-</ol><h3>Media Queries</h3>
+</ol>
+<h3>Media Queries</h3>
 <ol>
   <li>Change float to normal using the height/width/float properties for changing screen size</li>
   <li>Always use <code>margin,padding:0</code> - for reset</li>
-  <li><p>Types of layouts - pure fluid / pure display oriented / hybrid</p>
-  <ul>
-    <li>Fluid Layout
-    <ol>
-      <li>system of relative layout instead of absolute pixels</li>
-      <li>height/width - only in percentages</li>
-    </ol></li>
-  </ul>
-  <ul>
-    <li>Adaptive Layout
-    <ol>
-      <li>using the @media tags</li>
-    </ol></li>
-  </ul>
-  <ul>
-    <li>Responsive Layout
-    <ol>
-      <li>Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</li>
-    </ol></li>
-  </ul></li>
-  <li><p>New way of setting the media value</p>
-  <pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,width=device-width&quot;&gt;
-</code></pre></li>
-  <li><p>Media query representation</p>
-  <pre><code>@media screen and (max-width: 980px){
+  <li>Types of layouts - pure fluid / pure display oriented / hybrid
+    <ul>
+      <li>
+        <p>Fluid Layout</p>
+        <ol>
+          <li>system of relative layout instead of absolute pixels</li>
+          <li>height/width - only in percentages</li>
+        </ol>
+      </li>
+      <li>
+        <p>Adaptive Layout</p>
+        <ol>
+          <li>using the @media tags</li>
+        </ol>
+      </li>
+      <li>
+        <p>Responsive Layout</p>
+        <ol>
+          <li>Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>New way of setting the media value</p>
+    <pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,width=device-width&quot;&gt;
+</code></pre>
+  </li>
+  <li>
+    <p>Media query representation</p>
+    <pre><code>@media screen and (max-width: 980px){
     ....
 }
-</code></pre></li>
-  <li><p>Always create the smallest resolution first</p></li>
+</code></pre>
+  </li>
+  <li>
+  <p>Always create the smallest resolution first</p></li>
   <li>Try to use different images with different srcs to cater to different sizes</li>
-</ol><h3>Types of Selectors</h3>
+</ol>
+<h3>Types of Selectors</h3>
 <ol>
   <li>Tag</li>
   <li>Class</li>
@@ -141,20 +155,24 @@
   <li>Pseudo-class [link,active,hover,visited] - <em>MORE important than the other pseudo-element</em></li>
   <li>ID Selector</li>
   <li>when to use id vs class?
-  <ul>
-    <li>Use Class references with Less weightage</li>
-    <li>Use the TAG selectors first</li>
-  </ul></li>
-</ol><h3>Selectors Precedence</h3>
+    <ul>
+      <li>Use Class references with Less weightage</li>
+      <li>Use the TAG selectors first</li>
+    </ul>
+  </li>
+</ol>
+<h3>Selectors Precedence</h3>
 <ol>
   <li>The precedence for any style flows as : <code>inline &gt; Embedded &gt; External</code></li>
   <li>The precedence for any selector: id &gt; class &gt; tag</li>
-</ol><p>For more details, refer to</p>
+</ol>
+<p>For more details, refer to</p>
 <ul>
   <li><a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">Specificity</a></li>
   <li><a href="http://www.w3.org/TR/CSS2/selector.html">Selector</a></li>
   <li><a href="http://css-tricks.com/specifics-on-css-specificity/">CSS Tricks</a></li>
-</ul><h3>Hierarchy of precedence</h3>
+</ul>
+<h3>Hierarchy of precedence</h3>
 <ol>
   <li>The ID selector</li>
   <li>The attribute selector</li>
@@ -163,26 +181,43 @@
   <li>The adjacent sibling selector - <code>.blog-img + p</code></li>
   <li>The descendant selector</li>
   <li>The tag selector</li>
-</ol><h3>Shorthand syntax</h3><h4>background</h4>
+</ol>
+<h3>Shorthand syntax</h3>
+<h4>background</h4>
 <pre><code>background: url(example.gif);
 background-color: #eaeaea ;
 background-repeat: repeat-x;
 background-position: top left;
-</code></pre><p>can be written as:</p><p><code>background: #eaeaea url(example.gif) repeat-x top left;</code></p><h4>border</h4>
+</code></pre>
+<p>can be written as:</p>
+<p><code>background: #eaeaea url(example.gif) repeat-x top left;</code></p>
+<h4>border</h4>
 <pre><code>border-color: red;
 border-width: 1px;
 border-style: solid;
-</code></pre><p>can be written as:</p><p><code>border: 1px solid red;</code></p><h4>list</h4>
+</code></pre>
+<p>can be written as:</p>
+<p><code>border: 1px solid red;</code></p>
+<h4>list</h4>
 <pre><code>list-style-position: outside;
 list-style-image: none;
 list-style-type: disc;
-</code></pre><p>can be written as:</p><p><code>list-style: disc outside;</code></p><p>the general format for a list style is:</p><p><code>list-style: [list-style-type] [list-style-position] [list-style-image];</code></p><h4>font</h4>
+</code></pre>
+<p>can be written as:</p>
+<p><code>list-style: disc outside;</code></p>
+<p>the general format for a list style is:</p>
+<p><code>list-style: [list-style-type] [list-style-position] [list-style-image];</code></p>
+<h4>font</h4>
 <pre><code>font-family: Arial, Helvetica;
 font-weight: bold;
 font-style: italic;
 font-size: 1em;
 line-height: 1.5em;
-</code></pre><p>can be written as:</p><p><code>font: bold italic 1em/1.5em Arial, Helvetica;</code></p><h4>margin</h4><p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p>
+</code></pre>
+<p>can be written as:</p>
+<p><code>font: bold italic 1em/1.5em Arial, Helvetica;</code></p>
+<h4>margin</h4>
+<p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p>
 <pre><code>/* top=10px, right=5px, bottom=15px, left=20px */
 margin: 10px 5px 15px 20px;
 
@@ -191,14 +226,16 @@ margin: 10px 5px;
 
 /* top=10px, right=5px, bottom=15px, left=5px*/
 margin: 10px 5px 15px;
-</code></pre><h3>Form features in HTML5</h3>
+</code></pre>
+<h3>Form features in HTML5</h3>
 <ol>
   <li>Placeholder text</li>
   <li>Slider control</li>
   <li>Calendar/Date picker</li>
   <li>autocomplete</li>
   <li>Input type Search</li>
-</ol><h3>CSS features in HTML5</h3>
+</ol>
+<h3>CSS features in HTML5</h3>
 <ol>
   <li>Shadow - box shadow, text shadow</li>
   <li>Gradient</li>
@@ -214,13 +251,15 @@ margin: 10px 5px 15px;
   <li>Alpha</li>
   <li>Font-faces</li>
   <li>Animation using Keyframes<br/><em>Postion:fixed or other positioning important for animations to work</em></li>
-</ol><h3>New Tags in HTML5</h3>
+</ol>
+<h3>New Tags in HTML5</h3>
 <ol>
   <li>New semantic tags - header, footer, nav, section, aside, article</li>
   <li>Multimedia tags - audio/sound,video</li>
   <li>Drawing based tags - canvas, svg</li>
   <li>Form based new tags - Date, slider, time, spinner</li>
-</ol><h3>Important Links</h3>
+</ol>
+<h3>Important Links</h3>
 <ol>
   <li><a href="http://css3generator.com/">Css3Generator</a></li>
   <li><a href="http://meyerweb.com/eric/tools/css/reset/">Reset</a></li>

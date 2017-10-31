@@ -6,9 +6,31 @@
     <atom:link href="http://sengopal.github.io/blog//feed.xml" rel="self" type="application/rss+xml" />
     <description>Java, JVM and Random Thoughts - Senthilkumar Gopal</description>
     <language>en-US</language>
-    <pubDate>Sat, 5 Aug 2017 20:14:45 -0700</pubDate>
-    <lastBuildDate>Sat, 5 Aug 2017 20:14:45 -0700</lastBuildDate>
+    <pubDate>Mon, 30 Oct 2017 21:56:08 -0700</pubDate>
+    <lastBuildDate>Mon, 30 Oct 2017 21:56:08 -0700</lastBuildDate>
 
+    <item>
+      <title>Google Sign-In Integration for the eBay Android App</title>
+      <link>http://sengopal.github.io/blog//blog/google-sign-in-integration-for-the-ebay-android-app.html</link>
+      <pubDate>Tue, 24 Oct 2017 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/google-sign-in-integration-for-the-ebay-android-app.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is a technical blog post on how we implemented Google Identity integration was done on eBay Android app and leveraged to help users authenticate seamlessly. - &lt;a href=&quot;http://www.ebaytechblog.com/2017/10/24/google-sign-in-integration-for-the-ebay-android-app/&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Good code and Why should we care?</title>
+      <link>http://sengopal.github.io/blog//blog/good-code-and-why-should-we-care.html</link>
+      <pubDate>Sat, 5 Aug 2017 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/good-code-and-why-should-we-care.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt;
+&lt;p&gt;This is medium post on how A medium post on how to write good code and why we should care about it - &lt;a href=&quot;https://medium.com/@sengopal/good-code-and-why-should-we-care-d376e1efd775&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+	</description>
+    </item>
     <item>
       <title>My journey with Udacity Android Developer Nanodegree</title>
       <link>http://sengopal.github.io/blog//blog/my-journey-with-udacity-android-developer-nanodegree.html</link>
@@ -387,33 +409,71 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Thu, 23 Jan 2014 00:00:00 -0800</pubDate>
       <guid isPermaLink="false">blog/git-github-secrets.html</guid>
       	<description>
-	&lt;p&gt;Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.&lt;/p&gt;&lt;h3&gt;Github&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
+	&lt;p&gt;Git commandline and Github are two of most used tools for a web developer. Especially in a team environment, we use these more than a few times in a day. Recently I came across a screencast held at Aloha Ruby Conference. Some of the important and amazing shortcuts and useful tips discussed were summarized below. Rather than using them all, we should start couple of them and start practising them which definitely improves our tooling and productivity.&lt;/p&gt;
+&lt;h3&gt;Github&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer textual representation&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;html&quot;&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189
     https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff
     https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt; &lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt;&lt;br/&gt;Usage: &lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href=&quot;https://github.com/github/linguist&quot; title=&quot;Linguist&quot;&gt;Linguist&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt; &lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt;&lt;br/&gt;Hub is a command line tool that wraps git in order to extend it with extra features and commands that make working with GitHub easier.&lt;br/&gt;&lt;a href=&quot;https://github.com/defunkt/hub&quot; title=&quot;hub repo&quot;&gt;hub repo&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt;&lt;br/&gt;Press in repo page&lt;br/&gt;&lt;code&gt;t&lt;/code&gt; - for File Finder&lt;br/&gt;&lt;code&gt;w&lt;/code&gt; - branch selector&lt;br/&gt;&lt;code&gt;s&lt;/code&gt; - quick search&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;mailto:&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&quot;&gt;&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&lt;/a&gt; - adds person to the conversation&lt;br/&gt;&lt;a href=&quot;mailto:&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&quot;&gt;&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&lt;/a&gt; - adds the organization/team to the conversation&lt;/p&gt;&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue number&lt;/strong&gt;&lt;br/&gt;Example: using a commit message such as &quot;closes &lt;code&gt;#1291&lt;/code&gt;&quot; autolinks to the issue&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt; &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;br/&gt;&lt;em&gt;Useful for your resume !&lt;/em&gt;&lt;br/&gt;Example:&lt;br/&gt;&lt;a href=&quot;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&quot;&gt;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Pulls needn&apos;t be from a fork, but can be done from branches as well&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Github supports emoji&apos;s which are available under&lt;/strong&gt; &lt;a href=&quot;http://emoji-cheat-sheet.com&quot; title=&quot;Emoji-cheat-sheet&quot;&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;&lt;h3&gt;Git line quirks&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt; &lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt;&lt;br/&gt;Usage: &lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href=&quot;https://github.com/github/linguist&quot; title=&quot;Linguist&quot;&gt;Linguist&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt; &lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt;&lt;br/&gt;Hub is a command line tool that wraps git in order to extend it with extra features and commands that make working with GitHub easier.&lt;br/&gt;&lt;a href=&quot;https://github.com/defunkt/hub&quot; title=&quot;hub repo&quot;&gt;hub repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt;&lt;br/&gt;Press in repo page&lt;br/&gt;&lt;code&gt;t&lt;/code&gt; - for File Finder&lt;br/&gt;&lt;code&gt;w&lt;/code&gt; - branch selector&lt;br/&gt;&lt;code&gt;s&lt;/code&gt; - quick search&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto:&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&quot;&gt;&amp;#95;_&amp;#64;&amp;#x6d;&amp;#x65;&amp;#x6e;&amp;#x74;&amp;#105;&amp;#x6f;&amp;#x6e;_&amp;#95;&lt;/a&gt; - adds person to the conversation&lt;br/&gt;&lt;a href=&quot;mailto:&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&quot;&gt;&amp;#x5f;&amp;#95;@&amp;#79;&amp;#114;&amp;#103;a&amp;#110;i&amp;#x7a;&amp;#97;&amp;#x74;&amp;#x69;&amp;#111;&amp;#110;/&amp;#x54;&amp;#x65;a&amp;#109;&amp;#x5f;&amp;#x5f;&lt;/a&gt; - adds the organization/team to the conversation&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue number&lt;/strong&gt;&lt;br/&gt;Example: using a commit message such as &quot;closes &lt;code&gt;#1291&lt;/code&gt;&quot; autolinks to the issue&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt; &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;br/&gt;&lt;em&gt;Useful for your resume !&lt;/em&gt;&lt;br/&gt;Example:&lt;br/&gt;&lt;a href=&quot;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&quot;&gt;https://github.scm.corp.ebay.com/Verification/verification-webapp/commits/master?author=sengopal&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pulls needn&apos;t be from a fork, but can be done from branches as well&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Github supports emoji&apos;s which are available under&lt;/strong&gt; &lt;a href=&quot;http://emoji-cheat-sheet.com&quot; title=&quot;Emoji-cheat-sheet&quot;&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Git line quirks&lt;/h3&gt;
 &lt;ol&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --no-merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --contains &amp;lt;sha&amp;gt;&lt;/code&gt; - which branch has this SHA&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch_name&amp;gt; --&amp;lt;path to file&amp;gt;&lt;/code&gt; - checkout that file from that branch into your current branch&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git log branchA ^branchB&lt;/code&gt; - commits in A not in B&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git fsck ==lost-found&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --stat&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -w&lt;/code&gt; - to avoid whitespace as commits&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -M&lt;/code&gt; - original commit and not the move commit&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -C&lt;/code&gt; - same as M except looks in the same commit&lt;br/&gt;&lt;em&gt;-CC, -CCC are the other variations available&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git status -sb&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --word-diff&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global help.autocorrect 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global rerere.enabled 1&lt;/code&gt; - long running branches, remembers merge conflicts&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global color.ui 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-amend&lt;/code&gt; - alias to &lt;code&gt;git commit --amend -C HEAD&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git undo&lt;/code&gt; - alias to &lt;code&gt;git reset --soft HEAD^&lt;/code&gt; - retains commit as staged&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to &lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or file name&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git branch --no-merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git branch --contains &amp;lt;sha&amp;gt;&lt;/code&gt; - which branch has this SHA&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch_name&amp;gt; --&amp;lt;path to file&amp;gt;&lt;/code&gt; - checkout that file from that branch into your current branch&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git log branchA ^branchB&lt;/code&gt; - commits in A not in B&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git fsck ==lost-found&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git diff HEAD^ --stat&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git blame -w&lt;/code&gt; - to avoid whitespace as commits&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git blame -M&lt;/code&gt; - original commit and not the move commit&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git blame -C&lt;/code&gt; - same as M except looks in the same commit&lt;br/&gt;&lt;em&gt;-CC, -CCC are the other variations available&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git status -sb&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git diff HEAD^ --word-diff&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git config --global help.autocorrect 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git config --global rerere.enabled 1&lt;/code&gt; - long running branches, remembers merge conflicts&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git config --global color.ui 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git-amend&lt;/code&gt; - alias to &lt;code&gt;git commit --amend -C HEAD&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git undo&lt;/code&gt; - alias to &lt;code&gt;git reset --soft HEAD^&lt;/code&gt; - retains commit as staged&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to &lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or file name&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;br/&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;br/&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt;&lt;br/&gt;bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;
+&lt;h3&gt;Key Git commands in order of importance&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
   &lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
@@ -437,9 +497,14 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Fri, 1 Oct 2010 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/java-mail-using-velocity-templates.html</guid>
       	<description>
-	&lt;h3&gt;Introduction to Velocity&lt;/h3&gt;&lt;p&gt;Velocity is an open source templating tool developed by an international volunteer community and hosted by the Apache Software Foundation&apos;s Jakarta Project. You can download the freely available source code at the &lt;a href=&quot;http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources&quot;&gt;Jakarta Velocity&lt;/a&gt; Project Website.&lt;/p&gt;&lt;h3&gt;Simple Velocity Template Example&lt;/h3&gt;&lt;p&gt;Any application using Velocity requires two parts. The first is the template&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Helloworld.vm&lt;/strong&gt;&lt;/p&gt;
+	&lt;h3&gt;Introduction to Velocity&lt;/h3&gt;
+&lt;p&gt;Velocity is an open source templating tool developed by an international volunteer community and hosted by the Apache Software Foundation&apos;s Jakarta Project. You can download the freely available source code at the &lt;a href=&quot;http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources&quot;&gt;Jakarta Velocity&lt;/a&gt; Project Website.&lt;/p&gt;
+&lt;h3&gt;Simple Velocity Template Example&lt;/h3&gt;
+&lt;p&gt;Any application using Velocity requires two parts. The first is the template&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Helloworld.vm&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  Hello $name!  Welcome to Velocity!
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;HelloWorld.java:&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;HelloWorld.java:&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  import java.io.StringWriter;
   import org.apache.velocity.Template;
   import org.apache.velocity.VelocityContext;
@@ -458,9 +523,20 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
           System.out.println( writer.toString() );
       }
   }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Output&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Output&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  Hello World!  Welcome to Velocity!
-&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Introduction to JAVA MAIL API&lt;/h3&gt;&lt;p&gt;The Java Mail API provides the capability to develop email clients and mail-enabled Java applications. It supports the creation of sophisticated user interfaces for mail clients. It includes appropriate convenience classes, which encapsulate common mail functions and protocols. It fits with other packages for the Java platform in order to facilitate its use with other Java APIs. It provides a mail and messaging framework addition to the Java platform.&lt;/p&gt;&lt;p&gt;Although the Java Mail API contains many more classes than those discussed here, concentrating on some of the core classes to start with makes it easy to understand the essence of the API. The following is a brief description of the core classes:&lt;/p&gt;&lt;h4&gt;javax.mail.Session&lt;/h4&gt;&lt;p&gt;The javax.mail.Session class is the top-level entry class for the Java Mail API, and its most commonly used methods provide the ability to control and load the classes that represent the service provider implementations (SPI) for various mail protocols (Note: A service provider is a developer and/or vendor that provides an implementation for an API; examples of Java Mail API implementations include POP3, SMTP, and IMAP4 -- some are available from Sun, others via third parties.)&lt;/p&gt;&lt;h4&gt;javax.mail.Transport&lt;/h4&gt;&lt;p&gt;The javax.mail.Transport class is another provider-implemented class and is used for sending a message over a specific protocol.&lt;/p&gt;&lt;h4&gt;javax.mail.Message&lt;/h4&gt;&lt;p&gt;The javax.mail.Message class is implemented by a provider and models all the details of an actual e-mail message, such as the subject line, sender/recipient e-mail address, sent date, and so on. The guidelines for providers who implement the javax.mail.Message dictate that the actual fetching of e-mail message components should be delayed as long as possible in order to make this class as lightweight as possible.&lt;/p&gt;&lt;h4&gt;Simple JAVA Mail Example&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Introduction to JAVA MAIL API&lt;/h3&gt;
+&lt;p&gt;The Java Mail API provides the capability to develop email clients and mail-enabled Java applications. It supports the creation of sophisticated user interfaces for mail clients. It includes appropriate convenience classes, which encapsulate common mail functions and protocols. It fits with other packages for the Java platform in order to facilitate its use with other Java APIs. It provides a mail and messaging framework addition to the Java platform.&lt;/p&gt;
+&lt;p&gt;Although the Java Mail API contains many more classes than those discussed here, concentrating on some of the core classes to start with makes it easy to understand the essence of the API. The following is a brief description of the core classes:&lt;/p&gt;
+&lt;h4&gt;javax.mail.Session&lt;/h4&gt;
+&lt;p&gt;The javax.mail.Session class is the top-level entry class for the Java Mail API, and its most commonly used methods provide the ability to control and load the classes that represent the service provider implementations (SPI) for various mail protocols (Note: A service provider is a developer and/or vendor that provides an implementation for an API; examples of Java Mail API implementations include POP3, SMTP, and IMAP4 -- some are available from Sun, others via third parties.)&lt;/p&gt;
+&lt;h4&gt;javax.mail.Transport&lt;/h4&gt;
+&lt;p&gt;The javax.mail.Transport class is another provider-implemented class and is used for sending a message over a specific protocol.&lt;/p&gt;
+&lt;h4&gt;javax.mail.Message&lt;/h4&gt;
+&lt;p&gt;The javax.mail.Message class is implemented by a provider and models all the details of an actual e-mail message, such as the subject line, sender/recipient e-mail address, sent date, and so on. The guidelines for providers who implement the javax.mail.Message dictate that the actual fetching of e-mail message components should be delayed as long as possible in order to make this class as lightweight as possible.&lt;/p&gt;
+&lt;h4&gt;Simple JAVA Mail Example&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;  import java.beans.*;
   import javax.mail.*;
   import javax.mail.internet.*;
@@ -499,118 +575,189 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
           transport.close();
        }
    }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As there are a lot of tutorials available for Velocity and Java Mail, this tutorial deals only with the integration of Velocity for easier and more customized mailing abilities.&lt;/p&gt;&lt;h3&gt;Project Usage&lt;/h3&gt;&lt;p&gt;Our Project required nearly fifty different mail formats to be sent on various stages of the application. The difficult part being that the templates contained loads of dynamic data. Also these templates were being updated on a regular basis making it more difficult for developing the application.&lt;/p&gt;&lt;p&gt;We used Velocity Templates for storing the design and the layout of the mail which needs to be sent and used them for integrating the dynamic attributes into the layout and hence providing a seamless abstraction between the presentation and the business layer.&lt;/p&gt;&lt;h2&gt;Step-by-Step Explanation of the Code&lt;/h2&gt;&lt;h3&gt;SendMessage.java&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Velocity Template Merging&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As there are a lot of tutorials available for Velocity and Java Mail, this tutorial deals only with the integration of Velocity for easier and more customized mailing abilities.&lt;/p&gt;
+&lt;h3&gt;Project Usage&lt;/h3&gt;
+&lt;p&gt;Our Project required nearly fifty different mail formats to be sent on various stages of the application. The difficult part being that the templates contained loads of dynamic data. Also these templates were being updated on a regular basis making it more difficult for developing the application.&lt;/p&gt;
+&lt;p&gt;We used Velocity Templates for storing the design and the layout of the mail which needs to be sent and used them for integrating the dynamic attributes into the layout and hence providing a seamless abstraction between the presentation and the business layer.&lt;/p&gt;
+&lt;h2&gt;Step-by-Step Explanation of the Code&lt;/h2&gt;
+&lt;h3&gt;SendMessage.java&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Velocity Template Merging&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;The best practice for storing the non-variables such as the SMTP connect parameters, the template names etc., either in a properties file or in a constants interface. In this example, a properties file, “mail. properties” has been used. Using the ClassLoader the properties file is loaded&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  Properties props = new Properties();
+  &lt;li&gt;
+    &lt;p&gt;The best practice for storing the non-variables such as the SMTP connect parameters, the template names etc., either in a properties file or in a constants interface. In this example, a properties file, “mail. properties” has been used. Using the ClassLoader the properties file is loaded&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  Properties props = new Properties();
   props.load(SendMessage.class.getClassLoader().getResourceAsStream(&amp;quot;mail.properties&amp;quot;));
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  Template template = Velocity.getTemplate(&amp;quot;Mail.vm&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The Mail.vm template is loaded from into the Velocity context using the static method Velocity.getTemplate&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  Template template = Velocity.getTemplate(&amp;quot;Mail.vm&amp;quot;);
   VelocityContext context = new VelocityContext();
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Then the user defined MailBean is placed in the velocity Context under the name “MailBean”&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  context.put(&amp;quot;MailBean&amp;quot; , mailBean);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Along with beans, we can place name value pairs directly in the velocity context&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  String host =  props.getProperty(&amp;quot;hostname&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Then the user defined MailBean is placed in the velocity Context under the name “MailBean”&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  context.put(&amp;quot;MailBean&amp;quot; , mailBean);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Along with beans, we can place name value pairs directly in the velocity context&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  String host =  props.getProperty(&amp;quot;hostname&amp;quot;);
   context.put(&amp;quot;host&amp;quot;, host);
   context.put(&amp;quot;imgName&amp;quot;, &amp;quot;smile.gif&amp;quot;);
   context.put(&amp;quot;context&amp;quot;, &amp;quot;myApp&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;When the context is merged with the template and the results in placed in a StringWriter Object&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  StringWriter message = new StringWriter();
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;When the context is merged with the template and the results in placed in a StringWriter Object&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  StringWriter message = new StringWriter();
   template.merge(context, message);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;JAVA Mail - E-Mail Creation&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;JAVA Mail - E-Mail Creation&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  Properties sysProperties = System.getProperties();
+  &lt;li&gt;
+    &lt;p&gt;The SMTP Host variable is placed in the System Properties and the javax.mail.Session is obtained for the given SMTP Host&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  Properties sysProperties = System.getProperties();
   sysProperties.put(&amp;quot;mail.smtp.host&amp;quot;, props.getProperty(&amp;quot;smtpHost&amp;quot;));
   Session session = Session.getInstance(sysProperties, null);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Since the e-mail needs to contain text and an image file, create a MimeMultipart with the subtype declared as “related’ so that the image being put doesnt get lost if the images are blocked by the recipient&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  MimeMultipart multipart = new MimeMultipart(&amp;quot;related&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;For adding the image to the e-mail&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Since the e-mail needs to contain text and an image file, create a MimeMultipart with the subtype declared as “related’ so that the image being put doesnt get lost if the images are blocked by the recipient&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  MimeMultipart multipart = new MimeMultipart(&amp;quot;related&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;For adding the image to the e-mail&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;Create a body part for storing the image and embedding into the e-mail&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  BodyPart imageBodyPart = new MimeBodyPart();
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Use the FileDataSource to read the image from the Web deployment folder.&lt;br/&gt;Note: &lt;em&gt;Using File.seperator takes care of the Windows/Unix environment issue&lt;/em&gt;&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  StringBuffer imgPath = new StringBuffer().append(File.separator).append(&amp;quot;applications&amp;quot;).append(File.separator).append(&amp;quot;mailheader.GIF&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Then using the DataHandler object place the image into the BodyPart created&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  DataSource fds = new FileDataSource(imgPath.toString());
+  &lt;li&gt;
+    &lt;p&gt;Create a body part for storing the image and embedding into the e-mail&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  BodyPart imageBodyPart = new MimeBodyPart();
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Use the FileDataSource to read the image from the Web deployment folder.&lt;br/&gt;Note: &lt;em&gt;Using File.seperator takes care of the Windows/Unix environment issue&lt;/em&gt;&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  StringBuffer imgPath = new StringBuffer().append(File.separator).append(&amp;quot;applications&amp;quot;).append(File.separator).append(&amp;quot;mailheader.GIF&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Then using the DataHandler object place the image into the BodyPart created&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  DataSource fds = new FileDataSource(imgPath.toString());
   imageBodyPart.setDataHandler(new DataHandler(fds));
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  imageBodyPart.setHeader(&amp;quot;Content-ID&amp;quot;,&amp;quot;&amp;lt;123&amp;gt;&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Add the Image Body Part into the MimeMultiPart object&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  multipart.addBodyPart(imageBodyPart);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Adding the Message body content to the e-mail&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Set an id for the image body part so that the image can be accessed anywhere in the mail for embedding&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  imageBodyPart.setHeader(&amp;quot;Content-ID&amp;quot;,&amp;quot;&amp;lt;123&amp;gt;&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add the Image Body Part into the MimeMultiPart object&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  multipart.addBodyPart(imageBodyPart);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Adding the Message body content to the e-mail&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;Create a body part for storing the message content in the e-mail&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  BodyPart messageBodyPart = new MimeBodyPart();
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Combine the StringWriter Object and the image src code using a StringBuffer&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  StringBuffer messageBuffer = new StringBuffer();
+  &lt;li&gt;
+    &lt;p&gt;Create a body part for storing the message content in the e-mail&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  BodyPart messageBodyPart = new MimeBodyPart();
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Combine the StringWriter Object and the image src code using a StringBuffer&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  StringBuffer messageBuffer = new StringBuffer();
   messageBuffer.append(message.toString());
   messageBuffer.append(&amp;quot;&amp;lt;img src=&amp;quot;cid:123\&amp;quot;&amp;gt;&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Set the Message content type as &lt;em&gt;text/html&lt;/em&gt;, since our template VM is designed using HTML and add the message body part to the main MultiMime part&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  messageBodyPart.setContent(messageBuffer.toString(), &amp;quot;text/html&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Set the Message content type as &lt;em&gt;text/html&lt;/em&gt;, since our template VM is designed using HTML and add the message body part to the main MultiMime part&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  messageBodyPart.setContent(messageBuffer.toString(), &amp;quot;text/html&amp;quot;);
   multipart.addBodyPart(messageBodyPart);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Sending the E-Mail&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Sending the E-Mail&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;p&gt;Create a MimeMessage using the javax.mail.Session Object&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  Message msg = new MimeMessage(session);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Set the content as the multimime part object created&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  msg.setContent(multipart);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;The Recipients are added to the e-mail for the recipient types TO, CC and BCC&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(&amp;quot;someone@example.com&amp;quot;));
+  &lt;li&gt;
+    &lt;p&gt;Create a MimeMessage using the javax.mail.Session Object&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  Message msg = new MimeMessage(session);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Set the content as the multimime part object created&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  msg.setContent(multipart);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The Recipients are added to the e-mail for the recipient types TO, CC and BCC&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  msg.addRecipients(Message.RecipientType.TO, InternetAddress.parse(&amp;quot;someone@example.com&amp;quot;));
   msg.addRecipients(Message.RecipientType.CC,InternetAddress.parse(&amp;quot;everyone@example.com&amp;quot;));
   if((null!=recipientsList)&amp;amp;&amp;amp;(!recipientsList.isEmpty())){
       for(int i=0;i&amp;lt;recipientsList.size();i++){
           msg.addRecipients(Message.RecipientType.BCC,InternetAddress.parse(recipientsList.get(i)));
       }
   }
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;The Subject Text, Sent Date and the From Address are set as below.&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  msg.setSubject(subject);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The Subject Text, Sent Date and the From Address are set as below.&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  msg.setSubject(subject);
   msg.setSentDate(new Date());
   msg.setFrom(new InternetAddress(&amp;quot;dummy@example.com&amp;quot;));
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;The Transport Object is used for creating the connection to the SMTP host and sending the e-mail. The transporter object below is obtained using the getTransport method and by giving the parameter as &lt;em&gt;smtp&lt;/em&gt; as the protocol for the Transport Object&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  Transport transport = session.getTransport(&amp;quot;smtp&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Then the Transport is connected using the HOST, UserName and Password parameters from the properties file&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  transport.connect(props.getProperty(&amp;quot;connectHost&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The Transport Object is used for creating the connection to the SMTP host and sending the e-mail. The transporter object below is obtained using the getTransport method and by giving the parameter as &lt;em&gt;smtp&lt;/em&gt; as the protocol for the Transport Object&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  Transport transport = session.getTransport(&amp;quot;smtp&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Then the Transport is connected using the HOST, UserName and Password parameters from the properties file&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  transport.connect(props.getProperty(&amp;quot;connectHost&amp;quot;);
   props.getProperty(&amp;quot;connectUser&amp;quot;);
   props.getProperty(&amp;quot;connectPassword&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;Then the e-mail is sent using the sendMessage to all the recipients&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  transport.sendMessage(msg,msg.getAllRecipients());
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;p&gt;The transport is closed to mark the end of the connection&lt;/p&gt;
-  &lt;pre&gt;&lt;code&gt;  transport.close();
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;h4&gt;Mail.vm&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;Image Path Macro&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Then the e-mail is sent using the sendMessage to all the recipients&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  transport.sendMessage(msg,msg.getAllRecipients());
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The transport is closed to mark the end of the connection&lt;/p&gt;
+    &lt;pre&gt;&lt;code&gt;  transport.close();
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Mail.vm&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Image Path Macro&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This macro is used to return the path to be used as SRC by the images in the HTML. It takes a parameter imgName and returns the string,&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  https://$host/$context/images/$imgName
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;where $host, $context are context variables placed by the JAVA code&lt;/p&gt;&lt;p&gt;The macro looks like this&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;where $host, $context are context variables placed by the JAVA code&lt;/p&gt;
+&lt;p&gt;The macro looks like this&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  #macro( IMGURL $imgName )
       https://$host/$context/images/$imgName
   #end
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Example:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Example:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;img src=&amp;quot;#IMGURL(&amp;#39;mailheader.GIF&amp;#39;)&amp;quot; border=&amp;quot;0&amp;quot; width=&amp;quot;980&amp;quot; height=&amp;quot;61&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This will get generated as:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will get generated as:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;img src=&amp;quot;https://localhost/myapp/images/mailheader.GIF&amp;quot; border=&amp;quot;0&amp;quot; width=&amp;quot;980&amp;quot; height=&amp;quot;61&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Accessing the Bean Object&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;The variables in the MailBean object placed in the context can be accessed using, &lt;code&gt;$MailBean.\[variable-name\]&lt;/code&gt;&lt;br/&gt;Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;&lt;h4&gt;mail.properties&lt;/h4&gt;&lt;p&gt;This file contains the connection and the other context parameter properties used by the java code&lt;/p&gt;&lt;h3&gt;Advantages&lt;/h3&gt;&lt;p&gt;Designed as an easy-to-use general templating tool, Velocity is useful in any Java application area that requires data formatting and presentation. Their salient advantages being:&lt;br/&gt;* It adapts to many application areas.&lt;br/&gt;* It offers a simple, clear syntax for the template designer.&lt;br/&gt;* It offers a simple programming model for the developer.&lt;br/&gt;* Because templates and code are separate, you can develop and maintain them independently.&lt;br/&gt;* The Velocity engine easily integrates into any Java application environment, especially Servlets.&lt;br/&gt;* Velocity enables templates to access any public method of data objects in the context.&lt;/p&gt;&lt;p&gt;References&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Accessing the Bean Object&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The variables in the MailBean object placed in the context can be accessed using, &lt;code&gt;$MailBean.\[variable-name\]&lt;/code&gt;&lt;br/&gt;Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
+&lt;h4&gt;mail.properties&lt;/h4&gt;
+&lt;p&gt;This file contains the connection and the other context parameter properties used by the java code&lt;/p&gt;
+&lt;h3&gt;Advantages&lt;/h3&gt;
+&lt;p&gt;Designed as an easy-to-use general templating tool, Velocity is useful in any Java application area that requires data formatting and presentation. Their salient advantages being:&lt;br/&gt;* It adapts to many application areas.&lt;br/&gt;* It offers a simple, clear syntax for the template designer.&lt;br/&gt;* It offers a simple programming model for the developer.&lt;br/&gt;* Because templates and code are separate, you can develop and maintain them independently.&lt;br/&gt;* The Velocity engine easily integrates into any Java application environment, especially Servlets.&lt;br/&gt;* Velocity enables templates to access any public method of data objects in the context.&lt;/p&gt;
+&lt;p&gt;References&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://velocity.apache.org/&quot;&gt;http://velocity.apache.org/&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.roseindia.net/software-tutorials/detail/3131&quot;&gt;http://www.roseindia.net/software-tutorials/detail/3131&lt;/a&gt;&lt;/li&gt;
@@ -628,7 +775,14 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Mon, 5 Apr 2010 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/pdf-generation-using-pd4ml.html</guid>
       	<description>
-	&lt;h3&gt;Project Usage&lt;/h3&gt;&lt;p&gt;Our project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet. PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.&lt;/p&gt;&lt;h3&gt;Introduction to PD4ML&lt;/h3&gt;&lt;p&gt;PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.&lt;/p&gt;&lt;h3&gt;PD4ML as a Command Line Operation&lt;/h3&gt;&lt;p&gt;PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:&lt;/p&gt;&lt;h4&gt;Creating a PDF from an URL String&lt;/h4&gt;&lt;p&gt;The PDF can be generated using a html file whose URL can be in the render () method&lt;/p&gt;
+	&lt;h3&gt;Project Usage&lt;/h3&gt;
+&lt;p&gt;Our project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet. PD4ML was used as our application used Struts framework and the data needed in the PDF was provided using STRUTS and the layout design was done using HTML and CSS. This provided us with a seamless abstraction between the presentation and the business layer for dynamic generation of PDFs online.&lt;/p&gt;
+&lt;h3&gt;Introduction to PD4ML&lt;/h3&gt;
+&lt;p&gt;PD4ML is a powerful PDF generating tool that uses HTML and CSS (Cascading Style Sheets) as page layout and content definition format. Written in 100% pure Java, it allows users to easily add PDF generation functionality to end products. PD4ML can be used either as a command line operation or in Web applications for online PDF generation from HTML and JSP templates.&lt;/p&gt;
+&lt;h3&gt;PD4ML as a Command Line Operation&lt;/h3&gt;
+&lt;p&gt;PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:&lt;/p&gt;
+&lt;h4&gt;Creating a PDF from an URL String&lt;/h4&gt;
+&lt;p&gt;The PDF can be generated using a html file whose URL can be in the render () method&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  import org.zefer.pd4ml.PD4ML;
   import org.zefer.pd4ml.PD4Constants;
   ........
@@ -637,7 +791,8 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
   PD4ML pd4ml = new PD4ML();
   pd4ml.render( urlstring, fos );
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Steps Involved&lt;/strong&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Steps Involved&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;Import the PD4ML converter class&lt;/li&gt;
   &lt;li&gt;Define HTML-to-PDF converting parameter values if needed such as user space width, HTML elements arrangement, vertical size etc.,&lt;/li&gt;
@@ -645,7 +800,9 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   &lt;li&gt;Instantiating PD4ML converter.&lt;/li&gt;
   &lt;li&gt;Passing to it HTML-to-PDF converting parameters.&lt;/li&gt;
   &lt;li&gt;Performing HTML-to-PDF translation.&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Converting HTML obtained from input stream to PDF&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Using an URL for converting an HTML into a PDF is not mandatory. PD4ML can read a source HTML from input stream and then use the input stream for conversion into the PDF&lt;/p&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Converting HTML obtained from input stream to PDF&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Using an URL for converting an HTML into a PDF is not mandatory. PD4ML can read a source HTML from input stream and then use the input stream for conversion into the PDF&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  File f = new File(&amp;quot;D:/tools/test.pdf&amp;quot;);
   java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
   File fz = new File(&amp;quot;D:/tools/yahoo.htm&amp;quot;);
@@ -654,7 +811,9 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   PD4ML html = new PD4ML();
   URL base = new URL( &amp;quot;file:D:/tools/&amp;quot; );
   html.render( isr, fos, base );
-&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Formatting the PDF document generated&lt;/h3&gt;&lt;p&gt;The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Formatting the PDF document generated&lt;/h3&gt;
+&lt;p&gt;The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  PD4ML html = new PD4ML();
   html.setPageSize( new Dimension(450, 450) );
   //defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.
@@ -664,7 +823,9 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   //defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize
   html.enableImgSplit( false );
   //allows to disable image splitting by page breaks. By default the option is true (splitting enabled).
-&lt;/code&gt;&lt;/pre&gt;&lt;h4&gt;For Generating Text-Only Header and Footer&lt;/h4&gt;&lt;p&gt;Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;For Generating Text-Only Header and Footer&lt;/h4&gt;
+&lt;p&gt;Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  PD4PageMark header = new PD4PageMark();
   header.setAreaHeight( 20 );
   //defines height of the header or footer area
@@ -697,13 +858,17 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
 
   pd4ml.setPageHeader( header );
   pd4ml.setPageFooter( footer );
-&lt;/code&gt;&lt;/pre&gt;&lt;h4&gt;Protecting PDF documents&lt;/h4&gt;&lt;p&gt;A PDF document can be encrypted to protect its contents from unauthorized access. PD4ML supports PDF access permissions concept and allows a password to be specified for a document. If any passwords or access restrictions are specified with PD4ML.setPermissions (), the document is encrypted, and the permissions and information required to validate the passwords are stored to the resulting document.&lt;/p&gt;&lt;p&gt;The possible restrictions are:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Protecting PDF documents&lt;/h4&gt;
+&lt;p&gt;A PDF document can be encrypted to protect its contents from unauthorized access. PD4ML supports PDF access permissions concept and allows a password to be specified for a document. If any passwords or access restrictions are specified with PD4ML.setPermissions (), the document is encrypted, and the permissions and information required to validate the passwords are stored to the resulting document.&lt;/p&gt;
+&lt;p&gt;The possible restrictions are:&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;Modifying the document’s contents&lt;/li&gt;
   &lt;li&gt;Copying or otherwise extracting text and graphics from the document&lt;/li&gt;
   &lt;li&gt;Adding or modifying text annotations&lt;/li&gt;
   &lt;li&gt;Printing the document&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;The various types of pre-set Permissions available in the API are:&lt;/p&gt;
+&lt;/ol&gt;
+&lt;p&gt;The various types of pre-set Permissions available in the API are:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;AllowAssembly&lt;/li&gt;
   &lt;li&gt;AllowContentExtraction&lt;/li&gt;
@@ -711,18 +876,22 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   &lt;li&gt;AllowDegradedPrint&lt;/li&gt;
   &lt;li&gt;AllowModify&lt;/li&gt;
   &lt;li&gt;AllowPrint&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.&lt;/p&gt;
+&lt;/ul&gt;
+&lt;p&gt;The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  String password = &amp;quot;empty&amp;quot;;
   boolean strongEncryption = true;
   int permissions = PD4Constants.AllowPrint | PD4Constants.AllowCopy;
   pd4ml.setPermissions( password, permissions, strongEncryption );
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Some of the other salient Features that are available with PD4ML are:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Some of the other salient Features that are available with PD4ML are:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Converting HTML headings or named anchors to PDF bookmarks&lt;/li&gt;
   &lt;li&gt;Named anchors&lt;/li&gt;
   &lt;li&gt;Inserting page breaks&lt;/li&gt;
   &lt;li&gt;generating and sending PDF by email&lt;/li&gt;
-&lt;/ul&gt;&lt;h3&gt;Using PD4ML in Web applications for online PDF generation&lt;/h3&gt;&lt;p&gt;PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:&lt;/p&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Using PD4ML in Web applications for online PDF generation&lt;/h3&gt;
+&lt;p&gt;PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;taglib uri=&amp;quot;http://pd4ml.com/tlds/pd4ml/2.5&amp;quot; prefix=&amp;quot;pd4ml&amp;quot;&amp;gt;
   &amp;lt;page contentType=&amp;quot;text/html; charset=UTF-8&amp;quot;&amp;gt;
 
@@ -760,13 +929,16 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
         &amp;lt;/body&amp;gt;
     &amp;lt;/html&amp;gt;
   &amp;lt;/pd4ml:transform&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In order to get a PDF output, we need to surround the HTML or JSP with &amp;lt;pd4ml:transform&amp;gt; tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In order to get a PDF output, we need to surround the HTML or JSP with &amp;lt;pd4ml:transform&amp;gt; tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;PD4ML JSP taglib declaration and opening transform tag. JSP content surrounded with&lt;br/&gt; &lt;code&gt;&amp;lt;pd4ml:transform&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;/pd4ml:transform&amp;gt;&lt;/code&gt; tags is passed to the PD4ML converter.&lt;/li&gt;
   &lt;li&gt;Image should be referenced with relative path. Absolute URLs, like &lt;code&gt;src=&amp;quot;http://myserver:80/path/to/img.gif&amp;quot;&lt;/code&gt; are allowed as well, but &lt;code&gt;src=&amp;quot;/path/to/img.gif&amp;quot;&lt;/code&gt; is not allowed.&lt;/li&gt;
   &lt;li&gt;The directive forces PD4ML converter to insert a page break to the output PDF.&lt;/li&gt;
   &lt;li&gt;Closing of the transformation tag. Any content that appears after the tag is ignored.&lt;/li&gt;
-&lt;/ol&gt;&lt;h4&gt;Defining PDF document footer (or header) with JSP custom tag&lt;/h4&gt;&lt;p&gt;The header and/or footer for the PDF can be declared in the jsp in the following fashion.&lt;/p&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Defining PDF document footer (or header) with JSP custom tag&lt;/h4&gt;
+&lt;p&gt;The header and/or footer for the PDF can be declared in the jsp in the following fashion.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;pd4ml:footer
       titleTemplate=&amp;quot;[${title}]&amp;quot;
       pageNumberTemplate=&amp;quot;page ${page}&amp;quot;
@@ -777,35 +949,57 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
       pagesToSkip=&amp;quot;1&amp;quot;
       fontSize=&amp;quot;14&amp;quot;
       areaHeight=&amp;quot;18&amp;quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;h4&gt;Description&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Description&lt;/h4&gt;
 &lt;ol&gt;
   &lt;li&gt;Title template definition. A string that can optionally contain placeholders ${title} for a title value taken from HTML&apos;s TITLE tag, ${page} for a page counter value.&lt;/li&gt;
   &lt;li&gt;Page number template definition. A string with placeholder ${page} for a page counter value.&lt;/li&gt;
   &lt;li&gt;The attribute initializes internal page counter with the given value.&lt;/li&gt;
   &lt;li&gt;The attribute defines, that 1 page should not contain footer information.&lt;/li&gt;
   &lt;li&gt;Footer area height in points.&lt;/li&gt;
-&lt;/ol&gt;&lt;h4&gt;Adding Dynamic data&lt;/h4&gt;&lt;p&gt;Dynamic data like data from session or scriplets can be used in the PDF generation. A Simple Example is given below.&lt;/p&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Adding Dynamic data&lt;/h4&gt;
+&lt;p&gt;Dynamic data like data from session or scriplets can be used in the PDF generation. A Simple Example is given below.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;% String template = getFormattedDate() + &amp;quot;, page ${page} &amp;quot;; %&amp;gt;
   &amp;lt;pd4ml:footer
       pageNumberTemplate=&amp;quot;&amp;lt;%=template%&amp;gt;&amp;quot;
       .......
       /&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This means that the entire form generation for Presentation Frameworks like Struts etc., can be used just like a normal JSP. This provides a nice demarcation and seamless integration of the presentation (Format/Layout) of the PDF document and the business behind the generation&lt;/p&gt;&lt;h4&gt;Temporary saving generated PDF to hard drive&lt;/h4&gt;&lt;p&gt;With &lt;code&gt;&amp;lt;pd4ml:savefile&amp;gt;&lt;/code&gt; tag you have possibility to store just generated PDF to hard drive and redirect user&apos;s browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within &lt;code&gt;&amp;lt;pd4ml:transform&amp;gt;&lt;/code&gt; and should not have a body.There are two ways of generating the PDF and redirecting the browser.&lt;/p&gt;&lt;h4&gt;Routing the browser to the PDF generated&lt;/h4&gt;&lt;p&gt;Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This means that the entire form generation for Presentation Frameworks like Struts etc., can be used just like a normal JSP. This provides a nice demarcation and seamless integration of the presentation (Format/Layout) of the PDF document and the business behind the generation&lt;/p&gt;
+&lt;h4&gt;Temporary saving generated PDF to hard drive&lt;/h4&gt;
+&lt;p&gt;With &lt;code&gt;&amp;lt;pd4ml:savefile&amp;gt;&lt;/code&gt; tag you have possibility to store just generated PDF to hard drive and redirect user&apos;s browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within &lt;code&gt;&amp;lt;pd4ml:transform&amp;gt;&lt;/code&gt; and should not have a body.There are two ways of generating the PDF and redirecting the browser.&lt;/p&gt;
+&lt;h4&gt;Routing the browser to the PDF generated&lt;/h4&gt;
+&lt;p&gt;Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;pd4ml:savefile
       uri=&amp;quot;/WEB/savefile/saved/&amp;quot;
       dir=&amp;quot;D:/spool/generated_pdfs&amp;quot;
       redirect=&amp;quot;pdf&amp;quot;
       debug=&amp;quot;false&amp;quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an autogenerated name.It is expected, that local directory D:/spool/generated_pdfs corresponds to URL &lt;code&gt;http://yourserver.com/WEB/savefile/saved/&lt;/code&gt; (as given in &quot;uri&quot; attribute)&lt;/p&gt;&lt;p&gt;After generation PD4ML will send to client&apos;s browser a redirect command with URL like that:&lt;br/&gt;&lt;code&gt;http://yourserver.com/WEB/savefile/saved/generated_name.pdf&lt;/code&gt;&lt;br/&gt;where,&lt;/p&gt;&lt;p&gt;&lt;code&gt;http://yourserver.com&lt;/code&gt; - Context path&lt;/p&gt;&lt;p&gt;&lt;code&gt;/WEB/savefile/saved&lt;/code&gt; - URI given&lt;/p&gt;&lt;p&gt;&lt;code&gt;generated_name.pdf&lt;/code&gt; - Auto generated file Name&lt;/p&gt;&lt;h4&gt;Routing the browser to the next page&lt;/h4&gt;&lt;p&gt;However if the browser needs to be redirected to the next page instead of the PDF generated, it can be done in the following way.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an autogenerated name.It is expected, that local directory D:/spool/generated_pdfs corresponds to URL &lt;code&gt;http://yourserver.com/WEB/savefile/saved/&lt;/code&gt; (as given in &quot;uri&quot; attribute)&lt;/p&gt;
+&lt;p&gt;After generation PD4ML will send to client&apos;s browser a redirect command with URL like that:&lt;br/&gt;&lt;code&gt;http://yourserver.com/WEB/savefile/saved/generated_name.pdf&lt;/code&gt;&lt;br/&gt;where,&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://yourserver.com&lt;/code&gt; - Context path&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/WEB/savefile/saved&lt;/code&gt; - URI given&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;generated_name.pdf&lt;/code&gt; - Auto generated file Name&lt;/p&gt;
+&lt;h4&gt;Routing the browser to the next page&lt;/h4&gt;
+&lt;p&gt;However if the browser needs to be redirected to the next page instead of the PDF generated, it can be done in the following way.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  &amp;lt;pd4ml:savefile
       dir=&amp;quot;D:/spool/generated_pdfs&amp;quot;
       redirect=&amp;quot;/mywebapp/send_pdf_by_email.jsp&amp;quot;
       debug=&amp;quot;false&amp;quot;/&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=&lt;code&gt;&amp;lt;pdfname&amp;gt;&lt;/code&gt;. So send_pdf_by_email.jsp can read file name using,&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=&lt;code&gt;&amp;lt;pdfname&amp;gt;&lt;/code&gt;. So send_pdf_by_email.jsp can read file name using,&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  String fileName = request.getParameter(&amp;quot;filename&amp;quot;);
   //Building the full path of the PDF generated
   String path = &amp;quot;D:/spool/generated_pdfs&amp;quot; + &amp;quot;/&amp;quot; + fileName;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;&lt;p&gt;In both cases above you can predefine PDF file name with &quot;name&quot; attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.&lt;/p&gt;&lt;h3&gt;Instructions for Installation&lt;/h3&gt;&lt;p&gt;PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)&lt;br/&gt;• pd4ml.jar&lt;br/&gt;• pd4ml_tl.jar(for the tag library)&lt;/p&gt;&lt;h4&gt;Professional Version Features&lt;/h4&gt;&lt;p&gt;Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;
+&lt;p&gt;In both cases above you can predefine PDF file name with &quot;name&quot; attribute. If a file with the name is already exists in D:/spool/generated_pdfs, than the new file name is appended with an auto-incremented numeric value.&lt;/p&gt;
+&lt;h3&gt;Instructions for Installation&lt;/h3&gt;
+&lt;p&gt;PD4ML is intended to be used with JDK1.3.1 and above .For deploying PD4ML as either Console application and for online generation, use the following jars available at the PD4ML site (Given in the references)&lt;br/&gt;• pd4ml.jar&lt;br/&gt;• pd4ml_tl.jar(for the tag library)&lt;/p&gt;
+&lt;h4&gt;Professional Version Features&lt;/h4&gt;
+&lt;p&gt;Apart from the various features discussed above, the licensed professional version includes lots of additional features such as:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;TTF embedding&lt;/li&gt;
   &lt;li&gt;Configuring Fonts directory&lt;/li&gt;
@@ -814,11 +1008,18 @@ context.startActivity(intent);&lt;/code&gt;&lt;/pre&gt;
   &lt;li&gt;Watermark images&lt;/li&gt;
   &lt;li&gt;Table of contents&lt;/li&gt;
   &lt;li&gt;General notes&lt;/li&gt;
-&lt;/ul&gt;&lt;h4&gt;Other libraries&lt;/h4&gt;&lt;p&gt;Few other libraries that are available for PDF generation are &lt;a href=&quot;http://xmlgraphics.apache.org/fop/&quot;&gt;Apache FOP&lt;/a&gt; and &lt;a href=&quot;http://itextpdf.com/functionality&quot;&gt;iText&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Apache FOP&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;&lt;p&gt;Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.&lt;/p&gt;
-&lt;/blockquote&gt;&lt;p&gt;&lt;strong&gt;iText&lt;/strong&gt;&lt;/p&gt;
-&lt;blockquote&gt;&lt;p&gt;iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation.&quot;&lt;br/&gt;- &lt;a href=&quot;http://itextpdf.com/&quot;&gt;http://itextpdf.com/&lt;/a&gt; &lt;/p&gt;
-&lt;/blockquote&gt;&lt;h4&gt;References&lt;/h4&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Other libraries&lt;/h4&gt;
+&lt;p&gt;Few other libraries that are available for PDF generation are &lt;a href=&quot;http://xmlgraphics.apache.org/fop/&quot;&gt;Apache FOP&lt;/a&gt; and &lt;a href=&quot;http://itextpdf.com/functionality&quot;&gt;iText&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Apache FOP&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Apache FOP (Formatting Objects Processor) is a print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is a Java application that reads a formatting object (FO) tree and renders the resulting pages to a specified output. Output formats currently supported include PDF, PS, PCL, AFP, XML (area tree representation), Print, AWT and PNG, and to a lesser extent, RTF and TXT. The primary output target is PDF.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;iText&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;iText is an open source library that allows you to create and manipulate PDF documents. It enables developers looking to enhance web and other applications with dynamic PDF document generation and/or manipulation.&quot;&lt;br/&gt;- &lt;a href=&quot;http://itextpdf.com/&quot;&gt;http://itextpdf.com/&lt;/a&gt; &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4&gt;References&lt;/h4&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://pd4ml.com/api/index.html&quot;&gt;http://pd4ml.com/api/index.html&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://pd4ml.com/index.htm&quot;&gt;http://pd4ml.com/index.htm&lt;/a&gt;&lt;/li&gt;
@@ -1167,7 +1368,15 @@ The purpose of this document is to list out the usage and pros/cons of the follo
       <pubDate>Tue, 31 Mar 2009 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/job-chaining-using-quartz.html</guid>
       	<description>
-	&lt;h3&gt;Project Usage&lt;/h3&gt;&lt;p&gt;Our Project had the requirement of reading a set of records from a table which acts as a queue and sends the pending mails. This reading /sending of mails has to happen every five minutes. However, since the SMTP server needs to address online mailing at times, this job may run more than the given five minutes. Also, if the number of records in the table is high, the Job exceeds the expected time of completion of five minutes. Hence it was decided to “chain” the jobs with a five minute delay.&lt;/p&gt;&lt;h3&gt;Introduction to Quartz&lt;/h3&gt;&lt;p&gt;Quartz is an open source job scheduling framework that provides simple but powerful mechanisms for job scheduling in Java applications. Quartz allows developers to schedule jobs by time interval or by time of day. It implements many-to-many relationships for jobs and triggers and can associate multiple jobs with different triggers.&lt;br/&gt;Applications that incorporate Quartz can reuse jobs from different events and also group multiple jobs for a single event. While you can configure Quartz through a property file (in which you can specify a data source for JDBC transactions, global job and/or trigger listeners, plug-ins, thread pools, and more) it is not at all integrated with the application server&apos;s context or references.&lt;/p&gt;&lt;h3&gt;Jobs and triggers&lt;/h3&gt;&lt;p&gt;The two fundamental units of Quartz&apos;s scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.&lt;/p&gt;&lt;h3&gt;Simple Job Example&lt;/h3&gt;&lt;p&gt;An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed&lt;/p&gt;&lt;h4&gt;SimpleQuartzJob.java&lt;/h4&gt;
+	&lt;h3&gt;Project Usage&lt;/h3&gt;
+&lt;p&gt;Our Project had the requirement of reading a set of records from a table which acts as a queue and sends the pending mails. This reading /sending of mails has to happen every five minutes. However, since the SMTP server needs to address online mailing at times, this job may run more than the given five minutes. Also, if the number of records in the table is high, the Job exceeds the expected time of completion of five minutes. Hence it was decided to “chain” the jobs with a five minute delay.&lt;/p&gt;
+&lt;h3&gt;Introduction to Quartz&lt;/h3&gt;
+&lt;p&gt;Quartz is an open source job scheduling framework that provides simple but powerful mechanisms for job scheduling in Java applications. Quartz allows developers to schedule jobs by time interval or by time of day. It implements many-to-many relationships for jobs and triggers and can associate multiple jobs with different triggers.&lt;br/&gt;Applications that incorporate Quartz can reuse jobs from different events and also group multiple jobs for a single event. While you can configure Quartz through a property file (in which you can specify a data source for JDBC transactions, global job and/or trigger listeners, plug-ins, thread pools, and more) it is not at all integrated with the application server&apos;s context or references.&lt;/p&gt;
+&lt;h3&gt;Jobs and triggers&lt;/h3&gt;
+&lt;p&gt;The two fundamental units of Quartz&apos;s scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.&lt;/p&gt;
+&lt;h3&gt;Simple Job Example&lt;/h3&gt;
+&lt;p&gt;An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed&lt;/p&gt;
+&lt;h4&gt;SimpleQuartzJob.java&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;import java.util.Date;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -1183,7 +1392,11 @@ public class SimpleQuartzJob implements Job {
                 + new Date() + &amp;quot; by &amp;quot; + context.getTrigger().getName());
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;Notice that the execute method takes a JobExecutionContext object as an argument. This object provides the runtime context around the job instance. Specifically, it gives access to the scheduler and trigger, which collaborated to initiate execution of the job as well as the job&apos;s JobDetail object. Quartz separates the execution and the surrounding state of a job by placing the state in a JobDetail object and having the JobDetail constructor initiate an instance of a job. The JobDetail object stores the job&apos;s listeners, group, data map, description, and other properties of the job.&lt;/em&gt;&lt;/p&gt;&lt;h4&gt;Simple Trigger Example&lt;/h4&gt;&lt;p&gt;A trigger develops a schedule for job execution. Quartz offers a few different trigger options of varying complexity. The SimpleTrigger given below shows the fundamentals of triggers.&lt;/p&gt;&lt;h4&gt;SimpleTriggerRunner.java&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Notice that the execute method takes a JobExecutionContext object as an argument. This object provides the runtime context around the job instance. Specifically, it gives access to the scheduler and trigger, which collaborated to initiate execution of the job as well as the job&apos;s JobDetail object. Quartz separates the execution and the surrounding state of a job by placing the state in a JobDetail object and having the JobDetail constructor initiate an instance of a job. The JobDetail object stores the job&apos;s listeners, group, data map, description, and other properties of the job.&lt;/em&gt;&lt;/p&gt;
+&lt;h4&gt;Simple Trigger Example&lt;/h4&gt;
+&lt;p&gt;A trigger develops a schedule for job execution. Quartz offers a few different trigger options of varying complexity. The SimpleTrigger given below shows the fundamentals of triggers.&lt;/p&gt;
+&lt;h4&gt;SimpleTriggerRunner.java&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -1213,49 +1426,42 @@ public class Test{
         }
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The scheduling method starts by instantiating a SchedulerFactory and getting the scheduler. As discussed earlier, the JobDetail object is created by taking the Job (SimpleQuartzJob) as an argument to its constructor. The TriggerUtils.makeDailyTrigger creates a simple trigger which executes the associated job(s) at 2:00 am everyday&lt;br/&gt;There are a number of other ways to manipulate a SimpleTrigger. In addition to a specified number of repeats and a specified repeat interval, jobs may be schedules to execute at a specific calendar time, given a maximum time of execution, or given a priority. Some of the advanced concepts include CronTriggers, Job Stores, and JobMap etc.,&lt;/p&gt;&lt;h3&gt;Need for Job Chaining&lt;/h3&gt;&lt;p&gt;The job known as “MailProcessor” needs to be scheduled every 5 minutes i.e., this job has to execute every five minutes. The code which was used for scheduling the job is given below:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The scheduling method starts by instantiating a SchedulerFactory and getting the scheduler. As discussed earlier, the JobDetail object is created by taking the Job (SimpleQuartzJob) as an argument to its constructor. The TriggerUtils.makeDailyTrigger creates a simple trigger which executes the associated job(s) at 2:00 am everyday&lt;br/&gt;There are a number of other ways to manipulate a SimpleTrigger. In addition to a specified number of repeats and a specified repeat interval, jobs may be schedules to execute at a specific calendar time, given a maximum time of execution, or given a priority. Some of the advanced concepts include CronTriggers, Job Stores, and JobMap etc.,&lt;/p&gt;
+&lt;h3&gt;Need for Job Chaining&lt;/h3&gt;
+&lt;p&gt;The job known as “MailProcessor” needs to be scheduled every 5 minutes i.e., this job has to execute every five minutes. The code which was used for scheduling the job is given below:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Trigger mailProcTrigger = TriggerUtils.makeMinutelyTrigger(5);
 mailProcTrigger.setName(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME);
 mailProcTrigger.setGroup(Scheduler.DEFAULT_GROUP);
 JobDetail mailProc = new JobDetail(SchedulingConstants.MAILPROCESSOR_JOB_NAME, Scheduler.DEFAULT_GROUP, MailProcessor.class);
 sched.scheduleJob(mailProc,mailProcTrigger);
 logger.info(&amp;quot;Mail Processor Scheduled&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Following are the issues faced with this kind of scheduling&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Following are the issues faced with this kind of scheduling&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;The SMTP Server needs to address online mailing at times.&lt;/li&gt;
   &lt;li&gt;The number of records in the table is high and hence the number of mails to be sent are higher in number&lt;/li&gt;
   &lt;li&gt;Due to the above reasons, this job may have a completion of time of more than five minutes, which means that the next schedule of the same will get triggered even before the first one completes.&lt;/li&gt;
-&lt;/ol&gt;&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Hence to resolve this, we need to chain the jobs such that the job gets “re-scheduled” only after the first job is completed. This is known as “Job-Chaining”&lt;/p&gt;&lt;h3&gt;Job Chaining – How it was implemented&lt;/h3&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Hence to resolve this, we need to chain the jobs such that the job gets “re-scheduled” only after the first job is completed. This is known as “Job-Chaining”&lt;/p&gt;
+&lt;h3&gt;Job Chaining – How it was implemented&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;A Utility Method for returning the time 5 minutes from now and another Utility method for returning a SimpleTrigger using the NextScheduledTime are created.&lt;/li&gt;
-  &lt;li&gt;The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance&lt;/li&gt;
+  &lt;li&gt;The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance
+    &lt;p&gt;//The Utility method to return the Next Scheduling time 5 minutes from now&lt;br/&gt;public static Date getNextMailScheduledTime() {&lt;br/&gt; Calendar cal = Calendar.getInstance();&lt;br/&gt; System.out.println(&quot;Date Current: &quot;+cal.getTimeInMillis());&lt;br/&gt; cal.add(Calendar.MINUTE,1);&lt;br/&gt; System.out.println(&quot;Date after addition: &quot;+cal.getTimeInMillis());&lt;br/&gt; return cal.getTime();&lt;br/&gt;}&lt;/p&gt;
+    &lt;p&gt;//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time&lt;br/&gt;public static Trigger getMailProcessorTrigger() {&lt;br/&gt; Date newDate = VsimsUtil.getNextMailScheduledTime();&lt;br/&gt; Trigger mailTrigger = new SimpleTrigger(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME, Scheduler.DEFAULT_GROUP,newDate);&lt;br/&gt; mailTrigger.setJobName(SchedulingConstants.MAILPROCESSOR_JOB_NAME);&lt;br/&gt; mailTrigger.setJobGroup(Scheduler.DEFAULT_GROUP);&lt;br/&gt; return mailTrigger;&lt;br/&gt;}&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;//The Utility method to return the Next Scheduling time 5 minutes from now
-public static Date getNextMailScheduledTime() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println(&amp;quot;Date Current: &amp;quot;+cal.getTimeInMillis());
-    cal.add(Calendar.MINUTE,1);
-    System.out.println(&amp;quot;Date after addition: &amp;quot;+cal.getTimeInMillis());
-    return cal.getTime();
-}
-
-//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time
-public static Trigger getMailProcessorTrigger() {
-    Date newDate = VsimsUtil.getNextMailScheduledTime();
-    Trigger mailTrigger = new SimpleTrigger(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME, Scheduler.DEFAULT_GROUP,newDate);
-    mailTrigger.setJobName(SchedulingConstants.MAILPROCESSOR_JOB_NAME);
-    mailTrigger.setJobGroup(Scheduler.DEFAULT_GROUP);
-    return mailTrigger;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;h3&gt;Scheduling the Job for the First Run&lt;/h3&gt;
+&lt;h3&gt;Scheduling the Job for the First Run&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;Using the Utility methods the “MailProcessor” Job is scheduled to run after Five minutes from the current Instance&lt;/li&gt;
-  &lt;li&gt;Since a specific time instance is given for the Trigger, this Job will get Triggered only once&lt;/li&gt;
+  &lt;li&gt;Since a specific time instance is given for the Trigger, this Job will get Triggered only once
+    &lt;p&gt;JobDetail mailJobDetail = new JobDetail(&quot;MailProcessorJob&quot;,Scheduler.DEFAULT_GROUP, MailProcessor.class);&lt;br/&gt;sched.scheduleJob(mailJobDetail,VsimsUtil Util.getMailProcessorTrigger());&lt;br/&gt;logger.info(&quot;Mail Processor Scheduled&quot;);&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;JobDetail mailJobDetail = new JobDetail(&amp;quot;MailProcessorJob&amp;quot;,Scheduler.DEFAULT_GROUP, MailProcessor.class);
-sched.scheduleJob(mailJobDetail,VsimsUtil Util.getMailProcessorTrigger());
-logger.info(&amp;quot;Mail Processor Scheduled&amp;quot;);
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: &lt;em&gt;Since the Job is being scheduled for the first time we have to use sched.scheduleJob() for scheduling the job&lt;/em&gt;&lt;/p&gt;&lt;p&gt;In the Execute method of the Job, once the Job gets fired for the first time by the Trigger created, the Job Execution steps are completed and then the job gets “re-scheduled’ after five minutes using the same Utility method&lt;/p&gt;
+&lt;p&gt;Note: &lt;em&gt;Since the Job is being scheduled for the first time we have to use sched.scheduleJob() for scheduling the job&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In the Execute method of the Job, once the Job gets fired for the first time by the Trigger created, the Job Execution steps are completed and then the job gets “re-scheduled’ after five minutes using the same Utility method&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;public void execute(JobExecutionContext jobContext) throws JobExecutionException {
         logger.info(&amp;quot;MailProcessor execute - start&amp;quot;);
 
@@ -1275,7 +1481,10 @@ logger.info(&amp;quot;Mail Processor Scheduled&amp;quot;);
         }
 
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note: &lt;em&gt;Since the same job is being chained, we have to use rescheduleJob().&lt;/em&gt;&lt;/p&gt;&lt;p&gt;The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs&lt;/p&gt;&lt;p&gt;References&lt;br/&gt;* &lt;a href=&quot;http://quartz.sourceforge.net/firstTutorial.html&quot;&gt;http://quartz.sourceforge.net/firstTutorial.html&lt;/a&gt;&lt;br/&gt;* &lt;a href=&quot;http://www-128.ibm.com/developerworks/java/library/j-quartz/&quot;&gt;http://www-128.ibm.com/developerworks/java/library/j-quartz/&lt;/a&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note: &lt;em&gt;Since the same job is being chained, we have to use rescheduleJob().&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs&lt;/p&gt;
+&lt;p&gt;References&lt;br/&gt;* &lt;a href=&quot;http://quartz.sourceforge.net/firstTutorial.html&quot;&gt;http://quartz.sourceforge.net/firstTutorial.html&lt;/a&gt;&lt;br/&gt;* &lt;a href=&quot;http://www-128.ibm.com/developerworks/java/library/j-quartz/&quot;&gt;http://www-128.ibm.com/developerworks/java/library/j-quartz/&lt;/a&gt;&lt;/p&gt;
 	</description>
     </item>
     <item>
