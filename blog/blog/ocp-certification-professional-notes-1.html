@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Studying for OCP - Oracle Certifed Professional - Part 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Senthilkumar Gopal blog and home page">
+  <meta name="author" content="Senthilkumar Gopal">
+  <meta name="keywords" content="Senthilkumar, gopal, sengopal">
+  <meta name="generator" content="blog posts using github and jbake">
+  <meta name="google-site-verification" content="GIVzIWlO9n9IHKF6iiiq19Js1HtsNlIGtyuNhWAcido" />
+  <link rel="me" href="https://twitter.com/sengopal">
+  <link rel="me" href="https://github.com/msengopal">
+  <link rel="me" href="https://plus.google.com/+sengopal">
+  <link rel="author" href="https://plus.google.com/+sengopal?rel=author">
+
+  <link href="../css/font-awesome.min.css" rel="stylesheet">
+  <link href="../css/screen.css" rel="stylesheet">
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="../js/html5shiv.min.js"></script>
+  <![endif]-->
+
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67843911-1', 'auto');
+  ga('send', 'pageview');
+  ga('create', 'UA-68428477-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</head>
+	<body onload="prettyPrint()">
+    <div id="wrap">
+			<div class="container">
+<div class="header">
+  <h1><a href="http://sengopal.github.io">Senthilkumar Gopal</a></h1>
+  <h2>thoughts, code, ramblings and notes</h2>
+  <ul class="external">
+    <li><a href="https://medium.com/@sengopal/" target="_blank"><i class="fa fa-medium hvr-grow-rotate"></i></a></li>
+    <li><a href="http://github.com/sengopal" target="_blank"><i class="fa fa-github-alt hvr-grow-rotate"></i></a></li>
+    <li><a href="https://twitter.com/sengopal" target="_blank"><i class="fa fa-twitter hvr-grow-rotate"></i></a></li>
+    <li><a href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"><i class="fa fa-linkedin hvr-grow-rotate"></i></a></li>
+    <li><a href="../feed.xml"><i class="fa fa-rss hvr-grow-rotate"></i></a></li>
+  </ul>
+
+</div>
+
+<div class="nav" role="navigation">
+  <ul>
+    <li><a href="../archive.html">Posts</a></li>
+    <li><a href="../pages/projects.html">Projects</a></li>
+    <li><a href="https://github.com/sengopal/sengopal.github.com/raw/master/senthilkumar_gopal_resume.pdf">Resume</a></li>
+    <!--
+    <li><a href="../pages/reviews.html">Reviews</a></li>
+    -->
+  </ul>
+</div>
+				<div class="page-header">
+					<h1>Studying for OCP - Oracle Certifed Professional - Part 1</h1>
+				</div>
+				<p><em>12 February 2009</em></p>
+				<p><div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_1">Chapter 1</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The client tier consists of two components: the users and the user processes. The server tier has three components: the server processes that execute the SQL, the instance, and the database itself.</p>
+</li>
+<li>
+<p>User Processes - SQL*Plus and SQL Developer</p>
+</li>
+<li>
+<p>Oracle Net - Proprietary client server software used by Oracle DB for communication</p>
+</li>
+<li>
+<p>Table &#8656;&#8658; relation or an entity.</p>
+</li>
+<li>
+<p>Rows &#8656;&#8658; records or tuples, and columns &#8656;&#8658; attributes or fields.</p>
+</li>
+<li>
+<p>No. of rows &#8656;&#8658; cardinality of the tuples.</p>
+</li>
+<li>
+<p>Hierarchical paradigm &#8658; Storing employees of each department seperately</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Rows are delimited by comma</p>
+</li>
+<li>
+<p>Data retrieval is faster, updation is difficult</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Relation paradigm is useful in OLTP, DSS</p>
+</li>
+<li>
+<p>Normalization - BOOKS Table - ISBN, Title, Author, Publisher&amp;Address</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The first normal form is to remove the repeating groups - Make one primary key per table</p>
+</li>
+<li>
+<p>1st normal form - BOOKS - ISBN, Title, Publisher&amp;Address AUTHORS - Name, ISBN</p>
+</li>
+<li>
+<p>The second normal form removes columns from the table that are not dependent on the primary key</p>
+</li>
+<li>
+<p>2nd Normal form - BOOKS - ISBN, Title, Publisher, AUTHORS - -do- , PUBLISHER - PUBLISHER,street, city, state</p>
+</li>
+<li>
+<p>Third normal form removes all columns that are interdependent</p>
+</li>
+<li>
+<p>3rd Normal form - PUBLISHERS - PUBLISHER, Address Code ADDRESSES - Address Code, Street, City, State</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Every table should have a primary key defined.This is a requirement of the relational paradigm. Note that the Oracle database deviates from this standard: it is possible to define tables without a primary key</p>
+</li>
+<li>
+<p>Standards</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Primary key columns identified with a hash (#)</p>
+</li>
+<li>
+<p>Foreign key columns identified with a back slash (\)</p>
+</li>
+<li>
+<p>Mandatory columns (those that cannot be left empty) with an asterisk (*)</p>
+</li>
+<li>
+<p>Optional columns with a lowercase <code>o</code></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>"crow’s feet" to indicate which sides of the relationship are the many and the one.</p>
+</li>
+<li>
+<p>SQL is managed by ISO and ANSI.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ISO - Organisation Internationale de Normalisation, based in Geneva</p>
+</li>
+<li>
+<p>ANSI - American National Standards Institute, based in Washington, DC.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SQL Commands</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Data Manipulation Language (DML) commands: SELECT, INSERT, UPDATE, DELETE, MERGE</p>
+</li>
+<li>
+<p>Data Definition Language (DDL) commands: CREATE, ALTER, DROP, RENAME, TRUNCATE, COMMENT</p>
+</li>
+<li>
+<p>Data Control Language (DCL) commands: GRANT, REVOKE</p>
+</li>
+<li>
+<p>Transaction Control Language (TCL) commands: COMMIT, ROLLBACK, SAVEPOINT</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SQL Tools</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>SQL*Plus is a user process written in C.</p>
+</li>
+<li>
+<p>It establishes a session against an instance and a database over the Oracle Net protocol.</p>
+</li>
+<li>
+<p>The platforms for the client and the server can be different
+/u01/app/oracle/product/db_1/bin/sqlplus - typical location</p>
+</li>
+<li>
+<p>Env Variables required are:</p>
+<div class="olist lowerroman">
+<ol class="lowerroman" type="i">
+<li>
+<p>The ORACLE_HOME - the set of files and directories containing the executable code and some of the configuration files.</p>
+</li>
+<li>
+<p>PATH must include ORACLE_HOME/bin</p>
+</li>
+<li>
+<p>LD_LIBRARY_PATH ORACLE_HOME/lib. [but in practice you may get away without setting this]</p>
+</li>
+<li>
+<p>database username followed by a forward slash character as a delimiter, then a password followed by an @ symbol as a delimiter, and finally an Oracle Net connect identifier.</p>
+</li>
+<li>
+<p>Ex: sqlplus system/oracle@orc1</p>
+</li>
+<li>
+<p>executable file sqlplus.exe, and the graphical version was sqlplusw.exe</p>
+</li>
+<li>
+<p>Windows: D:\oracle\app\product\11.1.0\db_2\BIN\sqlplus.exe</p>
+</li>
+<li>
+<p>Logon String: system/oracle@orcl</p>
+</li>
+<li>
+<p>sqlplus /nolog -  to prevent it from immediately presenting a login prompt
+HKEY_LOCAL_MACHINE/SOFTWARE/ORACLE/KEY_OraDb11g_home1 - Registry Key for Env Variables</p>
+</li>
+<li>
+<p>sqlplus scott/tiger@orcl - resolves the server orc1 using tnsnames.ora or using LDAP [TNS - Transparent Network Substrate ]</p>
+</li>
+<li>
+<p>sqlplus scott/tiger@linsrv1.bplc.co.za:1521/orcl.bplc.com - Complete details of server IP and port and the database service to connect to.</p>
+</li>
+<li>
+<p>SQL Developer -  JDK1.5 is the prerequisite</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Definitions</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>A database user is a person who can log on to the database.</p>
+</li>
+<li>
+<p>A database schema is all the objects in the database owned by one user.</p>
+</li>
+<li>
+<p>CREATE SCHEMA command does not create a schema, it is used for creating objects in a schema.</p>
+</li>
+<li>
+<p>A schema is initially created empty, when a user is created with the CREATE USER command.
+17) Notes</p>
+</li>
+<li>
+<p>SQL, PL/SQL, and Java can all run in the database</p>
+</li>
+<li>
+<p>Third normal form is the usual form aimed for by systems analysts when they normalize data into relational structures.</p>
+</li>
+<li>
+<p>SQL Developer needs a graphics terminal to display windows and JRE</p>
+</li>
+<li>
+<p>A schema and a user are inseparable.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_2">Chapter 2</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>DESC[RIBE] &lt;SCHEMA&gt;.tablename</p>
+</li>
+<li>
+<p>access to a special table called DUAL, which belongs to the SYS schema</p>
+</li>
+<li>
+<p>NUMBER(p,s) &#8594; precision and scale &#8594; max number of digits given in precision</p>
+</li>
+<li>
+<p>CHAR data type utilizes storage inefficiently, padding any unused components with spaces.</p>
+</li>
+<li>
+<p>TIMESTAMP data type - introduction in Oracle 9i</p>
+</li>
+<li>
+<p>Three concepts from relational theory encompass the capability of the SELECT statement: projection, selection, and joining</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Projection refers to the restriction of attributes (columns) selected from a relation or table</p>
+</li>
+<li>
+<p>Selection refers to the restriction of the tuples or rows selected from a relation (table)</p>
+</li>
+<li>
+<p>Joining, as a relational concept, refers to the interaction of tables with each other in a query</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SELECT *|{[DISTINCT] column|expression [alias],&#8230;&#8203;} FROM table;</p>
+</li>
+<li>
+<p>DISTINCT performs a distinct for the combination of columns. Ex: select distinct job_id, department_id from job_history;</p>
+</li>
+<li>
+<p>SQL*Plus always requires a statement terminator, and usually a semicolon is used.</p>
+</li>
+<li>
+<p>Individual statements in SQL scripts are commonly terminated by a line break (or carriage return) and a forward slash on the next line, instead of a semicolon.</p>
+</li>
+<li>
+<p>SELECT TABLE_NAME from USER_TABLES</p>
+</li>
+<li>
+<p>Hierarchy</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>	( ) - Brackets or parentheses
+	/ - Division
+	* - Multiplication
+	- - Subtraction
+	+ - Addition</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Operations with the same level of precedence are evaluated from left to right. If more than one operator with the same level of precedence is present in an expression, then these will be evaluated from left to right.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_2_continued">Chapter 2 Continued</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>select col1 [AS] &lt;alias&gt; &#8594; For column aliasing we can use [as] or just a space - &gt;using AS &#8594; good SQL coding habit</p>
+</li>
+<li>
+<p>Most Common Errors</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>ORA-00923: FROM keyword not found where expected</p>
+</li>
+<li>
+<p>ORA-00942: table or view does not exist</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Case preservation of an alias is only possible if the alias is double quoted and double quotes are needed if the alias is more than one word</p>
+</li>
+<li>
+<p>"ORA-00923: FROM keyword not found where expected" - multi word alias is not double quoted</p>
+</li>
+<li>
+<p>|| represent the character concatenation operator</p>
+</li>
+<li>
+<p>select 'literal'||'processing using the REGIONS table' from regions;</p>
+</li>
+<li>
+<p>'Plural&#8217;s with the literal 'Plural''s</p>
+</li>
+<li>
+<p>double quotes cannot be used</p>
+</li>
+<li>
+<p>alternative quote (q) operator &#8594; wrapping symbols &#8594; (round brackets), {curly braces}, [square brackets], or &lt;angle brackets&gt;</p>
+</li>
+<li>
+<p>Using the q operator, the character delimiter can effectively be changed from a single quotation mark to any other character</p>
+</li>
+<li>
+<p>format&#8594; select q&#8217;X &#8594; q' is the notation and X is the delimiter character
+Ex: select q&#8217;X&#8217;Test this String for Plural&#8217;s X' "qX" from dual;
+  'Test this String for Plural&#8217;s X' &#8594; is the test string</p>
+</li>
+<li>
+<p>If we use one of the wrapping symbols, then q'&lt;'sdfgdfgd&gt;' can be given where '&gt;' is taken as the delimiter</p>
+</li>
+<li>
+<p>Any arithmetic calculation with a NULL value always returns NULL.  even division by a null value results in null, unlike division by zero, which results in an error</p>
+</li>
+<li>
+<p>The character concatenation operators ignore null, whilst the arithmetic operations involving null values always result in null</p>
+</li>
+<li>
+<p>All arithmetic operations with null will give null as the answer, while concatenation will just ignore the null value and give the rest as the answer</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_3">CHAPTER 3</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>SELECT *|{[DISTINCT] column|expression [alias],&#8230;&#8203;} FROM table  [WHERE condition(s)];</p>
+</li>
+<li>
+<p>where salary = 10000; where salary = '10000';Both formats are acceptable to Oracle since an implicit data type conversion is performed when necessary.</p>
+</li>
+<li>
+<p>String concatenations and arithmetic operations can also be used in the WHERE clause</p>
+</li>
+<li>
+<p>The literals are automatically converted into DATE values based on the default date format, which is DD-MON-RR.   [RR means 50-99 will be 1950 to 1999 and 0-50 will be 2000 and 2050]</p>
+</li>
+<li>
+<p>That DATE values are only equal to each other if there is an exact match between all their components including day, month, year, hours, minutes, and seconds.</p>
+</li>
+<li>
+<p>The entire four-digit year component (YYYY) can been specified</p>
+</li>
+<li>
+<p>START_DATE + 30 returns a DATE 30 days later than the start_date</p>
+</li>
+<li>
+<p>END_DATE - START_DATE gives a NUMBEr</p>
+</li>
+<li>
+<p>Not Equal - != (or) &lt;&gt;</p>
+</li>
+<li>
+<p>Testing character inequality : the strings being compared on either side of the inequality operator are converted to a numeric representation of its character [same for &lt; or &gt;]</p>
+</li>
+<li>
+<p>The Oracle server stores dates in an internal numeric format, and these values are compared within the conditions.</p>
+</li>
+<li>
+<p>BETWEEN &#8656;&#8658; &gt;= and &#8656;</p>
+</li>
+<li>
+<p>IN operator - equivalent to multiple ORs</p>
+</li>
+<li>
+<p>wildcards - % [0 or more characters] and _ [1 character]</p>
+</li>
+<li>
+<p>like '%' - all rows with the values NOT NULL</p>
+</li>
+<li>
+<p>% and _ can be escaped using '\' [backslash] and denoted as like 'a\%' ESACPE '\'</p>
+</li>
+<li>
+<p>we can changed the Escape character as well</p>
+</li>
+<li>
+<p>For Null checks always use IS NULL</p>
+</li>
+<li>
+<p>FOR AND operator - If the row contains a NULL value that causes one of the conditions to evaluate to NULL, then that row is excluded</p>
+</li>
+<li>
+<p>SELECT * FROM EMPLOYEES WHERE SALARY LIKE '%80%'; - Oracle temporarily changes the NUMBER to CHAR data for the comparison</p>
+</li>
+<li>
+<p>Usage of NOT: where NOT (last_name='King'), where first_name NOT LIKE 'R%',where department_id NOT IN (10,20,30),where salary NOT BETWEEN 1 and 3000,where commission_pct IS NOT NULL</p>
+</li>
+<li>
+<p>WHERE A and B or C or D and E,
+then a row will be returned if both conditions A and B are fulfilled, or only condition C is met, or only condition D is met, or both conditions D and E are fulfilled. Conditions seperated by AND needs both to be satisfied while OR needs only one of them to be satisfied</p>
+</li>
+<li>
+<p>Precedence</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">	NOT] LIKE, IS [NOT] NULL, [NOT] IN
+	[NOT] BETWEEN
+	!=,&lt;&gt;
+	NOT
+	AND
+	OR</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>SELECT *|{[DISTINCT] column|expression [alias],&#8230;&#8203;} FROM table [WHERE condition(s)] [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];</p>
+</li>
+<li>
+<p>The default sort order is assumed to be NULLS LAST for ascending sorts and NULLS FIRST for descending sorts.</p>
+</li>
+<li>
+<p>If no ORDER BY clause is specified, the same query executed at different times may return the same set of results in different row order, so no assumptions should be made regarding the default row order.</p>
+</li>
+<li>
+<p>Positional sorting applies only to columns in the SELECT list that have a numeric position associated with them</p>
+</li>
+<li>
+<p>Composite Sorting: order by job_id desc, last_name, 3 desc;</p>
+</li>
+<li>
+<p>The ampersand character (&amp;) is the symbol chosen to designate a substitution variable in a statement and precedes the variable name with no spaces between them</p>
+</li>
+<li>
+<p>When the statement is executed, the Oracle server processes the statement, notices a substitution variable, and attempts to resolve this variable’s value in one of two ways.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>First, it checks whether the variable is defined in the user session. (The DEFINE command).</p>
+</li>
+<li>
+<p>If the variable is not defined, the user process prompts for a value that will be substituted in place of the variable.</p>
+</li>
+<li>
+<p>Once a value is submitted, the statement is complete and is executed by the Oracle server.</p>
+</li>
+<li>
+<p>The ampersand substitution variable is resolved at execution time and is sometimes known as runtime binding or runtime substitution.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SUBSTITUTION: any alphanumeric name and invalid data type gives ORA-00904: invalid identifier error is returned.</p>
+</li>
+<li>
+<p>Date and Character literals need to be enclosed within quotes. Best Practice is to define the substitution with quotes so that the date and character will be quoted without the user need</p>
+</li>
+<li>
+<p>When the Oracle server encounters a double ampersand substitution variable, a session value is defined for that variable and you are not prompted to enter a value to be substituted for this variable in subsequent references.</p>
+</li>
+<li>
+<p>To undefine the SEARCH variable, you need to use the UNDEFINE command</p>
+</li>
+<li>
+<p>any element of a SQL statement is a candidate for substitution</p>
+</li>
+<li>
+<p>column name references do not require single quotes both when explicitly specified and when substituted via ampersand substitution</p>
+</li>
+<li>
+<p>DEFINE command  can be used to retrieve a list of all the variables currently defined in your SQL session</p>
+</li>
+<li>
+<p>It can also be used to explicitly define a value for a variable referenced as a substitution variable by one or more statements during the lifetime of that session.</p>
+</li>
+<li>
+<p>SET DEFINE OFF &#8594; Makes &amp; as an ordinary character</p>
+</li>
+<li>
+<p>The VERIFY command controls whether the substitution variable submitted is displayed onscreen so you can verify that the correct substitution has occurred</p>
+</li>
+<li>
+<p>SET VERIFY ON|OFF</p>
+</li>
+<li>
+<p>VERIFY is switched ON, the query is executed, and you are prompted to input a value.
+Once the value is input and before the statement commences execution, Oracle displays the clause containing the reference to the substitution variable as the old clause with its line number and, immediately below this, the new clause displays the statement containing the substituted value.</p>
+</li>
+<li>
+<p>NULLS LAST can be applied in the ORDER BY clause for every column -  ORDER BY 3 DESC NULLS LAST, 2 ASC;</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_4">CHAPTER 4</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>case conversion - LOWER, UPPER, and INITCAP</p>
+</li>
+<li>
+<p>character manipulation  - LENGTH, CONCAT, SUBSTR, INSTR, LPAD, RPAD, TRIM, and REPLACE</p>
+</li>
+<li>
+<p>CONCAT takes only two strings are parameters</p>
+</li>
+<li>
+<p>SUBSTR(string, start position, number of characters) - 1 indexed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>if the position is not found &#8594; gives no result</p>
+</li>
+<li>
+<p>if the length is larger, returns only the available characters</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>INSTR &#8594; similar to indexOf &#8594;  INSTR(source string, search item, [start position],[nth occurrence of search item])
+&#8594; returns 0 if not found</p>
+</li>
+<li>
+<p>LPAD(string, length after padding, padding string) and RPAD(string, length after padding, padding string)</p>
+</li>
+<li>
+<p>TRIM - &gt; by default trims spaces
+TRIM('<mark>' from '#PASS#WORD</mark>#') &#8594; 'PASS#WORD'</p>
+</li>
+<li>
+<p>REPLACE(string, search item, replacement item) - All the instances</p>
+</li>
+<li>
+<p>ROUND, TRUNC, MOD - Numeric functions</p>
+</li>
+<li>
+<p>ROUND(number, decimal precision) - round(42.39,1) = 42.4 &#8594; &gt;=5 will be rounded to its ceiling</p>
+</li>
+<li>
+<p>TRUNC &#8594; just drops the additional numerals - trunc(42.39,1) = 42.3</p>
+</li>
+<li>
+<p>MOD(dividend, divisor) &#8594; mod(42,10) = 2</p>
+</li>
+<li>
+<p>MONTHS_BETWEEN, ADD_MONTHS, LAST_DAY, NEXT_DAY, SYSDATE, ROUND, and TRUNC &#8594; date functions</p>
+</li>
+<li>
+<p>MONTHS_BETWEEN(greater_date, smaller_date) &#8594; MONTHS_BETWEEN('2-JAN-2008','01-JAN-2008') &#8594; .0322 &#8594; stored as a decimal value. Need to TRUNC to get only the MONTHS value</p>
+</li>
+<li>
+<p>LAST_DAY(date 1) function returns the last day of the month that the specified date falls into,</p>
+</li>
+<li>
+<p>NEXT_DAY(date 1, day of the week) returns the date on which the next specified day of the week falls after the given date
+(if day of the week is not valid, throws error)</p>
+</li>
+<li>
+<p>SYSDATE function takes no parameters and returns a date value that represents the current server date and time</p>
+</li>
+<li>
+<p>ROUND(date, date precision format) and TRUNC(date, date precision format) round and truncate a given date value to the nearest date precision format like day, month, or year:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">sysdate = 17-DEC-2007
+round(sysdate,'month') = 01-JAN-2008
+trunc(sysdate,'month') = 01-DEC-2007
+[Works only in 11g]</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Oracle’s implementation of SQL is compliant with the ANSI:1999 (American National Standards Institute) standard for SQL.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>More recently, it claimed partial compliance to the SQL:2003 standard endorsed by both ISO (International Organization for Standardization) and ANSI.</p>
+</li>
+<li>
+<p>SQL functions have been standardized, and Oracle has documented those that are fully or partially compliant to the SQL:2003 standard.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Character Case Conversion Functions - If parameters are numeric or date value, it is implicitly converted into a string.</p>
+</li>
+<li>
+<p>select lower('The SUM '||'100+100'||' = '||(100+100)) from dual &#8594; the sum 100+100 = 200.
+Calculations are done if inside bracket</p>
+</li>
+<li>
+<p>(SYSDATE+2) &#8594; Adds two days</p>
+</li>
+<li>
+<p>select initcap('init cap or init_cap or init%cap') from dual &#8594; Init Cap Or Init_Cap Or Init%Cap</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>space, _,%,!, $ are all used as word seperators. Punctuation or special characters are regarded as valid word separators.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>concat(1+2.14,' approximates pi') &#8594; 3.14 approximates pi</p>
+</li>
+<li>
+<p>LPAD(s, n, p) and RPAD(s, n, p),</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>if the parameter n is smaller than or equal to the length of the source string s, then no padding occurs and only the first n characters of s are returned</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>TRIM([trailing|leading|both] trimstring from s).</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>TRIM(trailing trimstring from s) removes all occurrences of trimstring from the end of the string s if it is present</p>
+</li>
+<li>
+<p>TRIM(leading trimstring from s) removes all occurrences of trimstring from the beginning of the string s if it is present.</p>
+</li>
+<li>
+<p>TRIM(both trimstring from s) removes all occurrences of trimstring from the beginning and end of the string s if it is present</p>
+</li>
+<li>
+<p>[both appears to be optional]</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>INSTR(source string, search string, [search start position], [nth occurrence])</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>A negative number for the start position gives the occurence from the End instead of the beginning</p>
+</li>
+<li>
+<p>However, if the Occurence is ignored, then it just does a absolute of the position</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SUBSTR(source string, start position, [number of characters to extract]) &#8594; negative number in  start position begins the search from that position from the End of the String</p>
+</li>
+<li>
+<p>REPLACE(source string, search item, [replacement term])
+If the replacement term parameter is omitted, each occurrence of the search item is removed from the source string</p>
+</li>
+<li>
+<p>If the specified decimal precision is n, the digit significant to the rounding is found (n + 1) places to the RIGHT of the decimal point.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If it is negative, the digit significant to the rounding is found n places to the LEFT of the decimal point.</p>
+</li>
+<li>
+<p>If the numeric value of the significant digit is greater than or equal to 5, a "round up" occurs, else a "round down" occurs.</p>
+</li>
+<li>
+<p>round(1301.916718,-3) &#8594; 1000</p>
+</li>
+<li>
+<p>round(1601.916718,-3) &#8594; 2000</p>
+</li>
+<li>
+<p>round(1601.916718) &#8594; 1602</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>A numeric truncation is different from rounding because the resulting value drops the numbers at the decimal precision specified and does not attempt to round up or down if the decimal precision is positive.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>However, if the decimal precision specified (n) is negative, the input value is zeroed down from the nth decimal position.</p>
+</li>
+<li>
+<p>trunc(1301.916718,-3) &#8594; 1000</p>
+</li>
+<li>
+<p>trunc(1601.916718,-3) &#8594; 1000</p>
+</li>
+<li>
+<p>trunc(1601.916718) &#8594; 1601</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>The MOD function returns the numeric remainder of a division operation</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If the divisor is zero, no division by zero error is returned and the MOD function returns a zero instead</p>
+</li>
+<li>
+<p>If the divisor is larger than the dividend, then the MOD function returns the dividend as its result</p>
+</li>
+<li>
+<p>MOD(5.2,3) &#8594; 2.2</p>
+</li>
+<li>
+<p>MOD(7,0) &#8594; 0  [result is 7 in 10g]</p>
+</li>
+<li>
+<p>MOD(0,7) &#8594; 0</p>
+</li>
+<li>
+<p>MOD(7,35) &#8594; 7</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>The default format of the results comprises two digits that represent the day, a three-letter abbreviation of the month, and two digits representing the year component.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>By default, these components are separated with hyphens in SQL*Plus and forward slashes in SQL Developer
+34.. Date Format Mask</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>	 DD 	Day of the month
+	 MON 	Month of the year
+	 YY 	Two-digit year
+	 YYYY	Four-digit year including century
+	 RR	Two-digit year (Year 2000–compliant)
+	 CC 	Two-digit century
+	 HH	Hours with AM and PM
+	 HH24 	Twenty-four-hour time
+	 MI 	Minutes
+	 SS	Seconds</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The SYSDATE function returns the DD-MON-RR components of the current system date</p>
+</li>
+<li>
+<p>Date1 - Date2 = Num1; Date1 - Num1 = Date2; Date1 = Date2 + Num1;</p>
+</li>
+<li>
+<p>use 6/24 to add hours</p>
+</li>
+<li>
+<p>MONTHS_BETWEEN(start date, end date)</p>
+</li>
+<li>
+<p>ADD_MONTHS (start date, number of months)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The number of months may be negative, resulting in a target date earlier than the start date being returned.</p>
+</li>
+<li>
+<p>The number of months may be fractional, but the fractional component is ignored and the integer component is used</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>NEXT_DAY (start date, day of the week)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The acceptable values are determined by the NLS_DATE_LANGUAGE database parameter but the default values are at least the first three characters of the day name or integer values, where 1 represents Sunday, 2 represents Monday, and so on.</p>
+</li>
+<li>
+<p>NEXT_DAY('02-JAN-2009','WEDNE') &#8594; Works using the First three chars 'WED'</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>LAST_DAY(start date)</p>
+</li>
+<li>
+<p>ROUND(source date, [date precision format]) &#8594; [No implicit conversion for DATE]</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The date precision format parameter specifies the degree of rounding and is optional. If it is absent, the default degree of rounding is day.</p>
+</li>
+<li>
+<p>The date precision formats include century (CC), year (YYYY or YEAR), quarter (Q), month (MM or MONTH), week (W), day (DD), hour (HH), and minute (MI)</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Rounding up to century is equivalent to adding one to the current century.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Rounding up to the next month occurs if the day component is greater than 15(&gt; 15) , else rounding down to the beginning of the current month occurs.</p>
+</li>
+<li>
+<p>If the month falls between one and six, then rounding to year returns the date at the beginning of the current year, else it returns the date at the beginning of the following year</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>TRUNC(source date, [date precision format])</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The date precision format parameter specifies the degree of truncation and is optional. .. If it is absent, the default degree of truncation is day</p>
+</li>
+<li>
+<p>Any time component of the source date is set to midnight or 00:00:00</p>
+</li>
+<li>
+<p>TRUNC is similar to ROUND, except it is always the FLOOR and never the CEILING</p>
+</li>
+<li>
+<p>TRUNC(TO_DATE('31-JAN-2009'),'MM') &#8594; 01-JAN-2009</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Functions dont need parameters</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_5">Chapter 5</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>length(1234) &#8594; implicit conversion for numbers and dates to char &#8594; 4 is the result</p>
+</li>
+<li>
+<p>mod('11',2) &#8594; implicit conversion -</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>mod('$11',2) &#8594; ORA-1722: invalid number</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Implicit date conversion should not have Time parameters [Check this]. Implicit conversion for dates can occur if the pattern follows
+<code>[D|DD] separator1 [MON|MONTH] separator2 [R|RR|YY|YYYY]</code>
+ <em>separator1 and separator2 elements may be most punctuation marks, spaces, and tabs</em></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">add_months('1\january/8',1) -&gt; 01/FEB/08
+months_between('13*jan*8', '13/mar/2008') -&gt; -2
+add_months('01$jan/08',1) -&gt; 01/FEB/08
+add_months('13!jana08',1) -&gt; ORA-1841: (full) year must be between –4713 and +9999 and not be 0
+jana is not a valid month -&gt; only 3 characters or full month is allowed
+add_months('24-JAN-09 18:45',1) -&gt; ORA-1830: date format picture ends before converting entire input string</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Optional national language support parameters (nls_parameters) are useful for specifying the language and format in which the names of date and numeric elements are returned</p>
+</li>
+<li>
+<p>Publicly available view called NLS_SESSION_PARAMETERS that contains the NLS parameters for your current session. The default NLS_CURRENCY value is the dollar symbol, but this can be changed at the user session level
+ALTER SESSION set NLS_CURRENCY='GBP';</p>
+</li>
+<li>
+<p><code>TO_CHAR(number1, [format], [nls_parameter])</code></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Formats
+   9  Numeric width
+   0  Displays leading zeros 		Ex: 09999 0012 00012
+   .  Position of decimal point
+   D  Decimal separator position (period is default)
+   ,  Position of comma symbol
+   G  Group separator position (comma is default)
+   $  Dollar sign
+   L  Local currency
+  MI  Position of minus sign for negatives
+  PR  Wrap negatives in parentheses
+EEEE  Scientific notation [Must be only 4 E's and always gives in 1.xxxxxE+10 format]
+   U  nls_dual_currency [if nls_dual_currency value is set]
+   V  Multiplies by 10n times (n is the number of nines after V) Ex: 9999V99 3040 304000
+   S + or - sign is prefixed</pre>
+</div>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>When a format mask is smaller than the number being converted, a string of hash symbols is returned instead.</p>
+</li>
+<li>
+<p>When a format mask contains fewer fractional components than the number, it is first rounded to the number of decimal places in the format mask before being converted.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>TO_CHAR(date1, [format], [nls_parameter]) &#8594; Default is DD/MON/RR</p>
+<div class="literalblock">
+<div class="content">
+<pre>'Month' -&gt; January
+'MOnth' -&gt; JANUARY
+'month' -&gt; january</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>'Month' -&gt; padded with spaces
+'fmMonth' -&gt; Not padded with spaces</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Y-YYYY -&gt; Year digits
+RR -&gt; 2 digit year
+YEAR -&gt; Case Sensitive Full Year spelling
+MM, MON, MONTH -&gt; 2 digit, Three char, full month -&gt; case sensitive
+D, DD, DDD -&gt; day of week, month, year
+DY -&gt; 3 letter abbreviation
+DAY -&gt; Case Sensitive day</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>only DAY, MONTH, YEAR are case sensitive AND PADDED NOT the shorter forms</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>W, WW -&gt; week of month, year
+Q -&gt; Quarter
+CC -&gt; Century
+S before CC, YYYY, YEAR -&gt; sign (-) for BC
+I-IYYY -&gt; ISO year dates for Y-YYYY
+BC, AD, B.C. and A.D. -&gt; to display BC or AD
+J -&gt; Julian Day -&gt; days since 31 December 4713 BC
+IW -&gt; ISO standard week (1 to 53)
+RM -&gt; Roman numeral month</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>AM, PM, A.M. and P.M.-&gt; Meridian Indicators
+HH, HH12 and HH24 -&gt; Hour of day, 1-12 hours, and 0-23 hours
+MI, SS, SSSSS -&gt; Minutes. Seconds, Seconds past midnight</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">  - / . , ? # ! -&gt; Punctuation marks for seperators
+  "any literal" -&gt; simply displays the character literal
+  TH -&gt; positional or ordinal text -&gt; 12th
+  SP -&gt; spelled out number
+  THSP or SPTH -&gt; Spelled out and Ordinal number -&gt; twelfth</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>TO_DATE(string1, [format], [nls_parameter])</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">to_date('25-DEC') -&gt; ORA-01840: input value not long enough for date format
+to_date('25-DEC', 'DD-MON') -&gt; 25-DEC-2009
+to_date('25-DEC-10', 'fxDD-MON-YYYY') -&gt; ORA-01862: the numeric value does not match the length of the format item
+  fx -&gt; Makes strict checking
+to_date('25-DEC-10', 'DD-MON-YYYY') -&gt; 25-DEC-10 -&gt; takes as 0010
+
+Formats similar to Point 7 used for TO_CHAR</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>TO_NUMBER(string1, [format], [nls_parameter])</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">to_number('$1,000.55')  -&gt; ORA-1722: invalid number.
+to_number('$1,000.55','$999,999.99') -&gt; 1000.55
+
+If you convert a number using a shorter format mask, an error is returned -&gt; RA-1722: invalid number.
+
+TO_NUMBER(123.56,'999.9') returns an error, while TO_CHAR(123.56,'999.9') returns 123.6.</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>NVL(original, ifnull) &#8594; both columns are mandatory : ORA-00909: invalid number of arguments.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>nvl(substr('abc',4),'No substring exists')</p>
+</li>
+<li>
+<p>since there is no 4th character, it returns null and hence the 'No substring exists' is returned</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>NVL2(original, ifnotnull, ifnull)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The data types of the ifnotnull and ifnull parameters must be compatible, and they cannot be of type LONG.</p>
+</li>
+<li>
+<p>They must either be of the same type, or it must be possible to convert ifnull to the type of the ifnotnull parameter. &#8594; ORA-01722: invalid number</p>
+</li>
+<li>
+<p>The data type returned by the NVL2 function is the same as that of the ifnotnull parameter</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>NULLIF(ifunequal, comparison_term) &#8594; returns NULL if both terms are equal else the first term</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>NO IMPLICIT conmversion &#8594; nullif('24-JUL-2009','24-JUL-09') returns the first term as these are not equal</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>COALESCE(expr1, expr2,&#8230;&#8203;,exprn), where expr1 is returned if it is not null, else expr2 if it is not null, and so on</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>COALESCE(expr1,expr2) = NVL(expr1,expr2)</p>
+</li>
+<li>
+<p>COALESCE(expr1,expr2,expr3) = NVL(expr1,NVL(expr2,expr3))</p>
+</li>
+<li>
+<p>The data type COALESCE  returns if a not null value is found is the same as that of the first not null parameter.</p>
+</li>
+<li>
+<p>To avoid an "ORA-00932: inconsistent data types" error, all not null parameters must have data types compatible with the first not null parameter</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>The DECODE function is specific to Oracle, while the CASE expression is ANSI SQL compliant</p>
+</li>
+<li>
+<p>DECODE(expr1,comp1, iftrue1, [comp2,iftrue2&#8230;&#8203;[ compN,iftrueN]], [iffalse])</p>
+</li>
+<li>
+<p>CASE search_expr</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">CASE search_expr
+      WHEN comparison_expr1 THEN iftrue1
+      [WHEN comparison_expr2 THEN iftrue2
+      ..
+      WHEN comparison_exprN THEN iftrueN
+      ELSE iffalse]
+    END
+
+    CASE
+      WHEN condition1 THEN iftrue1
+      [WHEN condition2 THEN iftrue2
+      ...
+      WHEN conditionN THEN iftrueN
+      ELSE iffalse]
+    END</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_chapter_6">Chapter 6</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>COUNT({*|[DISTINCT|ALL] expr}) ;</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>The ALL keyword is part of the default syntax, so COUNT(ALL expr) and COUNT(expr) are equivalent</p>
+</li>
+<li>
+<p>These count the number of nonnull occurrences of expr in each group</p>
+</li>
+<li>
+<p>Data Type allowed: NUMBER, DATE, CHAR, or VARCHAR2</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>AVG([DISTINCT|ALL] expr) &#8594; AVG(ALL expr) and AVG(expr) add the nonnull values of expr for each row and divide the sum by the number of nonnull rows in the group.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Data Type allowed: NUMBER</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>SUM([DISTINCT|ALL] expr)  &#8594; Data Type allowed: NUMBER</p>
+</li>
+<li>
+<p>MAX([DISTINCT|ALL] expr); MIN([DISTINCT|ALL] expr)</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Data Type allowed: NUMBER, DATE, CHAR, or VARCHAR2</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>VARIANCE([DISTINCT|ALL] expr); STDDEV([DISTINCT|ALL] expr);</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Statistical variance refers to the variability of scores in a sample or set of data.</p>
+</li>
+<li>
+<p>VARIANCE(DISTINCT expr) returns the variability of unique nonnull data in a group.</p>
+</li>
+<li>
+<p>STDDEV calculates statistical standard deviation, which is the degree of deviation from the mean value in a group. It is derived by finding the square root of the variance.</p>
+</li>
+<li>
+<p>Data Type allowed: NUMBER</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Group functions may only be nested two levels deep &#8594; ORA-00935: group function is nested too deeply.</p>
+</li>
+<li>
+<p>Select Statement</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SELECT column|expression|group_function(column|expression [alias]),...}
+   FROM table
+   [WHERE condition(s)]
+   [GROUP BY {col(s)|expr}]
+   [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If an item, which is not a group function, appears in the SELECT list and there is no GROUP BY clause, &#8594; ORA-00937: not a single-group group function</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>If a GROUP BY clause is present but that item is not a grouping attribute, &#8594; ORA-00979: not a GROUP BY expression</p>
+</li>
+<li>
+<p>If a group function is placed in a WHERE clause &#8594; ORA-00934: group function is not allowed here</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Select Statement</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-sql" data-lang="sql">SELECT column|expression|group_function(column|expression [alias]),…}
+   FROM table
+   [WHERE condition(s)]
+   [GROUP BY {col(s)|expr}]
+   [HAVING group_condition(s)]
+   [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The HAVING clause can occur before the GROUP BY clause in the SELECT statement.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>However, it is more common to place the HAVING clause after the GROUP BY clause.</p>
+</li>
+<li>
+<p>All grouping is performed and group functions are executed prior to evaluating the HAVING clause</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>NVL in Select clause only useful for display and NVL in WHERE or HAVING is useful for modifying the values being verified</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><code>NVL(x,0) &#8594; 0</code></p>
+</li>
+<li>
+<p><code>LENGTH(NVL(x,0)) &#8594; 1</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Continued in <a href="ocp-certification-professional-notes-2.html">Part 2</a></p>
+</div>
+</div>
+</div></p>
+			</div>
+			<div id="push"></div>
+		</div>
+
+    <hr/>
+<div id="footer">
+    <p class="muted credit">&copy; 2005-2016 | Senthilkumar Gopal. The opinions expressed here are my own and do not reflect the opinions of my employer. The source code for this site is publicly available at <a href="https://github.com/sengopal/sengopal.github.com">github</a></p>
+</div>
+
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/highlight.min.js"></script>
+
+<script type="text/javascript">
+	  $(function() {
+	    hljs.tabReplace = '  '; //4 spaces
+	    hljs.initHighlighting();
+	  });
+</script>
+
+	</body>
+</html>

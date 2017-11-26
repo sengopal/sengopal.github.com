@@ -1,0 +1,801 @@
+= Studying for OCP - Oracle Certifed Professional - Part 2
+Senthilkumar Gopal
+2009-02-20
+:jbake-type: post
+:jbake-tags: oracle,certification,coding,development,sql
+:jbake-status: published
+:summary: I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.
+
+I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.
+
+Continued from link:ocp-certification-professional-notes-1.html[Part 1]
+
+== Chapter 7
+
+1. equijoin - A row is associated with one or more rows in another table based on the equality of column values or expressions.
+2. nonequijoin - In this case, a row is associated with one or more rows in another table if its column values fall into a range determined by inequality operators.
+3. associate rows with other rows in the same table -> hierarchical -> self-join.
+   .. Rows with null or differing entries in common join columns are excluded when equijoins and nonequijoins are performed.
+   .. An outer join is available to fetch these one-legged or orphaned rows if necessary.
+   .. A cross join or Cartesian product is formed when every row from one table is joined to all rows in another -> missing or inadequate join conditions
+4. When the source and target tables share identically named columns, it is possible to perform a natural join between them without specifying a join column. This is sometimes referred to as a pure natural join.
+   .. select region_name from regions natural join countries where country_name='Canada'
+5. **JOIN...USING**
+   .. select region_name from regions join countries using (region_id) where country_name='Canada' -> brackets are a part of the syntax
+6. **JOIN...ON**  -> most widely used natural join format.
+   .. select region_name from regions join countries on (countries.region_id=regions.region_id) where country_name='Canada' -> brackets are optional
+7. cross join or cartesian product
+   .. This join creates one row of output for every combination of source and target table rows.
+
+[source,sql]
+----
+select count(*) from regions cross join countries;
+----
+
+8. [TRADITIONAL JOIN SYNTAX] A plus symbol enclosed in brackets (+) to the left of the equal sign that indicates to Oracle that a right outer join must be performed -> (+) =
+9. The join returns additional values from the table WITHOUT the (+) symbol
+10. CARTESION JOIN:  `select * from regions,countries;`
+11. SQL:1999 Syntax
+
+[source,sql]
+----
+SELECT table1.column, table2.column
+    FROM table1
+    [NATURAL JOIN table2] |
+    [JOIN table2 USING (column_name)] |
+    [JOIN table2 ON (table1.column_name = table2.column_name)] |
+    [LEFT | RIGHT | FULL OUTER JOIN table2
+    ON (table1.column_name = table2.column_name)] |
+    [CROSS JOIN table2];
+----
+
+12. If no joins or fewer than N-1 joins are specified in the WHERE clause conditions, where N refers to the number of tables in the query, then a Cartesian or cross join is performed.
+13. If ambiguous column is NOT aliased, ORA-00918:column ambiguously defined
+14. If Column used in JOIN...USING is aliased, ORA-25154:column part of USING clause cannot have qualifier
+15. Qualifying column references with dot notation to indicate a column’s table of origin has a performance benefit. Time is saved because Oracle is directed instantaneously to the appropriate table and does not have to resolve the table name.
+16. Natural JOIN
+[source,sql]
+----
+SELECT table1.column, table2.column
+FROM table1
+NATURAL JOIN table2;
+----
+
+    .. The pure natural join identifies the columns with common names in table1 and table2 and implicitly joins the tables using ALL THESE columns.
+    .. The columns in the SELECT clause may be qualified using dot notation unless they are one of the join columns
+17. If NATURAL JOIN Column Names are of incompatible data types : ORA-01722: invalid number
+18. If there are no common name columns, NATURAL JOIN Performs a CARTESIAN PRODUCT
+19. JOIN...USING
+    .. select EMP.last_name, EMP.Department_id, JH.end_date, job_id, employee_id from job_history JH join employees EMP using (job_id,employee_id)
+    .. Column used in the USING part should not be qualified -> ORA-25154: column part of USING clause cannot have qualifier
+    .. Column not used in the USING part should be qualified if ambigously defined -> ORA-00918: column ambiguously defined
+20. The NATURAL keyword and USING (or) ON should not appear in the same clause
+21. When joining more than two tables NATURALLY, the intermin resultset created will be joined to the Third table and if the resultset does not have a common column with the Third table,  then CARTESIAN PRODUCT occurs
+22. NON-EQUI JOINS
+
+[source,sql]
+----
+SELECT table1.column, table2.column
+    FROM table1
+    [JOIN table2 ON (table1.column_name < table2.column_name)]|
+    [JOIN table2 ON (table1.column_name > table2.column_name)]|
+    [JOIN table2 ON (table1.column_name <= table2.column_name)]|
+    [JOIN table2 ON (table1.column_name >= table2.column_name)]|
+    [JOIN table2 ON (table1.column BETWEEN table2.col1 AND table2.col2)]|
+----
+
+23. JOIN Condition can have boolean variables of AND, OR and NOT -> Need to evaluate to a BOOLEAN Expression
+
+[source,sql]
+----
+select E.JOB_ID from Employees e join jobs j on (e.salary>5000 and 2*e.salary < j.max_salary);
+----
+
+24. LEFT Outer Join -> Rows from Source Table -> Rows from the LEFT of the JOIN condition "X LEFT JOIN Y" -> Rows from X
+    .. RIGHT Outer Join -> Rows from Target Table -> Rows from the RIGHT of the JOIN condition "X LEFT JOIN Y" -> Rows from Y
+    .. FULL Outer Join -> Both Source and Target tables
+
+[source,sql]
+----
+SELECT table1.column, table2.column
+    FROM table1
+    LEFT OUTER JOIN table2
+    ON (table1.column = table2.column);
+SELECT table1.column, table2.column
+    FROM table1
+    RIGHT OUTER JOIN table2
+    ON (table1.column = table2.column);
+SELECT table1.column, table2.column
+    FROM table1
+    FULL OUTER JOIN table2
+    ON (table1.column = table2.column);
+SELECT table1.column, table2.column
+    FROM table1
+    CROSS JOIN table2;     -> ANSI SQL:1999 cross join syntax
+----
+
+25. SQL*Plus presents any identically named columns as headings. SQL Developer appends an underscore and number to each shared column name and uses it as the heading
+26. JOIN ON takes multiple conditions using AND -> SELECT * FROM EMPLOYEES E JOIN DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID AND E.MANAGER_ID=D.MANAGER_ID;
+27. departments d outer join employees e -> INVALID SYNTAX -> Need to specify type of OUTER join
+28. CROSS JOIN cannot have a JOIN condition -> Syntax Error
+29. SELECT D.DEPARTMENT_ID FROM EMPLOYEES JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+    Columns in USING Clause when used in SELECT should NOT HAVE QUALIFIERS
+30. SELECT *
+      FROM LOCATIONS L RIGHT OUTER JOIN COUNTRIES C
+      ON (L.COUNTRY_ID=C.COUNTRY_ID)
+      WHERE L.COUNTRY_ID is NULL
+
+	.. Joins both the tables and gives a combined result with the additional records in COUNTRIES which are not used in LOCATIONs table
+	.. Specifying the WHERE condition removes the rows that have an ENTRY in the LOCATIONS table
+	.. This gives the records which are in the COUNTRIES table without any ENTRY in the LOCATIONS table
+
+31. IF THERE IS A OUTER JOIN, FIRST JOIN the TABLE and apply the CONDITIONS to get the results
+
+== Chapter 8
+
+1. A scalar subquery is a query that returns exactly one value: a single row, with a single column.
+2. A subquery is a query that is nested inside a SELECT, INSERT, UPDATE, or DELETE statement or inside another subquery
+3. Subqueries can be nested to an unlimited depth in a FROM clause but to "only" 255 levels in a WHERE clause. They can be used in the SELECT list and in the FROM, WHERE, and HAVING clauses of a query.
+4. Using NOT IN is fraught with problems because of the way SQL handles NULLs. As a general rule, do not use NOT IN unless you are certain that the result set will not include a NULL.
+5. If the subquery is going to return more than one row, then the comparison operator must be able to accept multiple values. These operators are IN, NOT IN, ANY, and ALL. If the comparison operator is EQUAL, GREATER THAN, or LESS THAN (which each can only accept one value), the parent query will fail.
+6. An extension of the use of subqueries as an alternative to a join is to enable the star transformation often needed in data warehouse applications
+[source,sql]
+----
+FROM
+and p.product=’Books’
+and b.country=’Germany’
+and c.channel=’Internet’;
+
+TO
+select ... from sales
+where prod_code in (select prod_code from products where product=’Books’)
+and buy_code in (select buy_code from buyers where country=’Germany’)
+and chan_code in (select chan_code from channels where channel=’Internet);
+----
+
+7. STAR TRANSFORMATION There is an instance initialization parameter, STAR_TRANSFORMATION_ENABLED, which (if set to true) will permit the Oracle query optimizer to re-write code into star queries.
+8. Subqueries can also be used in the FROM clause, where they are sometimes referred to as inline views
+9. select (select max(salary) from employees) *  (select max(commission_pct) from employees) / 100 from dual;
+   .. In this usage, the SELECT list used to project columns is being populated with the results of the subqueries. A subquery used in this manner must be scalar, or the parent query will fail with an error.
+10. USAGE of Sub Query happens in WHERE clause, FROM clause, SELECT clause, DML Statements
+
+[source,sql]
+----
+insert into sales_hist select * from sales where date > sysdate-1;
+update employees set salary = (select avg(salary) from employees);
+delete from departments where department_id not in (select department_id from employees);
+----
+11. A subquery can be used to select rows for insertion but not in a VALUES clause of an INSERT statement.
+12. Usage examples
+
+[source,sql]
+----
+insert into dates select sysdate from dual; -> CORRECT
+insert into dates (date_col) values (select sysdate fom dual); -> NOT CORRECT
+----
+13. The single-row subquery returns one row. A special case is the scalar subquery, which returns a single row with one column.
+    .. The comparison operators valid for single-row subqueries are =, >, >=, <, <=, and <>.
+    .. The comparison operators valid for multiple-row subqueries are IN, NOT IN, ANY, and ALL.
+14. Correlated subqueries can be a very inefficient construct, due to the need for repeated execution of the subquery. Always try to find an alternative approach.
+15. Usage of ALL
+
+[source,sql]
+----
+select last_name from employees where salary > all (select salary from employees where department_id=80);
+
+< ANY less than the highest
+> ANY more than the lowest
+= ANY equivalent to IN
+> ALL more than the highest
+< ALL less than the lowest
+----
+
+16. "NOT >="      -> NOT or ! cannot be used in Conjunction with other comparison operators
+17. SUB QUERIES can be used in SELECT, FROM, WHERE, GROUP BY, HAVING
+    CANNOT be used in ORDER BY
+18. If a subquery returns NULL, then the comparison will also return NULL, meaning that no rows will be retrieved.
+
+== Chapter 9
+
+1. There is a significant deviation from the ISO standard for SQL here, in that ISO SQL uses EXCEPT where Oracle uses MINUS, but the functionality is identical.
+2. Oracle provides three set operators: UNION, INTERSECT, and MINUS. UNION can be qualified with ALL
+3. Union options
+   .. UNION - Returns the combined rows from two queries, sorting them and removing duplicates.
+   .. UNION ALL - Returns the combined rows from two queries without sorting or removing duplicates.
+   .. INTERSECT - Returns only the rows that occur in both queries’ result sets, sorting them and removing duplicates.
+   .. MINUS - Returns only the rows in the first result set that do not appear in the second result set, sorting them and removing duplicates.
+4. Although pending enhancements to ISO SQL will give INTERSECT a higher priority than the others, there is currently no priority of one operator over another.
+   .. To override this precedence, based on the order in which the operators appear, you can use parentheses:
+5. The columns in the queries that make up a compound query can have different names, but the output result set will use the names of the columns in the first query
+6. Each query in a compound query will project its own list of selected columns.
+   .. These lists must have the same number of elements, be nominated in the same sequence, and be of broadly similar data type.
+   .. They do not have to have the same names (or column aliases), nor do they need to come from the same tables (or subqueries).
+   .. If the column names (or aliases) are different, the result set of the compound query will have columns named as they were in the first query.
+   .. While the selected column lists do not have to be exactly the same data type, they must be from the same data type group.
+   .. DATE amd NUMBER in first query should match with TIMESTAMP and INTEGER in second Query
+   .. The result set of the compound query will have columns with the higher level of precision: in this case, they would be TIMESTAMP and NUMBER
+   .. NO IMPLICIT CASTING -> If the second query retrieved columns of type VARCHAR2, the compound query would throw an error even if the string variables could be resolved to legitimate date and numeric values.
+7. UNION, MINUS, and INTERSECT will always combine the results sets of the input queries, then sort the results to remove duplicate rows. The sorting is based on all the columns, from left to right.
+   .. If all the columns in two rows have the same value, then only the first row is returned in the compound result set
+8. It is possible to put a single ORDER BY clause at the end of the compound query. It is not possible to use ORDER BY in any of the queries that make up the whole compound query, as this would disrupt the sorting that is necessary to remove duplicates
+9. UNION ALL ->  the result sets of the two input queries will be concatenated to form the result of the compound query
+   .. Can’t use ORDER BY in the individual queries; it can only appear at the end of the compound query
+10. If you know that there can be no duplicates between two tables, then always use UNION ALL. Itsaves the database from doing a lot of sorting
+11. Remember: If padded with Spaces, then it takes precedence over alphabets [conversion of CHAR to VARCHAR2]
+12. INSTERSECT between CHAR and VARCHAR2 will not be equal [Exact number of spaces is required in VARCHAR2 field]
+13. A MINUS runs both queries, sorts the results, and returns only the rows from the first result set that do not appear in the second result set.
+14. For Mismatching number of columns, we can use TO_CHAR(NULL)
+[source,sql]
+----
+select name,tail_length,to_char(null) from cats
+union all
+select name,to_char(null),wing_span from birds;
+----
+15. Without parentheses, the set operators will be applied in the sequence in which they are specified
+16. Using an ORDER BY class in SETS throws an Error
+17. There is no problem with placing an ORDER BY clause at the end of the compound query
+    .. However, there might be a problem with adding a aliased column in the order by class of the THREE or more Queries
+    .. The Alias declaration and the usage has to in SUCCESSIVE QUERIES else it does not work.
+
+== Chapter 10
+
+1. MERGE can be thought of as a shortcut for executing either an INSERT or an UPDATE or a DELETE, depending on some condition.
+2. Final List of DML Statements are:  SELECT, INSERT, UPDATE, DELETE, MERGE
+3. TRUNCATE is thought as a DML but actually is a DDL
+4. There are much faster techniques than INSERT for populating a table with large numbers of rows. These are the SQL*Loader utility, which can upload data from files produced by an external feeder system, and Datapump, which
+   .. Can transfer data in bulk from one Oracle database to another, either via disk files or through a network link.
+5. One UPDATE statement can change rows in only one table, but it can change any number of rows in that table.
+6. MERGE was introduced with the SQL1999 standard, implemented by Oracle in database release 9i.
+7. UPSERT - Propritory SQL implementation of MERGE
+8. A MERGE passes through the source data, for each row attempting to locate a matching row in the target.
+    .. If no match is found, a row can be inserted;
+    .. If a match is found, the matching row can be updated. The release 10g enhancement means that the target row can even be deleted, after being matched and updated.
+9. Transactions, consisting of INSERT, UPDATE, and DELETE (or even MERGE) commands can be made permanent (with a COMMIT) or reversed (with a ROLLBACK).
+   .. A TRUNCATE command, like any other DDL command, is immediately permanent: it can never be reversed.
+10. TRUNCATE is a DDL and NOT A DML because it cannot be controlled by Transactions [(though within the database, they are in fact implemented as transactions, but developers cannot control them]
+11. Whereas a deletion may take some time (possibly hours, if there are many rows in the table) a truncation will go through instantly. It makes no difference whether the table contains one row or billions
+12. DDL commands, such as TRUNCATE, will fail if there is any DML command active on the table. A transaction will block the DDL command until the DML command is terminated with a COMMIT or a ROLLBACK.
+13. If the user attempting to execute the statement does not have the relevant permissions on the tables to which it refers, the database will return an error identical to that which would be returned if the object did not exist. As far as the user is concerned, it does not exist
+14. INSERT - insert into hr.regions values (10,'Great Britain');
+    .. When the database receives a statement using positional notation, it will match the order of the values to the order in which the columns of the table are defined.
+15) INSERT Performance
+
+[source,sql]
+----
+insert into employees (employee_id, last_name, hire_date) values (1000,'WATSON','03-Nov-07');
+insert into employees (employee_id, last_name, hire_date) values (1000,upper('Watson'),to_date('03-Nov-07','dd-mon-yy'));
+----
+    .. SECOND is better than the First, because of UPPER casing -> useful in sorting
+    .. to_date prevents the performance hit of implicit conversion
+16. Any SELECT statement, specified as a subquery, can be used as the source of rows passed to an INSERT. This enables insertion of many rows.
+    .. Alternatively, using the VALUES clause will insert one row. The values can be literals or prompted for as substitution variables.
+17) insert all
+
+[source,sql]
+----
+
+when 1=1 then
+  into emp_no_name (department_id,job_id,salary,commission_pct,hire_date)
+  values (department_id,job_id,salary,commission_pct,hire_date)
+
+when department_id <> 80 then
+  into emp_non_sales (employee_id,department_id,salary,hire_date)
+  values (employee_id,department_id,salary,hire_date)
+
+when department_id = 80 then
+  into emp_sales (employee_id,salary,commission_pct,hire_date)
+  values (employee_id,salary,commission_pct,hire_date)
+
+select employee_id,department_id,job_id,salary,commission_pct,hire_date
+from employees where hire_date > sysdate - 30;
+----
+
+NOTE: ALL -> means all the tables will be updated for matching conditions. IF "ALL" is not there, only the first matching WHEN will be filled
+
+
+18. `UPDATE table SET column=value [,column=value...] [WHERE condition];`
+19. *UPDATE table*
+
+[source,sql]
+----
+UPDATE table
+    SET column=[subquery] [,column=subquery...]
+    WHERE column = (subquery)  [AND column=subquery...] ;
+----
+20. There is a rigid restriction on the subqueries using update columns in the SET clause: the subquery must return a scalar value.
+    .. If there were more than one it would fail with the error -> ORA-01427: single-row subquery returns more than one row.
+    .. The subqueries used to SET column values must be scalar subqueries.
+    .. The subqueries used to select the rows must also be scalar, unless they use the IN predicate.
+
+21. DELETE FROM table [WHERE condition];
+22. TRUNCATE is a DDL (Data Definition Language) command. TRUNCATE completely empties the table. 	 .. There is no concept of row selection, as there is with a DELETE.
+    .. It operates within the data dictionary and affects the structure of the table, not the contents of the table.
+    .. However, the change it makes to the structure has the side effect of destroying all the rows in the table.
+23. The data dictionary tracks how much of the space allocated to the table has been used. This is done with the high water mark.
+    .. The high water mark is the last position in the last extent that has been used
+    .. Inserting rows into a table pushes the high water mark up.
+    .. Deleting them leaves the high water mark where it is;
+    .. The space they occupied remains assigned to the table but is freed up for inserting more rows.
+24. Truncating a table resets the high water mark.
+    .. A truncation is fast: virtually instantaneous, irrespective of whether the table has many millions of rows or none.
+24. `TRUNCATE TABLE table;`
+
+25. *Merge Into Query*
+[source,sql]
+----
+merge into employees e using new_employees n
+    on (e.employee_id = n.employee_id)
+    when matched then
+	update set e.salary=n.salary
+    when not matched then
+	insert (employee_id,last_name,salary) values (n.employee_id,n.last_name,n.salary);
+----
+26. ACID test: it must guarantee atomicity, consistency, isolation, and durability.
+    .. Atomicity states that all parts of a transaction must complete or none of them.
+	.. [Two updates must happen as a single transaction]
+    .. Consistency states that the results of a query must be consistent with the state of the database at the time the query started.
+	.. [Updates should not be allowed when querying the table]
+	.. The principle of consistency requires that the database ensure that changed values are not seen by the query [ORA-1555 snapshot too old] -> DB Admin does not configure properly
+    .. Isolation states that an incomplete (that is, uncommitted) transaction must be invisible to the rest of the world.
+    .. Durability states that once a transaction completes, it must be impossible for the database to lose it.
+
+27. A session begins a transaction the moment it issues any INSERT, UPDATE, or DELETE statement (but not a TRUNCATE, that is a DDL command, not DML).
+    .. The transaction continues through any number of further DML commands until the session issues either a COMMIT or a ROLLBACK statement
+28. It is impossible to nest transactions. This can be done with PL/SQL (Oracle’s proprietary third-generation language), but not with industry-standard SQL.
+29. The explicit transaction control statements are COMMIT, ROLLBACK, and SAVEPOINT.
+    .. The implicit ones are:
+	    ... Issuing a DDL  (CREATE, ALTER, or DROP) or DCL (GRANT or REVOKE) statement
+	    ... Exiting from the user tool (SQL*Plus or SQL Developer or anything else)
+	    ... If the client session dies
+	    ... If the system crashes
+30. If a user starts a transaction by issuing a DML command and then exits from the tool he is using without explicitly issuing either a COMMIT or a ROLLBACK, the transaction will terminate, but whether it terminates with a COMMIT or a ROLLBACK is entirely dependent on how the tool is written
+31. If a client’s session fails for some reason, the database will always roll back the transaction.
+    .. the user process can die or be killed at the operating system level,
+    .. the network connection to the database server may go down,
+    .. the machine where the client tool is running can crash.
+32. The behavior is that the session is killed, and an active transaction is rolled back.
+33. The SAVEPOINT command can be used to set markers that will stage the action of a ROLLBACK, but the same transaction remains in progress irrespective of the use of SAVEPOINT.
+34. COMMIT;
+35. ROLLBACK [TO SAVEPOINT savepoint] ;
+36. A COMMIT is instantaneous, because it doesn’t really have to do anything. The work has already been done.
+    .. A ROLLBACK can be very slow: it will usually take as long (if not longer) to reverse a transaction than it took to make the changes in the first place.
+    .. Rollbacks are not good for database performance.
+37. SAVEPOINT is used only for ROLLBACK and does not commit the data
+38. The SAVEPOINT command is not (yet) part of the official SQL standard, so it may be considered good practice to avoid it in production systems.
+    .. It can be very useful in development, though, when you are testing the effect of DML statements and walking through a complex transaction step by step.
+39. SET AUTOCOMMIT ON ->  behavior in both tools so that every DML statement commits immediately, in its own transaction.
+40. SELECT FOR UPDATE -> select * from regions for update;
+41. The transaction is started implicitly with the first DML statement executed.
+    .. Until it is committed, it can be reversed with a ROLLBACK
+42. The FOR UPDATE clause will place a lock on all the rows retrieved.
+    .. No changes can be made to them by any session other than that which issued the command, and therefore the subsequent updates will succeed
+    .. The locks placed by a FOR UPDATE clause will be held until the session issuing the command issues a COMMIT or ROLLBACK.
+43. If an UPDATE or DELETE command has a WHERE clause that gives it a scope of several
+    rows, what will happen if there is an error part way through execution? The command is one of
+    several in a multistatement transaction. Whatever work the command had done before hitting the error will be rolled back, but work done already by the transaction will remain.
+44. You want to insert a row and then update it. What sequence of steps should you follow?
+    SIMPLEST and BEST WAY:  INSERT, UPDATE, COMMIT
+45. Creating savepoints and rolling back to them leave the transaction in progress
+    .. COMMIT and ROLLBACK are the commands to terminate a transaction explicitly; TRUNCATE will do it implicitly.
+
+== Chapter 11
+
+1. select object_type,count(object_type) from dba_objects group by object_type order by object_type -> DBA_OBJECTS is a View
+2. USER_OBJECTS -> objects owned by you ALL_OBJECTS -> objects which you have been granted access
+3. User SYS owns the data dictionary: a set of tables (in the SYS schema) that define the database and its contents.
+   .. SYS also owns several hundred PL/SQL packages: code that is provided for the use of database administrators and developers.
+4. You update the data dictionary by running DDL commands (such as CREATE TABLE), which provide a layer of abstraction between you and the data dictionary itself.
+   .. The SYSTEM schema stores various additional objects used for administration and monitoring.
+5. The user MDSYS stores the objects used by Oracle Spatial, an option that extends the capabilities of the Oracle database to manage geographical information.
+6. The name may be from 1 to 30 characters long (with the exception of database link names that may be up to 128 characters long).
+   .. Reserved words (such as SELECT) cannot be used as object names.
+   .. All names must begin with a letter from A to Z.
+   .. The characters in a name can only be letters, numbers, an underscore (_), the dollar sign ($), or the hash symbol (#).
+   .. Lowercase letters will be converted to uppercase.
+7. By enclosing the name within double quotes, all these rules (with the exception of the length) can be broken, but to get to the object, subsequently, it must always be specified with double quotes.
+   .. Note that the same restrictions also apply to column names
+8. Tools such as SQL*Plus and SQL Developer will automatically convert lowercase letters to uppercase unless the name is enclosed within double quotes
+9. While it is possible to use lowercase names and nonstandard characters (even spaces), it is considered bad practice because of the confusion it can cause.
+10. Tables, views, and private synonyms  -> form one namespace
+    .. Indexes and Constraints -> form one namespace
+    .. Naming of objects within a single namespace should be unique
+11. On creation, the table will have been assigned a limited amount of space (known as an extent) within the database.
+12. Size of character sets
+	.. VARCHAR2 - 1byte - 4KB
+    .. NVARCHAR2 - stored in alternative national language character set
+    .. CHAR - Fixed length 1 byte to 2KB
+13. For ISO/ANSI compliance, you can specify a VARCHAR data type, but any columns of this type will be automatically converted to VARCHAR2.
+=== For Binary Data
+
+1. RAW: 1 byte to 4KB
+2. RAW data is not converted by Oracle Net from the database’s character set to the user process’s character set on SELECT or the other way on INSERT.
+
+=== For numeric data
+1. NUMBER
+	.. Precision can range from to 1 to 38, the scale can range from -84 to 127
+	.. If the scale is negative, this has the effect of replacing the last digits of any number inserted with zeros, which do not count toward the number of digits specified for the precision.
+	.. If the number of digits exceeds the precision, there will be an error;
+	.. if it is within the precision but outside the scale, the number will be rounded (up or down) to the nearest value within the scale
+
+2. FLOAT ->  This is an ANSI data type, floating-point number with precision of 126 binary (or 38 decimal). Oracle also provides BINARY_FLOAT and BINARY_DOUBLE as alternatives
+3. INTEGER ->  Equivalent to NUMBER, with scale zero.
+
+=== For date and time [Fixed Length]
+1. DATE
+.. This is either length zero, if the column is empty, or 7 bytes includes century, year, month, day, hour, minute, and second - from January 1, 4712 BC to December 31, 9999 AD.
+.. Using the TRUNC function on a date also has the effect of setting the hours, minutes, and seconds to midnight
+2. TIMESTAMP
+.. length zero if the column is empty, or up to 11 bytes
+.. Similar to DATE, but with precision of up to 9 decimal places for the seconds, 6 places by default.
+.. TIMESTAMP WITH TIMEZONE The length may be up to 13 bytes
+.. difference between two times by normalizing them to UTC, even if the times are for different time zones
+.. TIMESTAMP WITH LOCAL TIMEZONE The data is normalized to the database time zone on saving. When retrieved, it is normalized to the time zone of the user process selecting it.
+.. INTERVAL YEAR TO MONTH - period in years and months between two DATEs or TIMESTAMPs
+.. INTERVAL DAY TO SECOND - period in days and seconds between two DATEs or TIMESTAMPs
+
+=== For Large Object Types
+1. CLOB - size effectively unlimited: 4GB multiplied by the database block size.
+2. NCLOB - stored in the alternative national language character set, one of the permitted Unicode character sets.
+3. BLOB  -  binary data that will not undergo character set conversion by Oracle Net
+4. BFILE -  locator pointing to a file stored on the operating system of the database server. 4GB
+5. LONG -  Character data in the database character set, up to 2GB ->  provided by CLOB
+	.. LONGs should not be used in a modern database,-> should be converted to CLOB.
+	.. There can only be one LONG column in a table
+6. LONG RAW - Binary data that will not be converted by Oracle Net.
+	..Any LONG RAW columns should be converted to BLOBs.
+
+=== ROWID data type
+1. Value coded in base 64 that is the pointer to the location of a row in a table.
+2. Encrypted
+3. Exact physical address
+4. ROWID is an Oracle proprietary data type, not visible unless specifically selected.
+5. All examinees will be expected to know about these data types:
+6. VARCHAR2, CHAR, NUMBER, DATE, TIMESTAMP, INTERVAL, RAW, LONG, LONG RAW, CLOB, BLOB, BFILE, and ROWID.
+7. Detailed knowledge will also  be needed for VARCHAR2, NUMBER and DATE.
+
+== Chapter 11 Continued
+
+1. Tables can be stored in the database:
+2. HEAP TABLES - A heap is variable length rows in random order
+3. Advanced table structures
+    .. Index organized tables - Store rows in the order of an index key.
+    .. Index clusters - Can denormalize tables in parent-child relationships so that related rows from different table are stored together.
+    .. Hash clusters - Force a random distribution of rows, which will break down any ordering based on the entry sequence.
+    .. Partitioned tables    Store rows in separate physical structures, the partitions, allocating rows according to the value of a column.
+
+[source,sql]
+----
+CREATE TABLE [schema.]table [ORGANIZATION HEAP]  ->  default and is industry standard SQL.
+(column datatype [DEFAULT expression]
+[,column datatype [DEFAULT expression]...);
+----
+
+4. The DEFAULT clause can be useful, but it is of limited functionality. You cannot use a subquery to generate the default value: you can only specify literal values or functions.
+5. CREATE TABLE [schema.]table AS subquery; -> create table employees_copy as select * from employees;
+    .. Create a table EMPLOYEES_COPY, which is an exact copy of the EMPLOYEES table, identical in both definition and the rows it contains.
+    .. Any not null and check constraints on the columns will also be applied to the new table, but any primary-key, unique, or foreign-key constraints will not be
+5. All of these changes are DDL commands with the built-in COMMIT. Altering Table Definitions after Creation
+[source,sql]
+----
+alter table emp add (job_id number); -> Adding a column
+alter table emp modify (comm number(4,2) default 0.05); -> modifying a column
+alter table emp drop column comm; -> dropping a column
+alter table emp set unused column job_id; -> Marking column as unused
+alter table emp rename column hiredate to recruited; -> Renaming the column
+alter table emp read only; -> marking table as read-only
+----
+6. Dropping a column can be a time-consuming exercise because as each column is dropped, every row must be restructured to remove the column’s data.
+7. The SET UNUSED command, which makes columns nonexistent as far as SQL is concerned, is often a better alternative, followed when convenient by `ALTER TABLE tablename DROP UNUSED COLUMNS;` which will drop all the unused columns in one pass through the table.
+8. Marking a table as read-only will cause errors for any attempted DML commands. But the table can still be dropped.
+9. DROP TABLE [schema.]tablename ; ->  it includes a COMMIT.
+   .. If any session (even your own) has a transaction in progress that includes a row in the table, then the DROP will fail,
+   .. It is also impossible to drop a table that is referred to in a foreign key constraint defined for a another table. This table (or the constraint) must be dropped first.
+10. The constraint types
+[source,sql]
+----
+UNIQUE
+NOT NULL
+PRIMARY KEY
+FOREIGN KEY
+CHECK
+----
+
+_If name is not provided, Oracle generates the constraint names_
+
+11. An oddity of unique constraints is that it is possible to enter a NULL value into the key column(s); it is indeed possible to have any number of rows with NULL values in their key column(s)
+12. Unique constraints are enforced by an index. When a unique constraint is defined, Oracle will look for an index on the key column(s), and if one does not exist it will be created.
+13. The structure of these indexes (known as B*Tree indexes) does not include NULL values, which is why many rows with NULL are permitted: they simply do not exist in the index.
+14. selecting WHERE key_column IS NULL cannot use the index because it doesn’t include the NULLs and will therefore always result in a scan of the entire table.
+15. CANNOT define one not null constraint for the whole group, but instead must define a not null constraint for each column.
+16. Possible to bypass the need to specify a value by including a DEFAULT clause on the column when creating the table
+17. The relational database paradigm includes a requirement that every table should have a primary key, a column (or combination of columns) that can be used to distinguish every row.
+    .. The Oracle database deviates from the paradigm (as do some other RDBMS implementations) by permitting tables without primary keys
+18. A table can have only one primary key. Try to create a second, and you will get an error. A table can, however, have any number of unique constraints and not null columns,
+19. A primary key constraint is a unique constraint combined with a not null constraint.
+20. Foreign Key Constraints - The columns do not have to have the same names, but they must be of the same data type.
+21. Attempting to inset a row in the child table for which there is no matching row in the parent table will give an error.
+    .. Similarly, deleting a row in the parent table will give an error if there are already rows referring to it in the child table
+22. The constraint may be created as ON DELETE CASCADE.
+    .. This means that if a row in the parent table is deleted, Oracle will search the child table for all the matching rows and delete them too.
+23. ON DELETE SET NULL.
+    .. If a row in the parent table is deleted, Oracle will search the child table for all the matching rows and set the foreign key columns to null.
+    .. This means that the child rows will be orphaned, but will still exist.
+    .. If the columns in the child table also have a not null constraint, then the deletion from the parent table will fail.
+24. It is not possible to drop or truncate the parent table in a foreign key relationship, even if there are no rows in the child table.
+    .. This still applies if the ON DELETE SET NULL or ON DELETE CASCADE clauses were used.
+25. Check Constraints ->  The rule must be an expression which will evaluate to TRUE or FALSE
+    .. The rules can refer to absolute values entered as literals or to other columns in the same row and may make use of some functions.
+    .. As many check constraints as you want can be applied to one column, but it is not possible to use a subquery to evaluate whether a value is permissible or to use functions such as SYSDATE.
+    .. The not null constraint is in fact implemented as a preconfigured check constraint.
+26. If you really need to make the change in a hurry, ask the database administrator to quiesce the database: this is a process that will freeze all user sessions.
+    ..If you are very quick, you can make the change then unquiesce the database before end users complain.
+27. Example
+
+[source,sql]
+----
+create table dept(
+deptno number(2,0) constraint dept_deptno_pk primary key    -> CONSTRAINT CONSTRAINT_NAME PRIMARY KEY
+constraint dept_deptno_ck check (deptno between 10 and 90),  -> CONSTRAINT CONSTRAINT_NAME CHECK (COLUMN_NAME BETWEEN 10 AND 90)
+dname varchar2(20) constraint dept_dname_nn not null);  -> CONSTRAINT CONSTRAINT_NAME  NOT NULL
+
+
+create table emp(
+empno number(4,0) constraint emp_empno_pk primary key,
+ename varchar2(20) constraint emp_ename_nn not null,
+mgr number (4,0) constraint emp_mgr_fk references emp (empno),  -> CONSTRAINT CONSTRAINT_NAME REFERENCES TABLE_NAME (COLUMN_NAME)
+dob date,
+hiredate date,
+deptno number(2,0) constraint emp_deptno_fk references dept(deptno)
+on delete set null,
+email varchar2(30) constraint emp_email_uk unique,  -> CONSTRAINT CONSTRAINT_NAME UNIQUE
+
+/* ADDING ADDITIONAL CONSTRAINTS AT THE END */
+
+constraint emp_hiredate_ck check (hiredate >= dob + 365*16),
+constraint emp_email_ck
+check ((instr(email,'@') > 0) and (instr(email,'.') > 0)));
+----
+
+28. Stored procedures, synonyms, tables, and views exist in the same namespace.
+29. A heap is a table of variable length rows in random order. a heap table can only be one table.a heap table can (and usually will) have indexes and a primary key.
+30. BLOB, LONG, NUMBER, RAW and VARCHAR2 are variable length. CHAR is fixed length
+31. CHAR, FLOAT, and INTEGER are all internal data types, though not as widely used as some others.
+32. `create table newtab as select * from tab;`
+    .. Check and not null constraints are not dependent on any structures other than the table to which they apply and so can safely be copied to a new table.
+    .. Primary key and unique constraints WILL NOT be copied as they are dependent on other structures
+33. Unique and primary key constraints are enforced with indexes.
+    .. Check and not null constraints do not rely on indexes.
+34. Constraint violation will force a roll back of the current statement but nothing else even if the transaction consists of more than one statement
+
+
+== Chapter 12
+
+1.  A View looks like a table: a two-dimensional structure of rows of columns, against which the user can run SELECT and DML statements.
+2.  It can join tables, perform aggregations, or do sorts; absolutely anything that is legal in the SELECT command can be used. However, if the view is complex, then only SELECT statements can be run against it
+3.  Views share the same namespace as tables. But DML operations will not always succeed.
+4.  Use of Views:
+	.. Security.
+	.. Simplifying user SQL.
+	.. Preventing error.
+	.. Making data comprehensible. Table and column names are often long and pretty meaningless. .. The view and its columns can be much more obvious.
+	.. Performance.
+5.  A nested loop join uses an index to get to individual rows; a hash join reads the whole table into memory.
+6. Create View syntax
+
+[source,sql]
+----
+create view dept_emp as
+select /*+USE_HASH (employees departments)*/ department_name, last_name
+from departments natural join employees;
+----
+7.  A simple view draws data from one detail table, uses no functions, and does no aggregation. -> DML statements work
+    .. A complex view can join detail tables, use functions, and perform aggregations. -> DML Statements wont work
+8.  If the view does not include a column that has a NOT NULL constraint, then an INSERT through the view cannot succeed (unless the column has a default value).
+    .. This can produce a disconcerting effect because the error message will refer to a table and a column that are not mentioned in the statement
+9.  Full syntax with options
+
+[source,sql]
+----
+CREATE [OR REPLACE] [FORCE | NOFORCE] VIEW
+    [schema.]viewname [(alias [,alias]…)]
+    AS subquery
+    [WITH CHECK OPTION [CONSTRAINT constraintname]]
+    [WITH READ ONLY [CONSTRAINT constraintname]] ;
+      REPLACE -> replacing the view
+      FORCR or NOFORCE ->
+      		The FORCE keyword will create the view even if the detail table(s) in the subquery does not exist.
+      		NOFORCE is the default and will cause an error if the detail table does not exist.
+      WITH CHECK OPTION
+      		If the subquery includes a WHERE clause, then this option will prevent insertion of rows
+		that wouldn’t be seen in the view or updates that would cause a row to disappear from the view.
+		By default, this option is not enabled, which can give disconcerting results.
+       WITH READ ONLY
+
+       CONSTRAINT constraintname
+        	name the WITH CHECK OPTION and WITH READ ONLY restrictions for better error messages
+----
+
+10. The main use of the ALTER VIEW command is to compile the view. A view must be compiled successfully before it can be used
+    .. When a view is created, Oracle will check that the detail tables and the necessary columns on which the view is based do     exist.
+    .. If they do not, the compilation fails and the view will not be created, unless you use the FORCE option.
+    .. In that case, the view will be created but will be unusable until the tables or columns to which it refers are created and the view is successfully compiled.
+    .. When an invalid view is queried, Oracle will attempt to compile it automatically.
+    .. If the compilation succeeds because the problem has been fixed, the user won’t know there was ever a problem
+
+    `ALTER VIEW HR.ex_staff compile;`
+
+11. `DROP VIEW [schema.]viewname ;`
+
+12. A synonym is an alternative name for an object.
+    .. Use of synonyms means that an application can function for any user, irrespective of which schema owns the views and tables or even in which database the tables reside.
+
+13. `select * from hr.employees@prod;`
+    .. database link PROD (means of accessing objects in a database other than that onto which you are logged)
+14. Public Synonym: ->  data independence and location transparency
+    `create public synonym emp for hr.employees@prod;`
+    .. All the user (any user!) need enter is the following:
+    `select * from emp;`
+
+15. As well as SELECT statements, DML statements can address synonyms as though they were the object to which they refer.
+16. Private synonyms are schema objects. Either they must be in your own schema, or they must be qualified with the schema name.
+17. Public synonyms exist independently of a schema.
+    .. A public synonym can be referred to by any user to whom permission has been granted to see it without the need to qualify it with a schema name.
+    .. Private synonyms must be a unique name within their schema.
+    .. Public synonyms can have the same name as schema objects.
+    .. When executing statements that address objects without a schema qualifier, Oracle will first look for the object in the local schema, and only if it cannot be found will it look for a public synonym.
+18. `CREATE [PUBLIC] SYNONYM synonym FOR object ;`
+19. The "public" in "public synonym" means that it is not a schema object and cannot therefore be prefixed with a schema name. It does not mean that everyone has permissions against it.
+20. A user will need to have been granted permission to create private synonyms and further permission to create public synonyms.
+    .. Usually, only the database administrator can create (or drop) public synonyms
+21. `DROP [PUBLIC] SYNONYM synonym ;`
+22. If the object to which a synonym refers (the table or view) is dropped, the synonym continues to exist.
+    .. Any attempt to use it will return an error. In this respect, synonyms behave in the same way as views.
+    .. If the object is recreated, the synonym must be recompiled before use
+
+    `ALTER SYNONYM synonym COMPILE;`
+
+23. SEQUENCE
+    .. A sequence is a structure for generating unique integer values. Only one session can read the next value and thus force it to increment.
+24. Each selection of SEQ1.NEXTVAL generates a unique number.
+25. Sequence Create Syntax
+
+[source,sql]
+----
+CREATE SEQUENCE [schema.]sequencename
+	[INCREMENT BY number]  ->  Defaults to +1 but can be any positive number (or negative number for a descending sequence).
+	[START WITH number] -> Defaults to 1 but can be anything.
+	[MAXVALUE number | NOMAXVALUE]
+		-> The highest number an ascending sequence can go to before generating an error or returning to its START WITH value.
+ 		   The default is no maximum.
+	[MINVALUE number | NOMINVALUE]
+		-> The lowest number a descending sequence can go to before generating an error or returning to its START WITH value.
+		   The default is no minimum.
+	[CYCLE | NOCYCLE]
+		-> Controls the behavior on reaching MAXVALUE or MINVALUE. The default behavior is to give an error
+		    If CYCLE is specified the sequence will return to its starting point and repeat.
+	[CACHE number | NOCACHE]
+		-> Oracle can preissue sequence values in batches and cache them for issuing to users.
+		   The default is to generate and cache the next 20 values.
+	[ORDER | NOORDER] ;
+		-> Only relevant for a clustered database:
+		   ORDER forces all instances in the cluster to coordinate incrementing the sequence,
+		   so that numbers issued are always in order even when issued to sessions against different instances.
+		   NOORDER is the default
+----
+
+26. If your application selects from the sequence 10 times a second, then set the cache value to 50 thousand.
+27. NEXTVAL -> forces the sequence to increment,
+28. CURRVAL -> the last (or "current") value issued to that session with the CURRVAL pseudo column
+29. The CURRVAL will be constant for one session until it selects NEXTVAL again.
+30. You can always obtain the next value by incrementing it with NEXTVAL, and you can always recall the last value issued to YOUR session with CURRVAL, but you CANNOT find the last value issued.
+31. The CURRVAL of a sequence is the last value issued to the current session, not necessarily the last value issued.
+    .. You cannot select the CURRVAL until after selecting the NEXTVAL.
+32. A COMMIT is not necessary to make the increment of a sequence permanent:
+    .. It is permanent and made visible to the rest of the world the moment it happens.
+    .. Even if the insert or update is rolled back, the sequence is NOT ROLLEDBACK
+33. The gaps will be larger if the database has been restarted and the CACHE clause was used.
+    .. All numbers that have been generated and cached but not yet issued will be lost when the database is shut down
+    .. At the next restart, the current value of the sequence will be the last number generated, not the last issued.
+34. Altering a sequence
+
+[source,sql]
+----
+ALTER SEQUENCE sequencename
+[INCREMENT BY number]
+[START WITH number]
+[MAXVALUE number | NOMAXVALUE]
+[MINVALUE number | NOMINVALUE]
+[CYCLE | NOCYCLE]
+[CACHE number | NOCACHE]
+[ORDER | NOORDER] ;
+----
+
+35. ALTER command is the same as the CREATE command, with one exception: there is no way to set the starting value.
+	.. If you want to restart the sequence, the only way is to drop it and re-create it.
+
+36. A unique constraint also requires an index. The difference from a primary key constraint is that the column(s) of the unique constraint can be left null, perhaps in many rows.
+    .. This does not affect the creation and use of the index: nulls do not go into the B*Tree indexes
+
+37. Foreign key constraints are enforced by indexes, but the index must exist on the parent table
+38. You should always create indexes on the foreign key columns within the child table for performance reasons: a DELETE on the parent table will be much faster if Oracle can use an index to determine whether there are any rows in the child table referencing the row that is being deleted
+39. If there is no index on the column(s) referenced in the WHERE clause, the only way to do this is with a full table scan.
+40. A SELECT statement that includes the ORDER BY, GROUP BY, or UNION keywords (and a few others) must sort the rows into order - unless there is an index, which can return the rows in the correct order without needing to sort them first.
+41. Use of Indexes
+
+	-> For Primary keys and Foreign keys
+	-> For Sorting during the usage of ORDER BY or GROUP BY or UNION
+	-> When tables are joined
+
+42. Table Joins -> depending on the size of the tables and the memory resources available, it may be quicker to scan tables into memory and join them there, rather than use indexes -> decision by Oracle
+43. The nested loop join technique passes through one table using an index on the other table to locate the matching rows: this is usually a disk-intensive operation
+    .. A hash join technique reads the entire table into memory, converts it into a hash table, and uses a hashing algorithm to locate matching rows; this is more memory and CPU intensive
+    .. A sort merge join sorts the tables on the join column then merges them together: this is often a compromise between disk, memory, and CPU resources
+44. Types of indexes ->  B*Tree index, which is the default index type, and the Bitmap Index
+45. B*Tree indexes: these can be either unique or nonunique. -> Nonunique is the default. -> "B" stands for "balanced"
+    .. A unique index will not permit insertion of two rows with the same key values;
+    .. a nonunique index will permit as many rows as you want with the same values.
+46. Indexes will improve performance for data retrieval but reduce performance for DML operations.
+47. B*tree Index
+    .. The root node of the tree points to many nodes at the second level, which can point to many nodes at the third level, and so on
+    .. The necessary depth of the tree will be largely determined by the number of rows in the table and the length of the index key values.
+48. The B*Tree structure is very efficient. If the depth is greater then three or four, than either the index keys are very long or the table has billions of rows.
+    .. If neither if these is the case, then the index is in need of a rebuild.
+49. The leaf nodes of the index tree store the rows’ keys, in order, each with a pointer that identifies the physical location of the row
+50. The pointer to the row is the rowid ->  Oracle proprietary pseudocolumn that every row in every table has
+    .. Encrypted within it is the physical address of the row.
+51. ROWID: A row’s rowid is globally unique. Every row in every table in the whole database will have a different rowid.
+    .. The rowid encryption gives the physical address of the row: from it, Oracle can calculate which operating system file and where in the file the row is, and go straight to it.
+52. B*Tree indexes are very efficient if the number of rows needed is low in proportion to the total number of rows in the table and if the table is large
+53. Often said that if the query is going to retrieve more than 2 to 4 percent of the rows, then a full table scan will be quicker.
+    .. A major exception to this is if the value specified in the WHERE clause is NULL. NULLs do not go into B*Tree indexes
+    .. select * from employees where last_name is null; -> ALWAYS A FULL TABLE SCAN
+54. B*Tree index should not be used:
+     .. On a column with few unique values, as it will not be selective:
+     .. The proportion of the table that will be retrieved for each distinct key value will be too high
+55. B*Tree indexes should be used if:
+      .. The cardinality (the number of distinct values) in the column is high, and
+      .. The number of rows in the table is high, and
+      .. The column is used in WHERE clauses or JOIN conditions
+56. A Bitmap Index stores the rowids associated with each key value as a bitmap
+    .. WALKIN    11010111000101011101011101…..
+    .. DELIVERY  00101000111010100010100010…..
+    .. This means that the first row has the column value of WALKIN, Second row as WALKIN, Third as DELIVERY
+    .. So every different value will be a bitmap, this includes NULLS as well which will be a seperate bitmap
+57. `select count(*) from sales where channel='WALKIN' and shop='OXFORD';`
+    .. Oracle can retrieve the two relevant bitmaps and add them together with a Boolean AND operation:
+    .. The result of the AND operation shows that only the seventh and sixteenth rows qualify for selection
+
+58. A particular advantage that bitmap indexes have over B*Tree indexes is that they include NULLs. As far as the bitmap index is concerned, NULL is just another distinct value, which will have its own bitmap.
+59. Bitmap indexes should be used if:
+    .. The cardinality (the number of distinct values) in the column is low (such as male/female), and
+    .. The number of rows in the table is high, and
+    .. The column is used in Boolean algebra (AND/OR/NOT) operations
+60. `CREATE [UNIQUE | BITMAP] INDEX [ schema.]indexname ON [schema.]tablename (column [, column...] );`
+    .. The default type of index is a nonunique B*Tree index.
+61. It is not possible to create a unique bitmap index
+62. Indexes are schema objects, and it is possible to create an index in one schema on a table in another
+63. A composite index is an index on several columns
+    .. Composite indexes can be on columns of different data types, and the columns do not have to be adjacent in the table.
+64. `create unique index dept_i1 on dept(deptno);`
+    .. It will not be possible to insert duplicate values
+65. `create index emp_i2 on emp(surname,forename);`
+    .. will accept duplicate values
+66. `create bitmap index emp_i3 on emp(deptno);`
+    .. Bitmap index
+67. A unique and primary key constraint can be enforced by indexes that are either unique or nonunique:
+    .. In case of Pimary Key, it will be a nonunique index that happens to have only unique values.
+68. The Oracle server should make the best decision about index use, but if it gets it wrong it is possible for a programmer to embed instructions, known as OPTIMIZER HINTS, in code that will force the use (or not) of certain indexes.
+69. The ALTER INDEX command lies in the database administration domain and would typically be used to adjust the physical properties of the index, not the logical properties that are of interest to developers
+70. When a table is dropped, all the indexes and constraints defined for the table are dropped as well.
+    .. If an index was created implicitly by creating a constraint, then dropping the constraint will also drop the index.
+    .. If the index had been created explicitly and the constraint created later, then if the constraint is dropped the index will survive.
+71. Bitmap indexes cannot be unique. The keywords BITMAP and UNIQUE are mutually exclusive
+    .. A bitmap index can be composite, with columns of different data types.
+
+72. There is nothing known as a precompilation of Views. All the views take the same time even with different types of joins
+73. `create view dept_v as select * from dept;`
+74. `create synonym dept_s for dept_v;`
+75. Table -> View -> synonym
+    .. If table is dropped and when querying the synonym or the view, recompilation of view happens and error is thrown
+76. We can never know what would the nextval of a sequence is as multiple sessions can be using it
+77. A UNIQUE constraint on a column requires an index.  -> If a UNIQUE or NONUNIQUE index already exists on the column, it will be used.

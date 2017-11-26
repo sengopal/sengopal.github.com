@@ -1,0 +1,511 @@
+= Studying for OCP - Oracle Certifed Professional - Part 1
+Senthilkumar Gopal
+2009-02-12
+:jbake-type: post
+:jbake-tags: oracle,certification,coding,development,sql
+:jbake-status: published
+:summary: I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.
+
+I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.
+
+== Chapter 1
+1. The client tier consists of two components: the users and the user processes. The server tier has three components: the server processes that execute the SQL, the instance, and the database itself.
+2. User Processes - SQL*Plus and SQL Developer
+3. Oracle Net - Proprietary client server software used by Oracle DB for communication
+4. Table <==> relation or an entity.
+5. Rows <==> records or tuples, and columns <==> attributes or fields.
+6. No. of rows <==> cardinality of the tuples.
+7. Hierarchical paradigm => Storing employees of each department seperately
+* Rows are delimited by comma
+* Data retrieval is faster, updation is difficult
+8. Relation paradigm is useful in OLTP, DSS
+9. Normalization - BOOKS Table - ISBN, Title, Author, Publisher&Address
+* The first normal form is to remove the repeating groups - Make one primary key per table
+* 1st normal form - BOOKS - ISBN, Title, Publisher&Address AUTHORS - Name, ISBN
+* The second normal form removes columns from the table that are not dependent on the primary key
+* 2nd Normal form - BOOKS - ISBN, Title, Publisher, AUTHORS - -do- , PUBLISHER - PUBLISHER,street, city, state
+* Third normal form removes all columns that are interdependent
+* 3rd Normal form - PUBLISHERS - PUBLISHER, Address Code ADDRESSES - Address Code, Street, City, State
+10. Every table should have a primary key defined.This is a requirement of the relational paradigm. Note that the Oracle database deviates from this standard: it is possible to define tables without a primary key
+11. Standards
+.. Primary key columns identified with a hash (#)
+.. Foreign key columns identified with a back slash (\)
+.. Mandatory columns (those that cannot be left empty) with an asterisk (*)
+.. Optional columns with a lowercase `o`
+
+12. "crow’s feet" to indicate which sides of the relationship are the many and the one.
+13.  SQL is managed by ISO and ANSI.
+	.. ISO - Organisation Internationale de Normalisation, based in Geneva
+	.. ANSI - American National Standards Institute, based in Washington, DC.
+14. SQL Commands
+	.. Data Manipulation Language (DML) commands: SELECT, INSERT, UPDATE, DELETE, MERGE
+	.. Data Definition Language (DDL) commands: CREATE, ALTER, DROP, RENAME, TRUNCATE, COMMENT
+	.. Data Control Language (DCL) commands: GRANT, REVOKE
+	.. Transaction Control Language (TCL) commands: COMMIT, ROLLBACK, SAVEPOINT
+15. SQL Tools
+	 .. SQL*Plus is a user process written in C.
+	 .. It establishes a session against an instance and a database over the Oracle Net protocol.
+	 .. The platforms for the client and the server can be different
+	 /u01/app/oracle/product/db_1/bin/sqlplus - typical location
+	 .. Env Variables required are:
+	 ... The ORACLE_HOME - the set of files and directories containing the executable code and some of the configuration files.
+	 ... PATH must include ORACLE_HOME/bin
+	 ... LD_LIBRARY_PATH ORACLE_HOME/lib. [but in practice you may get away without setting this]
+	 ... database username followed by a forward slash character as a delimiter, then a password followed by an @ symbol as a delimiter, and finally an Oracle Net connect identifier.
+	 ... Ex: sqlplus system/oracle@orc1
+	 ... executable file sqlplus.exe, and the graphical version was sqlplusw.exe
+	 ... Windows: D:\oracle\app\product\11.1.0\db_2\BIN\sqlplus.exe
+	 ... Logon String: system/oracle@orcl
+	 ... sqlplus /nolog -  to prevent it from immediately presenting a login prompt
+	 HKEY_LOCAL_MACHINE/SOFTWARE/ORACLE/KEY_OraDb11g_home1 - Registry Key for Env Variables
+
+	 ... sqlplus scott/tiger@orcl - resolves the server orc1 using tnsnames.ora or using LDAP [TNS - Transparent Network Substrate ]
+	 ... sqlplus scott/tiger@linsrv1.bplc.co.za:1521/orcl.bplc.com - Complete details of server IP and port and the database service to connect to.
+	 ... SQL Developer -  JDK1.5 is the prerequisite
+
+16. Definitions
+	.. A database user is a person who can log on to the database.
+	.. A database schema is all the objects in the database owned by one user.
+	.. CREATE SCHEMA command does not create a schema, it is used for creating objects in a schema.
+	.. A schema is initially created empty, when a user is created with the CREATE USER command.
+17) Notes
+	.. SQL, PL/SQL, and Java can all run in the database
+	.. Third normal form is the usual form aimed for by systems analysts when they normalize data into relational structures.
+	.. SQL Developer needs a graphics terminal to display windows and JRE
+	.. A schema and a user are inseparable.
+
+== Chapter 2
+
+1. DESC[RIBE] <SCHEMA>.tablename
+2. access to a special table called DUAL, which belongs to the SYS schema
+3. NUMBER(p,s) -> precision and scale -> max number of digits given in precision
+4. CHAR data type utilizes storage inefficiently, padding any unused components with spaces.
+5. TIMESTAMP data type - introduction in Oracle 9i
+6. Three concepts from relational theory encompass the capability of the SELECT statement: projection, selection, and joining
+	.. Projection refers to the restriction of attributes (columns) selected from a relation or table
+	.. Selection refers to the restriction of the tuples or rows selected from a relation (table)
+	.. Joining, as a relational concept, refers to the interaction of tables with each other in a query
+7. SELECT *|{[DISTINCT] column|expression [alias],...} FROM table;
+8. DISTINCT performs a distinct for the combination of columns. Ex: select distinct job_id, department_id from job_history;
+9. SQL*Plus always requires a statement terminator, and usually a semicolon is used.
+10. Individual statements in SQL scripts are commonly terminated by a line break (or carriage return) and a forward slash on the next line, instead of a semicolon.
+11. SELECT TABLE_NAME from USER_TABLES
+12. Hierarchy
+[source, java]
+-----
+	( ) - Brackets or parentheses
+	/ - Division
+	* - Multiplication
+	- - Subtraction
+	+ - Addition
+-----
+
+NOTE: Operations with the same level of precedence are evaluated from left to right. If more than one operator with the same level of precedence is present in an expression, then these will be evaluated from left to right.
+
+== Chapter 2 Continued
+
+13. select col1 [AS] <alias> -> For column aliasing we can use [as] or just a space - >using AS -> good SQL coding habit
+14. Most Common Errors
+	.. ORA-00923: FROM keyword not found where expected
+    .. ORA-00942: table or view does not exist
+15. Case preservation of an alias is only possible if the alias is double quoted and double quotes are needed if the alias is more than one word
+16. "ORA-00923: FROM keyword not found where expected" - multi word alias is not double quoted
+17. || represent the character concatenation operator
+18. select 'literal'||'processing using the REGIONS table' from regions;
+19. 'Plural's with the literal 'Plural''s
+20. double quotes cannot be used
+21. alternative quote (q) operator -> wrapping symbols -> (round brackets), {curly braces}, [square brackets], or <angle brackets>
+22. Using the q operator, the character delimiter can effectively be changed from a single quotation mark to any other character
+23. format-> select q'X -> q' is the notation and X is the delimiter character
+    Ex: select q'X'Test this String for Plural's X' "qX" from dual;
+      'Test this String for Plural's X' -> is the test string
+
+24. If we use one of the wrapping symbols, then q'<'sdfgdfgd>' can be given where '>' is taken as the delimiter
+25. Any arithmetic calculation with a NULL value always returns NULL.  even division by a null value results in null, unlike division by zero, which results in an error
+26. The character concatenation operators ignore null, whilst the arithmetic operations involving null values always result in null
+27. All arithmetic operations with null will give null as the answer, while concatenation will just ignore the null value and give the rest as the answer
+
+
+== CHAPTER 3
+
+1. SELECT *|{[DISTINCT] column|expression [alias],...} FROM table  [WHERE condition(s)];
+2.  where salary = 10000; where salary = '10000';Both formats are acceptable to Oracle since an implicit data type conversion is performed when necessary.
+3. String concatenations and arithmetic operations can also be used in the WHERE clause
+4. The literals are automatically converted into DATE values based on the default date format, which is DD-MON-RR.   [RR means 50-99 will be 1950 to 1999 and 0-50 will be 2000 and 2050]
+5. That DATE values are only equal to each other if there is an exact match between all their components including day, month, year, hours, minutes, and seconds.
+6. The entire four-digit year component (YYYY) can been specified
+7. START_DATE + 30 returns a DATE 30 days later than the start_date
+8. END_DATE - START_DATE gives a NUMBEr
+9. Not Equal - != (or) <>
+10. Testing character inequality : the strings being compared on either side of the inequality operator are converted to a numeric representation of its character [same for < or >]
+11. The Oracle server stores dates in an internal numeric format, and these values are compared within the conditions.
+12. BETWEEN <==> >= and <=
+13. IN operator - equivalent to multiple ORs
+14. wildcards - % [0 or more characters] and _ [1 character]
+15. like '%' - all rows with the values NOT NULL
+16. % and _ can be escaped using '\' [backslash] and denoted as like 'a\%' ESACPE '\'
+17. we can changed the Escape character as well
+18. For Null checks always use IS NULL
+19. FOR AND operator - If the row contains a NULL value that causes one of the conditions to evaluate to NULL, then that row is excluded
+20. SELECT * FROM EMPLOYEES WHERE SALARY LIKE '%80%'; - Oracle temporarily changes the NUMBER to CHAR data for the comparison
+21. Usage of NOT: where NOT (last_name='King'), where first_name NOT LIKE 'R%',where department_id NOT IN (10,20,30),where salary NOT BETWEEN 1 and 3000,where commission_pct IS NOT NULL
+22.  WHERE A and B or C or D and E,
+then a row will be returned if both conditions A and B are fulfilled, or only condition C is met, or only condition D is met, or both conditions D and E are fulfilled. Conditions seperated by AND needs both to be satisfied while OR needs only one of them to be satisfied
+23. Precedence
+
+[source,sql]
+----
+	NOT] LIKE, IS [NOT] NULL, [NOT] IN
+	[NOT] BETWEEN
+	!=,<>
+	NOT
+	AND
+	OR
+----
+
+24. SELECT *|{[DISTINCT] column|expression [alias],...} FROM table [WHERE condition(s)] [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];
+25. The default sort order is assumed to be NULLS LAST for ascending sorts and NULLS FIRST for descending sorts.
+26. If no ORDER BY clause is specified, the same query executed at different times may return the same set of results in different row order, so no assumptions should be made regarding the default row order.
+27. Positional sorting applies only to columns in the SELECT list that have a numeric position associated with them
+28. Composite Sorting: order by job_id desc, last_name, 3 desc;
+29. The ampersand character (&) is the symbol chosen to designate a substitution variable in a statement and precedes the variable name with no spaces between them
+30. When the statement is executed, the Oracle server processes the statement, notices a substitution variable, and attempts to resolve this variable’s value in one of two ways.
+	.. First, it checks whether the variable is defined in the user session. (The DEFINE command).
+    .. If the variable is not defined, the user process prompts for a value that will be substituted in place of the variable.
+    .. Once a value is submitted, the statement is complete and is executed by the Oracle server.
+    .. The ampersand substitution variable is resolved at execution time and is sometimes known as runtime binding or runtime substitution.
+31. SUBSTITUTION: any alphanumeric name and invalid data type gives ORA-00904: invalid identifier error is returned.
+32. Date and Character literals need to be enclosed within quotes. Best Practice is to define the substitution with quotes so that the date and character will be quoted without the user need
+33. When the Oracle server encounters a double ampersand substitution variable, a session value is defined for that variable and you are not prompted to enter a value to be substituted for this variable in subsequent references.
+34. To undefine the SEARCH variable, you need to use the UNDEFINE command
+35. any element of a SQL statement is a candidate for substitution
+36. column name references do not require single quotes both when explicitly specified and when substituted via ampersand substitution
+37. DEFINE command  can be used to retrieve a list of all the variables currently defined in your SQL session
+38. It can also be used to explicitly define a value for a variable referenced as a substitution variable by one or more statements during the lifetime of that session.
+39. SET DEFINE OFF -> Makes & as an ordinary character
+40. The VERIFY command controls whether the substitution variable submitted is displayed onscreen so you can verify that the correct substitution has occurred
+41. SET VERIFY ON|OFF
+42. VERIFY is switched ON, the query is executed, and you are prompted to input a value.
+    Once the value is input and before the statement commences execution, Oracle displays the clause containing the reference to the substitution variable as the old clause with its line number and, immediately below this, the new clause displays the statement containing the substituted value.
+43. NULLS LAST can be applied in the ORDER BY clause for every column -  ORDER BY 3 DESC NULLS LAST, 2 ASC;
+
+== CHAPTER 4
+1. case conversion - LOWER, UPPER, and INITCAP
+2. character manipulation  - LENGTH, CONCAT, SUBSTR, INSTR, LPAD, RPAD, TRIM, and REPLACE
+3. CONCAT takes only two strings are parameters
+4. SUBSTR(string, start position, number of characters) - 1 indexed
+   .. if the position is not found -> gives no result
+   .. if the length is larger, returns only the available characters
+5. INSTR -> similar to indexOf ->  INSTR(source string, search item, [start position],[nth occurrence of search item])
+   -> returns 0 if not found
+6. LPAD(string, length after padding, padding string) and RPAD(string, length after padding, padding string)
+7. TRIM - > by default trims spaces
+   TRIM('#' from '#PASS#WORD##') -> 'PASS#WORD'
+8. REPLACE(string, search item, replacement item) - All the instances
+9. ROUND, TRUNC, MOD - Numeric functions
+10. ROUND(number, decimal precision) - round(42.39,1) = 42.4 -> >=5 will be rounded to its ceiling
+11. TRUNC -> just drops the additional numerals - trunc(42.39,1) = 42.3
+12. MOD(dividend, divisor) -> mod(42,10) = 2
+13. MONTHS_BETWEEN, ADD_MONTHS, LAST_DAY, NEXT_DAY, SYSDATE, ROUND, and TRUNC -> date functions
+14. MONTHS_BETWEEN(greater_date, smaller_date) -> MONTHS_BETWEEN('2-JAN-2008','01-JAN-2008') -> .0322 -> stored as a decimal value. Need to TRUNC to get only the MONTHS value
+15. LAST_DAY(date 1) function returns the last day of the month that the specified date falls into,
+16. NEXT_DAY(date 1, day of the week) returns the date on which the next specified day of the week falls after the given date
+    (if day of the week is not valid, throws error)
+17. SYSDATE function takes no parameters and returns a date value that represents the current server date and time
+18. ROUND(date, date precision format) and TRUNC(date, date precision format) round and truncate a given date value to the nearest date precision format like day, month, or year:
+
+[source,sql]
+----
+sysdate = 17-DEC-2007
+round(sysdate,'month') = 01-JAN-2008
+trunc(sysdate,'month') = 01-DEC-2007
+[Works only in 11g]
+----
+
+19. Oracle’s implementation of SQL is compliant with the ANSI:1999 (American National Standards Institute) standard for SQL.
+    .. More recently, it claimed partial compliance to the SQL:2003 standard endorsed by both ISO (International Organization for Standardization) and ANSI.
+    .. SQL functions have been standardized, and Oracle has documented those that are fully or partially compliant to the SQL:2003 standard.
+
+20. Character Case Conversion Functions - If parameters are numeric or date value, it is implicitly converted into a string.
+21. select lower('The SUM '||'100+100'||' = '||(100+100)) from dual -> the sum 100+100 = 200.
+    Calculations are done if inside bracket
+22. (SYSDATE+2) -> Adds two days
+23. select initcap('init cap or init_cap or init%cap') from dual -> Init Cap Or Init_Cap Or Init%Cap
+    .. space, _,%,!, $ are all used as word seperators. Punctuation or special characters are regarded as valid word separators.
+24. concat(1+2.14,' approximates pi') -> 3.14 approximates pi
+25. LPAD(s, n, p) and RPAD(s, n, p),
+    .. if the parameter n is smaller than or equal to the length of the source string s, then no padding occurs and only the first n characters of s are returned
+26. TRIM([trailing|leading|both] trimstring from s).
+    .. TRIM(trailing trimstring from s) removes all occurrences of trimstring from the end of the string s if it is present
+    .. TRIM(leading trimstring from s) removes all occurrences of trimstring from the beginning of the string s if it is present.
+    .. TRIM(both trimstring from s) removes all occurrences of trimstring from the beginning and end of the string s if it is present
+    .. [both appears to be optional]
+27. INSTR(source string, search string, [search start position], [nth occurrence])
+    .. A negative number for the start position gives the occurence from the End instead of the beginning
+    .. However, if the Occurence is ignored, then it just does a absolute of the position
+28. SUBSTR(source string, start position, [number of characters to extract]) -> negative number in  start position begins the search from that position from the End of the String
+29. REPLACE(source string, search item, [replacement term])
+    If the replacement term parameter is omitted, each occurrence of the search item is removed from the source string
+30. If the specified decimal precision is n, the digit significant to the rounding is found (n + 1) places to the RIGHT of the decimal point.
+    .. If it is negative, the digit significant to the rounding is found n places to the LEFT of the decimal point.
+    .. If the numeric value of the significant digit is greater than or equal to 5, a "round up" occurs, else a "round down" occurs.
+    .. round(1301.916718,-3) -> 1000
+    .. round(1601.916718,-3) -> 2000
+    .. round(1601.916718) -> 1602
+
+31. A numeric truncation is different from rounding because the resulting value drops the numbers at the decimal precision specified and does not attempt to round up or down if the decimal precision is positive.
+	.. However, if the decimal precision specified (n) is negative, the input value is zeroed down from the nth decimal position.
+	.. trunc(1301.916718,-3) -> 1000
+	.. trunc(1601.916718,-3) -> 1000
+	.. trunc(1601.916718) -> 1601
+
+32. The MOD function returns the numeric remainder of a division operation
+    .. If the divisor is zero, no division by zero error is returned and the MOD function returns a zero instead
+    .. If the divisor is larger than the dividend, then the MOD function returns the dividend as its result
+    .. MOD(5.2,3) -> 2.2
+    .. MOD(7,0) -> 0  [result is 7 in 10g]
+    .. MOD(0,7) -> 0
+    .. MOD(7,35) -> 7
+
+33. The default format of the results comprises two digits that represent the day, a three-letter abbreviation of the month, and two digits representing the year component.
+    .. By default, these components are separated with hyphens in SQL*Plus and forward slashes in SQL Developer
+34.. Date Format Mask
+[source,sql]
+----
+	 DD 	Day of the month
+	 MON 	Month of the year
+	 YY 	Two-digit year
+	 YYYY	Four-digit year including century
+	 RR	Two-digit year (Year 2000–compliant)
+	 CC 	Two-digit century
+	 HH	Hours with AM and PM
+	 HH24 	Twenty-four-hour time
+	 MI 	Minutes
+	 SS	Seconds
+----
+
+35. The SYSDATE function returns the DD-MON-RR components of the current system date
+36. Date1 - Date2 = Num1; Date1 - Num1 = Date2; Date1 = Date2 + Num1;
+37. use 6/24 to add hours
+38. MONTHS_BETWEEN(start date, end date)
+39. ADD_MONTHS (start date, number of months)
+    .. The number of months may be negative, resulting in a target date earlier than the start date being returned.
+    .. The number of months may be fractional, but the fractional component is ignored and the integer component is used
+40. NEXT_DAY (start date, day of the week)
+    .. The acceptable values are determined by the NLS_DATE_LANGUAGE database parameter but the default values are at least the first three characters of the day name or integer values, where 1 represents Sunday, 2 represents Monday, and so on.
+    .. NEXT_DAY('02-JAN-2009','WEDNE') -> Works using the First three chars 'WED'
+41. LAST_DAY(start date)
+42. ROUND(source date, [date precision format]) -> [No implicit conversion for DATE]
+    .. The date precision format parameter specifies the degree of rounding and is optional. If it is absent, the default degree of rounding is day.
+    .. The date precision formats include century (CC), year (YYYY or YEAR), quarter (Q), month (MM or MONTH), week (W), day (DD), hour (HH), and minute (MI)
+43. Rounding up to century is equivalent to adding one to the current century.
+    .. Rounding up to the next month occurs if the day component is greater than 15(> 15) , else rounding down to the beginning of the current month occurs.
+    .. If the month falls between one and six, then rounding to year returns the date at the beginning of the current year, else it returns the date at the beginning of the following year
+44. TRUNC(source date, [date precision format])
+    .. The date precision format parameter specifies the degree of truncation and is optional. .. If it is absent, the default degree of truncation is day
+    .. Any time component of the source date is set to midnight or 00:00:00
+    .. TRUNC is similar to ROUND, except it is always the FLOOR and never the CEILING
+    .. TRUNC(TO_DATE('31-JAN-2009'),'MM') -> 01-JAN-2009
+
+45.  Functions dont need parameters
+
+== Chapter 5
+
+1. length(1234) -> implicit conversion for numbers and dates to char -> 4 is the result
+2. mod('11',2) -> implicit conversion -
+   .. mod('$11',2) -> ORA-1722: invalid number
+3. Implicit date conversion should not have Time parameters [Check this]. Implicit conversion for dates can occur if the pattern follows
+   `[D|DD] separator1 [MON|MONTH] separator2 [R|RR|YY|YYYY]`
+    _separator1 and separator2 elements may be most punctuation marks, spaces, and tabs_
+
+[source,sql]
+----
+add_months('1\january/8',1) -> 01/FEB/08
+months_between('13*jan*8', '13/mar/2008') -> -2
+add_months('01$jan/08',1) -> 01/FEB/08
+add_months('13!jana08',1) -> ORA-1841: (full) year must be between –4713 and +9999 and not be 0
+jana is not a valid month -> only 3 characters or full month is allowed
+add_months('24-JAN-09 18:45',1) -> ORA-1830: date format picture ends before converting entire input string
+----
+
+4. Optional national language support parameters (nls_parameters) are useful for specifying the language and format in which the names of date and numeric elements are returned
+5. Publicly available view called NLS_SESSION_PARAMETERS that contains the NLS parameters for your current session. The default NLS_CURRENCY value is the dollar symbol, but this can be changed at the user session level
+ALTER SESSION set NLS_CURRENCY='GBP';
+6. `TO_CHAR(number1, [format], [nls_parameter])`
+[source,sql]
+----
+Formats
+   9  Numeric width
+   0  Displays leading zeros 		Ex: 09999 0012 00012
+   .  Position of decimal point
+   D  Decimal separator position (period is default)
+   ,  Position of comma symbol
+   G  Group separator position (comma is default)
+   $  Dollar sign
+   L  Local currency
+  MI  Position of minus sign for negatives
+  PR  Wrap negatives in parentheses
+EEEE  Scientific notation [Must be only 4 E's and always gives in 1.xxxxxE+10 format]
+   U  nls_dual_currency [if nls_dual_currency value is set]
+   V  Multiplies by 10n times (n is the number of nines after V) Ex: 9999V99 3040 304000
+   S + or - sign is prefixed
+----
+
+.. When a format mask is smaller than the number being converted, a string of hash symbols is returned instead.
+.. When a format mask contains fewer fractional components than the number, it is first rounded to the number of decimal places in the format mask before being converted.
+
+7. TO_CHAR(date1, [format], [nls_parameter]) -> Default is DD/MON/RR
+
+  'Month' -> January
+  'MOnth' -> JANUARY
+  'month' -> january
+
+  'Month' -> padded with spaces
+  'fmMonth' -> Not padded with spaces
+
+  Y-YYYY -> Year digits
+  RR -> 2 digit year
+  YEAR -> Case Sensitive Full Year spelling
+  MM, MON, MONTH -> 2 digit, Three char, full month -> case sensitive
+  D, DD, DDD -> day of week, month, year
+  DY -> 3 letter abbreviation
+  DAY -> Case Sensitive day
+
+  only DAY, MONTH, YEAR are case sensitive AND PADDED NOT the shorter forms
+
+  W, WW -> week of month, year
+  Q -> Quarter
+  CC -> Century
+  S before CC, YYYY, YEAR -> sign (-) for BC
+  I-IYYY -> ISO year dates for Y-YYYY
+  BC, AD, B.C. and A.D. -> to display BC or AD
+  J -> Julian Day -> days since 31 December 4713 BC
+  IW -> ISO standard week (1 to 53)
+  RM -> Roman numeral month
+
+  AM, PM, A.M. and P.M.-> Meridian Indicators
+  HH, HH12 and HH24 -> Hour of day, 1-12 hours, and 0-23 hours
+  MI, SS, SSSSS -> Minutes. Seconds, Seconds past midnight
+
+[source,sql]
+----
+  - / . , ? # ! -> Punctuation marks for seperators
+  "any literal" -> simply displays the character literal
+  TH -> positional or ordinal text -> 12th
+  SP -> spelled out number
+  THSP or SPTH -> Spelled out and Ordinal number -> twelfth
+----
+
+8. TO_DATE(string1, [format], [nls_parameter])
+
+[source,sql]
+----
+to_date('25-DEC') -> ORA-01840: input value not long enough for date format
+to_date('25-DEC', 'DD-MON') -> 25-DEC-2009
+to_date('25-DEC-10', 'fxDD-MON-YYYY') -> ORA-01862: the numeric value does not match the length of the format item
+  fx -> Makes strict checking
+to_date('25-DEC-10', 'DD-MON-YYYY') -> 25-DEC-10 -> takes as 0010
+
+Formats similar to Point 7 used for TO_CHAR
+----
+
+9. TO_NUMBER(string1, [format], [nls_parameter])
+
+[source,sql]
+----
+to_number('$1,000.55')  -> ORA-1722: invalid number.
+to_number('$1,000.55','$999,999.99') -> 1000.55
+
+If you convert a number using a shorter format mask, an error is returned -> RA-1722: invalid number.
+
+TO_NUMBER(123.56,'999.9') returns an error, while TO_CHAR(123.56,'999.9') returns 123.6.
+----
+
+10. NVL(original, ifnull) -> both columns are mandatory : ORA-00909: invalid number of arguments.
+    .. nvl(substr('abc',4),'No substring exists')
+    .. since there is no 4th character, it returns null and hence the 'No substring exists' is returned
+
+11. NVL2(original, ifnotnull, ifnull)
+    .. The data types of the ifnotnull and ifnull parameters must be compatible, and they cannot be of type LONG.
+    .. They must either be of the same type, or it must be possible to convert ifnull to the type of the ifnotnull parameter. -> ORA-01722: invalid number
+    .. The data type returned by the NVL2 function is the same as that of the ifnotnull parameter
+12. NULLIF(ifunequal, comparison_term) -> returns NULL if both terms are equal else the first term
+    .. NO IMPLICIT conmversion -> nullif('24-JUL-2009','24-JUL-09') returns the first term as these are not equal
+13. COALESCE(expr1, expr2,...,exprn), where expr1 is returned if it is not null, else expr2 if it is not null, and so on
+    .. COALESCE(expr1,expr2) = NVL(expr1,expr2)
+    .. COALESCE(expr1,expr2,expr3) = NVL(expr1,NVL(expr2,expr3))
+    .. The data type COALESCE  returns if a not null value is found is the same as that of the first not null parameter.
+    .. To avoid an "ORA-00932: inconsistent data types" error, all not null parameters must have data types compatible with the first not null parameter
+14. The DECODE function is specific to Oracle, while the CASE expression is ANSI SQL compliant
+15. DECODE(expr1,comp1, iftrue1, [comp2,iftrue2...[ compN,iftrueN]], [iffalse])
+15.  CASE search_expr
+
+[source,sql]
+----
+CASE search_expr
+      WHEN comparison_expr1 THEN iftrue1
+      [WHEN comparison_expr2 THEN iftrue2
+      ..
+      WHEN comparison_exprN THEN iftrueN
+      ELSE iffalse]
+    END
+
+    CASE
+      WHEN condition1 THEN iftrue1
+      [WHEN condition2 THEN iftrue2
+      ...
+      WHEN conditionN THEN iftrueN
+      ELSE iffalse]
+    END
+----
+
+== Chapter 6
+1. COUNT({*|[DISTINCT|ALL] expr}) ;
+   .. The ALL keyword is part of the default syntax, so COUNT(ALL expr) and COUNT(expr) are equivalent
+   .. These count the number of nonnull occurrences of expr in each group
+   .. Data Type allowed: NUMBER, DATE, CHAR, or VARCHAR2
+2. AVG([DISTINCT|ALL] expr) -> AVG(ALL expr) and AVG(expr) add the nonnull values of expr for each row and divide the sum by the number of nonnull rows in the group.
+   .. Data Type allowed: NUMBER
+3. SUM([DISTINCT|ALL] expr)  -> Data Type allowed: NUMBER
+4. MAX([DISTINCT|ALL] expr); MIN([DISTINCT|ALL] expr)
+   .. Data Type allowed: NUMBER, DATE, CHAR, or VARCHAR2
+5. VARIANCE([DISTINCT|ALL] expr); STDDEV([DISTINCT|ALL] expr);
+   .. Statistical variance refers to the variability of scores in a sample or set of data.
+   .. VARIANCE(DISTINCT expr) returns the variability of unique nonnull data in a group.
+   .. STDDEV calculates statistical standard deviation, which is the degree of deviation from the mean value in a group. It is derived by finding the square root of the variance.
+   .. Data Type allowed: NUMBER
+6. Group functions may only be nested two levels deep -> ORA-00935: group function is nested too deeply.
+7. Select Statement
+[source,sql]
+----
+SELECT column|expression|group_function(column|expression [alias]),...}
+   FROM table
+   [WHERE condition(s)]
+   [GROUP BY {col(s)|expr}]
+   [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];
+----
+
+8.  If an item, which is not a group function, appears in the SELECT list and there is no GROUP BY clause, -> ORA-00937: not a single-group group function
+    .. If a GROUP BY clause is present but that item is not a grouping attribute, -> ORA-00979: not a GROUP BY expression
+    .. If a group function is placed in a WHERE clause -> ORA-00934: group function is not allowed here
+9. Select Statement
+
+[source,sql]
+----
+SELECT column|expression|group_function(column|expression [alias]),…}
+   FROM table
+   [WHERE condition(s)]
+   [GROUP BY {col(s)|expr}]
+   [HAVING group_condition(s)]
+   [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS FIRST|LAST]];
+----
+10.  The HAVING clause can occur before the GROUP BY clause in the SELECT statement.
+     .. However, it is more common to place the HAVING clause after the GROUP BY clause.
+     .. All grouping is performed and group functions are executed prior to evaluating the HAVING clause
+
+11.  NVL in Select clause only useful for display and NVL in WHERE or HAVING is useful for modifying the values being verified
+     .. `NVL(x,0) -> 0`
+     .. `LENGTH(NVL(x,0)) -> 1`
+
+
+Continued in link:ocp-certification-professional-notes-2.html[Part 2]

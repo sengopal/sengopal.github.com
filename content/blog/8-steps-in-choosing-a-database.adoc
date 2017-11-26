@@ -1,9 +1,9 @@
 = Eight steps in choosing a database
 Senthilkumar Gopal
-2016-01-20
+2014-01-20
 :jbake-type: post
 :jbake-tags: backend,services,database,architecture
-:jbake-status: draft
+:jbake-status: published
 :summary: This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities
 
 We are planning a database architecture rewrite for an existing service and the needs of the project are:

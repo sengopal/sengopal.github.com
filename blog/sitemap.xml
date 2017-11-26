@@ -51,6 +51,11 @@
         <changefreq>monthly</changefreq>
     </url>
     <url>
+        <loc>http://sengopal.github.io/blog/blog/8-steps-in-choosing-a-database.html</loc>
+        <lastmod>2014-01-20</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>http://sengopal.github.io/blog/blog/java-mail-using-velocity-templates.html</loc>
         <lastmod>2010-10-01</lastmod>
         <changefreq>monthly</changefreq>
@@ -71,12 +76,27 @@
         <changefreq>monthly</changefreq>
     </url>
     <url>
+        <loc>http://sengopal.github.io/blog/blog/ocp-certification-professional-notes-2.html</loc>
+        <lastmod>2009-02-20</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://sengopal.github.io/blog/blog/ocp-certification-professional-notes-1.html</loc>
+        <lastmod>2009-02-12</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
         <loc>http://sengopal.github.io/blog/blog/scjp-notes-from-kathy-sierra-part2.html</loc>
         <lastmod>2008-09-08</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
         <loc>http://sengopal.github.io/blog/blog/scjp-notes-from-kathy-sierra-part1.html</loc>
+        <lastmod>2008-09-03</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://sengopal.github.io/blog/blog/css-learning-and-notes.html</loc>
         <lastmod>2008-09-03</lastmod>
         <changefreq>monthly</changefreq>
     </url>
