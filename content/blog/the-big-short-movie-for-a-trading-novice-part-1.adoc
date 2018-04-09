@@ -1,4 +1,4 @@
-= “The Big Short” Movie for a trading novice
+= Part 1 - “The Big Short” Movie for a trading novice
 Senthilkumar Gopal
 2018-03-16
 :jbake-type: post

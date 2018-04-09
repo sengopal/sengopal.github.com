@@ -1,6 +1,6 @@
 = Part 2 - Review of the Trillion Dollar Bet — Fall of LTCM
 Senthilkumar Gopal
-2018-04-06
+2018-04-07
 :jbake-type: post
 :jbake-tags: finance,ml4t,trading,machine-learning,education
 :jbake-status: published

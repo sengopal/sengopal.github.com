@@ -6,28 +6,28 @@
     <atom:link href="http://localhost:8820/feed.xml" rel="self" type="application/rss+xml" />
     <description>Java, JVM and Random Thoughts - Senthilkumar Gopal</description>
     <language>en-US</language>
-    <pubDate>Sun, 8 Apr 2018 19:00:40 -0700</pubDate>
-    <lastBuildDate>Sun, 8 Apr 2018 19:00:40 -0700</lastBuildDate>
+    <pubDate>Sun, 8 Apr 2018 19:06:12 -0700</pubDate>
+    <lastBuildDate>Sun, 8 Apr 2018 19:06:12 -0700</lastBuildDate>
 
     <item>
-      <title>Review of the Trillion Dollar Bet — Fall of LTCM</title>
+      <title>Part 2 - Review of the Trillion Dollar Bet — Fall of LTCM</title>
+      <link>http://localhost:8820/blog/review-the-trillion-dollar-bet-documentary-part-2.html</link>
+      <pubDate>Sat, 7 Apr 2018 00:00:00 -0700</pubDate>
+      <guid isPermaLink="false">blog/review-the-trillion-dollar-bet-documentary-part-2.html</guid>
+      	<description>
+	&lt;div class=&quot;paragraph&quot;&gt; 
+ &lt;p&gt;Continuing with my suggested readings for Machine Learning for Trading, we reviewed this documentary on the beautiful formula called “Black-Scholes Model”, its Nobel Prize victory and how a company (Long Term Capital Management) made a bet of 1 trillion dollars using that formula and failed gloriously. The original post is available here - &lt;a href=&quot;https://medium.com/@sengopal/part-2-review-of-the-trillion-dollar-bet-fall-of-ltcm-3e6b75283cb7/&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt; 
+&lt;/div&gt;
+	</description>
+    </item>
+    <item>
+      <title>Part 1 - Review of the Trillion Dollar Bet — Fall of LTCM</title>
       <link>http://localhost:8820/blog/review-the-trillion-dollar-bet-documentary-part-1.html</link>
       <pubDate>Fri, 6 Apr 2018 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/review-the-trillion-dollar-bet-documentary-part-1.html</guid>
       	<description>
 	&lt;div class=&quot;paragraph&quot;&gt; 
  &lt;p&gt;Continuing with my suggested readings for Machine Learning for Trading, we reviewed this documentary on the beautiful formula called “Black-Scholes Model”, its Nobel Prize victory and how a company (Long Term Capital Management) made a bet of 1 trillion dollars using that formula and failed gloriously. The original post is available here - &lt;a href=&quot;https://medium.com/@sengopal/review-of-the-trillion-dollar-bet-fall-of-ltcm-170bb9e30131/&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt; 
-&lt;/div&gt;
-	</description>
-    </item>
-    <item>
-      <title>Part 2 - Review of the Trillion Dollar Bet — Fall of LTCM</title>
-      <link>http://localhost:8820/blog/review-the-trillion-dollar-bet-documentary-part-2.html</link>
-      <pubDate>Fri, 6 Apr 2018 00:00:00 -0700</pubDate>
-      <guid isPermaLink="false">blog/review-the-trillion-dollar-bet-documentary-part-2.html</guid>
-      	<description>
-	&lt;div class=&quot;paragraph&quot;&gt; 
- &lt;p&gt;Continuing with my suggested readings for Machine Learning for Trading, we reviewed this documentary on the beautiful formula called “Black-Scholes Model”, its Nobel Prize victory and how a company (Long Term Capital Management) made a bet of 1 trillion dollars using that formula and failed gloriously. The original post is available here - &lt;a href=&quot;https://medium.com/@sengopal/part-2-review-of-the-trillion-dollar-bet-fall-of-ltcm-3e6b75283cb7/&quot;&gt;Actual post&lt;/a&gt;&lt;/p&gt; 
 &lt;/div&gt;
 	</description>
     </item>
@@ -54,7 +54,7 @@
 	</description>
     </item>
     <item>
-      <title>“The Big Short” Movie for a trading novice</title>
+      <title>Part 1 - “The Big Short” Movie for a trading novice</title>
       <link>http://localhost:8820/blog/the-big-short-movie-for-a-trading-novice-part-1.html</link>
       <pubDate>Fri, 16 Mar 2018 00:00:00 -0700</pubDate>
       <guid isPermaLink="false">blog/the-big-short-movie-for-a-trading-novice-part-1.html</guid>

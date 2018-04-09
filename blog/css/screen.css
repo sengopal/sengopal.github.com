@@ -179,8 +179,13 @@ h1{
   font-weight: normal;
 }
 
+ul.archive {
+    margin-left: 10em;
+}
+
 .archive li{
 	margin-bottom: 10px;
+	list-style-type: none;
 }
 
 hr{
