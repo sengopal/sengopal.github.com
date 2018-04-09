@@ -1,0 +1,11 @@
+= Part 2 - Review of the Trillion Dollar Bet — Fall of LTCM
+Senthilkumar Gopal
+2018-04-06
+:jbake-type: post
+:jbake-tags: finance,ml4t,trading,machine-learning,education
+:jbake-status: published
+:external: true
+:link: https://medium.com/@sengopal/part-2-review-of-the-trillion-dollar-bet-fall-of-ltcm-3e6b75283cb7
+:summary: Continuing with my suggested readings for Machine Learning for Trading, we reviewed this documentary on the beautiful formula called “Black-Scholes Model”, its Nobel Prize victory and how a company (Long Term Capital Management) made a bet of 1 trillion dollars using that formula and failed gloriously.
+
+Continuing with my suggested readings for Machine Learning for Trading, we reviewed this documentary on the beautiful formula called “Black-Scholes Model”, its Nobel Prize victory and how a company (Long Term Capital Management) made a bet of 1 trillion dollars using that formula and failed gloriously. The original post is available here - https://medium.com/@sengopal/part-2-review-of-the-trillion-dollar-bet-fall-of-ltcm-3e6b75283cb7/[Actual post]

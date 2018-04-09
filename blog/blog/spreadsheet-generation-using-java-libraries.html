@@ -67,333 +67,196 @@
 					<h1>Spreadsheet generation using Java libraries</h1>
 				</div>
 				<p><em>23 September 2009</em></p>
-				<p><div class="sect1">
-<h2 id="_introduction">Introduction</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Web Asset Tracker (WATr) is a web application which was mainly used to maintain various asset information using a RDBMS database. There rose a specific requirement where the application needs to render the data in a downloadable spreadsheet. The following post documents the comparison of leading industry frameworks for creating MS-Excel Spreadsheets using Java.
-== Purpose
-The purpose of this document is to list out the usage and pros/cons of the following Excel Java APIs:
-1. Apache POI
-2. Java Excel API [JXL]
-3. OpenXLS [Product of ExtenXLS]</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scope">Scope</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>For comparison of the JS frameworks, the following list of criteria were used</p>
-</div>
-<div class="paragraph">
-<p>The API should have the ability</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>to read existing Spreadsheets in MS-Excel 97, 2000, XP, 2003 and 2007 formats</p>
-</li>
-<li>
-<p>to read existing Spreadsheets in ODS [OpenOffice.org Calc Spreadsheet] formats</p>
-</li>
-<li>
-<p>provide interoperability between various formats/versions</p>
-</li>
-<li>
-<p>to edit existing Spreadsheets in the above mentioned formats</p>
-</li>
-<li>
-<p>to create new spreadsheets in the above mentioned formats</p>
-</li>
-<li>
-<p>to preserve and create formula and functions on various worksheets</p>
-</li>
-<li>
-<p>to manipulate multiple worksheets within a workbook</p>
-</li>
-<li>
-<p>to manipulate, create and edit chart information</p>
-</li>
-<li>
-<p>to freeze and split panes</p>
-</li>
-<li>
-<p>to format cells,cell patterns, fonts and borders</p>
-</li>
-<li>
-<p>for row and column sizing, formatting, auto-sizing, insertion and deletion</p>
-</li>
-<li>
-<p>for cell validations and named ranges</p>
-</li>
-<li>
-<p>for row and column grouping and collapsing</p>
-</li>
-<li>
-<p>to draw shapes using the microsoft office drawing tools</p>
-</li>
-<li>
-<p>to add cell comments</p>
-</li>
-<li>
-<p>to define printable formats and printing headers/footers</p>
-</li>
-<li>
-<p>to add embeddable objects</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The API should also possess
-1.	Matured Documentation, Tutorials and Examples
-2.	Many adaptations
-3.	Active development and community support</p>
-</div>
-<div class="sect2">
-<h3 id="_apache_poi">Apache POI</h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Apache POI, a project run by the Apache Software Foundation, and previously a sub-project of the Jakarta Project, provides pure Java libraries for reading and writing files in Microsoft Office formats, such as Word, PowerPoint and Excel. The name was originally an acronym for "Poor Obfuscation Implementation", referring humorously to the fact that the file formats seemed to be deliberately obfuscated, but poorly, since they were successfully reverse-engineered. This explanation - and those of the similar names for the various sub-projects - were removed from the official web-pages in order to better market the tools to businesses who would not consider such humour appropriate. The POI project is the master project for developing pure Java ports of file formats based on Microsoft&#8217;s OLE 2 Compound Document Format. OLE 2 Compound Document Format is used by Microsoft Office Documents, as well as by programs using MFC property sets to serialize their document objects.</p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; Wikipedia
-</div>
-</div>
-<div class="paragraph">
-<p>The various components of the Apache POI API are:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>POIFS is the set of APIs for reading and writing OLE 2 Compound Document Formats using (only) Java.</p>
-</li>
-<li>
-<p>HSSF and XSSF are the set of APIs for reading and writing Microsoft Excel 97-2007 and OOXML spreadsheets using (only) Java.</p>
-</li>
-<li>
-<p>HWPF is the set of APIs for reading and writing Microsoft Word 97(-XP) documents using (only) Java.</p>
-</li>
-<li>
-<p>HSLF is the set of APIs for reading and writing Microsoft PowerPoint 97(-XP) documents using (only) Java.</p>
-</li>
-<li>
-<p>HPSF is the set of APIs for reading property sets using (only) Java.</p>
-</li>
-</ol>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_java_excel_api">Java Excel API</h3>
-<div class="quoteblock">
-<blockquote>
-<div class="paragraph">
-<p>Java Excel API is a mature, open source java API enabling developers to read, write, and modifiy Excel spreadsheets dynamically. Now java developers can read Excel spreadsheets, modify them with a convenient and simple API, and write the changes to any output stream (e.g. disk, HTTP, database, or any socket).</p>
-</div>
-</blockquote>
-<div class="attribution">
-&#8212; Wikipedia
-</div>
-</div>
-<div class="paragraph">
-<p>Some of the available features are:
-1.	Reads data from Excel 95, 97, 2000, XP, and 2003 workbooks
-2.	Reads and writes formulas (Excel 97 and later only)
-3.	Generates spreadsheets in Excel 2000 format
-4.	Supports font, number and date formatting
-5.	Supports shading, bordering, and coloring of cells
-6.	Modifies existing worksheets
-7.	Supports copying of charts
-8.	Supports insertion and copying of images into spreadsheets
-9.	Supports logging with Jakarta Commons Logging, log4j, JDK 1.4 Logger, etc</p>
-</div>
-<div class="sect3">
-<h4 id="_limitations">Limitations</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>JExcelApi does not generate or chart, graph or macro information. This information is however preserved when spreadsheets are copied</p>
-</li>
-<li>
-<p>When adding images to a sheet, only PNG image formats are supported</p>
-</li>
-<li>
-<p>jexcel fails fatally when encountering invalid formulas, so parsing client supplied spreadsheets might be a problem</p>
-</li>
-<li>
-<p>Poor Documentation for any of the advanced features like validation lists, column and cell formatting</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_openxls_api">OpenXLS API</h3>
-<div class="paragraph">
-<p>OpenXLS is the open-source version of ExtenXLS (commercial Java SDK)</p>
-</div>
-<div class="paragraph">
-<p>Some of the available features are:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Compatible with Excel '97-2003 file formats</p>
-</li>
-<li>
-<p>Control over charts, formulas, and formatting from Java</p>
-</li>
-<li>
-<p>Based on robust ExtenXLS 6 Codebase</p>
-</li>
-<li>
-<p>Drop-in upgradability to ExtenXLS supported versions</p>
-</li>
-<li>
-<p>Good documentation, user guide, and sample code gets you up to speed fast</p>
-</li>
-<li>
-<p>Insert, size, and position JPG, GIF, and PNG images in your Spreadsheet files</p>
-</li>
-<li>
-<p>Control over spreadsheet formatting</p>
-</li>
-<li>
-<p>Preserves Charts, PivotTables</p>
-</li>
-<li>
-<p>Preservation of VB macros (NOTE: VB runtime execution not supported)</p>
-</li>
-<li>
-<p>200+ Formula Functions Supported</p>
-</li>
-<li>
-<p>Create and work with Named Ranges</p>
-</li>
-<li>
-<p>Supports Merged Cells</p>
-</li>
-<li>
-<p>Convert Spreadsheets to XML and vice-versa</p>
-</li>
-</ol>
-</div>
-<div class="sect3">
-<h4 id="_limitations_2">Limitations</h4>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Features are very less when compared with its commerical counter-part.</p>
-</li>
-<li>
-<p>Support is not available either through an active community or the organization</p>
-</li>
-<li>
-<p>Functions mostly like a spring board to use the commerical version</p>
-</li>
-<li>
-<p>Does not support Excel 2007</p>
-</li>
-<li>
-<p>Does not support Open Office Spreadsheet format</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_application_integration">Application Integration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>Where we are trying to fit in this framework</strong></p>
-</div>
-<div class="paragraph">
-<p>A Java Excel API should
-* should provide us with well documented and mature API
-* hould provide us with extension points for providing our own customizations</p>
-</div>
-<div class="paragraph">
-<p><strong>How it is aligned with our current requirements</strong></p>
-</div>
-<div class="paragraph">
-<p>A Java Excel API should
-* Provide us with ability to format Excel sheets
-* Validation rules for cells/columns
-* Formula validation and insertion</p>
-</div>
-<div class="paragraph">
-<p><strong>Is it going to be one-off (or) continued usage?</strong></p>
-</div>
-<div class="paragraph">
-<p>A Java Excel API should be such that
-* It can added as a plugin to the framework
-* It makes the export / import functionality implementation seamless
-* It has the capability to render images, charts etc.,</p>
-</div>
-<div class="sect2">
-<h3 id="_inferences">Inferences</h3>
-<div class="paragraph">
-<p>The inferences gained from performing this comparison:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>JXL can be used for faster rendering, however will fail in terms of huge data sets or failed formulae</p>
-</li>
-<li>
-<p>OpenXLS acts just as a springboard to its commerical counterpart and has limited functionality</p>
-</li>
-<li>
-<p>Apache POI has a matured and active community support with rapid releases, good documentation and lots of features</p>
-</li>
-<li>
-<p>Apache POI also has functionalities for OpenOffice documents which would help in transforming results in spreadsheet to other formats such as PDF, Word or PPT</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>With these criteria in mind and based on the scope provided, <strong>Apache POI</strong> was chosen to be integrated within the framework.</p>
-</div>
-<div class="paragraph">
-<p><em>Note: This is based upon reading the available documentation, limited user experience and discussion forums</em></p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_references">References</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://poi.apache.org/" class="bare">http://poi.apache.org/</a></p>
-</li>
-<li>
-<p><a href="http://poi.apache.org/spreadsheet/quick-guide.html" class="bare">http://poi.apache.org/spreadsheet/quick-guide.html</a></p>
-</li>
-<li>
-<p><a href="https://olex.openlogic.com/packages/poi" class="bare">https://olex.openlogic.com/packages/poi</a></p>
-</li>
-<li>
-<p><a href="http://poi.apache.org/news.html" class="bare">http://poi.apache.org/news.html</a></p>
-</li>
-<li>
-<p><a href="http://jexcelapi.sourceforge.net/" class="bare">http://jexcelapi.sourceforge.net/</a></p>
-</li>
-<li>
-<p><a href="https://olex.openlogic.com/packages/jexcel-api" class="bare">https://olex.openlogic.com/packages/jexcel-api</a></p>
-</li>
-<li>
-<p><a href="http://www.extentech.com/estore/product_features.jsp?product_group_id=228" class="bare">http://www.extentech.com/estore/product_features.jsp?product_group_id=228</a></p>
-</li>
-<li>
-<p><a href="http://sourceforge.net/projects/openxls/" class="bare">http://sourceforge.net/projects/openxls/</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
+				<p><div class="sect1"> 
+ <h2 id="_introduction">Introduction</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Web Asset Tracker (WATr) is a web application which was mainly used to maintain various asset information using a RDBMS database. There rose a specific requirement where the application needs to render the data in a downloadable spreadsheet. The following post documents the comparison of leading industry frameworks for creating MS-Excel Spreadsheets using Java. == Purpose The purpose of this document is to list out the usage and pros/cons of the following Excel Java APIs: 1. Apache POI 2. Java Excel API [JXL] 3. OpenXLS [Product of ExtenXLS]</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_scope">Scope</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>For comparison of the JS frameworks, the following list of criteria were used</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>The API should have the ability</p> 
+  </div> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>to read existing Spreadsheets in MS-Excel 97, 2000, XP, 2003 and 2007 formats</p> </li> 
+    <li> <p>to read existing Spreadsheets in ODS [OpenOffice.org Calc Spreadsheet] formats</p> </li> 
+    <li> <p>provide interoperability between various formats/versions</p> </li> 
+    <li> <p>to edit existing Spreadsheets in the above mentioned formats</p> </li> 
+    <li> <p>to create new spreadsheets in the above mentioned formats</p> </li> 
+    <li> <p>to preserve and create formula and functions on various worksheets</p> </li> 
+    <li> <p>to manipulate multiple worksheets within a workbook</p> </li> 
+    <li> <p>to manipulate, create and edit chart information</p> </li> 
+    <li> <p>to freeze and split panes</p> </li> 
+    <li> <p>to format cells,cell patterns, fonts and borders</p> </li> 
+    <li> <p>for row and column sizing, formatting, auto-sizing, insertion and deletion</p> </li> 
+    <li> <p>for cell validations and named ranges</p> </li> 
+    <li> <p>for row and column grouping and collapsing</p> </li> 
+    <li> <p>to draw shapes using the microsoft office drawing tools</p> </li> 
+    <li> <p>to add cell comments</p> </li> 
+    <li> <p>to define printable formats and printing headers/footers</p> </li> 
+    <li> <p>to add embeddable objects</p> </li> 
+   </ol> 
+  </div> 
+  <div class="paragraph"> 
+   <p>The API should also possess 1. Matured Documentation, Tutorials and Examples 2. Many adaptations 3. Active development and community support</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_apache_poi">Apache POI</h3> 
+   <div class="quoteblock"> 
+    <blockquote> 
+     <div class="paragraph"> 
+      <p>Apache POI, a project run by the Apache Software Foundation, and previously a sub-project of the Jakarta Project, provides pure Java libraries for reading and writing files in Microsoft Office formats, such as Word, PowerPoint and Excel. The name was originally an acronym for "Poor Obfuscation Implementation", referring humorously to the fact that the file formats seemed to be deliberately obfuscated, but poorly, since they were successfully reverse-engineered. This explanation - and those of the similar names for the various sub-projects - were removed from the official web-pages in order to better market the tools to businesses who would not consider such humour appropriate. The POI project is the master project for developing pure Java ports of file formats based on Microsoft’s OLE 2 Compound Document Format. OLE 2 Compound Document Format is used by Microsoft Office Documents, as well as by programs using MFC property sets to serialize their document objects.</p> 
+     </div> 
+    </blockquote> 
+    <div class="attribution">
+      — Wikipedia 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>The various components of the Apache POI API are:</p> 
+   </div> 
+   <div class="olist arabic"> 
+    <ol class="arabic"> 
+     <li> <p>POIFS is the set of APIs for reading and writing OLE 2 Compound Document Formats using (only) Java.</p> </li> 
+     <li> <p>HSSF and XSSF are the set of APIs for reading and writing Microsoft Excel 97-2007 and OOXML spreadsheets using (only) Java.</p> </li> 
+     <li> <p>HWPF is the set of APIs for reading and writing Microsoft Word 97(-XP) documents using (only) Java.</p> </li> 
+     <li> <p>HSLF is the set of APIs for reading and writing Microsoft PowerPoint 97(-XP) documents using (only) Java.</p> </li> 
+     <li> <p>HPSF is the set of APIs for reading property sets using (only) Java.</p> </li> 
+    </ol> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_java_excel_api">Java Excel API</h3> 
+   <div class="quoteblock"> 
+    <blockquote> 
+     <div class="paragraph"> 
+      <p>Java Excel API is a mature, open source java API enabling developers to read, write, and modifiy Excel spreadsheets dynamically. Now java developers can read Excel spreadsheets, modify them with a convenient and simple API, and write the changes to any output stream (e.g. disk, HTTP, database, or any socket).</p> 
+     </div> 
+    </blockquote> 
+    <div class="attribution">
+      — Wikipedia 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Some of the available features are: 1. Reads data from Excel 95, 97, 2000, XP, and 2003 workbooks 2. Reads and writes formulas (Excel 97 and later only) 3. Generates spreadsheets in Excel 2000 format 4. Supports font, number and date formatting 5. Supports shading, bordering, and coloring of cells 6. Modifies existing worksheets 7. Supports copying of charts 8. Supports insertion and copying of images into spreadsheets 9. Supports logging with Jakarta Commons Logging, log4j, JDK 1.4 Logger, etc</p> 
+   </div> 
+   <div class="sect3"> 
+    <h4 id="_limitations">Limitations</h4> 
+    <div class="olist arabic"> 
+     <ol class="arabic"> 
+      <li> <p>JExcelApi does not generate or chart, graph or macro information. This information is however preserved when spreadsheets are copied</p> </li> 
+      <li> <p>When adding images to a sheet, only PNG image formats are supported</p> </li> 
+      <li> <p>jexcel fails fatally when encountering invalid formulas, so parsing client supplied spreadsheets might be a problem</p> </li> 
+      <li> <p>Poor Documentation for any of the advanced features like validation lists, column and cell formatting</p> </li> 
+     </ol> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_openxls_api">OpenXLS API</h3> 
+   <div class="paragraph"> 
+    <p>OpenXLS is the open-source version of ExtenXLS (commercial Java SDK)</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Some of the available features are:</p> 
+   </div> 
+   <div class="olist arabic"> 
+    <ol class="arabic"> 
+     <li> <p>Compatible with Excel '97-2003 file formats</p> </li> 
+     <li> <p>Control over charts, formulas, and formatting from Java</p> </li> 
+     <li> <p>Based on robust ExtenXLS 6 Codebase</p> </li> 
+     <li> <p>Drop-in upgradability to ExtenXLS supported versions</p> </li> 
+     <li> <p>Good documentation, user guide, and sample code gets you up to speed fast</p> </li> 
+     <li> <p>Insert, size, and position JPG, GIF, and PNG images in your Spreadsheet files</p> </li> 
+     <li> <p>Control over spreadsheet formatting</p> </li> 
+     <li> <p>Preserves Charts, PivotTables</p> </li> 
+     <li> <p>Preservation of VB macros (NOTE: VB runtime execution not supported)</p> </li> 
+     <li> <p>200+ Formula Functions Supported</p> </li> 
+     <li> <p>Create and work with Named Ranges</p> </li> 
+     <li> <p>Supports Merged Cells</p> </li> 
+     <li> <p>Convert Spreadsheets to XML and vice-versa</p> </li> 
+    </ol> 
+   </div> 
+   <div class="sect3"> 
+    <h4 id="_limitations_2">Limitations</h4> 
+    <div class="olist arabic"> 
+     <ol class="arabic"> 
+      <li> <p>Features are very less when compared with its commerical counter-part.</p> </li> 
+      <li> <p>Support is not available either through an active community or the organization</p> </li> 
+      <li> <p>Functions mostly like a spring board to use the commerical version</p> </li> 
+      <li> <p>Does not support Excel 2007</p> </li> 
+      <li> <p>Does not support Open Office Spreadsheet format</p> </li> 
+     </ol> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_application_integration">Application Integration</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p><strong>Where we are trying to fit in this framework</strong></p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>A Java Excel API should * should provide us with well documented and mature API * hould provide us with extension points for providing our own customizations</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p><strong>How it is aligned with our current requirements</strong></p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>A Java Excel API should * Provide us with ability to format Excel sheets * Validation rules for cells/columns * Formula validation and insertion</p> 
+  </div> 
+  <div class="paragraph"> 
+   <p><strong>Is it going to be one-off (or) continued usage?</strong></p> 
+  </div> 
+  <div class="paragraph"> 
+   <p>A Java Excel API should be such that * It can added as a plugin to the framework * It makes the export / import functionality implementation seamless * It has the capability to render images, charts etc.,</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_inferences">Inferences</h3> 
+   <div class="paragraph"> 
+    <p>The inferences gained from performing this comparison:</p> 
+   </div> 
+   <div class="olist arabic"> 
+    <ol class="arabic"> 
+     <li> <p>JXL can be used for faster rendering, however will fail in terms of huge data sets or failed formulae</p> </li> 
+     <li> <p>OpenXLS acts just as a springboard to its commerical counterpart and has limited functionality</p> </li> 
+     <li> <p>Apache POI has a matured and active community support with rapid releases, good documentation and lots of features</p> </li> 
+     <li> <p>Apache POI also has functionalities for OpenOffice documents which would help in transforming results in spreadsheet to other formats such as PDF, Word or PPT</p> </li> 
+    </ol> 
+   </div> 
+   <div class="paragraph"> 
+    <p>With these criteria in mind and based on the scope provided, <strong>Apache POI</strong> was chosen to be integrated within the framework.</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p><em>Note: This is based upon reading the available documentation, limited user experience and discussion forums</em></p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_references">References</h3> 
+   <div class="ulist"> 
+    <ul> 
+     <li> <p><a href="http://poi.apache.org/" class="bare">http://poi.apache.org/</a></p> </li> 
+     <li> <p><a href="http://poi.apache.org/spreadsheet/quick-guide.html" class="bare">http://poi.apache.org/spreadsheet/quick-guide.html</a></p> </li> 
+     <li> <p><a href="https://olex.openlogic.com/packages/poi" class="bare">https://olex.openlogic.com/packages/poi</a></p> </li> 
+     <li> <p><a href="http://poi.apache.org/news.html" class="bare">http://poi.apache.org/news.html</a></p> </li> 
+     <li> <p><a href="http://jexcelapi.sourceforge.net/" class="bare">http://jexcelapi.sourceforge.net/</a></p> </li> 
+     <li> <p><a href="https://olex.openlogic.com/packages/jexcel-api" class="bare">https://olex.openlogic.com/packages/jexcel-api</a></p> </li> 
+     <li> <p><a href="http://www.extentech.com/estore/product_features.jsp?product_group_id=228" class="bare">http://www.extentech.com/estore/product_features.jsp?product_group_id=228</a></p> </li> 
+     <li> <p><a href="http://sourceforge.net/projects/openxls/" class="bare">http://sourceforge.net/projects/openxls/</a></p> </li> 
+    </ul> 
+   </div> 
+  </div> 
+ </div> 
 </div></p>
 			</div>
 			<div id="push"></div>

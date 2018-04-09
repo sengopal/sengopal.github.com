@@ -67,535 +67,354 @@
 					<h1>Lerning basics of CSS and quick notes</h1>
 				</div>
 				<p><em>03 September 2008</em></p>
-				<p><div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_slicing_techniques">Slicing techniques</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Do not slice the logo</p>
-</li>
-<li>
-<p>Figure out the gradient for repeating along the x -axis</p>
-</li>
-<li>
-<p>Dont start with the slice tool from the toolbar</p>
-</li>
-<li>
-<p>Always design with a wrapper div - for a row or a column - to be enclosed as a container tag</p>
-</li>
-<li>
-<p>Decide upon only one type of slicing for a given layout - for the wrapper divs and then perform the slicing</p>
-</li>
-<li>
-<p>First horizontal - because the flow goes from right to left</p>
-</li>
-<li>
-<p>After selecting the slice, divide the slice and give the number of dividers you would need</p>
-</li>
-<li>
-<p>Save for Web and Devices - Gif and PNG for transparent ones</p>
-</li>
-<li>
-<p>Quality generally set up as 75-85%</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_remember">Remember</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>height, width, padding, margin, float - main important properties</p>
-</li>
-<li>
-<p>use the following (or use a reset)</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">body{
+				<p><div id="preamble"> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_slicing_techniques">Slicing techniques</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Do not slice the logo</p> </li> 
+    <li> <p>Figure out the gradient for repeating along the x -axis</p> </li> 
+    <li> <p>Dont start with the slice tool from the toolbar</p> </li> 
+    <li> <p>Always design with a wrapper div - for a row or a column - to be enclosed as a container tag</p> </li> 
+    <li> <p>Decide upon only one type of slicing for a given layout - for the wrapper divs and then perform the slicing</p> </li> 
+    <li> <p>First horizontal - because the flow goes from right to left</p> </li> 
+    <li> <p>After selecting the slice, divide the slice and give the number of dividers you would need</p> </li> 
+    <li> <p>Save for Web and Devices - Gif and PNG for transparent ones</p> </li> 
+    <li> <p>Quality generally set up as 75-85%</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_remember">Remember</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>height, width, padding, margin, float - main important properties</p> </li> 
+    <li> <p>use the following (or use a reset)</p> </li> 
+   </ol> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre class="prettyprint highlight"><code class="language-css" data-lang="css">body{
     padding:0;
     margin:0;
-}</code></pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Give Wrapper <code>margin:auto;</code> to make the whole container centered</p>
-</li>
-<li>
-<p>Give fixed width and height to get the margin auto to work properly</p>
-</li>
-<li>
-<p>Div dimensions: width + margin + padding + border</p>
-</li>
-<li>
-<p>Whenever u are adding a padding or margin, adjust the width or height appropriately</p>
-</li>
-<li>
-<p>Use <code>margin:auto;</code> to center the div within the container</p>
-</li>
-<li>
-<p><code>\#nav ul{ margin:0; padding:0;}</code> - remember for every UL block or use a reset</p>
-</li>
-<li>
-<p>Always use <code>ul{list-style-type: none;}</code></p>
-</li>
-<li>
-<p>Give <code>li{display:block}</code> and provide width &amp; height to get a BUTTON look and feel</p>
-</li>
-<li>
-<p>For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.</p>
-</li>
-<li>
-<p>Always the target browsers and supported resolutions needs to be decided</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_media_queries">Media Queries</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Change float to normal using the height/width/float properties for changing screen size</p>
-</li>
-<li>
-<p>Always use <code>margin,padding:0</code> - for reset</p>
-</li>
-<li>
-<p>Types of layouts - pure fluid / pure display oriented / hybrid</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Fluid Layout</p>
-<div class="olist lowerroman">
-<ol class="lowerroman" type="i">
-<li>
-<p>system of relative layout instead of absolute pixels</p>
-</li>
-<li>
-<p>height/width - only in percentages</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Adaptive Layout</p>
-<div class="olist lowerroman">
-<ol class="lowerroman" type="i">
-<li>
-<p>using the @media tags</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Responsive Layout</p>
-<div class="olist lowerroman">
-<ol class="lowerroman" type="i">
-<li>
-<p>Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</p>
-</li>
-</ol>
-</div>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>New way of setting the media value</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>        &lt;meta name="viewport" content="initial-scale=1,width=device-width"&gt;</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Media query representation</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>        @media screen and (max-width: 980px){
+}</code></pre> 
+   </div> 
+  </div> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Give Wrapper <code>margin:auto;</code> to make the whole container centered</p> </li> 
+    <li> <p>Give fixed width and height to get the margin auto to work properly</p> </li> 
+    <li> <p>Div dimensions: width + margin + padding + border</p> </li> 
+    <li> <p>Whenever u are adding a padding or margin, adjust the width or height appropriately</p> </li> 
+    <li> <p>Use <code>margin:auto;</code> to center the div within the container</p> </li> 
+    <li> <p><code>\#nav ul{ margin:0; padding:0;}</code> - remember for every UL block or use a reset</p> </li> 
+    <li> <p>Always use <code>ul{list-style-type: none;}</code></p> </li> 
+    <li> <p>Give <code>li{display:block}</code> and provide width &amp; height to get a BUTTON look and feel</p> </li> 
+    <li> <p>For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.</p> </li> 
+    <li> <p>Always the target browsers and supported resolutions needs to be decided</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_media_queries">Media Queries</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Change float to normal using the height/width/float properties for changing screen size</p> </li> 
+    <li> <p>Always use <code>margin,padding:0</code> - for reset</p> </li> 
+    <li> <p>Types of layouts - pure fluid / pure display oriented / hybrid</p> 
+     <div class="olist loweralpha"> 
+      <ol class="loweralpha" type="a"> 
+       <li> <p>Fluid Layout</p> 
+        <div class="olist lowerroman"> 
+         <ol class="lowerroman" type="i"> 
+          <li> <p>system of relative layout instead of absolute pixels</p> </li> 
+          <li> <p>height/width - only in percentages</p> </li> 
+         </ol> 
+        </div> </li> 
+       <li> <p>Adaptive Layout</p> 
+        <div class="olist lowerroman"> 
+         <ol class="lowerroman" type="i"> 
+          <li> <p>using the @media tags</p> </li> 
+         </ol> 
+        </div> </li> 
+       <li> <p>Responsive Layout</p> 
+        <div class="olist lowerroman"> 
+         <ol class="lowerroman" type="i"> 
+          <li> <p>Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</p> </li> 
+         </ol> 
+        </div> </li> 
+      </ol> 
+     </div> </li> 
+    <li> <p>New way of setting the media value</p> </li> 
+   </ol> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre>        &lt;meta name="viewport" content="initial-scale=1,width=device-width"&gt;</pre> 
+   </div> 
+  </div> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Media query representation</p> </li> 
+   </ol> 
+  </div> 
+  <div class="listingblock"> 
+   <div class="content"> 
+    <pre>        @media screen and (max-width: 980px){
             ....
-        }</pre>
-</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Always create the smallest resolution first</p>
-</li>
-<li>
-<p>Try to use different images with different srcs to cater to different sizes</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_types_of_selectors">Types of Selectors</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Tag</p>
-</li>
-<li>
-<p>Class</p>
-</li>
-<li>
-<p>Pseudo-element <code>[first-line, first-character]</code> <em>This is the LEAST important selector</em></p>
-</li>
-<li>
-<p>Contextual/Conditional - selective styling - <code>p strong{}</code></p>
-</li>
-<li>
-<p>Group/Compound selector - more than 1 tag</p>
-</li>
-<li>
-<p>Pseudo-class <code>[link,active,hover,visited]</code> - <em>MORE important than the other pseudo-element</em></p>
-</li>
-<li>
-<p>ID Selector</p>
-</li>
-<li>
-<p>when to use id vs class?</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Use Class references with Less weightage</p>
-</li>
-<li>
-<p>Use the TAG selectors first</p>
-</li>
-</ol>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_selectors_precedence">Selectors Precedence</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>The precedence for any style flows as : <code>inline &gt; Embedded &gt; External</code></p>
-</li>
-<li>
-<p>The precedence for any selector: id &gt; class &gt; tag</p>
-</li>
-<li>
-<p>For more details, refer to</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">Specificity</a></p>
-</li>
-<li>
-<p><a href="http://www.w3.org/TR/CSS2/selector.html">Selector</a></p>
-</li>
-<li>
-<p><a href="http://css-tricks.com/specifics-on-css-specificity/">CSS Tricks</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_hierarchy_of_precedence">Hierarchy of precedence</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>The ID selector</p>
-</li>
-<li>
-<p>The attribute selector</p>
-</li>
-<li>
-<p>The class selector</p>
-</li>
-<li>
-<p>The child selector</p>
-</li>
-<li>
-<p>The adjacent sibling selector - <code>.blog-img + p</code></p>
-</li>
-<li>
-<p>The descendant selector</p>
-</li>
-<li>
-<p>The tag selector</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_shorthand_syntax">Shorthand syntax</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_background">background</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    background: url(example.gif);
+        }</pre> 
+   </div> 
+  </div> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Always create the smallest resolution first</p> </li> 
+    <li> <p>Try to use different images with different srcs to cater to different sizes</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_types_of_selectors">Types of Selectors</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Tag</p> </li> 
+    <li> <p>Class</p> </li> 
+    <li> <p>Pseudo-element <code>[first-line, first-character]</code> <em>This is the LEAST important selector</em></p> </li> 
+    <li> <p>Contextual/Conditional - selective styling - <code>p strong{}</code></p> </li> 
+    <li> <p>Group/Compound selector - more than 1 tag</p> </li> 
+    <li> <p>Pseudo-class <code>[link,active,hover,visited]</code> - <em>MORE important than the other pseudo-element</em></p> </li> 
+    <li> <p>ID Selector</p> </li> 
+    <li> <p>when to use id vs class?</p> 
+     <div class="olist loweralpha"> 
+      <ol class="loweralpha" type="a"> 
+       <li> <p>Use Class references with Less weightage</p> </li> 
+       <li> <p>Use the TAG selectors first</p> </li> 
+      </ol> 
+     </div> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_selectors_precedence">Selectors Precedence</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>The precedence for any style flows as : <code>inline &gt; Embedded &gt; External</code></p> </li> 
+    <li> <p>The precedence for any selector: id &gt; class &gt; tag</p> </li> 
+    <li> <p>For more details, refer to</p> 
+     <div class="ulist"> 
+      <ul> 
+       <li> <p><a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">Specificity</a></p> </li> 
+       <li> <p><a href="http://www.w3.org/TR/CSS2/selector.html">Selector</a></p> </li> 
+       <li> <p><a href="http://css-tricks.com/specifics-on-css-specificity/">CSS Tricks</a></p> </li> 
+      </ul> 
+     </div> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_hierarchy_of_precedence">Hierarchy of precedence</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>The ID selector</p> </li> 
+    <li> <p>The attribute selector</p> </li> 
+    <li> <p>The class selector</p> </li> 
+    <li> <p>The child selector</p> </li> 
+    <li> <p>The adjacent sibling selector - <code>.blog-img + p</code></p> </li> 
+    <li> <p>The descendant selector</p> </li> 
+    <li> <p>The tag selector</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_shorthand_syntax">Shorthand syntax</h2> 
+ <div class="sectionbody"> 
+  <div class="sect2"> 
+   <h3 id="_background">background</h3> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">    background: url(example.gif);
     background-color: #eaeaea ;
     background-repeat: repeat-x;
-    background-position: top left;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>can be written as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">background: #eaeaea url(example.gif) repeat-x top left;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_border">border</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    border-color: red;
+    background-position: top left;</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>can be written as:</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">background: #eaeaea url(example.gif) repeat-x top left;</code></pre> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_border">border</h3> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">    border-color: red;
     border-width: 1px;
-    border-style: solid;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>can be written as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">border: 1px solid red;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_list">list</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    list-style-position: outside;
+    border-style: solid;</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>can be written as:</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">border: 1px solid red;</code></pre> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_list">list</h3> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">    list-style-position: outside;
     list-style-image: none;
-    list-style-type: disc;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>can be written as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">list-style: disc outside;`</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>the general format for a list style is:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">list-style: [list-style-type] [list-style-position] [list-style-image];</code></pre>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_font">font</h4>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    font-family: Arial, Helvetica;
+    list-style-type: disc;</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>can be written as:</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">list-style: disc outside;`</code></pre> 
+    </div> 
+   </div> 
+   <div class="paragraph"> 
+    <p>the general format for a list style is:</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">list-style: [list-style-type] [list-style-position] [list-style-image];</code></pre> 
+    </div> 
+   </div> 
+   <div class="sect3"> 
+    <h4 id="_font">font</h4> 
+    <div class="listingblock"> 
+     <div class="content"> 
+      <pre class="prettyprint highlight"><code class="language-css" data-lang="css">    font-family: Arial, Helvetica;
     font-weight: bold;
     font-style: italic;
     font-size: 1em;
-    line-height: 1.5em;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>can be written as:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">font: bold italic 1em/1.5em Arial, Helvetica;</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_margin">margin</h3>
-<div class="paragraph">
-<p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code class="language-css" data-lang="css">    /* top=10px, right=5px, bottom=15px, left=20px */
+    line-height: 1.5em;</code></pre> 
+     </div> 
+    </div> 
+    <div class="paragraph"> 
+     <p>can be written as:</p> 
+    </div> 
+    <div class="listingblock"> 
+     <div class="content"> 
+      <pre class="prettyprint highlight"><code class="language-css" data-lang="css">font: bold italic 1em/1.5em Arial, Helvetica;</code></pre> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_margin">margin</h3> 
+   <div class="paragraph"> 
+    <p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p> 
+   </div> 
+   <div class="listingblock"> 
+    <div class="content"> 
+     <pre class="prettyprint highlight"><code class="language-css" data-lang="css">    /* top=10px, right=5px, bottom=15px, left=20px */
     margin: 10px 5px 15px 20px;
 
     /* top=10px, right=5px, bottom=10px, left=5px*/
     margin: 10px 5px;
 
     /* top=10px, right=5px, bottom=15px, left=5px*/
-    margin: 10px 5px 15px;</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_form_features_in_html5">Form features in HTML5</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Placeholder text</p>
-</li>
-<li>
-<p>Slider control</p>
-</li>
-<li>
-<p>Calendar/Date picker</p>
-</li>
-<li>
-<p>autocomplete</p>
-</li>
-<li>
-<p>Input type Search</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_css_features_in_html5">CSS features in HTML5</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Shadow - box shadow, text shadow</p>
-</li>
-<li>
-<p>Gradient</p>
-</li>
-<li>
-<p>Blur</p>
-</li>
-<li>
-<p>column text</p>
-</li>
-<li>
-<p>transform / transitions</p>
-</li>
-<li>
-<p>Rounded corners (using border radius)</p>
-</li>
-<li>
-<p>CSS Regions</p>
-</li>
-<li>
-<p>Exclusions</p>
-</li>
-<li>
-<p>Shaders</p>
-</li>
-<li>
-<p>Shadow DOM</p>
-</li>
-<li>
-<p>Multiple Images in background</p>
-</li>
-<li>
-<p>Alpha</p>
-</li>
-<li>
-<p>Font-faces</p>
-</li>
-<li>
-<p>Animation using Keyframes
-<em>Position:fixed or other positioning important for animations to work</em></p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_new_tags_in_html5">New Tags in HTML5</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>New semantic tags - header, footer, nav, section, aside, article</p>
-</li>
-<li>
-<p>Multimedia tags - audio/sound,video</p>
-</li>
-<li>
-<p>Drawing based tags - canvas, svg</p>
-</li>
-<li>
-<p>Form based new tags - Date, slider, time, spinner</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_important_links">Important Links</h2>
-<div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="http://css3generator.com/">Css3Generator</a></p>
-</li>
-<li>
-<p><a href="http://meyerweb.com/eric/tools/css/reset/">Reset</a></p>
-</li>
-<li>
-<p><a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/">Grid</a></p>
-</li>
-<li>
-<p><a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">IE support</a></p>
-</li>
-<li>
-<p><a href="https://github.com/aFarkas/html5shiv">html5shiv</a></p>
-</li>
-<li>
-<p><a href="http://modernizr.com/">modernizer</a></p>
-</li>
-<li>
-<p><a href="http://html5boilerplate.com/">html5boilerplate</a></p>
-</li>
-<li>
-<p><a href="http://html.adobe.com/edge/inspect/">Adobe Inspect</a></p>
-</li>
-<li>
-<p><a href="http://brackets.io/">Brackets</a></p>
-</li>
-</ol>
-</div>
-</div>
+    margin: 10px 5px 15px;</code></pre> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_form_features_in_html5">Form features in HTML5</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Placeholder text</p> </li> 
+    <li> <p>Slider control</p> </li> 
+    <li> <p>Calendar/Date picker</p> </li> 
+    <li> <p>autocomplete</p> </li> 
+    <li> <p>Input type Search</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_css_features_in_html5">CSS features in HTML5</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Shadow - box shadow, text shadow</p> </li> 
+    <li> <p>Gradient</p> </li> 
+    <li> <p>Blur</p> </li> 
+    <li> <p>column text</p> </li> 
+    <li> <p>transform / transitions</p> </li> 
+    <li> <p>Rounded corners (using border radius)</p> </li> 
+    <li> <p>CSS Regions</p> </li> 
+    <li> <p>Exclusions</p> </li> 
+    <li> <p>Shaders</p> </li> 
+    <li> <p>Shadow DOM</p> </li> 
+    <li> <p>Multiple Images in background</p> </li> 
+    <li> <p>Alpha</p> </li> 
+    <li> <p>Font-faces</p> </li> 
+    <li> <p>Animation using Keyframes <em>Position:fixed or other positioning important for animations to work</em></p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_new_tags_in_html5">New Tags in HTML5</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>New semantic tags - header, footer, nav, section, aside, article</p> </li> 
+    <li> <p>Multimedia tags - audio/sound,video</p> </li> 
+    <li> <p>Drawing based tags - canvas, svg</p> </li> 
+    <li> <p>Form based new tags - Date, slider, time, spinner</p> </li> 
+   </ol> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_important_links">Important Links</h2> 
+ <div class="sectionbody"> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p><a href="http://css3generator.com/">Css3Generator</a></p> </li> 
+    <li> <p><a href="http://meyerweb.com/eric/tools/css/reset/">Reset</a></p> </li> 
+    <li> <p><a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/">Grid</a></p> </li> 
+    <li> <p><a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">IE support</a></p> </li> 
+    <li> <p><a href="https://github.com/aFarkas/html5shiv">html5shiv</a></p> </li> 
+    <li> <p><a href="http://modernizr.com/">modernizer</a></p> </li> 
+    <li> <p><a href="http://html5boilerplate.com/">html5boilerplate</a></p> </li> 
+    <li> <p><a href="http://html.adobe.com/edge/inspect/">Adobe Inspect</a></p> </li> 
+    <li> <p><a href="http://brackets.io/">Brackets</a></p> </li> 
+   </ol> 
+  </div> 
+ </div> 
 </div></p>
 			</div>
 			<div id="push"></div>

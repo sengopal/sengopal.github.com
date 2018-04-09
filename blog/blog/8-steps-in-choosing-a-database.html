@@ -67,97 +67,91 @@
 					<h1>Eight steps in choosing a database</h1>
 				</div>
 				<p><em>20 January 2014</em></p>
-				<p><div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>We are planning a database architecture rewrite for an existing service and the needs of the project are:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Consistent data with ACID compliance for LIVE data</p>
-</li>
-<li>
-<p>Async writes and random reads for metadata</p>
-</li>
-<li>
-<p>Fast and Async writes and very low reads for audit information</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Usually, experts suggest a multi-database solution, or polyglot persistence approach instead of a traditional monolithich RDBMS solution.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_disadvantages_of_rdbms">Disadvantages of RDBMS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Scaling a traditional RDBMS is difficult at best. Partitioning schemes, multi-master configurations, and redundancy systems offered by Oracle, SQL Server, and DB2 are expensive and problematic at best. They often fail to meet the needs of high-scale applications. Also, for short lived data and with different lifetime data, RDBMS does not fit the needs of such an application.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_available_databases">Available Databases</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Some of the database types available as per this <a href="https://dzone.com/articles/review-persistence-strategies">Dzone article</a> are:</p>
-</div>
-<div class="sect2">
-<h3 id="_key_value_stores">Key-Value stores</h3>
-<div class="paragraph">
-<p>The most commonly used database solutions are Key-Value stores such as Aerospike, Redis, and Riak. These are available for easier install and application implementation.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_column_family_databases">Column-Family databases</h3>
-<div class="paragraph">
-<p>The other common databases available are Cassandra and HBase are both based on Hadoop but have different write semantics. While HBase offers strong write integrity and Cassandra offers <strong>eventual consistency</strong>. Also, Cassandra is ideal for high intense writes and random reads.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_document_databases">Document Databases</h3>
-<div class="paragraph">
-<p>Document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don&#8217;t require transactional integrity across entities. Typically, MongoDB and Couchbase are typically the leaders in this sector.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_graph_databases">Graph Databases</h3>
-<div class="paragraph">
-<p>Social networks and recommendation systems are classic use cases for graph databases, but there are a few different types of graph databases. Some of them are custom made for operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).</p>
-</div>
-<div class="paragraph">
-<p>Using the above descriptions and also based on availability or support within our organization, the following database types were determined.</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Database</th>
-<th class="tableblock halign-left valign-top">Storage for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Partition scheme. Store Live data.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cassandra</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Heavy writes for Async metadata</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cassandra</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Heavy writes for Audit log</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+				<p><div id="preamble"> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>We are planning a database architecture rewrite for an existing service and the needs of the project are:</p> 
+  </div> 
+  <div class="olist arabic"> 
+   <ol class="arabic"> 
+    <li> <p>Consistent data with ACID compliance for LIVE data</p> </li> 
+    <li> <p>Async writes and random reads for metadata</p> </li> 
+    <li> <p>Fast and Async writes and very low reads for audit information</p> </li> 
+   </ol> 
+  </div> 
+  <div class="paragraph"> 
+   <p>Usually, experts suggest a multi-database solution, or polyglot persistence approach instead of a traditional monolithich RDBMS solution.</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_disadvantages_of_rdbms">Disadvantages of RDBMS</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Scaling a traditional RDBMS is difficult at best. Partitioning schemes, multi-master configurations, and redundancy systems offered by Oracle, SQL Server, and DB2 are expensive and problematic at best. They often fail to meet the needs of high-scale applications. Also, for short lived data and with different lifetime data, RDBMS does not fit the needs of such an application.</p> 
+  </div> 
+ </div> 
+</div> 
+<div class="sect1"> 
+ <h2 id="_available_databases">Available Databases</h2> 
+ <div class="sectionbody"> 
+  <div class="paragraph"> 
+   <p>Some of the database types available as per this <a href="https://dzone.com/articles/review-persistence-strategies">Dzone article</a> are:</p> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_key_value_stores">Key-Value stores</h3> 
+   <div class="paragraph"> 
+    <p>The most commonly used database solutions are Key-Value stores such as Aerospike, Redis, and Riak. These are available for easier install and application implementation.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_column_family_databases">Column-Family databases</h3> 
+   <div class="paragraph"> 
+    <p>The other common databases available are Cassandra and HBase are both based on Hadoop but have different write semantics. While HBase offers strong write integrity and Cassandra offers <strong>eventual consistency</strong>. Also, Cassandra is ideal for high intense writes and random reads.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_document_databases">Document Databases</h3> 
+   <div class="paragraph"> 
+    <p>Document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don’t require transactional integrity across entities. Typically, MongoDB and Couchbase are typically the leaders in this sector.</p> 
+   </div> 
+  </div> 
+  <div class="sect2"> 
+   <h3 id="_graph_databases">Graph Databases</h3> 
+   <div class="paragraph"> 
+    <p>Social networks and recommendation systems are classic use cases for graph databases, but there are a few different types of graph databases. Some of them are custom made for operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).</p> 
+   </div> 
+   <div class="paragraph"> 
+    <p>Using the above descriptions and also based on availability or support within our organization, the following database types were determined.</p> 
+   </div> 
+   <table class="tableblock frame-all grid-all spread"> 
+    <colgroup> 
+     <col style="width: 50%;"> 
+     <col style="width: 50%;"> 
+    </colgroup> 
+    <thead> 
+     <tr> 
+      <th class="tableblock halign-left valign-top">Database</th> 
+      <th class="tableblock halign-left valign-top">Storage for</th> 
+     </tr> 
+    </thead> 
+    <tbody> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Oracle</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Partition scheme. Store Live data.</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Cassandra</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Heavy writes for Async metadata</p></td> 
+     </tr> 
+     <tr> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Cassandra</p></td> 
+      <td class="tableblock halign-left valign-top"><p class="tableblock">Heavy writes for Audit log</p></td> 
+     </tr> 
+    </tbody> 
+   </table> 
+  </div> 
+ </div> 
 </div></p>
 			</div>
 			<div id="push"></div>

@@ -1,0 +1,11 @@
+= Part 2 - “The Big Short” Movie for a trading novice
+Senthilkumar Gopal
+2018-03-31
+:jbake-type: post
+:jbake-tags: finance,ml4t,trading,machine-learning,education
+:jbake-status: published
+:external: true
+:link: https://medium.com/@sengopal/part-2-the-big-short-movie-for-a-trading-novice-a774c470fb81
+:summary: As part of my curriculum for Machine Learning for Trading (CS 7646) in my OMSCS course, we were asked to watch the movie “The Big Short” to learn how the market crash in 2008 happened, the sequence of events leading up to it and some of the key financial aspects and terms which are key to its plot. This is the second part of the review.
+
+As part of my curriculum for Machine Learning for Trading (CS 7646) in my OMSCS course, we were asked to watch the movie “The Big Short” to learn how the market crash in 2008 happened, the sequence of events leading up to it and some of the key financial aspects and terms which are key to its plot. The original post is available here - https://medium.com/@sengopal/part-2-the-big-short-movie-for-a-trading-novice-a774c470fb81/[Actual post]

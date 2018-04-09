@@ -1,107 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
-        <loc>http://sengopal.github.io/blog/pages/projects.html</loc>
+        <loc>http://localhost:8820pages/projects.html</loc>
+        <lastmod>2018-04-08</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://localhost:8820pages/reviews.html</loc>
         <lastmod>2015-03-22</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/pages/reviews.html</loc>
-        <lastmod>2015-03-22</lastmod>
+        <loc>http://localhost:8820blog/review-the-trillion-dollar-bet-documentary-part-1.html</loc>
+        <lastmod>2018-04-06</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/google-sign-in-integration-for-the-ebay-android-app.html</loc>
+        <loc>http://localhost:8820blog/review-the-trillion-dollar-bet-documentary-part-2.html</loc>
+        <lastmod>2018-04-06</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://localhost:8820blog/the-big-short-movie-for-a-trading-novice-part-2.html</loc>
+        <lastmod>2018-03-31</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://localhost:8820blog/the-big-short-movie-for-a-trading-novice-part-3.html</loc>
+        <lastmod>2018-03-31</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://localhost:8820blog/the-big-short-movie-for-a-trading-novice-part-1.html</loc>
+        <lastmod>2018-03-16</lastmod>
+        <changefreq>monthly</changefreq>
+    </url>
+    <url>
+        <loc>http://localhost:8820blog/google-sign-in-integration-for-the-ebay-android-app.html</loc>
         <lastmod>2017-10-24</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/good-code-and-why-should-we-care.html</loc>
+        <loc>http://localhost:8820blog/good-code-and-why-should-we-care.html</loc>
         <lastmod>2017-08-05</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/my-journey-with-udacity-android-developer-nanodegree.html</loc>
+        <loc>http://localhost:8820blog/my-journey-with-udacity-android-developer-nanodegree.html</loc>
         <lastmod>2016-09-04</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/finite-state-machine-for-single-use-code-authentication.html</loc>
+        <loc>http://localhost:8820blog/finite-state-machine-for-single-use-code-authentication.html</loc>
         <lastmod>2016-08-30</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/tips-for-giving-an-awesome-presention.html</loc>
+        <loc>http://localhost:8820blog/tips-for-giving-an-awesome-presention.html</loc>
         <lastmod>2016-08-20</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/application-resiliency-using-netflix-hystrix.html</loc>
+        <loc>http://localhost:8820blog/application-resiliency-using-netflix-hystrix.html</loc>
         <lastmod>2015-08-09</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/steps-for-secure-android-app-development.html</loc>
+        <loc>http://localhost:8820blog/steps-for-secure-android-app-development.html</loc>
         <lastmod>2015-03-22</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/git-github-secrets.html</loc>
+        <loc>http://localhost:8820blog/git-github-secrets.html</loc>
         <lastmod>2014-01-23</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/8-steps-in-choosing-a-database.html</loc>
+        <loc>http://localhost:8820blog/8-steps-in-choosing-a-database.html</loc>
         <lastmod>2014-01-20</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/java-mail-using-velocity-templates.html</loc>
+        <loc>http://localhost:8820blog/java-mail-using-velocity-templates.html</loc>
         <lastmod>2010-10-01</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/pdf-generation-using-pd4ml.html</loc>
+        <loc>http://localhost:8820blog/pdf-generation-using-pd4ml.html</loc>
         <lastmod>2010-04-05</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/spreadsheet-generation-using-java-libraries.html</loc>
+        <loc>http://localhost:8820blog/spreadsheet-generation-using-java-libraries.html</loc>
         <lastmod>2009-09-23</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/job-chaining-using-quartz.html</loc>
+        <loc>http://localhost:8820blog/job-chaining-using-quartz.html</loc>
         <lastmod>2009-03-31</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/ocp-certification-professional-notes-2.html</loc>
+        <loc>http://localhost:8820blog/ocp-certification-professional-notes-2.html</loc>
         <lastmod>2009-02-20</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/ocp-certification-professional-notes-1.html</loc>
+        <loc>http://localhost:8820blog/ocp-certification-professional-notes-1.html</loc>
         <lastmod>2009-02-12</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/scjp-notes-from-kathy-sierra-part2.html</loc>
+        <loc>http://localhost:8820blog/scjp-notes-from-kathy-sierra-part2.html</loc>
         <lastmod>2008-09-08</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/scjp-notes-from-kathy-sierra-part1.html</loc>
+        <loc>http://localhost:8820blog/scjp-notes-from-kathy-sierra-part1.html</loc>
         <lastmod>2008-09-03</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/css-learning-and-notes.html</loc>
+        <loc>http://localhost:8820blog/css-learning-and-notes.html</loc>
         <lastmod>2008-09-03</lastmod>
         <changefreq>monthly</changefreq>
     </url>
     <url>
-        <loc>http://sengopal.github.io/blog/blog/best-parts-of-criteria-api.html</loc>
+        <loc>http://localhost:8820blog/best-parts-of-criteria-api.html</loc>
         <lastmod>2008-05-30</lastmod>
         <changefreq>monthly</changefreq>
     </url>
