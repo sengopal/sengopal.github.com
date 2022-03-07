@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Learning basics of CSS and quick notes | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/learning-basics-of-css-and-quick-notes.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Learning basics of CSS and quick notes
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2008-09-03T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Wed 03 September 2008
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/web.html">#web</a>,               <a href="https://sengopal.github.io/tag/css.html">#css</a>,               <a href="https://sengopal.github.io/tag/frontend.html">#frontend</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/development.html">#development</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <p>The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</p>
+<h3>Slicing techniques</h3>
+<ol>
+<li>Do not slice the logo</li>
+<li>Figure out the gradient for repeating along the x -axis</li>
+<li>Dont start with the slice tool from the toolbar</li>
+<li>Always design with a wrapper div - for a row or a column - to be enclosed as a container tag</li>
+<li>Decide upon only one type of slicing for a given layout - for the wrapper divs and then perform the slicing</li>
+<li>First horizontal - because the flow goes from right to left</li>
+<li>After selecting the slice, divide the slice and give the number of dividers you would need</li>
+<li>Save for Web and Devices - Gif and PNG for transparent ones</li>
+<li>Quality generally set up as 75-85%</li>
+</ol>
+<h3>Remember</h3>
+<ol>
+<li>height, width, padding, margin, float - main important properties</li>
+<li>use the following (or use a reset)</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">body</span><span class="p">{</span>
+    <span class="k">padding</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">margin</span><span class="p">:</span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li>Give Wrapper <code>margin:auto;</code> to make the whole container centered</li>
+<li>Give fixed width and height to get the margin auto to work properly</li>
+<li>Div dimensions: width + margin + padding + border</li>
+<li>Whenever u are adding a padding or margin, adjust the width or height appropriately</li>
+<li>Use <code>margin:auto;</code> to center the div within the container</li>
+<li><code>\#nav ul{ margin:0; padding:0;}</code> - remember for every UL block or use a reset</li>
+<li>Always use <code>ul{list-style-type: none;}</code></li>
+<li>Give <code>li{display:block}</code> and provide width &amp; height to get a BUTTON look and feel</li>
+<li>For vertical nav bar, when absolute position is used, use negative margin-left and margin-top of size half of the width and height of the div.</li>
+<li>Always the target browsers and supported resolutions needs to be decided</li>
+</ol>
+<h3>Media Queries</h3>
+<ol>
+<li>Change float to normal using the height/width/float properties for changing screen size</li>
+<li>Always use <code>margin,padding:0</code> - for reset</li>
+<li>Types of layouts - pure fluid / pure display oriented / hybrid
+.. Fluid Layout
+        ... system of relative layout instead of absolute pixels
+        ... height/width - only in percentages</li>
+</ol>
+<p>.. Adaptive Layout
+        ... using the @media tags</p>
+<p>.. Responsive Layout
+        ... Mix of Fluid and adaptive layouts. PERCENTAGE + Media Tags</p>
+<ol>
+<li>New way of setting the media value
+[source,html]</li>
+</ol>
+<div class="highlight"><pre><span></span><code>        &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1,width=device-width&quot;&gt;
+</code></pre></div>
+
+<ol>
+<li>Media query representation</li>
+</ol>
+<div class="highlight"><pre><span></span><code>        <span class="p">@</span><span class="k">media</span> <span class="nt">screen</span> <span class="nt">and</span> <span class="o">(</span><span class="nt">max-width</span><span class="o">:</span> <span class="nt">980px</span><span class="o">)</span><span class="p">{</span>
+            <span class="o">....</span>
+        <span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li>Always create the smallest resolution first</li>
+<li>Try to use different images with different srcs to cater to different sizes</li>
+</ol>
+<h3>Types of Selectors</h3>
+<ol>
+<li>Tag</li>
+<li>Class</li>
+<li>Pseudo-element <code>[first-line, first-character]</code> <em>This is the LEAST important selector</em></li>
+<li>Contextual/Conditional - selective styling - <code>p strong{}</code></li>
+<li>Group/Compound selector - more than 1 tag</li>
+<li>Pseudo-class <code>[link,active,hover,visited]</code> - <em>MORE important than the other pseudo-element</em></li>
+<li>ID Selector</li>
+<li>when to use id vs class?
+    .. Use Class references with Less weightage
+    .. Use the TAG selectors first</li>
+</ol>
+<h3>Selectors Precedence</h3>
+<ol>
+<li>The precedence for any style flows as : <code>inline &gt; Embedded &gt; External</code></li>
+<li>The precedence for any selector: id &gt; class &gt; tag</li>
+<li>
+<p>For more details, refer to</p>
+</li>
+<li>
+<p>http://www.w3.org/TR/CSS21/cascade.html#specificity[Specificity]</p>
+</li>
+<li>http://www.w3.org/TR/CSS2/selector.html[Selector]</li>
+<li>http://css-tricks.com/specifics-on-css-specificity/[CSS Tricks]</li>
+</ol>
+<h3>Hierarchy of precedence</h3>
+<ol>
+<li>The ID selector</li>
+<li>The attribute selector</li>
+<li>The class selector</li>
+<li>The child selector</li>
+<li>The adjacent sibling selector - <code>.blog-img + p</code></li>
+<li>The descendant selector</li>
+<li>The tag selector</li>
+</ol>
+<h3>Shorthand syntax</h3>
+<h3>= background</h3>
+<div class="highlight"><pre><span></span><code>    <span class="nt">background</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="nt">example</span><span class="p">.</span><span class="nc">gif</span><span class="o">);</span>
+    <span class="nt">background-color</span><span class="o">:</span> <span class="p">#</span><span class="nn">eaeaea</span> <span class="o">;</span>
+    <span class="nt">background-repeat</span><span class="o">:</span> <span class="nt">repeat-x</span><span class="o">;</span>
+    <span class="nt">background-position</span><span class="o">:</span> <span class="nt">top</span> <span class="nt">left</span><span class="o">;</span>
+</code></pre></div>
+
+<p>can be written as:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">background</span><span class="o">:</span> <span class="p">#</span><span class="nn">eaeaea</span> <span class="nt">url</span><span class="o">(</span><span class="nt">example</span><span class="p">.</span><span class="nc">gif</span><span class="o">)</span> <span class="nt">repeat-x</span> <span class="nt">top</span> <span class="nt">left</span><span class="o">;</span>
+</code></pre></div>
+
+<h3>= border</h3>
+<div class="highlight"><pre><span></span><code>    <span class="nt">border-color</span><span class="o">:</span> <span class="nt">red</span><span class="o">;</span>
+    <span class="nt">border-width</span><span class="o">:</span> <span class="nt">1px</span><span class="o">;</span>
+    <span class="nt">border-style</span><span class="o">:</span> <span class="nt">solid</span><span class="o">;</span>
+</code></pre></div>
+
+<p>can be written as:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">border</span><span class="o">:</span> <span class="nt">1px</span> <span class="nt">solid</span> <span class="nt">red</span><span class="o">;</span>
+</code></pre></div>
+
+<h3>= list</h3>
+<div class="highlight"><pre><span></span><code>    <span class="nt">list-style-position</span><span class="o">:</span> <span class="nt">outside</span><span class="o">;</span>
+    <span class="nt">list-style-image</span><span class="o">:</span> <span class="nt">none</span><span class="o">;</span>
+    <span class="nt">list-style-type</span><span class="o">:</span> <span class="nt">disc</span><span class="o">;</span>
+</code></pre></div>
+
+<p>can be written as:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">list-style</span><span class="o">:</span> <span class="nt">disc</span> <span class="nt">outside</span><span class="o">;</span><span class="err">`</span>
+</code></pre></div>
+
+<p>the general format for a list style is:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">list-style</span><span class="o">:</span> <span class="o">[</span><span class="nt">list-style-type</span><span class="o">]</span> <span class="o">[</span><span class="nt">list-style-position</span><span class="o">]</span> <span class="o">[</span><span class="nt">list-style-image</span><span class="o">];</span>
+</code></pre></div>
+
+<h6>font</h6>
+<div class="highlight"><pre><span></span><code>    <span class="nt">font-family</span><span class="o">:</span> <span class="nt">Arial</span><span class="o">,</span> <span class="nt">Helvetica</span><span class="o">;</span>
+    <span class="nt">font-weight</span><span class="o">:</span> <span class="nt">bold</span><span class="o">;</span>
+    <span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span><span class="o">;</span>
+    <span class="nt">font-size</span><span class="o">:</span> <span class="nt">1em</span><span class="o">;</span>
+    <span class="nt">line-height</span><span class="o">:</span> <span class="nt">1</span><span class="p">.</span><span class="nc">5em</span><span class="o">;</span>
+</code></pre></div>
+
+<p>can be written as:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">font</span><span class="o">:</span> <span class="nt">bold</span> <span class="nt">italic</span> <span class="nt">1em</span><span class="o">/</span><span class="nt">1</span><span class="p">.</span><span class="nc">5em</span> <span class="nt">Arial</span><span class="o">,</span> <span class="nt">Helvetica</span><span class="o">;</span>
+</code></pre></div>
+
+<h3>= margin</h3>
+<p>The margin properties allows a shorthand for margin-top, margin-right, margin-bottom and margin-left.</p>
+<div class="highlight"><pre><span></span><code>    <span class="c">/* top=10px, right=5px, bottom=15px, left=20px */</span>
+    <span class="nt">margin</span><span class="o">:</span> <span class="nt">10px</span> <span class="nt">5px</span> <span class="nt">15px</span> <span class="nt">20px</span><span class="o">;</span>
+
+    <span class="c">/* top=10px, right=5px, bottom=10px, left=5px*/</span>
+    <span class="nt">margin</span><span class="o">:</span> <span class="nt">10px</span> <span class="nt">5px</span><span class="o">;</span>
+
+    <span class="c">/* top=10px, right=5px, bottom=15px, left=5px*/</span>
+    <span class="nt">margin</span><span class="o">:</span> <span class="nt">10px</span> <span class="nt">5px</span> <span class="nt">15px</span><span class="o">;</span>
+</code></pre></div>
+
+<h3>Form features in HTML5</h3>
+<ol>
+<li>Placeholder text</li>
+<li>Slider control</li>
+<li>Calendar/Date picker</li>
+<li>autocomplete</li>
+<li>Input type Search</li>
+</ol>
+<h3>CSS features in HTML5</h3>
+<ol>
+<li>Shadow - box shadow, text shadow</li>
+<li>Gradient</li>
+<li>Blur</li>
+<li>column text</li>
+<li>transform / transitions</li>
+<li>Rounded corners (using border radius)</li>
+<li>CSS Regions</li>
+<li>Exclusions</li>
+<li>Shaders</li>
+<li>Shadow DOM</li>
+<li>Multiple Images in background</li>
+<li>Alpha</li>
+<li>Font-faces</li>
+<li>Animation using Keyframes
+    <em>Position:fixed or other positioning important for animations to work</em></li>
+</ol>
+<h3>New Tags in HTML5</h3>
+<ol>
+<li>New semantic tags - header, footer, nav, section, aside, article</li>
+<li>Multimedia tags - audio/sound,video</li>
+<li>Drawing based tags - canvas, svg</li>
+<li>Form based new tags - Date, slider, time, spinner</li>
+</ol>
+<h3>Important Links</h3>
+<ol>
+<li>http://css3generator.com/[Css3Generator]</li>
+<li>http://meyerweb.com/eric/tools/css/reset/[Reset]</li>
+<li>http://vandelaydesign.com/blog/design/resources-grid-based-design/[Grid]</li>
+<li>http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/[IE support]</li>
+<li>https://github.com/aFarkas/html5shiv[html5shiv]</li>
+<li>http://modernizr.com/[modernizer]</li>
+<li>http://html5boilerplate.com/[html5boilerplate]</li>
+<li>http://html.adobe.com/edge/inspect/[Adobe Inspect]</li>
+<li>http://brackets.io/[Brackets]</li>
+</ol>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

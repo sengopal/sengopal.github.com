@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Steps for secure Android Application development | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/steps-for-secure-android-application-development.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Steps for secure Android Application development
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2015-03-22T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Sun 22 March 2015
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/android.html">#android</a>,               <a href="https://sengopal.github.io/tag/security.html">#security</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <p>In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post. Its the responsibility of every Android app developer to keep themselves appraised about new threats using OWASP Mobile Top 10 Risks.</p>
+<h3>Data classification and Handling Standards</h3>
+<ol>
+<li>All data persisted should be encrypted - sqlliteDB, files, dataprovider etc.,</li>
+<li>Don't transmit sensitive data to unapproved 3rd party.</li>
+<li>Don't put sensitive data into Intents</li>
+</ol>
+<h3>Mobile privacy</h3>
+<ol>
+<li>Respect user's privacy by collecting minimum amount of data</li>
+<li>GPS &amp; location data - fine grain vs. coarse grain GPS data</li>
+<li>Contact Info</li>
+<li>Microphone and Camera use</li>
+<li>Tracking and Analytics IDs</li>
+</ol>
+<h3>Attack Surface Analysis</h3>
+<ol>
+<li>Third party code automatically inherits app permissions. Treat new versions of library as a new version of your app.</li>
+<li>Use Google Alerts for any security disclosures regarding the 3rd party library.</li>
+</ol>
+<h3>Securing logs</h3>
+<ol>
+<li>Do not enable crash logs by default. Get user consent before logging.</li>
+<li>Do not store crash logs for too long</li>
+<li>Do not send plain-text logs over HTTP</li>
+<li>Mask sensitive user information in the logs - starbucks usecase</li>
+<li>Minimize the number of permissions - dont ask for what you dont need - Incoming SMS messages -</li>
+</ol>
+<h3>Securing Intents</h3>
+<ol>
+<li>Use PendingIntents as delayed callbacks to private Broadcast receivers</li>
+<li>Use Explicit intents as much as possible</li>
+</ol>
+<h2>[source,java]</h2>
+<p>context.sendBroadcast(intent,"custom-permission");
+context.startActivity(intent);</p>
+<hr>
+<h3>Permissions and Intents</h3>
+<ol>
+<li>Use custom permission for 3rd party or other apps to subscribe for notifications</li>
+<li>For sensitive activities, set FLAG_SECURE constant flag in WindowManager.LayoutParams</li>
+<li>Perform intent data validation</li>
+<li>For private activities, use explicit intent</li>
+<li>Seperate services in AndroidManifest with explicit and seperate permissions</li>
+<li>Use explicit intent to call Service</li>
+<li>Use <code>checkCallingPermission()</code> to verify if permission is available to the caller</li>
+</ol>
+<h3>Data Security</h3>
+<ol>
+<li>Use record level delegation feature to share a specific record or file without sharing the entire database to provide minimum access.</li>
+<li>Never trust the parameters passed to content providers. Sanatize for injection attacks.</li>
+<li>Securing ContentProviders. Always set <code>exported=false</code> in your <strong>AndroidManifest.xml</strong></li>
+<li>Ppecify explicit permissions for reading and writing.</li>
+<li>Use dynamic <code>grantUriPermissions</code> attribute to true to grant permission for certain portion for certain amount of time.</li>
+</ol>
+<h3>WebView Security</h3>
+<ol>
+<li>Disable JS and Plugin support if not needed</li>
+<li>No local file access</li>
+<li>Do not load 3rd party hosts unless validated</li>
+<li>Do not follow redirect requests in the server response unless validated</li>
+<li>If possible, use only https</li>
+<li>Disable form auto-fill feature by using <code>WebView.WebSettings.setSaveFormData()</code> as false</li>
+<li>Reject unexpected content - only allow HTML for main page (reject PDFs etc.,)</li>
+<li>Secure Page Rendering in WebView  - shouldOverrideUrlLoading</li>
+<li>Access Modifiers should not be trusted for sensitivity.</li>
+<li>Clear the cache after Webview of a Sensitive page. </li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">onPageFinished</span><span class="p">(</span><span class="n">Webview</span> <span class="n">view</span><span class="p">,</span> <span class="n">String</span> <span class="n">Url</span><span class="p">){</span>
+        <span class="n">view</span><span class="p">.</span><span class="na">clearCache</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol>
+<li>Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to prevent click jacking Use <code>setFilterTouchesWhenObscured(true)</code> or android:setFilterTouchesWhenObscured for activity declaration.</li>
+</ol>
+<h3>Development practices</h3>
+<ol>
+<li>Keep sensitive data in RAM no longer than required such as Encryption keys, Authn, Authz tokens, passwords.</li>
+<li>Variables should be nullified after use</li>
+<li>Use byte[] and char[] for sensitive data rather than Strings which helps in cleaning easier.</li>
+</ol>
+<h3>== Internal Storage</h3>
+<ol>
+<li>Accessible only to your app</li>
+<li>clean the cache using deleteFile()</li>
+</ol>
+<h3>== External Storage</h3>
+<ol>
+<li>Globally readable and writable</li>
+<li>Can be physically removed</li>
+<li>Avoid using this storage for sensitive apps in general. Use <code>preferInternal</code> to prevent app being installed in external storage.</li>
+<li>Use Keychain API for system wide credentials</li>
+<li>Use Keystore to stores its own credentials</li>
+<li><code>file.delete()</code> does not securely delete. </li>
+<li>Always delete cache files when user logs out</li>
+<li>Do not keep files with any sensitive data any longer than absolutely needed.</li>
+<li>Do not create files with MODE_WORLD_READABLE or writeable</li>
+<li>Do not use modes such as 0666, 0777, 0663 with chmod binary or syscalls accepting a file modes</li>
+<li>Only share info using content providers instead of file system</li>
+</ol>
+<h3>Cryptography</h3>
+<ol>
+<li>Dont store plain-text secret key</li>
+<li>Never roll your own CRYPTO libraries. use the approved ones</li>
+<li>Never store secrets using string - only char[] and byte[]</li>
+<li>Never seed SecureRandom</li>
+</ol>
+<h3>Camera feed</h3>
+<ol>
+<li>Use default CAmera app/services</li>
+<li>Or, create SurfaceView to display a Camera Preview and click button to convert to Picture</li>
+</ol>
+<h3>URL Connections</h3>
+<ol>
+<li>Use TLS instead of SSLv3.</li>
+<li>Use only https</li>
+<li>SSLSocket class can be used but with caution. It does not do hostname verification.</li>
+<li>If overriding, check <code>getDefaultHostNameVerifier()</code> or <code>HostNameVerifier.verify()</code> returns boolean true.</li>
+</ol>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

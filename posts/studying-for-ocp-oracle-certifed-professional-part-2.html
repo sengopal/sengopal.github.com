@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Studying for OCP - Oracle Certifed Professional - Part 2 | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/studying-for-ocp-oracle-certifed-professional-part-2.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Studying for OCP - Oracle Certifed Professional - Part 2
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2009-02-20T00:00:00-08:00">
+          <i class="fas fa-clock"></i>
+          Fri 20 February 2009
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/oracle.html">#oracle</a>,               <a href="https://sengopal.github.io/tag/certification.html">#certification</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/sql.html">#sql</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <p>I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</p>
+<p>Continued from <a href="Part 1">ocp-certification-professional-notes-1.html</a></p>
+<h3>Chapter 7</h3>
+<ol>
+<li>equijoin - A row is associated with one or more rows in another table based on the equality of column values or expressions.</li>
+<li>nonequijoin - In this case, a row is associated with one or more rows in another table if its column values fall into a range determined by inequality operators.</li>
+<li>associate rows with other rows in the same table -&gt; hierarchical -&gt; self-join.
+   .. Rows with null or differing entries in common join columns are excluded when equijoins and nonequijoins are performed.
+   .. An outer join is available to fetch these one-legged or orphaned rows if necessary.
+   .. A cross join or Cartesian product is formed when every row from one table is joined to all rows in another -&gt; missing or inadequate join conditions</li>
+<li>When the source and target tables share identically named columns, it is possible to perform a natural join between them without specifying a join column. This is sometimes referred to as a pure natural join.
+   .. select region_name from regions natural join countries where country_name='Canada'</li>
+<li><strong>JOIN...USING</strong>
+   .. select region_name from regions join countries using (region_id) where country_name='Canada' -&gt; brackets are a part of the syntax</li>
+<li><strong>JOIN...ON</strong>  -&gt; most widely used natural join format.
+   .. select region_name from regions join countries on (countries.region_id=regions.region_id) where country_name='Canada' -&gt; brackets are optional</li>
+<li>cross join or cartesian product
+   .. This join creates one row of output for every combination of source and target table rows.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">from</span> <span class="n">regions</span> <span class="k">cross</span> <span class="k">join</span> <span class="n">countries</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>[TRADITIONAL JOIN SYNTAX] A plus symbol enclosed in brackets (+) to the left of the equal sign that indicates to Oracle that a right outer join must be performed -&gt; (+) =</li>
+<li>The join returns additional values from the table WITHOUT the (+) symbol</li>
+<li>CARTESION JOIN:  <code>select * from regions,countries;</code></li>
+<li>SQL:1999 Syntax</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="p">[</span><span class="k">NATURAL</span> <span class="k">JOIN</span> <span class="n">table2</span><span class="p">]</span> <span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">USING</span> <span class="p">(</span><span class="k">column_name</span><span class="p">)]</span> <span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span> <span class="o">|</span>
+    <span class="p">[</span><span class="k">LEFT</span> <span class="o">|</span> <span class="k">RIGHT</span> <span class="o">|</span> <span class="k">FULL</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">table2</span>
+    <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span> <span class="o">|</span>
+    <span class="p">[</span><span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">table2</span><span class="p">];</span>
+</code></pre></div>
+
+<ol>
+<li>If no joins or fewer than N-1 joins are specified in the WHERE clause conditions, where N refers to the number of tables in the query, then a Cartesian or cross join is performed.</li>
+<li>If ambiguous column is NOT aliased, ORA-00918:column ambiguously defined</li>
+<li>If Column used in JOIN...USING is aliased, ORA-25154:column part of USING clause cannot have qualifier</li>
+<li>Qualifying column references with dot notation to indicate a column’s table of origin has a performance benefit. Time is saved because Oracle is directed instantaneously to the appropriate table and does not have to resolve the table name.</li>
+<li>Natural JOIN</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+<span class="k">FROM</span> <span class="n">table1</span>
+<span class="k">NATURAL</span> <span class="k">JOIN</span> <span class="n">table2</span><span class="p">;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="cp">.. The pure natural join identifies the columns with common names in table1 and table2 and implicitly joins the tables using ALL THESE columns.</span>
+<span class="cp">.. The columns in the SELECT clause may be qualified using dot notation unless they are one of the join columns</span>
+</code></pre></div>
+
+<ol>
+<li>If NATURAL JOIN Column Names are of incompatible data types : ORA-01722: invalid number</li>
+<li>If there are no common name columns, NATURAL JOIN Performs a CARTESIAN PRODUCT</li>
+<li>JOIN...USING
+    .. select EMP.last_name, EMP.Department_id, JH.end_date, job_id, employee_id from job_history JH join employees EMP using (job_id,employee_id)
+    .. Column used in the USING part should not be qualified -&gt; ORA-25154: column part of USING clause cannot have qualifier
+    .. Column not used in the USING part should be qualified if ambigously defined -&gt; ORA-00918: column ambiguously defined</li>
+<li>The NATURAL keyword and USING (or) ON should not appear in the same clause</li>
+<li>When joining more than two tables NATURALLY, the intermin resultset created will be joined to the Third table and if the resultset does not have a common column with the Third table,  then CARTESIAN PRODUCT occurs</li>
+<li>NON-EQUI JOINS</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">&lt;</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span><span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">&gt;</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span><span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">&lt;=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span><span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column_name</span> <span class="o">&gt;=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column_name</span><span class="p">)]</span><span class="o">|</span>
+    <span class="p">[</span><span class="k">JOIN</span> <span class="n">table2</span> <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column</span> <span class="k">BETWEEN</span> <span class="n">table2</span><span class="p">.</span><span class="n">col1</span> <span class="k">AND</span> <span class="n">table2</span><span class="p">.</span><span class="n">col2</span><span class="p">)]</span><span class="o">|</span>
+</code></pre></div>
+
+<ol>
+<li>JOIN Condition can have boolean variables of AND, OR and NOT -&gt; Need to evaluate to a BOOLEAN Expression</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">E</span><span class="p">.</span><span class="n">JOB_ID</span> <span class="k">from</span> <span class="n">Employees</span> <span class="n">e</span> <span class="k">join</span> <span class="n">jobs</span> <span class="n">j</span> <span class="k">on</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">salary</span><span class="o">&gt;</span><span class="mi">5000</span> <span class="k">and</span> <span class="mi">2</span><span class="o">*</span><span class="n">e</span><span class="p">.</span><span class="n">salary</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">.</span><span class="n">max_salary</span><span class="p">);</span>
+</code></pre></div>
+
+<ol>
+<li>LEFT Outer Join -&gt; Rows from Source Table -&gt; Rows from the LEFT of the JOIN condition "X LEFT JOIN Y" -&gt; Rows from X
+    .. RIGHT Outer Join -&gt; Rows from Target Table -&gt; Rows from the RIGHT of the JOIN condition "X LEFT JOIN Y" -&gt; Rows from Y
+    .. FULL Outer Join -&gt; Both Source and Target tables</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="k">LEFT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">table2</span>
+    <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column</span> <span class="o">=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="k">RIGHT</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">table2</span>
+    <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column</span> <span class="o">=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="k">FULL</span> <span class="k">OUTER</span> <span class="k">JOIN</span> <span class="n">table2</span>
+    <span class="k">ON</span> <span class="p">(</span><span class="n">table1</span><span class="p">.</span><span class="k">column</span> <span class="o">=</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="n">table1</span><span class="p">.</span><span class="k">column</span><span class="p">,</span> <span class="n">table2</span><span class="p">.</span><span class="k">column</span>
+    <span class="k">FROM</span> <span class="n">table1</span>
+    <span class="k">CROSS</span> <span class="k">JOIN</span> <span class="n">table2</span><span class="p">;</span>     <span class="o">-&gt;</span> <span class="n">ANSI</span> <span class="k">SQL</span><span class="p">:</span><span class="mi">1999</span> <span class="k">cross</span> <span class="k">join</span> <span class="n">syntax</span>
+</code></pre></div>
+
+<ol>
+<li>SQL*Plus presents any identically named columns as headings. SQL Developer appends an underscore and number to each shared column name and uses it as the heading</li>
+<li>JOIN ON takes multiple conditions using AND -&gt; SELECT * FROM EMPLOYEES E JOIN DEPARTMENTS D ON E.DEPARTMENT_ID=D.DEPARTMENT_ID AND E.MANAGER_ID=D.MANAGER_ID;</li>
+<li>departments d outer join employees e -&gt; INVALID SYNTAX -&gt; Need to specify type of OUTER join</li>
+<li>CROSS JOIN cannot have a JOIN condition -&gt; Syntax Error</li>
+<li>SELECT D.DEPARTMENT_ID FROM EMPLOYEES JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+    Columns in USING Clause when used in SELECT should NOT HAVE QUALIFIERS</li>
+<li>
+<p>SELECT *
+      FROM LOCATIONS L RIGHT OUTER JOIN COUNTRIES C
+      ON (L.COUNTRY_ID=C.COUNTRY_ID)
+      WHERE L.COUNTRY_ID is NULL</p>
+<p>.. Joins both the tables and gives a combined result with the additional records in COUNTRIES which are not used in LOCATIONs table
+.. Specifying the WHERE condition removes the rows that have an ENTRY in the LOCATIONS table
+.. This gives the records which are in the COUNTRIES table without any ENTRY in the LOCATIONS table</p>
+</li>
+<li>
+<p>IF THERE IS A OUTER JOIN, FIRST JOIN the TABLE and apply the CONDITIONS to get the results</p>
+</li>
+</ol>
+<h3>Chapter 8</h3>
+<ol>
+<li>A scalar subquery is a query that returns exactly one value: a single row, with a single column.</li>
+<li>A subquery is a query that is nested inside a SELECT, INSERT, UPDATE, or DELETE statement or inside another subquery</li>
+<li>Subqueries can be nested to an unlimited depth in a FROM clause but to "only" 255 levels in a WHERE clause. They can be used in the SELECT list and in the FROM, WHERE, and HAVING clauses of a query.</li>
+<li>Using NOT IN is fraught with problems because of the way SQL handles NULLs. As a general rule, do not use NOT IN unless you are certain that the result set will not include a NULL.</li>
+<li>If the subquery is going to return more than one row, then the comparison operator must be able to accept multiple values. These operators are IN, NOT IN, ANY, and ALL. If the comparison operator is EQUAL, GREATER THAN, or LESS THAN (which each can only accept one value), the parent query will fail.</li>
+<li>An extension of the use of subqueries as an alternative to a join is to enable the star transformation often needed in data warehouse applications</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span>
+<span class="k">and</span> <span class="n">p</span><span class="p">.</span><span class="n">product</span><span class="o">=</span><span class="err">’</span><span class="n">Books</span><span class="err">’</span>
+<span class="k">and</span> <span class="n">b</span><span class="p">.</span><span class="n">country</span><span class="o">=</span><span class="err">’</span><span class="n">Germany</span><span class="err">’</span>
+<span class="k">and</span> <span class="k">c</span><span class="p">.</span><span class="n">channel</span><span class="o">=</span><span class="err">’</span><span class="n">Internet</span><span class="err">’</span><span class="p">;</span>
+
+<span class="k">TO</span>
+<span class="k">select</span> <span class="p">...</span> <span class="k">from</span> <span class="n">sales</span>
+<span class="k">where</span> <span class="n">prod_code</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">prod_code</span> <span class="k">from</span> <span class="n">products</span> <span class="k">where</span> <span class="n">product</span><span class="o">=</span><span class="err">’</span><span class="n">Books</span><span class="err">’</span><span class="p">)</span>
+<span class="k">and</span> <span class="n">buy_code</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">buy_code</span> <span class="k">from</span> <span class="n">buyers</span> <span class="k">where</span> <span class="n">country</span><span class="o">=</span><span class="err">’</span><span class="n">Germany</span><span class="err">’</span><span class="p">)</span>
+<span class="k">and</span> <span class="n">chan_code</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">chan_code</span> <span class="k">from</span> <span class="n">channels</span> <span class="k">where</span> <span class="n">channel</span><span class="o">=</span><span class="err">’</span><span class="n">Internet</span><span class="p">);</span>
+</code></pre></div>
+
+<ol>
+<li>STAR TRANSFORMATION There is an instance initialization parameter, STAR_TRANSFORMATION_ENABLED, which (if set to true) will permit the Oracle query optimizer to re-write code into star queries.</li>
+<li>Subqueries can also be used in the FROM clause, where they are sometimes referred to as inline views</li>
+<li>select (select max(salary) from employees) *  (select max(commission_pct) from employees) / 100 from dual;
+   .. In this usage, the SELECT list used to project columns is being populated with the results of the subqueries. A subquery used in this manner must be scalar, or the parent query will fail with an error.</li>
+<li>USAGE of Sub Query happens in WHERE clause, FROM clause, SELECT clause, DML Statements</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">insert</span> <span class="k">into</span> <span class="n">sales_hist</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">sales</span> <span class="k">where</span> <span class="nb">date</span> <span class="o">&gt;</span> <span class="n">sysdate</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="k">update</span> <span class="n">employees</span> <span class="k">set</span> <span class="n">salary</span> <span class="o">=</span> <span class="p">(</span><span class="k">select</span> <span class="k">avg</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span> <span class="k">from</span> <span class="n">employees</span><span class="p">);</span>
+<span class="k">delete</span> <span class="k">from</span> <span class="n">departments</span> <span class="k">where</span> <span class="n">department_id</span> <span class="k">not</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">department_id</span> <span class="k">from</span> <span class="n">employees</span><span class="p">);</span>
+</code></pre></div>
+
+<ol>
+<li>A subquery can be used to select rows for insertion but not in a VALUES clause of an INSERT statement.</li>
+<li>Usage examples</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">insert</span> <span class="k">into</span> <span class="n">dates</span> <span class="k">select</span> <span class="n">sysdate</span> <span class="k">from</span> <span class="n">dual</span><span class="p">;</span> <span class="o">-&gt;</span> <span class="n">CORRECT</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">dates</span> <span class="p">(</span><span class="n">date_col</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="k">select</span> <span class="n">sysdate</span> <span class="n">fom</span> <span class="n">dual</span><span class="p">);</span> <span class="o">-&gt;</span> <span class="k">NOT</span> <span class="n">CORRECT</span>
+</code></pre></div>
+
+<ol>
+<li>The single-row subquery returns one row. A special case is the scalar subquery, which returns a single row with one column.
+    .. The comparison operators valid for single-row subqueries are =, &gt;, &gt;=, &lt;, &lt;=, and &lt;&gt;.
+    .. The comparison operators valid for multiple-row subqueries are IN, NOT IN, ANY, and ALL.</li>
+<li>Correlated subqueries can be a very inefficient construct, due to the need for repeated execution of the subquery. Always try to find an alternative approach.</li>
+<li>Usage of ALL</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">last_name</span> <span class="k">from</span> <span class="n">employees</span> <span class="k">where</span> <span class="n">salary</span> <span class="o">&gt;</span> <span class="k">all</span> <span class="p">(</span><span class="k">select</span> <span class="n">salary</span> <span class="k">from</span> <span class="n">employees</span> <span class="k">where</span> <span class="n">department_id</span><span class="o">=</span><span class="mi">80</span><span class="p">);</span>
+
+<span class="o">&lt;</span> <span class="k">ANY</span> <span class="k">less</span> <span class="k">than</span> <span class="n">the</span> <span class="n">highest</span>
+<span class="o">&gt;</span> <span class="k">ANY</span> <span class="k">more</span> <span class="k">than</span> <span class="n">the</span> <span class="n">lowest</span>
+<span class="o">=</span> <span class="k">ANY</span> <span class="n">equivalent</span> <span class="k">to</span> <span class="k">IN</span>
+<span class="o">&gt;</span> <span class="k">ALL</span> <span class="k">more</span> <span class="k">than</span> <span class="n">the</span> <span class="n">highest</span>
+<span class="o">&lt;</span> <span class="k">ALL</span> <span class="k">less</span> <span class="k">than</span> <span class="n">the</span> <span class="n">lowest</span>
+</code></pre></div>
+
+<ol>
+<li>"NOT &gt;="      -&gt; NOT or ! cannot be used in Conjunction with other comparison operators</li>
+<li>SUB QUERIES can be used in SELECT, FROM, WHERE, GROUP BY, HAVING
+    CANNOT be used in ORDER BY</li>
+<li>If a subquery returns NULL, then the comparison will also return NULL, meaning that no rows will be retrieved.</li>
+</ol>
+<h3>Chapter 9</h3>
+<ol>
+<li>There is a significant deviation from the ISO standard for SQL here, in that ISO SQL uses EXCEPT where Oracle uses MINUS, but the functionality is identical.</li>
+<li>Oracle provides three set operators: UNION, INTERSECT, and MINUS. UNION can be qualified with ALL</li>
+<li>Union options
+   .. UNION - Returns the combined rows from two queries, sorting them and removing duplicates.
+   .. UNION ALL - Returns the combined rows from two queries without sorting or removing duplicates.
+   .. INTERSECT - Returns only the rows that occur in both queries’ result sets, sorting them and removing duplicates.
+   .. MINUS - Returns only the rows in the first result set that do not appear in the second result set, sorting them and removing duplicates.</li>
+<li>Although pending enhancements to ISO SQL will give INTERSECT a higher priority than the others, there is currently no priority of one operator over another.
+   .. To override this precedence, based on the order in which the operators appear, you can use parentheses:</li>
+<li>The columns in the queries that make up a compound query can have different names, but the output result set will use the names of the columns in the first query</li>
+<li>Each query in a compound query will project its own list of selected columns.
+   .. These lists must have the same number of elements, be nominated in the same sequence, and be of broadly similar data type.
+   .. They do not have to have the same names (or column aliases), nor do they need to come from the same tables (or subqueries).
+   .. If the column names (or aliases) are different, the result set of the compound query will have columns named as they were in the first query.
+   .. While the selected column lists do not have to be exactly the same data type, they must be from the same data type group.
+   .. DATE amd NUMBER in first query should match with TIMESTAMP and INTEGER in second Query
+   .. The result set of the compound query will have columns with the higher level of precision: in this case, they would be TIMESTAMP and NUMBER
+   .. NO IMPLICIT CASTING -&gt; If the second query retrieved columns of type VARCHAR2, the compound query would throw an error even if the string variables could be resolved to legitimate date and numeric values.</li>
+<li>UNION, MINUS, and INTERSECT will always combine the results sets of the input queries, then sort the results to remove duplicate rows. The sorting is based on all the columns, from left to right.
+   .. If all the columns in two rows have the same value, then only the first row is returned in the compound result set</li>
+<li>It is possible to put a single ORDER BY clause at the end of the compound query. It is not possible to use ORDER BY in any of the queries that make up the whole compound query, as this would disrupt the sorting that is necessary to remove duplicates</li>
+<li>UNION ALL -&gt;  the result sets of the two input queries will be concatenated to form the result of the compound query
+   .. Can’t use ORDER BY in the individual queries; it can only appear at the end of the compound query</li>
+<li>If you know that there can be no duplicates between two tables, then always use UNION ALL. Itsaves the database from doing a lot of sorting</li>
+<li>Remember: If padded with Spaces, then it takes precedence over alphabets [conversion of CHAR to VARCHAR2]</li>
+<li>INSTERSECT between CHAR and VARCHAR2 will not be equal [Exact number of spaces is required in VARCHAR2 field]</li>
+<li>A MINUS runs both queries, sorts the results, and returns only the rows from the first result set that do not appear in the second result set.</li>
+<li>For Mismatching number of columns, we can use TO_CHAR(NULL)</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">tail_length</span><span class="p">,</span><span class="n">to_char</span><span class="p">(</span><span class="k">null</span><span class="p">)</span> <span class="k">from</span> <span class="n">cats</span>
+<span class="k">union</span> <span class="k">all</span>
+<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">to_char</span><span class="p">(</span><span class="k">null</span><span class="p">),</span><span class="n">wing_span</span> <span class="k">from</span> <span class="n">birds</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>Without parentheses, the set operators will be applied in the sequence in which they are specified</li>
+<li>Using an ORDER BY class in SETS throws an Error</li>
+<li>There is no problem with placing an ORDER BY clause at the end of the compound query
+    .. However, there might be a problem with adding a aliased column in the order by class of the THREE or more Queries
+    .. The Alias declaration and the usage has to in SUCCESSIVE QUERIES else it does not work.</li>
+</ol>
+<h3>Chapter 10</h3>
+<ol>
+<li>MERGE can be thought of as a shortcut for executing either an INSERT or an UPDATE or a DELETE, depending on some condition.</li>
+<li>Final List of DML Statements are:  SELECT, INSERT, UPDATE, DELETE, MERGE</li>
+<li>TRUNCATE is thought as a DML but actually is a DDL</li>
+<li>There are much faster techniques than INSERT for populating a table with large numbers of rows. These are the SQL*Loader utility, which can upload data from files produced by an external feeder system, and Datapump, which
+   .. Can transfer data in bulk from one Oracle database to another, either via disk files or through a network link.</li>
+<li>One UPDATE statement can change rows in only one table, but it can change any number of rows in that table.</li>
+<li>MERGE was introduced with the SQL1999 standard, implemented by Oracle in database release 9i.</li>
+<li>UPSERT - Propritory SQL implementation of MERGE</li>
+<li>A MERGE passes through the source data, for each row attempting to locate a matching row in the target.
+    .. If no match is found, a row can be inserted;
+    .. If a match is found, the matching row can be updated. The release 10g enhancement means that the target row can even be deleted, after being matched and updated.</li>
+<li>Transactions, consisting of INSERT, UPDATE, and DELETE (or even MERGE) commands can be made permanent (with a COMMIT) or reversed (with a ROLLBACK).
+   .. A TRUNCATE command, like any other DDL command, is immediately permanent: it can never be reversed.</li>
+<li>TRUNCATE is a DDL and NOT A DML because it cannot be controlled by Transactions [(though within the database, they are in fact implemented as transactions, but developers cannot control them]</li>
+<li>Whereas a deletion may take some time (possibly hours, if there are many rows in the table) a truncation will go through instantly. It makes no difference whether the table contains one row or billions</li>
+<li>DDL commands, such as TRUNCATE, will fail if there is any DML command active on the table. A transaction will block the DDL command until the DML command is terminated with a COMMIT or a ROLLBACK.</li>
+<li>If the user attempting to execute the statement does not have the relevant permissions on the tables to which it refers, the database will return an error identical to that which would be returned if the object did not exist. As far as the user is concerned, it does not exist</li>
+<li>INSERT - insert into hr.regions values (10,'Great Britain');
+    .. When the database receives a statement using positional notation, it will match the order of the values to the order in which the columns of the table are defined.
+15) INSERT Performance</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">insert</span> <span class="k">into</span> <span class="n">employees</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">hire_date</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="s1">&#39;WATSON&#39;</span><span class="p">,</span><span class="s1">&#39;03-Nov-07&#39;</span><span class="p">);</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="n">employees</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">hire_date</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="k">upper</span><span class="p">(</span><span class="s1">&#39;Watson&#39;</span><span class="p">),</span><span class="n">to_date</span><span class="p">(</span><span class="s1">&#39;03-Nov-07&#39;</span><span class="p">,</span><span class="s1">&#39;dd-mon-yy&#39;</span><span class="p">));</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="cp">.. SECOND is better than the First, because of UPPER casing -&gt; useful in sorting</span>
+<span class="cp">.. to_date prevents the performance hit of implicit conversion</span>
+</code></pre></div>
+
+<ol>
+<li>Any SELECT statement, specified as a subquery, can be used as the source of rows passed to an INSERT. This enables insertion of many rows.
+    .. Alternatively, using the VALUES clause will insert one row. The values can be literals or prompted for as substitution variables.
+17) insert all</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">when</span> <span class="mi">1</span><span class="o">=</span><span class="mi">1</span> <span class="k">then</span>
+  <span class="k">into</span> <span class="n">emp_no_name</span> <span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="n">job_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">commission_pct</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+  <span class="k">values</span> <span class="p">(</span><span class="n">department_id</span><span class="p">,</span><span class="n">job_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">commission_pct</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+
+<span class="k">when</span> <span class="n">department_id</span> <span class="o">&lt;&gt;</span> <span class="mi">80</span> <span class="k">then</span>
+  <span class="k">into</span> <span class="n">emp_non_sales</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span><span class="n">department_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+  <span class="k">values</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span><span class="n">department_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+
+<span class="k">when</span> <span class="n">department_id</span> <span class="o">=</span> <span class="mi">80</span> <span class="k">then</span>
+  <span class="k">into</span> <span class="n">emp_sales</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">commission_pct</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+  <span class="k">values</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">commission_pct</span><span class="p">,</span><span class="n">hire_date</span><span class="p">)</span>
+
+<span class="k">select</span> <span class="n">employee_id</span><span class="p">,</span><span class="n">department_id</span><span class="p">,</span><span class="n">job_id</span><span class="p">,</span><span class="n">salary</span><span class="p">,</span><span class="n">commission_pct</span><span class="p">,</span><span class="n">hire_date</span>
+<span class="k">from</span> <span class="n">employees</span> <span class="k">where</span> <span class="n">hire_date</span> <span class="o">&gt;</span> <span class="n">sysdate</span> <span class="o">-</span> <span class="mi">30</span><span class="p">;</span>
+</code></pre></div>
+
+<p>NOTE: ALL -&gt; means all the tables will be updated for matching conditions. IF "ALL" is not there, only the first matching WHEN will be filled</p>
+<ol>
+<li><code>UPDATE table SET column=value [,column=value...] [WHERE condition];</code></li>
+<li><em>UPDATE table</em></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">UPDATE</span> <span class="k">table</span>
+    <span class="k">SET</span> <span class="k">column</span><span class="o">=</span><span class="p">[</span><span class="n">subquery</span><span class="p">]</span> <span class="p">[,</span><span class="k">column</span><span class="o">=</span><span class="n">subquery</span><span class="p">...]</span>
+    <span class="k">WHERE</span> <span class="k">column</span> <span class="o">=</span> <span class="p">(</span><span class="n">subquery</span><span class="p">)</span>  <span class="p">[</span><span class="k">AND</span> <span class="k">column</span><span class="o">=</span><span class="n">subquery</span><span class="p">...]</span> <span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>
+<p>There is a rigid restriction on the subqueries using update columns in the SET clause: the subquery must return a scalar value.
+    .. If there were more than one it would fail with the error -&gt; ORA-01427: single-row subquery returns more than one row.
+    .. The subqueries used to SET column values must be scalar subqueries.
+    .. The subqueries used to select the rows must also be scalar, unless they use the IN predicate.</p>
+</li>
+<li>
+<p>DELETE FROM table [WHERE condition];</p>
+</li>
+<li>TRUNCATE is a DDL (Data Definition Language) command. TRUNCATE completely empties the table.     .. There is no concept of row selection, as there is with a DELETE.
+    .. It operates within the data dictionary and affects the structure of the table, not the contents of the table.
+    .. However, the change it makes to the structure has the side effect of destroying all the rows in the table.</li>
+<li>The data dictionary tracks how much of the space allocated to the table has been used. This is done with the high water mark.
+    .. The high water mark is the last position in the last extent that has been used
+    .. Inserting rows into a table pushes the high water mark up.
+    .. Deleting them leaves the high water mark where it is;
+    .. The space they occupied remains assigned to the table but is freed up for inserting more rows.</li>
+<li>Truncating a table resets the high water mark.
+    .. A truncation is fast: virtually instantaneous, irrespective of whether the table has many millions of rows or none.</li>
+<li>
+<p><code>TRUNCATE TABLE table;</code></p>
+</li>
+<li>
+<p><em>Merge Into Query</em></p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">merge</span> <span class="k">into</span> <span class="n">employees</span> <span class="n">e</span> <span class="k">using</span> <span class="n">new_employees</span> <span class="n">n</span>
+    <span class="k">on</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">employee_id</span> <span class="o">=</span> <span class="n">n</span><span class="p">.</span><span class="n">employee_id</span><span class="p">)</span>
+    <span class="k">when</span> <span class="n">matched</span> <span class="k">then</span>
+    <span class="k">update</span> <span class="k">set</span> <span class="n">e</span><span class="p">.</span><span class="n">salary</span><span class="o">=</span><span class="n">n</span><span class="p">.</span><span class="n">salary</span>
+    <span class="k">when</span> <span class="k">not</span> <span class="n">matched</span> <span class="k">then</span>
+    <span class="k">insert</span> <span class="p">(</span><span class="n">employee_id</span><span class="p">,</span><span class="n">last_name</span><span class="p">,</span><span class="n">salary</span><span class="p">)</span> <span class="k">values</span> <span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span><span class="n">n</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span><span class="n">n</span><span class="p">.</span><span class="n">salary</span><span class="p">);</span>
+</code></pre></div>
+
+<ol>
+<li>
+<p>ACID test: it must guarantee atomicity, consistency, isolation, and durability.
+    .. Atomicity states that all parts of a transaction must complete or none of them.
+    .. [Two updates must happen as a single transaction]
+    .. Consistency states that the results of a query must be consistent with the state of the database at the time the query started.
+    .. [Updates should not be allowed when querying the table]
+    .. The principle of consistency requires that the database ensure that changed values are not seen by the query [ORA-1555 snapshot too old] -&gt; DB Admin does not configure properly
+    .. Isolation states that an incomplete (that is, uncommitted) transaction must be invisible to the rest of the world.
+    .. Durability states that once a transaction completes, it must be impossible for the database to lose it.</p>
+</li>
+<li>
+<p>A session begins a transaction the moment it issues any INSERT, UPDATE, or DELETE statement (but not a TRUNCATE, that is a DDL command, not DML).
+    .. The transaction continues through any number of further DML commands until the session issues either a COMMIT or a ROLLBACK statement</p>
+</li>
+<li>It is impossible to nest transactions. This can be done with PL/SQL (Oracle’s proprietary third-generation language), but not with industry-standard SQL.</li>
+<li>The explicit transaction control statements are COMMIT, ROLLBACK, and SAVEPOINT.
+    .. The implicit ones are:
+        ... Issuing a DDL  (CREATE, ALTER, or DROP) or DCL (GRANT or REVOKE) statement
+        ... Exiting from the user tool (SQL*Plus or SQL Developer or anything else)
+        ... If the client session dies
+        ... If the system crashes</li>
+<li>If a user starts a transaction by issuing a DML command and then exits from the tool he is using without explicitly issuing either a COMMIT or a ROLLBACK, the transaction will terminate, but whether it terminates with a COMMIT or a ROLLBACK is entirely dependent on how the tool is written</li>
+<li>If a client’s session fails for some reason, the database will always roll back the transaction.
+    .. the user process can die or be killed at the operating system level,
+    .. the network connection to the database server may go down,
+    .. the machine where the client tool is running can crash.</li>
+<li>The behavior is that the session is killed, and an active transaction is rolled back.</li>
+<li>The SAVEPOINT command can be used to set markers that will stage the action of a ROLLBACK, but the same transaction remains in progress irrespective of the use of SAVEPOINT.</li>
+<li>COMMIT;</li>
+<li>ROLLBACK [TO SAVEPOINT savepoint] ;</li>
+<li>A COMMIT is instantaneous, because it doesn’t really have to do anything. The work has already been done.
+    .. A ROLLBACK can be very slow: it will usually take as long (if not longer) to reverse a transaction than it took to make the changes in the first place.
+    .. Rollbacks are not good for database performance.</li>
+<li>SAVEPOINT is used only for ROLLBACK and does not commit the data</li>
+<li>The SAVEPOINT command is not (yet) part of the official SQL standard, so it may be considered good practice to avoid it in production systems.
+    .. It can be very useful in development, though, when you are testing the effect of DML statements and walking through a complex transaction step by step.</li>
+<li>SET AUTOCOMMIT ON -&gt;  behavior in both tools so that every DML statement commits immediately, in its own transaction.</li>
+<li>SELECT FOR UPDATE -&gt; select * from regions for update;</li>
+<li>The transaction is started implicitly with the first DML statement executed.
+    .. Until it is committed, it can be reversed with a ROLLBACK</li>
+<li>The FOR UPDATE clause will place a lock on all the rows retrieved.
+    .. No changes can be made to them by any session other than that which issued the command, and therefore the subsequent updates will succeed
+    .. The locks placed by a FOR UPDATE clause will be held until the session issuing the command issues a COMMIT or ROLLBACK.</li>
+<li>If an UPDATE or DELETE command has a WHERE clause that gives it a scope of several
+    rows, what will happen if there is an error part way through execution? The command is one of
+    several in a multistatement transaction. Whatever work the command had done before hitting the error will be rolled back, but work done already by the transaction will remain.</li>
+<li>You want to insert a row and then update it. What sequence of steps should you follow?
+    SIMPLEST and BEST WAY:  INSERT, UPDATE, COMMIT</li>
+<li>Creating savepoints and rolling back to them leave the transaction in progress
+    .. COMMIT and ROLLBACK are the commands to terminate a transaction explicitly; TRUNCATE will do it implicitly.</li>
+</ol>
+<h3>Chapter 11</h3>
+<ol>
+<li>select object_type,count(object_type) from dba_objects group by object_type order by object_type -&gt; DBA_OBJECTS is a View</li>
+<li>USER_OBJECTS -&gt; objects owned by you ALL_OBJECTS -&gt; objects which you have been granted access</li>
+<li>User SYS owns the data dictionary: a set of tables (in the SYS schema) that define the database and its contents.
+   .. SYS also owns several hundred PL/SQL packages: code that is provided for the use of database administrators and developers.</li>
+<li>You update the data dictionary by running DDL commands (such as CREATE TABLE), which provide a layer of abstraction between you and the data dictionary itself.
+   .. The SYSTEM schema stores various additional objects used for administration and monitoring.</li>
+<li>The user MDSYS stores the objects used by Oracle Spatial, an option that extends the capabilities of the Oracle database to manage geographical information.</li>
+<li>The name may be from 1 to 30 characters long (with the exception of database link names that may be up to 128 characters long).
+   .. Reserved words (such as SELECT) cannot be used as object names.
+   .. All names must begin with a letter from A to Z.
+   .. The characters in a name can only be letters, numbers, an underscore (_), the dollar sign ($), or the hash symbol (#).
+   .. Lowercase letters will be converted to uppercase.</li>
+<li>By enclosing the name within double quotes, all these rules (with the exception of the length) can be broken, but to get to the object, subsequently, it must always be specified with double quotes.
+   .. Note that the same restrictions also apply to column names</li>
+<li>Tools such as SQL*Plus and SQL Developer will automatically convert lowercase letters to uppercase unless the name is enclosed within double quotes</li>
+<li>While it is possible to use lowercase names and nonstandard characters (even spaces), it is considered bad practice because of the confusion it can cause.</li>
+<li>Tables, views, and private synonyms  -&gt; form one namespace
+    .. Indexes and Constraints -&gt; form one namespace
+    .. Naming of objects within a single namespace should be unique</li>
+<li>On creation, the table will have been assigned a limited amount of space (known as an extent) within the database.</li>
+<li>Size of character sets
+    .. VARCHAR2 - 1byte - 4KB
+    .. NVARCHAR2 - stored in alternative national language character set
+    .. CHAR - Fixed length 1 byte to 2KB</li>
+<li>For ISO/ANSI compliance, you can specify a VARCHAR data type, but any columns of this type will be automatically converted to VARCHAR2.</li>
+</ol>
+<h3>= For Binary Data</h3>
+<ol>
+<li>RAW: 1 byte to 4KB</li>
+<li>RAW data is not converted by Oracle Net from the database’s character set to the user process’s character set on SELECT or the other way on INSERT.</li>
+</ol>
+<h3>= For numeric data</h3>
+<ol>
+<li>
+<p>NUMBER
+    .. Precision can range from to 1 to 38, the scale can range from -84 to 127
+    .. If the scale is negative, this has the effect of replacing the last digits of any number inserted with zeros, which do not count toward the number of digits specified for the precision.
+    .. If the number of digits exceeds the precision, there will be an error;
+    .. if it is within the precision but outside the scale, the number will be rounded (up or down) to the nearest value within the scale</p>
+</li>
+<li>
+<p>FLOAT -&gt;  This is an ANSI data type, floating-point number with precision of 126 binary (or 38 decimal). Oracle also provides BINARY_FLOAT and BINARY_DOUBLE as alternatives</p>
+</li>
+<li>INTEGER -&gt;  Equivalent to NUMBER, with scale zero.</li>
+</ol>
+<h3>= For date and time [Fixed Length]</h3>
+<ol>
+<li>DATE
+.. This is either length zero, if the column is empty, or 7 bytes includes century, year, month, day, hour, minute, and second - from January 1, 4712 BC to December 31, 9999 AD.
+.. Using the TRUNC function on a date also has the effect of setting the hours, minutes, and seconds to midnight</li>
+<li>TIMESTAMP
+.. length zero if the column is empty, or up to 11 bytes
+.. Similar to DATE, but with precision of up to 9 decimal places for the seconds, 6 places by default.
+.. TIMESTAMP WITH TIMEZONE The length may be up to 13 bytes
+.. difference between two times by normalizing them to UTC, even if the times are for different time zones
+.. TIMESTAMP WITH LOCAL TIMEZONE The data is normalized to the database time zone on saving. When retrieved, it is normalized to the time zone of the user process selecting it.
+.. INTERVAL YEAR TO MONTH - period in years and months between two DATEs or TIMESTAMPs
+.. INTERVAL DAY TO SECOND - period in days and seconds between two DATEs or TIMESTAMPs</li>
+</ol>
+<h3>= For Large Object Types</h3>
+<ol>
+<li>CLOB - size effectively unlimited: 4GB multiplied by the database block size.</li>
+<li>NCLOB - stored in the alternative national language character set, one of the permitted Unicode character sets.</li>
+<li>BLOB  -  binary data that will not undergo character set conversion by Oracle Net</li>
+<li>BFILE -  locator pointing to a file stored on the operating system of the database server. 4GB</li>
+<li>LONG -  Character data in the database character set, up to 2GB -&gt;  provided by CLOB
+    .. LONGs should not be used in a modern database,-&gt; should be converted to CLOB.
+    .. There can only be one LONG column in a table</li>
+<li>LONG RAW - Binary data that will not be converted by Oracle Net.
+    ..Any LONG RAW columns should be converted to BLOBs.</li>
+</ol>
+<h3>= ROWID data type</h3>
+<ol>
+<li>Value coded in base 64 that is the pointer to the location of a row in a table.</li>
+<li>Encrypted</li>
+<li>Exact physical address</li>
+<li>ROWID is an Oracle proprietary data type, not visible unless specifically selected.</li>
+<li>All examinees will be expected to know about these data types:</li>
+<li>VARCHAR2, CHAR, NUMBER, DATE, TIMESTAMP, INTERVAL, RAW, LONG, LONG RAW, CLOB, BLOB, BFILE, and ROWID.</li>
+<li>Detailed knowledge will also  be needed for VARCHAR2, NUMBER and DATE.</li>
+</ol>
+<h3>Chapter 11 Continued</h3>
+<ol>
+<li>Tables can be stored in the database:</li>
+<li>HEAP TABLES - A heap is variable length rows in random order</li>
+<li>Advanced table structures
+    .. Index organized tables - Store rows in the order of an index key.
+    .. Index clusters - Can denormalize tables in parent-child relationships so that related rows from different table are stored together.
+    .. Hash clusters - Force a random distribution of rows, which will break down any ordering based on the entry sequence.
+    .. Partitioned tables    Store rows in separate physical structures, the partitions, allocating rows according to the value of a column.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="p">[</span><span class="k">schema</span><span class="p">.]</span><span class="k">table</span> <span class="p">[</span><span class="n">ORGANIZATION</span> <span class="n">HEAP</span><span class="p">]</span>  <span class="o">-&gt;</span>  <span class="k">default</span> <span class="k">and</span> <span class="k">is</span> <span class="n">industry</span> <span class="n">standard</span> <span class="k">SQL</span><span class="p">.</span>
+<span class="p">(</span><span class="k">column</span> <span class="n">datatype</span> <span class="p">[</span><span class="k">DEFAULT</span> <span class="n">expression</span><span class="p">]</span>
+<span class="p">[,</span><span class="k">column</span> <span class="n">datatype</span> <span class="p">[</span><span class="k">DEFAULT</span> <span class="n">expression</span><span class="p">]...);</span>
+</code></pre></div>
+
+<ol>
+<li>The DEFAULT clause can be useful, but it is of limited functionality. You cannot use a subquery to generate the default value: you can only specify literal values or functions.</li>
+<li>CREATE TABLE [schema.]table AS subquery; -&gt; create table employees_copy as select * from employees;
+    .. Create a table EMPLOYEES_COPY, which is an exact copy of the EMPLOYEES table, identical in both definition and the rows it contains.
+    .. Any not null and check constraints on the columns will also be applied to the new table, but any primary-key, unique, or foreign-key constraints will not be</li>
+<li>All of these changes are DDL commands with the built-in COMMIT. Altering Table Definitions after Creation</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">add</span> <span class="p">(</span><span class="n">job_id</span> <span class="nb">number</span><span class="p">);</span> <span class="o">-&gt;</span> <span class="n">Adding</span> <span class="n">a</span> <span class="k">column</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">modify</span> <span class="p">(</span><span class="n">comm</span> <span class="nb">number</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="k">default</span> <span class="mi">0</span><span class="p">.</span><span class="mi">05</span><span class="p">);</span> <span class="o">-&gt;</span> <span class="n">modifying</span> <span class="n">a</span> <span class="k">column</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">drop</span> <span class="k">column</span> <span class="n">comm</span><span class="p">;</span> <span class="o">-&gt;</span> <span class="n">dropping</span> <span class="n">a</span> <span class="k">column</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">set</span> <span class="n">unused</span> <span class="k">column</span> <span class="n">job_id</span><span class="p">;</span> <span class="o">-&gt;</span> <span class="n">Marking</span> <span class="k">column</span> <span class="k">as</span> <span class="n">unused</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">rename</span> <span class="k">column</span> <span class="n">hiredate</span> <span class="k">to</span> <span class="n">recruited</span><span class="p">;</span> <span class="o">-&gt;</span> <span class="n">Renaming</span> <span class="n">the</span> <span class="k">column</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">emp</span> <span class="k">read</span> <span class="k">only</span><span class="p">;</span> <span class="o">-&gt;</span> <span class="n">marking</span> <span class="k">table</span> <span class="k">as</span> <span class="k">read</span><span class="o">-</span><span class="k">only</span>
+</code></pre></div>
+
+<ol>
+<li>Dropping a column can be a time-consuming exercise because as each column is dropped, every row must be restructured to remove the column’s data.</li>
+<li>The SET UNUSED command, which makes columns nonexistent as far as SQL is concerned, is often a better alternative, followed when convenient by <code>ALTER TABLE tablename DROP UNUSED COLUMNS;</code> which will drop all the unused columns in one pass through the table.</li>
+<li>Marking a table as read-only will cause errors for any attempted DML commands. But the table can still be dropped.</li>
+<li>DROP TABLE [schema.]tablename ; -&gt;  it includes a COMMIT.
+   .. If any session (even your own) has a transaction in progress that includes a row in the table, then the DROP will fail,
+   .. It is also impossible to drop a table that is referred to in a foreign key constraint defined for a another table. This table (or the constraint) must be dropped first.</li>
+<li>The constraint types</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">UNIQUE</span>
+<span class="k">NOT</span> <span class="k">NULL</span>
+<span class="k">PRIMARY</span> <span class="k">KEY</span>
+<span class="k">FOREIGN</span> <span class="k">KEY</span>
+<span class="k">CHECK</span>
+</code></pre></div>
+
+<p><em>If name is not provided, Oracle generates the constraint names</em></p>
+<ol>
+<li>An oddity of unique constraints is that it is possible to enter a NULL value into the key column(s); it is indeed possible to have any number of rows with NULL values in their key column(s)</li>
+<li>Unique constraints are enforced by an index. When a unique constraint is defined, Oracle will look for an index on the key column(s), and if one does not exist it will be created.</li>
+<li>The structure of these indexes (known as B*Tree indexes) does not include NULL values, which is why many rows with NULL are permitted: they simply do not exist in the index.</li>
+<li>selecting WHERE key_column IS NULL cannot use the index because it doesn’t include the NULLs and will therefore always result in a scan of the entire table.</li>
+<li>CANNOT define one not null constraint for the whole group, but instead must define a not null constraint for each column.</li>
+<li>Possible to bypass the need to specify a value by including a DEFAULT clause on the column when creating the table</li>
+<li>The relational database paradigm includes a requirement that every table should have a primary key, a column (or combination of columns) that can be used to distinguish every row.
+    .. The Oracle database deviates from the paradigm (as do some other RDBMS implementations) by permitting tables without primary keys</li>
+<li>A table can have only one primary key. Try to create a second, and you will get an error. A table can, however, have any number of unique constraints and not null columns,</li>
+<li>A primary key constraint is a unique constraint combined with a not null constraint.</li>
+<li>Foreign Key Constraints - The columns do not have to have the same names, but they must be of the same data type.</li>
+<li>Attempting to inset a row in the child table for which there is no matching row in the parent table will give an error.
+    .. Similarly, deleting a row in the parent table will give an error if there are already rows referring to it in the child table</li>
+<li>The constraint may be created as ON DELETE CASCADE.
+    .. This means that if a row in the parent table is deleted, Oracle will search the child table for all the matching rows and delete them too.</li>
+<li>ON DELETE SET NULL.
+    .. If a row in the parent table is deleted, Oracle will search the child table for all the matching rows and set the foreign key columns to null.
+    .. This means that the child rows will be orphaned, but will still exist.
+    .. If the columns in the child table also have a not null constraint, then the deletion from the parent table will fail.</li>
+<li>It is not possible to drop or truncate the parent table in a foreign key relationship, even if there are no rows in the child table.
+    .. This still applies if the ON DELETE SET NULL or ON DELETE CASCADE clauses were used.</li>
+<li>Check Constraints -&gt;  The rule must be an expression which will evaluate to TRUE or FALSE
+    .. The rules can refer to absolute values entered as literals or to other columns in the same row and may make use of some functions.
+    .. As many check constraints as you want can be applied to one column, but it is not possible to use a subquery to evaluate whether a value is permissible or to use functions such as SYSDATE.
+    .. The not null constraint is in fact implemented as a preconfigured check constraint.</li>
+<li>If you really need to make the change in a hurry, ask the database administrator to quiesce the database: this is a process that will freeze all user sessions.
+    ..If you are very quick, you can make the change then unquiesce the database before end users complain.</li>
+<li>Example</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">create</span> <span class="k">table</span> <span class="n">dept</span><span class="p">(</span>
+<span class="n">deptno</span> <span class="nb">number</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">dept_deptno_pk</span> <span class="k">primary</span> <span class="k">key</span>    <span class="o">-&gt;</span> <span class="k">CONSTRAINT</span> <span class="k">CONSTRAINT_NAME</span> <span class="k">PRIMARY</span> <span class="k">KEY</span>
+<span class="k">constraint</span> <span class="n">dept_deptno_ck</span> <span class="k">check</span> <span class="p">(</span><span class="n">deptno</span> <span class="k">between</span> <span class="mi">10</span> <span class="k">and</span> <span class="mi">90</span><span class="p">),</span>  <span class="o">-&gt;</span> <span class="k">CONSTRAINT</span> <span class="k">CONSTRAINT_NAME</span> <span class="k">CHECK</span> <span class="p">(</span><span class="k">COLUMN_NAME</span> <span class="k">BETWEEN</span> <span class="mi">10</span> <span class="k">AND</span> <span class="mi">90</span><span class="p">)</span>
+<span class="n">dname</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">dept_dname_nn</span> <span class="k">not</span> <span class="k">null</span><span class="p">);</span>  <span class="o">-&gt;</span> <span class="k">CONSTRAINT</span> <span class="k">CONSTRAINT_NAME</span>  <span class="k">NOT</span> <span class="k">NULL</span>
+
+
+<span class="k">create</span> <span class="k">table</span> <span class="n">emp</span><span class="p">(</span>
+<span class="n">empno</span> <span class="nb">number</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">emp_empno_pk</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span>
+<span class="n">ename</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">emp_ename_nn</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span>
+<span class="n">mgr</span> <span class="nb">number</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">emp_mgr_fk</span> <span class="k">references</span> <span class="n">emp</span> <span class="p">(</span><span class="n">empno</span><span class="p">),</span>  <span class="o">-&gt;</span> <span class="k">CONSTRAINT</span> <span class="k">CONSTRAINT_NAME</span> <span class="k">REFERENCES</span> <span class="k">TABLE_NAME</span> <span class="p">(</span><span class="k">COLUMN_NAME</span><span class="p">)</span>
+<span class="n">dob</span> <span class="nb">date</span><span class="p">,</span>
+<span class="n">hiredate</span> <span class="nb">date</span><span class="p">,</span>
+<span class="n">deptno</span> <span class="nb">number</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">emp_deptno_fk</span> <span class="k">references</span> <span class="n">dept</span><span class="p">(</span><span class="n">deptno</span><span class="p">)</span>
+<span class="k">on</span> <span class="k">delete</span> <span class="k">set</span> <span class="k">null</span><span class="p">,</span>
+<span class="n">email</span> <span class="n">varchar2</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="k">constraint</span> <span class="n">emp_email_uk</span> <span class="k">unique</span><span class="p">,</span>  <span class="o">-&gt;</span> <span class="k">CONSTRAINT</span> <span class="k">CONSTRAINT_NAME</span> <span class="k">UNIQUE</span>
+
+<span class="cm">/* ADDING ADDITIONAL CONSTRAINTS AT THE END */</span>
+
+<span class="k">constraint</span> <span class="n">emp_hiredate_ck</span> <span class="k">check</span> <span class="p">(</span><span class="n">hiredate</span> <span class="o">&gt;=</span> <span class="n">dob</span> <span class="o">+</span> <span class="mi">365</span><span class="o">*</span><span class="mi">16</span><span class="p">),</span>
+<span class="k">constraint</span> <span class="n">emp_email_ck</span>
+<span class="k">check</span> <span class="p">((</span><span class="n">instr</span><span class="p">(</span><span class="n">email</span><span class="p">,</span><span class="s1">&#39;@&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">and</span> <span class="p">(</span><span class="n">instr</span><span class="p">(</span><span class="n">email</span><span class="p">,</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)));</span>
+</code></pre></div>
+
+<ol>
+<li>Stored procedures, synonyms, tables, and views exist in the same namespace.</li>
+<li>A heap is a table of variable length rows in random order. a heap table can only be one table.a heap table can (and usually will) have indexes and a primary key.</li>
+<li>BLOB, LONG, NUMBER, RAW and VARCHAR2 are variable length. CHAR is fixed length</li>
+<li>CHAR, FLOAT, and INTEGER are all internal data types, though not as widely used as some others.</li>
+<li><code>create table newtab as select * from tab;</code>
+    .. Check and not null constraints are not dependent on any structures other than the table to which they apply and so can safely be copied to a new table.
+    .. Primary key and unique constraints WILL NOT be copied as they are dependent on other structures</li>
+<li>Unique and primary key constraints are enforced with indexes.
+    .. Check and not null constraints do not rely on indexes.</li>
+<li>Constraint violation will force a roll back of the current statement but nothing else even if the transaction consists of more than one statement</li>
+</ol>
+<h3>Chapter 12</h3>
+<ol>
+<li>A View looks like a table: a two-dimensional structure of rows of columns, against which the user can run SELECT and DML statements.</li>
+<li>It can join tables, perform aggregations, or do sorts; absolutely anything that is legal in the SELECT command can be used. However, if the view is complex, then only SELECT statements can be run against it</li>
+<li>Views share the same namespace as tables. But DML operations will not always succeed.</li>
+<li>Use of Views:
+    .. Security.
+    .. Simplifying user SQL.
+    .. Preventing error.
+    .. Making data comprehensible. Table and column names are often long and pretty meaningless. .. The view and its columns can be much more obvious.
+    .. Performance.</li>
+<li>A nested loop join uses an index to get to individual rows; a hash join reads the whole table into memory.</li>
+<li>Create View syntax</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">create</span> <span class="k">view</span> <span class="n">dept_emp</span> <span class="k">as</span>
+<span class="k">select</span> <span class="cm">/*+USE_HASH (employees departments)*/</span> <span class="n">department_name</span><span class="p">,</span> <span class="n">last_name</span>
+<span class="k">from</span> <span class="n">departments</span> <span class="k">natural</span> <span class="k">join</span> <span class="n">employees</span><span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>A simple view draws data from one detail table, uses no functions, and does no aggregation. -&gt; DML statements work
+    .. A complex view can join detail tables, use functions, and perform aggregations. -&gt; DML Statements wont work</li>
+<li>If the view does not include a column that has a NOT NULL constraint, then an INSERT through the view cannot succeed (unless the column has a default value).
+    .. This can produce a disconcerting effect because the error message will refer to a table and a column that are not mentioned in the statement</li>
+<li>Full syntax with options</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="p">[</span><span class="k">OR</span> <span class="k">REPLACE</span><span class="p">]</span> <span class="p">[</span><span class="k">FORCE</span> <span class="o">|</span> <span class="n">NOFORCE</span><span class="p">]</span> <span class="k">VIEW</span>
+    <span class="p">[</span><span class="k">schema</span><span class="p">.]</span><span class="n">viewname</span> <span class="p">[(</span><span class="k">alias</span> <span class="p">[,</span><span class="k">alias</span><span class="p">]</span><span class="err">…</span><span class="p">)]</span>
+    <span class="k">AS</span> <span class="n">subquery</span>
+    <span class="p">[</span><span class="k">WITH</span> <span class="k">CHECK</span> <span class="k">OPTION</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="n">constraintname</span><span class="p">]]</span>
+    <span class="p">[</span><span class="k">WITH</span> <span class="k">READ</span> <span class="k">ONLY</span> <span class="p">[</span><span class="k">CONSTRAINT</span> <span class="n">constraintname</span><span class="p">]]</span> <span class="p">;</span>
+      <span class="k">REPLACE</span> <span class="o">-&gt;</span> <span class="n">replacing</span> <span class="n">the</span> <span class="k">view</span>
+      <span class="n">FORCR</span> <span class="k">or</span> <span class="n">NOFORCE</span> <span class="o">-&gt;</span>
+            <span class="n">The</span> <span class="k">FORCE</span> <span class="n">keyword</span> <span class="n">will</span> <span class="k">create</span> <span class="n">the</span> <span class="k">view</span> <span class="n">even</span> <span class="k">if</span> <span class="n">the</span> <span class="n">detail</span> <span class="k">table</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">in</span> <span class="n">the</span> <span class="n">subquery</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span><span class="p">.</span>
+            <span class="n">NOFORCE</span> <span class="k">is</span> <span class="n">the</span> <span class="k">default</span> <span class="k">and</span> <span class="n">will</span> <span class="n">cause</span> <span class="n">an</span> <span class="n">error</span> <span class="k">if</span> <span class="n">the</span> <span class="n">detail</span> <span class="k">table</span> <span class="n">does</span> <span class="k">not</span> <span class="n">exist</span><span class="p">.</span>
+      <span class="k">WITH</span> <span class="k">CHECK</span> <span class="k">OPTION</span>
+            <span class="k">If</span> <span class="n">the</span> <span class="n">subquery</span> <span class="n">includes</span> <span class="n">a</span> <span class="k">WHERE</span> <span class="n">clause</span><span class="p">,</span> <span class="k">then</span> <span class="n">this</span> <span class="k">option</span> <span class="n">will</span> <span class="n">prevent</span> <span class="n">insertion</span> <span class="k">of</span> <span class="k">rows</span>
+        <span class="n">that</span> <span class="n">wouldn</span><span class="err">’</span><span class="n">t</span> <span class="n">be</span> <span class="n">seen</span> <span class="k">in</span> <span class="n">the</span> <span class="k">view</span> <span class="k">or</span> <span class="n">updates</span> <span class="n">that</span> <span class="n">would</span> <span class="n">cause</span> <span class="n">a</span> <span class="k">row</span> <span class="k">to</span> <span class="n">disappear</span> <span class="k">from</span> <span class="n">the</span> <span class="k">view</span><span class="p">.</span>
+        <span class="k">By</span> <span class="k">default</span><span class="p">,</span> <span class="n">this</span> <span class="k">option</span> <span class="k">is</span> <span class="k">not</span> <span class="n">enabled</span><span class="p">,</span> <span class="n">which</span> <span class="n">can</span> <span class="n">give</span> <span class="n">disconcerting</span> <span class="n">results</span><span class="p">.</span>
+       <span class="k">WITH</span> <span class="k">READ</span> <span class="k">ONLY</span>
+
+       <span class="k">CONSTRAINT</span> <span class="n">constraintname</span>
+            <span class="n">name</span> <span class="n">the</span> <span class="k">WITH</span> <span class="k">CHECK</span> <span class="k">OPTION</span> <span class="k">and</span> <span class="k">WITH</span> <span class="k">READ</span> <span class="k">ONLY</span> <span class="n">restrictions</span> <span class="k">for</span> <span class="n">better</span> <span class="n">error</span> <span class="n">messages</span>
+</code></pre></div>
+
+<ol>
+<li>
+<p>The main use of the ALTER VIEW command is to compile the view. A view must be compiled successfully before it can be used
+    .. When a view is created, Oracle will check that the detail tables and the necessary columns on which the view is based do     exist.
+    .. If they do not, the compilation fails and the view will not be created, unless you use the FORCE option.
+    .. In that case, the view will be created but will be unusable until the tables or columns to which it refers are created and the view is successfully compiled.
+    .. When an invalid view is queried, Oracle will attempt to compile it automatically.
+    .. If the compilation succeeds because the problem has been fixed, the user won’t know there was ever a problem</p>
+<p><code>ALTER VIEW HR.ex_staff compile;</code></p>
+</li>
+<li>
+<p><code>DROP VIEW [schema.]viewname ;</code></p>
+</li>
+<li>
+<p>A synonym is an alternative name for an object.
+    .. Use of synonyms means that an application can function for any user, irrespective of which schema owns the views and tables or even in which database the tables reside.</p>
+</li>
+<li>
+<p><code>select * from hr.employees@prod;</code>
+    .. database link PROD (means of accessing objects in a database other than that onto which you are logged)</p>
+</li>
+<li>
+<p>Public Synonym: -&gt;  data independence and location transparency
+    <code>create public synonym emp for hr.employees@prod;</code>
+    .. All the user (any user!) need enter is the following:
+    <code>select * from emp;</code></p>
+</li>
+<li>
+<p>As well as SELECT statements, DML statements can address synonyms as though they were the object to which they refer.</p>
+</li>
+<li>Private synonyms are schema objects. Either they must be in your own schema, or they must be qualified with the schema name.</li>
+<li>Public synonyms exist independently of a schema.
+    .. A public synonym can be referred to by any user to whom permission has been granted to see it without the need to qualify it with a schema name.
+    .. Private synonyms must be a unique name within their schema.
+    .. Public synonyms can have the same name as schema objects.
+    .. When executing statements that address objects without a schema qualifier, Oracle will first look for the object in the local schema, and only if it cannot be found will it look for a public synonym.</li>
+<li><code>CREATE [PUBLIC] SYNONYM synonym FOR object ;</code></li>
+<li>The "public" in "public synonym" means that it is not a schema object and cannot therefore be prefixed with a schema name. It does not mean that everyone has permissions against it.</li>
+<li>A user will need to have been granted permission to create private synonyms and further permission to create public synonyms.
+    .. Usually, only the database administrator can create (or drop) public synonyms</li>
+<li><code>DROP [PUBLIC] SYNONYM synonym ;</code></li>
+<li>
+<p>If the object to which a synonym refers (the table or view) is dropped, the synonym continues to exist.
+    .. Any attempt to use it will return an error. In this respect, synonyms behave in the same way as views.
+    .. If the object is recreated, the synonym must be recompiled before use</p>
+<p><code>ALTER SYNONYM synonym COMPILE;</code></p>
+</li>
+<li>
+<p>SEQUENCE
+    .. A sequence is a structure for generating unique integer values. Only one session can read the next value and thus force it to increment.</p>
+</li>
+<li>Each selection of SEQ1.NEXTVAL generates a unique number.</li>
+<li>Sequence Create Syntax</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="n">SEQUENCE</span> <span class="p">[</span><span class="k">schema</span><span class="p">.]</span><span class="n">sequencename</span>
+    <span class="p">[</span><span class="k">INCREMENT</span> <span class="k">BY</span> <span class="nb">number</span><span class="p">]</span>  <span class="o">-&gt;</span>  <span class="k">Defaults</span> <span class="k">to</span> <span class="o">+</span><span class="mi">1</span> <span class="n">but</span> <span class="n">can</span> <span class="n">be</span> <span class="k">any</span> <span class="n">positive</span> <span class="nb">number</span> <span class="p">(</span><span class="k">or</span> <span class="n">negative</span> <span class="nb">number</span> <span class="k">for</span> <span class="n">a</span> <span class="n">descending</span> <span class="n">sequence</span><span class="p">).</span>
+    <span class="p">[</span><span class="k">START</span> <span class="k">WITH</span> <span class="nb">number</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="k">Defaults</span> <span class="k">to</span> <span class="mi">1</span> <span class="n">but</span> <span class="n">can</span> <span class="n">be</span> <span class="n">anything</span><span class="p">.</span>
+    <span class="p">[</span><span class="k">MAXVALUE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOMAXVALUE</span><span class="p">]</span>
+        <span class="o">-&gt;</span> <span class="n">The</span> <span class="n">highest</span> <span class="nb">number</span> <span class="n">an</span> <span class="n">ascending</span> <span class="n">sequence</span> <span class="n">can</span> <span class="k">go</span> <span class="k">to</span> <span class="k">before</span> <span class="n">generating</span> <span class="n">an</span> <span class="n">error</span> <span class="k">or</span> <span class="n">returning</span> <span class="k">to</span> <span class="n">its</span> <span class="k">START</span> <span class="k">WITH</span> <span class="n">value</span><span class="p">.</span>
+           <span class="n">The</span> <span class="k">default</span> <span class="k">is</span> <span class="k">no</span> <span class="n">maximum</span><span class="p">.</span>
+    <span class="p">[</span><span class="k">MINVALUE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOMINVALUE</span><span class="p">]</span>
+        <span class="o">-&gt;</span> <span class="n">The</span> <span class="n">lowest</span> <span class="nb">number</span> <span class="n">a</span> <span class="n">descending</span> <span class="n">sequence</span> <span class="n">can</span> <span class="k">go</span> <span class="k">to</span> <span class="k">before</span> <span class="n">generating</span> <span class="n">an</span> <span class="n">error</span> <span class="k">or</span> <span class="n">returning</span> <span class="k">to</span> <span class="n">its</span> <span class="k">START</span> <span class="k">WITH</span> <span class="n">value</span><span class="p">.</span>
+           <span class="n">The</span> <span class="k">default</span> <span class="k">is</span> <span class="k">no</span> <span class="n">minimum</span><span class="p">.</span>
+    <span class="p">[</span><span class="k">CYCLE</span> <span class="o">|</span> <span class="n">NOCYCLE</span><span class="p">]</span>
+        <span class="o">-&gt;</span> <span class="n">Controls</span> <span class="n">the</span> <span class="n">behavior</span> <span class="k">on</span> <span class="n">reaching</span> <span class="k">MAXVALUE</span> <span class="k">or</span> <span class="k">MINVALUE</span><span class="p">.</span> <span class="n">The</span> <span class="k">default</span> <span class="n">behavior</span> <span class="k">is</span> <span class="k">to</span> <span class="n">give</span> <span class="n">an</span> <span class="n">error</span>
+            <span class="k">If</span> <span class="k">CYCLE</span> <span class="k">is</span> <span class="n">specified</span> <span class="n">the</span> <span class="n">sequence</span> <span class="n">will</span> <span class="k">return</span> <span class="k">to</span> <span class="n">its</span> <span class="n">starting</span> <span class="n">point</span> <span class="k">and</span> <span class="n">repeat</span><span class="p">.</span>
+    <span class="p">[</span><span class="k">CACHE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOCACHE</span><span class="p">]</span>
+        <span class="o">-&gt;</span> <span class="n">Oracle</span> <span class="n">can</span> <span class="n">preissue</span> <span class="n">sequence</span> <span class="k">values</span> <span class="k">in</span> <span class="n">batches</span> <span class="k">and</span> <span class="k">cache</span> <span class="n">them</span> <span class="k">for</span> <span class="n">issuing</span> <span class="k">to</span> <span class="n">users</span><span class="p">.</span>
+           <span class="n">The</span> <span class="k">default</span> <span class="k">is</span> <span class="k">to</span> <span class="n">generate</span> <span class="k">and</span> <span class="k">cache</span> <span class="n">the</span> <span class="k">next</span> <span class="mi">20</span> <span class="k">values</span><span class="p">.</span>
+    <span class="p">[</span><span class="k">ORDER</span> <span class="o">|</span> <span class="n">NOORDER</span><span class="p">]</span> <span class="p">;</span>
+        <span class="o">-&gt;</span> <span class="k">Only</span> <span class="n">relevant</span> <span class="k">for</span> <span class="n">a</span> <span class="n">clustered</span> <span class="k">database</span><span class="p">:</span>
+           <span class="k">ORDER</span> <span class="n">forces</span> <span class="k">all</span> <span class="n">instances</span> <span class="k">in</span> <span class="n">the</span> <span class="k">cluster</span> <span class="k">to</span> <span class="n">coordinate</span> <span class="n">incrementing</span> <span class="n">the</span> <span class="n">sequence</span><span class="p">,</span>
+           <span class="n">so</span> <span class="n">that</span> <span class="n">numbers</span> <span class="n">issued</span> <span class="k">are</span> <span class="n">always</span> <span class="k">in</span> <span class="k">order</span> <span class="n">even</span> <span class="k">when</span> <span class="n">issued</span> <span class="k">to</span> <span class="n">sessions</span> <span class="n">against</span> <span class="n">different</span> <span class="n">instances</span><span class="p">.</span>
+           <span class="n">NOORDER</span> <span class="k">is</span> <span class="n">the</span> <span class="k">default</span>
+</code></pre></div>
+
+<ol>
+<li>If your application selects from the sequence 10 times a second, then set the cache value to 50 thousand.</li>
+<li>NEXTVAL -&gt; forces the sequence to increment,</li>
+<li>CURRVAL -&gt; the last (or "current") value issued to that session with the CURRVAL pseudo column</li>
+<li>The CURRVAL will be constant for one session until it selects NEXTVAL again.</li>
+<li>You can always obtain the next value by incrementing it with NEXTVAL, and you can always recall the last value issued to YOUR session with CURRVAL, but you CANNOT find the last value issued.</li>
+<li>The CURRVAL of a sequence is the last value issued to the current session, not necessarily the last value issued.
+    .. You cannot select the CURRVAL until after selecting the NEXTVAL.</li>
+<li>A COMMIT is not necessary to make the increment of a sequence permanent:
+    .. It is permanent and made visible to the rest of the world the moment it happens.
+    .. Even if the insert or update is rolled back, the sequence is NOT ROLLEDBACK</li>
+<li>The gaps will be larger if the database has been restarted and the CACHE clause was used.
+    .. All numbers that have been generated and cached but not yet issued will be lost when the database is shut down
+    .. At the next restart, the current value of the sequence will be the last number generated, not the last issued.</li>
+<li>Altering a sequence</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span> <span class="n">SEQUENCE</span> <span class="n">sequencename</span>
+<span class="p">[</span><span class="k">INCREMENT</span> <span class="k">BY</span> <span class="nb">number</span><span class="p">]</span>
+<span class="p">[</span><span class="k">START</span> <span class="k">WITH</span> <span class="nb">number</span><span class="p">]</span>
+<span class="p">[</span><span class="k">MAXVALUE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOMAXVALUE</span><span class="p">]</span>
+<span class="p">[</span><span class="k">MINVALUE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOMINVALUE</span><span class="p">]</span>
+<span class="p">[</span><span class="k">CYCLE</span> <span class="o">|</span> <span class="n">NOCYCLE</span><span class="p">]</span>
+<span class="p">[</span><span class="k">CACHE</span> <span class="nb">number</span> <span class="o">|</span> <span class="n">NOCACHE</span><span class="p">]</span>
+<span class="p">[</span><span class="k">ORDER</span> <span class="o">|</span> <span class="n">NOORDER</span><span class="p">]</span> <span class="p">;</span>
+</code></pre></div>
+
+<ol>
+<li>
+<p>ALTER command is the same as the CREATE command, with one exception: there is no way to set the starting value.
+    .. If you want to restart the sequence, the only way is to drop it and re-create it.</p>
+</li>
+<li>
+<p>A unique constraint also requires an index. The difference from a primary key constraint is that the column(s) of the unique constraint can be left null, perhaps in many rows.
+    .. This does not affect the creation and use of the index: nulls do not go into the B*Tree indexes</p>
+</li>
+<li>
+<p>Foreign key constraints are enforced by indexes, but the index must exist on the parent table</p>
+</li>
+<li>You should always create indexes on the foreign key columns within the child table for performance reasons: a DELETE on the parent table will be much faster if Oracle can use an index to determine whether there are any rows in the child table referencing the row that is being deleted</li>
+<li>If there is no index on the column(s) referenced in the WHERE clause, the only way to do this is with a full table scan.</li>
+<li>A SELECT statement that includes the ORDER BY, GROUP BY, or UNION keywords (and a few others) must sort the rows into order - unless there is an index, which can return the rows in the correct order without needing to sort them first.</li>
+<li>
+<p>Use of Indexes</p>
+<p>-&gt; For Primary keys and Foreign keys
+-&gt; For Sorting during the usage of ORDER BY or GROUP BY or UNION
+-&gt; When tables are joined</p>
+</li>
+<li>
+<p>Table Joins -&gt; depending on the size of the tables and the memory resources available, it may be quicker to scan tables into memory and join them there, rather than use indexes -&gt; decision by Oracle</p>
+</li>
+<li>The nested loop join technique passes through one table using an index on the other table to locate the matching rows: this is usually a disk-intensive operation
+    .. A hash join technique reads the entire table into memory, converts it into a hash table, and uses a hashing algorithm to locate matching rows; this is more memory and CPU intensive
+    .. A sort merge join sorts the tables on the join column then merges them together: this is often a compromise between disk, memory, and CPU resources</li>
+<li>Types of indexes -&gt;  B*Tree index, which is the default index type, and the Bitmap Index</li>
+<li>B*Tree indexes: these can be either unique or nonunique. -&gt; Nonunique is the default. -&gt; "B" stands for "balanced"
+    .. A unique index will not permit insertion of two rows with the same key values;
+    .. a nonunique index will permit as many rows as you want with the same values.</li>
+<li>Indexes will improve performance for data retrieval but reduce performance for DML operations.</li>
+<li>B*tree Index
+    .. The root node of the tree points to many nodes at the second level, which can point to many nodes at the third level, and so on
+    .. The necessary depth of the tree will be largely determined by the number of rows in the table and the length of the index key values.</li>
+<li>The B*Tree structure is very efficient. If the depth is greater then three or four, than either the index keys are very long or the table has billions of rows.
+    .. If neither if these is the case, then the index is in need of a rebuild.</li>
+<li>The leaf nodes of the index tree store the rows’ keys, in order, each with a pointer that identifies the physical location of the row</li>
+<li>The pointer to the row is the rowid -&gt;  Oracle proprietary pseudocolumn that every row in every table has
+    .. Encrypted within it is the physical address of the row.</li>
+<li>ROWID: A row’s rowid is globally unique. Every row in every table in the whole database will have a different rowid.
+    .. The rowid encryption gives the physical address of the row: from it, Oracle can calculate which operating system file and where in the file the row is, and go straight to it.</li>
+<li>B*Tree indexes are very efficient if the number of rows needed is low in proportion to the total number of rows in the table and if the table is large</li>
+<li>Often said that if the query is going to retrieve more than 2 to 4 percent of the rows, then a full table scan will be quicker.
+    .. A major exception to this is if the value specified in the WHERE clause is NULL. NULLs do not go into B*Tree indexes
+    .. select * from employees where last_name is null; -&gt; ALWAYS A FULL TABLE SCAN</li>
+<li>B*Tree index should not be used:
+     .. On a column with few unique values, as it will not be selective:
+     .. The proportion of the table that will be retrieved for each distinct key value will be too high</li>
+<li>B*Tree indexes should be used if:
+      .. The cardinality (the number of distinct values) in the column is high, and
+      .. The number of rows in the table is high, and
+      .. The column is used in WHERE clauses or JOIN conditions</li>
+<li>A Bitmap Index stores the rowids associated with each key value as a bitmap
+    .. WALKIN    11010111000101011101011101…..
+    .. DELIVERY  00101000111010100010100010…..
+    .. This means that the first row has the column value of WALKIN, Second row as WALKIN, Third as DELIVERY
+    .. So every different value will be a bitmap, this includes NULLS as well which will be a seperate bitmap</li>
+<li>
+<p><code>select count(*) from sales where channel='WALKIN' and shop='OXFORD';</code>
+    .. Oracle can retrieve the two relevant bitmaps and add them together with a Boolean AND operation:
+    .. The result of the AND operation shows that only the seventh and sixteenth rows qualify for selection</p>
+</li>
+<li>
+<p>A particular advantage that bitmap indexes have over B*Tree indexes is that they include NULLs. As far as the bitmap index is concerned, NULL is just another distinct value, which will have its own bitmap.</p>
+</li>
+<li>Bitmap indexes should be used if:
+    .. The cardinality (the number of distinct values) in the column is low (such as male/female), and
+    .. The number of rows in the table is high, and
+    .. The column is used in Boolean algebra (AND/OR/NOT) operations</li>
+<li><code>CREATE [UNIQUE | BITMAP] INDEX [ schema.]indexname ON [schema.]tablename (column [, column...] );</code>
+    .. The default type of index is a nonunique B*Tree index.</li>
+<li>It is not possible to create a unique bitmap index</li>
+<li>Indexes are schema objects, and it is possible to create an index in one schema on a table in another</li>
+<li>A composite index is an index on several columns
+    .. Composite indexes can be on columns of different data types, and the columns do not have to be adjacent in the table.</li>
+<li><code>create unique index dept_i1 on dept(deptno);</code>
+    .. It will not be possible to insert duplicate values</li>
+<li><code>create index emp_i2 on emp(surname,forename);</code>
+    .. will accept duplicate values</li>
+<li><code>create bitmap index emp_i3 on emp(deptno);</code>
+    .. Bitmap index</li>
+<li>A unique and primary key constraint can be enforced by indexes that are either unique or nonunique:
+    .. In case of Pimary Key, it will be a nonunique index that happens to have only unique values.</li>
+<li>The Oracle server should make the best decision about index use, but if it gets it wrong it is possible for a programmer to embed instructions, known as OPTIMIZER HINTS, in code that will force the use (or not) of certain indexes.</li>
+<li>The ALTER INDEX command lies in the database administration domain and would typically be used to adjust the physical properties of the index, not the logical properties that are of interest to developers</li>
+<li>When a table is dropped, all the indexes and constraints defined for the table are dropped as well.
+    .. If an index was created implicitly by creating a constraint, then dropping the constraint will also drop the index.
+    .. If the index had been created explicitly and the constraint created later, then if the constraint is dropped the index will survive.</li>
+<li>
+<p>Bitmap indexes cannot be unique. The keywords BITMAP and UNIQUE are mutually exclusive
+    .. A bitmap index can be composite, with columns of different data types.</p>
+</li>
+<li>
+<p>There is nothing known as a precompilation of Views. All the views take the same time even with different types of joins</p>
+</li>
+<li><code>create view dept_v as select * from dept;</code></li>
+<li><code>create synonym dept_s for dept_v;</code></li>
+<li>Table -&gt; View -&gt; synonym
+    .. If table is dropped and when querying the synonym or the view, recompilation of view happens and error is thrown</li>
+<li>We can never know what would the nextval of a sequence is as multiple sessions can be using it</li>
+<li>A UNIQUE constraint on a column requires an index.  -&gt; If a UNIQUE or NONUNIQUE index already exists on the column, it will be used.</li>
+</ol>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

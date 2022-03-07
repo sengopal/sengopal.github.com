@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Criteria API in Hibernate | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/criteria-api-in-hibernate.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="A post about the Criteria API available as part of the Hibernate API. This post also explores how to use the API perform SQL operations in a more object oriented manner.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Criteria API in Hibernate
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2008-05-30T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Fri 30 May 2008
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <h3>Drawbacks of HQL</h3>
+<p>Currently HQL (Hibernate Query Language) is used widely to query data using Hibernate. However, there are many drawbacks such as:</p>
+<ol>
+<li>SQL-like syntax and Non Extensible</li>
+<li>Relational methodology instead of OO methodology</li>
+<li>Problem in creating search queries on the fly</li>
+<li>Complexity increases with number of variable conditions</li>
+<li>Error-prone String concatenation</li>
+<li>Direct use of query parameters in the query string</li>
+</ol>
+<p>A sample usage for HQL Query:</p>
+<div class="highlight"><pre><span></span><code><span class="n">String</span> <span class="n">query</span> <span class="o">=</span> <span class="s">&quot;select o from Order as o join o.products as p where o.priceTotal &gt; :priceTotalLower and o.priceTotal &lt; :priceTotalUpper&quot;</span><span class="p">;</span>           
+<span class="n">Query</span> <span class="n">q</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="na">createQuery</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="n">q</span><span class="p">.</span><span class="na">setDouble</span><span class="p">(</span><span class="s">&quot;priceTotalLower&quot;</span><span class="p">,</span> <span class="n">Double</span><span class="p">.</span><span class="na">parseDouble</span><span class="p">(</span><span class="n">lower</span><span class="p">));</span>
+<span class="n">q</span><span class="p">.</span><span class="na">setDouble</span><span class="p">(</span><span class="s">&quot;priceTotalUpper&quot;</span><span class="p">,</span><span class="n">Double</span><span class="p">.</span><span class="na">parseDouble</span><span class="p">(</span><span class="n">upper</span><span class="p">));</span>
+<span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>In comparison to the Criteria API, the above query gets reduced to simple two lines with more comprehension and understanding of the functionality.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Order</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">between</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span><span class="n">upper</span><span class="p">).</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>In addition to the conciseness and readability, following are some of the best parts of using the Criteria API</p>
+<ol>
+<li>Aspects of the relational approach</li>
+<li>Reduces the complexity</li>
+<li>Multi-criteria search functionalities</li>
+<li>Building Hibernate Queries on the fly</li>
+<li>Knowledge of SQL not necessary</li>
+<li><strong>Extensible</strong> since it uses OO methodology</li>
+<li><strong>Interoperable</strong> since it has provision for including native SQL clauses also</li>
+<li>Rich set of comparison operators</li>
+<li>Business Objects as query parameters, without having to use primary and foreign key references</li>
+<li>Optimizing queries by providing various JOIN Strategies</li>
+<li>Provides cleaner, clearer, more reliable and more maintainable code.</li>
+</ol>
+<h3>What is Criteria API?</h3>
+<p>There are five core components of the Criteria API.</p>
+<ol>
+<li>Criteria</li>
+<li>Criterion</li>
+<li>Restrictions</li>
+<li>Projection</li>
+<li>Order</li>
+</ol>
+<p>Criteria class provides the gateway to working with criteria APIs. Criterion class is the object-oriented representation of the relational criterion. Restriction API provides the built-in types for Criterion. Essentially, the Restriction class is a factory to the Criterion class. All of its methods are static.</p>
+<p>In Hibernate 2.x, the Expression class provided the services that are now provided by the Restriction class. The Restriction class provides almost all the required restrictions such as equals (eq()), logical and (and()), like (like())
+Aggregation and Grouping are provided by the Projection class. Order class represents the "order by" clause of SQL.</p>
+<h3>Order Interface</h3>
+<p>In HQL (and SQL), the order by clause allows you to order your query results.
+This is done using the addOrder() method and the Order class
+The SQL will have the order clause in the sequence the Order objects were added to the Critieria.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Criteria</span> <span class="n">crit</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Sale</span><span class="p">.</span><span class="na">class</span><span class="p">)</span> <span class="p">;</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">addOrder</span><span class="p">(</span> <span class="n">Order</span><span class="p">.</span><span class="na">desc</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">)</span> <span class="p">);</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">addOrder</span><span class="p">(</span> <span class="n">Order</span><span class="p">.</span><span class="na">asc</span><span class="p">(</span><span class="s">&quot;product.number&quot;</span><span class="p">)</span> <span class="p">);</span>
+</code></pre></div>
+
+<h3>Simple Criteria Query</h3>
+<p>The following code shows how a simple Criteria query is built.</p>
+<ol>
+<li>It selects the Insurance Object</li>
+<li>Includes a Where clause insurance name like ‘%a%’</li>
+<li>Includes another Where clause investmentAmount value between 1000 and 2500 inclusive</li>
+<li>Sets the number of maximum results as 5</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">sessionFactory</span><span class="p">.</span><span class="na">openSession</span><span class="p">();</span>
+<span class="n">Criteria</span> <span class="n">crit</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Insurance</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">like</span><span class="p">(</span><span class="s">&quot;insuranceName&quot;</span><span class="p">,</span> <span class="s">&quot;%a%&quot;</span><span class="p">));</span> 
+<span class="n">crit</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expression</span><span class="p">.</span><span class="na">between</span><span class="p">(</span><span class="s">&quot;investAmount&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2500</span><span class="p">)));</span> 
+<span class="n">crit</span><span class="p">.</span><span class="na">setMaxResults</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> 
+<span class="n">List</span> <span class="n">insurances</span> <span class="o">=</span> <span class="n">crit</span><span class="p">.</span><span class="na">list</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="n">Iterator</span> <span class="n">it</span> <span class="o">=</span><span class="n">insurances</span><span class="p">.</span><span class="na">iterator</span><span class="p">();</span><span class="n">it</span><span class="p">.</span><span class="na">hasNext</span><span class="p">();){</span>
+    <span class="n">Insurance</span> <span class="n">insurance</span> <span class="o">=</span> <span class="p">(</span><span class="n">Insurance</span><span class="p">)</span> <span class="n">it</span><span class="p">.</span><span class="na">next</span><span class="p">();</span>
+  <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;ID: &quot;</span> <span class="o">+</span> <span class="n">insurance</span><span class="p">.</span><span class="na">getLngInsuranceId</span><span class="p">());</span>
+  <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Name: &quot;</span> <span class="o">+</span> <span class="n">insurance</span><span class="p">.</span><span class="na">getInsuranceName</span><span class="p">());</span>
+  <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Amount: &quot;</span> <span class="o">+</span> <span class="n">insurance</span><span class="p">.</span><span class="na">getInvestAmount</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Criterion Chaining</h3>
+<p>This is a popular method of adding Restrictions, Expressions, Projections and Order object without the need to create additional Objects. This is particularly useful when the Criteria Objects which are extensible are needed to be passed between methods.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span> <span class="n">sales</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Sale</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expression</span><span class="p">.</span><span class="na">ge</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">,</span><span class="n">startDate</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expression</span><span class="p">.</span><span class="na">le</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">,</span><span class="n">endDate</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">addOrder</span><span class="p">(</span> <span class="n">Order</span><span class="p">.</span><span class="na">asc</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">)</span> <span class="p">)</span>
+    <span class="p">.</span><span class="na">setFirstResult</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">setMaxResults</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<h3>Restriction for WHERE property</h3>
+<p>The WHERE clause or <em>Restrictions</em> can be easily applied via <code>Restriction.eqProperty()</code>, <code>Restriction.neProperty()</code>, <code>Restriction.leProperty()</code> and <code>Restriction.geProperty()</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Adds a WHERE Clause for comparing two columns,</span>
+<span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Sale</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">eqProperty</span><span class="p">(</span><span class="s">&quot;saleDate&quot;</span><span class="p">,</span><span class="s">&quot;releaseDate&quot;</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>Restriction still allows custom restrictions added using <code>Restrictions.sqlRestriction</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Adds a native SQL Restriction in the WHERE Clause</span>
+<span class="n">sess</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Cat</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">sqlRestriction</span><span class="p">(</span><span class="s">&quot;lower({alias}.name) like lower(?)&quot;</span><span class="p">,</span> <span class="s">&quot;Fritz%&quot;</span><span class="p">,</span><span class="n">Hibernate</span><span class="p">.</span><span class="na">STRING</span><span class="p">)</span> <span class="p">)</span> <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p><em>All the static methods available in Restrictions are also available in the Expression API. Also it contains some additional methods such as ilike("columnname") which does a lower(columnname) in the query.</em></p>
+<h3>Disjunction and Conjunction:</h3>
+<p>Disjunction and Conjunction are excellent APIs which help perform complex search criteria simple to develop and maintain.</p>
+<p><strong>Disjunction</strong> indicates a group of Criterion to be <strong>ORed</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Disjunction</span> <span class="n">disList</span> <span class="o">=</span> <span class="n">Restrictions</span><span class="p">.</span><span class="na">disjunction</span><span class="p">();</span>
+<span class="n">disList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">disList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">sess</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Cat</span><span class="p">.</span><span class="na">class</span><span class="p">)</span> <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">disList</span><span class="p">);</span>
+<span class="c1">// This gives the WHERE Clause WHERE (id=1 OR id=2)</span>
+</code></pre></div>
+
+<p><strong>Conjunction</strong> indicates a group of Critierion to be <strong>ANDed</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Conjunction</span> <span class="n">conList</span> <span class="o">=</span> <span class="n">Restrictions</span><span class="p">.</span><span class="na">conjunction</span><span class="p">();</span>
+<span class="n">conList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+<span class="n">conList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+<span class="n">sess</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Cat</span><span class="p">.</span><span class="na">class</span><span class="p">)</span> <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">conList</span><span class="p">);</span>
+<span class="c1">// This gives the WHERE Clause WHERE (id=1 AND id=2)</span>
+</code></pre></div>
+
+<p>_The Disjunctions and Conjunctions can be nested as well and also along with group of Restrictions.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Conjunction</span> <span class="n">conList</span> <span class="o">=</span> <span class="n">Restrictions</span><span class="p">.</span><span class="na">conjunction</span><span class="p">();</span>
+<span class="n">conList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">disjunction</span><span class="p">()</span>
+       <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">,</span><span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">1</span><span class="p">))));</span>
+</code></pre></div>
+
+<h3>How to join Tables using Criteria API</h3>
+<p>Using HQLs, joins resemble SQL closely.
+[source,sql]</p>
+<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="nv">use</span> <span class="nv">LEFT</span> <span class="nv">JOIN</span> <span class="nv">FETCH</span> <span class="k">for</span> <span class="nv">optimizing</span> <span class="nv">queries</span>
+<span class="nv">from</span> <span class="nv">Sale</span> <span class="nv">sale</span> <span class="nv">where</span> <span class="nv">sale</span>.<span class="nv">date</span> <span class="o">&gt;</span> :<span class="nv">startDate</span> <span class="nv">left</span> <span class="nv">join</span> <span class="nv">fetch</span> <span class="nv">sale</span>.<span class="nv">product</span>
+</code></pre></div>
+
+<p>The same can be achieved using Criteria API with the help of <code>setFetchMode()</code></p>
+<div class="highlight"><pre><span></span><code><span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Sale</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">setFetchMode</span><span class="p">(</span><span class="s">&quot;product&quot;</span><span class="p">,</span><span class="n">FetchMode</span><span class="p">.</span><span class="na">EAGER</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">setFetchMode</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">,</span><span class="n">FetchMode</span><span class="p">.</span><span class="na">EAGER</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>Using Criteria API, even <strong>Restriction</strong> can be applied on the joined tables.Criteria API uses the createCriteria() or createAlias() (no new instance) to create an inner join between the two tables.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// to find all the shirt models with sizes over 40.</span>
+<span class="c1">// HQL: from Shirt shirt join shirt.availableSizes size where size.number &gt; 40</span>
+
+<span class="n">Session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Shirt</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="s">&quot;availableSizes&quot;</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expression</span><span class="p">.</span><span class="na">gt</span><span class="p">(</span><span class="s">&quot;number&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">40</span><span class="p">)))</span>
+      <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<h3>Projections - Aggregation and Grouping</h3>
+<p>The Projections API is used for aggregation and grouping functionality. A simple example which returns the count of number of cats with age greater than 10.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Simple Projection</span>
+<span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Cat</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+      <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">gt</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+      <span class="p">.</span><span class="na">setProjection</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">rowCount</span><span class="p">())</span>
+      <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>A number of aggregations can be done in a single Criteria and can be done along with a group by clause.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Criteria</span> <span class="n">crit</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Cat</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="n">ProjectionList</span> <span class="n">projList</span> <span class="o">=</span> <span class="n">Projections</span><span class="p">.</span><span class="na">projectionList</span><span class="p">();</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">rowCount</span><span class="p">()</span> <span class="p">);</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">avg</span><span class="p">(</span><span class="s">&quot;weight&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">;</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">max</span><span class="p">(</span><span class="s">&quot;weight&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">;</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">groupProperty</span><span class="p">(</span><span class="s">&quot;color&quot;</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">;</span>
+<span class="n">List</span> <span class="n">result</span> <span class="o">=</span> <span class="n">crit</span><span class="p">.</span><span class="na">setProjection</span><span class="p">(</span><span class="n">projList</span><span class="p">).</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+
+<p>To allow the users to query only the required columns Hibernate 3 introduced the <strong>Projections.property()</strong></p>
+<div class="highlight"><pre><span></span><code><span class="n">Criteria</span> <span class="n">crit</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Employee</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">eq</span><span class="p">(</span><span class="s">&quot;zipCode&quot;</span><span class="p">,</span> <span class="n">zipCode</span><span class="p">));</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Restrictions</span><span class="p">.</span><span class="na">gt</span><span class="p">(</span><span class="s">&quot;salary&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="p">(</span><span class="mi">10000</span><span class="p">));</span>
+<span class="n">ProjectionList</span> <span class="n">projList</span> <span class="o">=</span> <span class="n">Projections</span><span class="p">.</span><span class="na">projectionList</span><span class="p">();</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">property</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">));</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">property</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">));</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">property</span><span class="p">(</span><span class="s">&quot;county&quot;</span><span class="p">));</span>
+<span class="n">projList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Projections</span><span class="p">.</span><span class="na">property</span><span class="p">(</span><span class="s">&quot;job&quot;</span><span class="p">));</span>
+<span class="n">crit</span><span class="p">.</span><span class="na">setProjection</span><span class="p">(</span><span class="n">projList</span><span class="p">);</span>
+</code></pre></div>
+
+<p><em>This really helps when the table being queried contains 50 to 60 columns and we need only 4 to 5 columns.</em></p>
+<h3>Query By Example API</h3>
+<p>The Example API helps to optimize the query by initializing the text values and by providing extensibility of the Criterion Object.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Initializing the text values to be used</span>
+<span class="n">Accommodation</span> <span class="n">accommodationEx</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Accommodation</span><span class="p">();</span>
+<span class="n">accommodationEx</span><span class="p">.</span><span class="na">setCountry</span><span class="p">(</span><span class="n">country</span><span class="p">);</span> 
+<span class="n">accommodationEx</span><span class="p">.</span><span class="na">setCapacity</span><span class="p">(</span><span class="n">capacity</span><span class="p">);</span>
+
+<span class="c1">// Creating and fine tuning the example object</span>
+<span class="n">Example</span> <span class="n">example</span> <span class="o">=</span> <span class="n">Example</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">accommodationEx</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">ignoreCase</span><span class="p">()</span> <span class="c1">//Queries are case insensitive</span>
+    <span class="p">.</span><span class="na">excludeZeroes</span><span class="p">()</span>  <span class="c1">//zero-valued fields are ignored</span>
+    <span class="p">.</span><span class="na">excludeProperty</span><span class="p">(</span><span class="s">&quot;doNotUse&quot;</span><span class="p">)</span> <span class="c1">// this property is excluded</span>
+    <span class="p">.</span><span class="na">enableLike</span><span class="p">(</span><span class="n">MatchMode</span><span class="p">.</span><span class="na">ANYWHERE</span><span class="p">);</span> <span class="c1">//query string matching uses ‘%X%’</span>
+
+<span class="c1">// Using the Example Object and adding further restrictions</span>
+<span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="n">session</span><span class="p">.</span><span class="na">createCriteria</span><span class="p">(</span><span class="n">Accommodation</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+    <span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expression</span><span class="p">.</span><span class="na">between</span><span class="p">(</span><span class="s">&quot;availabilityDate&quot;</span><span class="p">,</span> <span class="n">startDate</span><span class="p">,</span> <span class="n">endDate</span><span class="p">))</span>
+    <span class="p">.</span><span class="na">list</span><span class="p">();</span>
+</code></pre></div>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

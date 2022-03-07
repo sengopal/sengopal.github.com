@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Aceing SCJP - Notes from Kathy Sierra Prep book - Part 1 | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Aceing SCJP - Notes from Kathy Sierra Prep book - Part 1
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2008-09-03T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Wed 03 September 2008
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/java.html">#java</a>,               <a href="https://sengopal.github.io/tag/certification.html">#certification</a>,               <a href="https://sengopal.github.io/tag/library.html">#library</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/scjp.html">#scjp</a>,               <a href="https://sengopal.github.io/tag/kathy.html">#kathy</a>,               <a href="https://sengopal.github.io/tag/sierra.html">#sierra</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <h3>Chapter 1</h3>
+<ol>
+<li>Read the keywords list</li>
+<li>Always check variable, class and method name for the keywords</li>
+<li>Variable range is -2(bits – 1)</li>
+<li>Ranges of primitive numbers</li>
+<li>Octal (max): 21 digits and Hexadecimal (max): 16 digits without leading 0 and 0x</li>
+<li>Hexadecimal is case-Insensitive</li>
+<li>Octal and Hexadecimal can be used for long also using L suffix</li>
+<li>Unicode Character is represented as char x = '\u004E'</li>
+<li>char being assigned out of range integer values (above 65535 or -ve numbers needs a cast to (char)</li>
+<li>Size should NOT be given when declaring an array int[5] x is wrong</li>
+<li>Primitive arrays initialize the variables to default value and Object arrays to null</li>
+<li>Negative numbers gives ArrayIndexOutOfBoundsException (RuntimeException)</li>
+<li>Arrays has a VARIABLE known as length</li>
+<li>Size should NOT be given for anonymous array int[] x = new int[] {4,5}</li>
+<li>For primitives, smaller length values (char, byte and short) can be placed in an int array</li>
+<li>For Objects, its subclass reference variables can be placed in an Object array</li>
+<li>Primitive array variables cannot be assigned there restrictive equivalent variables. Int[] x = char[] {6,7,8}. <strong>This is not correct</strong></li>
+<li>For Object, array variables CAN be assigned there subclass array variables (unlike primitive variables)</li>
+<li>Refer to Default Values for Primitive and Reference types</li>
+<li>Class level String variables will be initialized only to NULL</li>
+<li>Local and Class Level Array Variables will be initialized when the array is INITIALIZED int[] a = new int[5]; This will make all the values as 0 in the array, irrespective of where it is declared and initialized</li>
+<li>Local Variables (primitive and Object references) should always be INITIALIZED before use, or compiler error</li>
+</ol>
+<h3>Chapter 2</h3>
+<ol>
+<li><code>strictfp</code> is only for class and a method and NEVER for a variable. It can be combined with either final or abstract.</li>
+<li>If a method is ending with a semicolon then that class and the method should be marked abstract (Not needed for interface).</li>
+<li>A class can be marked only public or default access. (Not even Protected is allowed)</li>
+<li>If a class has default access, it can be accessed only within the package level (not even above or sub-packages). Not even importing will work.</li>
+<li>abstract and final cannot be used on the class at the same time. This will give a compilation error</li>
+<li>When a subclass is created, then the methods from the superclass can be accessed by the subclass object or by using this operator (in the subclass methods)</li>
+<li>Watch out for public static void main accessing the member variables and methods without an Object reference. (Static method cannot access non-static variables)</li>
+<li>Private methods CANNOT be overriden. Even if they have the same name and signature, technically it is NOT overriding</li>
+<li><code>default</code> method can be accessed only if the class accessing belongs to the same package PACKAGE Restriction</li>
+<li>Protected method can be accessed through inhertiance though the subclass is from a different package - <strong>Package + kids</strong></li>
+<li>When a subclass outside the package inherits the protected member (inheritance), the member becomes private to any codce outside the class</li>
+<li>Refer to Access to class Members lesson.</li>
+<li>The first CONCRETE subclass of an abstract class must implement all abstract methods of the superclasses
+ <code>public void setSpeed(int speed) { speed=speed;}</code>. This will just take the local variable speed. We need to declare it as this.speed (NO compilation error)</li>
+<li>Any variables declared as final has to be initialized either in the declaration itself or in the constructor else Compilation error occurs (If it is not marked final, instance variables need not be initialized). Also it cannot be overriden by sub class constructors.</li>
+<li>STATIC methods cannot be overriden</li>
+<li>abstract methods cannot be declared PRIVATE (compliation error), SYNCHRONIZED, strictfp, native and STATIC
+synchronized, native and strictfp modifiers can be set only to Methods not variables and classes</li>
+<li>Only instance variables can be marked transient and volatile (not methods or classes)</li>
+<li>Instance variables can be marked four access levels, final, transient and volatile</li>
+<li>Instance variables cannot be marked abstract, synchronized, native and strictfp</li>
+<li>Refer to Comparison of modifiers for variables and methods</li>
+<li>Local variables don’t get default values and should be initialized before use</li>
+<li>Instance variables marked <code>final</code> should be initialized in declaration itself or in the CONSTRUCTOR itself - (Compilation error)</li>
+<li>INTERFACE variables are always public static final. So cannot be reassigned</li>
+<li>Refer to things that can be static and non-static</li>
+<li>Explicit imports are resolved first, then the classes from the current package and last- the implicit imports</li>
+<li>for <code>java.lang.Runnable</code> interface question, only one method available is public void run(){}</li>
+<li>Refer to Interface Properties</li>
+<li>A variable declared in the interface cannot be changed at all</li>
+<li>A concrete implementation of an interface need not declare the throws clause of the abstract method, however cannot add any new ones only the subclasses or the class declared in the abstract method itself</li>
+<li>Only INTERFACEs can extend more than one interface, but it CANNOT implement any class</li>
+<li>Synchronized can be applied to static and final methods</li>
+<li>When a class with protected method is created, the method can be accessed ONLY by the subclass 'this' or subclass objects WITHIN the class (Super class objects give compilation error).</li>
+<li>Outside the subclass, the method cannot be accessed using objects</li>
+</ol>
+<h3>Chapter 3</h3>
+<ol>
+<li>Compound operators (+=) have an implicit cast</li>
+<li>For divide by zero, integers will give ArithmethicException at runtime, while floating point numbers returns positive or negative infinity(same for using the reminder operator also)</li>
+<li>The Sysouts works from left to right. If the left and right operand is integer then the result is integer else if one of them is a string then the result is a string</li>
+<li>Watch out for increment/decrement operators on a FINAL variable</li>
+<li>For <code>&gt;&gt;</code> (right shift), the sign bit gets copied over. Hence the sign remains the same(-ve number remains negative). For <code>&lt;&lt;</code> (left shift) the right side is ALWAYS FILLED with zeroes</li>
+<li><code>&gt;&gt;&gt;</code> (UNSIGNED Right Shift) always fills the left side with zeroes irrespective of the sign bit.Hence this shift always gives a positive number</li>
+<li>When the shift number is greater than the bit length, then the reminder is used for shifting. Ex: <code>int x = 2; x &gt;&gt;= 34</code>. This actually means <code>x &gt;&gt;= 2</code> where <code>34%32 = 2</code></li>
+<li>&lt;&lt;Right Shift divides the number by <code>2^bits(Ex: x &gt;&gt; 3 means x/2^3)</code></li>
+<li>&lt;<Left Shift multiplies the number by <code>2^bits(Ex: x &lt;&lt; 3 means x * 2^3)</code>>&gt;</li>
+<li>&lt;&lt;<code>&amp; - Logical AND; | - Logical OR; ^ - Exclusive OR; ~ - Bitwise compliment</code>&gt;&gt;</li>
+<li>Refer to Values of the Truth table</li>
+<li>SHORT CIRCUIT Operators work only with Boolean Expressions and NOT with numbers.</li>
+<li>However, the logical AND and OR can work with both shadowing Primitives and Object references</li>
+<li>Watch out for EXOR being mistaken for power of (Always use Math.power of)</li>
+<li>Always <code>&amp;</code> takes precedence over <code>|</code> . So <code>&amp;</code> is evaluated first, in a boolean expression</li>
+<li>Whenever any action happens on a String Object, a new String object is created as the result</li>
+</ol>
+<h3>Chapter 4</h3>
+<ol>
+<li>The else will always belong to the innermost if which doesn’t have an else</li>
+<li>The arguments to switch statement can only be byte,short,char and int</li>
+<li>The switch can check only for equality and the case arguments must be determined at runtime. So they have to be either literal constants or final variables</li>
+<li>If switch(byte variable) is used, then if the case value is greater than 127 then COMPILATION error occurs</li>
+<li>In switch case, two case literals cannot have the same value</li>
+<li><code>default</code> can be placed anywhere in switch case and it will also follow the rule of fall-through</li>
+<li>The scope of the variables declared in the for loop is within the for-loop.</li>
+<li>In a For Loop, Initialization is performed and CONDITION is checked before the first execution</li>
+<li>Iteration will run after every execution and then only comes out of the loop. However, if break, System,exit or return is given inside the for-loop the iteration is NOT executed</li>
+<li><code>continue</code> should be within a loop while break should be within a loop or switch statement</li>
+<li>A try clause Should always have either catch or finally block which should immediately follow the try clause without any statements in between</li>
+<li>If the subclass is placed after the superclass in the exception catch, COMPILATION Error occcurs</li>
+<li>Any method "ducking" the exception should also declare the throws clause, except for RunTimeExceptions</li>
+<li>Error or subclass of Error are always unchecked. So it is not required to catch them</li>
+<li>For re-throwing the exceptions also(commonly from a catch block), we need to declare the exceptions</li>
+<li>Assertion is always tested for true condition, if the condition returns false, AssertionError is thrown</li>
+<li><code>Ex: asssert (x&lt; y) : "Error statement "+y</code>. The First Expression should always result in a boolean while the second expression should always result in a value ( just like sysout)(Cannot be a call to a void method)</li>
+<li>Refer to Legal and Ilegal assert Expressions</li>
+<li>assertions are disabled by default. So we can use assert as an identifier. But if we turn on assertions, then assert is a keyword - <code>Turn On: javac -source 1.4 test.ClassName</code></li>
+<li>To Compile without assertions (default) <code>javac -source 1.3 test.ClassName</code></li>
+<li>Enabling assertions while executing : <code>java (-ea or -enableassertions) test.ClassName</code></li>
+<li>Disabling assertions while executing : <code>java (-da or -disableassertions) test.ClassName</code></li>
+<li>The above enabling or disabling can be given without any class or package name for all classes or only at package or class level
+<code>java -ea da:test.ClassName</code> enables for all except test.ClassName (same for package as well)</li>
+<li>Refer to Assertion Command Line switches</li>
+<li>AssertionError can be caught but it is not appropriate(non-recommended) AssertionError object is not accessible</li>
+<li>Assertion recommendations:</li>
+<li>Do not use assertions to validate arguments to a public method (needs to be checked mandatorily)</li>
+<li>Do use assertions to validate arguments to a private method</li>
+<li>Do not use assertions to validate command-line arguments</li>
+<li>Do use assertions, even in public methods, to check for cases that you know are never, ever supposed to happen (default of a switch Ex: default: <code>assert false;</code></li>
+<li>Do not use assert expressions that can cause side effects (method calls or value changing ones)</li>
+<li>Do not use assertions in private getters and setters"</li>
+<li>If a variable is marked FINAL, always check for any code that changes the value</li>
+<li>The VM evaluates all assertion flags from left to right</li>
+</ol>
+<h3>Chapter 5</h3>
+<ol>
+<li>getters - Accessors and setters - mutators</li>
+<li>When the instance variables are public, watch for questions about whether the values will always be as those set in the settters</li>
+<li>IS-A means extends (subclass). IS-A, extends, derived from, Inherited from, instance of, subtype of all means subclassing</li>
+<li>HAS-A means having a reference variable of type</li>
+<li><code>Animal a = new Horse();</code> a can access methods which are ONLY overridden by the Horse Object and CANNOT access methods which are present only in the Horse Class. However, it can access all methods of Animal, though they are not present in the Horse</li>
+<li><code>Animal a = new Horse(); a.eat()</code> will call the HORSE object eat as the object type is decided by virtual method invocation for OVERRIDING methods</li>
+<li>Rules for Overriding:</li>
+<li>Argument list and type, return type should match</li>
+<li>Access levels can be less retrictive but CANNOT be more restrictive</li>
+<li>There cannot be additional broader exceptions thrown, however it can be lesser or narrower (subclass can be thrown)"</li>
+<li>Overload can change the return type, however changing ONLY the return type is not a valid overload</li>
+<li>Overload can change the argument list, return type, access modifier, can give broader and new exceptions, overloaded in the same or subclass</li>
+<li>The REFERENCE Type decides which overloaded method is being called.</li>
+<li>Overriding - Instance Type (Runtime)</li>
+<li>Overloading - reference Type (Compile Time)</li>
+<li>Refer to Overloaded and Overriden Method Invocations</li>
+<li>Refer to Difference between Overloaded and Overriden methods</li>
+<li>Watch out for methods with same as the class but with a return type. They are not constructors</li>
+<li>If a constructor with arguments is created, a no-arg constructor will NOT be created by default</li>
+<li>Abstract classes can have Constructors and are always called when the subclass is instantiated. Interfaces DO NOT have constructors</li>
+<li>A constructor can be called only by another constructor using super() or this(), it cannot be called by any other method</li>
+<li>A default constructor has the same access modifier as the class, a super() call in the first line and is of no-arg type</li>
+<li>If the super class does not have a no-arg constructor, we HAVE to provide the super() call correctly (Compilation Error)</li>
+<li>A constructor cannot be overriden but can be overloaded, but only within the same class as it is NOT inherited</li>
+<li>A constructor can have only a call to super() or this() and it should be there in the first line</li>
+<li>For return values, it can be a value which can be IMPLICITLY cast into the return type (short for an int return type) and a sub class type can be returned for a super class return type</li>
+</ol>
+<h3>Chapter 6</h3>
+<ol>
+<li>Refer to String Object Creation count</li>
+<li><code>String.charAt(index)</code> is zero based</li>
+<li>Arrays has an ATTRIBUTE length while String has a method length()</li>
+<li><code>String.substring</code> (the String word in the method is in lowercase) has (start,end). Start is zero-indexed and End is 1-indexed</li>
+<li>StringBuffer are ideal for file I/O for handling large streams of data</li>
+<li>StringBuffer methods are Synchronized</li>
+<li><code>StringBuffer.insert(offset,String)</code>. Offset is Zero-indexed</li>
+<li><code>abs</code> method has all four numerical types as arguments</li>
+<li><code>ceil</code> and <code>floor</code> takes only a double and returns a double</li>
+<li><code>max</code> and <code>min</code> takes all four types of arguments but arg1 and arg2 should be of the same type. However for arguments, they are implicitly CAST. Eg: <code>Math.max(23.5, 3)</code> or <code>Math.max(a,b)</code> where a is int and b is float</li>
+<li><code>random</code> generates a number between 0.0 &lt;= x &lt; 1.0</li>
+<li><code>round</code> takes a float or double and returns a int or long</li>
+<li>sin,cos, tan and SQRT takes only double (radians) and returns a double</li>
+<li><code>toDegree</code> and <code>toRadian</code> takes and returns a double</li>
+<li>Refer to Important static Math methods</li>
+<li>Wrapper classes Float and Double has POSITIVE_INFINITY and NEGATIVE_INFINITY</li>
+<li><code>Double.isNAN(x)</code> is used for testing numbers</li>
+<li><code>Math.sqrt(-16d)</code> results in NaN</li>
+<li>divide by 0 for floating point number works while for integers gives ArithmeticException</li>
+<li>Refer to Wrapper Class Constructor Arguments</li>
+<li><code>valueOf</code> is present for Integer, Long,Byte and Short and is used as <code>Integer.valueOf("1001101", 2) =&gt; 43</code>. i.e., takes two arguments String and radix and returns a WRAPPER class</li>
+<li><code>intValue</code> and <code>parseInt</code> returns a primitive number</li>
+<li>Refer to Wrapper Conversion Methods (Important)</li>
+<li>The 3 types of toString usages are:</li>
+<li><code>obj.toString()</code>;</li>
+<li><code>Double.toString(3.3d)</code> (All wrapper class has this except Boolean and Character)</li>
+<li><code>Long.toString(254,16)</code> =&gt; fe (Integer and Long)</li>
+<li>Integer and Long has these methods also.</li>
+<li>Integer.toBinaryString(), toHexString() and toOctalString()</li>
+<li>Watch out for usage of StringBuffer methods like append(), reverse(0 on string Objects which leads to Compilation Error</li>
+</ol>
+<p>(Continued in link:scjp-notes-from-kathy-sierra-part2.html[Part 2])</p>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

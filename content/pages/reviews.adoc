@@ -1,9 +1,0 @@
-= Reviews
-Senthilkumar Gopal
-2015-03-22
-:jbake-type: page
-:jbake-tags: reviews
-:jbake-status: published
-
-I find myself tinkering with many frameworks, tools and different technologies. This page captures my findings, notes and other interesting facts and aspects which would be useful for someone reviewing them for their own purpose.
-

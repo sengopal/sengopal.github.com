@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Job chaining using Quartz | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/job-chaining-using-quartz.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="This post is about how we used Quartz library to chain jobs rather than scheduling for indeterminate running time. This post explains the development of the Job schedule and the code changes required.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Job chaining using Quartz
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2009-03-31T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Tue 31 March 2009
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/quartz.html">#quartz</a>,               <a href="https://sengopal.github.io/tag/java.html">#java</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <h3>Project Usage</h3>
+<p>Our Project had the requirement of reading a set of records from a table which acts as a queue and sends the pending mails. This reading /sending of mails has to happen every five minutes. However, since the SMTP server needs to address online mailing at times, this job may run more than the given five minutes. Also, if the number of records in the table is high, the Job exceeds the expected time of completion of five minutes. Hence it was decided to “chain” the jobs with a five minute delay.</p>
+<h3>Introduction to Quartz</h3>
+<p>Quartz is an open source job scheduling framework that provides simple but powerful mechanisms for job scheduling in Java applications. Quartz allows developers to schedule jobs by time interval or by time of day. It implements many-to-many relationships for jobs and triggers and can associate multiple jobs with different triggers.
+Applications that incorporate Quartz can reuse jobs from different events and also group multiple jobs for a single event. While you can configure Quartz through a property file (in which you can specify a data source for JDBC transactions, global job and/or trigger listeners, plug-ins, thread pools, and more) it is not at all integrated with the application server's context or references.</p>
+<h3>Jobs and triggers</h3>
+<p>The two fundamental units of Quartz's scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.</p>
+<h3>Simple Job Example</h3>
+<p>An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed</p>
+<h4>SimpleQuartzJob.java</h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">java.util.Date</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.Job</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.JobExecutionContext</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.JobExecutionException</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="nc">SimpleQuartzJob</span> <span class="n">implements</span> <span class="n">Job</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="n">SimpleQuartzJob</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="n">public</span> <span class="n">void</span> <span class="n">execute</span><span class="p">(</span><span class="n">JobExecutionContext</span> <span class="n">context</span><span class="p">)</span> <span class="n">throws</span> <span class="n">JobExecutionException</span> <span class="p">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="p">(</span><span class="s2">&quot;In SimpleQuartzJob - executing its JOB at &quot;</span>
+                <span class="o">+</span> <span class="n">new</span> <span class="n">Date</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; by &quot;</span> <span class="o">+</span> <span class="n">context</span><span class="o">.</span><span class="n">getTrigger</span><span class="p">()</span><span class="o">.</span><span class="n">getName</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><em>Notice that the execute method takes a JobExecutionContext object as an argument. This object provides the runtime context around the job instance. Specifically, it gives access to the scheduler and trigger, which collaborated to initiate execution of the job as well as the job's JobDetail object. Quartz separates the execution and the surrounding state of a job by placing the state in a JobDetail object and having the JobDetail constructor initiate an instance of a job. The JobDetail object stores the job's listeners, group, data map, description, and other properties of the job.</em></p>
+<h4>Simple Trigger Example</h4>
+<p>A trigger develops a schedule for job execution. Quartz offers a few different trigger options of varying complexity. The SimpleTrigger given below shows the fundamentals of triggers.</p>
+<h4>SimpleTriggerRunner.java</h4>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">org.quartz.JobDetail</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.Scheduler</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.SchedulerException</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.Trigger</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.TriggerUtils</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.quartz.impl.StdSchedulerFactory</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="nc">Test</span><span class="p">{</span>
+    <span class="n">public</span> <span class="n">void</span> <span class="n">scheduleTask</span><span class="p">()</span> <span class="n">throws</span> <span class="n">SchedulerException</span> <span class="p">{</span>
+        <span class="k">try</span><span class="p">{</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Starting the scheduler in Quartz&quot;</span><span class="p">);</span>
+            <span class="n">StdSchedulerFactory</span> <span class="n">schedFact</span> <span class="o">=</span> <span class="n">new</span> <span class="n">StdSchedulerFactory</span><span class="p">();</span>
+            <span class="n">Scheduler</span> <span class="n">sched</span> <span class="o">=</span> <span class="n">schedFact</span><span class="o">.</span><span class="n">getScheduler</span><span class="p">();</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Scheduling a Tickler job in Quartz&quot;</span><span class="p">);</span>
+
+                <span class="o">//</span><span class="n">Making</span> <span class="n">a</span> <span class="n">daily</span> <span class="n">Trigger</span> <span class="k">for</span> <span class="n">the</span> <span class="n">Job</span>
+            <span class="n">Trigger</span> <span class="n">simpleTrigger</span> <span class="o">=</span> <span class="n">TriggerUtils</span><span class="o">.</span><span class="n">makeDailyTrigger</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">00</span><span class="p">);</span>
+            <span class="n">simpleTrigger</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s2">&quot;SimpleQuartzTrigger&quot;</span><span class="p">);</span>
+            <span class="n">simpleTrigger</span><span class="o">.</span><span class="n">setGroup</span><span class="p">(</span><span class="n">Scheduler</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="p">);</span>
+            <span class="n">JobDetail</span> <span class="n">simpleJob</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JobDetail</span><span class="p">(</span><span class="s2">&quot;SimpleQuartzJob&quot;</span><span class="p">,</span> <span class="n">Scheduler</span><span class="o">.</span><span class="n">DEFAULT_GROUP</span><span class="p">,</span> <span class="n">SimpleQuartzJob</span><span class="o">.</span><span class="n">class</span><span class="p">);</span>
+            <span class="n">sched</span><span class="o">.</span><span class="n">scheduleJob</span><span class="p">(</span><span class="n">simpleJob</span><span class="p">,</span><span class="n">simpleTrigger</span><span class="p">);</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tickler Mail Job Scheduled&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">catch</span><span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">){</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Error while scheduling the jobs.&quot;</span><span class="p">);</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The scheduling method starts by instantiating a SchedulerFactory and getting the scheduler. As discussed earlier, the JobDetail object is created by taking the Job (SimpleQuartzJob) as an argument to its constructor. The TriggerUtils.makeDailyTrigger creates a simple trigger which executes the associated job(s) at 2:00 am everyday
+There are a number of other ways to manipulate a SimpleTrigger. In addition to a specified number of repeats and a specified repeat interval, jobs may be schedules to execute at a specific calendar time, given a maximum time of execution, or given a priority. Some of the advanced concepts include CronTriggers, Job Stores, and JobMap etc.,</p>
+<h3>Need for Job Chaining</h3>
+<p>The job known as “MailProcessor” needs to be scheduled every 5 minutes i.e., this job has to execute every five minutes. The code which was used for scheduling the job is given below:</p>
+<div class="highlight"><pre><span></span><code>Trigger mailProcTrigger = TriggerUtils.makeMinutelyTrigger(5);
+mailProcTrigger.setName(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME);
+mailProcTrigger.setGroup(Scheduler.DEFAULT_GROUP);
+JobDetail mailProc = new JobDetail(SchedulingConstants.MAILPROCESSOR_JOB_NAME, Scheduler.DEFAULT_GROUP, MailProcessor.class);
+sched.scheduleJob(mailProc,mailProcTrigger);
+logger.info(&quot;Mail Processor Scheduled&quot;);
+</code></pre></div>
+
+<p>Following are the issues faced with this kind of scheduling</p>
+<ol>
+<li>The SMTP Server needs to address online mailing at times.</li>
+<li>The number of records in the table is high and hence the number of mails to be sent are higher in number</li>
+<li>Due to the above reasons, this job may have a completion of time of more than five minutes, which means that the next schedule of the same will get triggered even before the first one completes.</li>
+</ol>
+<p><strong>Solution</strong></p>
+<p>Hence to resolve this, we need to chain the jobs such that the job gets “re-scheduled” only after the first job is completed. This is known as “Job-Chaining”</p>
+<h3>Job Chaining – How it was implemented</h3>
+<ol>
+<li>A Utility Method for returning the time 5 minutes from now and another Utility method for returning a SimpleTrigger using the NextScheduledTime are created.</li>
+<li>
+<p>The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance</p>
+<p>//The Utility method to return the Next Scheduling time 5 minutes from now
+public static Date getNextMailScheduledTime() {
+    Calendar cal = Calendar.getInstance();
+    System.out.println("Date Current: "+cal.getTimeInMillis());
+    cal.add(Calendar.MINUTE,1);
+    System.out.println("Date after addition: "+cal.getTimeInMillis());
+    return cal.getTime();
+}</p>
+<p>//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time
+public static Trigger getMailProcessorTrigger() {
+    Date newDate = VsimsUtil.getNextMailScheduledTime();
+    Trigger mailTrigger = new SimpleTrigger(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME, Scheduler.DEFAULT_GROUP,newDate);
+    mailTrigger.setJobName(SchedulingConstants.MAILPROCESSOR_JOB_NAME);
+    mailTrigger.setJobGroup(Scheduler.DEFAULT_GROUP);
+    return mailTrigger;
+}</p>
+</li>
+</ol>
+<h3>Scheduling the Job for the First Run</h3>
+<ol>
+<li>Using the Utility methods the “MailProcessor” Job is scheduled to run after Five minutes from the current Instance</li>
+<li>
+<p>Since a specific time instance is given for the Trigger, this Job will get Triggered only once</p>
+<p>JobDetail mailJobDetail = new JobDetail("MailProcessorJob",Scheduler.DEFAULT_GROUP, MailProcessor.class);
+sched.scheduleJob(mailJobDetail,VsimsUtil Util.getMailProcessorTrigger());
+logger.info("Mail Processor Scheduled");</p>
+</li>
+</ol>
+<p>Note: <em>Since the Job is being scheduled for the first time we have to use sched.scheduleJob() for scheduling the job</em></p>
+<p>In the Execute method of the Job, once the Job gets fired for the first time by the Trigger created, the Job Execution steps are completed and then the job gets “re-scheduled’ after five minutes using the same Utility method</p>
+<div class="highlight"><pre><span></span><code><span class="nt">public</span> <span class="nt">void</span> <span class="nt">execute</span><span class="o">(</span><span class="nt">JobExecutionContext</span> <span class="nt">jobContext</span><span class="o">)</span> <span class="nt">throws</span> <span class="nt">JobExecutionException</span> <span class="p">{</span>
+        <span class="err">logger.info(&quot;MailProcessor</span> <span class="err">execute</span> <span class="err">-</span> <span class="err">start&quot;)</span><span class="p">;</span>
+
+        <span class="err">//PERFORM</span> <span class="err">THE</span> <span class="err">JOB</span> <span class="err">EXECUTION</span> <span class="err">STEPS</span> <span class="err">HERE</span>
+        <span class="err">//Chaining</span> <span class="err">of</span> <span class="err">the</span> <span class="err">Job</span> <span class="err">by</span> <span class="err">re-scheduling</span>
+        <span class="err">try</span> <span class="err">{</span>
+            <span class="err">logger.info(&quot;Scheduler</span> <span class="err">Instance</span> <span class="err">Id</span> <span class="err">in</span> <span class="err">Mail</span> <span class="n">Processor</span><span class="p">:</span> <span class="s2">&quot;+</span>
+<span class="s2">                + jobContext.getScheduler().getSchedulerInstanceId());</span>
+
+<span class="s2">            //If Rescheduled Correctly, the Scheduler returns the next Scheduled Time of the JOB</span>
+<span class="s2">            Date nextScheduledTime = jobContext.getScheduler().rescheduleJob</span>
+<span class="s2">                (&quot;</span><span class="n">MailProcessorJob</span><span class="s2">&quot;, Scheduler.DEFAULT_GROUP, Util.getMailProcessorTrigger());</span>
+<span class="s2">            logger.info(&quot;</span><span class="n">Rescheduled</span> <span class="n">at</span> <span class="o">:</span> <span class="s2">&quot;+nextScheduledTime);</span>
+<span class="s2">        } catch (SchedulerException e) {</span>
+<span class="s2">            logger.error(&quot;</span><span class="n">Error</span> <span class="n">in</span> <span class="n">Scheduling</span> <span class="n">the</span> <span class="n">Job</span> <span class="n">for</span> <span class="n">the</span> <span class="n">Next</span> <span class="n">Iteration</span><span class="err">&quot;</span><span class="p">);</span>
+            <span class="err">e.printStackTrace()</span><span class="p">;</span>
+        <span class="p">}</span>
+
+<span class="err">}</span>
+</code></pre></div>
+
+<p>Note: <em>Since the same job is being chained, we have to use rescheduleJob().</em></p>
+<p>The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs</p>
+<p>References
+* <a href="http://quartz.sourceforge.net/firstTutorial.html">http://quartz.sourceforge.net/firstTutorial.html</a>
+* <a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/">http://www-128.ibm.com/developerworks/java/library/j-quartz/</a></p>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>

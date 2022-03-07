@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2 | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">  
+  <meta name="description" content="I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.">
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning engineer <add more intro > </p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2
+</h1>
+      <hr>
+  <article class="article">
+    <header>
+      <ul class="list-inline">
+        <li class="list-inline-item text-muted" title="2008-09-08T00:00:00-07:00">
+          <i class="fas fa-clock"></i>
+          Mon 08 September 2008
+        </li>
+        <li class="list-inline-item">
+          <i class="fas fa-folder-open"></i>
+          <a href="https://sengopal.github.io/category/java.html">Java</a>
+        </li>
+          <li class="list-inline-item">
+            <i class="fas fa-tag"></i>
+              <a href="https://sengopal.github.io/tag/java.html">#java</a>,               <a href="https://sengopal.github.io/tag/certification.html">#certification</a>,               <a href="https://sengopal.github.io/tag/library.html">#library</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/scjp.html">#scjp</a>,               <a href="https://sengopal.github.io/tag/kathy.html">#kathy</a>,               <a href="https://sengopal.github.io/tag/sierra.html">#sierra</a>          </li>
+      </ul>
+    </header>
+    <div class="content">
+      <p>I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes and gotchas from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification. All the below notes are material extracted from this link:https://www.amazon.com/SCJP-Certified-Programmer-Java-310-065/dp/0071591060[Kathy Sierra's book]. The below notes are from the 2008 edition and might not be reflective of the latest Chapter specifics.</p>
+<p>This is the continuation of <a href="Part1">scjp-notes-from-kathy-sierra-part1.html</a> notes.</p>
+<h3>Chapter 7</h3>
+<ol>
+<li>Comparing two reference variables of different hierarchies gives COMPILATION error</li>
+<li>STRINGBUFFER does NOT have an overridden equals method. However, STRING and WRAPPER classes have them</li>
+<li><code>equals()</code> =&gt; Reflexive (x.x), Symmetric (x.y) and Transitive (x.y.z) and consistent</li>
+<li>If two objects are equal then their hashcodes should be equal</li>
+<li><code>equals()</code> takes OBJECTas parameter and returns boolean. Hashcode() returns int</li>
+<li>Refer to Hashcode Contract and Table</li>
+<li>Refer to Types of Collections</li>
+<li>Only List and Set extend Collection not Map</li>
+<li><code>java.util.Collection</code> is the Superclass for List and Set while <code>java.util.Collections</code> is the class with utilities</li>
+<li>Refer to Collection Class Hierarchy</li>
+<li>An implementation of collection can NEVER be Unordered if it is sorted but all other combinations is possible</li>
+<li><em>HashSet</em> - UnOrdered and UnSorted. <em>LinkedHashSet</em> - Ordered and UnSorted</li>
+<li>Vector(synchronized) and ArrayList are the Only to classes to implement RandomAccess</li>
+<li><em>LinkedHashSet</em> can be iterated in the Order of Entry or in the Order of Last accessed(useful for caching)</li>
+<li><em>TreeSet</em> uses a Red-Black Structure for the natural Ordering and has a constructor for defining the natural ordering of the Objects</li>
+<li><em>Hashtable</em> is synchronized and does NOT allow a null key while HashMap is not synchronized and allows one null key</li>
+<li>Refer to Collection Interfaces and Concrete Implementation Classes</li>
+</ol>
+<h3>Chapter 8</h3>
+<ol>
+<li>Top Level Nested Class is an Inner class marked static</li>
+<li>When trying to create an innerclass object outside the Outer Class or in a Static method of the Outer Class, we need to CREATE an Object of the Outer class - <code>MyOuter.Myinner inObj = new MyOuter().new MyInner();</code></li>
+<li>To Access the <em>this</em> object, the outer class <em>this</em> is referred as <em>MyOuter.this</em> within the innerclass instance members</li>
+<li>The Inner class members can be STATIC only if the inner class itself is declared as STATIC</li>
+<li>Modifiers for the CLASS LEVEL inner class are : <em>final, abstract, public</em> (allowed for all classes), <em>private, protected</em> and <em>static</em> (only for inner classes)</li>
+<li>Modifiers for the METHOD LEVEL inner class are: abstract and final (cannot be used together)</li>
+<li>Method Level inner Class CANNOT access the method local variables unless it is marked final</li>
+<li>It can access the class level variables</li>
+<li>The class can be instantiated only within the method and it has to be done only after the class declaration is completed</li>
+<li><code>Animal h = new Horse();</code> Here since the object is determined at runtime ONLY THE OVERRIDEN METHODS of HORSE can be accessed and the Animal methods can be accessed</li>
+<li>For Anonymous Inner Class, we CANNOT create an altogether new Class. We have to either extend or implement any existing class. This means we can only OVERRIDE the methods available and NO new methods can be added in Anonymous Inner Class(though new methods can be added, they CANNOT be accessed at all outside the anonymous class as the object type would be that of the superclass used.</li>
+<li>In anonymous Inner class when you access the class object, it extends or implements the superclass implicitly, hence the Constructors will be called when the class instance is accessed</li>
+<li><code>Runnable r = new Runnable()</code>; (compilation Error) as Runnable is an Interface. However, <code>Runnable r = new  Runnable() {public void run(){}};</code> is vaild</li>
+<li>When the anonymous class is created within the argument of a method, the closing semicolon appears after the argument close bracket. <code>###&gt; });</code></li>
+<li>A static nested class does not have acccess to the member and instance variables of the outer class. Look out for questions which does this</li>
+<li>Normal Class: <code>MyOuter.MyInner inObj = new MyOuter().new MyInner();</code></li>
+<li>Static Class: <code>MyOuter.MyInner inObj = MyOuter.MyInner();</code></li>
+<li>Static Nested Class can have both static and non-static members but can access ONLY the static members of the outer class</li>
+<li>When an anonymous class implements an interface, it should override the abstract methods else compilation error occurs</li>
+<li>Check for the CORRECT Presence of the Semicolons before going into the syntax and logic checking for inner classes
+<code>Object o = new Horse("zippo"); Horse h = (Horse) o; o.eat();</code></li>
+<li>If the cast to Horse is not done, then the object can access only the OBJECT methods and the Horse Overriden ones only</li>
+</ol>
+<h3>Chapter 9</h3>
+<ol>
+<li><code>start()</code>, <code>run()</code>, <code>yield()</code> and <code>sleep()</code> - <em>Important methods in Threads</em></li>
+<li>Types of Instantiating a Thread Class:</li>
+<li>Extends Thread - <code>MyThread t = new MyThread();</code></li>
+<li>Implements Runnable - <code>MyRunnable r = new MyRunnable(); Thread t = new Thread(r);</code></li>
+<li>Calling the <code>run()</code> DOES NOT start a new stack though its legal. We have to use <code>t.start()</code> for starting the execution in a new stack</li>
+<li>Methods for Influencing Execution Control of Threads</li>
+<li>java.lang.Thread - static sleep(long), static yield(), final join(), final setPriority(int)</li>
+<li>java.lang.Object - final wait, final notify, final notifyAll()"</li>
+<li><code>sleep</code> - guaranteed to sleep for the given time except InterruptedException</li>
+<li><code>yield</code> - gives control back, not guaranteed not to run</li>
+<li><code>join</code> - guaranteed to stop execution until the joined thread completes</li>
+<li>All these three above methods keeps the lock acquired.</li>
+<li>Notes about <em>synchronized</em> block:</li>
+<li>Only methods can be synchronized</li>
+<li>Only one lock</li>
+<li>No need to synchronize all the methods in a class</li>
+<li>multiple threads can still access the non-synchronized methods</li>
+<li>When a thread goes to sleep, it takes the lock with it</li>
+<li>when a thread acquires a lock on an object, no other method can access any of the synchronized methods in the class</li>
+<li>A thread can have multiple locks</li>
+<li><code>wait</code>, <code>notify</code> and <code>notifyAll</code>(methods of java.lang.Object) should be called from within a synchronized block because it has to own the lock before waiting or notifying else will get IllegalMonitorStateException</li>
+<li>Even when notify is called, the object lock will NOT be released until the end of the synchronized block</li>
+<li>Refer to Key Thread Methods</li>
+<li>Check for <code>sleep()</code> or <code>wait()</code> method without a try-catch block for checked (InterruptedException)</li>
+<li>Check for the same thread being started twice</li>
+<li>Check for synchronized being used on an non-object</li>
+<li>Synchronizing the code that calls the calculating method DOES NOT synchronize the action, the synchronized block needs to be applied to the method doing the actual calculation.</li>
+<li>Don’t synchronize the run() method or the code inside it as there might be multiple threads created and each will have its own run method. So synchronize the called method</li>
+<li>When two threads are created and a single object is used for accessing the methods, the wait, notify should be within synchronized block as the thread should own the lock of the object before the methods are called. Otherwise, it will throw a runtime exception</li>
+<li>When superclass object reference is used for a sub class object, only the OVERRIDEN methods can be accessed and the variables if printed are from SUPER CLASS only</li>
+<li>return type should always be immediately before the method name or compilation error</li>
+<li>A reference passed into a method is passed as if it were a copy of a pointer pointer rather than the actual object. Thus if that reference is assigned to a null it makes no difference to any other copy of that pointer. Thus the code within the method findOut makes no difference to any other references. Although reference z is assigned to null reference y still points to the object so no objects are eligible for garbage collection.</li>
+<li>Because of the way twos complement number representation works the unsigned right shift operation means a small shift in a negative number can return a very large value so the output of option 1 will be much larger than 10.</li>
+<li>The unsigned right shift places no significance on the leading bit that indicates the sign. For this shift the value 1 of the bit sign is replaced with a zero turning the result into a positive number for option 2.</li>
+<li>Shifting can be done only on int, short or byte NOT on long and ALWAYS returns an int (32 bit)</li>
+<li>If shifting is done on a long, then the result is always a long (64 bit)</li>
+<li>An else clause always belongs to the innermost if without an else, irrespective of the indentation</li>
+<li>In switch case, no two variables can be same</li>
+<li>If switching on a byte, case 128 gives compilation error</li>
+<li>Only final int can be used in a case, since the value must be confirmed at compile time</li>
+<li>assertions are for situations that will never happen</li>
+<li><code>assert(true check)</code> - Throws AssertionError if the tests failed</li>
+<li><code>assert(check) : expression</code> - check is always boolean and expression is never void</li>
+<li>assert is a keyword</li>
+<li>If there is any statement between the label and the loop then, that label is NOT recogonized and hence compliation error occurs. Also, labels can be of the same name and the innermost one is taken into consideration</li>
+<li>Escape slashes are allowed only for b,t,n,f,r, ",',\</li>
+<li><code>#,%</code> cannot be used in a variable name and a number cannot be used at the start of a variable name</li>
+<li>If a variable is final then if the casting lies within the range, casting is not needed. <code>final short s1 = 1;</code></li>
+<li><code>byte s2 = s1;</code> - compiles correctly</li>
+<li><em>true</em>, <em>false</em> and <em>null</em> are case-SENSITIVE</li>
+<li>A call to the super class method can be done using super.methodname and can be placed anywhere in the method.(Static rule applies).Similarly the superclass variables can be accessed using super.also</li>
+<li>The REFERENCE type decides which overloaded  method is being called, while OBJECT type decides which overriden method is called. In fact, <code>Animal a = new Horse(); a.eat("Carrots");</code> give COMPILATION ERROR as the reference type is used for methods present check</li>
+<li>When using <code>super()</code> or <code>this()</code> to invoke constructors, they must be on the first line. Any methods that need to be used needs to be static as the object would not be created until the SUPER constructor completes</li>
+<li><code>return (long) x/y</code> will give float as the cast is only for x. Also int/int gives only int.</li>
+<li>ALWAYS check the NUMERATOR and DENOMINATOR For the return type. If wither Num or Denom is float or double then the result is also float or double</li>
+</ol>
+<h3>Miscellaneous</h3>
+<ol>
+<li>First Check for Access Modifiers</li>
+<li>Check for static refering no-static</li>
+<li>Check for illegal subclassing</li>
+<li>Watch for method or class names for keyword list. They are not keywords - <code>x=3 ###&gt; ~x = -4 ###&gt; ~x = - (x +1)</code></li>
+<li><code>int []a3,[]a4;</code> here after a comma only a variable should be present</li>
+<li>ALWAYS remember if one else is executed ,all the other else if/else will NOT be executed</li>
+<li>Even if the called method is static, <em>this</em> can NEVER be used inside a static method</li>
+<li><em>###</em> will work correctly for STRING values if No String Objects are created. <code>"john"###"john"</code> works correctly.</li>
+<li><code>start()</code> method is used to schedule a thread for execution</li>
+<li><em>protected void finalize() throws Throwable</em></li>
+<li><em>concat()</em> is a method of String while append is for StringBuffer</li>
+<li>All the methods in StringBuffer are synchronized</li>
+</ol>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+  <ul class="col-sm-6 list-inline">
+    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+  </ul>
+  <p class="col-sm-6 text-sm-right text-muted">
+    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
+    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
+  </p>
+</div>    </div>
+  </footer>
+
+</body>
+
+</html>
