@@ -32,10 +32,10 @@
 &lt;li&gt;Use PendingIntents as delayed callbacks to private Broadcast receivers&lt;/li&gt;
 &lt;li&gt;Use Explicit intents as much as possible&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2&gt;[source,java]&lt;/h2&gt;
-&lt;p&gt;context.sendBroadcast(intent,"custom-permission");
-context.startActivity(intent);&lt;/p&gt;
-&lt;hr&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;sendBroadcast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;custom-permission&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;startActivity&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h3&gt;Permissions and Intents&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Use custom permission for 3rd party or other apps to subscribe for notifications&lt;/li&gt;
@@ -73,7 +73,7 @@ context.startActivity(intent);&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to prevent click jacking Use &lt;code&gt;setFilterTouchesWhenObscured(true)&lt;/code&gt; or android:setFilterTouchesWhenObscured for activity declaration.&lt;/li&gt;
+&lt;li&gt;Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to prevent click jacking Use &lt;code&gt;setFilterTouchesWhenObscured(true)&lt;/code&gt; or &lt;code&gt;android:setFilterTouchesWhenObscured&lt;/code&gt; for activity declaration.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;Development practices&lt;/h3&gt;
 &lt;ol&gt;
@@ -81,12 +81,12 @@ context.startActivity(intent);&lt;/p&gt;
 &lt;li&gt;Variables should be nullified after use&lt;/li&gt;
 &lt;li&gt;Use byte[] and char[] for sensitive data rather than Strings which helps in cleaning easier.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;== Internal Storage&lt;/h3&gt;
+&lt;h3&gt;Internal Storage&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Accessible only to your app&lt;/li&gt;
 &lt;li&gt;clean the cache using deleteFile()&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3&gt;== External Storage&lt;/h3&gt;
+&lt;h3&gt;External Storage&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Globally readable and writable&lt;/li&gt;
 &lt;li&gt;Can be physically removed&lt;/li&gt;
@@ -241,223 +241,41 @@ bookmark that page and see whats team upto in last 12 hours&lt;/p&gt;
 &lt;li&gt;Fast and Async writes and very low reads for audit information&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Usually, experts suggest a multi-database solution, or polyglot persistence approach instead of a traditional monolithich RDBMS solution.&lt;/p&gt;
-&lt;p&gt;== Disadvantages of RDBMS ==
-Scaling a traditional RDBMS is difficult at best. Partitioning schemes, multi-master configurations, and redundancy systems offered by Oracle, SQL Server, and DB2 are expensive and problematic at best. They often fail to meet the needs of high-scale applications. Also, for short lived data and with different lifetime data, RDBMS does not fit the needs of such an application.&lt;/p&gt;
-&lt;p&gt;== Available Databases ==
-Some of the database types available as per this https://dzone.com/articles/review-persistence-strategies[Dzone article] are:&lt;/p&gt;
-&lt;p&gt;=== Key-Value stores ===
-The most commonly used database solutions are Key-Value stores such as Aerospike, Redis, and Riak. These are available for easier install and application implementation.&lt;/p&gt;
-&lt;p&gt;=== Column-Family databases ===
-The other common databases available are Cassandra and HBase are both based on Hadoop but have different write semantics. While HBase offers strong write integrity and Cassandra offers &lt;em&gt;eventual consistency&lt;/em&gt;. Also, Cassandra is ideal for high intense writes and random reads.&lt;/p&gt;
-&lt;p&gt;=== Document Databases ===
-Document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don't require transactional integrity across entities. Typically, MongoDB and Couchbase are typically the leaders in this sector.&lt;/p&gt;
-&lt;p&gt;=== Graph Databases ===
-Social networks and recommendation systems are classic use cases for graph databases, but there are a few different types of graph databases. Some of them are custom made for operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).&lt;/p&gt;
+&lt;h3&gt;Disadvantages of RDBMS&lt;/h3&gt;
+&lt;p&gt;Scaling a traditional RDBMS is difficult at best. Partitioning schemes, multi-master configurations, and redundancy systems offered by Oracle, SQL Server, and DB2 are expensive and problematic at best. They often fail to meet the needs of high-scale applications. Also, for short lived data and with different lifetime data, RDBMS does not fit the needs of such an application.&lt;/p&gt;
+&lt;h2&gt;Available Databases&lt;/h2&gt;
+&lt;p&gt;Some of the database types available as per this &lt;a href="https://dzone.com/articles/review-persistence-strategies"&gt;Dzone article&lt;/a&gt; are:&lt;/p&gt;
+&lt;h3&gt;Key-Value stores&lt;/h3&gt;
+&lt;p&gt;The most commonly used database solutions are Key-Value stores such as Aerospike, Redis, and Riak. These are available for easier install and application implementation.&lt;/p&gt;
+&lt;h3&gt;Column-Family databases&lt;/h3&gt;
+&lt;p&gt;The other common databases available are Cassandra and HBase are both based on Hadoop but have different write semantics. While HBase offers strong write integrity and Cassandra offers &lt;em&gt;eventual consistency&lt;/em&gt;. Also, Cassandra is ideal for high intense writes and random reads.&lt;/p&gt;
+&lt;h3&gt;Document Databases&lt;/h3&gt;
+&lt;p&gt;Document databases scale quite well and are great for web-based operational systems that operate on a single big entity, or systems that don't require transactional integrity across entities. Typically, MongoDB and Couchbase are typically the leaders in this sector.&lt;/p&gt;
+&lt;h3&gt;Graph Databases&lt;/h3&gt;
+&lt;p&gt;Social networks and recommendation systems are classic use cases for graph databases, but there are a few different types of graph databases. Some of them are custom made for operational purposes (Neo4j) while others are aimed more at analytics (Apache Giraph).&lt;/p&gt;
 &lt;p&gt;Using the above descriptions and also based on availability or support within our organization, the following database types were determined.&lt;/p&gt;
-&lt;p&gt;[width="100%",options="header"]
-|====================================================
-| Database      |  Storage for
-| Oracle        |  Partition scheme. Store Live data.
-| Cassandra     |  Heavy writes for Async metadata
-| Cassandra     |  Heavy writes for Audit log
-|====================================================&lt;/p&gt;</content><category term="Java"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Topics for a java Interview</title><link href="https://sengopal.github.io/posts/topics-for-a-java-interview.html" rel="alternate"></link><published>2010-12-13T00:00:00-08:00</published><updated>2010-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-12-13:/posts/topics-for-a-java-interview.html</id><summary type="html">&lt;p&gt;Everyday Java based developers are being interviewed. Some common and frequently asked topics/questions in a java interview are described in this post. Also, key aspects of any interview are the ability of candidates to make decisions, quick thinking etc.,&lt;/p&gt;</summary><content type="html">&lt;p&gt;HASHMap
-Binary search Tree
-realtime application design
-diff. b/w forward and request
-DBs worked with
-What is NoSQL&lt;/p&gt;
-&lt;p&gt;SOAP vs. REST
-REST -best way to represent response status
-what does 400 stand for?
-Git?
-JS Frameworks?
-Static In memory counter problem?&lt;/p&gt;
-&lt;p&gt;Observer Pattern in Java - wait notify
-String immutability
-can i override static method of a class&lt;/p&gt;
-&lt;p&gt;Build system - Maven, Gradle
-know about eBay
-equals and hashCode&lt;/p&gt;
-&lt;p&gt;How would u implement linked list in java
-Major diff. in calling a REST service from JS vs. another server&lt;/p&gt;
-&lt;h3&gt;RANA Notes&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;1st round is about coding, choosing right data structures, functions, accuracy of code. Capture code as IDE/Code editor/photos  (Think of at least two questions to ask in the 1 hour)&lt;/li&gt;
-&lt;li&gt;2nd round is about programming language depth, design patterns, design&lt;/li&gt;
-&lt;li&gt;Application design, problem solving&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Problem solving, Bar Riser, fitment related questions..&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;JVM – About JVM, JIT compiler, Bytecode, Classloader&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;Garbage Colection – Conditions when JVM invokes garbage collection, System.gc()&lt;/li&gt;
-&lt;li&gt;Static and Instance initializer block&lt;/li&gt;
-&lt;li&gt;Datatypes – character especially&lt;/li&gt;
-&lt;li&gt;enum – where to declare, defining constructor, methods and variables in enum&lt;/li&gt;
-&lt;li&gt;OOP concepts – inheritance, polymorphism, aggregation vs Composition, abstraction&lt;/li&gt;
-&lt;li&gt;Multiple Inheritance in java&lt;/li&gt;
-&lt;li&gt;Difference/Similarities between interface and abstract class&lt;/li&gt;
-&lt;li&gt;Software Engineering Concepts – Coupling and CohesionNE&lt;/li&gt;
-&lt;li&gt;String, StringBuffer and StringBuilder&lt;/li&gt;
-&lt;li&gt;Exception Handling – Checked vs Unchecked Exceptions, Assertion, Error, Exception Hierarchy, throw vs throws&lt;/li&gt;
-&lt;li&gt;final, finally and finalize&lt;/li&gt;
-&lt;li&gt;Method Overriding (Rules for the same)&lt;/li&gt;
-&lt;li&gt;Method Overloading – Covariant Return (Java5)&lt;/li&gt;
-&lt;li&gt;Autoboxing&lt;/li&gt;
-&lt;li&gt;Array – Declaring an anonymous and multidimensional array&lt;/li&gt;
-&lt;li&gt;Keywords like super and this&lt;/li&gt;
-&lt;li&gt;The Object classs – equals and hashcode methods&lt;/li&gt;
-&lt;li&gt;Access Specifiers – default, public , protected and private&lt;/li&gt;
-&lt;li&gt;Marker Interface, Wrapper Classe and Adapter Class&lt;/li&gt;
-&lt;li&gt;Classes like Math, StrictMath, Scanner, Console&lt;/li&gt;
-&lt;li&gt;Java IO: Important classes in IO, NIO.&lt;/li&gt;
-&lt;li&gt;Reading and writing XMLs in java. Type of parsers – SAX, DOM and STAX.&lt;/li&gt;
-&lt;li&gt;Java UI: AWT vs Swing, Different Layouts, Event handling, Calback methods&lt;/li&gt;
-&lt;li&gt;Serialization, Transient keyword&lt;/li&gt;
-&lt;li&gt;Multithreading – Runnable vs Thread, How to write a thread, difference between run and start method.&lt;/li&gt;
-&lt;li&gt;Java5 Concurrency and advanced threading – Callable, Future, Executors, Thread pooling, Locks and Conditions&lt;/li&gt;
-&lt;li&gt;Collection and Generics – Map, Set and List; Conventional Questions like ArrayList vs Vector, HashTable vs HashMap etc; Comparator and Comparable; Important collection classes.&lt;/li&gt;
-&lt;li&gt;Methods of java.util.Collections – Synchronizing a collection, Creating views&lt;/li&gt;
-&lt;li&gt;JDBC: The JDBC code, Type of JDBC Drivers, Type of Statements, execute, executeUpdate and executeQuery&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;1) What are the four principles of Object Oriented Languages like Java?
-2) Is Java a pure object oriented language?
-3) How will you write an immutable class?
-4) What is the difference between Comparable and Comparator interfaces in Java?
-5) What is hashcode and equals contract?
-6) What is the difference between == and equals method?
-7) What are wrapper classes? Why they are declared as final classes?
-8) What is the difference between String and StringBuffer classes?
-9) What is the way to store the integer value in a string object to an integer variable?
-10) What are sorted collections in Java?
-11) Why is String class declared as final class?
-12) What is JDBC API?
-13) What are checked and unchecked exceptions?
-14) What is final, finally and finalize?
-15) What is weakhashmap?
-16) What is the purpose of reflection API?
-17) What is serialVersionUID?
-18) What is bucketing in Java?
-19) How does Java manages the threads?
-20) What are memory leaks and how to detect/avoid them?
-21) What is the order of execution of blocks in a Java program?
-22) What are the exception related rules in overloading and overriding?
-23) What are the different ways of creating a thread?
-24) What is inter thread communication?
-25) What are instance and class level locks? What is synchronization?
-26) What is the difference between IS-A and HAS-A relationship?
-27) What is cloning and CloneNotSupported Exception?
-28) What is the difference between JAR, WAR and EAR files?
-29) What are the coding standards for naming variables, constants, methods and classes?
-30) What is a literal and what is special about String literals?
-31) What is flyweight design pattern?
-32) How will you create a Singleton class? Is it thread safe?
-33) What is the difference between throw and throws clause?
-34) Can one access the private members of class using reflection API?
-35) What is the purpose of instanceof operator?
-36) Under what circumstances, the finally block in a program may not run?
-37) What is the difference between private, protected, default and public access specifiers?
-38) What are this and super keywords?
-39) What are transient and volatile keywords?
-40) How many package statements can a program have?
-41) Are all the classes specified in import statement actually imported?
-42) Can an inheritance relationship exist between two interfaces?
-43) What is Unicode?
-44) What are annotations in Java?
-45) What are the various forms of polymorphism?
-46) What is the meaning of various keywords specified in creating the main method?
-47) What is the purpose of ^ operator?
-48) What is the difference between pass by value and pass by reference?
-49) What are the various types of inner classes?
-50) What are the various memory areas in JVM and what kind of information is stored in each of them?&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;What industry sites and blogs do you read regularly?
-This question can give you an idea of how in-tune they are with the latest industry trends and technologies, as well as how passionate they are about webdev. It'll help separate the people who do it as a career AS WELL as a hobby from those who might simply be in it for the big developer paychecks.
-_&lt;/li&gt;
-&lt;li&gt;Do you prefer to work alone or on a team?
-This is an important question to ask depending on the work environment. If your project is going to require close interaction with other developers it's very handy to have someone who has had that kind of experience. On the other hand, many developers thrive while going solo.  Try to find a developer that fits your needs.
-_&lt;/li&gt;
-&lt;li&gt;How comfortable are you with writing HTML entirely by hand? (+exercise)
-Although their resume may state that they're an HTML expert, often times many developers can't actually write an HTML document from top to bottom.  They rely on an external publisher or have to constantly flip back to a reference manual.  Any developer worth a damn should at least be able to write a simple HTML document without relying on external resources. A possible exercise is to draw up a fake website and ask them to write the HTML for it. Keep it simple and just make sure they have the basics down - watch for mistakes like forgetting the &lt;head&gt; &lt;/head&gt; tags or serious misuse of certain elements.  If they write something like: &lt;image src="/some/image.gif"&gt;, it might be a good hint to wrap things up and call the next interviewee.
-_&lt;/li&gt;
-&lt;li&gt;What is the w3c?
-Standards compliance in web development is where everything is (hopefully?) going. Don't ask them to recite the w3c's mission statement or anything, but they should at least have a general idea of who they are.
-_&lt;/li&gt;
-&lt;li&gt;Can you write table-less XHTML?  Do you validate your code?
-Weed out the old-school table-driven design junkies! Find a developer who uses HTML elements for what they were actually intended. Also, many developers will say they can go table-less, but when actually building sites they still use tables out of habit and/or convenience. Possibly draw up a quick navigation menu or article and have them write the markup for it. To be tricky, you could draw up tabular data - give them bonus points if they point out that a table should be used in that scenario :)
-_&lt;/li&gt;
-&lt;li&gt;What are a few of your favorite development tools and why?
-If they say notepad you've obviously got the wrong person for the job. Not only can this help you gauge their level of competence, but it'll also see if they match the tools everyone else uses in-house.
-_&lt;/li&gt;
-&lt;li&gt;Describe/demonstrate your level of competence in a *nix shell environment
-See how well they work without their precious GUI. Ask some basic questions like how they would recursively copy a directory from one place to another, or how you'd make a file only readable by the owner. Find out what OSs they have experience with.
-_&lt;/li&gt;
-&lt;li&gt;What skills and technologies are you the most interested in improving upon or learning?
-Find out if their future interests match the direction of the position (or the company in general).
-_&lt;/li&gt;
-&lt;li&gt;Show me your portfolio!
-A portfolio can say a lot about a developer. Do they have an eye for aesthetics? Are they more creatively or logically oriented? The most important thing is to look for is solid, extensive, COMPLETED projects. A half dozen mockups and/or hacked-out scripts is a sign of inexperience or incompetence.
-_&lt;/li&gt;
-&lt;li&gt;What sized websites have you worked on in the past?
-Find a developer that has experience similar in size to the project you're putting together. Developers with high traffic, large scale site expertise may offer skills that smaller-sized developers don't, such as fine tuning apache or optimizing heavily hit SQL queries. On the other hand, developers who typically build smaller sites may have an eye for things that large scale developers don't, such as offering a greater level of visual creativity.
-_&lt;/li&gt;
-&lt;li&gt;Show me your code!
-Whether it's plain old HTML or freakishly advanced ruby on rails, ask for code samples.   Source code can say more about a persons work habits than you think. Clean, elegant code can often be indicative of a methodical, capable developer. A resume may say 7+ years of perl experience, but that could mean 7 years of bad, unreadable perl. Also, make sure you ask for a lot of source code, not just a few isolated functions or pieces of HTML. Anyone can clean up 20-30 lines of code for an interview, you want to see the whole shebang. Don't ask for a full, functional app, but make sure it's enough that you can tell it's really what their code is like.
-_&lt;/li&gt;
-&lt;li&gt;What are a few sites you admire and why? (from a webdev perspective)
-Find out what inspires them. While it doesn't necessarily "take one to know one," a great developer should always have a few impressive favorites.
-_&lt;/li&gt;
-&lt;li&gt;Fix this code, please.
-Give them some broken code written in the development language they are expected to know for the position. Have them go through it line by line and point out all the mistakes.
- _&lt;/li&gt;
-&lt;li&gt;I just pulled up the website you built and the browser is displaying a blank page.  Walk me through the steps you'd take to troubleshoot the problem.
-This is a great question to determine how well rounded their abilites are. It tests everything from basic support skills all the way up to troubleshooting the webserver itself.
-_&lt;/li&gt;
-&lt;li&gt;What's your favorite development language and why?  What other features (if any) do you wish you could add to this language?
-Asking about feature additions is a particularly valuable question - it can reveal if they're skilled in programming in general or if their skillset is pigeonholed into their language of choice.
-_&lt;/li&gt;
-&lt;li&gt;Do you find any particular languages or technologies intimidating?
-I've often felt that the more I learn, the less I feel like I know. Solving one mystery opens up ten others. Having the interviewee tell you their faults can reveal a lot about what they know.
-_&lt;/li&gt;
-&lt;li&gt;Acronym time (oh boy!)
-Some might argue that knowing what acronyms actually stand for is trivial, but there are certain acronyms that a developer should have hard-wired into their head ( HTML or CSS, for example). This is the kind of question that might be better reserved for the phone interview to weed out those who are very unqualified.
-_&lt;/li&gt;
-&lt;li&gt;What web browser do you use?
-There is a right answer to this question: all of them. A competent developer should be familiar with testing cross-browser compatibility by using all the major web browsers.  Obviously they'll have a primary browser they use for surfing, but their answer to this question might be a good way for you to segue to asking how extensively they test cross-browser issues. Also, if it's some kind of css/html position seeing what toolbars they have installed can be a good metric of their skillset (I personally find the web developer toolbar for firefox to be invaluable)
-_&lt;/li&gt;
-&lt;li&gt;Rank your interest in these development tasks from 1 to 5 (1 being not interested at all, 5 being extremely interested) Write up a list of tasks the job requires. Having them rank these items according to their interest level can help you find who is the best suited for the position.  I know debugging uncommented perl code from 1997 sounds seriously awesome to me.
-_&lt;/li&gt;
-&lt;li&gt;What are a few personal web projects you've got going on?
-Almost all developers have personal web projects they like to plug away at in their spare time. This is another question that can help differentiate the passionate developers from the clock-punchers. It's also a good question to end an interview with, as it's usually easy (and fun) for them to answer.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;WEB Developer Questions&lt;/p&gt;
-&lt;p&gt;Simple nav menu&lt;/p&gt;
-&lt;p&gt;document.querySelector&lt;/p&gt;
-&lt;p&gt;HTML5 apis&lt;/p&gt;
-&lt;p&gt;border-box&lt;/p&gt;
-&lt;p&gt;flex-box&lt;/p&gt;
-&lt;p&gt;regions&lt;/p&gt;
-&lt;p&gt;HW apis&lt;/p&gt;
-&lt;p&gt;margin:auto&lt;/p&gt;
-&lt;p&gt;CSS data variables&lt;/p&gt;
-&lt;p&gt;Accessibility&lt;/p&gt;
-&lt;p&gt;few of your favorite development tools and why?&lt;/p&gt;
-&lt;p&gt;Autoprefixer&lt;/p&gt;
-&lt;p&gt;Packages&lt;/p&gt;
-&lt;p&gt;Rank your interest in these development tasks from 1 to 5 (1 being not interested at all, 5 being extremely interested)&lt;/p&gt;
-&lt;p&gt;few personal web projects&lt;/p&gt;
-&lt;p&gt;Extensions&lt;/p&gt;
-&lt;p&gt;If you are creating next bootstrap,&lt;/p&gt;
-&lt;p&gt;OOCSS, BEM&lt;/p&gt;
-&lt;p&gt;UI, Security, Performance, SEO, Maintainability or Technology considerations&lt;/p&gt;
-&lt;p&gt;Can you describe your workflow when you create a web page?&lt;/p&gt;
-&lt;p&gt;Site Speed- How and what?
-    File concatenation
-    File minification
-    CDN Hosted
-    Caching
-    etc.&lt;/p&gt;</content><category term="Java"></category><category term="java"></category><category term="interview"></category></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates.html</id><summary type="html">&lt;p&gt;For a emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Introduction to Velocity&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Database&lt;/th&gt;
+&lt;th&gt;Storage for&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Oracle&lt;/td&gt;
+&lt;td&gt;Partition scheme. Store Live data.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cassandra&lt;/td&gt;
+&lt;td&gt;Heavy writes for Async metadata&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cassandra&lt;/td&gt;
+&lt;td&gt;Heavy writes for Audit log&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</content><category term="Java"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates.html</id><summary type="html">&lt;p&gt;For a emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Introduction to Velocity&lt;/h3&gt;
 &lt;p&gt;Velocity is an open source templating tool developed by an international volunteer community and hosted by the Apache Software Foundation's Jakarta Project. You can download the freely available source code at the &lt;a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources"&gt;Jakarta Velocity&lt;/a&gt; Project Website.&lt;/p&gt;
 &lt;h3&gt;Simple Velocity Template Example&lt;/h3&gt;
 &lt;p&gt;Any application using Velocity requires two parts. The first is the template&lt;/p&gt;
@@ -773,14 +591,14 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:&lt;/p&gt;
 &lt;h4&gt;Creating a PDF from an URL String&lt;/h4&gt;
 &lt;p&gt;The PDF can be generated using a html file whose URL can be in the render () method&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.zefer.pd4ml.PD4ML&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.zefer.pd4ml.PD4Constants&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="o"&gt;........&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.zefer.pd4ml.PD4ML&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.zefer.pd4ml.PD4Constants&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;........&lt;/span&gt;
 
-  &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;D:/tools/test.pdf&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;pd4ml&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-  &lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;urlstring&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D:/tools/test.pdf&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;pd4ml&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;urlstring&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Steps Involved&lt;/strong&gt;&lt;/p&gt;
@@ -794,63 +612,63 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;Converting HTML obtained from input stream to PDF&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Using an URL for converting an HTML into a PDF is not mandatory. PD4ML can read a source HTML from input stream and then use the input stream for conversion into the PDF&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;D:/tools/test.pdf&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;fz&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;D:/tools/yahoo.htm&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileInputStream&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fz&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;InputStreamReader&lt;/span&gt; &lt;span class="n"&gt;isr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;InputStreamReader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;UTF-8&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-  &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;file:D:/tools/&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;isr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D:/tools/test.pdf&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;File&lt;/span&gt; &lt;span class="n"&gt;fz&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D:/tools/yahoo.htm&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileInputStream&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;FileInputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fz&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;InputStreamReader&lt;/span&gt; &lt;span class="n"&gt;isr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;InputStreamReader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;fis&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;UTF-8&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;file:D:/tools/&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;isr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fos&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;base&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3&gt;Formatting the PDF document generated&lt;/h3&gt;
 &lt;p&gt;The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-  &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dimension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;450&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;450&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;predefined&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="n"&gt;format&lt;/span&gt; &lt;span class="n"&gt;constants&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;available&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;PD4Constants&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
-  &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageInsets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Insets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;specifies&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="n"&gt;insets&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;points&lt;/span&gt;
-  &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setHtmlWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;750&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt; &lt;span class="n"&gt;desired&lt;/span&gt; &lt;span class="n"&gt;HTML&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="n"&gt;width&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;screen&lt;/span&gt; &lt;span class="n"&gt;pixels&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Virtually&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;seen&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;web&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt; &lt;span class="n"&gt;window&lt;/span&gt; &lt;span class="n"&gt;horizontal&lt;/span&gt; &lt;span class="n"&gt;resize&lt;/span&gt;
-  &lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;enableImgSplit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="bp"&gt;false&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;allows&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;disable&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="n"&gt;splitting&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="n"&gt;breaks&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;By&lt;/span&gt; &lt;span class="n"&gt;default&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;true&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;splitting&lt;/span&gt; &lt;span class="n"&gt;enabled&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PD4ML&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4ML&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Dimension&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;450&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;450&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.&lt;/span&gt;
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageInsets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Insets&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//specifies page insets in points&lt;/span&gt;
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setHtmlWidth&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;750&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize&lt;/span&gt;
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;enableImgSplit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//allows to disable image splitting by page breaks. By default the option is true (splitting enabled).&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;For Generating Text-Only Header and Footer&lt;/h4&gt;
 &lt;p&gt;Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setAreaHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;area&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setTitleTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;title: $[title]&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;representation&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="k"&gt;No&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;printed&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;titleTemplate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;Default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;value&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setTitleAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CENTER_ALIGN&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;alignment&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s header of footer&lt;/span&gt;
-&lt;span class="s1"&gt;  header.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );&lt;/span&gt;
-&lt;span class="s1"&gt;  //defines alignment for the page numbers in the document&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;area&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageNumberTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;#$[page]&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;representation&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setAreaHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Already&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;explained&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setFontSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="k"&gt;sets&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;font&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setColor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Color&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;red&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;setColor&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sets&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;text&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPagesToSkip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;defines&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;number&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;pages&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;beginning&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;that&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;should&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;be&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;marked&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;with&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setTitleTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;[ $[title] ]&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Already&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;explained&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageNumberTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;page: $[page]&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Already&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;explained&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setTitleAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RIGHT_ALIGN&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Already&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;explained&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageNumberAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;LEFT_ALIGN&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Already&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;explained&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PD4PageMark&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setAreaHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines height of the header or footer area&lt;/span&gt;
+&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setTitleTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;title: $[title]&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines a template for page title representation.&lt;/span&gt;
+&lt;span class="c1"&gt;//No title is printed, if the titleTemplate is set to null. Default value is null.&lt;/span&gt;
+&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setTitleAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;CENTER_ALIGN&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines alignment for the page title string in the document&amp;#39;s header of footer&lt;/span&gt;
+&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageNumberAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;LEFT_ALIGN&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines alignment for the page numbers in the document&amp;#39;s header of footer area&lt;/span&gt;
+&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageNumberTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;#$[page]&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines a template for page number representation&lt;/span&gt;
+&lt;span class="n"&gt;PD4PageMark&lt;/span&gt; &lt;span class="n"&gt;footer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setAreaHeight&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Already explained above&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setFontSize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;20&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//sets font size for the header or footer&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setColor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;Color&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;red&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//setColor() sets the color of header or footer text&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPagesToSkip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//defines a number of pages from the document beginning, that should not be marked with the header or footer info&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setTitleTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;[ $[title] ]&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Already explained above&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageNumberTemplate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;page: $[page]&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Already explained above&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setTitleAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;RIGHT_ALIGN&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Already explained above&lt;/span&gt;
+&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageNumberAlignment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;PD4PageMark&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;LEFT_ALIGN&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Already explained above&lt;/span&gt;
 
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageHeader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setPageFooter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;footer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageHeader&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPageFooter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;footer&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Protecting PDF documents&lt;/h4&gt;
@@ -872,10 +690,10 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;li&gt;AllowPrint&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  String password = &amp;quot;empty&amp;quot;;
-  boolean strongEncryption = true;
-  int permissions = PD4Constants.AllowPrint | PD4Constants.AllowCopy;
-  pd4ml.setPermissions( password, permissions, strongEncryption );
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;password&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;empty&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;strongEncryption&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;permissions&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PD4Constants&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;AllowPrint&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;PD4Constants&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;AllowCopy&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;pd4ml&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setPermissions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;permissions&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strongEncryption&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Some of the other salient Features that are available with PD4ML are:&lt;/p&gt;
@@ -887,43 +705,43 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Using PD4ML in Web applications for online PDF generation&lt;/h3&gt;
 &lt;p&gt;PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="nt"&gt;&amp;lt;taglib&lt;/span&gt; &lt;span class="na"&gt;uri=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://pd4ml.com/tlds/pd4ml/2.5&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;prefix=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;pd4ml&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;page&lt;/span&gt; &lt;span class="na"&gt;contentType=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/html; charset=UTF-8&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;taglib&lt;/span&gt; &lt;span class="na"&gt;uri&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://pd4ml.com/tlds/pd4ml/2.5&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;prefix&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;pd4ml&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;page&lt;/span&gt; &lt;span class="na"&gt;contentType&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/html; charset=UTF-8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 
-  &lt;span class="nt"&gt;&amp;lt;pd4ml:transform&lt;/span&gt;
-        &lt;span class="na"&gt;screenWidth=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;400&amp;quot;&lt;/span&gt;
-        &lt;span class="na"&gt;pageFormat=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;A5&amp;quot;&lt;/span&gt;
-        &lt;span class="na"&gt;pageOrientation=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;landscape&amp;quot;&lt;/span&gt;
-        &lt;span class="na"&gt;pageInsets=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100,100,100,100,points&amp;quot;&lt;/span&gt;
-        &lt;span class="na"&gt;enableImageSplit=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;false&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:transform&lt;/span&gt;
+      &lt;span class="na"&gt;screenWidth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;400&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pageFormat&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;A5&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pageOrientation&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;landscape&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pageInsets&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100,100,100,100,points&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;enableImageSplit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;false&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 
-    &lt;span class="nt"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;pd4ml test&lt;span class="nt"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;style&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-                    body {
-                          color: red;
-                          background-color: #FFFFFF;
-                          font-family: Tahoma, &amp;quot;Sans-Serif&amp;quot;;
-                          font-size: 10pt;
-                    }
-              &lt;span class="nt"&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-             &lt;span class="nt"&gt;&amp;lt;img&lt;/span&gt; &lt;span class="na"&gt;src=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;images/logos.gif&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;125&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;height=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;74&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-              Hello, World!
-          &lt;span class="nt"&gt;&amp;lt;pd4ml:page.break/&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;table&lt;/span&gt; &lt;span class="na"&gt;width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100%&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;style=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;background-color: #f4f4f4; color: #000000&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;td&amp;gt;&lt;/span&gt;
-                    Hello, New Page!
-              &lt;span class="nt"&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
-              &lt;span class="nt"&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-  &lt;span class="nt"&gt;&amp;lt;/pd4ml:transform&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;pd4ml test&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;title&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;style&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/css&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                  &lt;span class="nt"&gt;body&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                        &lt;span class="k"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;red&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                        &lt;span class="k"&gt;background-color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mh"&gt;#FFFFFF&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                        &lt;span class="k"&gt;font-family&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Tahoma&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Sans-Serif&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                        &lt;span class="k"&gt;font-size&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="kt"&gt;pt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                  &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;style&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;img&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;images/logos.gif&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;125&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;74&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            Hello, World!
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:page.break&lt;/span&gt;&lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;table&lt;/span&gt; &lt;span class="na"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;100%&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;background-color: #f4f4f4; color: #000000&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;tr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;td&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+                  Hello, New Page!
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;td&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;tr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;table&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:transform&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;In order to get a PDF output, we need to surround the HTML or JSP with &lt;pd4ml:transform&gt; tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.&lt;/p&gt;
@@ -936,16 +754,16 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;/ol&gt;
 &lt;h4&gt;Defining PDF document footer (or header) with JSP custom tag&lt;/h4&gt;
 &lt;p&gt;The header and/or footer for the PDF can be declared in the jsp in the following fashion.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="nt"&gt;&amp;lt;pd4ml:footer&lt;/span&gt;
-      &lt;span class="na"&gt;titleTemplate=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;[&lt;/span&gt;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&lt;span class="s"&gt;]&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;pageNumberTemplate=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;page &lt;/span&gt;&lt;span class="cp"&gt;${&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="cp"&gt;}&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;titleAlignment=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;left&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;pageNumberAlignment=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;right&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;color=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#008000&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;initialPageNumber=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;pagesToSkip=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;fontSize=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;14&amp;quot;&lt;/span&gt;
-      &lt;span class="na"&gt;areaHeight=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;18&amp;quot;/&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:footer&lt;/span&gt;
+      &lt;span class="na"&gt;titleTemplate&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;[${title}]&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pageNumberTemplate&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;page ${page}&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;titleAlignment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;left&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pageNumberAlignment&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;right&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;#008000&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;initialPageNumber&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;pagesToSkip&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;fontSize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;14&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;areaHeight&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;18&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4&gt;Description&lt;/h4&gt;
@@ -970,11 +788,11 @@ Example: &lt;code&gt;Mail Content : $MailBean.content&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;With &lt;code&gt;&amp;lt;pd4ml:savefile&amp;gt;&lt;/code&gt; tag you have possibility to store just generated PDF to hard drive and redirect user's browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within &lt;code&gt;&amp;lt;pd4ml:transform&amp;gt;&lt;/code&gt; and should not have a body.There are two ways of generating the PDF and redirecting the browser.&lt;/p&gt;
 &lt;h4&gt;Routing the browser to the PDF generated&lt;/h4&gt;
 &lt;p&gt;Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &amp;lt;pd4ml:savefile
-      uri=&amp;quot;/WEB/savefile/saved/&amp;quot;
-      dir=&amp;quot;D:/spool/generated_pdfs&amp;quot;
-      redirect=&amp;quot;pdf&amp;quot;
-      debug=&amp;quot;false&amp;quot;/&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:savefile&lt;/span&gt;
+      &lt;span class="na"&gt;uri&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/WEB/savefile/saved/&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D:/spool/generated_pdfs&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;redirect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;pdf&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;false&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an autogenerated name.It is expected, that local directory D:/spool/generated_pdfs corresponds to URL &lt;code&gt;http://yourserver.com/WEB/savefile/saved/&lt;/code&gt; (as given in "uri" attribute)&lt;/p&gt;
@@ -986,16 +804,16 @@ where,&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;generated_name.pdf&lt;/code&gt; -  Auto generated file Name&lt;/p&gt;
 &lt;h4&gt;Routing the browser to the next page&lt;/h4&gt;
 &lt;p&gt;However if the browser needs to be redirected to the next page instead of the PDF generated, it can be done in the following way.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &amp;lt;pd4ml:savefile
-      dir=&amp;quot;D:/spool/generated_pdfs&amp;quot;
-      redirect=&amp;quot;/mywebapp/send_pdf_by_email.jsp&amp;quot;
-      debug=&amp;quot;false&amp;quot;/&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;pd4ml:savefile&lt;/span&gt;
+      &lt;span class="na"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;D:/spool/generated_pdfs&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;redirect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;/mywebapp/send_pdf_by_email.jsp&amp;quot;&lt;/span&gt;
+      &lt;span class="na"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;false&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=&lt;code&gt;&amp;lt;pdfname&amp;gt;&lt;/code&gt;. So send_pdf_by_email.jsp can read file name using,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;  &lt;span class="nt"&gt;String&lt;/span&gt; &lt;span class="nt"&gt;fileName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;request&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;getParameter&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;filename&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
-  &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="nt"&gt;Building&lt;/span&gt; &lt;span class="nt"&gt;the&lt;/span&gt; &lt;span class="nt"&gt;full&lt;/span&gt; &lt;span class="nt"&gt;path&lt;/span&gt; &lt;span class="nt"&gt;of&lt;/span&gt; &lt;span class="nt"&gt;the&lt;/span&gt; &lt;span class="nt"&gt;PDF&lt;/span&gt; &lt;span class="nt"&gt;generated&lt;/span&gt;
-  &lt;span class="nt"&gt;String&lt;/span&gt; &lt;span class="nt"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;D:/spool/generated_pdfs&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nt"&gt;fileName&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;fileName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getParameter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;filename&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="c1"&gt;//Building the full path of the PDF generated&lt;/span&gt;
+&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;D:/spool/generated_pdfs&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;fileName&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;
@@ -1167,57 +985,59 @@ Applications that incorporate Quartz can reuse jobs from different events and al
 &lt;p&gt;The two fundamental units of Quartz's scheduling package are jobs and triggers. A job is an executable task that can be scheduled, while a trigger provides a schedule for a job. While these two entities could easily have been combined, their separation in Quartz is both intentional and beneficial. By keeping the work to be performed separate from its scheduling, Quartz allows you to change the scheduled trigger for a job without losing the job itself, or the context around it. Also, any singular job can have many triggers associated with it.&lt;/p&gt;
 &lt;h3&gt;Simple Job Example&lt;/h3&gt;
 &lt;p&gt;An example of a Quartz job is given below. This class overrides the execute () (JobExecutionContext context) method with a very simple output statement. This method can contain any code that constitutes the job to be executed&lt;/p&gt;
-&lt;h4&gt;SimpleQuartzJob.java&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.Date&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Job&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobExecutionContext&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobExecutionException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;SimpleQuartzJob&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;java&lt;/span&gt;
 
-&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SimpleQuartzJob&lt;/span&gt; &lt;span class="n"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Job&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;java.util.Date&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Job&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobExecutionContext&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobExecutionException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;SimpleQuartzJob&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;SimpleQuartzJob&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Job&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+        &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;SimpleQuartzJob&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;JobExecutionContext&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;JobExecutionException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;In SimpleQuartzJob - executing its JOB at &amp;quot;&lt;/span&gt;
+                    &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; by &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getTrigger&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="na"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
-
-    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;JobExecutionContext&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;JobExecutionException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;In SimpleQuartzJob - executing its JOB at &amp;quot;&lt;/span&gt;
-                &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; by &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getTrigger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;em&gt;Notice that the execute method takes a JobExecutionContext object as an argument. This object provides the runtime context around the job instance. Specifically, it gives access to the scheduler and trigger, which collaborated to initiate execution of the job as well as the job's JobDetail object. Quartz separates the execution and the surrounding state of a job by placing the state in a JobDetail object and having the JobDetail constructor initiate an instance of a job. The JobDetail object stores the job's listeners, group, data map, description, and other properties of the job.&lt;/em&gt;&lt;/p&gt;
 &lt;h4&gt;Simple Trigger Example&lt;/h4&gt;
 &lt;p&gt;A trigger develops a schedule for job execution. Quartz offers a few different trigger options of varying complexity. The SimpleTrigger given below shows the fundamentals of triggers.&lt;/p&gt;
-&lt;h4&gt;SimpleTriggerRunner.java&lt;/h4&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobDetail&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Scheduler&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.SchedulerException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Trigger&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.TriggerUtils&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.impl.StdSchedulerFactory&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;SimpleTriggerRunner&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;java&lt;/span&gt;
 
-&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Test&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="n"&gt;scheduleTask&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="n"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;SchedulerException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Starting the scheduler in Quartz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;StdSchedulerFactory&lt;/span&gt; &lt;span class="n"&gt;schedFact&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;StdSchedulerFactory&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-            &lt;span class="n"&gt;Scheduler&lt;/span&gt; &lt;span class="n"&gt;sched&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;schedFact&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getScheduler&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Scheduling a Tickler job in Quartz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.JobDetail&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Scheduler&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.SchedulerException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.Trigger&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.TriggerUtils&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;org.quartz.impl.StdSchedulerFactory&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-                &lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;Making&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;daily&lt;/span&gt; &lt;span class="n"&gt;Trigger&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Job&lt;/span&gt;
-            &lt;span class="n"&gt;Trigger&lt;/span&gt; &lt;span class="n"&gt;simpleTrigger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TriggerUtils&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;makeDailyTrigger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;00&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SimpleQuartzTrigger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setGroup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;JobDetail&lt;/span&gt; &lt;span class="n"&gt;simpleJob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;JobDetail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;SimpleQuartzJob&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SimpleQuartzJob&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;class&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;sched&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scheduleJob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;simpleJob&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Tickler Mail Job Scheduled&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-        &lt;span class="n"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Error while scheduling the jobs.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Test&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;scheduleTask&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;SchedulerException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Starting the scheduler in Quartz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;StdSchedulerFactory&lt;/span&gt; &lt;span class="n"&gt;schedFact&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;StdSchedulerFactory&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+                &lt;span class="n"&gt;Scheduler&lt;/span&gt; &lt;span class="n"&gt;sched&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;schedFact&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getScheduler&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+                &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Scheduling a Tickler job in Quartz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+                    &lt;span class="c1"&gt;//Making a daily Trigger for the Job&lt;/span&gt;
+                &lt;span class="n"&gt;Trigger&lt;/span&gt; &lt;span class="n"&gt;simpleTrigger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TriggerUtils&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;makeDailyTrigger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mo"&gt;00&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SimpleQuartzTrigger&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setGroup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;JobDetail&lt;/span&gt; &lt;span class="n"&gt;simpleJob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;JobDetail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;SimpleQuartzJob&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SimpleQuartzJob&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;sched&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;scheduleJob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;simpleJob&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;simpleTrigger&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Tickler Mail Job Scheduled&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="k"&gt;catch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+                &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Error while scheduling the jobs.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt;
     &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The scheduling method starts by instantiating a SchedulerFactory and getting the scheduler. As discussed earlier, the JobDetail object is created by taking the Job (SimpleQuartzJob) as an argument to its constructor. The TriggerUtils.makeDailyTrigger creates a simple trigger which executes the associated job(s) at 2:00 am everyday
@@ -1243,26 +1063,27 @@ logger.info(&amp;quot;Mail Processor Scheduled&amp;quot;);
 &lt;h3&gt;Job Chaining – How it was implemented&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;A Utility Method for returning the time 5 minutes from now and another Utility method for returning a SimpleTrigger using the NextScheduledTime are created.&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance&lt;/p&gt;
-&lt;p&gt;//The Utility method to return the Next Scheduling time 5 minutes from now
-public static Date getNextMailScheduledTime() {
-    Calendar cal = Calendar.getInstance();
-    System.out.println("Date Current: "+cal.getTimeInMillis());
-    cal.add(Calendar.MINUTE,1);
-    System.out.println("Date after addition: "+cal.getTimeInMillis());
-    return cal.getTime();
-}&lt;/p&gt;
-&lt;p&gt;//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time
-public static Trigger getMailProcessorTrigger() {
-    Date newDate = VsimsUtil.getNextMailScheduledTime();
-    Trigger mailTrigger = new SimpleTrigger(SchedulingConstants.MAILPROCESSOR_TRIGGER_NAME, Scheduler.DEFAULT_GROUP,newDate);
-    mailTrigger.setJobName(SchedulingConstants.MAILPROCESSOR_JOB_NAME);
-    mailTrigger.setJobGroup(Scheduler.DEFAULT_GROUP);
-    return mailTrigger;
-}&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;The first time scheduling of the Job is done with a SimpleTrigger (Utility method) which starts the first job 5 minutes from the starting instance&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;    &lt;span class="c1"&gt;//The Utility method to return the Next Scheduling time 5 minutes from now&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="n"&gt;Date&lt;/span&gt; &lt;span class="nf"&gt;getNextMailScheduledTime&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;Calendar&lt;/span&gt; &lt;span class="n"&gt;cal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Calendar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getInstance&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Date Current: &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getTimeInMillis&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;cal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Calendar&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;MINUTE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Date after addition: &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;cal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getTimeInMillis&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getTime&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="c1"&gt;//The Utility Method to return a SimpleTrigger which used the NextScheduledTime Utility Method for the Triggering time&lt;/span&gt;
+    &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;static&lt;/span&gt; &lt;span class="n"&gt;Trigger&lt;/span&gt; &lt;span class="nf"&gt;getMailProcessorTrigger&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;Date&lt;/span&gt; &lt;span class="n"&gt;newDate&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;VsimsUtil&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getNextMailScheduledTime&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;Trigger&lt;/span&gt; &lt;span class="n"&gt;mailTrigger&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;SimpleTrigger&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SchedulingConstants&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;MAILPROCESSOR_TRIGGER_NAME&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;newDate&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;mailTrigger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setJobName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SchedulingConstants&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;MAILPROCESSOR_JOB_NAME&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;mailTrigger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;setJobGroup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;mailTrigger&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;h3&gt;Scheduling the Job for the First Run&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Using the Utility methods the “MailProcessor” Job is scheduled to run after Five minutes from the current Instance&lt;/li&gt;
@@ -1275,33 +1096,34 @@ logger.info("Mail Processor Scheduled");&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;Note: &lt;em&gt;Since the Job is being scheduled for the first time we have to use sched.scheduleJob() for scheduling the job&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In the Execute method of the Job, once the Job gets fired for the first time by the Trigger created, the Job Execution steps are completed and then the job gets “re-scheduled’ after five minutes using the same Utility method&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;public&lt;/span&gt; &lt;span class="nt"&gt;void&lt;/span&gt; &lt;span class="nt"&gt;execute&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;JobExecutionContext&lt;/span&gt; &lt;span class="nt"&gt;jobContext&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nt"&gt;throws&lt;/span&gt; &lt;span class="nt"&gt;JobExecutionException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="err"&gt;logger.info(&amp;quot;MailProcessor&lt;/span&gt; &lt;span class="err"&gt;execute&lt;/span&gt; &lt;span class="err"&gt;-&lt;/span&gt; &lt;span class="err"&gt;start&amp;quot;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;JobExecutionContext&lt;/span&gt; &lt;span class="n"&gt;jobContext&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;JobExecutionException&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MailProcessor execute - start&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-        &lt;span class="err"&gt;//PERFORM&lt;/span&gt; &lt;span class="err"&gt;THE&lt;/span&gt; &lt;span class="err"&gt;JOB&lt;/span&gt; &lt;span class="err"&gt;EXECUTION&lt;/span&gt; &lt;span class="err"&gt;STEPS&lt;/span&gt; &lt;span class="err"&gt;HERE&lt;/span&gt;
-        &lt;span class="err"&gt;//Chaining&lt;/span&gt; &lt;span class="err"&gt;of&lt;/span&gt; &lt;span class="err"&gt;the&lt;/span&gt; &lt;span class="err"&gt;Job&lt;/span&gt; &lt;span class="err"&gt;by&lt;/span&gt; &lt;span class="err"&gt;re-scheduling&lt;/span&gt;
-        &lt;span class="err"&gt;try&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
-            &lt;span class="err"&gt;logger.info(&amp;quot;Scheduler&lt;/span&gt; &lt;span class="err"&gt;Instance&lt;/span&gt; &lt;span class="err"&gt;Id&lt;/span&gt; &lt;span class="err"&gt;in&lt;/span&gt; &lt;span class="err"&gt;Mail&lt;/span&gt; &lt;span class="n"&gt;Processor&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;+&lt;/span&gt;
-&lt;span class="s2"&gt;                + jobContext.getScheduler().getSchedulerInstanceId());&lt;/span&gt;
+        &lt;span class="c1"&gt;//PERFORM THE JOB EXECUTION STEPS HERE&lt;/span&gt;
+        &lt;span class="c1"&gt;//Chaining of the Job by re-scheduling&lt;/span&gt;
+        &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Scheduler Instance Id in Mail Processor: &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;
+                &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;jobContext&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getScheduler&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="na"&gt;getSchedulerInstanceId&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
 
-&lt;span class="s2"&gt;            //If Rescheduled Correctly, the Scheduler returns the next Scheduled Time of the JOB&lt;/span&gt;
-&lt;span class="s2"&gt;            Date nextScheduledTime = jobContext.getScheduler().rescheduleJob&lt;/span&gt;
-&lt;span class="s2"&gt;                (&amp;quot;&lt;/span&gt;&lt;span class="n"&gt;MailProcessorJob&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;, Scheduler.DEFAULT_GROUP, Util.getMailProcessorTrigger());&lt;/span&gt;
-&lt;span class="s2"&gt;            logger.info(&amp;quot;&lt;/span&gt;&lt;span class="n"&gt;Rescheduled&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;+nextScheduledTime);&lt;/span&gt;
-&lt;span class="s2"&gt;        } catch (SchedulerException e) {&lt;/span&gt;
-&lt;span class="s2"&gt;            logger.error(&amp;quot;&lt;/span&gt;&lt;span class="n"&gt;Error&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Scheduling&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Job&lt;/span&gt; &lt;span class="n"&gt;for&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Next&lt;/span&gt; &lt;span class="n"&gt;Iteration&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-            &lt;span class="err"&gt;e.printStackTrace()&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="c1"&gt;//If Rescheduled Correctly, the Scheduler returns the next Scheduled Time of the JOB&lt;/span&gt;
+            &lt;span class="n"&gt;Date&lt;/span&gt; &lt;span class="n"&gt;nextScheduledTime&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;jobContext&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getScheduler&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="na"&gt;rescheduleJob&lt;/span&gt;
+                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MailProcessorJob&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Scheduler&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;DEFAULT_GROUP&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Util&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getMailProcessorTrigger&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;info&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Rescheduled at : &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;nextScheduledTime&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SchedulerException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;logger&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Error in Scheduling the Job for the Next Iteration&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt;
-
-&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Note: &lt;em&gt;Since the same job is being chained, we have to use rescheduleJob().&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The re-scheduling also happens using the Trigger returned by the Utility Method. Hence the job gets rescheduled only once. Hence the subsequent run of the job will reschedule the job again for its next run. Thus we achieve chaining of the job runs&lt;/p&gt;
-&lt;p&gt;References
-* &lt;a href="http://quartz.sourceforge.net/firstTutorial.html"&gt;http://quartz.sourceforge.net/firstTutorial.html&lt;/a&gt;
-* &lt;a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/"&gt;http://www-128.ibm.com/developerworks/java/library/j-quartz/&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category><category term="quartz"></category><category term="java"></category></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.github.io/posts/studying-for-ocp-oracle-certifed-professional-part-2.html" rel="alternate"></link><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2.html</id><summary type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.&lt;/p&gt;</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.&lt;/p&gt;
-&lt;p&gt;Continued from &lt;a href="Part 1"&gt;ocp-certification-professional-notes-1.html&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://quartz.sourceforge.net/firstTutorial.html"&gt;Quartz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/"&gt;IBM Quartz&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Java"></category><category term="quartz"></category><category term="java"></category></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.github.io/posts/studying-for-ocp-oracle-certifed-professional-part-2.html" rel="alternate"></link><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2.html</id><summary type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.&lt;/p&gt;</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.&lt;/p&gt;
+&lt;p&gt;Continued from &lt;a href="studying-for-ocp-oracle-certifed-professional-part-1"&gt;Part 1&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Chapter 7&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;equijoin - A row is associated with one or more rows in another table based on the equality of column values or expressions.&lt;/li&gt;
@@ -2631,8 +2453,8 @@ ALTER SESSION set NLS_CURRENCY='GBP';&lt;/li&gt;
      .. &lt;code&gt;LENGTH(NVL(x,0)) -&amp;gt; 1&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Continued in link:ocp-certification-professional-notes-2.html[Part 2]&lt;/p&gt;</content><category term="Java"></category><category term="oracle"></category><category term="certification"></category><category term="coding"></category><category term="development"></category><category term="sql"></category></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2</title><link href="https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html" rel="alternate"></link><published>2008-09-08T00:00:00-07:00</published><updated>2008-09-08T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2008-09-08:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html</id><summary type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.&lt;/p&gt;</summary><content type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes and gotchas from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification. All the below notes are material extracted from this link:https://www.amazon.com/SCJP-Certified-Programmer-Java-310-065/dp/0071591060[Kathy Sierra's book]. The below notes are from the 2008 edition and might not be reflective of the latest Chapter specifics.&lt;/p&gt;
-&lt;p&gt;This is the continuation of &lt;a href="Part1"&gt;scjp-notes-from-kathy-sierra-part1.html&lt;/a&gt; notes.&lt;/p&gt;
+&lt;p&gt;Continued in &lt;a href="studying-for-ocp-oracle-certifed-professional-part-2"&gt;Part 2&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category><category term="oracle"></category><category term="certification"></category><category term="coding"></category><category term="development"></category><category term="sql"></category></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2</title><link href="https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html" rel="alternate"></link><published>2008-09-08T00:00:00-07:00</published><updated>2008-09-08T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2008-09-08:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html</id><summary type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.&lt;/p&gt;</summary><content type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes and gotchas from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification. All the below notes are material extracted from this link:https://www.amazon.com/SCJP-Certified-Programmer-Java-310-065/dp/0071591060[Kathy Sierra's book]. The below notes are from the 2008 edition and might not be reflective of the latest Chapter specifics.&lt;/p&gt;
+&lt;p&gt;This is the continuation of Continued in &lt;a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-1"&gt;Part 1&lt;/a&gt; notes.&lt;/p&gt;
 &lt;h3&gt;Chapter 7&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Comparing two reference variables of different hierarchies gives COMPILATION error&lt;/li&gt;
@@ -2932,7 +2754,7 @@ synchronized, native and strictfp modifiers can be set only to Methods not varia
 &lt;li&gt;Integer.toBinaryString(), toHexString() and toOctalString()&lt;/li&gt;
 &lt;li&gt;Watch out for usage of StringBuffer methods like append(), reverse(0 on string Objects which leads to Compilation Error&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;(Continued in link:scjp-notes-from-kathy-sierra-part2.html[Part 2])&lt;/p&gt;</content><category term="Java"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry><entry><title>Learning basics of CSS and quick notes</title><link href="https://sengopal.github.io/posts/learning-basics-of-css-and-quick-notes.html" rel="alternate"></link><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2008-09-03:/posts/learning-basics-of-css-and-quick-notes.html</id><summary type="html">&lt;p&gt;The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.&lt;/p&gt;</summary><content type="html">&lt;p&gt;The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.&lt;/p&gt;
+&lt;p&gt;Continued in &lt;a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-2"&gt;Part 2&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry><entry><title>Learning basics of CSS and quick notes</title><link href="https://sengopal.github.io/posts/learning-basics-of-css-and-quick-notes.html" rel="alternate"></link><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2008-09-03:/posts/learning-basics-of-css-and-quick-notes.html</id><summary type="html">&lt;p&gt;The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.&lt;/p&gt;</summary><content type="html">&lt;p&gt;The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.&lt;/p&gt;
 &lt;h3&gt;Slicing techniques&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Do not slice the logo&lt;/li&gt;
@@ -3119,8 +2941,8 @@ synchronized, native and strictfp modifiers can be set only to Methods not varia
 &lt;li&gt;Multiple Images in background&lt;/li&gt;
 &lt;li&gt;Alpha&lt;/li&gt;
 &lt;li&gt;Font-faces&lt;/li&gt;
-&lt;li&gt;Animation using Keyframes
-    &lt;em&gt;Position:fixed or other positioning important for animations to work&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Animation using Keyframes&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Position:fixed or other positioning important for animations to work&lt;/em&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;New Tags in HTML5&lt;/h3&gt;
 &lt;ol&gt;
@@ -3131,15 +2953,15 @@ synchronized, native and strictfp modifiers can be set only to Methods not varia
 &lt;/ol&gt;
 &lt;h3&gt;Important Links&lt;/h3&gt;
 &lt;ol&gt;
-&lt;li&gt;http://css3generator.com/[Css3Generator]&lt;/li&gt;
-&lt;li&gt;http://meyerweb.com/eric/tools/css/reset/[Reset]&lt;/li&gt;
-&lt;li&gt;http://vandelaydesign.com/blog/design/resources-grid-based-design/[Grid]&lt;/li&gt;
-&lt;li&gt;http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/[IE support]&lt;/li&gt;
-&lt;li&gt;https://github.com/aFarkas/html5shiv[html5shiv]&lt;/li&gt;
-&lt;li&gt;http://modernizr.com/[modernizer]&lt;/li&gt;
-&lt;li&gt;http://html5boilerplate.com/[html5boilerplate]&lt;/li&gt;
-&lt;li&gt;http://html.adobe.com/edge/inspect/[Adobe Inspect]&lt;/li&gt;
-&lt;li&gt;http://brackets.io/[Brackets]&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://css3generator.com/"&gt;Css3Generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://meyerweb.com/eric/tools/css/reset/"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/"&gt;Grid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/"&gt;IE support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aFarkas/html5shiv"&gt;html5shiv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://modernizr.com/"&gt;modernizer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://html5boilerplate.com/"&gt;html5boilerplate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://html.adobe.com/edge/inspect/"&gt;Adobe Inspect&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://brackets.io/"&gt;Brackets&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content><category term="Java"></category><category term="web"></category><category term="css"></category><category term="frontend"></category><category term="coding"></category><category term="development"></category></entry><entry><title>Criteria API in Hibernate</title><link href="https://sengopal.github.io/posts/criteria-api-in-hibernate.html" rel="alternate"></link><published>2008-05-30T00:00:00-07:00</published><updated>2008-05-30T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2008-05-30:/posts/criteria-api-in-hibernate.html</id><summary type="html">&lt;p&gt;A post about the Criteria API available as part of the Hibernate API. This post also explores how to use the API perform SQL operations in a more object oriented manner.&lt;/p&gt;</summary><content type="html">&lt;h3&gt;Drawbacks of HQL&lt;/h3&gt;
 &lt;p&gt;Currently HQL (Hibernate Query Language) is used widely to query data using Hibernate. However, there are many drawbacks such as:&lt;/p&gt;
 &lt;ol&gt;

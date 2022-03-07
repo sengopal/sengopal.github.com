@@ -5,42 +5,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.github.io/</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/tags.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/categories.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/authors.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/archives.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/sitemap.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -61,7 +61,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.github.io/pages/software.html</loc>
-<lastmod>2022-03-06T21:05:28-00:00</lastmod>
+<lastmod>2022-03-06T22:13:25-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -90,13 +90,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://sengopal.github.io/posts/eight-steps-in-choosing-a-database.html</loc>
 <lastmod>2014-01-20T00:00:00-08:00</lastmod>
-<changefreq>always</changefreq>
-<priority>1</priority>
-</url>
-
-<url>
-<loc>https://sengopal.github.io/posts/topics-for-a-java-interview.html</loc>
-<lastmod>2010-12-13T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
@@ -249,21 +242,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://sengopal.github.io/tag/java.html</loc>
-<lastmod>2010-12-13T00:00:00-07:53</lastmod>
-<changefreq>hourly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://sengopal.github.io/tag/interview.html</loc>
-<lastmod>2010-12-13T00:00:00-07:53</lastmod>
-<changefreq>hourly</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://sengopal.github.io/tag/javamail.html</loc>
+<lastmod>2010-10-01T00:00:00-07:53</lastmod>
+<changefreq>hourly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://sengopal.github.io/tag/java.html</loc>
 <lastmod>2010-10-01T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>

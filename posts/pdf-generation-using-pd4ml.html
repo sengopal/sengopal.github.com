@@ -85,14 +85,14 @@
 <p>PD4ML can be used for HTML to PDF transformation with a command line application. There are man ways for achieving this conversion. However the most commonly used methods are as follows:</p>
 <h4>Creating a PDF from an URL String</h4>
 <p>The PDF can be generated using a html file whose URL can be in the render () method</p>
-<div class="highlight"><pre><span></span><code>  <span class="kn">import</span> <span class="nn">org.zefer.pd4ml.PD4ML</span><span class="p">;</span>
-  <span class="kn">import</span> <span class="nn">org.zefer.pd4ml.PD4Constants</span><span class="p">;</span>
-  <span class="o">........</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">org.zefer.pd4ml.PD4ML</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">org.zefer.pd4ml.PD4Constants</span><span class="p">;</span>
+<span class="p">........</span>
 
-  <span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;D:/tools/test.pdf&quot;</span><span class="p">);</span>
-  <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileOutputStream</span> <span class="n">fos</span> <span class="o">=</span> <span class="n">new</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileOutputStream</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-  <span class="n">PD4ML</span> <span class="n">pd4ml</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PD4ML</span><span class="p">();</span>
-  <span class="n">pd4ml</span><span class="o">.</span><span class="n">render</span><span class="p">(</span> <span class="n">urlstring</span><span class="p">,</span> <span class="n">fos</span> <span class="p">);</span>
+<span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;D:/tools/test.pdf&quot;</span><span class="p">);</span>
+<span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileOutputStream</span> <span class="n">fos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileOutputStream</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">PD4ML</span> <span class="n">pd4ml</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PD4ML</span><span class="p">();</span>
+<span class="n">pd4ml</span><span class="p">.</span><span class="na">render</span><span class="p">(</span> <span class="n">urlstring</span><span class="p">,</span> <span class="n">fos</span> <span class="p">);</span>
 </code></pre></div>
 
 <p><strong>Steps Involved</strong></p>
@@ -106,63 +106,63 @@
 </ol>
 <p><strong>Converting HTML obtained from input stream to PDF</strong></p>
 <p>Using an URL for converting an HTML into a PDF is not mandatory. PD4ML can read a source HTML from input stream and then use the input stream for conversion into the PDF</p>
-<div class="highlight"><pre><span></span><code>  <span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;D:/tools/test.pdf&quot;</span><span class="p">);</span>
-  <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileOutputStream</span> <span class="n">fos</span> <span class="o">=</span> <span class="n">new</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileOutputStream</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
-  <span class="n">File</span> <span class="n">fz</span> <span class="o">=</span> <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;D:/tools/yahoo.htm&quot;</span><span class="p">);</span>
-  <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="n">new</span> <span class="n">java</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">fz</span><span class="p">);</span>
-  <span class="n">InputStreamReader</span> <span class="n">isr</span> <span class="o">=</span> <span class="n">new</span> <span class="n">InputStreamReader</span><span class="p">(</span> <span class="n">fis</span><span class="p">,</span> <span class="s2">&quot;UTF-8&quot;</span> <span class="p">);</span>
-  <span class="n">PD4ML</span> <span class="n">html</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PD4ML</span><span class="p">();</span>
-  <span class="n">URL</span> <span class="n">base</span> <span class="o">=</span> <span class="n">new</span> <span class="n">URL</span><span class="p">(</span> <span class="s2">&quot;file:D:/tools/&quot;</span> <span class="p">);</span>
-  <span class="n">html</span><span class="o">.</span><span class="n">render</span><span class="p">(</span> <span class="n">isr</span><span class="p">,</span> <span class="n">fos</span><span class="p">,</span> <span class="n">base</span> <span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;D:/tools/test.pdf&quot;</span><span class="p">);</span>
+<span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileOutputStream</span> <span class="n">fos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileOutputStream</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="n">File</span> <span class="n">fz</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;D:/tools/yahoo.htm&quot;</span><span class="p">);</span>
+<span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileInputStream</span> <span class="n">fis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">FileInputStream</span><span class="p">(</span><span class="n">fz</span><span class="p">);</span>
+<span class="n">InputStreamReader</span> <span class="n">isr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InputStreamReader</span><span class="p">(</span> <span class="n">fis</span><span class="p">,</span> <span class="s">&quot;UTF-8&quot;</span> <span class="p">);</span>
+<span class="n">PD4ML</span> <span class="n">html</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PD4ML</span><span class="p">();</span>
+<span class="n">URL</span> <span class="n">base</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="p">(</span> <span class="s">&quot;file:D:/tools/&quot;</span> <span class="p">);</span>
+<span class="n">html</span><span class="p">.</span><span class="na">render</span><span class="p">(</span> <span class="n">isr</span><span class="p">,</span> <span class="n">fos</span><span class="p">,</span> <span class="n">base</span> <span class="p">);</span>
 </code></pre></div>
 
 <h3>Formatting the PDF document generated</h3>
 <p>The PDF getting generated can be formatted using various methods. Some of the most commonly used ones are given below:</p>
-<div class="highlight"><pre><span></span><code>  <span class="n">PD4ML</span> <span class="n">html</span> <span class="o">=</span> <span class="n">new</span> <span class="n">PD4ML</span><span class="p">();</span>
-  <span class="n">html</span><span class="o">.</span><span class="n">setPageSize</span><span class="p">(</span> <span class="n">new</span> <span class="n">Dimension</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">450</span><span class="p">)</span> <span class="p">);</span>
-  <span class="o">//</span><span class="n">defines</span> <span class="n">page</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">points</span><span class="o">.</span> <span class="n">A</span> <span class="n">set</span> <span class="n">of</span> <span class="n">predefined</span> <span class="n">page</span> <span class="n">format</span> <span class="n">constants</span> <span class="k">is</span> <span class="n">available</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">PD4Constants</span> <span class="n">interface</span><span class="o">.</span>
-  <span class="n">html</span><span class="o">.</span><span class="n">setPageInsets</span><span class="p">(</span> <span class="n">new</span> <span class="n">Insets</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="p">);</span>
-  <span class="o">//</span><span class="n">specifies</span> <span class="n">page</span> <span class="n">insets</span> <span class="ow">in</span> <span class="n">points</span>
-  <span class="n">html</span><span class="o">.</span><span class="n">setHtmlWidth</span><span class="p">(</span> <span class="mi">750</span> <span class="p">);</span>
-  <span class="o">//</span><span class="n">defines</span> <span class="n">desired</span> <span class="n">HTML</span> <span class="n">page</span> <span class="n">width</span> <span class="ow">in</span> <span class="n">screen</span> <span class="n">pixels</span><span class="o">.</span> <span class="n">Virtually</span> <span class="n">it</span> <span class="n">can</span> <span class="n">be</span> <span class="n">seen</span> <span class="k">as</span> <span class="n">a</span> <span class="n">web</span> <span class="n">browser</span> <span class="n">window</span> <span class="n">horizontal</span> <span class="n">resize</span>
-  <span class="n">html</span><span class="o">.</span><span class="n">enableImgSplit</span><span class="p">(</span> <span class="bp">false</span> <span class="p">);</span>
-  <span class="o">//</span><span class="n">allows</span> <span class="n">to</span> <span class="n">disable</span> <span class="n">image</span> <span class="n">splitting</span> <span class="n">by</span> <span class="n">page</span> <span class="n">breaks</span><span class="o">.</span> <span class="n">By</span> <span class="n">default</span> <span class="n">the</span> <span class="n">option</span> <span class="k">is</span> <span class="bp">true</span> <span class="p">(</span><span class="n">splitting</span> <span class="n">enabled</span><span class="p">)</span><span class="o">.</span>
+<div class="highlight"><pre><span></span><code><span class="n">PD4ML</span> <span class="n">html</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PD4ML</span><span class="p">();</span>
+<span class="n">html</span><span class="p">.</span><span class="na">setPageSize</span><span class="p">(</span> <span class="k">new</span> <span class="n">Dimension</span><span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">450</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">//defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.</span>
+<span class="n">html</span><span class="p">.</span><span class="na">setPageInsets</span><span class="p">(</span> <span class="k">new</span> <span class="n">Insets</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">//specifies page insets in points</span>
+<span class="n">html</span><span class="p">.</span><span class="na">setHtmlWidth</span><span class="p">(</span> <span class="mi">750</span> <span class="p">);</span>
+<span class="c1">//defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize</span>
+<span class="n">html</span><span class="p">.</span><span class="na">enableImgSplit</span><span class="p">(</span> <span class="kc">false</span> <span class="p">);</span>
+<span class="c1">//allows to disable image splitting by page breaks. By default the option is true (splitting enabled).</span>
 </code></pre></div>
 
 <h4>For Generating Text-Only Header and Footer</h4>
 <p>Static or template text can be used for header and footer of the PDF document. The header and the footer can be set with various formats. Few of them are:</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="n">PD4PageMark</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PD4PageMark</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="n">header</span><span class="p">.</span><span class="n">setAreaHeight</span><span class="p">(</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">defines</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
-<span class="w">  </span><span class="n">header</span><span class="p">.</span><span class="n">setTitleTemplate</span><span class="p">(</span><span class="w"> </span><span class="ss">&quot;title: $[title]&quot;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">defines</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">template</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="n">representation</span><span class="p">.</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="k">No</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">printed</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">titleTemplate</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">null</span><span class="p">.</span><span class="w"> </span><span class="k">Default</span><span class="w"> </span><span class="k">value</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span><span class="p">.</span><span class="w"></span>
-<span class="w">  </span><span class="n">header</span><span class="p">.</span><span class="n">setTitleAlignment</span><span class="p">(</span><span class="w"> </span><span class="n">PD4PageMark</span><span class="p">.</span><span class="n">CENTER_ALIGN</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">defines</span><span class="w"> </span><span class="n">alignment</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">document</span><span class="s1">&#39;s header of footer</span>
-<span class="s1">  header.setPageNumberAlignment( PD4PageMark.LEFT_ALIGN );</span>
-<span class="s1">  //defines alignment for the page numbers in the document&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="n">area</span><span class="w"></span>
-<span class="w">  </span><span class="n">header</span><span class="p">.</span><span class="n">setPageNumberTemplate</span><span class="p">(</span><span class="w"> </span><span class="ss">&quot;#$[page]&quot;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">defines</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">template</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="n">representation</span><span class="w"></span>
-<span class="w">  </span><span class="n">PD4PageMark</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PD4PageMark</span><span class="p">();</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setAreaHeight</span><span class="p">(</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">Already</span><span class="w"> </span><span class="n">explained</span><span class="w"> </span><span class="n">above</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setFontSize</span><span class="p">(</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="k">sets</span><span class="w"> </span><span class="n">font</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">footer</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setColor</span><span class="p">(</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="n">red</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">setColor</span><span class="p">()</span><span class="w"> </span><span class="k">sets</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="nc">text</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setPagesToSkip</span><span class="p">(</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">defines</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">pages</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">document</span><span class="w"> </span><span class="n">beginning</span><span class="p">,</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">marked</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="n">info</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setTitleTemplate</span><span class="p">(</span><span class="w"> </span><span class="ss">&quot;[ $[title] ]&quot;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">Already</span><span class="w"> </span><span class="n">explained</span><span class="w"> </span><span class="n">above</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setPageNumberTemplate</span><span class="p">(</span><span class="w"> </span><span class="ss">&quot;page: $[page]&quot;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">Already</span><span class="w"> </span><span class="n">explained</span><span class="w"> </span><span class="n">above</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setTitleAlignment</span><span class="p">(</span><span class="w"> </span><span class="n">PD4PageMark</span><span class="p">.</span><span class="n">RIGHT_ALIGN</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">Already</span><span class="w"> </span><span class="n">explained</span><span class="w"> </span><span class="n">above</span><span class="w"></span>
-<span class="w">  </span><span class="n">footer</span><span class="p">.</span><span class="n">setPageNumberAlignment</span><span class="p">(</span><span class="w"> </span><span class="n">PD4PageMark</span><span class="p">.</span><span class="n">LEFT_ALIGN</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="o">//</span><span class="n">Already</span><span class="w"> </span><span class="n">explained</span><span class="w"> </span><span class="n">above</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">PD4PageMark</span> <span class="n">header</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PD4PageMark</span><span class="p">();</span>
+<span class="n">header</span><span class="p">.</span><span class="na">setAreaHeight</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+<span class="c1">//defines height of the header or footer area</span>
+<span class="n">header</span><span class="p">.</span><span class="na">setTitleTemplate</span><span class="p">(</span> <span class="s">&quot;title: $[title]&quot;</span> <span class="p">);</span>
+<span class="c1">//defines a template for page title representation.</span>
+<span class="c1">//No title is printed, if the titleTemplate is set to null. Default value is null.</span>
+<span class="n">header</span><span class="p">.</span><span class="na">setTitleAlignment</span><span class="p">(</span> <span class="n">PD4PageMark</span><span class="p">.</span><span class="na">CENTER_ALIGN</span> <span class="p">);</span>
+<span class="c1">//defines alignment for the page title string in the document&#39;s header of footer</span>
+<span class="n">header</span><span class="p">.</span><span class="na">setPageNumberAlignment</span><span class="p">(</span> <span class="n">PD4PageMark</span><span class="p">.</span><span class="na">LEFT_ALIGN</span> <span class="p">);</span>
+<span class="c1">//defines alignment for the page numbers in the document&#39;s header of footer area</span>
+<span class="n">header</span><span class="p">.</span><span class="na">setPageNumberTemplate</span><span class="p">(</span> <span class="s">&quot;#$[page]&quot;</span> <span class="p">);</span>
+<span class="c1">//defines a template for page number representation</span>
+<span class="n">PD4PageMark</span> <span class="n">footer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PD4PageMark</span><span class="p">();</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setAreaHeight</span><span class="p">(</span> <span class="mi">30</span> <span class="p">);</span>
+<span class="c1">//Already explained above</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setFontSize</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+<span class="c1">//sets font size for the header or footer</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setColor</span><span class="p">(</span> <span class="n">Color</span><span class="p">.</span><span class="na">red</span> <span class="p">);</span>
+<span class="c1">//setColor() sets the color of header or footer text</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setPagesToSkip</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="c1">//defines a number of pages from the document beginning, that should not be marked with the header or footer info</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setTitleTemplate</span><span class="p">(</span> <span class="s">&quot;[ $[title] ]&quot;</span> <span class="p">);</span>
+<span class="c1">//Already explained above</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setPageNumberTemplate</span><span class="p">(</span> <span class="s">&quot;page: $[page]&quot;</span> <span class="p">);</span>
+<span class="c1">//Already explained above</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setTitleAlignment</span><span class="p">(</span> <span class="n">PD4PageMark</span><span class="p">.</span><span class="na">RIGHT_ALIGN</span> <span class="p">);</span>
+<span class="c1">//Already explained above</span>
+<span class="n">footer</span><span class="p">.</span><span class="na">setPageNumberAlignment</span><span class="p">(</span> <span class="n">PD4PageMark</span><span class="p">.</span><span class="na">LEFT_ALIGN</span> <span class="p">);</span>
+<span class="c1">//Already explained above</span>
 
-<span class="w">  </span><span class="n">pd4ml</span><span class="p">.</span><span class="n">setPageHeader</span><span class="p">(</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="n">pd4ml</span><span class="p">.</span><span class="n">setPageFooter</span><span class="p">(</span><span class="w"> </span><span class="n">footer</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
+<span class="n">pd4ml</span><span class="p">.</span><span class="na">setPageHeader</span><span class="p">(</span> <span class="n">header</span> <span class="p">);</span>
+<span class="n">pd4ml</span><span class="p">.</span><span class="na">setPageFooter</span><span class="p">(</span> <span class="n">footer</span> <span class="p">);</span>
 </code></pre></div>
 
 <h4>Protecting PDF documents</h4>
@@ -184,10 +184,10 @@
 <li>AllowPrint</li>
 </ul>
 <p>The PDF document produced by PD4ML can be protected with 40-bit or 128-bit encryption using the various Permission levels given above.</p>
-<div class="highlight"><pre><span></span><code>  String password = &quot;empty&quot;;
-  boolean strongEncryption = true;
-  int permissions = PD4Constants.AllowPrint | PD4Constants.AllowCopy;
-  pd4ml.setPermissions( password, permissions, strongEncryption );
+<div class="highlight"><pre><span></span><code><span class="n">String</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;empty&quot;</span><span class="p">;</span>
+<span class="kt">boolean</span> <span class="n">strongEncryption</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">permissions</span> <span class="o">=</span> <span class="n">PD4Constants</span><span class="p">.</span><span class="na">AllowPrint</span> <span class="o">|</span> <span class="n">PD4Constants</span><span class="p">.</span><span class="na">AllowCopy</span><span class="p">;</span>
+<span class="n">pd4ml</span><span class="p">.</span><span class="na">setPermissions</span><span class="p">(</span> <span class="n">password</span><span class="p">,</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">strongEncryption</span> <span class="p">);</span>
 </code></pre></div>
 
 <p>Some of the other salient Features that are available with PD4ML are:</p>
@@ -199,43 +199,43 @@
 </ul>
 <h3>Using PD4ML in Web applications for online PDF generation</h3>
 <p>PD4ML can be used in Web applications for online PDF generation from HTML, JSP and Servlet templates. A simple example is given below:</p>
-<div class="highlight"><pre><span></span><code>  <span class="nt">&lt;taglib</span> <span class="na">uri=</span><span class="s">&quot;http://pd4ml.com/tlds/pd4ml/2.5&quot;</span> <span class="na">prefix=</span><span class="s">&quot;pd4ml&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;page</span> <span class="na">contentType=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">taglib</span> <span class="na">uri</span><span class="o">=</span><span class="s">&quot;http://pd4ml.com/tlds/pd4ml/2.5&quot;</span> <span class="na">prefix</span><span class="o">=</span><span class="s">&quot;pd4ml&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">page</span> <span class="na">contentType</span><span class="o">=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="p">&gt;</span>
 
-  <span class="nt">&lt;pd4ml:transform</span>
-        <span class="na">screenWidth=</span><span class="s">&quot;400&quot;</span>
-        <span class="na">pageFormat=</span><span class="s">&quot;A5&quot;</span>
-        <span class="na">pageOrientation=</span><span class="s">&quot;landscape&quot;</span>
-        <span class="na">pageInsets=</span><span class="s">&quot;100,100,100,100,points&quot;</span>
-        <span class="na">enableImageSplit=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+<span class="p">&lt;</span><span class="nt">pd4ml:transform</span>
+      <span class="na">screenWidth</span><span class="o">=</span><span class="s">&quot;400&quot;</span>
+      <span class="na">pageFormat</span><span class="o">=</span><span class="s">&quot;A5&quot;</span>
+      <span class="na">pageOrientation</span><span class="o">=</span><span class="s">&quot;landscape&quot;</span>
+      <span class="na">pageInsets</span><span class="o">=</span><span class="s">&quot;100,100,100,100,points&quot;</span>
+      <span class="na">enableImageSplit</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">&gt;</span>
 
-    <span class="nt">&lt;html&gt;</span>
-        <span class="nt">&lt;head&gt;</span>
-              <span class="nt">&lt;title&gt;</span>pd4ml test<span class="nt">&lt;/title&gt;</span>
-              <span class="nt">&lt;style</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span><span class="nt">&gt;</span>
-                    body {
-                          color: red;
-                          background-color: #FFFFFF;
-                          font-family: Tahoma, &quot;Sans-Serif&quot;;
-                          font-size: 10pt;
-                    }
-              <span class="nt">&lt;/style&gt;</span>
-        <span class="nt">&lt;/head&gt;</span>
-        <span class="nt">&lt;body&gt;</span>
-             <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;images/logos.gif&quot;</span> <span class="na">width=</span><span class="s">&quot;125&quot;</span> <span class="na">height=</span><span class="s">&quot;74&quot;</span><span class="nt">&gt;</span>
-              <span class="nt">&lt;p&gt;</span>
-              Hello, World!
-          <span class="nt">&lt;pd4ml:page.break/&gt;</span>
-              <span class="nt">&lt;table</span> <span class="na">width=</span><span class="s">&quot;100%&quot;</span> <span class="na">style=</span><span class="s">&quot;background-color: #f4f4f4; color: #000000&quot;</span><span class="nt">&gt;</span>
-              <span class="nt">&lt;tr&gt;</span>
-              <span class="nt">&lt;td&gt;</span>
-                    Hello, New Page!
-              <span class="nt">&lt;/td&gt;</span>
-              <span class="nt">&lt;/tr&gt;</span>
-              <span class="nt">&lt;/table&gt;</span>
-        <span class="nt">&lt;/body&gt;</span>
-    <span class="nt">&lt;/html&gt;</span>
-  <span class="nt">&lt;/pd4ml:transform&gt;</span>
+      <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>pd4ml test<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="p">&gt;</span>
+                  <span class="nt">body</span> <span class="p">{</span>
+                        <span class="k">color</span><span class="p">:</span> <span class="kc">red</span><span class="p">;</span>
+                        <span class="k">background-color</span><span class="p">:</span> <span class="mh">#FFFFFF</span><span class="p">;</span>
+                        <span class="k">font-family</span><span class="p">:</span> <span class="n">Tahoma</span><span class="p">,</span> <span class="s2">&quot;Sans-Serif&quot;</span><span class="p">;</span>
+                        <span class="k">font-size</span><span class="p">:</span> <span class="mi">10</span><span class="kt">pt</span><span class="p">;</span>
+                  <span class="p">}</span>
+            <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;images/logos.gif&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;125&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;74&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+            Hello, World!
+            <span class="p">&lt;</span><span class="nt">pd4ml:page.break</span><span class="p">/&gt;</span>
+            <span class="p">&lt;</span><span class="nt">table</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;100%&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;background-color: #f4f4f4; color: #000000&quot;</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+                  Hello, New Page!
+            <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+      <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">pd4ml:transform</span><span class="p">&gt;</span>
 </code></pre></div>
 
 <p>In order to get a PDF output, we need to surround the HTML or JSP with <pd4ml:transform> tags or refer to the markup from an external PD4ML-enabled JSP or Servlets.</p>
@@ -248,16 +248,16 @@
 </ol>
 <h4>Defining PDF document footer (or header) with JSP custom tag</h4>
 <p>The header and/or footer for the PDF can be declared in the jsp in the following fashion.</p>
-<div class="highlight"><pre><span></span><code>  <span class="nt">&lt;pd4ml:footer</span>
-      <span class="na">titleTemplate=</span><span class="s">&quot;[</span><span class="cp">${</span><span class="n">title</span><span class="cp">}</span><span class="s">]&quot;</span>
-      <span class="na">pageNumberTemplate=</span><span class="s">&quot;page </span><span class="cp">${</span><span class="n">page</span><span class="cp">}</span><span class="s">&quot;</span>
-      <span class="na">titleAlignment=</span><span class="s">&quot;left&quot;</span>
-      <span class="na">pageNumberAlignment=</span><span class="s">&quot;right&quot;</span>
-      <span class="na">color=</span><span class="s">&quot;#008000&quot;</span>
-      <span class="na">initialPageNumber=</span><span class="s">&quot;1&quot;</span>
-      <span class="na">pagesToSkip=</span><span class="s">&quot;1&quot;</span>
-      <span class="na">fontSize=</span><span class="s">&quot;14&quot;</span>
-      <span class="na">areaHeight=</span><span class="s">&quot;18&quot;/</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">pd4ml:footer</span>
+      <span class="na">titleTemplate</span><span class="o">=</span><span class="s">&quot;[${title}]&quot;</span>
+      <span class="na">pageNumberTemplate</span><span class="o">=</span><span class="s">&quot;page ${page}&quot;</span>
+      <span class="na">titleAlignment</span><span class="o">=</span><span class="s">&quot;left&quot;</span>
+      <span class="na">pageNumberAlignment</span><span class="o">=</span><span class="s">&quot;right&quot;</span>
+      <span class="na">color</span><span class="o">=</span><span class="s">&quot;#008000&quot;</span>
+      <span class="na">initialPageNumber</span><span class="o">=</span><span class="s">&quot;1&quot;</span>
+      <span class="na">pagesToSkip</span><span class="o">=</span><span class="s">&quot;1&quot;</span>
+      <span class="na">fontSize</span><span class="o">=</span><span class="s">&quot;14&quot;</span>
+      <span class="na">areaHeight</span><span class="o">=</span><span class="s">&quot;18&quot;</span><span class="p">/&gt;</span>
 </code></pre></div>
 
 <h4>Description</h4>
@@ -282,11 +282,11 @@
 <p>With <code>&lt;pd4ml:savefile&gt;</code> tag you have possibility to store just generated PDF to hard drive and redirect user's browser to read the PDF as static resource or to redirect the request to another URL for PDF post-processing. The tag should be nested within <code>&lt;pd4ml:transform&gt;</code> and should not have a body.There are two ways of generating the PDF and redirecting the browser.</p>
 <h4>Routing the browser to the PDF generated</h4>
 <p>Once the PDF is generated the user can be directed to the generated PDF using the following piece of code.</p>
-<div class="highlight"><pre><span></span><code>  &lt;pd4ml:savefile
-      uri=&quot;/WEB/savefile/saved/&quot;
-      dir=&quot;D:/spool/generated_pdfs&quot;
-      redirect=&quot;pdf&quot;
-      debug=&quot;false&quot;/&gt;
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">pd4ml:savefile</span>
+      <span class="na">uri</span><span class="o">=</span><span class="s">&quot;/WEB/savefile/saved/&quot;</span>
+      <span class="na">dir</span><span class="o">=</span><span class="s">&quot;D:/spool/generated_pdfs&quot;</span>
+      <span class="na">redirect</span><span class="o">=</span><span class="s">&quot;pdf&quot;</span>
+      <span class="na">debug</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">/&gt;</span>
 </code></pre></div>
 
 <p>The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an autogenerated name.It is expected, that local directory D:/spool/generated_pdfs corresponds to URL <code>http://yourserver.com/WEB/savefile/saved/</code> (as given in "uri" attribute)</p>
@@ -298,16 +298,16 @@ where,</p>
 <p><code>generated_name.pdf</code> -  Auto generated file Name</p>
 <h4>Routing the browser to the next page</h4>
 <p>However if the browser needs to be redirected to the next page instead of the PDF generated, it can be done in the following way.</p>
-<div class="highlight"><pre><span></span><code>  &lt;pd4ml:savefile
-      dir=&quot;D:/spool/generated_pdfs&quot;
-      redirect=&quot;/mywebapp/send_pdf_by_email.jsp&quot;
-      debug=&quot;false&quot;/&gt;
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">pd4ml:savefile</span>
+      <span class="na">dir</span><span class="o">=</span><span class="s">&quot;D:/spool/generated_pdfs&quot;</span>
+      <span class="na">redirect</span><span class="o">=</span><span class="s">&quot;/mywebapp/send_pdf_by_email.jsp&quot;</span>
+      <span class="na">debug</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">/&gt;</span>
 </code></pre></div>
 
 <p>The tag above forces PD4ML to save the generated PDF to D:/spool/generated_pdfs with an auto generated name. After that it forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter filename=<code>&lt;pdfname&gt;</code>. So send_pdf_by_email.jsp can read file name using,</p>
-<div class="highlight"><pre><span></span><code>  <span class="nt">String</span> <span class="nt">fileName</span> <span class="o">=</span> <span class="nt">request</span><span class="p">.</span><span class="nc">getParameter</span><span class="o">(</span><span class="s2">&quot;filename&quot;</span><span class="o">);</span>
-  <span class="o">//</span><span class="nt">Building</span> <span class="nt">the</span> <span class="nt">full</span> <span class="nt">path</span> <span class="nt">of</span> <span class="nt">the</span> <span class="nt">PDF</span> <span class="nt">generated</span>
-  <span class="nt">String</span> <span class="nt">path</span> <span class="o">=</span> <span class="s2">&quot;D:/spool/generated_pdfs&quot;</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nt">fileName</span><span class="o">;</span>
+<div class="highlight"><pre><span></span><code><span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">);</span>
+<span class="c1">//Building the full path of the PDF generated</span>
+<span class="n">String</span> <span class="n">path</span> <span class="o">=</span> <span class="s">&quot;D:/spool/generated_pdfs&quot;</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">;</span>
 </code></pre></div>
 
 <p>Hence that JSP can read the just-generated PDF file and and perform post-processing or any other actions (like E-mail or File-Upload).</p>
@@ -351,16 +351,15 @@ where,</p>
   <footer class="footer">
     <div class="container">
 <div class="row">
-  <ul class="col-sm-6 list-inline">
-    <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
-    <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
-    <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
-    <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
-  </ul>
-  <p class="col-sm-6 text-sm-right text-muted">
-    Generated by <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a>
-    / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>
-  </p>
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
 </div>    </div>
   </footer>
 
