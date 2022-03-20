@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Math</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/math.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-01-19T00:00:00-08:00</updated><subtitle>Musings of a machine learning engineer &lt;add more intro &gt; </subtitle><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic.html</id><summary type="html">This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities</summary><content type="html">&lt;p&gt;Fermat&amp;rsquo;s little theorum is a fundamental theorum for any modular
+arithmetic problems and provides a neat little trick for finding the
+reminder for division by large numbers.&lt;/p&gt;
+&lt;h4 id="from-wikipedia"&gt;From Wikipedia&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Fermat%27s_little_theorem"&gt;Fermat&amp;rsquo;s
+little theorem&lt;/a&gt; states that if p is a prime number, then for any
+integer a, the number &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp14;&amp;minus;&amp;emsp14;&lt;em&gt;a&lt;/em&gt;&lt;/span&gt;
+is an integer multiple of p.&amp;nbsp;In the notation of modular arithmetic, this
+is expressed as&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;).&lt;/span&gt;&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Using the Fermat&amp;rsquo;s little theorum for modular arithmetic, we know
+that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;(&lt;em&gt;m&lt;/em&gt;&lt;em&gt;o&lt;/em&gt;&lt;em&gt;d&lt;/em&gt;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Dividing by a on both sides, &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+for all &lt;span class="math inline"&gt;1&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;p&lt;/em&gt;&amp;emsp14;&amp;minus;&amp;emsp14;1&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt; and
+k is a natural number.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="test-for-primality"&gt;Test for primality&lt;/h4&gt;
+&lt;p&gt;r is a prime number iff &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;r&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;r&lt;/em&gt;)&lt;/span&gt;
+for &lt;span class="math inline"&gt;1&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;r&lt;/em&gt;&amp;emsp14;&amp;minus;&amp;emsp14;1&lt;/span&gt;&lt;/p&gt;
+&lt;h4 id="question-what-is-222006-pmod-3"&gt;Question: What is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;From Fermat&amp;rsquo;s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So we can formulate that,&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(3&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt; which
+becomes &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;which means&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(2&lt;sup&gt;2006&lt;/sup&gt;)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;
+i.e., &lt;span class="math inline"&gt;(2&lt;sup&gt;2&lt;/sup&gt;)&lt;sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&lt;sup&gt;(2&lt;sup&gt;2005&lt;/sup&gt;)&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;So, the solution is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
+&lt;h4 id="question-is-the-difference-between-530000-and-6123456-divisible-by-31"&gt;Question:
+Is the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; divisible by 31&lt;/h4&gt;
+&lt;p&gt;From Fermat&amp;rsquo;s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt; and
+k is a natural number.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;we know that, &lt;span class="math inline"&gt;5&lt;sup&gt;(31&amp;minus;1)&lt;sup&gt;1000&lt;/sup&gt;&lt;/sup&gt;&amp;emsp13;=&amp;emsp13;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Rewriting the modular equation similar to Fermat&amp;rsquo;s little theorum
+&lt;span class="math inline"&gt;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;For the second part, dividing 12346 by 30 gives a reminder of 6 and a
+divisor of 4115. So the second part of the equation can be rewritten as,
+&lt;span class="math inline"&gt;6123456&amp;emsp13;=&amp;emsp13;(6&lt;sup&gt;6&lt;/sup&gt;)(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Using the Fermats little theorum &lt;span class="math inline"&gt;(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;That leaves, &lt;span class="math inline"&gt;(6&lt;sup&gt;6&lt;/sup&gt;)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt; to be computed.&lt;/p&gt;
+&lt;p&gt;Breaking this further,&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;(6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;(5)(5)(5)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;125&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;So the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; being divisible by 31 is
+simply written as, &lt;span class="math inline"&gt;1&amp;nbsp;(mod &amp;nbsp;31)&amp;emsp14;&amp;minus;&amp;emsp14;1&amp;nbsp;(mod &amp;nbsp;31)&amp;emsp13;=&amp;emsp13;0&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt; which
+implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="fermat"></category><category term="modular-arithmetic"></category><category term="dpv"></category><category term="algorithms"></category></entry></feed>

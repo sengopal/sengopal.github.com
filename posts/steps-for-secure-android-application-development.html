@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>  Steps for secure Android Application development | Senthilkumar Gopal
+  <title>Steps for secure Android Application development | Senthilkumar Gopal
 </title>
   <link rel="canonical" href="https://sengopal.github.io/posts/steps-for-secure-android-application-development.html">
 
@@ -18,15 +18,16 @@
 
   <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
-  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/friendly.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/default.min.css">
   <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
   <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/skylighting-solarized-theme.css">
 
   <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
         href="https://sengopal.github.io/feeds/all.atom.xml">
   <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
-        href="https://sengopal.github.io/feeds/java.atom.xml">  
-  <meta name="description" content="In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.">
+        href="https://sengopal.github.io/feeds/misc.atom.xml">
+<meta name="description" content="In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.">
 
 
 </head>
@@ -57,148 +58,186 @@
 
   <div class="main">
     <div class="container">
-      <h1>  Steps for secure Android Application development
+      <h1>    Steps for secure Android Application development
 </h1>
       <hr>
-  <article class="article">
+<article class="article">
     <header>
-      <ul class="list-inline">
-        <li class="list-inline-item text-muted" title="2015-03-22T00:00:00-07:00">
-          <i class="fas fa-clock"></i>
-          Sun 22 March 2015
-        </li>
-        <li class="list-inline-item">
-          <i class="fas fa-folder-open"></i>
-          <a href="https://sengopal.github.io/category/java.html">Java</a>
-        </li>
-          <li class="list-inline-item">
-            <i class="fas fa-tag"></i>
-              <a href="https://sengopal.github.io/tag/development.html">#development</a>,               <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,               <a href="https://sengopal.github.io/tag/android.html">#android</a>,               <a href="https://sengopal.github.io/tag/security.html">#security</a>          </li>
-      </ul>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2015-03-22T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Sun 22 March 2015
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.github.io/category/misc.html">Misc</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.github.io/tag/development.html">#development</a>,                 <a href="https://sengopal.github.io/tag/coding.html">#coding</a>,                 <a href="https://sengopal.github.io/tag/android.html">#android</a>,                 <a href="https://sengopal.github.io/tag/security.html">#security</a>            </li>
+        </ul>
     </header>
+    <div class="hidden-xs hidden-sm">
+        <div id="toc"><ul><li><a class="toc-href" href="#data-classification-and-handling-standards" title="Data classification
+and Handling Standards">Data classification
+and Handling Standards</a></li><li><a class="toc-href" href="#mobile-privacy" title="Mobile privacy">Mobile privacy</a></li><li><a class="toc-href" href="#attack-surface-analysis" title="Attack Surface Analysis">Attack Surface Analysis</a></li><li><a class="toc-href" href="#securing-logs" title="Securing logs">Securing logs</a></li><li><a class="toc-href" href="#securing-intents" title="Securing Intents">Securing Intents</a></li><li><a class="toc-href" href="#permissions-and-intents" title="Permissions and Intents">Permissions and Intents</a></li><li><a class="toc-href" href="#data-security" title="Data Security">Data Security</a></li><li><a class="toc-href" href="#webview-security" title="WebView Security">WebView Security</a></li><li><a class="toc-href" href="#development-practices" title="Development practices">Development practices</a></li><li><a class="toc-href" href="#internal-storage" title="Internal Storage">Internal Storage</a></li><li><a class="toc-href" href="#external-storage" title="External Storage">External Storage</a></li><li><a class="toc-href" href="#cryptography" title="Cryptography">Cryptography</a></li><li><a class="toc-href" href="#camera-feed" title="Camera feed">Camera feed</a></li><li><a class="toc-href" href="#url-connections" title="URL Connections">URL Connections</a></li></ul></div>
+    </div>
     <div class="content">
-      <p>In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post. Its the responsibility of every Android app developer to keep themselves appraised about new threats using OWASP Mobile Top 10 Risks.</p>
-<h3>Data classification and Handling Standards</h3>
-<ol>
-<li>All data persisted should be encrypted - sqlliteDB, files, dataprovider etc.,</li>
-<li>Don't transmit sensitive data to unapproved 3rd party.</li>
-<li>Don't put sensitive data into Intents</li>
+        <p>In a recent working session, some of the best practices for a secure
+Android application development were discussed. Following were some of
+the important aspects of the discussion. Other the usual standards of
+securing the APK and securing the server-side components, some of the
+development and secure coding practices are listed in this post. Its the
+responsibility of every Android app developer to keep themselves
+appraised about new threats using OWASP Mobile Top 10 Risks.</p>
+<h3 id="data-classification-and-handling-standards">Data classification
+and Handling Standards</h3>
+<ol type="1">
+<li>All data persisted should be encrypted - sqlliteDB, files,
+dataprovider etc.,</li>
+<li>Don&rsquo;t transmit sensitive data to unapproved 3rd party.</li>
+<li>Don&rsquo;t put sensitive data into Intents</li>
 </ol>
-<h3>Mobile privacy</h3>
-<ol>
-<li>Respect user's privacy by collecting minimum amount of data</li>
-<li>GPS &amp; location data - fine grain vs. coarse grain GPS data</li>
+<h3 id="mobile-privacy">Mobile privacy</h3>
+<ol type="1">
+<li>Respect user&rsquo;s privacy by collecting minimum amount of data</li>
+<li>GPS &amp; location data - fine grain vs.&nbsp;coarse grain GPS data</li>
 <li>Contact Info</li>
 <li>Microphone and Camera use</li>
 <li>Tracking and Analytics IDs</li>
 </ol>
-<h3>Attack Surface Analysis</h3>
-<ol>
-<li>Third party code automatically inherits app permissions. Treat new versions of library as a new version of your app.</li>
-<li>Use Google Alerts for any security disclosures regarding the 3rd party library.</li>
+<h3 id="attack-surface-analysis">Attack Surface Analysis</h3>
+<ol type="1">
+<li>Third party code automatically inherits app permissions. Treat new
+versions of library as a new version of your app.</li>
+<li>Use Google Alerts for any security disclosures regarding the 3rd
+party library.</li>
 </ol>
-<h3>Securing logs</h3>
-<ol>
-<li>Do not enable crash logs by default. Get user consent before logging.</li>
+<h3 id="securing-logs">Securing logs</h3>
+<ol type="1">
+<li>Do not enable crash logs by default. Get user consent before
+logging.</li>
 <li>Do not store crash logs for too long</li>
 <li>Do not send plain-text logs over HTTP</li>
 <li>Mask sensitive user information in the logs - starbucks usecase</li>
-<li>Minimize the number of permissions - dont ask for what you dont need - Incoming SMS messages -</li>
+<li>Minimize the number of permissions - dont ask for what you dont need
+- Incoming SMS messages -</li>
 </ol>
-<h3>Securing Intents</h3>
-<ol>
-<li>Use PendingIntents as delayed callbacks to private Broadcast receivers</li>
+<h3 id="securing-intents">Securing Intents</h3>
+<ol type="1">
+<li>Use PendingIntents as delayed callbacks to private Broadcast
+receivers</li>
 <li>Use Explicit intents as much as possible</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="n">context</span><span class="p">.</span><span class="na">sendBroadcast</span><span class="p">(</span><span class="n">intent</span><span class="p">,</span><span class="s">&quot;custom-permission&quot;</span><span class="p">);</span>
-<span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">);</span>
-</code></pre></div>
-
-<h3>Permissions and Intents</h3>
-<ol>
-<li>Use custom permission for 3rd party or other apps to subscribe for notifications</li>
-<li>For sensitive activities, set FLAG_SECURE constant flag in WindowManager.LayoutParams</li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a>context<span class="op">.</span><span class="fu">sendBroadcast</span><span class="op">(</span>intent<span class="op">,</span><span class="st">"custom-permission"</span><span class="op">);</span></span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>context<span class="op">.</span><span class="fu">startActivity</span><span class="op">(</span>intent<span class="op">);</span></span></code></pre></div>
+<h3 id="permissions-and-intents">Permissions and Intents</h3>
+<ol type="1">
+<li>Use custom permission for 3rd party or other apps to subscribe for
+notifications</li>
+<li>For sensitive activities, set FLAG_SECURE constant flag in
+WindowManager.LayoutParams</li>
 <li>Perform intent data validation</li>
 <li>For private activities, use explicit intent</li>
-<li>Seperate services in AndroidManifest with explicit and seperate permissions</li>
+<li>Seperate services in AndroidManifest with explicit and seperate
+permissions</li>
 <li>Use explicit intent to call Service</li>
-<li>Use <code>checkCallingPermission()</code> to verify if permission is available to the caller</li>
+<li>Use <code>checkCallingPermission()</code> to verify if permission is
+available to the caller</li>
 </ol>
-<h3>Data Security</h3>
-<ol>
-<li>Use record level delegation feature to share a specific record or file without sharing the entire database to provide minimum access.</li>
-<li>Never trust the parameters passed to content providers. Sanatize for injection attacks.</li>
-<li>Securing ContentProviders. Always set <code>exported=false</code> in your <strong>AndroidManifest.xml</strong></li>
+<h3 id="data-security">Data Security</h3>
+<ol type="1">
+<li>Use record level delegation feature to share a specific record or
+file without sharing the entire database to provide minimum access.</li>
+<li>Never trust the parameters passed to content providers. Sanatize for
+injection attacks.</li>
+<li>Securing ContentProviders. Always set <code>exported=false</code> in
+your <strong>AndroidManifest.xml</strong></li>
 <li>Ppecify explicit permissions for reading and writing.</li>
-<li>Use dynamic <code>grantUriPermissions</code> attribute to true to grant permission for certain portion for certain amount of time.</li>
+<li>Use dynamic <code>grantUriPermissions</code> attribute to true to
+grant permission for certain portion for certain amount of time.</li>
 </ol>
-<h3>WebView Security</h3>
-<ol>
+<h3 id="webview-security">WebView Security</h3>
+<ol type="1">
 <li>Disable JS and Plugin support if not needed</li>
 <li>No local file access</li>
 <li>Do not load 3rd party hosts unless validated</li>
-<li>Do not follow redirect requests in the server response unless validated</li>
+<li>Do not follow redirect requests in the server response unless
+validated</li>
 <li>If possible, use only https</li>
-<li>Disable form auto-fill feature by using <code>WebView.WebSettings.setSaveFormData()</code> as false</li>
-<li>Reject unexpected content - only allow HTML for main page (reject PDFs etc.,)</li>
-<li>Secure Page Rendering in WebView  - shouldOverrideUrlLoading</li>
+<li>Disable form auto-fill feature by using
+<code>WebView.WebSettings.setSaveFormData()</code> as false</li>
+<li>Reject unexpected content - only allow HTML for main page (reject
+PDFs etc.,)</li>
+<li>Secure Page Rendering in WebView - shouldOverrideUrlLoading</li>
 <li>Access Modifiers should not be trusted for sensitivity.</li>
-<li>Clear the cache after Webview of a Sensitive page. </li>
+<li>Clear the cache after Webview of a Sensitive page.</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="n">onPageFinished</span><span class="p">(</span><span class="n">Webview</span> <span class="n">view</span><span class="p">,</span> <span class="n">String</span> <span class="n">Url</span><span class="p">){</span>
-        <span class="n">view</span><span class="p">.</span><span class="na">clearCache</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<ol>
-<li>Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to prevent click jacking Use <code>setFilterTouchesWhenObscured(true)</code> or <code>android:setFilterTouchesWhenObscured</code> for activity declaration.</li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="fu">onPageFinished</span><span class="op">(</span>Webview view<span class="op">,</span> <span class="bu">String</span> Url<span class="op">){</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>        view<span class="op">.</span><span class="fu">clearCache</span><span class="op">(</span><span class="kw">true</span><span class="op">);</span></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ol start="11" type="1">
+<li>Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to
+prevent click jacking Use
+<code>setFilterTouchesWhenObscured(true)</code> or
+<code>android:setFilterTouchesWhenObscured</code> for activity
+declaration.</li>
 </ol>
-<h3>Development practices</h3>
-<ol>
-<li>Keep sensitive data in RAM no longer than required such as Encryption keys, Authn, Authz tokens, passwords.</li>
+<h3 id="development-practices">Development practices</h3>
+<ol type="1">
+<li>Keep sensitive data in RAM no longer than required such as
+Encryption keys, Authn, Authz tokens, passwords.</li>
 <li>Variables should be nullified after use</li>
-<li>Use byte[] and char[] for sensitive data rather than Strings which helps in cleaning easier.</li>
+<li>Use byte[] and char[] for sensitive data rather than Strings which
+helps in cleaning easier.</li>
 </ol>
-<h3>Internal Storage</h3>
-<ol>
+<h3 id="internal-storage">Internal Storage</h3>
+<ol type="1">
 <li>Accessible only to your app</li>
 <li>clean the cache using deleteFile()</li>
 </ol>
-<h3>External Storage</h3>
-<ol>
+<h3 id="external-storage">External Storage</h3>
+<ol type="1">
 <li>Globally readable and writable</li>
 <li>Can be physically removed</li>
-<li>Avoid using this storage for sensitive apps in general. Use <code>preferInternal</code> to prevent app being installed in external storage.</li>
+<li>Avoid using this storage for sensitive apps in general. Use
+<code>preferInternal</code> to prevent app being installed in external
+storage.</li>
 <li>Use Keychain API for system wide credentials</li>
 <li>Use Keystore to stores its own credentials</li>
-<li><code>file.delete()</code> does not securely delete. </li>
+<li><code>file.delete()</code> does not securely delete.</li>
 <li>Always delete cache files when user logs out</li>
-<li>Do not keep files with any sensitive data any longer than absolutely needed.</li>
+<li>Do not keep files with any sensitive data any longer than absolutely
+needed.</li>
 <li>Do not create files with MODE_WORLD_READABLE or writeable</li>
-<li>Do not use modes such as 0666, 0777, 0663 with chmod binary or syscalls accepting a file modes</li>
+<li>Do not use modes such as 0666, 0777, 0663 with chmod binary or
+syscalls accepting a file modes</li>
 <li>Only share info using content providers instead of file system</li>
 </ol>
-<h3>Cryptography</h3>
-<ol>
+<h3 id="cryptography">Cryptography</h3>
+<ol type="1">
 <li>Dont store plain-text secret key</li>
 <li>Never roll your own CRYPTO libraries. use the approved ones</li>
 <li>Never store secrets using string - only char[] and byte[]</li>
 <li>Never seed SecureRandom</li>
 </ol>
-<h3>Camera feed</h3>
-<ol>
+<h3 id="camera-feed">Camera feed</h3>
+<ol type="1">
 <li>Use default CAmera app/services</li>
-<li>Or, create SurfaceView to display a Camera Preview and click button to convert to Picture</li>
+<li>Or, create SurfaceView to display a Camera Preview and click button
+to convert to Picture</li>
 </ol>
-<h3>URL Connections</h3>
-<ol>
+<h3 id="url-connections">URL Connections</h3>
+<ol type="1">
 <li>Use TLS instead of SSLv3.</li>
 <li>Use only https</li>
-<li>SSLSocket class can be used but with caution. It does not do hostname verification.</li>
-<li>If overriding, check <code>getDefaultHostNameVerifier()</code> or <code>HostNameVerifier.verify()</code> returns boolean true.</li>
+<li>SSLSocket class can be used but with caution. It does not do
+hostname verification.</li>
+<li>If overriding, check <code>getDefaultHostNameVerifier()</code> or
+<code>HostNameVerifier.verify()</code> returns boolean true.</li>
 </ol>
     </div>
-  </article>
+</article>
     </div>
   </div>
 
