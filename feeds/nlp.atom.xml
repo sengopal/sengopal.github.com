@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - NLP</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/nlp.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-03-20T00:00:00-07:00</updated><subtitle>Musings of a machine learning engineer</subtitle><entry><title>NLP Word2Vec Algorithm</title><link href="https://sengopal.github.io/posts/nlp-word2vec-algorithm.html" rel="alternate"></link><published>2022-03-20T00:00:00-07:00</published><updated>2022-03-20T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-20:/posts/nlp-word2vec-algorithm.html</id><summary type="html">A post detailing more about the Word2Vec algorithm, its variations and utilities</summary><content type="html">&lt;p&gt;This blog post captures the inner workings of the Word2Vec Algorithm,
+by roughly following the lecture patterns for the Cs224n course from
+Stanford.&lt;/p&gt;
+&lt;h3 id="word2vec-algorithm"&gt;Word2vec algorithm&lt;/h3&gt;
+&lt;p&gt;Recalling the &lt;em&gt;Word2vec&lt;/em&gt; algorithm from &lt;a href="Introduction-to-nlp-and-word-vectors"&gt;Introduction-to-nlp-and-word-vectors&lt;/a&gt;,
+the only parameters of this model are the word vectors. We have context
+word vectors and center word vectors for each word and then taking their
+dot product to get a probability, which gives a score of how likely a
+particular context word is to occur with the center word. Using the
+softmax transformation on the dot product converts the scores into
+probabilities. word2vec model is called a bag of words (BoW) model. BoW
+models does not pay any attention to word order or position, the
+distance of the context words from the center word while computing the
+probability estimate.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/word2vec_bow.png"/&gt;&lt;/p&gt;
+&lt;h4 id="optimization-gradient-descent"&gt;Optimization: Gradient
+Descent&lt;/h4&gt;
+&lt;p&gt;The next step would be to determine the gradient of the loss function
+with respect to the parameters. The algorithm starts with random word
+vectors. They are initialized with small numbers, near 0 in each
+dimension. The loss function J uses a gradient descent algorithm, an
+iterative algorithm, that learns to maximize &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; by changing theta,
+which represents the model weights. The idea of the algorithm is to
+calculate the gradient &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt;, from the current
+values of &lt;span class="math inline"&gt;&lt;em&gt;&amp;theta;&lt;/em&gt;&lt;/span&gt;, by making a small
+step in the direction of the negative gradient to gradually move down
+towards the minimum.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/gradient_descent.png"/&gt;&lt;/p&gt;
+&lt;p&gt;The simple gradient descent works the following way: The &lt;strong&gt;step
+size&lt;/strong&gt; parameter of the algorithm determine the time taken and if
+the function converges. If the &lt;strong&gt;step size&lt;/strong&gt; is too smal,
+it would take a long time to minimize the function while a large step
+can make the function diverge and keep getting bouncing back and forth.
+The algorithm steps a little bit in the negative direction of the
+gradient using the step size, which gives new parameter values. But ach
+individual parameter gets updated only a little bit by working out the
+partial derivative of J with respect to that parameter and by using the
+learning rate, where J is a function of all windows in the corpus.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/update_step.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Note that the denominator is a sum over every center word in the
+entire corpus, but they often have billions of words in the corpus,
+which makes computing the gradient of &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; expensive, as we have
+to iterate over the entire corpus. So a single gradient update takes a
+long time and optimization would be extremely slow.&lt;/p&gt;
+&lt;h4 id="stochastic-gradient-descent"&gt;Stochastic Gradient Descent&lt;/h4&gt;
+&lt;p&gt;The alternative to avoid the above issue is to use stochastic
+gradient descent. So rather than working out an estimate of the gradient
+based on the entire corpus, we take one center word or a small batch of
+32 center words, work out an estimate of the gradient based on them. Now
+that estimate of the gradient will be noisy and bad because only a small
+fraction of the corpus was used rather than the whole corpus. But
+nevertheless, we can use that estimate of the gradient to update the
+theta parameters in exactly the same way. So with a billion word corpus,
+with each center word, we can make a billion updates to the parameters
+as we pass through the corpus once rather than only making one more
+accurate update to the parameters using the entire corpus. So overall,
+we can learn several orders of magnitude more quickly.&lt;/p&gt;
+&lt;p&gt;Neural nets have some quite counter intuitive properties and even
+though the stochastic gradient descent is noisy and bounces around, the
+complex networks learns better solutions than when using a plain and
+slow gradient descent.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/stochastic_grad_descent.png"/&gt;&lt;/p&gt;
+&lt;h4 id="note-about-sgd"&gt;Note about SGD&lt;/h4&gt;
+&lt;p&gt;For example, when performing stochastic gradient update for one
+window, with one center word and window size of 5, there would be at
+most 11 distinct word types. So gradient information will be available
+for those 11 words but the other 100,000 words in our vocabulary will
+have no gradient update information, making it a very sparse gradient
+update. Thinking from a systems optimization perspective, we would
+ideally want to update the parameters only for a few words and there are
+many efficient ways to achieve that.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: word vectors have been presented as column vectors, which is
+usually how mathematical notation prescribes, however in deep learning
+packages, word vectors are actually represented as row vectors&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/stochastic_grad_wordvec.png"/&gt;&lt;/p&gt;
+&lt;h4 id="why-two-different-vectors-for-the-same-word"&gt;Why two different
+vectors for the same word&lt;/h4&gt;
+&lt;p&gt;If we use the same vector for context and center, and if the same
+word occurs in the same window as both a center and a context word, then
+a dot product of the same term with itself, makes it messier to work
+out.&lt;/p&gt;
+&lt;h3 id="word2vec-model-functions_1"&gt;Word2Vec model functions&lt;/h3&gt;
+&lt;p&gt;word2vec can operate in two different models 1. skip-gram model -
+where it predicts the context words given the center word in a bag of
+words style model. 2. Continuous Bag of Words model - where it predicts
+the center word from a bag of context words.&lt;/p&gt;
+&lt;p&gt;The original word2vec paper used the skip-gram model and used
+negative sampling also called SGNs (skip-grams negative sampling),
+instead of the naive softmax. This was due to the expensive cost of
+computing the denominator you have to iterate over every word in the
+vocabulary and work out these dot products for every word in the corpus
+for each window. While negative sampling trains binary logistic
+regression models for both the true pair of center word and the context
+word versus noise pairs where the true center word and randomly sample
+words from the vocabulary are paired, and updates only the related
+weights, instead of updating all of the weights.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/skip_gram_negative_sampling.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Instead of softmax, the dot product is passed through the logistic
+function (sigmoid), which maps any real number to a probability between
+0 and 1 open interval. So for a large dot product. the logistic function
+would return 1.&lt;/p&gt;
+&lt;p&gt;On average the dot product between the center word and context words,
+should be small if they most likely didn&amp;rsquo;t actually occur in the
+context. This is achieved using the sigmoid function, which is symmetric
+and to make probability small, we can take the negative of the dot
+product i.e., The dot product of a random context word and the center
+word would be a small number, which is again negated to put through the
+sigmoid.&lt;/p&gt;
+&lt;p&gt;The objective is to actually maximize the &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/skip_gram_negative_sampling_2.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Comparing this to the earlier discussion of minimizing the negative
+log likelihood, where we use the negative log likelihood of the sigmoid
+of the dot product and use k-negative samples of random words. This loss
+function would be minimized given this negation of the log of the dot
+product ,by making these dot products large, and the small k-negative
+dot products are negated which would be small postive after going
+through the sigmoid.&lt;/p&gt;
+&lt;h5 id="better-sampling-of-rare-words"&gt;Better sampling of rare
+words&lt;/h5&gt;
+&lt;p&gt;While sampling, the authors of the word2vec sample the words based on
+their probability of occurrence using the unigram distribution of words,
+which defines how often words actually occur in the corpus. For example,
+in a billion word corpus, a particular word occurred 90 times in it, the
+90 divided by a billion, is the unigram probability of the word. It is
+also &lt;span class="math inline"&gt;(3/4)&lt;sup&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sup&gt;&lt;em&gt;h&lt;/em&gt;&lt;/span&gt; powered,
+which renormalizes the probability distribution and dampens the
+difference between common and rare words to ensure that less frequent
+words are sampled more often, but still not nearly as much as if a
+uniform distribution was utilized.&lt;/p&gt;
+&lt;h4 id="problems-with-co-occurence-matrix_1"&gt;Problems with co-occurence
+matrix&lt;/h4&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/cooccurence-matrix.png"/&gt;&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Cooccurence matrices are huge very sparse For example with
+vocabulary of half a million words, we have half a million dimensional
+vector.&lt;/li&gt;
+&lt;li&gt;Results tend to be noisier and less robust depending on what words
+are available in the corpus.&lt;/li&gt;
+&lt;li&gt;So for better results we should work with low dimensional
+vectors.&lt;/li&gt;
+&lt;li&gt;In practice the dimensionality of the vectors that are used are
+normally somewhere between 25 and 1,000.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="singular-value-decomposition"&gt;Singular Value Decomposition&lt;/h4&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/singular-value-decomposition.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Singular value projection gives an optimal way under a certain
+definition of optimality, of producing a reduced dimensionality pair of
+matrices that maximally recovers the original matrix. So the cooccurence
+count matrix can be decomposed into three matrices - a diagonal matrix
+U, sigma, and a V transpose matrix. We can take advantage of the fact
+that the singular values inside the diagonal sigma matrix are ordered
+from largest down to smallest and discounting some of the smaller
+values, we can extract lower dimensional representations for our words
+which enables us to recover the original co-occurrence matrix. But it
+works poorly because we are expecting to have these normally distributed
+errors because we have exceedingly common words like &amp;ldquo;a,&amp;rdquo; &amp;ldquo;the,&amp;rdquo; and
+&amp;ldquo;and&amp;rdquo; and a very large number of rare words.&lt;/p&gt;
+&lt;p&gt;We can use the log of the raw counts or cap the maximum count or
+remove the function words to address this issue and such methods were
+explored heavily in the 2000s.&lt;/p&gt;
+&lt;h4 id="coals"&gt;COALS&lt;/h4&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/coals-hacks.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Doug Rohde explored a number of these ideas as to how to improve the
+co-occurrence matrix in a model that he built that was called COALS. We
+get the same kind of linear semantic components, which can be used to
+identify analogies.&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/coals-analogies.png"/&gt;&lt;/p&gt;
+&lt;p&gt;These vector components are not perfect, but are roughly parallel and
+roughly the same size. And so we have a meaning component there that we
+could add on to another word for analogies. We could determine drive is
+to driver as marry is to a priest. This acted as the basis for the Glove
+model investigation.&lt;/p&gt;
+&lt;h4 id="word2vec-implementation-code"&gt;Word2Vec Implementation Code&lt;/h4&gt;
+&lt;h4 id="references"&gt;References&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=gqaHkPEZAew"&gt;Video&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category><category term="machine-learning"></category></entry><entry><title>Introduction to NLP and Word Vectors</title><link href="https://sengopal.github.io/posts/introduction-to-nlp-and-word-vectors.html" rel="alternate"></link><published>2022-03-16T00:00:00-07:00</published><updated>2022-03-16T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-16:/posts/introduction-to-nlp-and-word-vectors.html</id><summary type="html">A post about Introduction to NLP and basics of Word Vectors</summary><content type="html">&lt;p&gt;This blog post and the following series captures the path of
+understanding NLP, usage of Deep Learning in NLP and the various
+algorithms, by roughly following the lecture patterns for the Cs224n
+course from Stanford.&lt;/p&gt;
+&lt;h3 id="lecture-1-introduction-and-word-vectors"&gt;Lecture 1 &amp;ndash;
+Introduction and Word Vectors&lt;/h3&gt;
+&lt;p&gt;The following post is primarily about driving home the fact that a
+word&amp;rsquo;s meaning can be represented, not perfectly but really rather well
+by a large vector of real numbers. This has been an amazing find which
+has taken research away from the traditional approaches followed before
+deep learning.&lt;/p&gt;
+&lt;h4 id="intent"&gt;Intent&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;foundation - good deep understanding of the effect of modern methods
+for deep learning applied to NLP.&lt;/li&gt;
+&lt;li&gt;basics &amp;amp; key methods that are used in NLP, recurrent networks,
+attention transformers&lt;/li&gt;
+&lt;li&gt;Ability to build systems in PyTorch&lt;/li&gt;
+&lt;li&gt;Learning word meanings, dependency parsing, machine translation,
+question answering.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="Source: xkcd: I Could Care Less" src="https://imgs.xkcd.com/comics/i_could_care_less.png" title="Source: xkcd: I Could Care Less" width="408"/&gt;&lt;/p&gt;
+&lt;h4 id="language-model"&gt;Language model&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;Building computational systems that try to get better at guessing
+how their words will affect other people and what other people are
+meaning by the words that they choose to say.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;It is a system that was constructed by human beings relatively
+recently in some sense.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="how-do-word-vectors-work"&gt;How do word vectors work&lt;/h4&gt;
+&lt;p&gt;Language arose for human beings sort of somewhere in the range of
+100,000 to a million years ago. But that powerful communication between
+human beings quickly set off our ascendancy over other creatures. It was
+much more recently again that humans developed writing, which allowed
+knowledge to be communicated across distances of time and space. So a
+key question for artificial intelligence and human-computer interaction
+is how to get computers to be able to understand the information
+conveyed in human languages.&lt;/p&gt;
+&lt;p&gt;We need knowledge to understand language and people well, but it&amp;rsquo;s
+also the case that a lot of that knowledge is contained in language
+spread out across the books and web pages of the world.&lt;/p&gt;
+&lt;p&gt;So with recent advancements, machine translation works moderately
+well. Learning other people&amp;rsquo;s languages was a human task which required
+a lot of effort and concentration. But now to get news from Kenya we can
+use Google to translate Swahili from a Kenyan website.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="slide-google-translate" src="/extras/images/introduction-to-nlp-and-word-vectors/2022-03-18-11-07-20-image.png" title="" width="748"/&gt;&lt;/p&gt;
+&lt;h4 id="gpt-3"&gt;GPT-3&lt;/h4&gt;
+&lt;p&gt;One of the recent and biggest development in NLP, including the
+popular media was GPT-3, which was a huge new model that was released by
+OpenAI. Its exciting as it has started to look the first step on the
+path to universal models, where we can train an extremely large model on
+the world knowledge of human languages, of how to do tasks. So we are no
+longer building a model to detect spam, to detect foreign language
+content, rather just building all these separate supervised classifiers
+for every different task, since we have a model that understands.&lt;/p&gt;
+&lt;p&gt;It is really good at predicting words. The two examples are explained
+below.&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;Write about Elon Musk in the style of Doctor Seuss&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Question prediction from a sentence using couple of examples. The
+model started predicting the questions after just two examples.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The way it generates more text is by just predicting one word at a
+time, following words to complete its text.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Another Example:&lt;/strong&gt; Translating human language
+sentences into SQL.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gpt-example" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-13-56-image.png" title="gpt-example" width="762"/&gt;&lt;/p&gt;
+&lt;h4 id="what-is-language-and-its-meaning"&gt;What is language and its
+meaning?`&lt;/h4&gt;
+&lt;p&gt;How do we represent the meaning of a word? - Webster&amp;rsquo;s dictionary
+definition is really focused on the &amp;ldquo;word idea&amp;rdquo;, which is pretty close
+to the most common way that linguists think about meaning. However,
+&lt;strong&gt;denotational semantics&lt;/strong&gt; captures word meaning as being a
+pairing between a word which is a signifier or symbol, and the thing
+that it signifies, the signified thing which is an idea or thing.&lt;/p&gt;
+&lt;p&gt;So the meaning of the word chair is the set of things that are
+chairs. A term that&amp;rsquo;s also used and similarly applied for the semantics
+of programming languages. So traditionally the way that meaning has
+normally been handled in natural language processing systems is to make
+use of resources like dictionary, and thesaurus in particular. For
+example, &lt;strong&gt;WordNet&lt;/strong&gt;, which organized words and terms into
+both synonyms sets of words that can mean the same thing, and hypernyms
+which correspond to IS-A relationships.&lt;/p&gt;
+&lt;h5 id="problem-with-wordnet"&gt;Problem with WordNet&lt;/h5&gt;
+&lt;p&gt;In WordNet, &amp;ldquo;proficient&amp;rdquo;&amp;rdquo; is listed as a synonym for &amp;ldquo;good&amp;rdquo;, which is
+accurate only in some contexts. it is limited as a human constructed
+thesaurus. Its difficult to keep it up to date, including more current
+terminology. For example, &amp;ldquo;wicked&amp;rdquo;&amp;rdquo; is there for the wicked witch, but
+not for more modern colloquial uses. &amp;ldquo;Ninja&amp;rdquo; is another example where
+WordNet is not kept up to date. So it requires a lot of human labor, but
+even then, it has a set of synonyms but does not really have a good
+sense of words that means something similar. So this idea of meaning
+similarity is something that would be really useful to make progress on,
+and where deep learning models excel.&lt;/p&gt;
+&lt;h5 id="problem-with-traditional-nlp"&gt;Problem with traditional NLP&lt;/h5&gt;
+&lt;p&gt;Problem with traditional NLP is that words are regarded as discrete
+symbols. Symbols like hotel, conference, motel are words, which in deep
+learning are referred as a localized representation. Because in a
+statistical machine learning systems, these symbols need to be
+represented in a statistical model to build a logistic regression model
+with words as features, typically like an one-hot encoded vector.&lt;/p&gt;
+&lt;h4 id="one-hot-encoding-vector_1"&gt;One hot encoding vector&lt;/h4&gt;
+&lt;p&gt;One hot encoding vector has a dimension for each different word. So
+that means that we need huge vectors corresponding to the number of
+words in our vocabulary. For a high school English dictionary it
+probably have about 250,000 words in it and probably need a 500,000
+dimensional vector to be able to cope with that. But the bigger with
+discrete symbols is that there is no notion of word relationships and
+similarity. So for example, if a user searches for Seattle motel, it
+should match on documents containing Seattle &amp;ldquo;hotel&amp;rdquo; as well. So in a
+mathematical sense, these two vectors are orthogonal, that there&amp;rsquo;s no
+natural notion of similarity between them.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-27-00-image.png"/&gt;&lt;/p&gt;
+&lt;h4 id="word-embeddings"&gt;Word Embeddings&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;you shall know a word by the company it keeps. - J. R Firth&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Modern deep learning method allows encoding similarity in real value
+vector themselves. &lt;strong&gt;distributional semantics&lt;/strong&gt; - where
+word&amp;rsquo;s meaning is going to be given by the words that frequently appear
+close to it. This represent a sense for words, &lt;strong&gt;meaning as a
+notion of what context that appears in&lt;/strong&gt; has been a very
+successful idea. It proves to be an extremely computational sense of
+semantics, which has just led to it being used everywhere very
+successfully in deep learning systems. So when a word appears in a text,
+it has a context which are a set of words that appear along with it.&lt;/p&gt;
+&lt;h5 id="example---banking"&gt;Example - &amp;ldquo;banking&amp;rdquo;&lt;/h5&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-38-34-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;The word &amp;ldquo;banking&amp;rdquo;&amp;rdquo; occurs in text, and the nearby words (context
+words) in some sense represent the meaning of the word banking. Based on
+looking at the words that occur in context as vectors, we want to build
+dense real valued vector for each word, that in some sense represents
+the meaning of that word. The way it will represent the meaning of that
+word, is when this vector would be useful for predicting other words
+that occur in the context.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-42-28-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;A simple 8-dimensional illustration (&lt;em&gt;in reality, usually 300
+dimensional vectors are used&lt;/em&gt;), of the neural word representations
+or &amp;ldquo;word embeddings&amp;rdquo;, represents the distributed representation, not a
+localized representation because the meaning of the word banking is
+spread over all 300 dimensions of the vector. These are called word
+embeddings because, in a group of words, these representations place
+them in a high dimensional vector space, and so they&amp;rsquo;re embedded into
+that space.&lt;/p&gt;
+&lt;h4 id="introduction-to-word2vec_1"&gt;Introduction to word2vec&lt;/h4&gt;
+&lt;p&gt;Word2Vec was introduced by &lt;strong&gt;Tomas Mikolov and
+colleagues&lt;/strong&gt; in 2013 as a framework for learning word vectors, It
+uses a lot of text, commonly refer to as a corpus (originated from the
+Latin word for body), meaning a body of text., with. a vocabulary size
+of 400,000 and then create vectors for every word. To determine the best
+vector for each word, we can learn these word vectors from just a big
+pile of text by doing this distributional similarity task of being able
+to predict, what words occur in the context of other words. So
+specifically, going through the texts, and using a center word C, and
+context words O, calculate the probability of a context word occurring,
+given the center word according to our current model. Since the corpus
+is available, it is known that certain words actually occur in the
+context of that center word, we can keep adjusting the word vectors to
+maximize the probability that&amp;rsquo;s assigned to words that actually occur in
+the context of the center word as we proceed through these texts.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="word-vector-window" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-54-10-image.png" title="" width="369"/&gt;.
+&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-55-03-image.png"/&gt;&lt;/p&gt;
+&lt;h4 id="determining-the-probability-of-a-word-occurring-in-the-context-of-a-given-center-word"&gt;Determining
+the probability of a word occurring in the context of a given center
+word&lt;/h4&gt;
+&lt;p&gt;For each position in the corpus, we want to predict context words
+within a window of fixed size, given the center word W&lt;sub&gt;j&lt;/sub&gt;&lt;/p&gt;
+&lt;p&gt;Ideally we need to give high probability to words that actually occur
+in the context. i.e., identify the likelihood of predicting words in the
+context of other words correctly and this likelihood will be defined in
+terms of the word vectors. These form the parameters of our model, and
+it will the product of using each word as the center word, and each
+other context word in the window to determine the probability of
+predicting that context word in the center word. And to learn this
+model, there would be an objective function, also called a cost or a
+loss that we want to optimize. And essentially &lt;strong&gt;maximize the
+likelihood of the context we see around center words.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-12-00-56-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Following changes are made to the objective function:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;Use log likelihood to convert all the products into
+sums.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Also use average log likelihood, denoted by &lt;em&gt;1/T&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Minimize our objective function, &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; becomes maximizing our
+predictive accuracy.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note: Each word will have two word vectors - One word vector for when
+it&amp;rsquo;s used as the center word, and a different word vector when that&amp;rsquo;s
+used as a context word. This is done to simplify the math and the
+optimization and makes building word vectors a lot easier,&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-12-07-40-image.png"/&gt;&lt;/p&gt;
+&lt;h4 id="likelihood-probability-calculation"&gt;Likelihood Probability
+Calculation&lt;/h4&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-12-09-03-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;For a particular center word v&lt;sub&gt;c&lt;/sub&gt; and a particular context
+word u&lt;sub&gt;o&lt;/sub&gt;, look up the vector representation of each word, and
+take the dot product of those two vectors.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Dot product is a natural measure for similarity between words because
+it generates a component that adds to that dot product sum. If both are
+negative, it&amp;rsquo;ll add a lot to the dot product sum. If one&amp;rsquo;s positive and
+one&amp;rsquo;s negative,it&amp;rsquo;ll subtract from the similarity measure. Both of them
+are zero, won&amp;rsquo;t change the similarity.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;if two words have a larger dot product, that means they&amp;rsquo;re
+more similar.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id="softmax-function"&gt;Softmax function&lt;/h4&gt;
+&lt;p&gt;The next step is to convert this how to turn this into a probability
+distribution and to avoid negative probabilities exponentiate them and
+normalize by dividing by the sum of the numerator quantity for each
+different word in the vocabulary. This ensures that the distribution is
+between 0 and 1. This formulates the softmax function which will take
+any R in vector and turn it into values between 0 to 1.&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;&amp;ldquo;max&amp;rdquo; term - accentuates and emphasizes the big contents in the
+different dimensions of calculating similarity, as it exponentiates the
+probabilities.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&amp;ldquo;soft&amp;rdquo; term - gives a probability distribution of the next
+possible words.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;max function returns just one the biggest term, whereas softmax takes
+a set of numbers, scales them, and returns a probability
+distribution.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id="construct-word-vectors"&gt;Construct word vectors&lt;/h4&gt;
+&lt;p&gt;The plan is to optimize the word vectors to minimize the loss
+function, i.e.&amp;nbsp;maximize the probability of the words that were actually
+in the context of the center word. &lt;span class="math inline"&gt;&lt;em&gt;&amp;theta;&lt;/em&gt;&lt;/span&gt; represents all of the model
+parameters in one very long vector. So for the model, word vectors are
+the only parameters. So for each word there are two vectors, context
+vector and center vector. And each of those is a D dimensional vector,
+where D might be 300 and we have V many words in the vocabulary. So the
+model is of size &lt;span class="math inline"&gt;2&amp;emsp14;*&amp;emsp14;&lt;em&gt;D&lt;/em&gt;&amp;emsp14;*&amp;emsp14;&lt;em&gt;V&lt;/em&gt;&lt;/span&gt; . So for a
+vocabulary of size 500k and with a 300 dimensionality vector, there
+would be millions of millions of parameters, to train and maximize the
+prediction of context words.&lt;/p&gt;
+&lt;h4 id="multivariate-calculus"&gt;Multivariate Calculus&lt;/h4&gt;
+&lt;p&gt;Derivatives can be computed using multivariate calculus and the
+gradients can be determined by walking downhill to minimize loss, using
+stochastic gradient descent. We have &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; that is needed to
+minimize the average negative log likelihood. And then we iterate
+through the words in each context, to compute &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; between M words on
+both sides except with itself. Then determine the log probability of the
+context word at that position, given the word that&amp;rsquo;s in the center
+position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-11-37-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Probability &lt;span class="math inline"&gt;&lt;em&gt;P&lt;/em&gt;(&lt;em&gt;o&lt;/em&gt;|&lt;em&gt;c&lt;/em&gt;)&lt;/span&gt; can be
+determined as the softmax of the dot product of &lt;span class="math inline"&gt;&lt;em&gt;u&lt;/em&gt;&lt;sub&gt;0&lt;/sub&gt;&amp;emsp14;*&amp;emsp14;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;c&lt;/em&gt;&lt;/sub&gt;&lt;/span&gt;
+normalized by the sum of all probabilities of the word distribution. To
+compute the gradient, the partial derivative of this expression with
+respect to every parameter in the model is computed, and all the
+parameters in the model are the components depending on the dimensions
+of the word vectors of every word.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-19-25-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Walking through these in steps, the partial derivative with respect
+to the center word vector(&lt;em&gt;a 300 dimensional word vector&lt;/em&gt;) is
+calculated. Considering the expression as A/B, using log turns it into
+log A minus log B. Then the partial derivative of &lt;span class="math inline"&gt;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;c&lt;/em&gt;&lt;/sub&gt;&lt;/span&gt; is simply
+&lt;span class="math inline"&gt;&lt;em&gt;u&lt;/em&gt;&lt;sub&gt;0&lt;/sub&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-31-59-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Now using the chain rule the denominator can be computed. This part
+is essentially going from outside to inside in terms of derivatives. The
+above image is more cleaner explanation.&lt;/p&gt;
+&lt;p&gt;Combining all the expressions together, rewriting the expression, by
+moving the sum &lt;code&gt;w = 1 to v&lt;/code&gt; inside the summation expression
+we end up getting exactly the softmax formula probability that we saw
+when we started. So the expression more conveniently becomes &lt;span class="math inline"&gt;&lt;em&gt;U&lt;/em&gt;&lt;sub&gt;0&lt;/sub&gt;&lt;/span&gt; minus the sum over
+&lt;code&gt;X = 1 to V&lt;/code&gt; of the probability of X given C times &lt;span class="math inline"&gt;&lt;em&gt;U&lt;/em&gt;&lt;sub&gt;&lt;em&gt;x&lt;/em&gt;&lt;/sub&gt;&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;And so what we have at that moment is this thing here is an
+&lt;strong&gt;expectation.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-34-13-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;This is not an average over all the context vectors weighted by their
+probability according to the model.it&amp;rsquo;s always the case with these
+softmax style models, we get the observed minus the expected for the
+derivatives. So the model is good if on average it predicts exactly the
+word vector that we actually see.&lt;/p&gt;
+&lt;p&gt;The next step is to try and adjust the parameters of our model to try
+and make the probability estimates as high as we possibly can using
+stochastic gradient.&lt;/p&gt;
+&lt;h4 id="gensim"&gt;Gensim&lt;/h4&gt;
+&lt;p&gt;GENESIM is a package often used for word vectors, it&amp;rsquo;s not really
+used for deep learning and for testing glove word vectors were used by
+loading a hundred dimensional word vectors.&lt;/p&gt;
+&lt;p&gt;&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-46-10-image.png"/&gt;&lt;/p&gt;
+&lt;p&gt;Checking the first 10 dimensions of the word vectors for
+&lt;em&gt;bread&lt;/em&gt; and &lt;em&gt;croissant&lt;/em&gt;, these two words are a bit
+similar, so both of them are negative in the first dimension, positive
+in the second, negative in the third, positive in the fourth, negative
+in the fifth and so on. So they might have a fair bit of dot product
+which is kind of what we want because bread and croissant are kind of
+similar. Few more examples,&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;Similar to banana&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Similar to brioche&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Similar to USA&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="most-similar-banana" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-47-48-image.png" title="most-similar-banana" width="282"/&gt;.
+&lt;img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-48-24-image.png"/&gt;
+&lt;img alt="most-similar-usa" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-49-08-image.png" title="" width="297"/&gt;&lt;/p&gt;
+&lt;h4 id="analogy-task"&gt;Analogy task&lt;/h4&gt;
+&lt;p&gt;The idea of the analogy task defines that we start with a word like
+&lt;strong&gt;&lt;em&gt;king&lt;/em&gt;&lt;/strong&gt;, and should be able to subtract out a
+male component from that, add back in a woman component, and then we
+should be able to ask for the appropriate word, which should be the word
+&lt;strong&gt;&lt;em&gt;queen&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Few other examples are illustrated below using Gensim&lt;/p&gt;
+&lt;p&gt;&lt;img alt="analogy-example" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-50-13-image.png" title="" width="393"/&gt;.
+&lt;img alt="analogy-example" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-53-34-image.png" title="" width="400"/&gt;&lt;/p&gt;
+&lt;p&gt;Even linguistic analogies, such as the analogy of tall is to tallest
+as long is to longest.&lt;/p&gt;
+&lt;h4 id="why-two-different-vectors"&gt;Why two different vectors&lt;/h4&gt;
+&lt;p&gt;Recall the equation for &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; taking a sum over
+every word which is appearing as the center word, and then inside that
+there&amp;rsquo;s a second sum which is for each word in the context, where we
+count each word as a context word, and then for one particular term of
+that objective function you&amp;rsquo;ve got a particular context word and a
+particular center word that you&amp;rsquo;re then sort of summing over different
+context words for each center word, and then you&amp;rsquo;re summing over all of
+the decisions of different center words. In case the window contains the
+same word as the center and context word, it messes with the
+derivatives. while taking them as separate vectors ensures that this
+issue does not occur. The two vectors would be very similar, but not
+identical due to technical reasons such as occurring at the ends of
+documents and other similar differences.&lt;/p&gt;
+&lt;p&gt;The usual method (followed for word2vec algorithm) is to average
+those two vectors and consider the average vector as the representation
+of the word.&lt;/p&gt;
+&lt;h4 id="question-how-about-words-with-multiple-meanings-homonyms-and-common-words"&gt;Question:
+How about words with multiple meanings (Homonyms) and common words&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;For a word like &lt;strong&gt;star&lt;/strong&gt;, that can be astronomical
+object or it can be a movie star,. Taking all those uses of the word
+star and collapsing them together into one word vector. actually turns
+out to work rather well.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For very common words that are commonly referred to as
+&lt;strong&gt;function words&lt;/strong&gt; by linguists, which includes words like
+&lt;em&gt;so&lt;/em&gt; and &lt;em&gt;not&lt;/em&gt;, prepositions, words such as &lt;em&gt;to&lt;/em&gt;,
+&lt;em&gt;on&lt;/em&gt; etc., the suspicion is that the word vectors would not work
+very well because they occur in all kinds of different contexts. However
+large language models do a great job in those words as well&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="conclusion"&gt;Conclusion&lt;/h4&gt;
+&lt;p&gt;Another feature of the word2vec model is that it actually ignores the
+position of words, ie., it will predict every word around the center
+word before or after, one or two positions away in either direction
+using the one probability function. But this sort of destroys the
+ability at capturing the subtleties more common grammatical words which
+occur or do not occur at the end of a sentence. But we can build
+slightly different models that are more sensitive to the structure of
+sentences, which can then perform better on these errors. So word2vec is
+more of a framework for building word vectors, and there are several
+variant precise algorithms within the framework. One such variant is the
+prediction of either the context words (skip grand model) or the center
+word.&lt;/p&gt;
+&lt;p&gt;So to learn word vectors we start off by having a vector for each
+word type both for context and outside and those vectors we initialize
+randomly, so that we just place small little numbers that are randomly
+generated in each vector component. And that&amp;rsquo;s just the starting point,
+And from there on we are using an iterative algorithm where we are
+progressively updating those word vectors, so they do a better job at
+predicting which words appear in the context of other words. And the way
+that we are going to do that is by using the gradients and once we have
+a gradient, we can walk in the opposite direction of the gradient and we
+are then walking downhill, i.e.&amp;nbsp;we are minimizing your loss and repeat
+until our word vectors get as good as possible.&lt;/p&gt;
+&lt;h4 id="suggested-reading"&gt;Suggested reading&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="http://arxiv.org/pdf/1301.3781.pdf"&gt;Efficient Estimation of
+Word Representations in Vector Space&lt;/a&gt; (original word2vec paper)&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf"&gt;Distributed
+Representations of Words and Phrases and their Compositionality&lt;/a&gt;
+(negative sampling paper)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="references"&gt;References&lt;/h4&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=8rXD5-xhemo"&gt;Video&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture01-wordvecs1.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category><category term="machine-learning"></category></entry></feed>
