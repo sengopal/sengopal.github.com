@@ -103,7 +103,7 @@ probabilities. word2vec model is called a bag of words (BoW) model. BoW
 models does not pay any attention to word order or position, the
 distance of the context words from the center word while computing the
 probability estimate.</p>
-<p><img src="nlp-word2vec-algorithm/word2vec_bow.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/word2vec_bow.png"/></p>
 <h4 id="optimization-gradient-descent">Optimization: Gradient
 Descent</h4>
 <p>The next step would be to determine the gradient of the loss function
@@ -116,7 +116,7 @@ calculate the gradient <span class="math inline"><em>J</em>(<em>&theta;</em>)</s
 values of <span class="math inline"><em>&theta;</em></span>, by making a small
 step in the direction of the negative gradient to gradually move down
 towards the minimum.</p>
-<p><img src="nlp-word2vec-algorithm/gradient_descent.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/gradient_descent.png"/></p>
 <p>The simple gradient descent works the following way: The <strong>step
 size</strong> parameter of the algorithm determine the time taken and if
 the function converges. If the <strong>step size</strong> is too smal,
@@ -127,7 +127,7 @@ gradient using the step size, which gives new parameter values. But ach
 individual parameter gets updated only a little bit by working out the
 partial derivative of J with respect to that parameter and by using the
 learning rate, where J is a function of all windows in the corpus.</p>
-<p><img src="nlp-word2vec-algorithm/update_step.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/update_step.png"/></p>
 <p>Note that the denominator is a sum over every center word in the
 entire corpus, but they often have billions of words in the corpus,
 which makes computing the gradient of <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> expensive, as we have
@@ -150,7 +150,7 @@ we can learn several orders of magnitude more quickly.</p>
 though the stochastic gradient descent is noisy and bounces around, the
 complex networks learns better solutions than when using a plain and
 slow gradient descent.</p>
-<p><img src="nlp-word2vec-algorithm/stochastic_grad_descent.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/stochastic_grad_descent.png"/></p>
 <h4 id="note-about-sgd">Note about SGD</h4>
 <p>For example, when performing stochastic gradient update for one
 window, with one center word and window size of 5, there would be at
@@ -165,7 +165,7 @@ many efficient ways to achieve that.</p>
 usually how mathematical notation prescribes, however in deep learning
 packages, word vectors are actually represented as row vectors</p>
 </blockquote>
-<p><img src="nlp-word2vec-algorithm/stochastic_grad_wordvec.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/stochastic_grad_wordvec.png"/></p>
 <h4 id="why-two-different-vectors-for-the-same-word">Why two different
 vectors for the same word</h4>
 <p>If we use the same vector for context and center, and if the same
@@ -187,7 +187,7 @@ regression models for both the true pair of center word and the context
 word versus noise pairs where the true center word and randomly sample
 words from the vocabulary are paired, and updates only the related
 weights, instead of updating all of the weights.</p>
-<p><img src="nlp-word2vec-algorithm/skip_gram_negative_sampling.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/skip_gram_negative_sampling.png"/></p>
 <p>Instead of softmax, the dot product is passed through the logistic
 function (sigmoid), which maps any real number to a probability between
 0 and 1 open interval. So for a large dot product. the logistic function
@@ -200,7 +200,7 @@ product i.e., The dot product of a random context word and the center
 word would be a small number, which is again negated to put through the
 sigmoid.</p>
 <p>The objective is to actually maximize the <span class="math inline"><em>J</em><sub><em>t</em></sub>(<em>&theta;</em>)</span>.</p>
-<p><img src="nlp-word2vec-algorithm/skip_gram_negative_sampling_2.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/skip_gram_negative_sampling_2.png"/></p>
 <p>Comparing this to the earlier discussion of minimizing the negative
 log likelihood, where we use the negative log likelihood of the sigmoid
 of the dot product and use k-negative samples of random words. This loss
@@ -222,7 +222,7 @@ words are sampled more often, but still not nearly as much as if a
 uniform distribution was utilized.</p>
 <h4 id="problems-with-co-occurence-matrix_1">Problems with co-occurence
 matrix</h4>
-<p><img src="nlp-word2vec-algorithm/cooccurence-matrix.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/cooccurence-matrix.png"/></p>
 <ol type="1">
 <li>Cooccurence matrices are huge very sparse For example with
 vocabulary of half a million words, we have half a million dimensional
@@ -235,7 +235,7 @@ vectors.</li>
 normally somewhere between 25 and 1,000.</li>
 </ol>
 <h4 id="singular-value-decomposition">Singular Value Decomposition</h4>
-<p><img src="nlp-word2vec-algorithm/singular-value-decomposition.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/singular-value-decomposition.png"/></p>
 <p>Singular value projection gives an optimal way under a certain
 definition of optimality, of producing a reduced dimensionality pair of
 matrices that maximally recovers the original matrix. So the cooccurence
@@ -252,12 +252,12 @@ errors because we have exceedingly common words like &ldquo;a,&rdquo; &ldquo;the
 remove the function words to address this issue and such methods were
 explored heavily in the 2000s.</p>
 <h4 id="coals">COALS</h4>
-<p><img src="nlp-word2vec-algorithm/coals-hacks.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/coals-hacks.png"/></p>
 <p>Doug Rohde explored a number of these ideas as to how to improve the
 co-occurrence matrix in a model that he built that was called COALS. We
 get the same kind of linear semantic components, which can be used to
 identify analogies.</p>
-<p><img src="nlp-word2vec-algorithm/coals-analogies.png"/></p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/coals-analogies.png"/></p>
 <p>These vector components are not perfect, but are roughly parallel and
 roughly the same size. And so we have a meaning component there that we
 could add on to another word for analogies. We could determine drive is
