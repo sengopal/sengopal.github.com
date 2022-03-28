@@ -13,7 +13,7 @@ probabilities. word2vec model is called a bag of words (BoW) model. BoW
 models does not pay any attention to word order or position, the
 distance of the context words from the center word while computing the
 probability estimate.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/word2vec_bow.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/word2vec_bow.png"/&gt;&lt;/p&gt;
 &lt;h4 id="optimization-gradient-descent"&gt;Optimization: Gradient
 Descent&lt;/h4&gt;
 &lt;p&gt;The next step would be to determine the gradient of the loss function
@@ -26,7 +26,7 @@ calculate the gradient &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&l
 values of &lt;span class="math inline"&gt;&lt;em&gt;&amp;theta;&lt;/em&gt;&lt;/span&gt;, by making a small
 step in the direction of the negative gradient to gradually move down
 towards the minimum.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/gradient_descent.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/gradient_descent.png"/&gt;&lt;/p&gt;
 &lt;p&gt;The simple gradient descent works the following way: The &lt;strong&gt;step
 size&lt;/strong&gt; parameter of the algorithm determine the time taken and if
 the function converges. If the &lt;strong&gt;step size&lt;/strong&gt; is too smal,
@@ -37,7 +37,7 @@ gradient using the step size, which gives new parameter values. But ach
 individual parameter gets updated only a little bit by working out the
 partial derivative of J with respect to that parameter and by using the
 learning rate, where J is a function of all windows in the corpus.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/update_step.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/update_step.png"/&gt;&lt;/p&gt;
 &lt;p&gt;Note that the denominator is a sum over every center word in the
 entire corpus, but they often have billions of words in the corpus,
 which makes computing the gradient of &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt; expensive, as we have
@@ -60,7 +60,7 @@ we can learn several orders of magnitude more quickly.&lt;/p&gt;
 though the stochastic gradient descent is noisy and bounces around, the
 complex networks learns better solutions than when using a plain and
 slow gradient descent.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/stochastic_grad_descent.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/stochastic_grad_descent.png"/&gt;&lt;/p&gt;
 &lt;h4 id="note-about-sgd"&gt;Note about SGD&lt;/h4&gt;
 &lt;p&gt;For example, when performing stochastic gradient update for one
 window, with one center word and window size of 5, there would be at
@@ -75,7 +75,7 @@ many efficient ways to achieve that.&lt;/p&gt;
 usually how mathematical notation prescribes, however in deep learning
 packages, word vectors are actually represented as row vectors&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/stochastic_grad_wordvec.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/stochastic_grad_wordvec.png"/&gt;&lt;/p&gt;
 &lt;h4 id="why-two-different-vectors-for-the-same-word"&gt;Why two different
 vectors for the same word&lt;/h4&gt;
 &lt;p&gt;If we use the same vector for context and center, and if the same
@@ -97,7 +97,7 @@ regression models for both the true pair of center word and the context
 word versus noise pairs where the true center word and randomly sample
 words from the vocabulary are paired, and updates only the related
 weights, instead of updating all of the weights.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/skip_gram_negative_sampling.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/skip_gram_negative_sampling.png"/&gt;&lt;/p&gt;
 &lt;p&gt;Instead of softmax, the dot product is passed through the logistic
 function (sigmoid), which maps any real number to a probability between
 0 and 1 open interval. So for a large dot product. the logistic function
@@ -110,7 +110,7 @@ product i.e., The dot product of a random context word and the center
 word would be a small number, which is again negated to put through the
 sigmoid.&lt;/p&gt;
 &lt;p&gt;The objective is to actually maximize the &lt;span class="math inline"&gt;&lt;em&gt;J&lt;/em&gt;&lt;sub&gt;&lt;em&gt;t&lt;/em&gt;&lt;/sub&gt;(&lt;em&gt;&amp;theta;&lt;/em&gt;)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src="lecture-02-word-vectors-word-window/skip_gram_negative_sampling_2.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="nlp-word2vec-algorithm/skip_gram_negative_sampling_2.png"/&gt;&lt;/p&gt;
 &lt;p&gt;Comparing this to the earlier discussion of minimizing the negative
 log likelihood, where we use the negative log likelihood of the sigmoid
 of the dot product and use k-negative samples of random words. This loss
