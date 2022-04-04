@@ -4,469 +4,469 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/tags.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/categories.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/authors.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/authors.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/archives.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/sitemap.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/sitemap.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/about.html</loc>
+<loc>https://sengopal.github.io/pages/about.html</loc>
 <lastmod>2010-12-13T00:00:00-08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/publications.html</loc>
+<loc>https://sengopal.github.io/pages/publications.html</loc>
 <lastmod>2010-12-13T00:00:00-08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/software.html</loc>
-<lastmod>2022-04-04T15:23:09-00:00</lastmod>
+<loc>https://sengopal.github.io/pages/software.html</loc>
+<lastmod>2022-04-04T15:26:26-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/talks.html</loc>
+<loc>https://sengopal.github.io/pages/talks.html</loc>
 <lastmod>2010-12-13T00:00:00-08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/posts/nlp-word2vec-algorithm.html</loc>
+<loc>https://sengopal.github.io/posts/nlp-word2vec-algorithm.html</loc>
 <lastmod>2022-03-20T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/introduction-to-nlp-and-word-vectors.html</loc>
+<loc>https://sengopal.github.io/posts/introduction-to-nlp-and-word-vectors.html</loc>
 <lastmod>2022-03-16T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/using-fermats-little-theorum-for-modular-arithmetic.html</loc>
+<loc>https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html</loc>
 <lastmod>2022-01-19T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/steps-for-secure-android-application-development.html</loc>
+<loc>https://sengopal.github.io/posts/steps-for-secure-android-application-development.html</loc>
 <lastmod>2015-03-22T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/git-and-github-secrets.html</loc>
+<loc>https://sengopal.github.io/posts/git-and-github-secrets.html</loc>
 <lastmod>2014-01-23T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/eight-steps-in-choosing-a-database.html</loc>
+<loc>https://sengopal.github.io/posts/eight-steps-in-choosing-a-database.html</loc>
 <lastmod>2014-01-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/java-mail-made-easy-using-velocity-templates.html</loc>
+<loc>https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html</loc>
 <lastmod>2010-10-01T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/pdf-generation-using-pd4ml.html</loc>
+<loc>https://sengopal.github.io/posts/pdf-generation-using-pd4ml.html</loc>
 <lastmod>2010-04-05T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/spreadsheet-generation-using-java-libraries.html</loc>
+<loc>https://sengopal.github.io/posts/spreadsheet-generation-using-java-libraries.html</loc>
 <lastmod>2009-09-23T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/job-chaining-using-quartz.html</loc>
+<loc>https://sengopal.github.io/posts/job-chaining-using-quartz.html</loc>
 <lastmod>2009-03-31T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/studying-for-ocp-oracle-certifed-professional-part-2.html</loc>
+<loc>https://sengopal.github.io/posts/studying-for-ocp-oracle-certifed-professional-part-2.html</loc>
 <lastmod>2009-02-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/studying-for-ocp-oracle-certifed-professional-part-1.html</loc>
+<loc>https://sengopal.github.io/posts/studying-for-ocp-oracle-certifed-professional-part-1.html</loc>
 <lastmod>2009-02-12T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html</loc>
+<loc>https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html</loc>
 <lastmod>2008-09-08T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1.html</loc>
+<loc>https://sengopal.github.io/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1.html</loc>
 <lastmod>2008-09-03T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/learning-basics-of-css-and-quick-notes.html</loc>
+<loc>https://sengopal.github.io/posts/learning-basics-of-css-and-quick-notes.html</loc>
 <lastmod>2008-09-03T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/posts/criteria-api-in-hibernate.html</loc>
+<loc>https://sengopal.github.io/posts/criteria-api-in-hibernate.html</loc>
 <lastmod>2008-05-30T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
 </url>
 
 <url>
-<loc>/category/java.html</loc>
+<loc>https://sengopal.github.io/category/java.html</loc>
 <lastmod>2010-10-01T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/math.html</loc>
+<loc>https://sengopal.github.io/category/math.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/misc.html</loc>
+<loc>https://sengopal.github.io/category/misc.html</loc>
 <lastmod>2015-03-22T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/nlp.html</loc>
+<loc>https://sengopal.github.io/category/nlp.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/notes.html</loc>
+<loc>https://sengopal.github.io/category/notes.html</loc>
 <lastmod>2009-02-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/cs224n.html</loc>
+<loc>https://sengopal.github.io/tag/cs224n.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/learning.html</loc>
+<loc>https://sengopal.github.io/tag/learning.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/nlp.html</loc>
+<loc>https://sengopal.github.io/tag/nlp.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/machine-learning.html</loc>
+<loc>https://sengopal.github.io/tag/machine-learning.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/math.html</loc>
+<loc>https://sengopal.github.io/tag/math.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/fermat.html</loc>
+<loc>https://sengopal.github.io/tag/fermat.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/modular-arithmetic.html</loc>
+<loc>https://sengopal.github.io/tag/modular-arithmetic.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/dpv.html</loc>
+<loc>https://sengopal.github.io/tag/dpv.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/algorithms.html</loc>
+<loc>https://sengopal.github.io/tag/algorithms.html</loc>
 <lastmod>2022-01-19T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/development.html</loc>
+<loc>https://sengopal.github.io/tag/development.html</loc>
 <lastmod>2015-03-22T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/coding.html</loc>
+<loc>https://sengopal.github.io/tag/coding.html</loc>
 <lastmod>2015-03-22T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/android.html</loc>
+<loc>https://sengopal.github.io/tag/android.html</loc>
 <lastmod>2015-03-22T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/security.html</loc>
+<loc>https://sengopal.github.io/tag/security.html</loc>
 <lastmod>2015-03-22T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/lists.html</loc>
+<loc>https://sengopal.github.io/tag/lists.html</loc>
 <lastmod>2014-01-23T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/git.html</loc>
+<loc>https://sengopal.github.io/tag/git.html</loc>
 <lastmod>2014-01-23T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/backend.html</loc>
+<loc>https://sengopal.github.io/tag/backend.html</loc>
 <lastmod>2014-01-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/services.html</loc>
+<loc>https://sengopal.github.io/tag/services.html</loc>
 <lastmod>2014-01-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/database.html</loc>
+<loc>https://sengopal.github.io/tag/database.html</loc>
 <lastmod>2014-01-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/architecture.html</loc>
+<loc>https://sengopal.github.io/tag/architecture.html</loc>
 <lastmod>2014-01-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/javamail.html</loc>
+<loc>https://sengopal.github.io/tag/javamail.html</loc>
 <lastmod>2010-10-01T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/java.html</loc>
+<loc>https://sengopal.github.io/tag/java.html</loc>
 <lastmod>2010-10-01T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/velocity.html</loc>
+<loc>https://sengopal.github.io/tag/velocity.html</loc>
 <lastmod>2010-10-01T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/pd4ml.html</loc>
+<loc>https://sengopal.github.io/tag/pd4ml.html</loc>
 <lastmod>2010-04-05T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/api.html</loc>
+<loc>https://sengopal.github.io/tag/api.html</loc>
 <lastmod>2009-09-23T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/library.html</loc>
+<loc>https://sengopal.github.io/tag/library.html</loc>
 <lastmod>2009-09-23T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/quartz.html</loc>
+<loc>https://sengopal.github.io/tag/quartz.html</loc>
 <lastmod>2009-03-31T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/oracle.html</loc>
+<loc>https://sengopal.github.io/tag/oracle.html</loc>
 <lastmod>2009-02-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/certification.html</loc>
+<loc>https://sengopal.github.io/tag/certification.html</loc>
 <lastmod>2009-02-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/sql.html</loc>
+<loc>https://sengopal.github.io/tag/sql.html</loc>
 <lastmod>2009-02-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/scjp.html</loc>
+<loc>https://sengopal.github.io/tag/scjp.html</loc>
 <lastmod>2008-09-08T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/kathy.html</loc>
+<loc>https://sengopal.github.io/tag/kathy.html</loc>
 <lastmod>2008-09-08T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/sierra.html</loc>
+<loc>https://sengopal.github.io/tag/sierra.html</loc>
 <lastmod>2008-09-08T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/web.html</loc>
+<loc>https://sengopal.github.io/tag/web.html</loc>
 <lastmod>2008-09-03T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/css.html</loc>
+<loc>https://sengopal.github.io/tag/css.html</loc>
 <lastmod>2008-09-03T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/frontend.html</loc>
+<loc>https://sengopal.github.io/tag/frontend.html</loc>
 <lastmod>2008-09-03T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/author/senthilkumar-gopal.html</loc>
+<loc>https://sengopal.github.io/author/senthilkumar-gopal.html</loc>
 <lastmod>2022-03-20T00:00:00-07:53</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
