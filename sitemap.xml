@@ -5,42 +5,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.github.io/</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/tags.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/categories.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/authors.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/archives.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.github.io/sitemap.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -61,7 +61,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.github.io/pages/software.html</loc>
-<lastmod>2022-04-28T11:01:58-00:00</lastmod>
+<lastmod>2022-04-28T16:06:30-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -74,7 +74,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://sengopal.github.io/posts/nlp-glove-algorithm.html</loc>
+<loc>https://sengopal.github.io/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html</loc>
 <lastmod>2022-04-10T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1</priority>
