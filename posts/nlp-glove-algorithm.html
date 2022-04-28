@@ -27,7 +27,7 @@
         href="https://sengopal.github.io/feeds/all.atom.xml">
   <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
         href="https://sengopal.github.io/feeds/nlp.atom.xml">
-<meta name="description" content="A post detailing more about the Word2Vec algorithm, its variations and utilities">
+<meta name="description" content="A post detailing about the Glove algorithm, its variations and utilities">
   <script>
     (function(i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
@@ -79,9 +79,9 @@
 <article class="article">
     <header>
         <ul class="list-inline">
-            <li class="list-inline-item text-muted" title="2022-03-28T00:00:00-07:00">
+            <li class="list-inline-item text-muted" title="2022-04-10T00:00:00-07:00">
                 <i class="fas fa-clock"></i>
-                Mon 28 March 2022
+                Sun 10 April 2022
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-folder-open"></i>
@@ -93,12 +93,198 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#references" title="References">References</a></li></ul></div>
+        <div id="toc"><ul><li><a class="toc-href" href="#analogies-and-meaning-components" title="Analogies and Meaning
+components">Analogies and Meaning
+components</a><ul><li><a class="toc-href" href="#log-bi-linear-model" title="Log bi-linear model">Log bi-linear model</a></li><li><a class="toc-href" href="#objective-function-for-the-glove-model-log-bilinear-means" title="Objective
+function for the GloVe model / log-bilinear means">Objective
+function for the GloVe model / log-bilinear means</a></li><li><a class="toc-href" href="#explanation-for-fxij" title="Explanation for f(Xij)">Explanation for f(Xij)</a></li></ul></li><li><a class="toc-href" href="#results_1" title="Results">Results</a></li><li><a class="toc-href" href="#evaluation-of-glove-algorithm" title="Evaluation of Glove
+algorithm">Evaluation of Glove
+algorithm</a></li><li><a class="toc-href" href="#evaluation-metrics" title="Evaluation Metrics">Evaluation Metrics</a></li><li><a class="toc-href" href="#better-data" title="Better Data">Better Data</a></li><li><a class="toc-href" href="#human-judgments-of-word-similarity" title="Human judgments of word
+similarity">Human judgments of word
+similarity</a></li><li><a class="toc-href" href="#references" title="References">References</a></li></ul></div>
     </div>
     <div class="content">
         <p>This lecture introduces the GLove model, the intuition behind the
 algorithm and different means to evaluate them.</p>
-<h4 id="references">References</h4>
+<p>Glove was an algorithm for word vectors that was made by Jeffrey
+Pennington, Richard Socher, and Christopher Manning in 2014 and acted as
+the starting point of connecting together the linear algebra based
+methods on co-occurrence matrices like LSA and COALS with the models
+like skip-gram, CBOW and others, which were iterative neural updating
+algorithms. The earlier linear algebra methods actually had their
+advantages for fast training and efficient usage of statistics, the
+results weren&rsquo;t as good perhaps because of disproportionate importance
+given to large counts in the main. Conversely, the neural models seemed
+to performing gradient updates on word-windows, and inefficiently using
+statistics versus the co-occurrence matrix. Though, it was actually
+easier to scale to a very large corpus by trading time for space.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_count_prediction.png"/></p>
+<p>The motivation was to use neural methods, which generated improved
+performance on many taskss, and identify the properties necessary to
+have these analogies work, such as going from male to female, queen to
+king. Or going from a verb to its agent, truck to driver.</p>
+<h3 id="analogies-and-meaning-components">Analogies and Meaning
+components</h3>
+<p>The intent behind the Glove design was to represent the &ldquo;meaning&rdquo;
+components as ratios of co-occurrence probabilities. As an example, the
+below illustrates the spectrum from solid to gas as in physics. The word
+&ldquo;solid&rdquo; co-occurs with the word &ldquo;ice&rdquo; often, while the word &ldquo;gas&rdquo;
+doesn&rsquo;t occur with the word &ldquo;ice&rdquo; as many times. But the problem is the
+word &ldquo;water&rdquo; will also occur a lot with ice, while any other random word
+like the word &ldquo;fashon&rdquo;, doesn&rsquo;t occur with the word &ldquo;ice&rdquo; many times. In
+contrast, if we look at words co-occurring with the word &ldquo;steam&rdquo;,
+&ldquo;solid&rdquo; won&rsquo;t occur with &ldquo;steam&rdquo; many times, but &ldquo;gas&rdquo; will. The water
+will also co-occur again and &ldquo;fashion&rdquo; occurence will be small. So to
+determine the meaning component of traversing from gas to solid, it
+would be useful to look at the ratio of these co-occurrence
+probabilities.</p>
+<p>Because then we get a spectrum from large to small between solid and
+gas. Whereas for water and a random word, it basically cancels out and
+gives youI just wrote these numbers in.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_meaning_components.png"/></p>
+<p>In an actual large corpus, the following are actual co-occurrence
+probabilities.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_cooccurence_probabilities.png"/></p>
+<p>as noted the co-occurence probabilities cancel out for &ldquo;water&rdquo; and
+while for fashion is it low, both around 1. Whereas the ratio of
+probability of co-occurrence of solid with ice or steam is about 10. And
+for gas it&rsquo;s about a 10th.</p>
+<h4 id="log-bi-linear-model">Log bi-linear model</h4>
+<p><img src="/extras/images/nlp-glove-algorithm/log_bilinear.png"/></p>
+<p>In order to capture these ratios of co-occurrence probabilities as
+linear meaning components within the word vector space, we can just add
+and subtract linear meaning components. This can be achieved using a
+log-bilinear model. So that <strong>the dot product between two word
+vectors attempts to approximate the log of the probability of
+co-occurrence.</strong> So if you do that, you then get this property
+that the difference between two vectors, its similarity to another word
+corresponds to the log of the probability ratio shown on the previous
+figure.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_loss_fn.png"/></p>
+<p>So the GloVe model attempts to unify the thinking between the
+co-occurrence matrix models and the neural models by being some way
+similar to a neural model 1. calculated on top of a co-occurrence matrix
+count. 2. Has an explicit loss function.</p>
+<p>And the explicit loss function is the diference of the dot product to
+the log of the co-occurrence. To prevent very common words from
+dominating, the effect of high word counts are capped using the
+<em>f</em> function. This structure allows the optimization of the
+<em>J</em> function directly on the co-occurrence count matrix,
+providing a fast training scalable to huge corpora.</p>
+<h4 id="objective-function-for-the-glove-model-log-bilinear-means">Objective
+function for the GloVe model / log-bilinear means</h4>
+<p><strong>log-bilinear</strong> - the &ldquo;bi&rdquo; is indicative of the two
+terms <em>wi</em> and <em>wj</em>, similar to an algebraic value of
+<em>ax</em> where the term i linear in <em>x</em> and <em>a</em> is a
+constant. The difference is squared to ensure that the term is always
+positive and J is a minimization problem. There are two bias terms for
+both words which can move things up and down for the word in general. So
+if in general probabilities are high for a certain word, this bias term
+can model specifically for that word.</p>
+<h4 id="explanation-for-fxij">Explanation for f(Xij)</h4>
+<p><em>f(Xij)</em> is provided to scale things depending on the
+frequency of a word because we want to pay more attention to words that
+are more common or word pairs that are more common. But there is a
+potential issue when we have extremely common words like function words.
+So the function <em>f(Xij)</em> typically pays attention to words that
+co-occurred together up until a certain point. And then the curve just
+goes flat, so it didn&rsquo;t matter if it was even an extremely, extremely
+common word.</p>
+<h3 id="results_1">Results</h3>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_frog_results.png"/></p>
+<p>Nearest words to the word &ldquo;frog&rdquo; - We get &ldquo;frogs&rdquo;, &ldquo;toad&rdquo;, and then
+we get some complicated words. But it turns out they are all frogs,u
+ntil we get down to lizards.</p>
+<h3 id="evaluation-of-glove-algorithm">Evaluation of Glove
+algorithm</h3>
+<p>There are typically two ways of evaluation - Intrinsic and extrinsic.
+In an intrinsic evaluation we evaluate directly on the specific or
+intermediate subtasks that we&rsquo;ve been working on. Intrinsic evaluations
+are fast to compute and help understand the component we&rsquo;ve been working
+on.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_evaluate.png"/></p>
+<p>An extrinsic evaluation is to utilize a real task of interest, such
+as web search or machine translation and use that goal to improve
+performance on that task. However, such evaluation takes longer due to
+the extensiveness of the system involved. And sometimes it is difficult
+to attribute the result to the appropriateness of the word vectors or
+due to some other components of the system or if the interaction was
+just better with your previous version of the word vectors.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_intrinsic.png"/></p>
+<p>For intrinsic evaluation of word vectors, we can provide models with
+a big collection of word vector analogy problems, such as man is to
+woman as king is to blank? And tune the model to find the word that is
+closest, such as queen and produce an accuracy score of how often that
+the model evaluates it accurately.</p>
+<p>Note: Many times during such evaluation, the actual closest word is
+really just &ldquo;king&rdquo;. So to prevent this issue, the three input words are
+not allowed in the selection process, choosing only the nearest word
+that isn&rsquo;t one of the input words.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_1.png"/></p>
+<p>From the GloVe vector examples above, they exhibit a strong linear
+component property such as the male-female dimension. For example,
+taking the vector difference of &ldquo;man&rdquo; and &ldquo;woman&rdquo; and adding the vector
+difference onto &ldquo;brother&rdquo;, the expectation is to get to &ldquo;sister&rdquo; and
+king, queen, and for many of these examples. But some examples may not
+work, such as starting from &ldquo;emperor&rdquo;, the vector might get to
+&ldquo;countess&rdquo; or &ldquo;duchess&rdquo; instead.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_2.png"/></p>
+<p>And these two examples illustrate that the Company to CEO and
+superlatives also move in roughly linear components.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_3.png"/></p>
+<h3 id="evaluation-metrics">Evaluation Metrics</h3>
+<p>word2vec authors built a data set of analogies to evaluate different
+models on the accuracy of their analogies, including semantic and
+syntactic analogies. Unscaled co-occurrence counts via an SVD work
+terribly. Some scaling can get SVD of a scaled count matrix to work
+reasonably well, hence SVD-L is similar to the COALS model. They do a
+decent enough job without a neural network.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_eval_results.png"/></p>
+<p>The results also illustrate how word2vec and GloVe models performed
+and in 2014 was considered optimal. However, it might have scored better
+due to better data.</p>
+<h3 id="better-data">Better Data</h3>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_analogy_data.png"/></p>
+<p>The above image illustrates the semantic, syntactic and overall
+performance on word analogies of GloVe modelthat when trained on
+different subsets of data. One of the big advantage was that the GloVe
+model was partly trained on Wikipedia as well as other text. Whereas the
+word2vec model that was released was trained exclusively on Google News,
+which is not as good as even one quarter of the size amount of Wikipedia
+data for semantics. On the right end, with Common Crawl Web data, 42
+billion words, we get good scores again from the semantic side.</p>
+<p>The graph on the right then shows performance against the vector
+dimension. 25 dimensional vectors score poorly, while 100 dimensional
+vectors already work reasonably well, but still get significant gains
+for 200 and somewhat to 300 and recently 300 dimensional vectors seems
+to be the sweet spot, with the best known sets of word vectors,
+including the word2vec vectors and the GloVe vectors provide 300
+dimensional word vectors.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_intrinsic_eval_2.png"/></p>
+<h3 id="human-judgments-of-word-similarity">Human judgments of word
+similarity</h3>
+<p>Another intrinsic evaluation you can do is see how these models model
+human judgments of word similarity. So psychologists for several decades
+have actually taken human judgments of word similarity. Where literally
+you&rsquo;re asking people for pairs of words like &ldquo;professor&rdquo; and &ldquo;doctor&rdquo; to
+give them a similarity score that&rsquo;s being measured as some continuous
+quantity giving you a score between, say 0 and 10.</p>
+<p>They responses are then averaged over multiple human judgments as to
+how similar different words are. For example, &ldquo;tiger&rdquo; and &ldquo;cat&rdquo; are
+pretty similar. &ldquo;Computer&rdquo; and &ldquo;internet&rdquo; are pretty similar, while
+&ldquo;Plane&rdquo; and &ldquo;cars&rdquo; less similar. &ldquo;Stock&rdquo; and &ldquo;CD&rdquo; aren&rsquo;t very similar at
+all but &ldquo;stock&rdquo; and &ldquo;jaguar&rdquo; are even less similar.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_correlation.png"/></p>
+<p>And in particular, we can measure a <strong>correlation coefficient
+</strong>of whether they give the same ordering of similarity judgments.
+And there are various different data sets of word similarities and
+scorinf of different models as to how well they do on such similarities.
+Plain SVD&rsquo;s works comparatively better here for similarities than it did
+for analogies, not completely terrible because we no longer need that
+linear property. Scaled SVD&rsquo;s work a lot better, Word2vec works a bit
+better than that and with similar minor advantages from the GloVe
+model.</p>
+<h3 id="references">References</h3>
 <ol type="1">
 <li><a href="https://www.youtube.com/watch?v=gqaHkPEZAew">Video</a></li>
 <li><a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf">Slides</a></li>
