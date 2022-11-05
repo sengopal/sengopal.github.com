@@ -1,5 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-04-19T00:00:00-07:00</updated><subtitle>Musings of a machine learning engineer</subtitle><entry><title>Secure Constructor object for SnakeYAML</title><link href="https://sengopal.github.io/posts/secure-constructor-object-for-snakeyaml.html" rel="alternate"></link><published>2022-04-19T00:00:00-07:00</published><updated>2022-04-19T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-04-19:/posts/secure-constructor-object-for-snakeyaml.html</id><summary type="html">This post explores the pitfalls and steps to securely read an YAML file using SnakeYAML library</summary><content type="html">&lt;p&gt;We use &lt;a href="https://bitbucket.org/snakeyaml/snakeyaml/src/master/"&gt;SnakeYAML&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-06-04T00:00:00-07:00</updated><subtitle>Musings of a machine learning engineer</subtitle><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
+&lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
+&lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
+evidence to try to &amp;ldquo;prove&amp;rdquo; something. Of course, the problem with this
+line of reasoning is that a lack of evidence is just that: a lack.
+Evidence of absence is evidence of any kind that suggests something is
+missing or that it does not exist.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Evidence_of_absence"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="ecological-fallacy"&gt;Ecological fallacy&lt;/h3&gt;
+&lt;p&gt;A mistake caused by assuming what is true for a group is true for the
+individual members of the group. (noun) In statistical analysis, an
+error caused by inferring aggregate data remains true on an individual
+level.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://sociologydictionary.org/ecological-fallacy/"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="steins-paradox"&gt;Stein&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;p&gt;Stein&amp;rsquo;s example (or phenomenon or paradox), in decision theory and
+estimation theory, is the phenomenon that when three or more parameters
+are estimated simultaneously, there exist combined estimators more
+accurate on average (that is, having lower expected mean squared error)
+than any method that handles the parameters separately.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Stein%27s_example"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="lords-paradox"&gt;Lord&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;p&gt;When two groups are compared in a pre-post study, two different
+conclusions can be drawn between the two-sample t-test and the analysis
+of covariance (ANCOVA). It is known as Lord&amp;rsquo;s Paradox, and it occurs
+because the parameter in the two-sample t-test and the parameter of
+interest in the ANCOVA model are not the same quantity. The difference
+between the two parameters can be explained by the covariance of
+linearly combined random variables which is an important topic in
+introductory statistical theory courses.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.ccsenet.org/journal/index.php/ijsp/article/view/75051"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="simpsons-paradox"&gt;Simpson&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;p&gt;Simpson&amp;rsquo;s paradox, which also goes by several other names, is a
+phenomenon in probability and statistics in which a trend appears in
+several groups of data but disappears or reverses when the groups are
+combined. This result is often encountered in social-science and
+medical-science statistics,[1][2][3] and is particularly problematic
+when frequency data is unduly given causal interpretations.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="berksons-paradox"&gt;Berkson&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;p&gt;Berkson&amp;rsquo;s paradox (also known as Berkson&amp;rsquo;s fallacy or Berkson&amp;rsquo;s bias)
+is the counter-intuitive idea that events which seem to be correlated
+actually are not. Take two events, A and B, which are completely
+independent events (for example, lung cancer and diabetes). If a study
+selects for both the presence of A (lung cancer) and B (diabetes), the
+presence of diabetes will make the presence of lung cancer more likely.
+Intuitively, this makes no sense, but the data seems to back this
+counter-intuitive notion up, showing that there is, in fact, a
+connection.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.statisticshowto.com/berksons-paradox-definition/"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="prosecutors-fallacy"&gt;Prosecutors fallacy&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;tbd&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id="gamblers-fallacy"&gt;Gambler&amp;rsquo;s fallacy&lt;/h3&gt;
+&lt;p&gt;The gambler&amp;rsquo;s fallacy is&amp;nbsp;the belief that the probability for an
+outcome after a series of outcomes is not the same as the probability
+for a single outcome. The gambler&amp;rsquo;s fallacy is real and true in cases
+where the events in question are independent and identically
+distributed.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.tandfonline.com/doi/abs/10.1080/13669877.2017.1378248?journalCode=rjrr20#:~:text=The%20gambler's%20fallacy%20is%20the%20belief%20that%20the%20probability%20for,are%20independent%20and%20identically%20distributed."&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="lindleys-paradox"&gt;Lindley&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;p&gt;Lindley&amp;rsquo;s paradox is a counterintuitive situation in statistics in
+which the Bayesian and frequentist approaches to a hypothesis testing
+problem give different results for certain choices of the prior
+distribution. It is in fact a difficulty reconciling two paradigms &amp;mdash;
+Bayesian and frequentist statistics.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bayes &amp;mdash; probability is a (unique) measure of degree of belief (see
+e.g., Cox&amp;rsquo;s theorem in Chap. 2 of Jaynes3)&lt;/li&gt;
+&lt;li&gt;Frequentist &amp;mdash; probability is the (asymptotic) frequency at which an
+outcome occurs, in a hypothetical sequence of repeated trials&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="https://andrewfowlie.github.io/talks/jl-paradox.pdf"&gt;Reference&lt;/a&gt;
+| &lt;a href="https://en.wikipedia.org/wiki/Lindley%27s_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="low-birthweight-paradox"&gt;Low birthweight paradox&lt;/h3&gt;
+&lt;p&gt;The low birth-weight paradox is an apparently paradoxical observation
+relating to the birth weights and mortality rate of children born to
+tobacco smoking mothers. Low birth-weight children born to smoking
+mothers have a lower infant mortality rate than the low birth weight
+children of non-smokers. It is an example of Simpson&amp;rsquo;s paradox.
+Traditionally, babies weighing less than a certain amount (which varies
+between countries) have been classified as having low birth weight. In a
+given population, low birth weight babies have a significantly higher
+mortality rate than others; thus, populations with a higher rate of low
+birth weights typically also have higher rates of child mortality than
+other populations.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Secure Constructor object for SnakeYAML</title><link href="https://sengopal.github.io/posts/secure-constructor-object-for-snakeyaml.html" rel="alternate"></link><published>2022-04-19T00:00:00-07:00</published><updated>2022-04-19T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-04-19:/posts/secure-constructor-object-for-snakeyaml.html</id><summary type="html">This post explores the pitfalls and steps to securely read an YAML file using SnakeYAML library</summary><content type="html">&lt;p&gt;We use &lt;a href="https://bitbucket.org/snakeyaml/snakeyaml/src/master/"&gt;SnakeYAML&lt;/a&gt;
 for simple parsing of YAML files in Java, as part of &lt;a href="https://github.com/eBay/ebay-oauth-java-client"&gt;ebay-oauth-java-client&lt;/a&gt;
 configuration. We were made aware of a vulnerability within the code due
 to the usage of &lt;code&gt;Yaml yaml = new Yaml()&lt;/code&gt; and then following
