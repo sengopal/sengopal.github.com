@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Review of Combinatorics | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.github.io/posts/review-of-combinatorics.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/math.atom.xml">
+<meta name="description" content="This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>    Review of Combinatorics
+</h1>
+      <hr>
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2023-01-03T00:00:00-08:00">
+                <i class="fas fa-clock"></i>
+                Tue 03 January 2023
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.github.io/category/math.html">Math</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.github.io/tag/math.html">#math</a>,                 <a href="https://sengopal.github.io/tag/statistics.html">#statistics</a>            </li>
+        </ul>
+    </header>
+    <div class="hidden-xs hidden-sm">
+        <div id="toc"><ul><li><a class="toc-href" href="#permutation" title="Permutation">Permutation</a><ul><li><a class="toc-href" href="#examples-of-permutations" title="Examples of Permutations">Examples of Permutations</a></li></ul></li><li><a class="toc-href" href="#variations-extension-of-permutation_1" title="Variations (extension of
+permutation)">Variations (extension of
+permutation)</a><ul><li><a class="toc-href" href="#examples-of-variations" title="Examples of Variations">Examples of Variations</a></li></ul></li><li><a class="toc-href" href="#combinations_1" title="Combinations">Combinations</a><ul><li><a class="toc-href" href="#examples-of-combinations" title="Examples of Combinations">Examples of Combinations</a></li></ul></li><li><a class="toc-href" href="#references_1" title="References">References</a></li></ul></div>
+    </div>
+    <div class="content">
+        <p>In the study of combinatorics, there are three different structures -
+<strong>permutations, variations and combinations</strong> which are
+variations with subtle differences.</p>
+<h2 id="permutation">Permutation</h2>
+<p>A typical question for permutation is &ldquo;How many ways to arrange the
+three characters a,b and c?&rdquo;. Note that the position and order matters
+for permutation and to fill all the positions. A permutation defines the
+numbers of different possible ways we can arrange a set of elements and
+can always <strong>arrange the entire set of elements in the sample
+space</strong>. Example: For a relay race, we can arrange 4-runners
+already chosen in 4-positions using permutations.</p>
+<blockquote>
+<p>Permutations are arrangements of objects (with or without
+repetition), the order does matter.</p>
+</blockquote>
+<p>Permutations without repetition if all elements are added and order
+does matter with no repetition of elements.</p>
+<p><span class="math display"><em>P</em><sub><em>n</em></sub>&emsp13;=&emsp13;<em>n</em>!</span></p>
+<p>Permutations with repetition if all elements are added and order does
+matter with repetition of elements being allowed.</p>
+<p><span class="math display">$$
+P^{a,b,c...}_{n} = \frac{n!}{(a! \cdot b! \cdot c! ...)}
+$$</span></p>
+<h3 id="examples-of-permutations">Examples of Permutations</h3>
+<ul>
+<li>Ways to put N items in a specific order.</li>
+<li>Different strings that can be built using the 26 alphabets such that
+each letter is used only once in a single string.</li>
+<li>Order in which N people can enter a door</li>
+</ul>
+<h2 id="variations-extension-of-permutation_1">Variations (extension of
+permutation)</h2>
+<p>Variations can be considered an extension of permutation where
+variations determines the total number of ways we can pick and arrange
+some elements of a given set, with or without repetitions. Using the
+relay race example from above, if we had to choose 4-runners out of
+6-runners in the team (6-runners | 4-positions), and then decide who
+runs in which lap (**pick &amp; arrange), we would require using
+Variations.</p>
+<blockquote>
+<p>Variations are arrangements of selections of objects, where the order
+of the selected objects matters.</p>
+</blockquote>
+<p>Variations without repetition if not all the elements are added and
+order does matter with no repetition of elements.</p>
+<p><span class="math display">$$
+V^n_{m} = \frac{m!}{(m - n)!}
+$$</span></p>
+<p>Variations with repetition if not all elements are added if 𝑚 &gt; 𝑛
+and order does matter with repetition of elements being allowed. All
+elements can be added if 𝑚 &le; 𝑛.</p>
+<p><span class="math display"><em>V</em><sub><em>m</em></sub><sup><em>n</em></sup>&emsp13;=&emsp13;<em>m</em><sup><em>n</em></sup></span></p>
+<h3 id="examples-of-variations">Examples of Variations</h3>
+<ul>
+<li>Ways, in which 3 out of 10 sports people can win a medal in a
+competition, the first winning gold, the next silver, and the third
+bronze.</li>
+<li>Possibilities to choose 2 representatives out of 100 students, one
+as the &ldquo;president&rdquo; and the other as the &ldquo;vice-president&rdquo;.</li>
+<li>Different results when rolling 3 dice which are distinguishable by
+color, e.g.&nbsp;white, red, and black dice.</li>
+</ul>
+<h2 id="combinations_1">Combinations</h2>
+<p>The number of different ways we can pick a specific element of a set
+where the order in which the elements needs to be selected is also not
+important. Using the example of the relay race, if we only care about
+which 4-runners out of 6-runners made it into the team
+(<strong>pick</strong>) without any dependency on their position, we
+would be dealing with combinations and order is not relevant.</p>
+<blockquote>
+<p>Combinations are selections of objects, with or without repetition,
+the order does not matter.</p>
+</blockquote>
+<p>Combinations without repetition if not all elements are added and
+order does not matter where <strong>elements are not
+repeated.</strong></p>
+<p><span class="math display">$$
+C^n_{𝑚} = \frac{𝑚!}{𝑛! \cdot (𝑚&minus;𝑛)!}
+$$</span></p>
+<p>Combinations with repetition if not all elements are added and order
+does not matter where <strong>elements are repeated.</strong></p>
+<p><span class="math display">$$
+C^n_{𝑚} = \frac{(𝑚 + n -1)!}{𝑛! \cdot (𝑚&minus;1)!}
+$$</span></p>
+<h3 id="examples-of-combinations">Examples of Combinations</h3>
+<ul>
+<li>Ways, in which 3 out of 10 sports people can win a medal in a
+competition (no matter whether gold, silver, or bronze).</li>
+<li>Possibilities to choose 2 representatives out of 100 students,
+irrespective of the role.</li>
+<li>Different results when rolling 3 identical dice, irrespective of the
+order.</li>
+</ul>
+<h2 id="references_1">References</h2>
+<ol type="1">
+<li><a href="https://betterexplained.com/articles/easy-permutations-and-combinations/">Better
+Explained</a></li>
+<li><a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/">Book
+of Proofs</a></li>
+<li><a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations">Quora</a></li>
+</ol>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

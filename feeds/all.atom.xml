@@ -1,5 +1,342 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-06-04T00:00:00-07:00</updated><subtitle>Musings of a machine learning engineer</subtitle><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2023-02-20T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>float16 precision conversion to Base64</title><link href="https://sengopal.github.io/posts/float16-precision-conversion-to-base64.html" rel="alternate"></link><published>2023-02-20T00:00:00-08:00</published><updated>2023-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-02-20:/posts/float16-precision-conversion-to-base64.html</id><summary type="html">This post discusses the different methods in Python for converting float16 or half-precision floats to base64 and vice versa to ensure lossless transmission of numpy array data.</summary><content type="html">&lt;p&gt;With the advent of vector databases and large model based embeddings,
+with dimensions of 768 and 2048, building large scale indexes for
+performing ANN and storing these vectors have become expensive
+operations. There are many methods of reducing the vector&amp;rsquo;s memory
+footprint such as quantization or even int8. Two such well used methods
+are binarization and using half-precision or float16 to store these
+vectors. The following are simple code snippets that I collected from
+various sources for conversion between these formats to base64 to ensure
+lossless transmission over the wire, such as HTTP services.&lt;/p&gt;
+&lt;h2 id="binarization"&gt;Binarization&lt;/h2&gt;
+&lt;p&gt;Binarization is a simple method which works well for large
+dimensional vectors. There are many methods to define the threshold such
+as mean or median values per dimension etc., The below is an example of
+storing a binary vector as base64 and back, packed in blocks, where each
+block consists of 8 bits.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; base64_to_binary_vec(s):&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    binary &lt;span class="op"&gt;=&lt;/span&gt; base64.b64decode(s)&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    bits &lt;span class="op"&gt;=&lt;/span&gt; [&lt;span class="bu"&gt;bin&lt;/span&gt;(byte)[&lt;span class="dv"&gt;2&lt;/span&gt;:].zfill(&lt;span class="dv"&gt;8&lt;/span&gt;) &lt;span class="cf"&gt;for&lt;/span&gt; byte &lt;span class="kw"&gt;in&lt;/span&gt; binary]&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;    s_bits &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;''&lt;/span&gt;.join(bits)&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# print(len(s_bits))&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; s_bits&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; convert_binary_tob64(s_vec):&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; base64.b64encode(s_vec).decode(&lt;span class="st"&gt;"utf-8"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; verify_binary_encoding():&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# binary vector - example 1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;    sample_cons_str &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;"D/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A/wD/AP8A=="&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(base64_to_binary_vec(sample_cons_str))&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a aria-hidden="true" href="#cb1-17" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# binary vector - example 2&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-18"&gt;&lt;a aria-hidden="true" href="#cb1-18" tabindex="-1"&gt;&lt;/a&gt;    test_str &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;'vckIkrUOV/sgvGYNBfCLEimBkRMSSGxA2TESPj7ixDZNofUdJVChxmwDCSKV4TG8EYwQUhOWtRGzMjJ6LbLaVe2nCBJn3wN1LIFwA2ikTpP5DrRCBDFdVYxBkuAKARelzQRNE4QTRLm8WKbMLE1AYLgHpIy1bTtB6tGPRvU6adxDSVjDRlA9XNMlsg0NMB5tRKzLiHoUbwz8B+oNzcC/lA8I3CNyY8JD6kT1eN2Vq+Xt4eTm6AZL3/Cs9lYeG4tjjuzK0ioVMyAaStmsp2MchziKUoYShVQ2qH2HgLoRD9kJjUL7AoBzMivoZTi4jaUfVn6HooiDvAfZt8CpHqxQ0A=='&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-19"&gt;&lt;a aria-hidden="true" href="#cb1-19" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(base64_to_binary_vec(test_str))&lt;/span&gt;
+&lt;span id="cb1-20"&gt;&lt;a aria-hidden="true" href="#cb1-20" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-21"&gt;&lt;a aria-hidden="true" href="#cb1-21" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# binary vector - example 3 - to reconstruct the vector&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-22"&gt;&lt;a aria-hidden="true" href="#cb1-22" tabindex="-1"&gt;&lt;/a&gt;    s_vec &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb1-23"&gt;&lt;a aria-hidden="true" href="#cb1-23" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; i &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;2048&lt;/span&gt; &lt;span class="op"&gt;//&lt;/span&gt; (&lt;span class="dv"&gt;8&lt;/span&gt; &lt;span class="op"&gt;*&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;)):&lt;/span&gt;
+&lt;span id="cb1-24"&gt;&lt;a aria-hidden="true" href="#cb1-24" tabindex="-1"&gt;&lt;/a&gt;        s_vec &lt;span class="op"&gt;+=&lt;/span&gt; [&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;0&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;]&lt;/span&gt;
+&lt;span id="cb1-25"&gt;&lt;a aria-hidden="true" href="#cb1-25" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-26"&gt;&lt;a aria-hidden="true" href="#cb1-26" tabindex="-1"&gt;&lt;/a&gt;    b64_str &lt;span class="op"&gt;=&lt;/span&gt; convert_binary_tob64(s_vec)&lt;/span&gt;
+&lt;span id="cb1-27"&gt;&lt;a aria-hidden="true" href="#cb1-27" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# print(b64_str)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-28"&gt;&lt;a aria-hidden="true" href="#cb1-28" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt; (b64_str &lt;span class="op"&gt;==&lt;/span&gt; sample_cons_str)&lt;/span&gt;
+&lt;span id="cb1-29"&gt;&lt;a aria-hidden="true" href="#cb1-29" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-30"&gt;&lt;a aria-hidden="true" href="#cb1-30" tabindex="-1"&gt;&lt;/a&gt;    s_vec_recreate &lt;span class="op"&gt;=&lt;/span&gt; base64_to_binary_vec(b64_str)&lt;/span&gt;
+&lt;span id="cb1-31"&gt;&lt;a aria-hidden="true" href="#cb1-31" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# print(len(s_vec_recreate))&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-32"&gt;&lt;a aria-hidden="true" href="#cb1-32" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# print(s_vec_recreate)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-33"&gt;&lt;a aria-hidden="true" href="#cb1-33" tabindex="-1"&gt;&lt;/a&gt;    s_vec_expected &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;''&lt;/span&gt;.join([&lt;span class="st"&gt;'0'&lt;/span&gt; &lt;span class="cf"&gt;if&lt;/span&gt; val &lt;span class="cf"&gt;else&lt;/span&gt; &lt;span class="st"&gt;'1'&lt;/span&gt; &lt;span class="cf"&gt;for&lt;/span&gt; val &lt;span class="kw"&gt;in&lt;/span&gt; s_vec])&lt;/span&gt;
+&lt;span id="cb1-34"&gt;&lt;a aria-hidden="true" href="#cb1-34" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# print(s_vec_expected)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-35"&gt;&lt;a aria-hidden="true" href="#cb1-35" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt;(s_vec_recreate &lt;span class="op"&gt;==&lt;/span&gt; s_vec_expected)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="float-16-to-base64-conversion"&gt;Float 16 to Base64
+conversion&lt;/h2&gt;
+&lt;p&gt;The below is an example of storing a float 16 vector as base64 and
+back to the float16 vector without any loss of data.&lt;/p&gt;
+&lt;p&gt;There are multiple methods for float16 to base64 conversion.&lt;/p&gt;
+&lt;h3 id="method-1---using-numpy-buffer"&gt;Method 1 - using Numpy
+buffer&lt;/h3&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; convert_f16_to_b64_m1(arr):&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;    a &lt;span class="op"&gt;=&lt;/span&gt; np.array(arr, np.float16)&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; base64.b64encode(a.tobytes())&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; convert_b64_to_f16(emb):&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;    binary &lt;span class="op"&gt;=&lt;/span&gt; base64.b64decode(emb)&lt;/span&gt;
+&lt;span id="cb2-7"&gt;&lt;a aria-hidden="true" href="#cb2-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(binary)&lt;/span&gt;
+&lt;span id="cb2-8"&gt;&lt;a aria-hidden="true" href="#cb2-8" tabindex="-1"&gt;&lt;/a&gt;    q &lt;span class="op"&gt;=&lt;/span&gt; np.frombuffer(binary, dtype&lt;span class="op"&gt;=&lt;/span&gt;np.float16)&lt;/span&gt;
+&lt;span id="cb2-9"&gt;&lt;a aria-hidden="true" href="#cb2-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(q.shape)&lt;/span&gt;
+&lt;span id="cb2-10"&gt;&lt;a aria-hidden="true" href="#cb2-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; q&lt;/span&gt;
+&lt;span id="cb2-11"&gt;&lt;a aria-hidden="true" href="#cb2-11" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-12"&gt;&lt;a aria-hidden="true" href="#cb2-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; verify_f16_encoding_m1():&lt;/span&gt;
+&lt;span id="cb2-13"&gt;&lt;a aria-hidden="true" href="#cb2-13" tabindex="-1"&gt;&lt;/a&gt;    b64_emb &lt;span class="op"&gt;=&lt;/span&gt; convert_f16_to_b64_m1([&lt;span class="fl"&gt;1.2345&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb2-14"&gt;&lt;a aria-hidden="true" href="#cb2-14" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt; (np.isclose([&lt;span class="fl"&gt;1.2345&lt;/span&gt;], convert_b64_to_f16(b64_emb), atol&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="fl"&gt;1e-2&lt;/span&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="method-2---using-struct-pack"&gt;Method 2 - using Struct pack&lt;/h3&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; convert_f16_to_b64_m2(arr):&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;    packer &lt;span class="op"&gt;=&lt;/span&gt; struct.Struct(&lt;span class="st"&gt;"&amp;lt;96e"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;    vector_array &lt;span class="op"&gt;=&lt;/span&gt; np.array(arr, dtype&lt;span class="op"&gt;=&lt;/span&gt;np.float16).tolist()&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;    vector_bytes &lt;span class="op"&gt;=&lt;/span&gt; packer.pack(&lt;span class="op"&gt;*&lt;/span&gt;vector_array)&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; base64.b64encode(vector_bytes)&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a aria-hidden="true" href="#cb3-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a aria-hidden="true" href="#cb3-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; verify_f16_encoding_m2():&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a aria-hidden="true" href="#cb3-8" tabindex="-1"&gt;&lt;/a&gt;    arr &lt;span class="op"&gt;=&lt;/span&gt; np.random.normal(&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="fl"&gt;0.01&lt;/span&gt;, &lt;span class="dv"&gt;96&lt;/span&gt;).astype(&lt;span class="st"&gt;'float16'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a aria-hidden="true" href="#cb3-9" tabindex="-1"&gt;&lt;/a&gt;    b64_emb &lt;span class="op"&gt;=&lt;/span&gt; convert_f16_to_b64_m2(&lt;span class="bu"&gt;list&lt;/span&gt;(arr))&lt;/span&gt;
+&lt;span id="cb3-10"&gt;&lt;a aria-hidden="true" href="#cb3-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt;(np.isclose(arr, convert_b64_to_f16(b64_emb), atol&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="fl"&gt;1e-2&lt;/span&gt;).&lt;span class="bu"&gt;all&lt;/span&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="method-3---using-dtype-indicator"&gt;Method 3 - using dtype
+indicator&lt;/h3&gt;
+&lt;p&gt;Based on the method described at &lt;a href="https://numpy.org/doc/stable/reference/arrays.dtypes.html"&gt;arrays.dtypes.html&lt;/a&gt;,
+&lt;code&gt;&amp;lt;f2&lt;/code&gt; is supposed to be faster than struct.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; convert_f16_to_b64_m3(arr):&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# using f2 is faster&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    a &lt;span class="op"&gt;=&lt;/span&gt; np.array(arr, dtype&lt;span class="op"&gt;=&lt;/span&gt;np.dtype(&lt;span class="st"&gt;'&amp;lt;f2'&lt;/span&gt;))&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; base64.b64encode(a.tobytes())&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; verify_f16_encoding_m3():&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;    arr &lt;span class="op"&gt;=&lt;/span&gt; np.random.normal(&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="fl"&gt;0.01&lt;/span&gt;, &lt;span class="dv"&gt;96&lt;/span&gt;).astype(&lt;span class="st"&gt;'float16'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;    b64_emb &lt;span class="op"&gt;=&lt;/span&gt; convert_f16_to_b64_m3(&lt;span class="bu"&gt;list&lt;/span&gt;(arr))&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt;(np.isclose(arr, convert_b64_to_f16(b64_emb), atol&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="fl"&gt;1e-5&lt;/span&gt;).&lt;span class="bu"&gt;all&lt;/span&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="conclusion"&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;The same can be achieved using &lt;a href="https://stackoverflow.com/questions/6162651/half-precision-floating-point-in-java"&gt;Java/Scala&lt;/a&gt;
+as well.&lt;/p&gt;
+&lt;h3 id="citation"&gt;Citation&lt;/h3&gt;
+&lt;p&gt;To refer to this post, please cite it as:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Float16 precision conversion to Base64 for lossless transmission | Senthilkumar Gopal. 
+https://sengopal.github.io/posts/float16-precision-conversion-to-base64.html&lt;/code&gt;&lt;/pre&gt;</content><category term="Coding"></category><category term="backend"></category><category term="services"></category><category term="python"></category><category term="machine-learning"></category></entry><entry><title>review-of-p-value</title><link href="https://sengopal.github.io/posts/review-of-p-value.html" rel="alternate"></link><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-01-12:/posts/review-of-p-value.html</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
+used for experimentation. The standard definition of p-value &lt;strong&gt;is
+the probability that the null hypothesis is true.&lt;/strong&gt; p-value
+represents the probability that the world (created with math equations),
+gives evidence supporting the null hypothesis i.e., p-value shows how
+consistent the data is with the null hypothesis. So a lower p-value,
+ridicules the null hypothesis while a large p-value gives no reason to
+change the default action based on the null hypothesis.&lt;/p&gt;
+&lt;h3 id="drug-test"&gt;Drug Test&lt;/h3&gt;
+&lt;p&gt;Using [1] as reference, in a Drug test between A and B, the null
+hypothesis is that both Drugs A and B are the same. So a low p-value
+shows that these two drugs are different, defeating the null hypothesis.
+Typically a p-value of 0.05 is used as a threshold, though this is
+arbitrary. A p-value of 0.05 means that on multiple runs of the
+experiment, only 5% or less times would the null hypothesis would be
+true, that both the drugs are same.&lt;/p&gt;
+&lt;p&gt;Null Hypothesis: The drug are the same and patients react the same
+way Alternate Hypothesis: The drugs are dissimilar and cures the disease
+with varying degrees&lt;/p&gt;
+&lt;h4 id="fischers-exact-test"&gt;Fischer&amp;rsquo;s Exact Test&lt;/h4&gt;
+&lt;h4 id="computing-p-value"&gt;Computing p-value&lt;/h4&gt;
+&lt;p&gt;As referenced from [2], a different test is conducted where the same
+drug A is being given to two different groups. Null Hypothesis: The drug
+has no effect and groups would have different reactions Alternate
+Hypothesis: The drug cures the disease and groups would be similar&lt;/p&gt;
+&lt;p&gt;As per the null hypothesis, the p-value would be higher as the
+assumption is that both groups have been given the same drug and are
+getting cured and hence there are no differences between these two
+groups. Multiple runs might give a higher p-value proving that the
+groups are cured and the effect of the drug A are same.&lt;/p&gt;
+&lt;p&gt;But due to pure random effect, if the p-value of two groups having
+the same drug, is small, say p=0.01, then it is a False Positive of the
+Null Hypothesis. As our intent is to break the null hypothesis, this
+particular experiment disproves the experiment and confirms the null
+hypothesis for this particular round of experiment.&lt;/p&gt;
+&lt;p&gt;So with multiple experiments &amp;ldquo;A p=0.05 threshold means that 5% of the
+experiments, where the differences come from random things, will
+generate a p-value &amp;lt; 0.05&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;Using this statement, for the test with Drug A vs Drug B, a p-value
+of &amp;lt; 0.05 would mean that there is no difference between Drug A and
+Drug B, since the different reactions might be just random. ie., we will
+allow up to 5 False Positives in 100 experiment runs, to prove that Drug
+A is different that Drug B. Any more false positives than 5, proves that
+the null hypothesis is true based on this threshold. Hence it is
+important to determine this p-value or threshold before running the
+experiments to prevent being biased by the generated data.&lt;/p&gt;
+&lt;p&gt;For a stricter threshold, p=0.0001 might be used as well, where only
+1 false positive is allowed in 10,000 experiments.&lt;/p&gt;
+&lt;h4 id="compute-the-difference"&gt;Compute the difference&lt;/h4&gt;
+&lt;p&gt;Though, a p-value helps decide if the null hypothesis is true or not,
+it does not provide a mechanism to determine how dissimilar the drugs
+are. It is important to remember that p-value determines the probability
+of the null hypothesis, but not the scale of difference in the
+candidates of the experiment.&lt;/p&gt;
+&lt;p&gt;References (1) &lt;a href="https://www.youtube.com/watch?v=vemZtEM63GY&amp;amp;list=WL&amp;amp;index=93"&gt;StatsQuest&lt;/a&gt;
+(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.github.io/posts/review-of-combinatorics.html" rel="alternate"></link><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-01-03:/posts/review-of-combinatorics.html</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
+&lt;strong&gt;permutations, variations and combinations&lt;/strong&gt; which are
+variations with subtle differences.&lt;/p&gt;
+&lt;h2 id="permutation"&gt;Permutation&lt;/h2&gt;
+&lt;p&gt;A typical question for permutation is &amp;ldquo;How many ways to arrange the
+three characters a,b and c?&amp;rdquo;. Note that the position and order matters
+for permutation and to fill all the positions. A permutation defines the
+numbers of different possible ways we can arrange a set of elements and
+can always &lt;strong&gt;arrange the entire set of elements in the sample
+space&lt;/strong&gt;. Example: For a relay race, we can arrange 4-runners
+already chosen in 4-positions using permutations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Permutations are arrangements of objects (with or without
+repetition), the order does matter.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Permutations without repetition if all elements are added and order
+does matter with no repetition of elements.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;P&lt;/em&gt;&lt;sub&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sub&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;n&lt;/em&gt;!&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Permutations with repetition if all elements are added and order does
+matter with repetition of elements being allowed.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+P^{a,b,c...}_{n} = \frac{n!}{(a! \cdot b! \cdot c! ...)}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-permutations"&gt;Examples of Permutations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways to put N items in a specific order.&lt;/li&gt;
+&lt;li&gt;Different strings that can be built using the 26 alphabets such that
+each letter is used only once in a single string.&lt;/li&gt;
+&lt;li&gt;Order in which N people can enter a door&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="variations-extension-of-permutation_1"&gt;Variations (extension of
+permutation)&lt;/h2&gt;
+&lt;p&gt;Variations can be considered an extension of permutation where
+variations determines the total number of ways we can pick and arrange
+some elements of a given set, with or without repetitions. Using the
+relay race example from above, if we had to choose 4-runners out of
+6-runners in the team (6-runners | 4-positions), and then decide who
+runs in which lap (**pick &amp;amp; arrange), we would require using
+Variations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Variations are arrangements of selections of objects, where the order
+of the selected objects matters.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Variations without repetition if not all the elements are added and
+order does matter with no repetition of elements.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+V^n_{m} = \frac{m!}{(m - n)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Variations with repetition if not all elements are added if 𝑚 &amp;gt; 𝑛
+and order does matter with repetition of elements being allowed. All
+elements can be added if 𝑚 &amp;le; 𝑛.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;m&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;m&lt;/em&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-variations"&gt;Examples of Variations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways, in which 3 out of 10 sports people can win a medal in a
+competition, the first winning gold, the next silver, and the third
+bronze.&lt;/li&gt;
+&lt;li&gt;Possibilities to choose 2 representatives out of 100 students, one
+as the &amp;ldquo;president&amp;rdquo; and the other as the &amp;ldquo;vice-president&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Different results when rolling 3 dice which are distinguishable by
+color, e.g.&amp;nbsp;white, red, and black dice.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="combinations_1"&gt;Combinations&lt;/h2&gt;
+&lt;p&gt;The number of different ways we can pick a specific element of a set
+where the order in which the elements needs to be selected is also not
+important. Using the example of the relay race, if we only care about
+which 4-runners out of 6-runners made it into the team
+(&lt;strong&gt;pick&lt;/strong&gt;) without any dependency on their position, we
+would be dealing with combinations and order is not relevant.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Combinations are selections of objects, with or without repetition,
+the order does not matter.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Combinations without repetition if not all elements are added and
+order does not matter where &lt;strong&gt;elements are not
+repeated.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+C^n_{𝑚} = \frac{𝑚!}{𝑛! \cdot (𝑚&amp;minus;𝑛)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Combinations with repetition if not all elements are added and order
+does not matter where &lt;strong&gt;elements are repeated.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+C^n_{𝑚} = \frac{(𝑚 + n -1)!}{𝑛! \cdot (𝑚&amp;minus;1)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-combinations"&gt;Examples of Combinations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways, in which 3 out of 10 sports people can win a medal in a
+competition (no matter whether gold, silver, or bronze).&lt;/li&gt;
+&lt;li&gt;Possibilities to choose 2 representatives out of 100 students,
+irrespective of the role.&lt;/li&gt;
+&lt;li&gt;Different results when rolling 3 identical dice, irrespective of the
+order.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="references_1"&gt;References&lt;/h2&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://betterexplained.com/articles/easy-permutations-and-combinations/"&gt;Better
+Explained&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/"&gt;Book
+of Proofs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations"&gt;Quora&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Scientific paper review template</title><link href="https://sengopal.github.io/posts/scientific-paper-review-template.html" rel="alternate"></link><published>2022-11-16T00:00:00-08:00</published><updated>2022-11-16T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-11-16:/posts/scientific-paper-review-template.html</id><summary type="html">A template to capture notes and reviews of scientific research papers</summary><content type="html">&lt;p&gt;Using some commonly available standards [1] and word of the crowd
+[2], following is a rough template of how to review a research paper and
+collect notes for future references.&lt;/p&gt;
+&lt;h3 id="first-pass"&gt;First Pass&lt;/h3&gt;
+&lt;p&gt;The first pass is to review the usefulness of the paper using its
+&lt;strong&gt;Title&lt;/strong&gt;, &lt;strong&gt;Abstract&lt;/strong&gt;, and
+&lt;strong&gt;Figures&lt;/strong&gt; (atleast the key figures of the paper),
+primarily Figure 1 and 2.&lt;/p&gt;
+&lt;h3 id="second-pass"&gt;Second Pass&lt;/h3&gt;
+&lt;p&gt;As part of the second pass, review the &lt;strong&gt;Introduction&lt;/strong&gt;,
+&lt;strong&gt;Conclusion&lt;/strong&gt;, and the &lt;strong&gt;Figures&lt;/strong&gt; carefully
+again and skim the rest. The intent of this pass is to create a
+&lt;strong&gt;Summary&lt;/strong&gt; which captures the purpose of the paper and if
+possible what &lt;strong&gt;major questions&lt;/strong&gt; are being answered.&lt;/p&gt;
+&lt;h3 id="third-pass"&gt;Third Pass&lt;/h3&gt;
+&lt;p&gt;Review the &lt;strong&gt;Related Work&lt;/strong&gt; section if this paper needs
+a more in-depth analysis or answers one of the open problems that we are
+actively working on. We should attempt to identify the paper
+implementation code and the data used. The potential locations are
+&lt;strong&gt;Paperswithcode&lt;/strong&gt;, &lt;strong&gt;Github&lt;/strong&gt;,
+&lt;strong&gt;Huggingface&lt;/strong&gt; or &lt;strong&gt;Kaggle&lt;/strong&gt; and also review
+blogs for more concise explanations and examples.&lt;/p&gt;
+&lt;h3 id="checkpoint---note-summary"&gt;Checkpoint - Note summary&lt;/h3&gt;
+&lt;p&gt;The below is necessary for all papers being reviewed to make any
+decision on further introspection or file them away for future
+exploration.&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;strong&gt;Abstract:&lt;/strong&gt; - problem | relevancy | solution |
+summary | objective | novelty | keywords&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Figure 1&lt;/strong&gt; - visual summary of the main idea&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Intro&lt;/strong&gt; - relevancy | problem defn | solution&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Conclusion:&lt;/strong&gt; main outcome | future work&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data:&lt;/strong&gt; dataset used for results, training,
+metrics&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tasks:&lt;/strong&gt; Planned tasks or objectives&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Results:&lt;/strong&gt; baseline | benchmarks | improvements |
+comparison to other famous models&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Utility:&lt;/strong&gt; application for our problem&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Future:&lt;/strong&gt; Potential Improvements identified in the
+paper or we can think of.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id="fourth-pass-implementation-review"&gt;Fourth Pass [Implementation
+Review]&lt;/h4&gt;
+&lt;p&gt;Do this only for papers you would like to replicate/improve&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Model Architecture:&lt;/strong&gt; Architecture description layers
+used and network structure&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inputs &amp;amp; Outputs:&lt;/strong&gt; Inputs | Outputs whether it
+is a probability, segmentation map, bounding boxes, and so on&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;New or novel layers:&lt;/strong&gt; new techniques or layers |
+code or the implementation probably focus on these novel layers&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Loss calculation:&lt;/strong&gt; mathematical formula for how the
+loss was calculated | on what basis it was chosen&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Model Training:&lt;/strong&gt; hyperparameter used, the batch
+size, and the model configurations&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Know what you did not understand&lt;/strong&gt; - Highlight the
+points you did not understand | find references and resources that can
+help you&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="fifth-pass-replication_1"&gt;Fifth Pass [Replication]&lt;/h3&gt;
+&lt;p&gt;Train the model on the paper data if it is available and try to
+replicate the results if it is possible. If not possible, apply the
+model on just a subset of the data or just for one epoch to make sure
+that the implemented model is working as expected and then you can apply
+it to your data.&lt;/p&gt;
+&lt;h3 id="sixth-pass-adoption"&gt;Sixth Pass [Adoption]&lt;/h3&gt;
+&lt;p&gt;Apply the same model as in the paper without any modifications to any
+other data set and capture the results. Attempt to modify or generalize
+it for the paper dataset and observe its results. Capture why it works
+or does not work? What issues do we run into?&lt;/p&gt;
+&lt;p&gt;The below is necessary for all papers being replicated and adapted. -
+&lt;strong&gt;Model Modifications:&lt;/strong&gt; modifications, hyperparameter
+used, the batch size, and the model configurations -
+&lt;strong&gt;Techniques&lt;/strong&gt; - Highlight the problems and techniques
+applied to fix them&lt;/p&gt;
+&lt;h4 id="references"&gt;References&lt;/h4&gt;
+&lt;p&gt;[1] Stanford CS230: Deep Learning | Autumn 2018 | Lecture 8 - Career
+Advice / Reading Research Papers. www.youtube.com,
+https://www.youtube.com/watch?v=733m6qBH-jI. Accessed 26 Nov.&amp;nbsp;2022.&lt;/p&gt;
+&lt;p&gt;[2] Hosni, Youssef. &amp;ldquo;How to Read Machine Learning Papers
+Effectively.&amp;rdquo; Medium, 9 Oct.&amp;nbsp;2022,
+https://pub.towardsai.net/how-to-read-machine-learning-papers-effectively-9c2df7906516.&lt;/p&gt;</content><category term="Papers"></category><category term="papers"></category><category term="reviews"></category><category term="machine-learning"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
 about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
 &lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
 &lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
@@ -53,7 +390,7 @@ connection.&lt;/p&gt;
 &lt;h3 id="prosecutors-fallacy"&gt;Prosecutors fallacy&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;tbd&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id="gamblers-fallacy"&gt;Gambler&amp;rsquo;s fallacy&lt;/h3&gt;
-&lt;p&gt;The gambler&amp;rsquo;s fallacy is&amp;nbsp;the belief that the probability for an
+&lt;p&gt;The gambler&amp;rsquo;s fallacy is the belief that the probability for an
 outcome after a series of outcomes is not the same as the probability
 for a single outcome. The gambler&amp;rsquo;s fallacy is real and true in cases
 where the events in question are independent and identically
@@ -1335,7 +1672,7 @@ determined.&lt;/p&gt;
 &lt;td&gt;Heavy writes for Audit log&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</content><category term="Misc"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates.html</id><summary type="html">For a emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.</summary><content type="html">&lt;h3 id="introduction-to-velocity"&gt;Introduction to Velocity&lt;/h3&gt;
+&lt;/table&gt;</content><category term="Misc"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates.html</id><summary type="html">For an emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.</summary><content type="html">&lt;h3 id="introduction-to-velocity"&gt;Introduction to Velocity&lt;/h3&gt;
 &lt;p&gt;Velocity is an open source templating tool developed by an
 international volunteer community and hosted by the Apache Software
 Foundation&amp;rsquo;s Jakarta Project. You can download the freely available
@@ -4889,9 +5226,9 @@ using Hibernate. However, there are many drawbacks such as:&lt;/p&gt;
 &lt;li&gt;Direct use of query parameters in the query string&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;A sample usage for HQL Query:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;String&lt;/span&gt; query &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;"select o from Order as o join o.products as p where o.priceTotal &amp;gt; :priceTotalLower and o.priceTotal &amp;lt; :priceTotalUpper"&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/span&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;String&lt;/span&gt; query &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;"select o from Order as o join o.products as p where o.priceTotal &amp;gt; :priceTotalLower and o.priceTotal &amp;lt; :priceTotalUpper"&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;           &lt;/span&gt;
 &lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;Query&lt;/span&gt; q &lt;span class="op"&gt;=&lt;/span&gt; sess&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;createQuery&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;query&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;q&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;setDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"priceTotalLower"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&amp;nbsp;Double&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;parseDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;lower&lt;span class="op"&gt;));&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;q&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;setDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"priceTotalLower"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="bu"&gt;Double&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;parseDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;lower&lt;span class="op"&gt;));&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;q&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;setDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"priceTotalUpper"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&lt;span class="bu"&gt;Double&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;parseDouble&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;upper&lt;span class="op"&gt;));&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;List&lt;/span&gt; list &lt;span class="op"&gt;=&lt;/span&gt; q&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In comparison to the Criteria API, the above query gets reduced to
@@ -4928,14 +5265,14 @@ code.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Criteria class provides the gateway to working with criteria APIs.
 Criterion class is the object-oriented representation of the relational
-criterion. Restriction API&amp;nbsp;provides the built-in types for Criterion.
-Essentially, the Restriction class is a factory to the&amp;nbsp;Criterion class.
+criterion. Restriction API provides the built-in types for Criterion.
+Essentially, the Restriction class is a factory to the Criterion class.
 All of its methods are static.&lt;/p&gt;
 &lt;p&gt;In Hibernate 2.x, the Expression class provided the services that are
 now provided by the Restriction class. The Restriction class provides
 almost all the required restrictions such as equals (eq()), logical and
 (and()), like (like()) Aggregation and Grouping are provided by the
-Projection class. Order class&amp;nbsp;represents the &amp;ldquo;order by&amp;rdquo; clause of
+Projection class. Order class represents the &amp;ldquo;order by&amp;rdquo; clause of
 SQL.&lt;/p&gt;
 &lt;h3 id="order-interface"&gt;Order Interface&lt;/h3&gt;
 &lt;p&gt;In HQL (and SQL), the order by clause allows you to order your query
@@ -4954,17 +5291,17 @@ were added to the Critieria.&lt;/p&gt;
 and 2500 inclusive&lt;/li&gt;
 &lt;li&gt;Sets the number of maximum results as 5&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;session&amp;nbsp;&lt;span class="op"&gt;=&lt;/span&gt;&amp;nbsp;sessionFactory&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;openSession&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;Criteria&amp;nbsp;crit&amp;nbsp;&lt;span class="op"&gt;=&lt;/span&gt; session&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;createCriteria&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;class&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Restrictions&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;like&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"insuranceName"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&amp;nbsp;&lt;span class="st"&gt;"%a%"&lt;/span&gt;&lt;span class="op"&gt;));&lt;/span&gt;&amp;nbsp;&lt;/span&gt;
-&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="bu"&gt;Expression&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;between&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"investAmount"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;&amp;nbsp;new&amp;nbsp;&lt;span class="fu"&gt;Integer&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;1000&lt;/span&gt;&lt;span class="op"&gt;),&lt;/span&gt;new&amp;nbsp;&lt;span class="fu"&gt;Integer&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;2500&lt;/span&gt;&lt;span class="op"&gt;)));&lt;/span&gt;&amp;nbsp;&lt;/span&gt;
-&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;setMaxResults&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;5&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&amp;nbsp;&lt;/span&gt;
-&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;List&amp;nbsp;insurances&amp;nbsp;&lt;span class="op"&gt;=&lt;/span&gt;&amp;nbsp;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Iterator&amp;nbsp;it&amp;nbsp;&lt;span class="op"&gt;=&lt;/span&gt;insurances&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;iterator&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;it&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;hasNext&lt;/span&gt;&lt;span class="op"&gt;();){&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;    Insurance&amp;nbsp;insurance&amp;nbsp;&lt;span class="op"&gt;=&lt;/span&gt;&amp;nbsp;&lt;span class="op"&gt;(&lt;/span&gt;Insurance&lt;span class="op"&gt;)&lt;/span&gt;&amp;nbsp;it&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;next&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"ID:&amp;nbsp;"&lt;/span&gt;&amp;nbsp;&lt;span class="op"&gt;+&lt;/span&gt;&amp;nbsp;insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getLngInsuranceId&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-10"&gt;&lt;a aria-hidden="true" href="#cb4-10" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"Name:&amp;nbsp;"&lt;/span&gt;&amp;nbsp;&lt;span class="op"&gt;+&lt;/span&gt;&amp;nbsp;insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getInsuranceName&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb4-11"&gt;&lt;a aria-hidden="true" href="#cb4-11" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"Amount:&amp;nbsp;"&lt;/span&gt;&amp;nbsp;&lt;span class="op"&gt;+&lt;/span&gt;&amp;nbsp;insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getInvestAmount&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;session &lt;span class="op"&gt;=&lt;/span&gt; sessionFactory&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;openSession&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;Criteria crit &lt;span class="op"&gt;=&lt;/span&gt; session&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;createCriteria&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;class&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Restrictions&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;like&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"insuranceName"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="st"&gt;"%a%"&lt;/span&gt;&lt;span class="op"&gt;));&lt;/span&gt; &lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="bu"&gt;Expression&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;between&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"investAmount"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Integer&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;1000&lt;/span&gt;&lt;span class="op"&gt;),&lt;/span&gt;&lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Integer&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;2500&lt;/span&gt;&lt;span class="op"&gt;)));&lt;/span&gt; &lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;setMaxResults&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="dv"&gt;5&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt; &lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;List&lt;/span&gt; insurances &lt;span class="op"&gt;=&lt;/span&gt; crit&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="bu"&gt;Iterator&lt;/span&gt; it &lt;span class="op"&gt;=&lt;/span&gt;insurances&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;iterator&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;it&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;hasNext&lt;/span&gt;&lt;span class="op"&gt;();){&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;    Insurance insurance &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="op"&gt;(&lt;/span&gt;Insurance&lt;span class="op"&gt;)&lt;/span&gt; it&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;next&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"ID: "&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt; insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getLngInsuranceId&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a aria-hidden="true" href="#cb4-10" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"Name: "&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt; insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getInsuranceName&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a aria-hidden="true" href="#cb4-11" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="bu"&gt;System&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;out&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;println&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"Amount: "&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt; insurance&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getInvestAmount&lt;/span&gt;&lt;span class="op"&gt;());&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb4-12"&gt;&lt;a aria-hidden="true" href="#cb4-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id="criterion-chaining"&gt;Criterion Chaining&lt;/h3&gt;
 &lt;p&gt;This is a popular method of adding Restrictions, Expressions,

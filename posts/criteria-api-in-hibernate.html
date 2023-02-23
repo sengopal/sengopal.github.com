@@ -53,7 +53,7 @@
 <div class="row">
   <div class="col-sm-12">
     <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
-      <p class="text-muted">Musings of a machine learning engineer</p>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
       <ul class="list-inline">
             <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
             <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
@@ -114,9 +114,9 @@ using Hibernate. However, there are many drawbacks such as:</p>
 <li>Direct use of query parameters in the query string</li>
 </ol>
 <p>A sample usage for HQL Query:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="bu">String</span> query <span class="op">=</span> <span class="st">"select o from Order as o join o.products as p where o.priceTotal &gt; :priceTotalLower and o.priceTotal &lt; :priceTotalUpper"</span><span class="op">;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="bu">String</span> query <span class="op">=</span> <span class="st">"select o from Order as o join o.products as p where o.priceTotal &gt; :priceTotalLower and o.priceTotal &lt; :priceTotalUpper"</span><span class="op">;</span>           </span>
 <span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="bu">Query</span> q <span class="op">=</span> sess<span class="op">.</span><span class="fu">createQuery</span><span class="op">(</span>query<span class="op">);</span></span>
-<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>q<span class="op">.</span><span class="fu">setDouble</span><span class="op">(</span><span class="st">"priceTotalLower"</span><span class="op">,</span>&nbsp;Double<span class="op">.</span><span class="fu">parseDouble</span><span class="op">(</span>lower<span class="op">));</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>q<span class="op">.</span><span class="fu">setDouble</span><span class="op">(</span><span class="st">"priceTotalLower"</span><span class="op">,</span> <span class="bu">Double</span><span class="op">.</span><span class="fu">parseDouble</span><span class="op">(</span>lower<span class="op">));</span></span>
 <span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>q<span class="op">.</span><span class="fu">setDouble</span><span class="op">(</span><span class="st">"priceTotalUpper"</span><span class="op">,</span><span class="bu">Double</span><span class="op">.</span><span class="fu">parseDouble</span><span class="op">(</span>upper<span class="op">));</span></span>
 <span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a><span class="bu">List</span> list <span class="op">=</span> q<span class="op">.</span><span class="fu">list</span><span class="op">();</span></span></code></pre></div>
 <p>In comparison to the Criteria API, the above query gets reduced to
@@ -153,14 +153,14 @@ code.</li>
 </ol>
 <p>Criteria class provides the gateway to working with criteria APIs.
 Criterion class is the object-oriented representation of the relational
-criterion. Restriction API&nbsp;provides the built-in types for Criterion.
-Essentially, the Restriction class is a factory to the&nbsp;Criterion class.
+criterion. Restriction API provides the built-in types for Criterion.
+Essentially, the Restriction class is a factory to the Criterion class.
 All of its methods are static.</p>
 <p>In Hibernate 2.x, the Expression class provided the services that are
 now provided by the Restriction class. The Restriction class provides
 almost all the required restrictions such as equals (eq()), logical and
 (and()), like (like()) Aggregation and Grouping are provided by the
-Projection class. Order class&nbsp;represents the &ldquo;order by&rdquo; clause of
+Projection class. Order class represents the &ldquo;order by&rdquo; clause of
 SQL.</p>
 <h3 id="order-interface">Order Interface</h3>
 <p>In HQL (and SQL), the order by clause allows you to order your query
@@ -179,17 +179,17 @@ were added to the Critieria.</p>
 and 2500 inclusive</li>
 <li>Sets the number of maximum results as 5</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>session&nbsp;<span class="op">=</span>&nbsp;sessionFactory<span class="op">.</span><span class="fu">openSession</span><span class="op">();</span></span>
-<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>Criteria&nbsp;crit&nbsp;<span class="op">=</span> session<span class="op">.</span><span class="fu">createCriteria</span><span class="op">(</span>Insurance<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
-<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">add</span><span class="op">(</span>Restrictions<span class="op">.</span><span class="fu">like</span><span class="op">(</span><span class="st">"insuranceName"</span><span class="op">,</span>&nbsp;<span class="st">"%a%"</span><span class="op">));</span>&nbsp;</span>
-<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="bu">Expression</span><span class="op">.</span><span class="fu">between</span><span class="op">(</span><span class="st">"investAmount"</span><span class="op">,</span>&nbsp;new&nbsp;<span class="fu">Integer</span><span class="op">(</span><span class="dv">1000</span><span class="op">),</span>new&nbsp;<span class="fu">Integer</span><span class="op">(</span><span class="dv">2500</span><span class="op">)));</span>&nbsp;</span>
-<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">setMaxResults</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span>&nbsp;</span>
-<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a>List&nbsp;insurances&nbsp;<span class="op">=</span>&nbsp;crit<span class="op">.</span><span class="fu">list</span><span class="op">();</span></span>
-<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span>Iterator&nbsp;it&nbsp;<span class="op">=</span>insurances<span class="op">.</span><span class="fu">iterator</span><span class="op">();</span>it<span class="op">.</span><span class="fu">hasNext</span><span class="op">();){</span></span>
-<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>    Insurance&nbsp;insurance&nbsp;<span class="op">=</span>&nbsp;<span class="op">(</span>Insurance<span class="op">)</span>&nbsp;it<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
-<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ID:&nbsp;"</span>&nbsp;<span class="op">+</span>&nbsp;insurance<span class="op">.</span><span class="fu">getLngInsuranceId</span><span class="op">());</span></span>
-<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Name:&nbsp;"</span>&nbsp;<span class="op">+</span>&nbsp;insurance<span class="op">.</span><span class="fu">getInsuranceName</span><span class="op">());</span></span>
-<span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Amount:&nbsp;"</span>&nbsp;<span class="op">+</span>&nbsp;insurance<span class="op">.</span><span class="fu">getInvestAmount</span><span class="op">());</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>session <span class="op">=</span> sessionFactory<span class="op">.</span><span class="fu">openSession</span><span class="op">();</span></span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>Criteria crit <span class="op">=</span> session<span class="op">.</span><span class="fu">createCriteria</span><span class="op">(</span>Insurance<span class="op">.</span><span class="fu">class</span><span class="op">);</span></span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">add</span><span class="op">(</span>Restrictions<span class="op">.</span><span class="fu">like</span><span class="op">(</span><span class="st">"insuranceName"</span><span class="op">,</span> <span class="st">"%a%"</span><span class="op">));</span> </span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="bu">Expression</span><span class="op">.</span><span class="fu">between</span><span class="op">(</span><span class="st">"investAmount"</span><span class="op">,</span> <span class="kw">new</span> <span class="bu">Integer</span><span class="op">(</span><span class="dv">1000</span><span class="op">),</span><span class="kw">new</span> <span class="bu">Integer</span><span class="op">(</span><span class="dv">2500</span><span class="op">)));</span> </span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">setMaxResults</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span> </span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a><span class="bu">List</span> insurances <span class="op">=</span> crit<span class="op">.</span><span class="fu">list</span><span class="op">();</span></span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="bu">Iterator</span> it <span class="op">=</span>insurances<span class="op">.</span><span class="fu">iterator</span><span class="op">();</span>it<span class="op">.</span><span class="fu">hasNext</span><span class="op">();){</span></span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>    Insurance insurance <span class="op">=</span> <span class="op">(</span>Insurance<span class="op">)</span> it<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ID: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getLngInsuranceId</span><span class="op">());</span></span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Name: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getInsuranceName</span><span class="op">());</span></span>
+<span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Amount: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getInvestAmount</span><span class="op">());</span></span>
 <span id="cb4-12"><a aria-hidden="true" href="#cb4-12" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h3 id="criterion-chaining">Criterion Chaining</h3>
 <p>This is a popular method of adding Restrictions, Expressions,
@@ -339,6 +339,7 @@ values and by providing extensibility of the Criterion Object.</p>
 </div>    </div>
   </footer>
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
 </body>
 
 </html>

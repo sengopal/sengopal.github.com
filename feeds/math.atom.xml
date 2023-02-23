@@ -1,5 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Math</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/math.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2022-06-04T00:00:00-07:00</updated><subtitle>Musings of a machine learning engineer</subtitle><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Math</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/math.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2023-01-12T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>review-of-p-value</title><link href="https://sengopal.github.io/posts/review-of-p-value.html" rel="alternate"></link><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-01-12:/posts/review-of-p-value.html</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
+used for experimentation. The standard definition of p-value &lt;strong&gt;is
+the probability that the null hypothesis is true.&lt;/strong&gt; p-value
+represents the probability that the world (created with math equations),
+gives evidence supporting the null hypothesis i.e., p-value shows how
+consistent the data is with the null hypothesis. So a lower p-value,
+ridicules the null hypothesis while a large p-value gives no reason to
+change the default action based on the null hypothesis.&lt;/p&gt;
+&lt;h3 id="drug-test"&gt;Drug Test&lt;/h3&gt;
+&lt;p&gt;Using [1] as reference, in a Drug test between A and B, the null
+hypothesis is that both Drugs A and B are the same. So a low p-value
+shows that these two drugs are different, defeating the null hypothesis.
+Typically a p-value of 0.05 is used as a threshold, though this is
+arbitrary. A p-value of 0.05 means that on multiple runs of the
+experiment, only 5% or less times would the null hypothesis would be
+true, that both the drugs are same.&lt;/p&gt;
+&lt;p&gt;Null Hypothesis: The drug are the same and patients react the same
+way Alternate Hypothesis: The drugs are dissimilar and cures the disease
+with varying degrees&lt;/p&gt;
+&lt;h4 id="fischers-exact-test"&gt;Fischer&amp;rsquo;s Exact Test&lt;/h4&gt;
+&lt;h4 id="computing-p-value"&gt;Computing p-value&lt;/h4&gt;
+&lt;p&gt;As referenced from [2], a different test is conducted where the same
+drug A is being given to two different groups. Null Hypothesis: The drug
+has no effect and groups would have different reactions Alternate
+Hypothesis: The drug cures the disease and groups would be similar&lt;/p&gt;
+&lt;p&gt;As per the null hypothesis, the p-value would be higher as the
+assumption is that both groups have been given the same drug and are
+getting cured and hence there are no differences between these two
+groups. Multiple runs might give a higher p-value proving that the
+groups are cured and the effect of the drug A are same.&lt;/p&gt;
+&lt;p&gt;But due to pure random effect, if the p-value of two groups having
+the same drug, is small, say p=0.01, then it is a False Positive of the
+Null Hypothesis. As our intent is to break the null hypothesis, this
+particular experiment disproves the experiment and confirms the null
+hypothesis for this particular round of experiment.&lt;/p&gt;
+&lt;p&gt;So with multiple experiments &amp;ldquo;A p=0.05 threshold means that 5% of the
+experiments, where the differences come from random things, will
+generate a p-value &amp;lt; 0.05&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;Using this statement, for the test with Drug A vs Drug B, a p-value
+of &amp;lt; 0.05 would mean that there is no difference between Drug A and
+Drug B, since the different reactions might be just random. ie., we will
+allow up to 5 False Positives in 100 experiment runs, to prove that Drug
+A is different that Drug B. Any more false positives than 5, proves that
+the null hypothesis is true based on this threshold. Hence it is
+important to determine this p-value or threshold before running the
+experiments to prevent being biased by the generated data.&lt;/p&gt;
+&lt;p&gt;For a stricter threshold, p=0.0001 might be used as well, where only
+1 false positive is allowed in 10,000 experiments.&lt;/p&gt;
+&lt;h4 id="compute-the-difference"&gt;Compute the difference&lt;/h4&gt;
+&lt;p&gt;Though, a p-value helps decide if the null hypothesis is true or not,
+it does not provide a mechanism to determine how dissimilar the drugs
+are. It is important to remember that p-value determines the probability
+of the null hypothesis, but not the scale of difference in the
+candidates of the experiment.&lt;/p&gt;
+&lt;p&gt;References (1) &lt;a href="https://www.youtube.com/watch?v=vemZtEM63GY&amp;amp;list=WL&amp;amp;index=93"&gt;StatsQuest&lt;/a&gt;
+(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.github.io/posts/review-of-combinatorics.html" rel="alternate"></link><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-01-03:/posts/review-of-combinatorics.html</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
+&lt;strong&gt;permutations, variations and combinations&lt;/strong&gt; which are
+variations with subtle differences.&lt;/p&gt;
+&lt;h2 id="permutation"&gt;Permutation&lt;/h2&gt;
+&lt;p&gt;A typical question for permutation is &amp;ldquo;How many ways to arrange the
+three characters a,b and c?&amp;rdquo;. Note that the position and order matters
+for permutation and to fill all the positions. A permutation defines the
+numbers of different possible ways we can arrange a set of elements and
+can always &lt;strong&gt;arrange the entire set of elements in the sample
+space&lt;/strong&gt;. Example: For a relay race, we can arrange 4-runners
+already chosen in 4-positions using permutations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Permutations are arrangements of objects (with or without
+repetition), the order does matter.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Permutations without repetition if all elements are added and order
+does matter with no repetition of elements.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;P&lt;/em&gt;&lt;sub&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sub&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;n&lt;/em&gt;!&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Permutations with repetition if all elements are added and order does
+matter with repetition of elements being allowed.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+P^{a,b,c...}_{n} = \frac{n!}{(a! \cdot b! \cdot c! ...)}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-permutations"&gt;Examples of Permutations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways to put N items in a specific order.&lt;/li&gt;
+&lt;li&gt;Different strings that can be built using the 26 alphabets such that
+each letter is used only once in a single string.&lt;/li&gt;
+&lt;li&gt;Order in which N people can enter a door&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="variations-extension-of-permutation_1"&gt;Variations (extension of
+permutation)&lt;/h2&gt;
+&lt;p&gt;Variations can be considered an extension of permutation where
+variations determines the total number of ways we can pick and arrange
+some elements of a given set, with or without repetitions. Using the
+relay race example from above, if we had to choose 4-runners out of
+6-runners in the team (6-runners | 4-positions), and then decide who
+runs in which lap (**pick &amp;amp; arrange), we would require using
+Variations.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Variations are arrangements of selections of objects, where the order
+of the selected objects matters.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Variations without repetition if not all the elements are added and
+order does matter with no repetition of elements.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+V^n_{m} = \frac{m!}{(m - n)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Variations with repetition if not all elements are added if 𝑚 &amp;gt; 𝑛
+and order does matter with repetition of elements being allowed. All
+elements can be added if 𝑚 &amp;le; 𝑛.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;m&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;m&lt;/em&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-variations"&gt;Examples of Variations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways, in which 3 out of 10 sports people can win a medal in a
+competition, the first winning gold, the next silver, and the third
+bronze.&lt;/li&gt;
+&lt;li&gt;Possibilities to choose 2 representatives out of 100 students, one
+as the &amp;ldquo;president&amp;rdquo; and the other as the &amp;ldquo;vice-president&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Different results when rolling 3 dice which are distinguishable by
+color, e.g.&amp;nbsp;white, red, and black dice.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="combinations_1"&gt;Combinations&lt;/h2&gt;
+&lt;p&gt;The number of different ways we can pick a specific element of a set
+where the order in which the elements needs to be selected is also not
+important. Using the example of the relay race, if we only care about
+which 4-runners out of 6-runners made it into the team
+(&lt;strong&gt;pick&lt;/strong&gt;) without any dependency on their position, we
+would be dealing with combinations and order is not relevant.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Combinations are selections of objects, with or without repetition,
+the order does not matter.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Combinations without repetition if not all elements are added and
+order does not matter where &lt;strong&gt;elements are not
+repeated.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+C^n_{𝑚} = \frac{𝑚!}{𝑛! \cdot (𝑚&amp;minus;𝑛)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Combinations with repetition if not all elements are added and order
+does not matter where &lt;strong&gt;elements are repeated.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+C^n_{𝑚} = \frac{(𝑚 + n -1)!}{𝑛! \cdot (𝑚&amp;minus;1)!}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="examples-of-combinations"&gt;Examples of Combinations&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Ways, in which 3 out of 10 sports people can win a medal in a
+competition (no matter whether gold, silver, or bronze).&lt;/li&gt;
+&lt;li&gt;Possibilities to choose 2 representatives out of 100 students,
+irrespective of the role.&lt;/li&gt;
+&lt;li&gt;Different results when rolling 3 identical dice, irrespective of the
+order.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="references_1"&gt;References&lt;/h2&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://betterexplained.com/articles/easy-permutations-and-combinations/"&gt;Better
+Explained&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/"&gt;Book
+of Proofs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations"&gt;Quora&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
 about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
 &lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
 &lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
@@ -53,7 +208,7 @@ connection.&lt;/p&gt;
 &lt;h3 id="prosecutors-fallacy"&gt;Prosecutors fallacy&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;tbd&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id="gamblers-fallacy"&gt;Gambler&amp;rsquo;s fallacy&lt;/h3&gt;
-&lt;p&gt;The gambler&amp;rsquo;s fallacy is&amp;nbsp;the belief that the probability for an
+&lt;p&gt;The gambler&amp;rsquo;s fallacy is the belief that the probability for an
 outcome after a series of outcomes is not the same as the probability
 for a single outcome. The gambler&amp;rsquo;s fallacy is real and true in cases
 where the events in question are independent and identically
