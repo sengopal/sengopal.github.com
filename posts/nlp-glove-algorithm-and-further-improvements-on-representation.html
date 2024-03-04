@@ -89,25 +89,31 @@
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-tag"></i>
-                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/machine-learning.html">#machine-learning</a>            </li>
+                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/ml-code.html">#ml-code</a>            </li>
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#analogies-and-meaning-components" title="Analogies and Meaning
-components">Analogies and Meaning
-components</a><ul><li><a class="toc-href" href="#log-bi-linear-model" title="Log bi-linear model">Log bi-linear model</a></li><li><a class="toc-href" href="#objective-function-for-the-glove-model-log-bilinear-means" title="Objective
-function for the GloVe model / log-bilinear means">Objective
-function for the GloVe model / log-bilinear means</a></li><li><a class="toc-href" href="#explanation-for-fxij" title="Explanation for f(Xij)">Explanation for f(Xij)</a></li></ul></li><li><a class="toc-href" href="#results_1" title="Results">Results</a></li><li><a class="toc-href" href="#evaluation-of-glove-algorithm" title="Evaluation of Glove
-algorithm">Evaluation of Glove
-algorithm</a></li><li><a class="toc-href" href="#evaluation-metrics" title="Evaluation Metrics">Evaluation Metrics</a></li><li><a class="toc-href" href="#better-data" title="Better Data">Better Data</a></li><li><a class="toc-href" href="#human-judgments-of-word-similarity" title="Human judgments of word
-similarity">Human judgments of word
-similarity</a></li><li><a class="toc-href" href="#extrinisic-evaluation" title="Extrinisic Evaluation">Extrinisic Evaluation</a></li><li><a class="toc-href" href="#word-senses-and-word-sense-ambiguity" title="Word Senses and word sense
-ambiguity">Word Senses and word sense
-ambiguity</a><ul><li><a class="toc-href" href="#improving-word-representations-via-global-context-and-multiple-word-prototypes-huang-et-al.-2012" title="Improving
-Word Representations Via Global Context And Multiple Word Prototypes
-(Huang et al.&nbsp;2012)">Improving
-Word Representations Via Global Context And Multiple Word Prototypes
-(Huang et al.&nbsp;2012)</a></li></ul></li><li><a class="toc-href" href="#references_1" title="References">References</a></li><li><a class="toc-href" href="#suggested-readings" title="Suggested Readings">Suggested Readings</a></li><li><a class="toc-href" href="#additional-readings" title="Additional Readings">Additional Readings</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#analogies-and-meaning-components" id="toc-analogies-and-meaning-components">Analogies and Meaning
+components</a></li>
+<li><a href="#results" id="toc-results">Results</a></li>
+<li><a href="#evaluation-of-glove-algorithm" id="toc-evaluation-of-glove-algorithm">Evaluation of Glove
+algorithm</a></li>
+<li><a href="#evaluation-metrics" id="toc-evaluation-metrics">Evaluation
+Metrics</a></li>
+<li><a href="#better-data" id="toc-better-data">Better Data</a></li>
+<li><a href="#human-judgments-of-word-similarity" id="toc-human-judgments-of-word-similarity">Human judgments of word
+similarity</a></li>
+<li><a href="#extrinisic-evaluation" id="toc-extrinisic-evaluation">Extrinisic Evaluation</a></li>
+<li><a href="#word-senses-and-word-sense-ambiguity" id="toc-word-senses-and-word-sense-ambiguity">Word Senses and word sense
+ambiguity</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+<li><a href="#suggested-readings" id="toc-suggested-readings">Suggested
+Readings</a></li>
+<li><a href="#additional-readings" id="toc-additional-readings">Additional Readings</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>This lecture introduces the GLove model, the intuition behind the
@@ -119,7 +125,7 @@ methods on co-occurrence matrices like LSA and COALS with the models
 like skip-gram, CBOW and others, which were iterative neural updating
 algorithms. The earlier linear algebra methods actually had their
 advantages for fast training and efficient usage of statistics, the
-results weren&rsquo;t as good perhaps because of disproportionate importance
+results weren’t as good perhaps because of disproportionate importance
 given to large counts in the main. Conversely, the neural models seemed
 to performing gradient updates on word-windows, and inefficiently using
 statistics versus the co-occurrence matrix. Though, it was actually
@@ -131,16 +137,16 @@ have these analogies work, such as going from male to female, queen to
 king. Or going from a verb to its agent, truck to driver.</p>
 <h3 id="analogies-and-meaning-components">Analogies and Meaning
 components</h3>
-<p>The intent behind the Glove design was to represent the &ldquo;meaning&rdquo;
+<p>The intent behind the Glove design was to represent the “meaning”
 components as ratios of co-occurrence probabilities. As an example, the
 below illustrates the spectrum from solid to gas as in physics. The word
-&ldquo;solid&rdquo; co-occurs with the word &ldquo;ice&rdquo; often, while the word &ldquo;gas&rdquo;
-doesn&rsquo;t occur with the word &ldquo;ice&rdquo; as many times. But the problem is the
-word &ldquo;water&rdquo; will also occur a lot with ice, while any other random word
-like the word &ldquo;fashon&rdquo;, doesn&rsquo;t occur with the word &ldquo;ice&rdquo; many times. In
-contrast, if we look at words co-occurring with the word &ldquo;steam&rdquo;,
-&ldquo;solid&rdquo; won&rsquo;t occur with &ldquo;steam&rdquo; many times, but &ldquo;gas&rdquo; will. The water
-will also co-occur again and &ldquo;fashion&rdquo; occurence will be small. So to
+“solid” co-occurs with the word “ice” often, while the word “gas”
+doesn’t occur with the word “ice” as many times. But the problem is the
+word “water” will also occur a lot with ice, while any other random word
+like the word “fashon”, doesn’t occur with the word “ice” many times. In
+contrast, if we look at words co-occurring with the word “steam”,
+“solid” won’t occur with “steam” many times, but “gas” will. The water
+will also co-occur again and “fashion” occurence will be small. So to
 determine the meaning component of traversing from gas to solid, it
 would be useful to look at the ratio of these co-occurrence
 probabilities.</p>
@@ -151,10 +157,10 @@ gives youI just wrote these numbers in.</p>
 <p>In an actual large corpus, the following are actual co-occurrence
 probabilities.</p>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_cooccurence_probabilities.png"/></p>
-<p>as noted the co-occurence probabilities cancel out for &ldquo;water&rdquo; and
+<p>as noted the co-occurence probabilities cancel out for “water” and
 while for fashion is it low, both around 1. Whereas the ratio of
 probability of co-occurrence of solid with ice or steam is about 10. And
-for gas it&rsquo;s about a 10th.</p>
+for gas it’s about a 10th.</p>
 <h4 id="log-bi-linear-model">Log bi-linear model</h4>
 <p><img src="/extras/images/nlp-glove-algorithm/log_bilinear.png"/></p>
 <p>In order to capture these ratios of co-occurrence probabilities as
@@ -179,7 +185,7 @@ dominating, the effect of high word counts are capped using the
 providing a fast training scalable to huge corpora.</p>
 <h4 id="objective-function-for-the-glove-model-log-bilinear-means">Objective
 function for the GloVe model / log-bilinear means</h4>
-<p><strong>log-bilinear</strong> - the &ldquo;bi&rdquo; is indicative of the two
+<p><strong>log-bilinear</strong> - the “bi” is indicative of the two
 terms <em>wi</em> and <em>wj</em>, similar to an algebraic value of
 <em>ax</em> where the term i linear in <em>x</em> and <em>a</em> is a
 constant. The difference is squared to ensure that the term is always
@@ -194,19 +200,19 @@ are more common or word pairs that are more common. But there is a
 potential issue when we have extremely common words like function words.
 So the function <em>f(Xij)</em> typically pays attention to words that
 co-occurred together up until a certain point. And then the curve just
-goes flat, so it didn&rsquo;t matter if it was even an extremely, extremely
+goes flat, so it didn’t matter if it was even an extremely, extremely
 common word.</p>
-<h3 id="results_1">Results</h3>
+<h3 id="results">Results</h3>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_frog_results.png"/></p>
-<p>Nearest words to the word &ldquo;frog&rdquo; - We get &ldquo;frogs&rdquo;, &ldquo;toad&rdquo;, and then
+<p>Nearest words to the word “frog” - We get “frogs”, “toad”, and then
 we get some complicated words. But it turns out they are all frogs,u
 ntil we get down to lizards.</p>
 <h3 id="evaluation-of-glove-algorithm">Evaluation of Glove
 algorithm</h3>
 <p>There are typically two ways of evaluation - Intrinsic and extrinsic.
 In an intrinsic evaluation we evaluate directly on the specific or
-intermediate subtasks that we&rsquo;ve been working on. Intrinsic evaluations
-are fast to compute and help understand the component we&rsquo;ve been working
+intermediate subtasks that we’ve been working on. Intrinsic evaluations
+are fast to compute and help understand the component we’ve been working
 on.</p>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_evaluate.png"/></p>
 <p>An extrinsic evaluation is to utilize a real task of interest, such
@@ -223,17 +229,17 @@ woman as king is to blank? And tune the model to find the word that is
 closest, such as queen and produce an accuracy score of how often that
 the model evaluates it accurately.</p>
 <p>Note: Many times during such evaluation, the actual closest word is
-really just &ldquo;king&rdquo;. So to prevent this issue, the three input words are
+really just “king”. So to prevent this issue, the three input words are
 not allowed in the selection process, choosing only the nearest word
-that isn&rsquo;t one of the input words.</p>
+that isn’t one of the input words.</p>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_viz_1.png"/></p>
 <p>From the GloVe vector examples above, they exhibit a strong linear
 component property such as the male-female dimension. For example,
-taking the vector difference of &ldquo;man&rdquo; and &ldquo;woman&rdquo; and adding the vector
-difference onto &ldquo;brother&rdquo;, the expectation is to get to &ldquo;sister&rdquo; and
+taking the vector difference of “man” and “woman” and adding the vector
+difference onto “brother”, the expectation is to get to “sister” and
 king, queen, and for many of these examples. But some examples may not
-work, such as starting from &ldquo;emperor&rdquo;, the vector might get to
-&ldquo;countess&rdquo; or &ldquo;duchess&rdquo; instead.</p>
+work, such as starting from “emperor”, the vector might get to
+“countess” or “duchess” instead.</p>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_viz_2.png"/></p>
 <p>And these two examples illustrate that the Company to CEO and
 superlatives also move in roughly linear components.</p>
@@ -272,27 +278,27 @@ similarity</h3>
 <p>Another intrinsic evaluation you can do is see how these models model
 human judgments of word similarity. So psychologists for several decades
 have actually taken human judgments of word similarity. Where literally
-you&rsquo;re asking people for pairs of words like &ldquo;professor&rdquo; and &ldquo;doctor&rdquo; to
-give them a similarity score that&rsquo;s being measured as some continuous
+you’re asking people for pairs of words like “professor” and “doctor” to
+give them a similarity score that’s being measured as some continuous
 quantity giving you a score between, say 0 and 10.</p>
 <p>They responses are then averaged over multiple human judgments as to
-how similar different words are. For example, &ldquo;tiger&rdquo; and &ldquo;cat&rdquo; are
-pretty similar. &ldquo;Computer&rdquo; and &ldquo;internet&rdquo; are pretty similar, while
-&ldquo;Plane&rdquo; and &ldquo;cars&rdquo; less similar. &ldquo;Stock&rdquo; and &ldquo;CD&rdquo; aren&rsquo;t very similar at
-all but &ldquo;stock&rdquo; and &ldquo;jaguar&rdquo; are even less similar.</p>
+how similar different words are. For example, “tiger” and “cat” are
+pretty similar. “Computer” and “internet” are pretty similar, while
+“Plane” and “cars” less similar. “Stock” and “CD” aren’t very similar at
+all but “stock” and “jaguar” are even less similar.</p>
 <p><img src="/extras/images/nlp-glove-algorithm/glove_correlation.png"/></p>
 <p>And in particular, we can measure a <strong>correlation coefficient
 </strong>of whether they give the same ordering of similarity judgments.
 And there are various different data sets of word similarities and
 scorinf of different models as to how well they do on such similarities.
-Plain SVD&rsquo;s works comparatively better here for similarities than it did
+Plain SVD’s works comparatively better here for similarities than it did
 for analogies, not completely terrible because we no longer need that
-linear property. Scaled SVD&rsquo;s work a lot better, Word2vec works a bit
+linear property. Scaled SVD’s work a lot better, Word2vec works a bit
 better than that and with similar minor advantages from the GloVe
 model.</p>
 <h3 id="extrinisic-evaluation">Extrinisic Evaluation</h3>
 <p>NER (named entity recognition) is an extrinsic task for identifying
-mentions of a person&rsquo;s name or an organization name like a company or a
+mentions of a person’s name or an organization name like a company or a
 location. Having good word vectors help perform named entity recognition
 effectively. Starting with a model with discrete features, which uses
 word identity as features, we can build a named entity model doing that
@@ -316,41 +322,41 @@ ambiguity</h3>
 <li>The future (coming down the pike)</li>
 <li>A type of body position (as in diving)</li>
 <li>To kill or pierce with a pike</li>
-<li>To make one&rsquo;s way (pike along)</li>
+<li>To make one’s way (pike along)</li>
 <li>In Australian English, pike means to pull out from doing something:
 I reckon he could have climbed that cliff, but he piked!</li>
 </ul>
 <h4 id="improving-word-representations-via-global-context-and-multiple-word-prototypes-huang-et-al.-2012">Improving
 Word Representations Via Global Context And Multiple Word Prototypes
-(Huang et al.&nbsp;2012)</h4>
+(Huang et al. 2012)</h4>
 <p>The gut feeling is usually to have different vectors for each meaning
 of the same word, as it seems counter-intutive to have the same vector
-for all the different meanings. If &ldquo;Pike&rdquo;, and other words have
-<strong>&ldquo;word sense&rdquo;</strong> vectors. This paper attempted to improve
-the representation of words such as &ldquo;pike&rdquo;. The primary idea was to
+for all the different meanings. If “Pike”, and other words have
+<strong>“word sense”</strong> vectors. This paper attempted to improve
+the representation of words such as “pike”. The primary idea was to
 cluster word windows around words, retrain with each word assigned to
 multiple different clusters bank1, bank2, etc. And then for the clusters
 of word tokens, start treating them as if they were separate words and
 learning a word vector for each. So basically this does work and we can
 learn word vectors for different senses of a word. But actually this
-isn&rsquo;t the majority way that things have then gone in practice. Primarily
+isn’t the majority way that things have then gone in practice. Primarily
 due to increased complexity, and it tends to be imperfect in its own way
-as we&rsquo;re trying to take all the uses of the word &ldquo;pike&rdquo; and sort of cut
+as we’re trying to take all the uses of the word “pike” and sort of cut
 them up into key different senses, where differences overlap and there
-is no clear distinction. It&rsquo;s always very unclear how you cut word
+is no clear distinction. It’s always very unclear how you cut word
 meaning into different senses.</p>
 <p>In an overall sense, the word vector is generated as a superposition
 of the word vectors for the different senses of a word, here
-&ldquo;superposition&rdquo; means no more or less a weighted sum. So the vector that
-we learn for &ldquo;pike&rdquo; will be a weighted average of the vectors that would
+“superposition” means no more or less a weighted sum. So the vector that
+we learn for “pike” will be a weighted average of the vectors that would
 have learned for the medieval weapons sense, plus the fish sense, plus
 the road sense, plus whatever other senses that you have, <strong>where
-the weighting that&rsquo;s given to these different sense vectors corresponds
+the weighting that’s given to these different sense vectors corresponds
 to the frequencies of use of the different senses.</strong></p>
 <p>And adding up several different vectors into an average does not lose
 the real meanings of the word and it turns out that this average vector
 in applications, tends to self-disambiguate.</p>
-<h3 id="references_1">References</h3>
+<h3 id="references">References</h3>
 <ol type="1">
 <li><a href="https://www.youtube.com/watch?v=gqaHkPEZAew">Video</a></li>
 <li><a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf">Slides</a></li>

@@ -15,11 +15,13 @@ Typically a p-value of 0.05 is used as a threshold, though this is
 arbitrary. A p-value of 0.05 means that on multiple runs of the
 experiment, only 5% or less times would the null hypothesis would be
 true, that both the drugs are same.&lt;/p&gt;
-&lt;p&gt;Null Hypothesis: The drug are the same and patients react the same
-way Alternate Hypothesis: The drugs are dissimilar and cures the disease
-with varying degrees&lt;/p&gt;
-&lt;h4 id="fischers-exact-test"&gt;Fischer&amp;rsquo;s Exact Test&lt;/h4&gt;
-&lt;h4 id="computing-p-value"&gt;Computing p-value&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Null Hypothesis: The drug are the same and patients react the same
+way&lt;/li&gt;
+&lt;li&gt;Alternate Hypothesis: The drugs are dissimilar and cures the disease
+with varying degrees&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="computing-p-value"&gt;Computing p-value&lt;/h3&gt;
 &lt;p&gt;As referenced from [2], a different test is conducted where the same
 drug A is being given to two different groups. Null Hypothesis: The drug
 has no effect and groups would have different reactions Alternate
@@ -34,9 +36,9 @@ the same drug, is small, say p=0.01, then it is a False Positive of the
 Null Hypothesis. As our intent is to break the null hypothesis, this
 particular experiment disproves the experiment and confirms the null
 hypothesis for this particular round of experiment.&lt;/p&gt;
-&lt;p&gt;So with multiple experiments &amp;ldquo;A p=0.05 threshold means that 5% of the
+&lt;p&gt;So with multiple experiments “A p=0.05 threshold means that 5% of the
 experiments, where the differences come from random things, will
-generate a p-value &amp;lt; 0.05&amp;rdquo;&lt;/p&gt;
+generate a p-value &amp;lt; 0.05”&lt;/p&gt;
 &lt;p&gt;Using this statement, for the test with Drug A vs Drug B, a p-value
 of &amp;lt; 0.05 would mean that there is no difference between Drug A and
 Drug B, since the different reactions might be just random. ie., we will
@@ -47,7 +49,7 @@ important to determine this p-value or threshold before running the
 experiments to prevent being biased by the generated data.&lt;/p&gt;
 &lt;p&gt;For a stricter threshold, p=0.0001 might be used as well, where only
 1 false positive is allowed in 10,000 experiments.&lt;/p&gt;
-&lt;h4 id="compute-the-difference"&gt;Compute the difference&lt;/h4&gt;
+&lt;h3 id="compute-the-difference"&gt;Compute the difference&lt;/h3&gt;
 &lt;p&gt;Though, a p-value helps decide if the null hypothesis is true or not,
 it does not provide a mechanism to determine how dissimilar the drugs
 are. It is important to remember that p-value determines the probability
@@ -58,8 +60,8 @@ candidates of the experiment.&lt;/p&gt;
 &lt;strong&gt;permutations, variations and combinations&lt;/strong&gt; which are
 variations with subtle differences.&lt;/p&gt;
 &lt;h2 id="permutation"&gt;Permutation&lt;/h2&gt;
-&lt;p&gt;A typical question for permutation is &amp;ldquo;How many ways to arrange the
-three characters a,b and c?&amp;rdquo;. Note that the position and order matters
+&lt;p&gt;A typical question for permutation is “How many ways to arrange the
+three characters a,b and c?”. Note that the position and order matters
 for permutation and to fill all the positions. A permutation defines the
 numbers of different possible ways we can arrange a set of elements and
 can always &lt;strong&gt;arrange the entire set of elements in the sample
@@ -71,7 +73,7 @@ repetition), the order does matter.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Permutations without repetition if all elements are added and order
 does matter with no repetition of elements.&lt;/p&gt;
-&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;P&lt;/em&gt;&lt;sub&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sub&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;n&lt;/em&gt;!&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;P&lt;/em&gt;&lt;sub&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sub&gt; = &lt;em&gt;n&lt;/em&gt;!&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Permutations with repetition if all elements are added and order does
 matter with repetition of elements being allowed.&lt;/p&gt;
 &lt;p&gt;&lt;span class="math display"&gt;$$
@@ -84,7 +86,7 @@ $$&lt;/span&gt;&lt;/p&gt;
 each letter is used only once in a single string.&lt;/li&gt;
 &lt;li&gt;Order in which N people can enter a door&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="variations-extension-of-permutation_1"&gt;Variations (extension of
+&lt;h2 id="variations-extension-of-permutation"&gt;Variations (extension of
 permutation)&lt;/h2&gt;
 &lt;p&gt;Variations can be considered an extension of permutation where
 variations determines the total number of ways we can pick and arrange
@@ -104,19 +106,19 @@ V^n_{m} = \frac{m!}{(m - n)!}
 $$&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Variations with repetition if not all elements are added if 𝑚 &amp;gt; 𝑛
 and order does matter with repetition of elements being allowed. All
-elements can be added if 𝑚 &amp;le; 𝑛.&lt;/p&gt;
-&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;m&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;=&amp;emsp13;&lt;em&gt;m&lt;/em&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+elements can be added if 𝑚 ≤ 𝑛.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;V&lt;/em&gt;&lt;sub&gt;&lt;em&gt;m&lt;/em&gt;&lt;/sub&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt; = &lt;em&gt;m&lt;/em&gt;&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;h3 id="examples-of-variations"&gt;Examples of Variations&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Ways, in which 3 out of 10 sports people can win a medal in a
 competition, the first winning gold, the next silver, and the third
 bronze.&lt;/li&gt;
 &lt;li&gt;Possibilities to choose 2 representatives out of 100 students, one
-as the &amp;ldquo;president&amp;rdquo; and the other as the &amp;ldquo;vice-president&amp;rdquo;.&lt;/li&gt;
+as the “president” and the other as the “vice-president”.&lt;/li&gt;
 &lt;li&gt;Different results when rolling 3 dice which are distinguishable by
-color, e.g.&amp;nbsp;white, red, and black dice.&lt;/li&gt;
+color, e.g. white, red, and black dice.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="combinations_1"&gt;Combinations&lt;/h2&gt;
+&lt;h2 id="combinations"&gt;Combinations&lt;/h2&gt;
 &lt;p&gt;The number of different ways we can pick a specific element of a set
 where the order in which the elements needs to be selected is also not
 important. Using the example of the relay race, if we only care about
@@ -131,12 +133,12 @@ the order does not matter.&lt;/p&gt;
 order does not matter where &lt;strong&gt;elements are not
 repeated.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class="math display"&gt;$$
-C^n_{𝑚} = \frac{𝑚!}{𝑛! \cdot (𝑚&amp;minus;𝑛)!}
+C^n_{𝑚} = \frac{𝑚!}{𝑛! \cdot (𝑚−𝑛)!}
 $$&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Combinations with repetition if not all elements are added and order
 does not matter where &lt;strong&gt;elements are repeated.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class="math display"&gt;$$
-C^n_{𝑚} = \frac{(𝑚 + n -1)!}{𝑛! \cdot (𝑚&amp;minus;1)!}
+C^n_{𝑚} = \frac{(𝑚 + n -1)!}{𝑛! \cdot (𝑚−1)!}
 $$&lt;/span&gt;&lt;/p&gt;
 &lt;h3 id="examples-of-combinations"&gt;Examples of Combinations&lt;/h3&gt;
 &lt;ul&gt;
@@ -147,18 +149,18 @@ irrespective of the role.&lt;/li&gt;
 &lt;li&gt;Different results when rolling 3 identical dice, irrespective of the
 order.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="references_1"&gt;References&lt;/h2&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;&lt;a href="https://betterexplained.com/articles/easy-permutations-and-combinations/"&gt;Better
 Explained&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/"&gt;Book
 of Proofs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations"&gt;Quora&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category><category term="learning"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.github.io/posts/paradoxes-in-statistics.html" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-06-04:/posts/paradoxes-in-statistics.html</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
 about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
 &lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
 &lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
-evidence to try to &amp;ldquo;prove&amp;rdquo; something. Of course, the problem with this
+evidence to try to “prove” something. Of course, the problem with this
 line of reasoning is that a lack of evidence is just that: a lack.
 Evidence of absence is evidence of any kind that suggests something is
 missing or that it does not exist.&lt;/p&gt;
@@ -169,33 +171,33 @@ individual members of the group. (noun) In statistical analysis, an
 error caused by inferring aggregate data remains true on an individual
 level.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://sociologydictionary.org/ecological-fallacy/"&gt;Reference&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="steins-paradox"&gt;Stein&amp;rsquo;s paradox&lt;/h3&gt;
-&lt;p&gt;Stein&amp;rsquo;s example (or phenomenon or paradox), in decision theory and
+&lt;h3 id="steins-paradox"&gt;Stein’s paradox&lt;/h3&gt;
+&lt;p&gt;Stein’s example (or phenomenon or paradox), in decision theory and
 estimation theory, is the phenomenon that when three or more parameters
 are estimated simultaneously, there exist combined estimators more
 accurate on average (that is, having lower expected mean squared error)
 than any method that handles the parameters separately.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Stein%27s_example"&gt;Reference&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="lords-paradox"&gt;Lord&amp;rsquo;s paradox&lt;/h3&gt;
+&lt;h3 id="lords-paradox"&gt;Lord’s paradox&lt;/h3&gt;
 &lt;p&gt;When two groups are compared in a pre-post study, two different
 conclusions can be drawn between the two-sample t-test and the analysis
-of covariance (ANCOVA). It is known as Lord&amp;rsquo;s Paradox, and it occurs
+of covariance (ANCOVA). It is known as Lord’s Paradox, and it occurs
 because the parameter in the two-sample t-test and the parameter of
 interest in the ANCOVA model are not the same quantity. The difference
 between the two parameters can be explained by the covariance of
 linearly combined random variables which is an important topic in
 introductory statistical theory courses.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.ccsenet.org/journal/index.php/ijsp/article/view/75051"&gt;Reference&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="simpsons-paradox"&gt;Simpson&amp;rsquo;s paradox&lt;/h3&gt;
-&lt;p&gt;Simpson&amp;rsquo;s paradox, which also goes by several other names, is a
+&lt;h3 id="simpsons-paradox"&gt;Simpson’s paradox&lt;/h3&gt;
+&lt;p&gt;Simpson’s paradox, which also goes by several other names, is a
 phenomenon in probability and statistics in which a trend appears in
 several groups of data but disappears or reverses when the groups are
 combined. This result is often encountered in social-science and
 medical-science statistics,[1][2][3] and is particularly problematic
 when frequency data is unduly given causal interpretations.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="berksons-paradox"&gt;Berkson&amp;rsquo;s paradox&lt;/h3&gt;
-&lt;p&gt;Berkson&amp;rsquo;s paradox (also known as Berkson&amp;rsquo;s fallacy or Berkson&amp;rsquo;s bias)
+&lt;h3 id="berksons-paradox"&gt;Berkson’s paradox&lt;/h3&gt;
+&lt;p&gt;Berkson’s paradox (also known as Berkson’s fallacy or Berkson’s bias)
 is the counter-intuitive idea that events which seem to be correlated
 actually are not. Take two events, A and B, which are completely
 independent events (for example, lung cancer and diabetes). If a study
@@ -207,23 +209,23 @@ connection.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.statisticshowto.com/berksons-paradox-definition/"&gt;Reference&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="prosecutors-fallacy"&gt;Prosecutors fallacy&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;tbd&lt;/em&gt;&lt;/p&gt;
-&lt;h3 id="gamblers-fallacy"&gt;Gambler&amp;rsquo;s fallacy&lt;/h3&gt;
-&lt;p&gt;The gambler&amp;rsquo;s fallacy is the belief that the probability for an
+&lt;h3 id="gamblers-fallacy"&gt;Gambler’s fallacy&lt;/h3&gt;
+&lt;p&gt;The gambler’s fallacy is the belief that the probability for an
 outcome after a series of outcomes is not the same as the probability
-for a single outcome. The gambler&amp;rsquo;s fallacy is real and true in cases
+for a single outcome. The gambler’s fallacy is real and true in cases
 where the events in question are independent and identically
 distributed.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.tandfonline.com/doi/abs/10.1080/13669877.2017.1378248?journalCode=rjrr20#:~:text=The%20gambler's%20fallacy%20is%20the%20belief%20that%20the%20probability%20for,are%20independent%20and%20identically%20distributed."&gt;Reference&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="lindleys-paradox"&gt;Lindley&amp;rsquo;s paradox&lt;/h3&gt;
-&lt;p&gt;Lindley&amp;rsquo;s paradox is a counterintuitive situation in statistics in
+&lt;h3 id="lindleys-paradox"&gt;Lindley’s paradox&lt;/h3&gt;
+&lt;p&gt;Lindley’s paradox is a counterintuitive situation in statistics in
 which the Bayesian and frequentist approaches to a hypothesis testing
 problem give different results for certain choices of the prior
-distribution. It is in fact a difficulty reconciling two paradigms &amp;mdash;
+distribution. It is in fact a difficulty reconciling two paradigms —
 Bayesian and frequentist statistics.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Bayes &amp;mdash; probability is a (unique) measure of degree of belief (see
-e.g., Cox&amp;rsquo;s theorem in Chap. 2 of Jaynes3)&lt;/li&gt;
-&lt;li&gt;Frequentist &amp;mdash; probability is the (asymptotic) frequency at which an
+&lt;li&gt;Bayes — probability is a (unique) measure of degree of belief (see
+e.g., Cox’s theorem in Chap. 2 of Jaynes3)&lt;/li&gt;
+&lt;li&gt;Frequentist — probability is the (asymptotic) frequency at which an
 outcome occurs, in a hypothetical sequence of repeated trials&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="https://andrewfowlie.github.io/talks/jl-paradox.pdf"&gt;Reference&lt;/a&gt;
@@ -233,71 +235,71 @@ outcome occurs, in a hypothetical sequence of repeated trials&lt;/li&gt;
 relating to the birth weights and mortality rate of children born to
 tobacco smoking mothers. Low birth-weight children born to smoking
 mothers have a lower infant mortality rate than the low birth weight
-children of non-smokers. It is an example of Simpson&amp;rsquo;s paradox.
+children of non-smokers. It is an example of Simpson’s paradox.
 Traditionally, babies weighing less than a certain amount (which varies
 between countries) have been classified as having low birth weight. In a
 given population, low birth weight babies have a significantly higher
 mortality rate than others; thus, populations with a higher rate of low
 birth weights typically also have higher rates of child mortality than
 other populations.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic.html</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat&amp;rsquo;s little theorum is a fundamental theorum for any modular
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic.html</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
 arithmetic problems and provides a neat little trick for finding the
 reminder for division by large numbers.&lt;/p&gt;
 &lt;h4 id="from-wikipedia"&gt;From Wikipedia&lt;/h4&gt;
-&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Fermat%27s_little_theorem"&gt;Fermat&amp;rsquo;s
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Fermat%27s_little_theorem"&gt;Fermat’s
 little theorem&lt;/a&gt; states that if p is a prime number, then for any
-integer a, the number &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp14;&amp;minus;&amp;emsp14;&lt;em&gt;a&lt;/em&gt;&lt;/span&gt;
-is an integer multiple of p.&amp;nbsp;In the notation of modular arithmetic, this
+integer a, the number &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt; − &lt;em&gt;a&lt;/em&gt;&lt;/span&gt;
+is an integer multiple of p. In the notation of modular arithmetic, this
 is expressed as&lt;/p&gt;
-&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;).&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt; ≡ &lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;).&lt;/span&gt;&lt;/p&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;Using the Fermat&amp;rsquo;s little theorum for modular arithmetic, we know
-that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;(&lt;em&gt;m&lt;/em&gt;&lt;em&gt;o&lt;/em&gt;&lt;em&gt;d&lt;/em&gt;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;Dividing by a on both sides, &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
-for all &lt;span class="math inline"&gt;1&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;p&lt;/em&gt;&amp;emsp14;&amp;minus;&amp;emsp14;1&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
-if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
-if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt; and
+&lt;li&gt;Using the Fermat’s little theorum for modular arithmetic, we know
+that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt; ≡ &lt;em&gt;a&lt;/em&gt;(&lt;em&gt;m&lt;/em&gt;&lt;em&gt;o&lt;/em&gt;&lt;em&gt;d&lt;/em&gt;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Dividing by a on both sides, &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+for all &lt;span class="math inline"&gt;1 ≤ &lt;em&gt;a&lt;/em&gt; ≤ &lt;em&gt;p&lt;/em&gt; − 1&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt; and
 k is a natural number.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id="test-for-primality"&gt;Test for primality&lt;/h4&gt;
-&lt;p&gt;r is a prime number iff &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;r&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;r&lt;/em&gt;)&lt;/span&gt;
-for &lt;span class="math inline"&gt;1&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;a&lt;/em&gt;&amp;emsp13;&amp;le;&amp;emsp13;&lt;em&gt;r&lt;/em&gt;&amp;emsp14;&amp;minus;&amp;emsp14;1&lt;/span&gt;&lt;/p&gt;
-&lt;h4 id="question-what-is-222006-pmod-3"&gt;Question: What is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/h4&gt;
-&lt;p&gt;From Fermat&amp;rsquo;s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
-if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;r is a prime number iff &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;r&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;r&lt;/em&gt;)&lt;/span&gt;
+for &lt;span class="math inline"&gt;1 ≤ &lt;em&gt;a&lt;/em&gt; ≤ &lt;em&gt;r&lt;/em&gt; − 1&lt;/span&gt;&lt;/p&gt;
+&lt;h4 id="question-what-is-222006-pmod-3"&gt;Question: What is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt; (mod  3)&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/span&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;So we can formulate that,&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(3&amp;minus;1)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt; which
-becomes &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(3−1)&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt; which
+becomes &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;which means&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(2&lt;sup&gt;2006&lt;/sup&gt;)&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;
-i.e., &lt;span class="math inline"&gt;(2&lt;sup&gt;2&lt;/sup&gt;)&lt;sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&lt;sup&gt;(2&lt;sup&gt;2005&lt;/sup&gt;)&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;So, the solution is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt;&amp;nbsp;(mod &amp;nbsp;3)&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(2&lt;sup&gt;2006&lt;/sup&gt;)&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt;
+i.e., &lt;span class="math inline"&gt;(2&lt;sup&gt;2&lt;/sup&gt;)&lt;sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;&lt;/sup&gt; ≡ 1&lt;sup&gt;(2&lt;sup&gt;2005&lt;/sup&gt;)&lt;/sup&gt; (mod  3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;So, the solution is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt; (mod  3) ≡ 1 (mod  3)&lt;/span&gt;&lt;/p&gt;
 &lt;h4 id="question-is-the-difference-between-530000-and-6123456-divisible-by-31"&gt;Question:
 Is the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; divisible by 31&lt;/h4&gt;
-&lt;p&gt;From Fermat&amp;rsquo;s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
-if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&amp;nbsp;(mod &amp;nbsp;&lt;em&gt;p&lt;/em&gt;)&amp;emsp13;&amp;ne;&amp;emsp13;0&lt;/span&gt; and
+&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt; and
 k is a natural number.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;&amp;minus;1)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/span&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;we know that, &lt;span class="math inline"&gt;5&lt;sup&gt;(31&amp;minus;1)&lt;sup&gt;1000&lt;/sup&gt;&lt;/sup&gt;&amp;emsp13;=&amp;emsp13;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Rewriting the modular equation similar to Fermat&amp;rsquo;s little theorum
-&lt;span class="math inline"&gt;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;we know that, &lt;span class="math inline"&gt;5&lt;sup&gt;(31−1)&lt;sup&gt;1000&lt;/sup&gt;&lt;/sup&gt; = (5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Rewriting the modular equation similar to Fermat’s little theorum
+&lt;span class="math inline"&gt;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;For the second part, dividing 12346 by 30 gives a reminder of 6 and a
 divisor of 4115. So the second part of the equation can be rewritten as,
-&lt;span class="math inline"&gt;6123456&amp;emsp13;=&amp;emsp13;(6&lt;sup&gt;6&lt;/sup&gt;)(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Using the Fermats little theorum &lt;span class="math inline"&gt;(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;That leaves, &lt;span class="math inline"&gt;(6&lt;sup&gt;6&lt;/sup&gt;)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt; to be computed.&lt;/p&gt;
+&lt;span class="math inline"&gt;6123456 = (6&lt;sup&gt;6&lt;/sup&gt;)(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Using the Fermats little theorum &lt;span class="math inline"&gt;(6&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;4115&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;That leaves, &lt;span class="math inline"&gt;(6&lt;sup&gt;6&lt;/sup&gt;) (mod  31)&lt;/span&gt; to be computed.&lt;/p&gt;
 &lt;p&gt;Breaking this further,&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;(6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;(5)(5)(5)&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;125&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt;&amp;emsp13;&amp;equiv;&amp;emsp13;1&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ (6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;)(6&lt;sup&gt;2&lt;/sup&gt;) (mod  31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ (5)(5)(5) (mod  31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ 125 (mod  31)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;So the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; being divisible by 31 is
-simply written as, &lt;span class="math inline"&gt;1&amp;nbsp;(mod &amp;nbsp;31)&amp;emsp14;&amp;minus;&amp;emsp14;1&amp;nbsp;(mod &amp;nbsp;31)&amp;emsp13;=&amp;emsp13;0&amp;nbsp;(mod &amp;nbsp;31)&lt;/span&gt; which
-implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="fermat"></category><category term="modular-arithmetic"></category><category term="dpv"></category><category term="algorithms"></category></entry></feed>
+simply written as, &lt;span class="math inline"&gt;1 (mod  31) − 1 (mod  31) = 0 (mod  31)&lt;/span&gt; which
+implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="fermat"></category><category term="modular-arithmetic"></category><category term="algorithms"></category><category term="learning"></category></entry></feed>

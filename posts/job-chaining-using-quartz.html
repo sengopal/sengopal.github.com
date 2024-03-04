@@ -93,11 +93,24 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#project-usage" title="Project Usage">Project Usage</a></li><li><a class="toc-href" href="#introduction-to-quartz" title="Introduction to Quartz">Introduction to Quartz</a></li><li><a class="toc-href" href="#jobs-and-triggers" title="Jobs and triggers">Jobs and triggers</a></li><li><a class="toc-href" href="#simple-job-example" title="Simple Job Example">Simple Job Example</a></li><li><a class="toc-href" href="#need-for-job-chaining" title="Need for Job Chaining">Need for Job Chaining</a></li><li><a class="toc-href" href="#job-chaining-how-it-was-implemented" title="Job Chaining &ndash; How it was
-implemented">Job Chaining &ndash; How it was
-implemented</a></li><li><a class="toc-href" href="#scheduling-the-job-for-the-first-run" title="Scheduling the Job for the
-First Run">Scheduling the Job for the
-First Run</a></li><li><a class="toc-href" href="#references" title="References">References</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#project-usage" id="toc-project-usage">Project
+Usage</a></li>
+<li><a href="#introduction-to-quartz" id="toc-introduction-to-quartz">Introduction to Quartz</a></li>
+<li><a href="#jobs-and-triggers" id="toc-jobs-and-triggers">Jobs and
+triggers</a></li>
+<li><a href="#simple-job-example" id="toc-simple-job-example">Simple Job
+Example</a></li>
+<li><a href="#need-for-job-chaining" id="toc-need-for-job-chaining">Need
+for Job Chaining</a></li>
+<li><a href="#job-chaining-how-it-was-implemented" id="toc-job-chaining-how-it-was-implemented">Job Chaining – How it was
+implemented</a></li>
+<li><a href="#scheduling-the-job-for-the-first-run" id="toc-scheduling-the-job-for-the-first-run">Scheduling the Job for the
+First Run</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <h3 id="project-usage">Project Usage</h3>
@@ -107,7 +120,7 @@ table which acts as a queue and sends the pending mails. This reading
 SMTP server needs to address online mailing at times, this job may run
 more than the given five minutes. Also, if the number of records in the
 table is high, the Job exceeds the expected time of completion of five
-minutes. Hence it was decided to &ldquo;chain&rdquo; the jobs with a five minute
+minutes. Hence it was decided to “chain” the jobs with a five minute
 delay.</p>
 <h3 id="introduction-to-quartz">Introduction to Quartz</h3>
 <p>Quartz is an open source job scheduling framework that provides
@@ -120,9 +133,9 @@ multiple jobs for a single event. While you can configure Quartz through
 a property file (in which you can specify a data source for JDBC
 transactions, global job and/or trigger listeners, plug-ins, thread
 pools, and more) it is not at all integrated with the application
-server&rsquo;s context or references.</p>
+server’s context or references.</p>
 <h3 id="jobs-and-triggers">Jobs and triggers</h3>
-<p>The two fundamental units of Quartz&rsquo;s scheduling package are jobs and
+<p>The two fundamental units of Quartz’s scheduling package are jobs and
 triggers. A job is an executable task that can be scheduled, while a
 trigger provides a schedule for a job. While these two entities could
 easily have been combined, their separation in Quartz is both
@@ -155,11 +168,11 @@ job to be executed</p>
 <p><em>Notice that the execute method takes a JobExecutionContext object
 as an argument. This object provides the runtime context around the job
 instance. Specifically, it gives access to the scheduler and trigger,
-which collaborated to initiate execution of the job as well as the job&rsquo;s
+which collaborated to initiate execution of the job as well as the job’s
 JobDetail object. Quartz separates the execution and the surrounding
 state of a job by placing the state in a JobDetail object and having the
 JobDetail constructor initiate an instance of a job. The JobDetail
-object stores the job&rsquo;s listeners, group, data map, description, and
+object stores the job’s listeners, group, data map, description, and
 other properties of the job.</em></p>
 <p>####Simple Trigger Example A trigger develops a schedule for job
 execution. Quartz offers a few different trigger options of varying
@@ -207,7 +220,7 @@ schedules to execute at a specific calendar time, given a maximum time
 of execution, or given a priority. Some of the advanced concepts include
 CronTriggers, Job Stores, and JobMap etc.,</p>
 <h3 id="need-for-job-chaining">Need for Job Chaining</h3>
-<p>The job known as &ldquo;MailProcessor&rdquo; needs to be scheduled every 5
+<p>The job known as “MailProcessor” needs to be scheduled every 5
 minutes i.e., this job has to execute every five minutes. The code which
 was used for scheduling the job is given below:</p>
 <pre><code>Trigger mailProcTrigger = TriggerUtils.makeMinutelyTrigger(5);
@@ -227,9 +240,9 @@ will get triggered even before the first one completes.</li>
 </ol>
 <p><strong>Solution</strong></p>
 <p>Hence to resolve this, we need to chain the jobs such that the job
-gets &ldquo;re-scheduled&rdquo; only after the first job is completed. This is known
-as &ldquo;Job-Chaining&rdquo;</p>
-<h3 id="job-chaining-how-it-was-implemented">Job Chaining &ndash; How it was
+gets “re-scheduled” only after the first job is completed. This is known
+as “Job-Chaining”</p>
+<h3 id="job-chaining-how-it-was-implemented">Job Chaining – How it was
 implemented</h3>
 <ol type="1">
 <li>A Utility Method for returning the time 5 minutes from now and
@@ -259,21 +272,21 @@ instance</li>
 <h3 id="scheduling-the-job-for-the-first-run">Scheduling the Job for the
 First Run</h3>
 <ol type="1">
-<li><p>Using the Utility methods the &ldquo;MailProcessor&rdquo; Job is scheduled to
+<li><p>Using the Utility methods the “MailProcessor” Job is scheduled to
 run after Five minutes from the current Instance</p></li>
 <li><p>Since a specific time instance is given for the Trigger, this Job
 will get Triggered only once</p>
 <p>JobDetail mailJobDetail = new
-JobDetail(&ldquo;MailProcessorJob&rdquo;,Scheduler.DEFAULT_GROUP,
+JobDetail(“MailProcessorJob”,Scheduler.DEFAULT_GROUP,
 MailProcessor.class); sched.scheduleJob(mailJobDetail,VsimsUtil
-Util.getMailProcessorTrigger()); logger.info(&ldquo;Mail Processor
-Scheduled&rdquo;);</p></li>
+Util.getMailProcessorTrigger()); logger.info(“Mail Processor
+Scheduled”);</p></li>
 </ol>
 <p>Note: <em>Since the Job is being scheduled for the first time we have
 to use sched.scheduleJob() for scheduling the job</em></p>
 <p>In the Execute method of the Job, once the Job gets fired for the
 first time by the Trigger created, the Job Execution steps are completed
-and then the job gets &ldquo;re-scheduled&rsquo; after five minutes using the same
+and then the job gets “re-scheduled’ after five minutes using the same
 Utility method</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">execute</span><span class="op">(</span>JobExecutionContext jobContext<span class="op">)</span> <span class="kw">throws</span> JobExecutionException <span class="op">{</span></span>
 <span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>        logger<span class="op">.</span><span class="fu">info</span><span class="op">(</span><span class="st">"MailProcessor execute - start"</span><span class="op">);</span></span>

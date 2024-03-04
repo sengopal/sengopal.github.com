@@ -93,7 +93,17 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#chapter-7" title="Chapter 7">Chapter 7</a></li><li><a class="toc-href" href="#chapter-8" title="Chapter 8">Chapter 8</a></li><li><a class="toc-href" href="#chapter-9" title="Chapter 9">Chapter 9</a></li><li><a class="toc-href" href="#chapter-10" title="Chapter 10">Chapter 10</a></li><li><a class="toc-href" href="#chapter-11" title="Chapter 11">Chapter 11</a></li><li><a class="toc-href" href="#chapter-11-continued" title="Chapter 11 Continued">Chapter 11 Continued</a></li><li><a class="toc-href" href="#chapter-12" title="Chapter 12">Chapter 12</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#chapter-7" id="toc-chapter-7">Chapter 7</a></li>
+<li><a href="#chapter-8" id="toc-chapter-8">Chapter 8</a></li>
+<li><a href="#chapter-9" id="toc-chapter-9">Chapter 9</a></li>
+<li><a href="#chapter-10" id="toc-chapter-10">Chapter 10</a></li>
+<li><a href="#chapter-11" id="toc-chapter-11">Chapter 11</a></li>
+<li><a href="#chapter-11-continued" id="toc-chapter-11-continued">Chapter 11 Continued</a></li>
+<li><a href="#chapter-12" id="toc-chapter-12">Chapter 12</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>I am studying for the Oracle Certified Professional certification and
@@ -120,13 +130,13 @@ inadequate join conditions</li>
 it is possible to perform a natural join between them without specifying
 a join column. This is sometimes referred to as a pure natural join. ..
 select region_name from regions natural join countries where
-country_name=&lsquo;Canada&rsquo;</li>
-<li><strong>JOIN&hellip;USING</strong> .. select region_name from regions join
-countries using (region_id) where country_name=&lsquo;Canada&rsquo; -&gt; brackets
+country_name=‘Canada’</li>
+<li><strong>JOIN…USING</strong> .. select region_name from regions join
+countries using (region_id) where country_name=‘Canada’ -&gt; brackets
 are a part of the syntax</li>
-<li><strong>JOIN&hellip;ON</strong> -&gt; most widely used natural join format.
+<li><strong>JOIN…ON</strong> -&gt; most widely used natural join format.
 .. select region_name from regions join countries on
-(countries.region_id=regions.region_id) where country_name=&lsquo;Canada&rsquo;
+(countries.region_id=regions.region_id) where country_name=‘Canada’
 -&gt; brackets are optional</li>
 <li>cross join or cartesian product .. This join creates one row of
 output for every combination of source and target table rows.</li>
@@ -155,10 +165,10 @@ clause conditions, where N refers to the number of tables in the query,
 then a Cartesian or cross join is performed.</li>
 <li>If ambiguous column is NOT aliased, ORA-00918:column ambiguously
 defined</li>
-<li>If Column used in JOIN&hellip;USING is aliased, ORA-25154:column part of
+<li>If Column used in JOIN…USING is aliased, ORA-25154:column part of
 USING clause cannot have qualifier</li>
 <li>Qualifying column references with dot notation to indicate a
-column&rsquo;s table of origin has a performance benefit. Time is saved
+column’s table of origin has a performance benefit. Time is saved
 because Oracle is directed instantaneously to the appropriate table and
 does not have to resolve the table name.</li>
 <li>Natural JOIN</li>
@@ -173,7 +183,7 @@ does not have to resolve the table name.</li>
 ORA-01722: invalid number</li>
 <li>If there are no common name columns, NATURAL JOIN Performs a
 CARTESIAN PRODUCT</li>
-<li>JOIN&hellip;USING .. select EMP.last_name, EMP.Department_id, JH.end_date,
+<li>JOIN…USING .. select EMP.last_name, EMP.Department_id, JH.end_date,
 job_id, employee_id from job_history JH join employees EMP using
 (job_id,employee_id) .. Column used in the USING part should not be
 qualified -&gt; ORA-25154: column part of USING clause cannot have
@@ -201,9 +211,9 @@ Need to evaluate to a BOOLEAN Expression</li>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="kw">select</span> E.JOB_ID <span class="kw">from</span> Employees e <span class="kw">join</span> jobs j <span class="kw">on</span> (e.salary<span class="op">&gt;</span><span class="dv">5000</span> <span class="kw">and</span> <span class="dv">2</span><span class="op">*</span>e.salary <span class="op">&lt;</span> j.max_salary);</span></code></pre></div>
 <ol start="24" type="1">
 <li>LEFT Outer Join -&gt; Rows from Source Table -&gt; Rows from the
-LEFT of the JOIN condition &ldquo;X LEFT JOIN Y&rdquo; -&gt; Rows from X .. RIGHT
+LEFT of the JOIN condition “X LEFT JOIN Y” -&gt; Rows from X .. RIGHT
 Outer Join -&gt; Rows from Target Table -&gt; Rows from the RIGHT of the
-JOIN condition &ldquo;X LEFT JOIN Y&rdquo; -&gt; Rows from Y .. FULL Outer Join
+JOIN condition “X LEFT JOIN Y” -&gt; Rows from Y .. FULL Outer Join
 -&gt; Both Source and Target tables</li>
 </ol>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="kw">SELECT</span> table1.<span class="kw">column</span>, table2.<span class="kw">column</span></span>
@@ -252,7 +262,7 @@ single row, with a single column.</li>
 <li>A subquery is a query that is nested inside a SELECT, INSERT,
 UPDATE, or DELETE statement or inside another subquery</li>
 <li>Subqueries can be nested to an unlimited depth in a FROM clause but
-to &ldquo;only&rdquo; 255 levels in a WHERE clause. They can be used in the SELECT
+to “only” 255 levels in a WHERE clause. They can be used in the SELECT
 list and in the FROM, WHERE, and HAVING clauses of a query.</li>
 <li>Using NOT IN is fraught with problems because of the way SQL handles
 NULLs. As a general rule, do not use NOT IN unless you are certain that
@@ -267,15 +277,15 @@ to enable the star transformation often needed in data warehouse
 applications</li>
 </ol>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="kw">FROM</span></span>
-<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a><span class="kw">and</span> p.product<span class="op">=</span>&rsquo;Books&rsquo;</span>
-<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a><span class="kw">and</span> b.country<span class="op">=</span>&rsquo;Germany&rsquo;</span>
-<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a><span class="kw">and</span> c.channel<span class="op">=</span>&rsquo;Internet&rsquo;;</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a><span class="kw">and</span> p.product<span class="op">=</span>’Books’</span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a><span class="kw">and</span> b.country<span class="op">=</span>’Germany’</span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a><span class="kw">and</span> c.channel<span class="op">=</span>’Internet’;</span>
 <span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a></span>
 <span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a><span class="kw">TO</span></span>
 <span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a><span class="kw">select</span> <span class="op">..</span>. <span class="kw">from</span> sales</span>
-<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a><span class="kw">where</span> prod_code <span class="kw">in</span> (<span class="kw">select</span> prod_code <span class="kw">from</span> products <span class="kw">where</span> product<span class="op">=</span>&rsquo;Books&rsquo;)</span>
-<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a><span class="kw">and</span> buy_code <span class="kw">in</span> (<span class="kw">select</span> buy_code <span class="kw">from</span> buyers <span class="kw">where</span> country<span class="op">=</span>&rsquo;Germany&rsquo;)</span>
-<span id="cb8-10"><a aria-hidden="true" href="#cb8-10" tabindex="-1"></a><span class="kw">and</span> chan_code <span class="kw">in</span> (<span class="kw">select</span> chan_code <span class="kw">from</span> channels <span class="kw">where</span> channel<span class="op">=</span>&rsquo;Internet);</span></code></pre></div>
+<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a><span class="kw">where</span> prod_code <span class="kw">in</span> (<span class="kw">select</span> prod_code <span class="kw">from</span> products <span class="kw">where</span> product<span class="op">=</span>’Books’)</span>
+<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a><span class="kw">and</span> buy_code <span class="kw">in</span> (<span class="kw">select</span> buy_code <span class="kw">from</span> buyers <span class="kw">where</span> country<span class="op">=</span>’Germany’)</span>
+<span id="cb8-10"><a aria-hidden="true" href="#cb8-10" tabindex="-1"></a><span class="kw">and</span> chan_code <span class="kw">in</span> (<span class="kw">select</span> chan_code <span class="kw">from</span> channels <span class="kw">where</span> channel<span class="op">=</span>’Internet);</span></code></pre></div>
 <ol start="7" type="1">
 <li>STAR TRANSFORMATION There is an instance initialization parameter,
 STAR_TRANSFORMATION_ENABLED, which (if set to true) will permit the
@@ -319,7 +329,7 @@ alternative approach.</li>
 <span id="cb11-6"><a aria-hidden="true" href="#cb11-6" tabindex="-1"></a><span class="op">&gt;</span> <span class="kw">ALL</span> more <span class="kw">than</span> <span class="kw">the</span> highest</span>
 <span id="cb11-7"><a aria-hidden="true" href="#cb11-7" tabindex="-1"></a><span class="op">&lt;</span> <span class="kw">ALL</span> <span class="kw">less</span> <span class="kw">than</span> <span class="kw">the</span> lowest</span></code></pre></div>
 <ol start="16" type="1">
-<li>&ldquo;NOT &gt;=&rdquo; -&gt; NOT or ! cannot be used in Conjunction with other
+<li>“NOT &gt;=” -&gt; NOT or ! cannot be used in Conjunction with other
 comparison operators</li>
 <li>SUB QUERIES can be used in SELECT, FROM, WHERE, GROUP BY, HAVING
 CANNOT be used in ORDER BY</li>
@@ -336,7 +346,7 @@ UNION can be qualified with ALL</li>
 <li>Union options .. UNION - Returns the combined rows from two queries,
 sorting them and removing duplicates. .. UNION ALL - Returns the
 combined rows from two queries without sorting or removing duplicates.
-.. INTERSECT - Returns only the rows that occur in both queries&rsquo; result
+.. INTERSECT - Returns only the rows that occur in both queries’ result
 sets, sorting them and removing duplicates. .. MINUS - Returns only the
 rows in the first result set that do not appear in the second result
 set, sorting them and removing duplicates.</li>
@@ -372,7 +382,7 @@ compound query. It is not possible to use ORDER BY in any of the queries
 that make up the whole compound query, as this would disrupt the sorting
 that is necessary to remove duplicates</li>
 <li>UNION ALL -&gt; the result sets of the two input queries will be
-concatenated to form the result of the compound query .. Can&rsquo;t use ORDER
+concatenated to form the result of the compound query .. Can’t use ORDER
 BY in the individual queries; it can only appear at the end of the
 compound query</li>
 <li>If you know that there can be no duplicates between two tables, then
@@ -439,7 +449,7 @@ until the DML command is terminated with a COMMIT or a ROLLBACK.</li>
 relevant permissions on the tables to which it refers, the database will
 return an error identical to that which would be returned if the object
 did not exist. As far as the user is concerned, it does not exist</li>
-<li>INSERT - insert into hr.regions values (10,&lsquo;Great Britain&rsquo;); .. When
+<li>INSERT - insert into hr.regions values (10,‘Great Britain’); .. When
 the database receives a statement using positional notation, it will
 match the order of the values to the order in which the columns of the
 table are defined.</li>
@@ -476,7 +486,7 @@ values can be literals or prompted for as substitution variables.</li>
 <span id="cb15-14"><a aria-hidden="true" href="#cb15-14" tabindex="-1"></a><span class="kw">select</span> employee_id,department_id,job_id,salary,commission_pct,hire_date</span>
 <span id="cb15-15"><a aria-hidden="true" href="#cb15-15" tabindex="-1"></a><span class="kw">from</span> employees <span class="kw">where</span> hire_date <span class="op">&gt;</span> <span class="fu">sysdate</span> <span class="op">-</span> <span class="dv">30</span>;</span></code></pre></div>
 <p>NOTE: ALL -&gt; means all the tables will be updated for matching
-conditions. IF &ldquo;ALL&rdquo; is not there, only the first matching WHEN will be
+conditions. IF “ALL” is not there, only the first matching WHEN will be
 filled</p>
 <ol start="18" type="1">
 <li><code>UPDATE table SET column=value [,column=value...] [WHERE condition];</code></li>
@@ -538,19 +548,19 @@ not DML). .. The transaction continues through any number of further DML
 commands until the session issues either a COMMIT or a ROLLBACK
 statement</p></li>
 <li><p>It is impossible to nest transactions. This can be done with
-PL/SQL (Oracle&rsquo;s proprietary third-generation language), but not with
+PL/SQL (Oracle’s proprietary third-generation language), but not with
 industry-standard SQL.</p></li>
 <li><p>The explicit transaction control statements are COMMIT, ROLLBACK,
-and SAVEPOINT. .. The implicit ones are: &hellip; Issuing a DDL (CREATE, ALTER,
-or DROP) or DCL (GRANT or REVOKE) statement &hellip; Exiting from the user tool
-(SQL*Plus or SQL Developer or anything else) &hellip; If the client session
-dies &hellip; If the system crashes</p></li>
+and SAVEPOINT. .. The implicit ones are: … Issuing a DDL (CREATE, ALTER,
+or DROP) or DCL (GRANT or REVOKE) statement … Exiting from the user tool
+(SQL*Plus or SQL Developer or anything else) … If the client session
+dies … If the system crashes</p></li>
 <li><p>If a user starts a transaction by issuing a DML command and then
 exits from the tool he is using without explicitly issuing either a
 COMMIT or a ROLLBACK, the transaction will terminate, but whether it
 terminates with a COMMIT or a ROLLBACK is entirely dependent on how the
 tool is written</p></li>
-<li><p>If a client&rsquo;s session fails for some reason, the database will
+<li><p>If a client’s session fails for some reason, the database will
 always roll back the transaction. .. the user process can die or be
 killed at the operating system level, .. the network connection to the
 database server may go down, .. the machine where the client tool is
@@ -562,7 +572,7 @@ the action of a ROLLBACK, but the same transaction remains in progress
 irrespective of the use of SAVEPOINT.</p></li>
 <li><p>COMMIT;</p></li>
 <li><p>ROLLBACK [TO SAVEPOINT savepoint] ;</p></li>
-<li><p>A COMMIT is instantaneous, because it doesn&rsquo;t really have to do
+<li><p>A COMMIT is instantaneous, because it doesn’t really have to do
 anything. The work has already been done. .. A ROLLBACK can be very
 slow: it will usually take as long (if not longer) to reverse a
 transaction than it took to make the changes in the first place. ..
@@ -646,8 +656,8 @@ length 1 byte to 2KB</p></li>
 any columns of this type will be automatically converted to VARCHAR2.
 ###= For Binary Data</p></li>
 <li><p>RAW: 1 byte to 4KB</p></li>
-<li><p>RAW data is not converted by Oracle Net from the database&rsquo;s
-character set to the user process&rsquo;s character set on SELECT or the other
+<li><p>RAW data is not converted by Oracle Net from the database’s
+character set to the user process’s character set on SELECT or the other
 way on INSERT.</p></li>
 </ol>
 <p>###= For numeric data 1. NUMBER .. Precision can range from to 1 to
@@ -733,7 +743,7 @@ Altering Table Definitions after Creation</li>
 <span id="cb19-6"><a aria-hidden="true" href="#cb19-6" tabindex="-1"></a><span class="kw">alter</span> <span class="kw">table</span> emp <span class="kw">read</span> <span class="kw">only</span>; <span class="op">-&gt;</span> marking <span class="kw">table</span> <span class="kw">as</span> <span class="kw">read</span><span class="op">-</span><span class="kw">only</span></span></code></pre></div>
 <ol start="6" type="1">
 <li>Dropping a column can be a time-consuming exercise because as each
-column is dropped, every row must be restructured to remove the column&rsquo;s
+column is dropped, every row must be restructured to remove the column’s
 data.</li>
 <li>The SET UNUSED command, which makes columns nonexistent as far as
 SQL is concerned, is often a better alternative, followed when
@@ -768,7 +778,7 @@ column(s), and if one does not exist it will be created.</li>
 include NULL values, which is why many rows with NULL are permitted:
 they simply do not exist in the index.</li>
 <li>selecting WHERE key_column IS NULL cannot use the index because it
-doesn&rsquo;t include the NULLs and will therefore always result in a scan of
+doesn’t include the NULLs and will therefore always result in a scan of
 the entire table.</li>
 <li>CANNOT define one not null constraint for the whole group, but
 instead must define a not null constraint for each column.</li>
@@ -893,7 +903,7 @@ not mentioned in the statement</li>
 <li>Full syntax with options</li>
 </ol>
 <div class="sourceCode" id="cb23"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb23-1"><a aria-hidden="true" href="#cb23-1" tabindex="-1"></a><span class="kw">CREATE</span> [<span class="kw">OR</span> <span class="kw">REPLACE</span>] [<span class="kw">FORCE</span> | <span class="kw">NOFORCE</span>] <span class="kw">VIEW</span></span>
-<span id="cb23-2"><a aria-hidden="true" href="#cb23-2" tabindex="-1"></a>    [<span class="kw">schema</span>.]viewname [(alias [,alias]&hellip;)]</span>
+<span id="cb23-2"><a aria-hidden="true" href="#cb23-2" tabindex="-1"></a>    [<span class="kw">schema</span>.]viewname [(alias [,alias]…)]</span>
 <span id="cb23-3"><a aria-hidden="true" href="#cb23-3" tabindex="-1"></a>    <span class="kw">AS</span> subquery</span>
 <span id="cb23-4"><a aria-hidden="true" href="#cb23-4" tabindex="-1"></a>    [<span class="kw">WITH</span> <span class="kw">CHECK</span> <span class="kw">OPTION</span> [<span class="kw">CONSTRAINT</span> constraintname]]</span>
 <span id="cb23-5"><a aria-hidden="true" href="#cb23-5" tabindex="-1"></a>    [<span class="kw">WITH</span> <span class="kw">READ</span> <span class="kw">ONLY</span> [<span class="kw">CONSTRAINT</span> constraintname]] ;</span>
@@ -903,7 +913,7 @@ not mentioned in the statement</li>
 <span id="cb23-9"><a aria-hidden="true" href="#cb23-9" tabindex="-1"></a>            <span class="kw">NOFORCE</span> <span class="kw">is</span> <span class="kw">the</span> <span class="kw">default</span> <span class="kw">and</span> will cause an error <span class="cf">if</span> <span class="kw">the</span> detail <span class="kw">table</span> does <span class="kw">not</span> exist.</span>
 <span id="cb23-10"><a aria-hidden="true" href="#cb23-10" tabindex="-1"></a>      <span class="kw">WITH</span> <span class="kw">CHECK</span> <span class="kw">OPTION</span></span>
 <span id="cb23-11"><a aria-hidden="true" href="#cb23-11" tabindex="-1"></a>            <span class="cf">If</span> <span class="kw">the</span> subquery includes a <span class="kw">WHERE</span> clause, <span class="cf">then</span> this <span class="kw">option</span> will prevent insertion <span class="kw">of</span> <span class="kw">rows</span></span>
-<span id="cb23-12"><a aria-hidden="true" href="#cb23-12" tabindex="-1"></a>        that wouldn&rsquo;t be seen <span class="kw">in</span> <span class="kw">the</span> <span class="kw">view</span> <span class="kw">or</span> updates that would cause a <span class="kw">row</span> <span class="kw">to</span> disappear <span class="kw">from</span> <span class="kw">the</span> <span class="kw">view</span>.</span>
+<span id="cb23-12"><a aria-hidden="true" href="#cb23-12" tabindex="-1"></a>        that wouldn’t be seen <span class="kw">in</span> <span class="kw">the</span> <span class="kw">view</span> <span class="kw">or</span> updates that would cause a <span class="kw">row</span> <span class="kw">to</span> disappear <span class="kw">from</span> <span class="kw">the</span> <span class="kw">view</span>.</span>
 <span id="cb23-13"><a aria-hidden="true" href="#cb23-13" tabindex="-1"></a>        <span class="kw">By</span> <span class="kw">default</span>, this <span class="kw">option</span> <span class="kw">is</span> <span class="kw">not</span> enabled, which can give disconcerting results.</span>
 <span id="cb23-14"><a aria-hidden="true" href="#cb23-14" tabindex="-1"></a>       <span class="kw">WITH</span> <span class="kw">READ</span> <span class="kw">ONLY</span></span>
 <span id="cb23-15"><a aria-hidden="true" href="#cb23-15" tabindex="-1"></a></span>
@@ -919,7 +929,7 @@ FORCE option. .. In that case, the view will be created but will be
 unusable until the tables or columns to which it refers are created and
 the view is successfully compiled. .. When an invalid view is queried,
 Oracle will attempt to compile it automatically. .. If the compilation
-succeeds because the problem has been fixed, the user won&rsquo;t know there
+succeeds because the problem has been fixed, the user won’t know there
 was ever a problem</p>
 <p><code>ALTER VIEW HR.ex_staff compile;</code></p></li>
 <li><p><code>DROP VIEW [schema.]viewname ;</code></p></li>
@@ -947,7 +957,7 @@ statements that address objects without a schema qualifier, Oracle will
 first look for the object in the local schema, and only if it cannot be
 found will it look for a public synonym.</p></li>
 <li><p><code>CREATE [PUBLIC] SYNONYM synonym FOR object ;</code></p></li>
-<li><p>The &ldquo;public&rdquo; in &ldquo;public synonym&rdquo; means that it is not a schema
+<li><p>The “public” in “public synonym” means that it is not a schema
 object and cannot therefore be prefixed with a schema name. It does not
 mean that everyone has permissions against it.</p></li>
 <li><p>A user will need to have been granted permission to create
@@ -992,7 +1002,7 @@ number.</p></li>
 <li>If your application selects from the sequence 10 times a second,
 then set the cache value to 50 thousand.</li>
 <li>NEXTVAL -&gt; forces the sequence to increment,</li>
-<li>CURRVAL -&gt; the last (or &ldquo;current&rdquo;) value issued to that session
+<li>CURRVAL -&gt; the last (or “current”) value issued to that session
 with the CURRVAL pseudo column</li>
 <li>The CURRVAL will be constant for one session until it selects
 NEXTVAL again.</li>
@@ -1063,7 +1073,7 @@ resources</p></li>
 <li><p>Types of indexes -&gt; B*Tree index, which is the default index
 type, and the Bitmap Index</p></li>
 <li><p>B*Tree indexes: these can be either unique or nonunique. -&gt;
-Nonunique is the default. -&gt; &ldquo;B&rdquo; stands for &ldquo;balanced&rdquo; .. A unique
+Nonunique is the default. -&gt; “B” stands for “balanced” .. A unique
 index will not permit insertion of two rows with the same key values; ..
 a nonunique index will permit as many rows as you want with the same
 values.</p></li>
@@ -1078,13 +1088,13 @@ values.</p></li>
 then three or four, than either the index keys are very long or the
 table has billions of rows. .. If neither if these is the case, then the
 index is in need of a rebuild.</p></li>
-<li><p>The leaf nodes of the index tree store the rows&rsquo; keys, in order,
+<li><p>The leaf nodes of the index tree store the rows’ keys, in order,
 each with a pointer that identifies the physical location of the
 row</p></li>
 <li><p>The pointer to the row is the rowid -&gt; Oracle proprietary
 pseudocolumn that every row in every table has .. Encrypted within it is
 the physical address of the row.</p></li>
-<li><p>ROWID: A row&rsquo;s rowid is globally unique. Every row in every table
+<li><p>ROWID: A row’s rowid is globally unique. Every row in every table
 in the whole database will have a different rowid. .. The rowid
 encryption gives the physical address of the row: from it, Oracle can
 calculate which operating system file and where in the file the row is,
@@ -1106,8 +1116,8 @@ of distinct values) in the column is high, and .. The number of rows in
 the table is high, and .. The column is used in WHERE clauses or JOIN
 conditions</p></li>
 <li><p>A Bitmap Index stores the rowids associated with each key value
-as a bitmap .. WALKIN 11010111000101011101011101&hellip;.. .. DELIVERY
-00101000111010100010100010&hellip;.. .. This means that the first row has the
+as a bitmap .. WALKIN 11010111000101011101011101….. .. DELIVERY
+00101000111010100010100010….. .. This means that the first row has the
 column value of WALKIN, Second row as WALKIN, Third as DELIVERY .. So
 every different value will be a bitmap, this includes NULLS as well
 which will be a seperate bitmap</p></li>

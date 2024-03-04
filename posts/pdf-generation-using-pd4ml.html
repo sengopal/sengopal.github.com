@@ -93,19 +93,19 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#project-usage" title="Project Usage">Project Usage</a></li><li><a class="toc-href" href="#introduction-to-pd4ml" title="Introduction to PD4ML">Introduction to PD4ML</a></li><li><a class="toc-href" href="#formatting-the-pdf-document-generated" title="Formatting the PDF
-document generated">Formatting the PDF
-document generated</a><ul><li><a class="toc-href" href="#for-generating-text-only-header-and-footer" title="For Generating
-Text-Only Header and Footer">For Generating
-Text-Only Header and Footer</a></li><li><a class="toc-href" href="#protecting-pdf-documents" title="Protecting PDF documents">Protecting PDF documents</a></li></ul></li><li><a class="toc-href" href="#using-pd4ml-in-web-applications-for-online-pdf-generation_1" title="Using
-PD4ML in Web applications for online PDF generation">Using
-PD4ML in Web applications for online PDF generation</a><ul><li><a class="toc-href" href="#description" title="Description">Description</a></li><li><a class="toc-href" href="#adding-dynamic-data" title="Adding Dynamic data">Adding Dynamic data</a></li><li><a class="toc-href" href="#routing-the-browser-to-the-next-page" title="Routing the browser to the
-next page">Routing the browser to the
-next page</a></li></ul></li><li><a class="toc-href" href="#instructions-for-installation_1" title="Instructions for
-Installation">Instructions for
-Installation</a><ul><li><a class="toc-href" href="#professional-version-features" title="Professional Version
-Features">Professional Version
-Features</a></li><li><a class="toc-href" href="#other-libraries" title="Other libraries">Other libraries</a></li><li><a class="toc-href" href="#references" title="References">References</a></li></ul></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#project-usage" id="toc-project-usage">Project
+Usage</a></li>
+<li><a href="#introduction-to-pd4ml" id="toc-introduction-to-pd4ml">Introduction to PD4ML</a></li>
+<li><a href="#formatting-the-pdf-document-generated" id="toc-formatting-the-pdf-document-generated">Formatting the PDF
+document generated</a></li>
+<li><a href="#using-pd4ml-in-web-applications-for-online-pdf-generation" id="toc-using-pd4ml-in-web-applications-for-online-pdf-generation">Using
+PD4ML in Web applications for online PDF generation</a></li>
+<li><a href="#instructions-for-installation" id="toc-instructions-for-installation">Instructions for
+Installation</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <h3 id="project-usage">Project Usage</h3>
@@ -220,7 +220,7 @@ document is encrypted, and the permissions and information required to
 validate the passwords are stored to the resulting document.</p>
 <p>The possible restrictions are:</p>
 <ol type="1">
-<li>Modifying the document&rsquo;s contents</li>
+<li>Modifying the document’s contents</li>
 <li>Copying or otherwise extracting text and graphics from the
 document</li>
 <li>Adding or modifying text annotations</li>
@@ -250,47 +250,47 @@ are:</p>
 <li>Inserting page breaks</li>
 <li>generating and sending PDF by email</li>
 </ul>
-<h3 id="using-pd4ml-in-web-applications-for-online-pdf-generation_1">Using
+<h3 id="using-pd4ml-in-web-applications-for-online-pdf-generation">Using
 PD4ML in Web applications for online PDF generation</h3>
 <p>PD4ML can be used in Web applications for online PDF generation from
 HTML, JSP and Servlet templates. A simple example is given below:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="kw">&lt;taglib</span> <span class="er">uri</span><span class="ot">=</span><span class="st">"http://pd4ml.com/tlds/pd4ml/2.5"</span> <span class="er">prefix</span><span class="ot">=</span><span class="st">"pd4ml"</span><span class="kw">&gt;</span></span>
-<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a><span class="kw">&lt;page</span> <span class="er">contentType</span><span class="ot">=</span><span class="st">"text/html; charset=UTF-8"</span><span class="kw">&gt;</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">taglib</span><span class="ot"> uri</span><span class="op">=</span><span class="st">"http://pd4ml.com/tlds/pd4ml/2.5"</span><span class="ot"> prefix</span><span class="op">=</span><span class="st">"pd4ml"</span><span class="dt">&gt;</span></span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">page</span><span class="ot"> contentType</span><span class="op">=</span><span class="st">"text/html; charset=UTF-8"</span><span class="dt">&gt;</span></span>
 <span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a><span class="kw">&lt;pd4ml:transform</span></span>
-<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a><span class="ot">      screenWidth=</span><span class="st">"400"</span></span>
-<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a><span class="ot">      pageFormat=</span><span class="st">"A5"</span></span>
-<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a><span class="ot">      pageOrientation=</span><span class="st">"landscape"</span></span>
-<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a><span class="ot">      pageInsets=</span><span class="st">"100,100,100,100,points"</span></span>
-<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a><span class="ot">      enableImageSplit=</span><span class="st">"false"</span><span class="kw">&gt;</span></span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:transform</span></span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a><span class="ot">      screenWidth</span><span class="op">=</span><span class="st">"400"</span></span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a><span class="ot">      pageFormat</span><span class="op">=</span><span class="st">"A5"</span></span>
+<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a><span class="ot">      pageOrientation</span><span class="op">=</span><span class="st">"landscape"</span></span>
+<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a><span class="ot">      pageInsets</span><span class="op">=</span><span class="st">"100,100,100,100,points"</span></span>
+<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a><span class="ot">      enableImageSplit</span><span class="op">=</span><span class="st">"false"</span><span class="dt">&gt;</span></span>
 <span id="cb6-10"><a aria-hidden="true" href="#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a aria-hidden="true" href="#cb6-11" tabindex="-1"></a>      <span class="kw">&lt;html&gt;</span></span>
-<span id="cb6-12"><a aria-hidden="true" href="#cb6-12" tabindex="-1"></a>      <span class="kw">&lt;head&gt;</span></span>
-<span id="cb6-13"><a aria-hidden="true" href="#cb6-13" tabindex="-1"></a>            <span class="kw">&lt;title&gt;</span>pd4ml test<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb6-14"><a aria-hidden="true" href="#cb6-14" tabindex="-1"></a>            <span class="kw">&lt;style</span> <span class="er">type</span><span class="ot">=</span><span class="st">"text/css"</span><span class="kw">&gt;</span></span>
+<span id="cb6-11"><a aria-hidden="true" href="#cb6-11" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb6-12"><a aria-hidden="true" href="#cb6-12" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-13"><a aria-hidden="true" href="#cb6-13" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">title</span><span class="dt">&gt;</span>pd4ml test<span class="dt">&lt;/</span><span class="kw">title</span><span class="dt">&gt;</span></span>
+<span id="cb6-14"><a aria-hidden="true" href="#cb6-14" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">style</span><span class="ot"> type</span><span class="op">=</span><span class="st">"text/css"</span><span class="dt">&gt;</span></span>
 <span id="cb6-15"><a aria-hidden="true" href="#cb6-15" tabindex="-1"></a>                  body {</span>
-<span id="cb6-16"><a aria-hidden="true" href="#cb6-16" tabindex="-1"></a>                        <span class="kw">color</span>: <span class="cn">red</span><span class="op">;</span></span>
-<span id="cb6-17"><a aria-hidden="true" href="#cb6-17" tabindex="-1"></a>                        <span class="kw">background-color</span>: <span class="cn">#FFFFFF</span><span class="op">;</span></span>
-<span id="cb6-18"><a aria-hidden="true" href="#cb6-18" tabindex="-1"></a>                        <span class="kw">font-family</span>: Tahoma<span class="op">,</span> <span class="st">"Sans-Serif"</span><span class="op">;</span></span>
-<span id="cb6-19"><a aria-hidden="true" href="#cb6-19" tabindex="-1"></a>                        <span class="kw">font-size</span>: <span class="dv">10</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb6-16"><a aria-hidden="true" href="#cb6-16" tabindex="-1"></a>                        <span class="kw">color</span><span class="ch">:</span> <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb6-17"><a aria-hidden="true" href="#cb6-17" tabindex="-1"></a>                        <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">#FFFFFF</span><span class="op">;</span></span>
+<span id="cb6-18"><a aria-hidden="true" href="#cb6-18" tabindex="-1"></a>                        <span class="kw">font-family</span><span class="ch">:</span> <span class="dv">Tahoma</span><span class="op">,</span> <span class="st">"Sans-Serif"</span><span class="op">;</span></span>
+<span id="cb6-19"><a aria-hidden="true" href="#cb6-19" tabindex="-1"></a>                        <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">10</span><span class="dt">pt</span><span class="op">;</span></span>
 <span id="cb6-20"><a aria-hidden="true" href="#cb6-20" tabindex="-1"></a>                  }</span>
-<span id="cb6-21"><a aria-hidden="true" href="#cb6-21" tabindex="-1"></a>            <span class="kw">&lt;/style&gt;</span></span>
-<span id="cb6-22"><a aria-hidden="true" href="#cb6-22" tabindex="-1"></a>      <span class="kw">&lt;/head&gt;</span></span>
-<span id="cb6-23"><a aria-hidden="true" href="#cb6-23" tabindex="-1"></a>      <span class="kw">&lt;body&gt;</span></span>
-<span id="cb6-24"><a aria-hidden="true" href="#cb6-24" tabindex="-1"></a>            <span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/logos.gif"</span> <span class="er">width</span><span class="ot">=</span><span class="st">"125"</span> <span class="er">height</span><span class="ot">=</span><span class="st">"74"</span><span class="kw">&gt;</span></span>
-<span id="cb6-25"><a aria-hidden="true" href="#cb6-25" tabindex="-1"></a>            <span class="kw">&lt;p&gt;</span></span>
+<span id="cb6-21"><a aria-hidden="true" href="#cb6-21" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span>
+<span id="cb6-22"><a aria-hidden="true" href="#cb6-22" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-23"><a aria-hidden="true" href="#cb6-23" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-24"><a aria-hidden="true" href="#cb6-24" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"images/logos.gif"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"125"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"74"</span><span class="dt">&gt;</span></span>
+<span id="cb6-25"><a aria-hidden="true" href="#cb6-25" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
 <span id="cb6-26"><a aria-hidden="true" href="#cb6-26" tabindex="-1"></a>            Hello, World!</span>
-<span id="cb6-27"><a aria-hidden="true" href="#cb6-27" tabindex="-1"></a>            <span class="kw">&lt;pd4ml:page.break/&gt;</span></span>
-<span id="cb6-28"><a aria-hidden="true" href="#cb6-28" tabindex="-1"></a>            <span class="kw">&lt;table</span> <span class="er">width</span><span class="ot">=</span><span class="st">"100%"</span> <span class="er">style</span><span class="ot">=</span><span class="st">"background-color: #f4f4f4; color: #000000"</span><span class="kw">&gt;</span></span>
-<span id="cb6-29"><a aria-hidden="true" href="#cb6-29" tabindex="-1"></a>            <span class="kw">&lt;tr&gt;</span></span>
-<span id="cb6-30"><a aria-hidden="true" href="#cb6-30" tabindex="-1"></a>            <span class="kw">&lt;td&gt;</span></span>
+<span id="cb6-27"><a aria-hidden="true" href="#cb6-27" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">pd4ml:page.break</span><span class="dt">/&gt;</span></span>
+<span id="cb6-28"><a aria-hidden="true" href="#cb6-28" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"background-color: #f4f4f4; color: #000000"</span><span class="dt">&gt;</span></span>
+<span id="cb6-29"><a aria-hidden="true" href="#cb6-29" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-30"><a aria-hidden="true" href="#cb6-30" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span></span>
 <span id="cb6-31"><a aria-hidden="true" href="#cb6-31" tabindex="-1"></a>                  Hello, New Page!</span>
-<span id="cb6-32"><a aria-hidden="true" href="#cb6-32" tabindex="-1"></a>            <span class="kw">&lt;/td&gt;</span></span>
-<span id="cb6-33"><a aria-hidden="true" href="#cb6-33" tabindex="-1"></a>            <span class="kw">&lt;/tr&gt;</span></span>
-<span id="cb6-34"><a aria-hidden="true" href="#cb6-34" tabindex="-1"></a>            <span class="kw">&lt;/table&gt;</span></span>
-<span id="cb6-35"><a aria-hidden="true" href="#cb6-35" tabindex="-1"></a>      <span class="kw">&lt;/body&gt;</span></span>
-<span id="cb6-36"><a aria-hidden="true" href="#cb6-36" tabindex="-1"></a>      <span class="kw">&lt;/html&gt;</span></span>
-<span id="cb6-37"><a aria-hidden="true" href="#cb6-37" tabindex="-1"></a><span class="kw">&lt;/pd4ml:transform&gt;</span></span></code></pre></div>
+<span id="cb6-32"><a aria-hidden="true" href="#cb6-32" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-33"><a aria-hidden="true" href="#cb6-33" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-34"><a aria-hidden="true" href="#cb6-34" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span>
+<span id="cb6-35"><a aria-hidden="true" href="#cb6-35" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-36"><a aria-hidden="true" href="#cb6-36" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb6-37"><a aria-hidden="true" href="#cb6-37" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">pd4ml:transform</span><span class="dt">&gt;</span></span></code></pre></div>
 <p>In order to get a PDF output, we need to surround the HTML or JSP
 with <pd4ml:transform> tags or refer to the markup from an external
 PD4ML-enabled JSP or Servlets.</pd4ml:transform></p>
@@ -310,20 +310,20 @@ the tag is ignored.</li>
 <p>####Defining PDF document footer (or header) with JSP custom tag The
 header and/or footer for the PDF can be declared in the jsp in the
 following fashion.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="kw">&lt;pd4ml:footer</span></span>
-<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a><span class="ot">      titleTemplate=</span><span class="st">"[${title}]"</span></span>
-<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a><span class="ot">      pageNumberTemplate=</span><span class="st">"page ${page}"</span></span>
-<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a><span class="ot">      titleAlignment=</span><span class="st">"left"</span></span>
-<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a><span class="ot">      pageNumberAlignment=</span><span class="st">"right"</span></span>
-<span id="cb7-6"><a aria-hidden="true" href="#cb7-6" tabindex="-1"></a><span class="ot">      color=</span><span class="st">"#008000"</span></span>
-<span id="cb7-7"><a aria-hidden="true" href="#cb7-7" tabindex="-1"></a><span class="ot">      initialPageNumber=</span><span class="st">"1"</span></span>
-<span id="cb7-8"><a aria-hidden="true" href="#cb7-8" tabindex="-1"></a><span class="ot">      pagesToSkip=</span><span class="st">"1"</span></span>
-<span id="cb7-9"><a aria-hidden="true" href="#cb7-9" tabindex="-1"></a><span class="ot">      fontSize=</span><span class="st">"14"</span></span>
-<span id="cb7-10"><a aria-hidden="true" href="#cb7-10" tabindex="-1"></a><span class="ot">      areaHeight=</span><span class="st">"18"</span><span class="kw">/&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:footer</span></span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a><span class="ot">      titleTemplate</span><span class="op">=</span><span class="st">"[${title}]"</span></span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a><span class="ot">      pageNumberTemplate</span><span class="op">=</span><span class="st">"page ${page}"</span></span>
+<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a><span class="ot">      titleAlignment</span><span class="op">=</span><span class="st">"left"</span></span>
+<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a><span class="ot">      pageNumberAlignment</span><span class="op">=</span><span class="st">"right"</span></span>
+<span id="cb7-6"><a aria-hidden="true" href="#cb7-6" tabindex="-1"></a><span class="ot">      color</span><span class="op">=</span><span class="st">"#008000"</span></span>
+<span id="cb7-7"><a aria-hidden="true" href="#cb7-7" tabindex="-1"></a><span class="ot">      initialPageNumber</span><span class="op">=</span><span class="st">"1"</span></span>
+<span id="cb7-8"><a aria-hidden="true" href="#cb7-8" tabindex="-1"></a><span class="ot">      pagesToSkip</span><span class="op">=</span><span class="st">"1"</span></span>
+<span id="cb7-9"><a aria-hidden="true" href="#cb7-9" tabindex="-1"></a><span class="ot">      fontSize</span><span class="op">=</span><span class="st">"14"</span></span>
+<span id="cb7-10"><a aria-hidden="true" href="#cb7-10" tabindex="-1"></a><span class="ot">      areaHeight</span><span class="op">=</span><span class="st">"18"</span><span class="dt">/&gt;</span></span></code></pre></div>
 <h4 id="description">Description</h4>
 <ol type="1">
 <li>Title template definition. A string that can optionally contain
-placeholders ${title} for a title value taken from HTML&rsquo;s TITLE tag,
+placeholders ${title} for a title value taken from HTML’s TITLE tag,
 ${page} for a page counter value.</li>
 <li>Page number template definition. A string with placeholder ${page}
 for a page counter value.</li>
@@ -348,7 +348,7 @@ provides a nice demarcation and seamless integration of the presentation
 generation</p>
 <p>####Temporary saving generated PDF to hard drive With
 <code>&lt;pd4ml:savefile&gt;</code> tag you have possibility to store
-just generated PDF to hard drive and redirect user&rsquo;s browser to read the
+just generated PDF to hard drive and redirect user’s browser to read the
 PDF as static resource or to redirect the request to another URL for PDF
 post-processing. The tag should be nested within
 <code>&lt;pd4ml:transform&gt;</code> and should not have a body.There
@@ -356,17 +356,17 @@ are two ways of generating the PDF and redirecting the browser.</p>
 <p>####Routing the browser to the PDF generated Once the PDF is
 generated the user can be directed to the generated PDF using the
 following piece of code.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="kw">&lt;pd4ml:savefile</span></span>
-<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a><span class="ot">      uri=</span><span class="st">"/WEB/savefile/saved/"</span></span>
-<span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a><span class="ot">      dir=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
-<span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a><span class="ot">      redirect=</span><span class="st">"pdf"</span></span>
-<span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a><span class="ot">      debug=</span><span class="st">"false"</span><span class="kw">/&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:savefile</span></span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a><span class="ot">      uri</span><span class="op">=</span><span class="st">"/WEB/savefile/saved/"</span></span>
+<span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a><span class="ot">      dir</span><span class="op">=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
+<span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a><span class="ot">      redirect</span><span class="op">=</span><span class="st">"pdf"</span></span>
+<span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a><span class="ot">      debug</span><span class="op">=</span><span class="st">"false"</span><span class="dt">/&gt;</span></span></code></pre></div>
 <p>The tag above forces PD4ML to save the generated PDF to
 D:/spool/generated_pdfs with an autogenerated name.It is expected, that
 local directory D:/spool/generated_pdfs corresponds to URL
 <code>http://yourserver.com/WEB/savefile/saved/</code> (as given in
-&ldquo;uri&rdquo; attribute)</p>
-<p>After generation PD4ML will send to client&rsquo;s browser a redirect
+“uri” attribute)</p>
+<p>After generation PD4ML will send to client’s browser a redirect
 command with URL like that:
 <code>http://yourserver.com/WEB/savefile/saved/generated_name.pdf</code>
 where,</p>
@@ -377,10 +377,10 @@ where,</p>
 next page</h4>
 <p>However if the browser needs to be redirected to the next page
 instead of the PDF generated, it can be done in the following way.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a><span class="kw">&lt;pd4ml:savefile</span></span>
-<span id="cb10-2"><a aria-hidden="true" href="#cb10-2" tabindex="-1"></a><span class="ot">      dir=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
-<span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a><span class="ot">      redirect=</span><span class="st">"/mywebapp/send_pdf_by_email.jsp"</span></span>
-<span id="cb10-4"><a aria-hidden="true" href="#cb10-4" tabindex="-1"></a><span class="ot">      debug=</span><span class="st">"false"</span><span class="kw">/&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:savefile</span></span>
+<span id="cb10-2"><a aria-hidden="true" href="#cb10-2" tabindex="-1"></a><span class="ot">      dir</span><span class="op">=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
+<span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a><span class="ot">      redirect</span><span class="op">=</span><span class="st">"/mywebapp/send_pdf_by_email.jsp"</span></span>
+<span id="cb10-4"><a aria-hidden="true" href="#cb10-4" tabindex="-1"></a><span class="ot">      debug</span><span class="op">=</span><span class="st">"false"</span><span class="dt">/&gt;</span></span></code></pre></div>
 <p>The tag above forces PD4ML to save the generated PDF to
 D:/spool/generated_pdfs with an auto generated name. After that it
 forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter
@@ -391,16 +391,16 @@ file name using,</p>
 <span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a><span class="bu">String</span> path <span class="op">=</span> <span class="st">"D:/spool/generated_pdfs"</span> <span class="op">+</span> <span class="st">"/"</span> <span class="op">+</span> fileName<span class="op">;</span></span></code></pre></div>
 <p>Hence that JSP can read the just-generated PDF file and and perform
 post-processing or any other actions (like E-mail or File-Upload).</p>
-<p>In both cases above you can predefine PDF file name with &ldquo;name&rdquo;
+<p>In both cases above you can predefine PDF file name with “name”
 attribute. If a file with the name is already exists in
 D:/spool/generated_pdfs, than the new file name is appended with an
 auto-incremented numeric value.</p>
-<h3 id="instructions-for-installation_1">Instructions for
+<h3 id="instructions-for-installation">Instructions for
 Installation</h3>
 <p>PD4ML is intended to be used with JDK1.3.1 and above .For deploying
 PD4ML as either Console application and for online generation, use the
-following jars available at the PD4ML site (Given in the references) &bull;
-pd4ml.jar &bull; pd4ml_tl.jar(for the tag library)</p>
+following jars available at the PD4ML site (Given in the references) •
+pd4ml.jar • pd4ml_tl.jar(for the tag library)</p>
 <h4 id="professional-version-features">Professional Version
 Features</h4>
 <p>Apart from the various features discussed above, the licensed
@@ -429,7 +429,7 @@ TXT. The primary output target is PDF.</p>
 <p><strong>iText</strong> &gt; iText is an open source library that
 allows you to create and manipulate PDF documents. It enables developers
 looking to enhance web and other applications with dynamic PDF document
-generation and/or manipulation.&rdquo; &gt; - http://itextpdf.com/</p>
+generation and/or manipulation.” &gt; - http://itextpdf.com/</p>
 <h4 id="references">References</h4>
 <ul>
 <li><a class="uri" href="http://pd4ml.com/api/index.html">http://pd4ml.com/api/index.html</a></li>

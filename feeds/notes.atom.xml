@@ -23,13 +23,13 @@ inadequate join conditions&lt;/li&gt;
 it is possible to perform a natural join between them without specifying
 a join column. This is sometimes referred to as a pure natural join. ..
 select region_name from regions natural join countries where
-country_name=&amp;lsquo;Canada&amp;rsquo;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;JOIN&amp;hellip;USING&lt;/strong&gt; .. select region_name from regions join
-countries using (region_id) where country_name=&amp;lsquo;Canada&amp;rsquo; -&amp;gt; brackets
+country_name=‘Canada’&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;JOIN…USING&lt;/strong&gt; .. select region_name from regions join
+countries using (region_id) where country_name=‘Canada’ -&amp;gt; brackets
 are a part of the syntax&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;JOIN&amp;hellip;ON&lt;/strong&gt; -&amp;gt; most widely used natural join format.
+&lt;li&gt;&lt;strong&gt;JOIN…ON&lt;/strong&gt; -&amp;gt; most widely used natural join format.
 .. select region_name from regions join countries on
-(countries.region_id=regions.region_id) where country_name=&amp;lsquo;Canada&amp;rsquo;
+(countries.region_id=regions.region_id) where country_name=‘Canada’
 -&amp;gt; brackets are optional&lt;/li&gt;
 &lt;li&gt;cross join or cartesian product .. This join creates one row of
 output for every combination of source and target table rows.&lt;/li&gt;
@@ -58,10 +58,10 @@ clause conditions, where N refers to the number of tables in the query,
 then a Cartesian or cross join is performed.&lt;/li&gt;
 &lt;li&gt;If ambiguous column is NOT aliased, ORA-00918:column ambiguously
 defined&lt;/li&gt;
-&lt;li&gt;If Column used in JOIN&amp;hellip;USING is aliased, ORA-25154:column part of
+&lt;li&gt;If Column used in JOIN…USING is aliased, ORA-25154:column part of
 USING clause cannot have qualifier&lt;/li&gt;
 &lt;li&gt;Qualifying column references with dot notation to indicate a
-column&amp;rsquo;s table of origin has a performance benefit. Time is saved
+column’s table of origin has a performance benefit. Time is saved
 because Oracle is directed instantaneously to the appropriate table and
 does not have to resolve the table name.&lt;/li&gt;
 &lt;li&gt;Natural JOIN&lt;/li&gt;
@@ -76,7 +76,7 @@ does not have to resolve the table name.&lt;/li&gt;
 ORA-01722: invalid number&lt;/li&gt;
 &lt;li&gt;If there are no common name columns, NATURAL JOIN Performs a
 CARTESIAN PRODUCT&lt;/li&gt;
-&lt;li&gt;JOIN&amp;hellip;USING .. select EMP.last_name, EMP.Department_id, JH.end_date,
+&lt;li&gt;JOIN…USING .. select EMP.last_name, EMP.Department_id, JH.end_date,
 job_id, employee_id from job_history JH join employees EMP using
 (job_id,employee_id) .. Column used in the USING part should not be
 qualified -&amp;gt; ORA-25154: column part of USING clause cannot have
@@ -104,9 +104,9 @@ Need to evaluate to a BOOLEAN Expression&lt;/li&gt;
 &lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;select&lt;/span&gt; E.JOB_ID &lt;span class="kw"&gt;from&lt;/span&gt; Employees e &lt;span class="kw"&gt;join&lt;/span&gt; jobs j &lt;span class="kw"&gt;on&lt;/span&gt; (e.salary&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;&lt;span class="dv"&gt;5000&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;&lt;span class="op"&gt;*&lt;/span&gt;e.salary &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; j.max_salary);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="24" type="1"&gt;
 &lt;li&gt;LEFT Outer Join -&amp;gt; Rows from Source Table -&amp;gt; Rows from the
-LEFT of the JOIN condition &amp;ldquo;X LEFT JOIN Y&amp;rdquo; -&amp;gt; Rows from X .. RIGHT
+LEFT of the JOIN condition “X LEFT JOIN Y” -&amp;gt; Rows from X .. RIGHT
 Outer Join -&amp;gt; Rows from Target Table -&amp;gt; Rows from the RIGHT of the
-JOIN condition &amp;ldquo;X LEFT JOIN Y&amp;rdquo; -&amp;gt; Rows from Y .. FULL Outer Join
+JOIN condition “X LEFT JOIN Y” -&amp;gt; Rows from Y .. FULL Outer Join
 -&amp;gt; Both Source and Target tables&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; table1.&lt;span class="kw"&gt;column&lt;/span&gt;, table2.&lt;span class="kw"&gt;column&lt;/span&gt;&lt;/span&gt;
@@ -155,7 +155,7 @@ single row, with a single column.&lt;/li&gt;
 &lt;li&gt;A subquery is a query that is nested inside a SELECT, INSERT,
 UPDATE, or DELETE statement or inside another subquery&lt;/li&gt;
 &lt;li&gt;Subqueries can be nested to an unlimited depth in a FROM clause but
-to &amp;ldquo;only&amp;rdquo; 255 levels in a WHERE clause. They can be used in the SELECT
+to “only” 255 levels in a WHERE clause. They can be used in the SELECT
 list and in the FROM, WHERE, and HAVING clauses of a query.&lt;/li&gt;
 &lt;li&gt;Using NOT IN is fraught with problems because of the way SQL handles
 NULLs. As a general rule, do not use NOT IN unless you are certain that
@@ -170,15 +170,15 @@ to enable the star transformation often needed in data warehouse
 applications&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;FROM&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; p.product&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Books&amp;rsquo;&lt;/span&gt;
-&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; b.country&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Germany&amp;rsquo;&lt;/span&gt;
-&lt;span id="cb8-4"&gt;&lt;a aria-hidden="true" href="#cb8-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; c.channel&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Internet&amp;rsquo;;&lt;/span&gt;
+&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; p.product&lt;span class="op"&gt;=&lt;/span&gt;’Books’&lt;/span&gt;
+&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; b.country&lt;span class="op"&gt;=&lt;/span&gt;’Germany’&lt;/span&gt;
+&lt;span id="cb8-4"&gt;&lt;a aria-hidden="true" href="#cb8-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; c.channel&lt;span class="op"&gt;=&lt;/span&gt;’Internet’;&lt;/span&gt;
 &lt;span id="cb8-5"&gt;&lt;a aria-hidden="true" href="#cb8-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb8-6"&gt;&lt;a aria-hidden="true" href="#cb8-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;TO&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb8-7"&gt;&lt;a aria-hidden="true" href="#cb8-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;select&lt;/span&gt; &lt;span class="op"&gt;..&lt;/span&gt;. &lt;span class="kw"&gt;from&lt;/span&gt; sales&lt;/span&gt;
-&lt;span id="cb8-8"&gt;&lt;a aria-hidden="true" href="#cb8-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;where&lt;/span&gt; prod_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; prod_code &lt;span class="kw"&gt;from&lt;/span&gt; products &lt;span class="kw"&gt;where&lt;/span&gt; product&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Books&amp;rsquo;)&lt;/span&gt;
-&lt;span id="cb8-9"&gt;&lt;a aria-hidden="true" href="#cb8-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; buy_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; buy_code &lt;span class="kw"&gt;from&lt;/span&gt; buyers &lt;span class="kw"&gt;where&lt;/span&gt; country&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Germany&amp;rsquo;)&lt;/span&gt;
-&lt;span id="cb8-10"&gt;&lt;a aria-hidden="true" href="#cb8-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; chan_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; chan_code &lt;span class="kw"&gt;from&lt;/span&gt; channels &lt;span class="kw"&gt;where&lt;/span&gt; channel&lt;span class="op"&gt;=&lt;/span&gt;&amp;rsquo;Internet);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id="cb8-8"&gt;&lt;a aria-hidden="true" href="#cb8-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;where&lt;/span&gt; prod_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; prod_code &lt;span class="kw"&gt;from&lt;/span&gt; products &lt;span class="kw"&gt;where&lt;/span&gt; product&lt;span class="op"&gt;=&lt;/span&gt;’Books’)&lt;/span&gt;
+&lt;span id="cb8-9"&gt;&lt;a aria-hidden="true" href="#cb8-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; buy_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; buy_code &lt;span class="kw"&gt;from&lt;/span&gt; buyers &lt;span class="kw"&gt;where&lt;/span&gt; country&lt;span class="op"&gt;=&lt;/span&gt;’Germany’)&lt;/span&gt;
+&lt;span id="cb8-10"&gt;&lt;a aria-hidden="true" href="#cb8-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;and&lt;/span&gt; chan_code &lt;span class="kw"&gt;in&lt;/span&gt; (&lt;span class="kw"&gt;select&lt;/span&gt; chan_code &lt;span class="kw"&gt;from&lt;/span&gt; channels &lt;span class="kw"&gt;where&lt;/span&gt; channel&lt;span class="op"&gt;=&lt;/span&gt;’Internet);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="7" type="1"&gt;
 &lt;li&gt;STAR TRANSFORMATION There is an instance initialization parameter,
 STAR_TRANSFORMATION_ENABLED, which (if set to true) will permit the
@@ -222,7 +222,7 @@ alternative approach.&lt;/li&gt;
 &lt;span id="cb11-6"&gt;&lt;a aria-hidden="true" href="#cb11-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kw"&gt;ALL&lt;/span&gt; more &lt;span class="kw"&gt;than&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; highest&lt;/span&gt;
 &lt;span id="cb11-7"&gt;&lt;a aria-hidden="true" href="#cb11-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;&amp;lt;&lt;/span&gt; &lt;span class="kw"&gt;ALL&lt;/span&gt; &lt;span class="kw"&gt;less&lt;/span&gt; &lt;span class="kw"&gt;than&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; lowest&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="16" type="1"&gt;
-&lt;li&gt;&amp;ldquo;NOT &amp;gt;=&amp;rdquo; -&amp;gt; NOT or ! cannot be used in Conjunction with other
+&lt;li&gt;“NOT &amp;gt;=” -&amp;gt; NOT or ! cannot be used in Conjunction with other
 comparison operators&lt;/li&gt;
 &lt;li&gt;SUB QUERIES can be used in SELECT, FROM, WHERE, GROUP BY, HAVING
 CANNOT be used in ORDER BY&lt;/li&gt;
@@ -239,7 +239,7 @@ UNION can be qualified with ALL&lt;/li&gt;
 &lt;li&gt;Union options .. UNION - Returns the combined rows from two queries,
 sorting them and removing duplicates. .. UNION ALL - Returns the
 combined rows from two queries without sorting or removing duplicates.
-.. INTERSECT - Returns only the rows that occur in both queries&amp;rsquo; result
+.. INTERSECT - Returns only the rows that occur in both queries’ result
 sets, sorting them and removing duplicates. .. MINUS - Returns only the
 rows in the first result set that do not appear in the second result
 set, sorting them and removing duplicates.&lt;/li&gt;
@@ -275,7 +275,7 @@ compound query. It is not possible to use ORDER BY in any of the queries
 that make up the whole compound query, as this would disrupt the sorting
 that is necessary to remove duplicates&lt;/li&gt;
 &lt;li&gt;UNION ALL -&amp;gt; the result sets of the two input queries will be
-concatenated to form the result of the compound query .. Can&amp;rsquo;t use ORDER
+concatenated to form the result of the compound query .. Can’t use ORDER
 BY in the individual queries; it can only appear at the end of the
 compound query&lt;/li&gt;
 &lt;li&gt;If you know that there can be no duplicates between two tables, then
@@ -342,7 +342,7 @@ until the DML command is terminated with a COMMIT or a ROLLBACK.&lt;/li&gt;
 relevant permissions on the tables to which it refers, the database will
 return an error identical to that which would be returned if the object
 did not exist. As far as the user is concerned, it does not exist&lt;/li&gt;
-&lt;li&gt;INSERT - insert into hr.regions values (10,&amp;lsquo;Great Britain&amp;rsquo;); .. When
+&lt;li&gt;INSERT - insert into hr.regions values (10,‘Great Britain’); .. When
 the database receives a statement using positional notation, it will
 match the order of the values to the order in which the columns of the
 table are defined.&lt;/li&gt;
@@ -379,7 +379,7 @@ values can be literals or prompted for as substitution variables.&lt;/li&gt;
 &lt;span id="cb15-14"&gt;&lt;a aria-hidden="true" href="#cb15-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;select&lt;/span&gt; employee_id,department_id,job_id,salary,commission_pct,hire_date&lt;/span&gt;
 &lt;span id="cb15-15"&gt;&lt;a aria-hidden="true" href="#cb15-15" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;from&lt;/span&gt; employees &lt;span class="kw"&gt;where&lt;/span&gt; hire_date &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="fu"&gt;sysdate&lt;/span&gt; &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="dv"&gt;30&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;NOTE: ALL -&amp;gt; means all the tables will be updated for matching
-conditions. IF &amp;ldquo;ALL&amp;rdquo; is not there, only the first matching WHEN will be
+conditions. IF “ALL” is not there, only the first matching WHEN will be
 filled&lt;/p&gt;
 &lt;ol start="18" type="1"&gt;
 &lt;li&gt;&lt;code&gt;UPDATE table SET column=value [,column=value...] [WHERE condition];&lt;/code&gt;&lt;/li&gt;
@@ -441,19 +441,19 @@ not DML). .. The transaction continues through any number of further DML
 commands until the session issues either a COMMIT or a ROLLBACK
 statement&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;It is impossible to nest transactions. This can be done with
-PL/SQL (Oracle&amp;rsquo;s proprietary third-generation language), but not with
+PL/SQL (Oracle’s proprietary third-generation language), but not with
 industry-standard SQL.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The explicit transaction control statements are COMMIT, ROLLBACK,
-and SAVEPOINT. .. The implicit ones are: &amp;hellip; Issuing a DDL (CREATE, ALTER,
-or DROP) or DCL (GRANT or REVOKE) statement &amp;hellip; Exiting from the user tool
-(SQL*Plus or SQL Developer or anything else) &amp;hellip; If the client session
-dies &amp;hellip; If the system crashes&lt;/p&gt;&lt;/li&gt;
+and SAVEPOINT. .. The implicit ones are: … Issuing a DDL (CREATE, ALTER,
+or DROP) or DCL (GRANT or REVOKE) statement … Exiting from the user tool
+(SQL*Plus or SQL Developer or anything else) … If the client session
+dies … If the system crashes&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;If a user starts a transaction by issuing a DML command and then
 exits from the tool he is using without explicitly issuing either a
 COMMIT or a ROLLBACK, the transaction will terminate, but whether it
 terminates with a COMMIT or a ROLLBACK is entirely dependent on how the
 tool is written&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;If a client&amp;rsquo;s session fails for some reason, the database will
+&lt;li&gt;&lt;p&gt;If a client’s session fails for some reason, the database will
 always roll back the transaction. .. the user process can die or be
 killed at the operating system level, .. the network connection to the
 database server may go down, .. the machine where the client tool is
@@ -465,7 +465,7 @@ the action of a ROLLBACK, but the same transaction remains in progress
 irrespective of the use of SAVEPOINT.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;COMMIT;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;ROLLBACK [TO SAVEPOINT savepoint] ;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;A COMMIT is instantaneous, because it doesn&amp;rsquo;t really have to do
+&lt;li&gt;&lt;p&gt;A COMMIT is instantaneous, because it doesn’t really have to do
 anything. The work has already been done. .. A ROLLBACK can be very
 slow: it will usually take as long (if not longer) to reverse a
 transaction than it took to make the changes in the first place. ..
@@ -549,8 +549,8 @@ length 1 byte to 2KB&lt;/p&gt;&lt;/li&gt;
 any columns of this type will be automatically converted to VARCHAR2.
 ###= For Binary Data&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;RAW: 1 byte to 4KB&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;RAW data is not converted by Oracle Net from the database&amp;rsquo;s
-character set to the user process&amp;rsquo;s character set on SELECT or the other
+&lt;li&gt;&lt;p&gt;RAW data is not converted by Oracle Net from the database’s
+character set to the user process’s character set on SELECT or the other
 way on INSERT.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;###= For numeric data 1. NUMBER .. Precision can range from to 1 to
@@ -636,7 +636,7 @@ Altering Table Definitions after Creation&lt;/li&gt;
 &lt;span id="cb19-6"&gt;&lt;a aria-hidden="true" href="#cb19-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;alter&lt;/span&gt; &lt;span class="kw"&gt;table&lt;/span&gt; emp &lt;span class="kw"&gt;read&lt;/span&gt; &lt;span class="kw"&gt;only&lt;/span&gt;; &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; marking &lt;span class="kw"&gt;table&lt;/span&gt; &lt;span class="kw"&gt;as&lt;/span&gt; &lt;span class="kw"&gt;read&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="kw"&gt;only&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="6" type="1"&gt;
 &lt;li&gt;Dropping a column can be a time-consuming exercise because as each
-column is dropped, every row must be restructured to remove the column&amp;rsquo;s
+column is dropped, every row must be restructured to remove the column’s
 data.&lt;/li&gt;
 &lt;li&gt;The SET UNUSED command, which makes columns nonexistent as far as
 SQL is concerned, is often a better alternative, followed when
@@ -671,7 +671,7 @@ column(s), and if one does not exist it will be created.&lt;/li&gt;
 include NULL values, which is why many rows with NULL are permitted:
 they simply do not exist in the index.&lt;/li&gt;
 &lt;li&gt;selecting WHERE key_column IS NULL cannot use the index because it
-doesn&amp;rsquo;t include the NULLs and will therefore always result in a scan of
+doesn’t include the NULLs and will therefore always result in a scan of
 the entire table.&lt;/li&gt;
 &lt;li&gt;CANNOT define one not null constraint for the whole group, but
 instead must define a not null constraint for each column.&lt;/li&gt;
@@ -796,7 +796,7 @@ not mentioned in the statement&lt;/li&gt;
 &lt;li&gt;Full syntax with options&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="sourceCode" id="cb23"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb23-1"&gt;&lt;a aria-hidden="true" href="#cb23-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;CREATE&lt;/span&gt; [&lt;span class="kw"&gt;OR&lt;/span&gt; &lt;span class="kw"&gt;REPLACE&lt;/span&gt;] [&lt;span class="kw"&gt;FORCE&lt;/span&gt; | &lt;span class="kw"&gt;NOFORCE&lt;/span&gt;] &lt;span class="kw"&gt;VIEW&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb23-2"&gt;&lt;a aria-hidden="true" href="#cb23-2" tabindex="-1"&gt;&lt;/a&gt;    [&lt;span class="kw"&gt;schema&lt;/span&gt;.]viewname [(alias [,alias]&amp;hellip;)]&lt;/span&gt;
+&lt;span id="cb23-2"&gt;&lt;a aria-hidden="true" href="#cb23-2" tabindex="-1"&gt;&lt;/a&gt;    [&lt;span class="kw"&gt;schema&lt;/span&gt;.]viewname [(alias [,alias]…)]&lt;/span&gt;
 &lt;span id="cb23-3"&gt;&lt;a aria-hidden="true" href="#cb23-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;AS&lt;/span&gt; subquery&lt;/span&gt;
 &lt;span id="cb23-4"&gt;&lt;a aria-hidden="true" href="#cb23-4" tabindex="-1"&gt;&lt;/a&gt;    [&lt;span class="kw"&gt;WITH&lt;/span&gt; &lt;span class="kw"&gt;CHECK&lt;/span&gt; &lt;span class="kw"&gt;OPTION&lt;/span&gt; [&lt;span class="kw"&gt;CONSTRAINT&lt;/span&gt; constraintname]]&lt;/span&gt;
 &lt;span id="cb23-5"&gt;&lt;a aria-hidden="true" href="#cb23-5" tabindex="-1"&gt;&lt;/a&gt;    [&lt;span class="kw"&gt;WITH&lt;/span&gt; &lt;span class="kw"&gt;READ&lt;/span&gt; &lt;span class="kw"&gt;ONLY&lt;/span&gt; [&lt;span class="kw"&gt;CONSTRAINT&lt;/span&gt; constraintname]] ;&lt;/span&gt;
@@ -806,7 +806,7 @@ not mentioned in the statement&lt;/li&gt;
 &lt;span id="cb23-9"&gt;&lt;a aria-hidden="true" href="#cb23-9" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;NOFORCE&lt;/span&gt; &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="kw"&gt;default&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; will cause an error &lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; detail &lt;span class="kw"&gt;table&lt;/span&gt; does &lt;span class="kw"&gt;not&lt;/span&gt; exist.&lt;/span&gt;
 &lt;span id="cb23-10"&gt;&lt;a aria-hidden="true" href="#cb23-10" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;WITH&lt;/span&gt; &lt;span class="kw"&gt;CHECK&lt;/span&gt; &lt;span class="kw"&gt;OPTION&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb23-11"&gt;&lt;a aria-hidden="true" href="#cb23-11" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="cf"&gt;If&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; subquery includes a &lt;span class="kw"&gt;WHERE&lt;/span&gt; clause, &lt;span class="cf"&gt;then&lt;/span&gt; this &lt;span class="kw"&gt;option&lt;/span&gt; will prevent insertion &lt;span class="kw"&gt;of&lt;/span&gt; &lt;span class="kw"&gt;rows&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb23-12"&gt;&lt;a aria-hidden="true" href="#cb23-12" tabindex="-1"&gt;&lt;/a&gt;        that wouldn&amp;rsquo;t be seen &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="kw"&gt;view&lt;/span&gt; &lt;span class="kw"&gt;or&lt;/span&gt; updates that would cause a &lt;span class="kw"&gt;row&lt;/span&gt; &lt;span class="kw"&gt;to&lt;/span&gt; disappear &lt;span class="kw"&gt;from&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="kw"&gt;view&lt;/span&gt;.&lt;/span&gt;
+&lt;span id="cb23-12"&gt;&lt;a aria-hidden="true" href="#cb23-12" tabindex="-1"&gt;&lt;/a&gt;        that wouldn’t be seen &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="kw"&gt;view&lt;/span&gt; &lt;span class="kw"&gt;or&lt;/span&gt; updates that would cause a &lt;span class="kw"&gt;row&lt;/span&gt; &lt;span class="kw"&gt;to&lt;/span&gt; disappear &lt;span class="kw"&gt;from&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="kw"&gt;view&lt;/span&gt;.&lt;/span&gt;
 &lt;span id="cb23-13"&gt;&lt;a aria-hidden="true" href="#cb23-13" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="kw"&gt;By&lt;/span&gt; &lt;span class="kw"&gt;default&lt;/span&gt;, this &lt;span class="kw"&gt;option&lt;/span&gt; &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; enabled, which can give disconcerting results.&lt;/span&gt;
 &lt;span id="cb23-14"&gt;&lt;a aria-hidden="true" href="#cb23-14" tabindex="-1"&gt;&lt;/a&gt;       &lt;span class="kw"&gt;WITH&lt;/span&gt; &lt;span class="kw"&gt;READ&lt;/span&gt; &lt;span class="kw"&gt;ONLY&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb23-15"&gt;&lt;a aria-hidden="true" href="#cb23-15" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
@@ -822,7 +822,7 @@ FORCE option. .. In that case, the view will be created but will be
 unusable until the tables or columns to which it refers are created and
 the view is successfully compiled. .. When an invalid view is queried,
 Oracle will attempt to compile it automatically. .. If the compilation
-succeeds because the problem has been fixed, the user won&amp;rsquo;t know there
+succeeds because the problem has been fixed, the user won’t know there
 was ever a problem&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;ALTER VIEW HR.ex_staff compile;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code&gt;DROP VIEW [schema.]viewname ;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
@@ -850,7 +850,7 @@ statements that address objects without a schema qualifier, Oracle will
 first look for the object in the local schema, and only if it cannot be
 found will it look for a public synonym.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;&lt;code&gt;CREATE [PUBLIC] SYNONYM synonym FOR object ;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The &amp;ldquo;public&amp;rdquo; in &amp;ldquo;public synonym&amp;rdquo; means that it is not a schema
+&lt;li&gt;&lt;p&gt;The “public” in “public synonym” means that it is not a schema
 object and cannot therefore be prefixed with a schema name. It does not
 mean that everyone has permissions against it.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;A user will need to have been granted permission to create
@@ -895,7 +895,7 @@ number.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;If your application selects from the sequence 10 times a second,
 then set the cache value to 50 thousand.&lt;/li&gt;
 &lt;li&gt;NEXTVAL -&amp;gt; forces the sequence to increment,&lt;/li&gt;
-&lt;li&gt;CURRVAL -&amp;gt; the last (or &amp;ldquo;current&amp;rdquo;) value issued to that session
+&lt;li&gt;CURRVAL -&amp;gt; the last (or “current”) value issued to that session
 with the CURRVAL pseudo column&lt;/li&gt;
 &lt;li&gt;The CURRVAL will be constant for one session until it selects
 NEXTVAL again.&lt;/li&gt;
@@ -966,7 +966,7 @@ resources&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Types of indexes -&amp;gt; B*Tree index, which is the default index
 type, and the Bitmap Index&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;B*Tree indexes: these can be either unique or nonunique. -&amp;gt;
-Nonunique is the default. -&amp;gt; &amp;ldquo;B&amp;rdquo; stands for &amp;ldquo;balanced&amp;rdquo; .. A unique
+Nonunique is the default. -&amp;gt; “B” stands for “balanced” .. A unique
 index will not permit insertion of two rows with the same key values; ..
 a nonunique index will permit as many rows as you want with the same
 values.&lt;/p&gt;&lt;/li&gt;
@@ -981,13 +981,13 @@ values.&lt;/p&gt;&lt;/li&gt;
 then three or four, than either the index keys are very long or the
 table has billions of rows. .. If neither if these is the case, then the
 index is in need of a rebuild.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The leaf nodes of the index tree store the rows&amp;rsquo; keys, in order,
+&lt;li&gt;&lt;p&gt;The leaf nodes of the index tree store the rows’ keys, in order,
 each with a pointer that identifies the physical location of the
 row&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The pointer to the row is the rowid -&amp;gt; Oracle proprietary
 pseudocolumn that every row in every table has .. Encrypted within it is
 the physical address of the row.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;ROWID: A row&amp;rsquo;s rowid is globally unique. Every row in every table
+&lt;li&gt;&lt;p&gt;ROWID: A row’s rowid is globally unique. Every row in every table
 in the whole database will have a different rowid. .. The rowid
 encryption gives the physical address of the row: from it, Oracle can
 calculate which operating system file and where in the file the row is,
@@ -1009,8 +1009,8 @@ of distinct values) in the column is high, and .. The number of rows in
 the table is high, and .. The column is used in WHERE clauses or JOIN
 conditions&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;A Bitmap Index stores the rowids associated with each key value
-as a bitmap .. WALKIN 11010111000101011101011101&amp;hellip;.. .. DELIVERY
-00101000111010100010100010&amp;hellip;.. .. This means that the first row has the
+as a bitmap .. WALKIN 11010111000101011101011101….. .. DELIVERY
+00101000111010100010100010….. .. This means that the first row has the
 column value of WALKIN, Second row as WALKIN, Third as DELIVERY .. So
 every different value will be a bitmap, this includes NULLS as well
 which will be a seperate bitmap&lt;/p&gt;&lt;/li&gt;
@@ -1087,7 +1087,7 @@ for communication&lt;/li&gt;
 &lt;li&gt;Table &amp;lt;###&amp;gt; relation or an entity.&lt;/li&gt;
 &lt;li&gt;Rows &amp;lt;###&amp;gt; records or tuples, and columns &amp;lt;###&amp;gt;
 attributes or fields.&lt;/li&gt;
-&lt;li&gt;No.&amp;nbsp;of rows &amp;lt;###&amp;gt; cardinality of the tuples.&lt;/li&gt;
+&lt;li&gt;No. of rows &amp;lt;###&amp;gt; cardinality of the tuples.&lt;/li&gt;
 &lt;li&gt;Hierarchical paradigm =&amp;gt; Storing employees of each department
 seperately&lt;/li&gt;
 &lt;/ol&gt;
@@ -1122,7 +1122,7 @@ primary key&lt;/p&gt;&lt;/li&gt;
 Foreign key columns identified with a back slash () .. Mandatory columns
 (those that cannot be left empty) with an asterisk (*) .. Optional
 columns with a lowercase &lt;code&gt;o&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&amp;ldquo;crow&amp;rsquo;s feet&amp;rdquo; to indicate which sides of the relationship are the
+&lt;li&gt;&lt;p&gt;“crow’s feet” to indicate which sides of the relationship are the
 many and the one.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;SQL is managed by ISO and ANSI. .. ISO - Organisation
 Internationale de Normalisation, based in Geneva .. ANSI - American
@@ -1136,23 +1136,23 @@ Language (DCL) commands: GRANT, REVOKE .. Transaction Control Language
 establishes a session against an instance and a database over the Oracle
 Net protocol. .. The platforms for the client and the server can be
 different /u01/app/oracle/product/db_1/bin/sqlplus - typical location ..
-Env Variables required are: &amp;hellip; The ORACLE_HOME - the set of files and
+Env Variables required are: … The ORACLE_HOME - the set of files and
 directories containing the executable code and some of the configuration
-files. &amp;hellip; PATH must include ORACLE_HOME/bin &amp;hellip; LD_LIBRARY_PATH
+files. … PATH must include ORACLE_HOME/bin … LD_LIBRARY_PATH
 ORACLE_HOME/lib. [but in practice you may get away without setting this]
-&amp;hellip; database username followed by a forward slash character as a
+… database username followed by a forward slash character as a
 delimiter, then a password followed by an @ symbol as a delimiter, and
-finally an Oracle Net connect identifier. &amp;hellip; Ex: sqlplus
-system/oracle@orc1 &amp;hellip; executable file sqlplus.exe, and the graphical
-version was sqlplusw.exe &amp;hellip; Windows: D:\11.1.0_2.exe &amp;hellip; Logon String:
-system/oracle@orcl &amp;hellip; sqlplus /nolog - to prevent it from immediately
+finally an Oracle Net connect identifier. … Ex: sqlplus
+system/oracle@orc1 … executable file sqlplus.exe, and the graphical
+version was sqlplusw.exe … Windows: D:\11.1.0_2.exe … Logon String:
+system/oracle@orcl … sqlplus /nolog - to prevent it from immediately
 presenting a login prompt
 HKEY_LOCAL_MACHINE/SOFTWARE/ORACLE/KEY_OraDb11g_home1 - Registry Key for
 Env Variables&lt;/p&gt;
-&lt;p&gt;&amp;hellip; sqlplus scott/tiger@orcl - resolves the server orc1 using
-tnsnames.ora or using LDAP [TNS - Transparent Network Substrate ] &amp;hellip;
+&lt;p&gt;… sqlplus scott/tiger@orcl - resolves the server orc1 using
+tnsnames.ora or using LDAP [TNS - Transparent Network Substrate ] …
 sqlplus scott/tiger@linsrv1.bplc.co.za:1521/orcl.bplc.com - Complete
-details of server IP and port and the database service to connect to. &amp;hellip;
+details of server IP and port and the database service to connect to. …
 SQL Developer - JDK1.5 is the prerequisite&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Definitions .. A database user is a person who can log on to the
 database. .. A database schema is all the objects in the database owned
@@ -1184,7 +1184,7 @@ relation or table .. Selection refers to the restriction of the tuples
 or rows selected from a relation (table) .. Joining, as a relational
 concept, refers to the interaction of tables with each other in a
 query&lt;/li&gt;
-&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],&amp;hellip;} FROM table;&lt;/li&gt;
+&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],…} FROM table;&lt;/li&gt;
 &lt;li&gt;DISTINCT performs a distinct for the combination of columns. Ex:
 select distinct job_id, department_id from job_history;&lt;/li&gt;
 &lt;li&gt;SQL*Plus always requires a statement terminator, and usually a
@@ -1213,24 +1213,24 @@ expected .. ORA-00942: table or view does not exist&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Case preservation of an alias is only possible if the alias is
 double quoted and double quotes are needed if the alias is more than one
 word&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&amp;ldquo;ORA-00923: FROM keyword not found where expected&amp;rdquo; - multi word
+&lt;li&gt;&lt;p&gt;“ORA-00923: FROM keyword not found where expected” - multi word
 alias is not double quoted&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;|| represent the character concatenation operator&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;select &amp;lsquo;literal&amp;rsquo;||&amp;lsquo;processing using the REGIONS table&amp;rsquo; from
+&lt;li&gt;&lt;p&gt;select ‘literal’||‘processing using the REGIONS table’ from
 regions;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&amp;lsquo;Plural&amp;rsquo;s with the literal &amp;rsquo;Plural&amp;rsquo;&amp;rsquo;s&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;‘Plural’s with the literal ’Plural’’s&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;double quotes cannot be used&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;alternative quote (q) operator -&amp;gt; wrapping symbols -&amp;gt;
 (round brackets), {curly braces}, [square brackets], or
 &lt;angle brackets=""&gt;&lt;/angle&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Using the q operator, the character delimiter can effectively be
 changed from a single quotation mark to any other character&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;format-&amp;gt; select q&amp;rsquo;X -&amp;gt; q&amp;rsquo; is the notation and X is the
-delimiter character Ex: select q&amp;rsquo;X&amp;rsquo;Test this String for Plural&amp;rsquo;s X&amp;rsquo; &amp;ldquo;qX&amp;rdquo;
-from dual; &amp;lsquo;Test this String for Plural&amp;rsquo;s X&amp;rsquo; -&amp;gt; is the test
+&lt;li&gt;&lt;p&gt;format-&amp;gt; select q’X -&amp;gt; q’ is the notation and X is the
+delimiter character Ex: select q’X’Test this String for Plural’s X’ “qX”
+from dual; ‘Test this String for Plural’s X’ -&amp;gt; is the test
 string&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;If we use one of the wrapping symbols, then q&amp;rsquo;&amp;lt;&amp;lsquo;sdfgdfgd&amp;gt;&amp;rsquo;
-can be given where &amp;lsquo;&amp;gt;&amp;rsquo; is taken as the delimiter&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If we use one of the wrapping symbols, then q’&amp;lt;‘sdfgdfgd&amp;gt;’
+can be given where ‘&amp;gt;’ is taken as the delimiter&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Any arithmetic calculation with a NULL value always returns NULL.
 even division by a null value results in null, unlike division by zero,
 which results in an error&lt;/p&gt;&lt;/li&gt;
@@ -1243,9 +1243,9 @@ the answer&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id="chapter-3"&gt;CHAPTER 3&lt;/h3&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],&amp;hellip;} FROM table [WHERE
+&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],…} FROM table [WHERE
 condition(s)];&lt;/li&gt;
-&lt;li&gt;where salary = 10000; where salary = &amp;lsquo;10000&amp;rsquo;;Both formats are
+&lt;li&gt;where salary = 10000; where salary = ‘10000’;Both formats are
 acceptable to Oracle since an implicit data type conversion is performed
 when necessary.&lt;/li&gt;
 &lt;li&gt;String concatenations and arithmetic operations can also be used in
@@ -1269,17 +1269,17 @@ these values are compared within the conditions.&lt;/li&gt;
 &lt;li&gt;BETWEEN &amp;lt;###&amp;gt; &amp;gt;= and &amp;lt;=&lt;/li&gt;
 &lt;li&gt;IN operator - equivalent to multiple ORs&lt;/li&gt;
 &lt;li&gt;wildcards - % [0 or more characters] and _ [1 character]&lt;/li&gt;
-&lt;li&gt;like &amp;lsquo;%&amp;rsquo; - all rows with the values NOT NULL&lt;/li&gt;
-&lt;li&gt;% and _ can be escaped using &amp;lsquo;' [backslash] and denoted as like &amp;rsquo;a%&amp;rsquo;
-ESACPE &amp;rsquo;'&lt;/li&gt;
+&lt;li&gt;like ‘%’ - all rows with the values NOT NULL&lt;/li&gt;
+&lt;li&gt;% and _ can be escaped using ‘' [backslash] and denoted as like ’a%’
+ESACPE ’'&lt;/li&gt;
 &lt;li&gt;we can changed the Escape character as well&lt;/li&gt;
 &lt;li&gt;For Null checks always use IS NULL&lt;/li&gt;
 &lt;li&gt;FOR AND operator - If the row contains a NULL value that causes one
 of the conditions to evaluate to NULL, then that row is excluded&lt;/li&gt;
-&lt;li&gt;SELECT * FROM EMPLOYEES WHERE SALARY LIKE &amp;lsquo;%80%&amp;rsquo;; - Oracle
+&lt;li&gt;SELECT * FROM EMPLOYEES WHERE SALARY LIKE ‘%80%’; - Oracle
 temporarily changes the NUMBER to CHAR data for the comparison&lt;/li&gt;
-&lt;li&gt;Usage of NOT: where NOT (last_name=&amp;lsquo;King&amp;rsquo;), where first_name NOT
-LIKE &amp;lsquo;R%&amp;rsquo;,where department_id NOT IN (10,20,30),where salary NOT BETWEEN
+&lt;li&gt;Usage of NOT: where NOT (last_name=‘King’), where first_name NOT
+LIKE ‘R%’,where department_id NOT IN (10,20,30),where salary NOT BETWEEN
 1 and 3000,where commission_pct IS NOT NULL&lt;/li&gt;
 &lt;li&gt;WHERE A and B or C or D and E, then a row will be returned if both
 conditions A and B are fulfilled, or only condition C is met, or only
@@ -1295,7 +1295,7 @@ them to be satisfied&lt;/li&gt;
 &lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;AND&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;OR&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="24" type="1"&gt;
-&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],&amp;hellip;} FROM table [WHERE
+&lt;li&gt;SELECT *|{[DISTINCT] column|expression [alias],…} FROM table [WHERE
 condition(s)] [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS
 FIRST|LAST]];&lt;/li&gt;
 &lt;li&gt;The default sort order is assumed to be NULLS LAST for ascending
@@ -1312,7 +1312,7 @@ substitution variable in a statement and precedes the variable name with
 no spaces between them&lt;/li&gt;
 &lt;li&gt;When the statement is executed, the Oracle server processes the
 statement, notices a substitution variable, and attempts to resolve this
-variable&amp;rsquo;s value in one of two ways. .. First, it checks whether the
+variable’s value in one of two ways. .. First, it checks whether the
 variable is defined in the user session. (The DEFINE command). .. If the
 variable is not defined, the user process prompts for a value that will
 be substituted in place of the variable. .. Once a value is submitted,
@@ -1367,8 +1367,8 @@ item, [start position],[nth occurrence of search item]) -&amp;gt; returns 0
 if not found&lt;/li&gt;
 &lt;li&gt;LPAD(string, length after padding, padding string) and RPAD(string,
 length after padding, padding string)&lt;/li&gt;
-&lt;li&gt;TRIM - &amp;gt; by default trims spaces TRIM(&amp;lsquo;#&amp;rsquo; from &amp;lsquo;#PASS#WORD##&amp;rsquo;)
--&amp;gt; &amp;lsquo;PASS#WORD&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;TRIM - &amp;gt; by default trims spaces TRIM(‘#’ from ‘#PASS#WORD##’)
+-&amp;gt; ‘PASS#WORD’&lt;/li&gt;
 &lt;li&gt;REPLACE(string, search item, replacement item) - All the
 instances&lt;/li&gt;
 &lt;li&gt;ROUND, TRUNC, MOD - Numeric functions&lt;/li&gt;
@@ -1380,7 +1380,7 @@ instances&lt;/li&gt;
 &lt;li&gt;MONTHS_BETWEEN, ADD_MONTHS, LAST_DAY, NEXT_DAY, SYSDATE, ROUND, and
 TRUNC -&amp;gt; date functions&lt;/li&gt;
 &lt;li&gt;MONTHS_BETWEEN(greater_date, smaller_date) -&amp;gt;
-MONTHS_BETWEEN(&amp;lsquo;2-JAN-2008&amp;rsquo;,&amp;lsquo;01-JAN-2008&amp;rsquo;) -&amp;gt; .0322 -&amp;gt; stored as a
+MONTHS_BETWEEN(‘2-JAN-2008’,‘01-JAN-2008’) -&amp;gt; .0322 -&amp;gt; stored as a
 decimal value. Need to TRUNC to get only the MONTHS value&lt;/li&gt;
 &lt;li&gt;LAST_DAY(date 1) function returns the last day of the month that the
 specified date falls into,&lt;/li&gt;
@@ -1396,9 +1396,9 @@ precision format like day, month, or year:&lt;/li&gt;
 &lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;sysdate&lt;/span&gt; &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;17&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dt"&gt;DEC&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;2007&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;round&lt;/span&gt;(&lt;span class="fu"&gt;sysdate&lt;/span&gt;,&lt;span class="st"&gt;'month'&lt;/span&gt;) &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;01&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;JAN&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;2008&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;trunc&lt;/span&gt;(&lt;span class="fu"&gt;sysdate&lt;/span&gt;,&lt;span class="st"&gt;'month'&lt;/span&gt;) &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;01&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dt"&gt;DEC&lt;/span&gt;&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;2007&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;[Works &lt;span class="kw"&gt;only&lt;/span&gt; &lt;span class="kw"&gt;in&lt;/span&gt; 11g]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;[Works &lt;span class="kw"&gt;only&lt;/span&gt; &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="dv"&gt;11&lt;/span&gt;g]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="19" type="1"&gt;
-&lt;li&gt;&lt;p&gt;Oracle&amp;rsquo;s implementation of SQL is compliant with the ANSI:1999
+&lt;li&gt;&lt;p&gt;Oracle’s implementation of SQL is compliant with the ANSI:1999
 (American National Standards Institute) standard for SQL. .. More
 recently, it claimed partial compliance to the SQL:2003 standard
 endorsed by both ISO (International Organization for Standardization)
@@ -1407,15 +1407,15 @@ documented those that are fully or partially compliant to the SQL:2003
 standard.&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Character Case Conversion Functions - If parameters are numeric
 or date value, it is implicitly converted into a string.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;select lower(&amp;lsquo;The SUM&amp;rsquo;||&amp;lsquo;100+100&amp;rsquo;||&amp;rsquo; = &amp;rsquo;||(100+100)) from dual
+&lt;li&gt;&lt;p&gt;select lower(‘The SUM’||‘100+100’||’ = ’||(100+100)) from dual
 -&amp;gt; the sum 100+100 = 200. Calculations are done if inside
 bracket&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;(SYSDATE+2) -&amp;gt; Adds two days&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;select initcap(&amp;lsquo;init cap or init_cap or init%cap&amp;rsquo;) from dual
+&lt;li&gt;&lt;p&gt;select initcap(‘init cap or init_cap or init%cap’) from dual
 -&amp;gt; Init Cap Or Init_Cap Or Init%Cap .. space, _,%,!, $ are all used
 as word seperators. Punctuation or special characters are regarded as
 valid word separators.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;concat(1+2.14,&amp;rsquo; approximates pi&amp;rsquo;) -&amp;gt; 3.14 approximates
+&lt;li&gt;&lt;p&gt;concat(1+2.14,’ approximates pi’) -&amp;gt; 3.14 approximates
 pi&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;LPAD(s, n, p) and RPAD(s, n, p), .. if the parameter n is smaller
 than or equal to the length of the source string s, then no padding
@@ -1442,8 +1442,8 @@ item is removed from the source string&lt;/p&gt;&lt;/li&gt;
 the rounding is found (n + 1) places to the RIGHT of the decimal point.
 .. If it is negative, the digit significant to the rounding is found n
 places to the LEFT of the decimal point. .. If the numeric value of the
-significant digit is greater than or equal to 5, a &amp;ldquo;round up&amp;rdquo; occurs,
-else a &amp;ldquo;round down&amp;rdquo; occurs. .. round(1301.916718,-3) -&amp;gt; 1000 ..
+significant digit is greater than or equal to 5, a “round up” occurs,
+else a “round down” occurs. .. round(1301.916718,-3) -&amp;gt; 1000 ..
 round(1601.916718,-3) -&amp;gt; 2000 .. round(1601.916718) -&amp;gt;
 1602&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;A numeric truncation is different from rounding because the
@@ -1469,7 +1469,7 @@ Developer 34.. Date Format Mask&lt;/p&gt;&lt;/li&gt;
 &lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;     MON    &lt;span class="dt"&gt;Month&lt;/span&gt; &lt;span class="kw"&gt;of&lt;/span&gt; &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="dt"&gt;year&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;     YY     Two&lt;span class="op"&gt;-&lt;/span&gt;digit &lt;span class="dt"&gt;year&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;     YYYY   Four&lt;span class="op"&gt;-&lt;/span&gt;digit &lt;span class="dt"&gt;year&lt;/span&gt; &lt;span class="kw"&gt;including&lt;/span&gt; century&lt;/span&gt;
-&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;     RR Two&lt;span class="op"&gt;-&lt;/span&gt;digit &lt;span class="dt"&gt;year&lt;/span&gt; (&lt;span class="dt"&gt;Year&lt;/span&gt; 2000&amp;ndash;compliant)&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;     RR Two&lt;span class="op"&gt;-&lt;/span&gt;digit &lt;span class="dt"&gt;year&lt;/span&gt; (&lt;span class="dt"&gt;Year&lt;/span&gt; &lt;span class="dv"&gt;2000&lt;/span&gt;–compliant)&lt;/span&gt;
 &lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;     CC     Two&lt;span class="op"&gt;-&lt;/span&gt;digit century&lt;/span&gt;
 &lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;     HH Hours &lt;span class="kw"&gt;with&lt;/span&gt; AM &lt;span class="kw"&gt;and&lt;/span&gt; PM&lt;/span&gt;
 &lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;     HH24   Twenty&lt;span class="op"&gt;-&lt;/span&gt;four&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="kw"&gt;hour&lt;/span&gt; &lt;span class="dt"&gt;time&lt;/span&gt;&lt;/span&gt;
@@ -1491,8 +1491,8 @@ used&lt;/p&gt;&lt;/li&gt;
 are determined by the NLS_DATE_LANGUAGE database parameter but the
 default values are at least the first three characters of the day name
 or integer values, where 1 represents Sunday, 2 represents Monday, and
-so on. .. NEXT_DAY(&amp;lsquo;02-JAN-2009&amp;rsquo;,&amp;lsquo;WEDNE&amp;rsquo;) -&amp;gt; Works using the First
-three chars &amp;lsquo;WED&amp;rsquo;&lt;/p&gt;&lt;/li&gt;
+so on. .. NEXT_DAY(‘02-JAN-2009’,‘WEDNE’) -&amp;gt; Works using the First
+three chars ‘WED’&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;LAST_DAY(start date)&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;ROUND(source date, [date precision format]) -&amp;gt; [No implicit
 conversion for DATE] .. The date precision format parameter specifies
@@ -1511,14 +1511,14 @@ format parameter specifies the degree of truncation and is optional. ..
 If it is absent, the default degree of truncation is day .. Any time
 component of the source date is set to midnight or 00:00:00 .. TRUNC is
 similar to ROUND, except it is always the FLOOR and never the CEILING ..
-TRUNC(TO_DATE(&amp;lsquo;31-JAN-2009&amp;rsquo;),&amp;lsquo;MM&amp;rsquo;) -&amp;gt; 01-JAN-2009&lt;/p&gt;&lt;/li&gt;
+TRUNC(TO_DATE(‘31-JAN-2009’),‘MM’) -&amp;gt; 01-JAN-2009&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Functions dont need parameters&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id="chapter-5"&gt;Chapter 5&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;length(1234) -&amp;gt; implicit conversion for numbers and dates to char
 -&amp;gt; 4 is the result&lt;/li&gt;
-&lt;li&gt;mod(&amp;lsquo;11&amp;rsquo;,2) -&amp;gt; implicit conversion - .. mod(&amp;lsquo;$11&amp;rsquo;,2) -&amp;gt;
+&lt;li&gt;mod(‘11’,2) -&amp;gt; implicit conversion - .. mod(‘$11’,2) -&amp;gt;
 ORA-1722: invalid number&lt;/li&gt;
 &lt;li&gt;Implicit date conversion should not have Time parameters [Check
 this]. Implicit conversion for dates can occur if the pattern follows
@@ -1529,7 +1529,7 @@ spaces, and tabs&lt;/em&gt;&lt;/li&gt;
 &lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;add_months&lt;/span&gt;(&lt;span class="st"&gt;'1\january/8'&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="dv"&gt;01&lt;/span&gt;&lt;span class="op"&gt;/&lt;/span&gt;FEB&lt;span class="op"&gt;/&lt;/span&gt;&lt;span class="dv"&gt;08&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;months_between&lt;/span&gt;(&lt;span class="st"&gt;'13*jan*8'&lt;/span&gt;, &lt;span class="st"&gt;'13/mar/2008'&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;2&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb5-3"&gt;&lt;a aria-hidden="true" href="#cb5-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;add_months&lt;/span&gt;(&lt;span class="st"&gt;'01$jan/08'&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="dv"&gt;01&lt;/span&gt;&lt;span class="op"&gt;/&lt;/span&gt;FEB&lt;span class="op"&gt;/&lt;/span&gt;&lt;span class="dv"&gt;08&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb5-4"&gt;&lt;a aria-hidden="true" href="#cb5-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;add_months&lt;/span&gt;(&lt;span class="st"&gt;'13!jana08'&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; ORA&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;1841&lt;/span&gt;: (&lt;span class="kw"&gt;full&lt;/span&gt;) &lt;span class="dt"&gt;year&lt;/span&gt; must be &lt;span class="kw"&gt;between&lt;/span&gt; &amp;ndash;&lt;span class="dv"&gt;4713&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;9999&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; be &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-4"&gt;&lt;a aria-hidden="true" href="#cb5-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;add_months&lt;/span&gt;(&lt;span class="st"&gt;'13!jana08'&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; ORA&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;1841&lt;/span&gt;: (&lt;span class="kw"&gt;full&lt;/span&gt;) &lt;span class="dt"&gt;year&lt;/span&gt; must be &lt;span class="kw"&gt;between&lt;/span&gt; –&lt;span class="dv"&gt;4713&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;9999&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; be &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb5-5"&gt;&lt;a aria-hidden="true" href="#cb5-5" tabindex="-1"&gt;&lt;/a&gt;jana &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; a valid &lt;span class="dt"&gt;month&lt;/span&gt; &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kw"&gt;only&lt;/span&gt; &lt;span class="dv"&gt;3&lt;/span&gt; characters &lt;span class="kw"&gt;or&lt;/span&gt; &lt;span class="kw"&gt;full&lt;/span&gt; &lt;span class="dt"&gt;month&lt;/span&gt; &lt;span class="kw"&gt;is&lt;/span&gt; allowed&lt;/span&gt;
 &lt;span id="cb5-6"&gt;&lt;a aria-hidden="true" href="#cb5-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;add_months&lt;/span&gt;(&lt;span class="st"&gt;'24-JAN-09 18:45'&lt;/span&gt;,&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; ORA&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;1830&lt;/span&gt;: &lt;span class="dt"&gt;date&lt;/span&gt; format picture ends &lt;span class="kw"&gt;before&lt;/span&gt; converting entire input string&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="4" type="1"&gt;
@@ -1539,7 +1539,7 @@ and numeric elements are returned&lt;/li&gt;
 &lt;li&gt;Publicly available view called NLS_SESSION_PARAMETERS that contains
 the NLS parameters for your current session. The default NLS_CURRENCY
 value is the dollar symbol, but this can be changed at the user session
-level ALTER SESSION set NLS_CURRENCY=&amp;lsquo;GBP&amp;rsquo;;&lt;/li&gt;
+level ALTER SESSION set NLS_CURRENCY=‘GBP’;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;TO_CHAR(number1, [format], [nls_parameter])&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;Formats&lt;/span&gt;
@@ -1566,8 +1566,8 @@ converted.&lt;/p&gt;
 &lt;li&gt;TO_CHAR(date1, [format], [nls_parameter]) -&amp;gt; Default is
 DD/MON/RR&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&amp;lsquo;Month&amp;rsquo; -&amp;gt; January &amp;lsquo;MOnth&amp;rsquo; -&amp;gt; JANUARY &amp;lsquo;month&amp;rsquo; -&amp;gt; january&lt;/p&gt;
-&lt;p&gt;&amp;lsquo;Month&amp;rsquo; -&amp;gt; padded with spaces &amp;lsquo;fmMonth&amp;rsquo; -&amp;gt; Not padded with
+&lt;p&gt;‘Month’ -&amp;gt; January ‘MOnth’ -&amp;gt; JANUARY ‘month’ -&amp;gt; january&lt;/p&gt;
+&lt;p&gt;‘Month’ -&amp;gt; padded with spaces ‘fmMonth’ -&amp;gt; Not padded with
 spaces&lt;/p&gt;
 &lt;p&gt;Y-YYYY -&amp;gt; Year digits RR -&amp;gt; 2 digit year YEAR -&amp;gt; Case
 Sensitive Full Year spelling MM, MON, MONTH -&amp;gt; 2 digit, Three char,
@@ -1585,7 +1585,7 @@ week (1 to 53) RM -&amp;gt; Roman numeral month&lt;/p&gt;
 Minutes. Seconds, Seconds past midnight&lt;/p&gt;
 &lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="op"&gt;/&lt;/span&gt; . , ? # ! &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; Punctuation marks &lt;span class="cf"&gt;for&lt;/span&gt; seperators&lt;/span&gt;
 &lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="ot"&gt;"any literal"&lt;/span&gt; &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; simply displays &lt;span class="kw"&gt;the&lt;/span&gt; &lt;span class="dt"&gt;character&lt;/span&gt; literal&lt;/span&gt;
-&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;  TH &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; positional &lt;span class="kw"&gt;or&lt;/span&gt; ordinal text &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; 12th&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;  TH &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; positional &lt;span class="kw"&gt;or&lt;/span&gt; ordinal text &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="dv"&gt;12&lt;/span&gt;th&lt;/span&gt;
 &lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;  SP &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; spelled &lt;span class="kw"&gt;out&lt;/span&gt; &lt;span class="dt"&gt;number&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;  THSP &lt;span class="kw"&gt;or&lt;/span&gt; SPTH &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; Spelled &lt;span class="kw"&gt;out&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; Ordinal &lt;span class="dt"&gt;number&lt;/span&gt; &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; twelfth&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="8" type="1"&gt;
@@ -1609,9 +1609,9 @@ Minutes. Seconds, Seconds past midnight&lt;/p&gt;
 &lt;span id="cb9-6"&gt;&lt;a aria-hidden="true" href="#cb9-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;TO_NUMBER&lt;/span&gt;(&lt;span class="fl"&gt;123.56&lt;/span&gt;,&lt;span class="st"&gt;'999.9'&lt;/span&gt;) returns an error, &lt;span class="cf"&gt;while&lt;/span&gt; &lt;span class="fu"&gt;TO_CHAR&lt;/span&gt;(&lt;span class="fl"&gt;123.56&lt;/span&gt;,&lt;span class="st"&gt;'999.9'&lt;/span&gt;) returns &lt;span class="dv"&gt;123&lt;/span&gt;.&lt;span class="fl"&gt;6.&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="10" type="1"&gt;
 &lt;li&gt;&lt;p&gt;NVL(original, ifnull) -&amp;gt; both columns are mandatory :
-ORA-00909: invalid number of arguments. .. nvl(substr(&amp;lsquo;abc&amp;rsquo;,4),&amp;lsquo;No
-substring exists&amp;rsquo;) .. since there is no 4th character, it returns null
-and hence the &amp;lsquo;No substring exists&amp;rsquo; is returned&lt;/p&gt;&lt;/li&gt;
+ORA-00909: invalid number of arguments. .. nvl(substr(‘abc’,4),‘No
+substring exists’) .. since there is no 4th character, it returns null
+and hence the ‘No substring exists’ is returned&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;NVL2(original, ifnotnull, ifnull) .. The data types of the
 ifnotnull and ifnull parameters must be compatible, and they cannot be
 of type LONG. .. They must either be of the same type, or it must be
@@ -1620,19 +1620,19 @@ ORA-01722: invalid number .. The data type returned by the NVL2 function
 is the same as that of the ifnotnull parameter&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;NULLIF(ifunequal, comparison_term) -&amp;gt; returns NULL if both
 terms are equal else the first term .. NO IMPLICIT conmversion -&amp;gt;
-nullif(&amp;lsquo;24-JUL-2009&amp;rsquo;,&amp;lsquo;24-JUL-09&amp;rsquo;) returns the first term as these are
+nullif(‘24-JUL-2009’,‘24-JUL-09’) returns the first term as these are
 not equal&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;COALESCE(expr1, expr2,&amp;hellip;,exprn), where expr1 is returned if it is
+&lt;li&gt;&lt;p&gt;COALESCE(expr1, expr2,…,exprn), where expr1 is returned if it is
 not null, else expr2 if it is not null, and so on ..
 COALESCE(expr1,expr2) = NVL(expr1,expr2) .. COALESCE(expr1,expr2,expr3)
 = NVL(expr1,NVL(expr2,expr3)) .. The data type COALESCE returns if a not
 null value is found is the same as that of the first not null parameter.
-.. To avoid an &amp;ldquo;ORA-00932: inconsistent data types&amp;rdquo; error, all not null
+.. To avoid an “ORA-00932: inconsistent data types” error, all not null
 parameters must have data types compatible with the first not null
 parameter&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;The DECODE function is specific to Oracle, while the CASE
 expression is ANSI SQL compliant&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;DECODE(expr1,comp1, iftrue1, [comp2,iftrue2&amp;hellip;[ compN,iftrueN]],
+&lt;li&gt;&lt;p&gt;DECODE(expr1,comp1, iftrue1, [comp2,iftrue2…[ compN,iftrueN]],
 [iffalse])&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;CASE search_expr&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -1688,7 +1688,7 @@ expression .. If a group function is placed in a WHERE clause -&amp;gt;
 ORA-00934: group function is not allowed here&lt;/li&gt;
 &lt;li&gt;Select Statement&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="sourceCode" id="cb12"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb12-1"&gt;&lt;a aria-hidden="true" href="#cb12-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; &lt;span class="kw"&gt;column&lt;/span&gt;|expression|group_function(&lt;span class="kw"&gt;column&lt;/span&gt;|expression [alias]),&amp;hellip;}&lt;/span&gt;
+&lt;div class="sourceCode" id="cb12"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb12-1"&gt;&lt;a aria-hidden="true" href="#cb12-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; &lt;span class="kw"&gt;column&lt;/span&gt;|expression|group_function(&lt;span class="kw"&gt;column&lt;/span&gt;|expression [alias]),…}&lt;/span&gt;
 &lt;span id="cb12-2"&gt;&lt;a aria-hidden="true" href="#cb12-2" tabindex="-1"&gt;&lt;/a&gt;   &lt;span class="kw"&gt;FROM&lt;/span&gt; &lt;span class="kw"&gt;table&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb12-3"&gt;&lt;a aria-hidden="true" href="#cb12-3" tabindex="-1"&gt;&lt;/a&gt;   [&lt;span class="kw"&gt;WHERE&lt;/span&gt; condition(s)]&lt;/span&gt;
 &lt;span id="cb12-4"&gt;&lt;a aria-hidden="true" href="#cb12-4" tabindex="-1"&gt;&lt;/a&gt;   [&lt;span class="kw"&gt;GROUP&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; {col(s)|expr}]&lt;/span&gt;
@@ -1710,7 +1710,7 @@ Microsystems and thought of sharing my notes and gotchas from the Kathy
 Sierra SCJP preparation book which was the best material to prepare for
 this certification. All the below notes are material extracted from this
 link:https://www.amazon.com/SCJP-Certified-Programmer-Java-310-065/dp/0071591060[Kathy
-Sierra&amp;rsquo;s book]. The below notes are from the 2008 edition and might not
+Sierra’s book]. The below notes are from the 2008 edition and might not
 be reflective of the latest Chapter specifics.&lt;/p&gt;
 &lt;p&gt;This is the continuation of Continued in &lt;a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-1"&gt;Part 1&lt;/a&gt;
 notes.&lt;/p&gt;
@@ -1834,7 +1834,7 @@ in a new stack&lt;/li&gt;
 &lt;ul&gt;
 &lt;li&gt;java.lang.Thread - static sleep(long), static yield(), final join(),
 final setPriority(int)&lt;/li&gt;
-&lt;li&gt;java.lang.Object - final wait, final notify, final notifyAll()&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;java.lang.Object - final wait, final notify, final notifyAll()”&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ol start="6" type="1"&gt;
 &lt;li&gt;&lt;code&gt;sleep&lt;/code&gt; - guaranteed to sleep for the given time except
@@ -1871,7 +1871,7 @@ a try-catch block for checked (InterruptedException)&lt;/li&gt;
 &lt;li&gt;Synchronizing the code that calls the calculating method DOES NOT
 synchronize the action, the synchronized block needs to be applied to
 the method doing the actual calculation.&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t synchronize the run() method or the code inside it as there
+&lt;li&gt;Don’t synchronize the run() method or the code inside it as there
 might be multiple threads created and each will have its own run method.
 So synchronize the called method&lt;/li&gt;
 &lt;li&gt;When two threads are created and a single object is used for
@@ -1922,7 +1922,7 @@ and expression is never void&lt;/li&gt;
 label is NOT recogonized and hence compliation error occurs. Also,
 labels can be of the same name and the innermost one is taken into
 consideration&lt;/li&gt;
-&lt;li&gt;Escape slashes are allowed only for b,t,n,f,r, &amp;ldquo;,&amp;rsquo;,&lt;br/&gt;
+&lt;li&gt;Escape slashes are allowed only for b,t,n,f,r, “,’,&lt;br/&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;code&gt;#,%&lt;/code&gt; cannot be used in a variable name and a number
 cannot be used at the start of a variable name&lt;/li&gt;
@@ -1973,13 +1973,13 @@ StringBuffer&lt;/li&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Read the keywords list&lt;/li&gt;
 &lt;li&gt;Always check variable, class and method name for the keywords&lt;/li&gt;
-&lt;li&gt;Variable range is -2(bits &amp;ndash; 1)&lt;/li&gt;
+&lt;li&gt;Variable range is -2(bits – 1)&lt;/li&gt;
 &lt;li&gt;Ranges of primitive numbers&lt;/li&gt;
 &lt;li&gt;Octal (max): 21 digits and Hexadecimal (max): 16 digits without
 leading 0 and 0x&lt;/li&gt;
 &lt;li&gt;Hexadecimal is case-Insensitive&lt;/li&gt;
 &lt;li&gt;Octal and Hexadecimal can be used for long also using L suffix&lt;/li&gt;
-&lt;li&gt;Unicode Character is represented as char x = &amp;lsquo;04E&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Unicode Character is represented as char x = ‘04E’&lt;/li&gt;
 &lt;li&gt;char being assigned out of range integer values (above 65535 or -ve
 numbers needs a cast to (char)&lt;/li&gt;
 &lt;li&gt;Size should NOT be given when declaring an array int[5] x is
@@ -2060,7 +2060,7 @@ transient and volatile&lt;/li&gt;
 &lt;li&gt;Instance variables cannot be marked abstract, synchronized, native
 and strictfp&lt;/li&gt;
 &lt;li&gt;Refer to Comparison of modifiers for variables and methods&lt;/li&gt;
-&lt;li&gt;Local variables don&amp;rsquo;t get default values and should be initialized
+&lt;li&gt;Local variables don’t get default values and should be initialized
 before use&lt;/li&gt;
 &lt;li&gt;Instance variables marked &lt;code&gt;final&lt;/code&gt; should be initialized
 in declaration itself or in the CONSTRUCTOR itself - (Compilation
@@ -2082,7 +2082,7 @@ itself&lt;/li&gt;
 implement any class&lt;/li&gt;
 &lt;li&gt;Synchronized can be applied to static and final methods&lt;/li&gt;
 &lt;li&gt;When a class with protected method is created, the method can be
-accessed ONLY by the subclass &amp;lsquo;this&amp;rsquo; or subclass objects WITHIN the
+accessed ONLY by the subclass ‘this’ or subclass objects WITHIN the
 class (Super class objects give compilation error).&lt;/li&gt;
 &lt;li&gt;Outside the subclass, the method cannot be accessed using
 objects&lt;/li&gt;
@@ -2127,7 +2127,7 @@ is created as the result&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id="chapter-4"&gt;Chapter 4&lt;/h3&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;The else will always belong to the innermost if which doesn&amp;rsquo;t have
+&lt;li&gt;The else will always belong to the innermost if which doesn’t have
 an else&lt;/li&gt;
 &lt;li&gt;The arguments to switch statement can only be byte,short,char and
 int&lt;/li&gt;
@@ -2153,7 +2153,7 @@ should immediately follow the try clause without any statements in
 between&lt;/li&gt;
 &lt;li&gt;If the subclass is placed after the superclass in the exception
 catch, COMPILATION Error occcurs&lt;/li&gt;
-&lt;li&gt;Any method &amp;ldquo;ducking&amp;rdquo; the exception should also declare the throws
+&lt;li&gt;Any method “ducking” the exception should also declare the throws
 clause, except for RunTimeExceptions&lt;/li&gt;
 &lt;li&gt;Error or subclass of Error are always unchecked. So it is not
 required to catch them&lt;/li&gt;
@@ -2195,7 +2195,7 @@ you know are never, ever supposed to happen (default of a switch Ex:
 default: &lt;code&gt;assert false;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Do not use assert expressions that can cause side effects (method
 calls or value changing ones)&lt;/li&gt;
-&lt;li&gt;Do not use assertions in private getters and setters&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Do not use assertions in private getters and setters”&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ol start="27" type="1"&gt;
 &lt;li&gt;If a variable is marked FINAL, always check for any code that
@@ -2224,7 +2224,7 @@ for OVERRIDING methods&lt;/li&gt;
 &lt;li&gt;Access levels can be less retrictive but CANNOT be more
 restrictive&lt;/li&gt;
 &lt;li&gt;There cannot be additional broader exceptions thrown, however it can
-be lesser or narrower (subclass can be thrown)&amp;rdquo;&lt;/li&gt;
+be lesser or narrower (subclass can be thrown)”&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ol start="8" type="1"&gt;
 &lt;li&gt;Overload can change the return type, however changing ONLY the

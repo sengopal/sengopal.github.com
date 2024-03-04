@@ -93,13 +93,29 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#drawbacks-of-hql" title="Drawbacks of HQL">Drawbacks of HQL</a></li><li><a class="toc-href" href="#what-is-criteria-api" title="What is Criteria API?">What is Criteria API?</a></li><li><a class="toc-href" href="#order-interface" title="Order Interface">Order Interface</a></li><li><a class="toc-href" href="#simple-criteria-query" title="Simple Criteria Query">Simple Criteria Query</a></li><li><a class="toc-href" href="#criterion-chaining" title="Criterion Chaining">Criterion Chaining</a></li><li><a class="toc-href" href="#restriction-for-where-property" title="Restriction for WHERE
-property">Restriction for WHERE
-property</a></li><li><a class="toc-href" href="#disjunction-and-conjunction" title="Disjunction and Conjunction:">Disjunction and Conjunction:</a></li><li><a class="toc-href" href="#how-to-join-tables-using-criteria-api" title="How to join Tables using
-Criteria API">How to join Tables using
-Criteria API</a></li><li><a class="toc-href" href="#projections---aggregation-and-grouping" title="Projections -
-Aggregation and Grouping">Projections -
-Aggregation and Grouping</a></li><li><a class="toc-href" href="#query-by-example-api" title="Query By Example API">Query By Example API</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#drawbacks-of-hql" id="toc-drawbacks-of-hql">Drawbacks of
+HQL</a></li>
+<li><a href="#what-is-criteria-api" id="toc-what-is-criteria-api">What
+is Criteria API?</a></li>
+<li><a href="#order-interface" id="toc-order-interface">Order
+Interface</a></li>
+<li><a href="#simple-criteria-query" id="toc-simple-criteria-query">Simple Criteria Query</a></li>
+<li><a href="#criterion-chaining" id="toc-criterion-chaining">Criterion
+Chaining</a></li>
+<li><a href="#restriction-for-where-property" id="toc-restriction-for-where-property">Restriction for WHERE
+property</a></li>
+<li><a href="#disjunction-and-conjunction" id="toc-disjunction-and-conjunction">Disjunction and
+Conjunction:</a></li>
+<li><a href="#how-to-join-tables-using-criteria-api" id="toc-how-to-join-tables-using-criteria-api">How to join Tables using
+Criteria API</a></li>
+<li><a href="#projections---aggregation-and-grouping" id="toc-projections---aggregation-and-grouping">Projections -
+Aggregation and Grouping</a></li>
+<li><a href="#query-by-example-api" id="toc-query-by-example-api">Query
+By Example API</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <h3 id="drawbacks-of-hql">Drawbacks of HQL</h3>
@@ -160,7 +176,7 @@ All of its methods are static.</p>
 now provided by the Restriction class. The Restriction class provides
 almost all the required restrictions such as equals (eq()), logical and
 (and()), like (like()) Aggregation and Grouping are provided by the
-Projection class. Order class represents the &ldquo;order by&rdquo; clause of
+Projection class. Order class represents the “order by” clause of
 SQL.</p>
 <h3 id="order-interface">Order Interface</h3>
 <p>In HQL (and SQL), the order by clause allows you to order your query
@@ -174,7 +190,7 @@ were added to the Critieria.</p>
 <p>The following code shows how a simple Criteria query is built.</p>
 <ol type="1">
 <li>It selects the Insurance Object</li>
-<li>Includes a Where clause insurance name like &lsquo;%a%&rsquo;</li>
+<li>Includes a Where clause insurance name like ‘%a%’</li>
 <li>Includes another Where clause investmentAmount value between 1000
 and 2500 inclusive</li>
 <li>Sets the number of maximum results as 5</li>
@@ -221,7 +237,7 @@ property</h3>
 <span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a><span class="op">.</span><span class="fu">add</span><span class="op">(</span>Restrictions<span class="op">.</span><span class="fu">sqlRestriction</span><span class="op">(</span><span class="st">"lower({alias}.name) like lower(?)"</span><span class="op">,</span> <span class="st">"Fritz%"</span><span class="op">,</span>Hibernate<span class="op">.</span><span class="fu">STRING</span><span class="op">)</span> <span class="op">)</span> <span class="op">.</span><span class="fu">list</span><span class="op">();</span></span></code></pre></div>
 <p><em>All the static methods available in Restrictions are also
 available in the Expression API. Also it contains some additional
-methods such as ilike(&ldquo;columnname&rdquo;) which does a lower(columnname) in
+methods such as ilike(“columnname”) which does a lower(columnname) in
 the query.</em></p>
 <h3 id="disjunction-and-conjunction">Disjunction and Conjunction:</h3>
 <p>Disjunction and Conjunction are excellent APIs which help perform
@@ -312,7 +328,7 @@ values and by providing extensibility of the Criterion Object.</p>
 <span id="cb17-8"><a aria-hidden="true" href="#cb17-8" tabindex="-1"></a>    <span class="op">.</span><span class="fu">ignoreCase</span><span class="op">()</span> <span class="co">//Queries are case insensitive</span></span>
 <span id="cb17-9"><a aria-hidden="true" href="#cb17-9" tabindex="-1"></a>    <span class="op">.</span><span class="fu">excludeZeroes</span><span class="op">()</span>  <span class="co">//zero-valued fields are ignored</span></span>
 <span id="cb17-10"><a aria-hidden="true" href="#cb17-10" tabindex="-1"></a>    <span class="op">.</span><span class="fu">excludeProperty</span><span class="op">(</span><span class="st">"doNotUse"</span><span class="op">)</span> <span class="co">// this property is excluded</span></span>
-<span id="cb17-11"><a aria-hidden="true" href="#cb17-11" tabindex="-1"></a>    <span class="op">.</span><span class="fu">enableLike</span><span class="op">(</span>MatchMode<span class="op">.</span><span class="fu">ANYWHERE</span><span class="op">);</span> <span class="co">//query string matching uses &lsquo;%X%&rsquo;</span></span>
+<span id="cb17-11"><a aria-hidden="true" href="#cb17-11" tabindex="-1"></a>    <span class="op">.</span><span class="fu">enableLike</span><span class="op">(</span>MatchMode<span class="op">.</span><span class="fu">ANYWHERE</span><span class="op">);</span> <span class="co">//query string matching uses ‘%X%’</span></span>
 <span id="cb17-12"><a aria-hidden="true" href="#cb17-12" tabindex="-1"></a></span>
 <span id="cb17-13"><a aria-hidden="true" href="#cb17-13" tabindex="-1"></a><span class="co">// Using the Example Object and adding further restrictions</span></span>
 <span id="cb17-14"><a aria-hidden="true" href="#cb17-14" tabindex="-1"></a><span class="bu">List</span> list <span class="op">=</span> session<span class="op">.</span><span class="fu">createCriteria</span><span class="op">(</span>Accommodation<span class="op">.</span><span class="fu">class</span><span class="op">)</span></span>

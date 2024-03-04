@@ -11,13 +11,13 @@ and Handling Standards&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;All data persisted should be encrypted - sqlliteDB, files,
 dataprovider etc.,&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t transmit sensitive data to unapproved 3rd party.&lt;/li&gt;
-&lt;li&gt;Don&amp;rsquo;t put sensitive data into Intents&lt;/li&gt;
+&lt;li&gt;Don’t transmit sensitive data to unapproved 3rd party.&lt;/li&gt;
+&lt;li&gt;Don’t put sensitive data into Intents&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id="mobile-privacy"&gt;Mobile privacy&lt;/h3&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;Respect user&amp;rsquo;s privacy by collecting minimum amount of data&lt;/li&gt;
-&lt;li&gt;GPS &amp;amp; location data - fine grain vs.&amp;nbsp;coarse grain GPS data&lt;/li&gt;
+&lt;li&gt;Respect user’s privacy by collecting minimum amount of data&lt;/li&gt;
+&lt;li&gt;GPS &amp;amp; location data - fine grain vs. coarse grain GPS data&lt;/li&gt;
 &lt;li&gt;Contact Info&lt;/li&gt;
 &lt;li&gt;Microphone and Camera use&lt;/li&gt;
 &lt;li&gt;Tracking and Analytics IDs&lt;/li&gt;
@@ -182,16 +182,16 @@ search&lt;/p&gt;
 person to the conversation &lt;/strong&gt;@Organization/Team__ - adds the
 organization/team to the conversation&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue
-number&lt;/strong&gt; Example: using a commit message such as &amp;ldquo;closes
-&lt;code&gt;#1291&lt;/code&gt;&amp;rdquo; autolinks to the issue&lt;/p&gt;
+number&lt;/strong&gt; Example: using a commit message such as “closes
+&lt;code&gt;#1291&lt;/code&gt;” autolinks to the issue&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or
 email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt;
 &lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Example:
 https://github.com/sengopal/immuno/commits/master?author=sengopal&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pulls needn&amp;rsquo;t be from a fork, but can be done from branches
+&lt;p&gt;&lt;strong&gt;Pulls needn’t be from a fork, but can be done from branches
 as well&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Github supports emoji&amp;rsquo;s which are available under&lt;/strong&gt; &lt;a href="http://emoji-cheat-sheet.com" title="Emoji-cheat-sheet"&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Github supports emoji’s which are available under&lt;/strong&gt; &lt;a href="http://emoji-cheat-sheet.com" title="Emoji-cheat-sheet"&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="git-line-quirks"&gt;Git line quirks&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
@@ -234,20 +234,20 @@ and see whats team upto in last 12 hours&lt;/p&gt;
 &lt;h3 id="key-git-commands-in-order-of-importance"&gt;Key Git commands in
 order of importance&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Clone &amp;ndash; Creates a repository from a network or local location&lt;/li&gt;
-&lt;li&gt;Status &amp;ndash; What is staged, and in the working directory&lt;/li&gt;
-&lt;li&gt;Log &amp;ndash; history of commits&lt;/li&gt;
-&lt;li&gt;Add &amp;ndash; make a file ready for staging&lt;/li&gt;
-&lt;li&gt;Commit &amp;ndash; Move staged files to a commit&lt;/li&gt;
-&lt;li&gt;Reset &amp;ndash; Clean an entire working directory&lt;/li&gt;
-&lt;li&gt;Pull &amp;ndash; Perform a fetch &amp;amp; merge operation&lt;/li&gt;
-&lt;li&gt;Push &amp;ndash; send your changes to the parent repository&lt;/li&gt;
-&lt;li&gt;Branch &amp;ndash; to create a new branch&lt;/li&gt;
-&lt;li&gt;Checkout &amp;ndash; to grab one or more files&lt;/li&gt;
-&lt;li&gt;Clean &amp;ndash; removing files that exist only in the working directory&lt;/li&gt;
-&lt;li&gt;Fetch &amp;ndash; Get changes from the parent repository to store within the
+&lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
+&lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
+&lt;li&gt;Log – history of commits&lt;/li&gt;
+&lt;li&gt;Add – make a file ready for staging&lt;/li&gt;
+&lt;li&gt;Commit – Move staged files to a commit&lt;/li&gt;
+&lt;li&gt;Reset – Clean an entire working directory&lt;/li&gt;
+&lt;li&gt;Pull – Perform a fetch &amp;amp; merge operation&lt;/li&gt;
+&lt;li&gt;Push – send your changes to the parent repository&lt;/li&gt;
+&lt;li&gt;Branch – to create a new branch&lt;/li&gt;
+&lt;li&gt;Checkout – to grab one or more files&lt;/li&gt;
+&lt;li&gt;Clean – removing files that exist only in the working directory&lt;/li&gt;
+&lt;li&gt;Fetch – Get changes from the parent repository to store within the
 current repo&lt;/li&gt;
-&lt;li&gt;Merge &amp;ndash; Combine two or more commits into one&lt;/li&gt;
+&lt;li&gt;Merge – Combine two or more commits into one&lt;/li&gt;
 &lt;/ul&gt;</content><category term="Misc"></category><category term="lists"></category><category term="git"></category></entry><entry><title>Eight steps in choosing a database</title><link href="https://sengopal.github.io/posts/eight-steps-in-choosing-a-database.html" rel="alternate"></link><published>2014-01-20T00:00:00-08:00</published><updated>2014-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2014-01-20:/posts/eight-steps-in-choosing-a-database.html</id><summary type="html">This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities</summary><content type="html">&lt;p&gt;We are planning a database architecture rewrite for an existing
 service and the needs of the project are:&lt;/p&gt;
 &lt;ol type="1"&gt;
@@ -265,7 +265,7 @@ Oracle, SQL Server, and DB2 are expensive and problematic at best. They
 often fail to meet the needs of high-scale applications. Also, for short
 lived data and with different lifetime data, RDBMS does not fit the
 needs of such an application.&lt;/p&gt;
-&lt;h2 id="available-databases_1"&gt;Available Databases&lt;/h2&gt;
+&lt;h2 id="available-databases"&gt;Available Databases&lt;/h2&gt;
 &lt;p&gt;Some of the database types available as per this &lt;a href="https://dzone.com/articles/review-persistence-strategies"&gt;Dzone
 article&lt;/a&gt; are:&lt;/p&gt;
 &lt;h3 id="key-value-stores"&gt;Key-Value stores&lt;/h3&gt;
@@ -281,7 +281,7 @@ random reads.&lt;/p&gt;
 &lt;h3 id="document-databases"&gt;Document Databases&lt;/h3&gt;
 &lt;p&gt;Document databases scale quite well and are great for web-based
 operational systems that operate on a single big entity, or systems that
-don&amp;rsquo;t require transactional integrity across entities. Typically,
+don’t require transactional integrity across entities. Typically,
 MongoDB and Couchbase are typically the leaders in this sector.&lt;/p&gt;
 &lt;h3 id="graph-databases"&gt;Graph Databases&lt;/h3&gt;
 &lt;p&gt;Social networks and recommendation systems are classic use cases for
@@ -338,8 +338,8 @@ properties&lt;/li&gt;
 &lt;li&gt;use the following (or use a reset)&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;body{&lt;/span&gt;
-&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;padding&lt;/span&gt;:&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;margin&lt;/span&gt;:&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;padding&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;margin&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="3" type="1"&gt;
 &lt;li&gt;Give Wrapper &lt;code&gt;margin:auto;&lt;/code&gt; to make the whole container
@@ -368,11 +368,11 @@ decided&lt;/li&gt;
 changing screen size&lt;/li&gt;
 &lt;li&gt;Always use &lt;code&gt;margin,padding:0&lt;/code&gt; - for reset&lt;/li&gt;
 &lt;li&gt;Types of layouts - pure fluid / pure display oriented / hybrid ..
-Fluid Layout &amp;hellip; system of relative layout instead of absolute pixels &amp;hellip;
+Fluid Layout … system of relative layout instead of absolute pixels …
 height/width - only in percentages&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;.. Adaptive Layout &amp;hellip; using the &lt;span class="citation" data-cites="media"&gt;(&lt;strong&gt;media?&lt;/strong&gt;)&lt;/span&gt; tags&lt;/p&gt;
-&lt;p&gt;.. Responsive Layout &amp;hellip; Mix of Fluid and adaptive layouts. PERCENTAGE
+&lt;p&gt;.. Adaptive Layout … using the &lt;span class="citation" data-cites="media"&gt;(&lt;strong&gt;media?&lt;/strong&gt;)&lt;/span&gt; tags&lt;/p&gt;
+&lt;p&gt;.. Responsive Layout … Mix of Fluid and adaptive layouts. PERCENTAGE
 + Media Tags&lt;/p&gt;
 &lt;ol start="4" type="1"&gt;
 &lt;li&gt;New way of setting the media value [source,html]&lt;/li&gt;
@@ -381,8 +381,8 @@ height/width - only in percentages&lt;/li&gt;
 &lt;ol start="5" type="1"&gt;
 &lt;li&gt;Media query representation&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="im"&gt;@media&lt;/span&gt; &lt;span class="dv"&gt;screen&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; (&lt;span class="kw"&gt;max-width&lt;/span&gt;: &lt;span class="dv"&gt;980&lt;/span&gt;&lt;span class="dt"&gt;px&lt;/span&gt;){&lt;/span&gt;
-&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="fu"&gt;....&lt;/span&gt;&lt;/span&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="im"&gt;@media&lt;/span&gt; &lt;span class="an"&gt;screen&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="fu"&gt;(&lt;/span&gt;&lt;span class="kw"&gt;max-width&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="dv"&gt;980&lt;/span&gt;&lt;span class="dt"&gt;px&lt;/span&gt;&lt;span class="fu"&gt;)&lt;/span&gt;{&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;            ....&lt;/span&gt;
 &lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;        }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ol start="6" type="1"&gt;
 &lt;li&gt;Always create the smallest resolution first&lt;/li&gt;
@@ -428,44 +428,44 @@ important than the other pseudo-element&lt;/em&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id="shorthand-syntax"&gt;Shorthand syntax&lt;/h3&gt;
 &lt;p&gt;###= background&lt;/p&gt;
-&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;    background&lt;span class="in"&gt;: url(example.gif)&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    background-color&lt;span class="in"&gt;: #eaeaea&lt;/span&gt; ;&lt;/span&gt;
-&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    background-repeat&lt;span class="in"&gt;: repeat-x&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    background-position&lt;span class="in"&gt;: top&lt;/span&gt; left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;    background&lt;span class="in"&gt;:&lt;/span&gt; url&lt;span class="in"&gt;(&lt;/span&gt;example&lt;span class="fu"&gt;.gif&lt;/span&gt;&lt;span class="in"&gt;)&lt;/span&gt;;&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    background-color&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="pp"&gt;#eaeaea&lt;/span&gt; ;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    background-repeat&lt;span class="in"&gt;:&lt;/span&gt; repeat-x;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    background-position&lt;span class="in"&gt;:&lt;/span&gt; top left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;can be written as:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;background&lt;span class="in"&gt;: #eaeaea&lt;/span&gt; url(example&lt;span class="fu"&gt;.gif&lt;/span&gt;) repeat-x top left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;background&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="pp"&gt;#eaeaea&lt;/span&gt; url&lt;span class="in"&gt;(&lt;/span&gt;example&lt;span class="fu"&gt;.gif&lt;/span&gt;&lt;span class="in"&gt;)&lt;/span&gt; repeat-x top left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;###= border&lt;/p&gt;
-&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;    border-color&lt;span class="in"&gt;: red&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    border-width&lt;span class="in"&gt;: 1px;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    border-style&lt;span class="in"&gt;: solid&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;    border-color&lt;span class="in"&gt;:&lt;/span&gt; red;&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    border-width&lt;span class="in"&gt;:&lt;/span&gt; 1px;&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    border-style&lt;span class="in"&gt;:&lt;/span&gt; solid;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;can be written as:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;border&lt;span class="in"&gt;: 1px solid&lt;/span&gt; red;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;border&lt;span class="in"&gt;:&lt;/span&gt; 1px solid red;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;###= list&lt;/p&gt;
-&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;    list-style-position&lt;span class="in"&gt;: outside&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;    list-style-image&lt;span class="in"&gt;: none&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;    list-style-type&lt;span class="in"&gt;: disc&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;    list-style-position&lt;span class="in"&gt;:&lt;/span&gt; outside;&lt;/span&gt;
+&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;    list-style-image&lt;span class="in"&gt;:&lt;/span&gt; none;&lt;/span&gt;
+&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;    list-style-type&lt;span class="in"&gt;:&lt;/span&gt; disc;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;can be written as:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;: disc&lt;/span&gt; outside;`&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;:&lt;/span&gt; disc outside;`&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;the general format for a list style is:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;: [list-style-type&lt;/span&gt;] &lt;span class="ex"&gt;[list-style-position]&lt;/span&gt; &lt;span class="ex"&gt;[list-style-image]&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-type&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-position&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-image&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h6 id="font"&gt;font&lt;/h6&gt;
-&lt;div class="sourceCode" id="cb11"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb11-1"&gt;&lt;a aria-hidden="true" href="#cb11-1" tabindex="-1"&gt;&lt;/a&gt;    font-family&lt;span class="in"&gt;: Arial&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;
-&lt;span id="cb11-2"&gt;&lt;a aria-hidden="true" href="#cb11-2" tabindex="-1"&gt;&lt;/a&gt;    font-weight&lt;span class="in"&gt;: bold&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb11-3"&gt;&lt;a aria-hidden="true" href="#cb11-3" tabindex="-1"&gt;&lt;/a&gt;    font-style&lt;span class="in"&gt;: italic&lt;/span&gt;;&lt;/span&gt;
-&lt;span id="cb11-4"&gt;&lt;a aria-hidden="true" href="#cb11-4" tabindex="-1"&gt;&lt;/a&gt;    font-size&lt;span class="in"&gt;: 1em;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb11-5"&gt;&lt;a aria-hidden="true" href="#cb11-5" tabindex="-1"&gt;&lt;/a&gt;    line-height&lt;span class="in"&gt;: 1.5em;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb11"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb11-1"&gt;&lt;a aria-hidden="true" href="#cb11-1" tabindex="-1"&gt;&lt;/a&gt;    font-family&lt;span class="in"&gt;:&lt;/span&gt; Arial&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;
+&lt;span id="cb11-2"&gt;&lt;a aria-hidden="true" href="#cb11-2" tabindex="-1"&gt;&lt;/a&gt;    font-weight&lt;span class="in"&gt;:&lt;/span&gt; bold;&lt;/span&gt;
+&lt;span id="cb11-3"&gt;&lt;a aria-hidden="true" href="#cb11-3" tabindex="-1"&gt;&lt;/a&gt;    font-style&lt;span class="in"&gt;:&lt;/span&gt; italic;&lt;/span&gt;
+&lt;span id="cb11-4"&gt;&lt;a aria-hidden="true" href="#cb11-4" tabindex="-1"&gt;&lt;/a&gt;    font-size&lt;span class="in"&gt;:&lt;/span&gt; 1em;&lt;/span&gt;
+&lt;span id="cb11-5"&gt;&lt;a aria-hidden="true" href="#cb11-5" tabindex="-1"&gt;&lt;/a&gt;    line-height&lt;span class="in"&gt;:&lt;/span&gt; 1&lt;span class="fu"&gt;.5em&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;can be written as:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb12"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb12-1"&gt;&lt;a aria-hidden="true" href="#cb12-1" tabindex="-1"&gt;&lt;/a&gt;font&lt;span class="in"&gt;: bold&lt;/span&gt; italic 1em/1&lt;span class="fu"&gt;.5em&lt;/span&gt; Arial&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb12"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb12-1"&gt;&lt;a aria-hidden="true" href="#cb12-1" tabindex="-1"&gt;&lt;/a&gt;font&lt;span class="in"&gt;:&lt;/span&gt; bold italic 1em/1&lt;span class="fu"&gt;.5em&lt;/span&gt; Arial&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;###= margin The margin properties allows a shorthand for margin-top,
 margin-right, margin-bottom and margin-left.&lt;/p&gt;
 &lt;div class="sourceCode" id="cb13"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb13-1"&gt;&lt;a aria-hidden="true" href="#cb13-1" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=15px, left=20px */&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb13-2"&gt;&lt;a aria-hidden="true" href="#cb13-2" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;: 10px 5px 15px 20px;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb13-2"&gt;&lt;a aria-hidden="true" href="#cb13-2" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px 15px 20px;&lt;/span&gt;
 &lt;span id="cb13-3"&gt;&lt;a aria-hidden="true" href="#cb13-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb13-4"&gt;&lt;a aria-hidden="true" href="#cb13-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=10px, left=5px*/&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb13-5"&gt;&lt;a aria-hidden="true" href="#cb13-5" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;: 10px 5px;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb13-5"&gt;&lt;a aria-hidden="true" href="#cb13-5" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px;&lt;/span&gt;
 &lt;span id="cb13-6"&gt;&lt;a aria-hidden="true" href="#cb13-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb13-7"&gt;&lt;a aria-hidden="true" href="#cb13-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=15px, left=5px*/&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb13-8"&gt;&lt;a aria-hidden="true" href="#cb13-8" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;: 10px 5px 15px;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id="cb13-8"&gt;&lt;a aria-hidden="true" href="#cb13-8" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px 15px;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id="form-features-in-html5"&gt;Form features in HTML5&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Placeholder text&lt;/li&gt;

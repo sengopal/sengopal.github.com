@@ -93,20 +93,29 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#chapter-1" title="Chapter 1">Chapter 1</a></li><li><a class="toc-href" href="#chapter-2" title="Chapter 2">Chapter 2</a></li><li><a class="toc-href" href="#chapter-3" title="Chapter 3">Chapter 3</a></li><li><a class="toc-href" href="#chapter-4" title="Chapter 4">Chapter 4</a></li><li><a class="toc-href" href="#chapter-5" title="Chapter 5">Chapter 5</a></li><li><a class="toc-href" href="#chapter-6" title="Chapter 6">Chapter 6</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#chapter-1" id="toc-chapter-1">Chapter 1</a></li>
+<li><a href="#chapter-2" id="toc-chapter-2">Chapter 2</a></li>
+<li><a href="#chapter-3" id="toc-chapter-3">Chapter 3</a></li>
+<li><a href="#chapter-4" id="toc-chapter-4">Chapter 4</a></li>
+<li><a href="#chapter-5" id="toc-chapter-5">Chapter 5</a></li>
+<li><a href="#chapter-6" id="toc-chapter-6">Chapter 6</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <h3 id="chapter-1">Chapter 1</h3>
 <ol type="1">
 <li>Read the keywords list</li>
 <li>Always check variable, class and method name for the keywords</li>
-<li>Variable range is -2(bits &ndash; 1)</li>
+<li>Variable range is -2(bits – 1)</li>
 <li>Ranges of primitive numbers</li>
 <li>Octal (max): 21 digits and Hexadecimal (max): 16 digits without
 leading 0 and 0x</li>
 <li>Hexadecimal is case-Insensitive</li>
 <li>Octal and Hexadecimal can be used for long also using L suffix</li>
-<li>Unicode Character is represented as char x = &lsquo;04E&rsquo;</li>
+<li>Unicode Character is represented as char x = ‘04E’</li>
 <li>char being assigned out of range integer values (above 65535 or -ve
 numbers needs a cast to (char)</li>
 <li>Size should NOT be given when declaring an array int[5] x is
@@ -187,7 +196,7 @@ transient and volatile</li>
 <li>Instance variables cannot be marked abstract, synchronized, native
 and strictfp</li>
 <li>Refer to Comparison of modifiers for variables and methods</li>
-<li>Local variables don&rsquo;t get default values and should be initialized
+<li>Local variables don’t get default values and should be initialized
 before use</li>
 <li>Instance variables marked <code>final</code> should be initialized
 in declaration itself or in the CONSTRUCTOR itself - (Compilation
@@ -209,7 +218,7 @@ itself</li>
 implement any class</li>
 <li>Synchronized can be applied to static and final methods</li>
 <li>When a class with protected method is created, the method can be
-accessed ONLY by the subclass &lsquo;this&rsquo; or subclass objects WITHIN the
+accessed ONLY by the subclass ‘this’ or subclass objects WITHIN the
 class (Super class objects give compilation error).</li>
 <li>Outside the subclass, the method cannot be accessed using
 objects</li>
@@ -254,7 +263,7 @@ is created as the result</li>
 </ol>
 <h3 id="chapter-4">Chapter 4</h3>
 <ol type="1">
-<li>The else will always belong to the innermost if which doesn&rsquo;t have
+<li>The else will always belong to the innermost if which doesn’t have
 an else</li>
 <li>The arguments to switch statement can only be byte,short,char and
 int</li>
@@ -280,7 +289,7 @@ should immediately follow the try clause without any statements in
 between</li>
 <li>If the subclass is placed after the superclass in the exception
 catch, COMPILATION Error occcurs</li>
-<li>Any method &ldquo;ducking&rdquo; the exception should also declare the throws
+<li>Any method “ducking” the exception should also declare the throws
 clause, except for RunTimeExceptions</li>
 <li>Error or subclass of Error are always unchecked. So it is not
 required to catch them</li>
@@ -322,7 +331,7 @@ you know are never, ever supposed to happen (default of a switch Ex:
 default: <code>assert false;</code></li>
 <li>Do not use assert expressions that can cause side effects (method
 calls or value changing ones)</li>
-<li>Do not use assertions in private getters and setters&rdquo;</li>
+<li>Do not use assertions in private getters and setters”</li>
 </ul>
 <ol start="27" type="1">
 <li>If a variable is marked FINAL, always check for any code that
@@ -351,7 +360,7 @@ for OVERRIDING methods</li>
 <li>Access levels can be less retrictive but CANNOT be more
 restrictive</li>
 <li>There cannot be additional broader exceptions thrown, however it can
-be lesser or narrower (subclass can be thrown)&rdquo;</li>
+be lesser or narrower (subclass can be thrown)”</li>
 </ul>
 <ol start="8" type="1">
 <li>Overload can change the return type, however changing ONLY the

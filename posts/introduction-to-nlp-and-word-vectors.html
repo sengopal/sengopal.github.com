@@ -89,33 +89,26 @@
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-tag"></i>
-                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/machine-learning.html">#machine-learning</a>            </li>
+                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/ml-code.html">#ml-code</a>            </li>
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#lecture-1-introduction-and-word-vectors" title="Lecture 1 &ndash;
-Introduction and Word Vectors">Lecture 1 &ndash;
-Introduction and Word Vectors</a><ul><li><a class="toc-href" href="#intent" title="Intent">Intent</a></li><li><a class="toc-href" href="#language-model" title="Language model">Language model</a></li><li><a class="toc-href" href="#how-do-word-vectors-work" title="How do word vectors work">How do word vectors work</a></li><li><a class="toc-href" href="#gpt-3" title="GPT-3">GPT-3</a></li><li><a class="toc-href" href="#what-is-language-and-its-meaning" title="What is language and its
-meaning?`">What is language and its
-meaning?`</a><ul><li><a class="toc-href" href="#problem-with-wordnet" title="Problem with WordNet">Problem with WordNet</a></li><li><a class="toc-href" href="#problem-with-traditional-nlp" title="Problem with traditional NLP">Problem with traditional NLP</a></li></ul></li><li><a class="toc-href" href="#one-hot-encoding-vector_1" title="One hot encoding vector">One hot encoding vector</a></li><li><a class="toc-href" href="#word-embeddings" title="Word Embeddings">Word Embeddings</a><ul><li><a class="toc-href" href="#example---banking" title="Example - &ldquo;banking&rdquo;">Example - &ldquo;banking&rdquo;</a></li></ul></li><li><a class="toc-href" href="#introduction-to-word2vec_1" title="Introduction to word2vec">Introduction to word2vec</a></li><li><a class="toc-href" href="#determining-the-probability-of-a-word-occurring-in-the-context-of-a-given-center-word" title="Determining
-the probability of a word occurring in the context of a given center
-word">Determining
-the probability of a word occurring in the context of a given center
-word</a></li><li><a class="toc-href" href="#likelihood-probability-calculation" title="Likelihood Probability
-Calculation">Likelihood Probability
-Calculation</a></li><li><a class="toc-href" href="#softmax-function" title="Softmax function">Softmax function</a></li><li><a class="toc-href" href="#construct-word-vectors" title="Construct word vectors">Construct word vectors</a></li><li><a class="toc-href" href="#multivariate-calculus" title="Multivariate Calculus">Multivariate Calculus</a></li><li><a class="toc-href" href="#gensim" title="Gensim">Gensim</a></li><li><a class="toc-href" href="#analogy-task" title="Analogy task">Analogy task</a></li><li><a class="toc-href" href="#why-two-different-vectors" title="Why two different vectors">Why two different vectors</a></li><li><a class="toc-href" href="#question-how-about-words-with-multiple-meanings-homonyms-and-common-words" title="Question:
-How about words with multiple meanings (Homonyms) and common words">Question:
-How about words with multiple meanings (Homonyms) and common words</a></li><li><a class="toc-href" href="#conclusion" title="Conclusion">Conclusion</a></li><li><a class="toc-href" href="#suggested-reading" title="Suggested reading">Suggested reading</a></li><li><a class="toc-href" href="#references" title="References">References</a></li></ul></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#lecture-1-introduction-and-word-vectors" id="toc-lecture-1-introduction-and-word-vectors">Lecture 1 –
+Introduction and Word Vectors</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>This blog post and the following series captures the path of
 understanding NLP, usage of Deep Learning in NLP and the various
 algorithms, by roughly following the lecture patterns for the Cs224n
 course from Stanford.</p>
-<h3 id="lecture-1-introduction-and-word-vectors">Lecture 1 &ndash;
+<h3 id="lecture-1-introduction-and-word-vectors">Lecture 1 –
 Introduction and Word Vectors</h3>
 <p>The following post is primarily about driving home the fact that a
-word&rsquo;s meaning can be represented, not perfectly but really rather well
+word’s meaning can be represented, not perfectly but really rather well
 by a large vector of real numbers. This has been an amazing find which
 has taken research away from the traditional approaches followed before
 deep learning.</p>
@@ -147,11 +140,11 @@ knowledge to be communicated across distances of time and space. So a
 key question for artificial intelligence and human-computer interaction
 is how to get computers to be able to understand the information
 conveyed in human languages.</p>
-<p>We need knowledge to understand language and people well, but it&rsquo;s
+<p>We need knowledge to understand language and people well, but it’s
 also the case that a lot of that knowledge is contained in language
 spread out across the books and web pages of the world.</p>
 <p>So with recent advancements, machine translation works moderately
-well. Learning other people&rsquo;s languages was a human task which required
+well. Learning other people’s languages was a human task which required
 a lot of effort and concentration. But now to get news from Kenya we can
 use Google to translate Swahili from a Kenyan website.</p>
 <p><img alt="slide-google-translate" src="/extras/images/introduction-to-nlp-and-word-vectors/2022-03-18-11-07-20-image.png" title="" width="748"/></p>
@@ -178,14 +171,14 @@ sentences into SQL.</p>
 <p><img alt="gpt-example" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-13-56-image.png" title="gpt-example" width="762"/></p>
 <h4 id="what-is-language-and-its-meaning">What is language and its
 meaning?`</h4>
-<p>How do we represent the meaning of a word? - Webster&rsquo;s dictionary
-definition is really focused on the &ldquo;word idea&rdquo;, which is pretty close
+<p>How do we represent the meaning of a word? - Webster’s dictionary
+definition is really focused on the “word idea”, which is pretty close
 to the most common way that linguists think about meaning. However,
 <strong>denotational semantics</strong> captures word meaning as being a
 pairing between a word which is a signifier or symbol, and the thing
 that it signifies, the signified thing which is an idea or thing.</p>
 <p>So the meaning of the word chair is the set of things that are
-chairs. A term that&rsquo;s also used and similarly applied for the semantics
+chairs. A term that’s also used and similarly applied for the semantics
 of programming languages. So traditionally the way that meaning has
 normally been handled in natural language processing systems is to make
 use of resources like dictionary, and thesaurus in particular. For
@@ -193,11 +186,11 @@ example, <strong>WordNet</strong>, which organized words and terms into
 both synonyms sets of words that can mean the same thing, and hypernyms
 which correspond to IS-A relationships.</p>
 <h5 id="problem-with-wordnet">Problem with WordNet</h5>
-<p>In WordNet, &ldquo;proficient&rdquo;&rdquo; is listed as a synonym for &ldquo;good&rdquo;, which is
+<p>In WordNet, “proficient”” is listed as a synonym for “good”, which is
 accurate only in some contexts. it is limited as a human constructed
 thesaurus. Its difficult to keep it up to date, including more current
-terminology. For example, &ldquo;wicked&rdquo;&rdquo; is there for the wicked witch, but
-not for more modern colloquial uses. &ldquo;Ninja&rdquo; is another example where
+terminology. For example, “wicked”” is there for the wicked witch, but
+not for more modern colloquial uses. “Ninja” is another example where
 WordNet is not kept up to date. So it requires a lot of human labor, but
 even then, it has a set of synonyms but does not really have a good
 sense of words that means something similar. So this idea of meaning
@@ -210,7 +203,7 @@ learning are referred as a localized representation. Because in a
 statistical machine learning systems, these symbols need to be
 represented in a statistical model to build a logistic regression model
 with words as features, typically like an one-hot encoded vector.</p>
-<h4 id="one-hot-encoding-vector_1">One hot encoding vector</h4>
+<h4 id="one-hot-encoding-vector">One hot encoding vector</h4>
 <p>One hot encoding vector has a dimension for each different word. So
 that means that we need huge vectors corresponding to the number of
 words in our vocabulary. For a high school English dictionary it
@@ -218,8 +211,8 @@ probably have about 250,000 words in it and probably need a 500,000
 dimensional vector to be able to cope with that. But the bigger with
 discrete symbols is that there is no notion of word relationships and
 similarity. So for example, if a user searches for Seattle motel, it
-should match on documents containing Seattle &ldquo;hotel&rdquo; as well. So in a
-mathematical sense, these two vectors are orthogonal, that there&rsquo;s no
+should match on documents containing Seattle “hotel” as well. So in a
+mathematical sense, these two vectors are orthogonal, that there’s no
 natural notion of similarity between them.</p>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-27-00-image.png"/></p>
 <h4 id="word-embeddings">Word Embeddings</h4>
@@ -228,16 +221,16 @@ natural notion of similarity between them.</p>
 </blockquote>
 <p>Modern deep learning method allows encoding similarity in real value
 vector themselves. <strong>distributional semantics</strong> - where
-word&rsquo;s meaning is going to be given by the words that frequently appear
+word’s meaning is going to be given by the words that frequently appear
 close to it. This represent a sense for words, <strong>meaning as a
 notion of what context that appears in</strong> has been a very
 successful idea. It proves to be an extremely computational sense of
 semantics, which has just led to it being used everywhere very
 successfully in deep learning systems. So when a word appears in a text,
 it has a context which are a set of words that appear along with it.</p>
-<h5 id="example---banking">Example - &ldquo;banking&rdquo;</h5>
+<h5 id="example---banking">Example - “banking”</h5>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-38-34-image.png"/></p>
-<p>The word &ldquo;banking&rdquo;&rdquo; occurs in text, and the nearby words (context
+<p>The word “banking”” occurs in text, and the nearby words (context
 words) in some sense represent the meaning of the word banking. Based on
 looking at the words that occur in context as vectors, we want to build
 dense real valued vector for each word, that in some sense represents
@@ -247,13 +240,13 @@ that occur in the context.</p>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-42-28-image.png"/></p>
 <p>A simple 8-dimensional illustration (<em>in reality, usually 300
 dimensional vectors are used</em>), of the neural word representations
-or &ldquo;word embeddings&rdquo;, represents the distributed representation, not a
+or “word embeddings”, represents the distributed representation, not a
 localized representation because the meaning of the word banking is
 spread over all 300 dimensions of the vector. These are called word
 embeddings because, in a group of words, these representations place
-them in a high dimensional vector space, and so they&rsquo;re embedded into
+them in a high dimensional vector space, and so they’re embedded into
 that space.</p>
-<h4 id="introduction-to-word2vec_1">Introduction to word2vec</h4>
+<h4 id="introduction-to-word2vec">Introduction to word2vec</h4>
 <p>Word2Vec was introduced by <strong>Tomas Mikolov and
 colleagues</strong> in 2013 as a framework for learning word vectors, It
 uses a lot of text, commonly refer to as a corpus (originated from the
@@ -267,7 +260,7 @@ context words O, calculate the probability of a context word occurring,
 given the center word according to our current model. Since the corpus
 is available, it is known that certain words actually occur in the
 context of that center word, we can keep adjusting the word vectors to
-maximize the probability that&rsquo;s assigned to words that actually occur in
+maximize the probability that’s assigned to words that actually occur in
 the context of the center word as we proceed through these texts.</p>
 <p><img alt="word-vector-window" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-54-10-image.png" title="" width="369"/>.
 <img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-11-55-03-image.png"/></p>
@@ -292,12 +285,12 @@ likelihood of the context we see around center words.</strong></p>
 <li><p>Use log likelihood to convert all the products into
 sums.</p></li>
 <li><p>Also use average log likelihood, denoted by <em>1/T</em></p></li>
-<li><p>Minimize our objective function, <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> becomes maximizing our
+<li><p>Minimize our objective function, <span class="math inline"><em>J</em>(<em>θ</em>)</span> becomes maximizing our
 predictive accuracy.</p></li>
 </ol>
 <blockquote>
 <p>Note: Each word will have two word vectors - One word vector for when
-it&rsquo;s used as the center word, and a different word vector when that&rsquo;s
+it’s used as the center word, and a different word vector when that’s
 used as a context word. This is done to simplify the math and the
 optimization and makes building word vectors a lot easier,</p>
 </blockquote>
@@ -311,11 +304,11 @@ take the dot product of those two vectors.</p>
 <blockquote>
 <p>Dot product is a natural measure for similarity between words because
 it generates a component that adds to that dot product sum. If both are
-negative, it&rsquo;ll add a lot to the dot product sum. If one&rsquo;s positive and
-one&rsquo;s negative,it&rsquo;ll subtract from the similarity measure. Both of them
-are zero, won&rsquo;t change the similarity.</p>
+negative, it’ll add a lot to the dot product sum. If one’s positive and
+one’s negative,it’ll subtract from the similarity measure. Both of them
+are zero, won’t change the similarity.</p>
 </blockquote>
-<p><strong>if two words have a larger dot product, that means they&rsquo;re
+<p><strong>if two words have a larger dot product, that means they’re
 more similar.</strong></p>
 <h4 id="softmax-function">Softmax function</h4>
 <p>The next step is to convert this how to turn this into a probability
@@ -325,10 +318,10 @@ different word in the vocabulary. This ensures that the distribution is
 between 0 and 1. This formulates the softmax function which will take
 any R in vector and turn it into values between 0 to 1.</p>
 <ol type="1">
-<li><p>&ldquo;max&rdquo; term - accentuates and emphasizes the big contents in the
+<li><p>“max” term - accentuates and emphasizes the big contents in the
 different dimensions of calculating similarity, as it exponentiates the
 probabilities.</p></li>
-<li><p>&ldquo;soft&rdquo; term - gives a probability distribution of the next
+<li><p>“soft” term - gives a probability distribution of the next
 possible words.</p></li>
 </ol>
 <blockquote>
@@ -338,28 +331,28 @@ distribution.</p>
 </blockquote>
 <h4 id="construct-word-vectors">Construct word vectors</h4>
 <p>The plan is to optimize the word vectors to minimize the loss
-function, i.e.&nbsp;maximize the probability of the words that were actually
-in the context of the center word. <span class="math inline"><em>&theta;</em></span> represents all of the model
+function, i.e. maximize the probability of the words that were actually
+in the context of the center word. <span class="math inline"><em>θ</em></span> represents all of the model
 parameters in one very long vector. So for the model, word vectors are
 the only parameters. So for each word there are two vectors, context
 vector and center vector. And each of those is a D dimensional vector,
 where D might be 300 and we have V many words in the vocabulary. So the
-model is of size <span class="math inline">2&emsp14;*&emsp14;<em>D</em>&emsp14;*&emsp14;<em>V</em></span> . So for a
+model is of size <span class="math inline">2 * <em>D</em> * <em>V</em></span> . So for a
 vocabulary of size 500k and with a 300 dimensionality vector, there
 would be millions of millions of parameters, to train and maximize the
 prediction of context words.</p>
 <h4 id="multivariate-calculus">Multivariate Calculus</h4>
 <p>Derivatives can be computed using multivariate calculus and the
 gradients can be determined by walking downhill to minimize loss, using
-stochastic gradient descent. We have <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> that is needed to
+stochastic gradient descent. We have <span class="math inline"><em>J</em>(<em>θ</em>)</span> that is needed to
 minimize the average negative log likelihood. And then we iterate
-through the words in each context, to compute <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> between M words on
+through the words in each context, to compute <span class="math inline"><em>J</em>(<em>θ</em>)</span> between M words on
 both sides except with itself. Then determine the log probability of the
-context word at that position, given the word that&rsquo;s in the center
+context word at that position, given the word that’s in the center
 position <span class="math inline"><em>t</em></span>.</p>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-11-37-image.png"/></p>
 <p>Probability <span class="math inline"><em>P</em>(<em>o</em>|<em>c</em>)</span> can be
-determined as the softmax of the dot product of <span class="math inline"><em>u</em><sub>0</sub>&emsp14;*&emsp14;<em>V</em><sub><em>c</em></sub></span>
+determined as the softmax of the dot product of <span class="math inline"><em>u</em><sub>0</sub> * <em>V</em><sub><em>c</em></sub></span>
 normalized by the sum of all probabilities of the word distribution. To
 compute the gradient, the partial derivative of this expression with
 respect to every parameter in the model is computed, and all the
@@ -384,7 +377,7 @@ when we started. So the expression more conveniently becomes <span class="math i
 <strong>expectation.</strong></p>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-34-13-image.png"/></p>
 <p>This is not an average over all the context vectors weighted by their
-probability according to the model.it&rsquo;s always the case with these
+probability according to the model.it’s always the case with these
 softmax style models, we get the observed minus the expected for the
 derivatives. So the model is good if on average it predicts exactly the
 word vector that we actually see.</p>
@@ -392,7 +385,7 @@ word vector that we actually see.</p>
 and make the probability estimates as high as we possibly can using
 stochastic gradient.</p>
 <h4 id="gensim">Gensim</h4>
-<p>GENESIM is a package often used for word vectors, it&rsquo;s not really
+<p>GENESIM is a package often used for word vectors, it’s not really
 used for deep learning and for testing glove word vectors were used by
 loading a hundred dimensional word vectors.</p>
 <p><img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-46-10-image.png"/></p>
@@ -409,8 +402,8 @@ similar. Few more examples,</p>
 <li><p>Similar to USA</p></li>
 </ol>
 <p><img alt="most-similar-banana" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-47-48-image.png" title="most-similar-banana" width="282"/>.
-<img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-48-24-image.png"/>
-<img alt="most-similar-usa" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-49-08-image.png" title="" width="297"/></p>
+<img src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-48-24-image.png">
+<img alt="most-similar-usa" src="/extras/images/lecture-01-introduction-word-vectors/2022-03-18-14-49-08-image.png" title="" width="297"/></img></p>
 <h4 id="analogy-task">Analogy task</h4>
 <p>The idea of the analogy task defines that we start with a word like
 <strong><em>king</em></strong>, and should be able to subtract out a
@@ -423,13 +416,13 @@ should be able to ask for the appropriate word, which should be the word
 <p>Even linguistic analogies, such as the analogy of tall is to tallest
 as long is to longest.</p>
 <h4 id="why-two-different-vectors">Why two different vectors</h4>
-<p>Recall the equation for <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> taking a sum over
+<p>Recall the equation for <span class="math inline"><em>J</em>(<em>θ</em>)</span> taking a sum over
 every word which is appearing as the center word, and then inside that
-there&rsquo;s a second sum which is for each word in the context, where we
+there’s a second sum which is for each word in the context, where we
 count each word as a context word, and then for one particular term of
-that objective function you&rsquo;ve got a particular context word and a
-particular center word that you&rsquo;re then sort of summing over different
-context words for each center word, and then you&rsquo;re summing over all of
+that objective function you’ve got a particular context word and a
+particular center word that you’re then sort of summing over different
+context words for each center word, and then you’re summing over all of
 the decisions of different center words. In case the window contains the
 same word as the center and context word, it messes with the
 derivatives. while taking them as separate vectors ensures that this
@@ -469,13 +462,13 @@ word.</p>
 <p>So to learn word vectors we start off by having a vector for each
 word type both for context and outside and those vectors we initialize
 randomly, so that we just place small little numbers that are randomly
-generated in each vector component. And that&rsquo;s just the starting point,
+generated in each vector component. And that’s just the starting point,
 And from there on we are using an iterative algorithm where we are
 progressively updating those word vectors, so they do a better job at
 predicting which words appear in the context of other words. And the way
 that we are going to do that is by using the gradients and once we have
 a gradient, we can walk in the opposite direction of the gradient and we
-are then walking downhill, i.e.&nbsp;we are minimizing your loss and repeat
+are then walking downhill, i.e. we are minimizing your loss and repeat
 until our word vectors get as good as possible.</p>
 <h4 id="suggested-reading">Suggested reading</h4>
 <ol type="1">

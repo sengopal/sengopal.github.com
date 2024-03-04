@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Java</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/java.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2010-10-01T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.github.io/posts/java-mail-made-easy-using-velocity-templates.html" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates.html</id><summary type="html">For an emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.</summary><content type="html">&lt;h3 id="introduction-to-velocity"&gt;Introduction to Velocity&lt;/h3&gt;
 &lt;p&gt;Velocity is an open source templating tool developed by an
 international volunteer community and hosted by the Apache Software
-Foundation&amp;rsquo;s Jakarta Project. You can download the freely available
+Foundation’s Jakarta Project. You can download the freely available
 source code at the &lt;a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources"&gt;Jakarta
 Velocity&lt;/a&gt; Project Website.&lt;/p&gt;
 &lt;h3 id="simple-velocity-template-example"&gt;Simple Velocity Template
@@ -53,7 +53,7 @@ control and load the classes that represent the service provider
 implementations (SPI) for various mail protocols (Note: A service
 provider is a developer and/or vendor that provides an implementation
 for an API; examples of Java Mail API implementations include POP3,
-SMTP, and IMAP4 &amp;ndash; some are available from Sun, others via third
+SMTP, and IMAP4 – some are available from Sun, others via third
 parties.)&lt;/p&gt;
 &lt;h4 id="javax.mail.transport"&gt;javax.mail.Transport&lt;/h4&gt;
 &lt;p&gt;The javax.mail.Transport class is another provider-implemented class
@@ -107,7 +107,7 @@ as possible in order to make this class as lightweight as possible.&lt;/p&gt;
 &lt;p&gt;As there are a lot of tutorials available for Velocity and Java Mail,
 this tutorial deals only with the integration of Velocity for easier and
 more customized mailing abilities.&lt;/p&gt;
-&lt;h3 id="project-usage_1"&gt;Project Usage&lt;/h3&gt;
+&lt;h3 id="project-usage"&gt;Project Usage&lt;/h3&gt;
 &lt;p&gt;Our Project required nearly fifty different mail formats to be sent
 on various stages of the application. The difficult part being that the
 templates contained loads of dynamic data. Also these templates were
@@ -117,15 +117,15 @@ the application.&lt;/p&gt;
 the mail which needs to be sent and used them for integrating the
 dynamic attributes into the layout and hence providing a seamless
 abstraction between the presentation and the business layer.&lt;/p&gt;
-&lt;h2 id="step-by-step-explanation-of-the-code_1"&gt;Step-by-Step Explanation
+&lt;h2 id="step-by-step-explanation-of-the-code"&gt;Step-by-Step Explanation
 of the Code&lt;/h2&gt;
 &lt;h3 id="sendmessage.java"&gt;SendMessage.java&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Velocity Template Merging&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The best practice for storing the non-variables such as the SMTP
 connect parameters, the template names etc., either in a properties file
-or in a constants interface. In this example, a properties file, &amp;ldquo;mail.
-properties&amp;rdquo; has been used. Using the ClassLoader the properties file is
+or in a constants interface. In this example, a properties file, “mail.
+properties” has been used. Using the ClassLoader the properties file is
 loaded&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="bu"&gt;Properties&lt;/span&gt; props &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="bu"&gt;Properties&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;
@@ -138,7 +138,7 @@ the static method Velocity.getTemplate&lt;/li&gt;
 &lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;          VelocityContext context &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="kw"&gt;new&lt;/span&gt; &lt;span class="fu"&gt;VelocityContext&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;Then the user defined MailBean is placed in the velocity Context
-under the name &amp;ldquo;MailBean&amp;rdquo;&lt;/li&gt;
+under the name “MailBean”&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;          context&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;put&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"MailBean"&lt;/span&gt; &lt;span class="op"&gt;,&lt;/span&gt; mailBean&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
@@ -165,7 +165,7 @@ javax.mail.Session is obtained for the given SMTP Host&lt;/li&gt;
 &lt;span id="cb10-3"&gt;&lt;a aria-hidden="true" href="#cb10-3" tabindex="-1"&gt;&lt;/a&gt;          Session session &lt;span class="op"&gt;=&lt;/span&gt; Session&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;getInstance&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;sysProperties&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="kw"&gt;null&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Since the e-mail needs to contain text and an image file, create
-a MimeMultipart with the subtype declared as &amp;ldquo;related&amp;rsquo; so that the image
+a MimeMultipart with the subtype declared as “related’ so that the image
 being put doesnt get lost if the images are blocked by the recipient&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;    MimeMultipart multipart = new MimeMultipart("related");&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -288,7 +288,7 @@ accessed using, &lt;code&gt;$MailBean.\[variable-name\]&lt;/code&gt; Example:
 &lt;h4 id="mail.properties"&gt;mail.properties&lt;/h4&gt;
 &lt;p&gt;This file contains the connection and the other context parameter
 properties used by the java code&lt;/p&gt;
-&lt;h3 id="advantages_1"&gt;Advantages&lt;/h3&gt;
+&lt;h3 id="advantages"&gt;Advantages&lt;/h3&gt;
 &lt;p&gt;Designed as an easy-to-use general templating tool, Velocity is
 useful in any Java application area that requires data formatting and
 presentation. Their salient advantages being:&lt;/p&gt;
@@ -424,7 +424,7 @@ document is encrypted, and the permissions and information required to
 validate the passwords are stored to the resulting document.&lt;/p&gt;
 &lt;p&gt;The possible restrictions are:&lt;/p&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;Modifying the document&amp;rsquo;s contents&lt;/li&gt;
+&lt;li&gt;Modifying the document’s contents&lt;/li&gt;
 &lt;li&gt;Copying or otherwise extracting text and graphics from the
 document&lt;/li&gt;
 &lt;li&gt;Adding or modifying text annotations&lt;/li&gt;
@@ -454,47 +454,47 @@ are:&lt;/p&gt;
 &lt;li&gt;Inserting page breaks&lt;/li&gt;
 &lt;li&gt;generating and sending PDF by email&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="using-pd4ml-in-web-applications-for-online-pdf-generation_1"&gt;Using
+&lt;h3 id="using-pd4ml-in-web-applications-for-online-pdf-generation"&gt;Using
 PD4ML in Web applications for online PDF generation&lt;/h3&gt;
 &lt;p&gt;PD4ML can be used in Web applications for online PDF generation from
 HTML, JSP and Servlet templates. A simple example is given below:&lt;/p&gt;
-&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;taglib&lt;/span&gt; &lt;span class="er"&gt;uri&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"http://pd4ml.com/tlds/pd4ml/2.5"&lt;/span&gt; &lt;span class="er"&gt;prefix&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"pd4ml"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;page&lt;/span&gt; &lt;span class="er"&gt;contentType&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"text/html; charset=UTF-8"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;taglib&lt;/span&gt;&lt;span class="ot"&gt; uri&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"http://pd4ml.com/tlds/pd4ml/2.5"&lt;/span&gt;&lt;span class="ot"&gt; prefix&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"pd4ml"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;page&lt;/span&gt;&lt;span class="ot"&gt; contentType&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"text/html; charset=UTF-8"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
-&lt;span id="cb6-4"&gt;&lt;a aria-hidden="true" href="#cb6-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;pd4ml:transform&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-5"&gt;&lt;a aria-hidden="true" href="#cb6-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      screenWidth=&lt;/span&gt;&lt;span class="st"&gt;"400"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-6"&gt;&lt;a aria-hidden="true" href="#cb6-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageFormat=&lt;/span&gt;&lt;span class="st"&gt;"A5"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-7"&gt;&lt;a aria-hidden="true" href="#cb6-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageOrientation=&lt;/span&gt;&lt;span class="st"&gt;"landscape"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-8"&gt;&lt;a aria-hidden="true" href="#cb6-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageInsets=&lt;/span&gt;&lt;span class="st"&gt;"100,100,100,100,points"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-9"&gt;&lt;a aria-hidden="true" href="#cb6-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      enableImageSplit=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-4"&gt;&lt;a aria-hidden="true" href="#cb6-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:transform&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-5"&gt;&lt;a aria-hidden="true" href="#cb6-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      screenWidth&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"400"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-6"&gt;&lt;a aria-hidden="true" href="#cb6-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageFormat&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"A5"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-7"&gt;&lt;a aria-hidden="true" href="#cb6-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageOrientation&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"landscape"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-8"&gt;&lt;a aria-hidden="true" href="#cb6-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageInsets&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"100,100,100,100,points"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-9"&gt;&lt;a aria-hidden="true" href="#cb6-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      enableImageSplit&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-10"&gt;&lt;a aria-hidden="true" href="#cb6-10" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
-&lt;span id="cb6-11"&gt;&lt;a aria-hidden="true" href="#cb6-11" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;html&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-12"&gt;&lt;a aria-hidden="true" href="#cb6-12" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-13"&gt;&lt;a aria-hidden="true" href="#cb6-13" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;title&amp;gt;&lt;/span&gt;pd4ml test&lt;span class="kw"&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-14"&gt;&lt;a aria-hidden="true" href="#cb6-14" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;style&lt;/span&gt; &lt;span class="er"&gt;type&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"text/css"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-11"&gt;&lt;a aria-hidden="true" href="#cb6-11" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;html&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-12"&gt;&lt;a aria-hidden="true" href="#cb6-12" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;head&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-13"&gt;&lt;a aria-hidden="true" href="#cb6-13" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;title&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;pd4ml test&lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;title&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-14"&gt;&lt;a aria-hidden="true" href="#cb6-14" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;style&lt;/span&gt;&lt;span class="ot"&gt; type&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"text/css"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-15"&gt;&lt;a aria-hidden="true" href="#cb6-15" tabindex="-1"&gt;&lt;/a&gt;                  body {&lt;/span&gt;
-&lt;span id="cb6-16"&gt;&lt;a aria-hidden="true" href="#cb6-16" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;color&lt;/span&gt;: &lt;span class="cn"&gt;red&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-17"&gt;&lt;a aria-hidden="true" href="#cb6-17" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;background-color&lt;/span&gt;: &lt;span class="cn"&gt;#FFFFFF&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-18"&gt;&lt;a aria-hidden="true" href="#cb6-18" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;font-family&lt;/span&gt;: Tahoma&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="st"&gt;"Sans-Serif"&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-19"&gt;&lt;a aria-hidden="true" href="#cb6-19" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;font-size&lt;/span&gt;: &lt;span class="dv"&gt;10&lt;/span&gt;&lt;span class="dt"&gt;pt&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-16"&gt;&lt;a aria-hidden="true" href="#cb6-16" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;color&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="cn"&gt;red&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-17"&gt;&lt;a aria-hidden="true" href="#cb6-17" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;background-color&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="cn"&gt;#FFFFFF&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-18"&gt;&lt;a aria-hidden="true" href="#cb6-18" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;font-family&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="dv"&gt;Tahoma&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="st"&gt;"Sans-Serif"&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-19"&gt;&lt;a aria-hidden="true" href="#cb6-19" tabindex="-1"&gt;&lt;/a&gt;                        &lt;span class="kw"&gt;font-size&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="dv"&gt;10&lt;/span&gt;&lt;span class="dt"&gt;pt&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-20"&gt;&lt;a aria-hidden="true" href="#cb6-20" tabindex="-1"&gt;&lt;/a&gt;                  }&lt;/span&gt;
-&lt;span id="cb6-21"&gt;&lt;a aria-hidden="true" href="#cb6-21" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-22"&gt;&lt;a aria-hidden="true" href="#cb6-22" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-23"&gt;&lt;a aria-hidden="true" href="#cb6-23" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-24"&gt;&lt;a aria-hidden="true" href="#cb6-24" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;img&lt;/span&gt; &lt;span class="er"&gt;src&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"images/logos.gif"&lt;/span&gt; &lt;span class="er"&gt;width&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"125"&lt;/span&gt; &lt;span class="er"&gt;height&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"74"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-25"&gt;&lt;a aria-hidden="true" href="#cb6-25" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;p&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-21"&gt;&lt;a aria-hidden="true" href="#cb6-21" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;style&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-22"&gt;&lt;a aria-hidden="true" href="#cb6-22" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;head&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-23"&gt;&lt;a aria-hidden="true" href="#cb6-23" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;body&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-24"&gt;&lt;a aria-hidden="true" href="#cb6-24" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;img&lt;/span&gt;&lt;span class="ot"&gt; src&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"images/logos.gif"&lt;/span&gt;&lt;span class="ot"&gt; width&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"125"&lt;/span&gt;&lt;span class="ot"&gt; height&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"74"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-25"&gt;&lt;a aria-hidden="true" href="#cb6-25" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;p&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-26"&gt;&lt;a aria-hidden="true" href="#cb6-26" tabindex="-1"&gt;&lt;/a&gt;            Hello, World!&lt;/span&gt;
-&lt;span id="cb6-27"&gt;&lt;a aria-hidden="true" href="#cb6-27" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;pd4ml:page.break/&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-28"&gt;&lt;a aria-hidden="true" href="#cb6-28" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;table&lt;/span&gt; &lt;span class="er"&gt;width&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"100%"&lt;/span&gt; &lt;span class="er"&gt;style&lt;/span&gt;&lt;span class="ot"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"background-color: #f4f4f4; color: #000000"&lt;/span&gt;&lt;span class="kw"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-29"&gt;&lt;a aria-hidden="true" href="#cb6-29" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-30"&gt;&lt;a aria-hidden="true" href="#cb6-30" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;td&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-27"&gt;&lt;a aria-hidden="true" href="#cb6-27" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:page.break&lt;/span&gt;&lt;span class="dt"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-28"&gt;&lt;a aria-hidden="true" href="#cb6-28" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;table&lt;/span&gt;&lt;span class="ot"&gt; width&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"100%"&lt;/span&gt;&lt;span class="ot"&gt; style&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"background-color: #f4f4f4; color: #000000"&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-29"&gt;&lt;a aria-hidden="true" href="#cb6-29" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;tr&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-30"&gt;&lt;a aria-hidden="true" href="#cb6-30" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;td&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb6-31"&gt;&lt;a aria-hidden="true" href="#cb6-31" tabindex="-1"&gt;&lt;/a&gt;                  Hello, New Page!&lt;/span&gt;
-&lt;span id="cb6-32"&gt;&lt;a aria-hidden="true" href="#cb6-32" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-33"&gt;&lt;a aria-hidden="true" href="#cb6-33" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-34"&gt;&lt;a aria-hidden="true" href="#cb6-34" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="kw"&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-35"&gt;&lt;a aria-hidden="true" href="#cb6-35" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-36"&gt;&lt;a aria-hidden="true" href="#cb6-36" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="kw"&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb6-37"&gt;&lt;a aria-hidden="true" href="#cb6-37" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;/pd4ml:transform&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span id="cb6-32"&gt;&lt;a aria-hidden="true" href="#cb6-32" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;td&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-33"&gt;&lt;a aria-hidden="true" href="#cb6-33" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;tr&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-34"&gt;&lt;a aria-hidden="true" href="#cb6-34" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;table&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-35"&gt;&lt;a aria-hidden="true" href="#cb6-35" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;body&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-36"&gt;&lt;a aria-hidden="true" href="#cb6-36" tabindex="-1"&gt;&lt;/a&gt;      &lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;html&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-37"&gt;&lt;a aria-hidden="true" href="#cb6-37" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:transform&lt;/span&gt;&lt;span class="dt"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In order to get a PDF output, we need to surround the HTML or JSP
 with &lt;pd4ml:transform&gt; tags or refer to the markup from an external
 PD4ML-enabled JSP or Servlets.&lt;/pd4ml:transform&gt;&lt;/p&gt;
@@ -514,20 +514,20 @@ the tag is ignored.&lt;/li&gt;
 &lt;p&gt;####Defining PDF document footer (or header) with JSP custom tag The
 header and/or footer for the PDF can be declared in the jsp in the
 following fashion.&lt;/p&gt;
-&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;pd4ml:footer&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      titleTemplate=&lt;/span&gt;&lt;span class="st"&gt;"[${title}]"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageNumberTemplate=&lt;/span&gt;&lt;span class="st"&gt;"page ${page}"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      titleAlignment=&lt;/span&gt;&lt;span class="st"&gt;"left"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageNumberAlignment=&lt;/span&gt;&lt;span class="st"&gt;"right"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-6"&gt;&lt;a aria-hidden="true" href="#cb7-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      color=&lt;/span&gt;&lt;span class="st"&gt;"#008000"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-7"&gt;&lt;a aria-hidden="true" href="#cb7-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      initialPageNumber=&lt;/span&gt;&lt;span class="st"&gt;"1"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-8"&gt;&lt;a aria-hidden="true" href="#cb7-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pagesToSkip=&lt;/span&gt;&lt;span class="st"&gt;"1"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-9"&gt;&lt;a aria-hidden="true" href="#cb7-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      fontSize=&lt;/span&gt;&lt;span class="st"&gt;"14"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb7-10"&gt;&lt;a aria-hidden="true" href="#cb7-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      areaHeight=&lt;/span&gt;&lt;span class="st"&gt;"18"&lt;/span&gt;&lt;span class="kw"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:footer&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      titleTemplate&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"[${title}]"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageNumberTemplate&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"page ${page}"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      titleAlignment&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"left"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pageNumberAlignment&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"right"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-6"&gt;&lt;a aria-hidden="true" href="#cb7-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      color&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"#008000"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-7"&gt;&lt;a aria-hidden="true" href="#cb7-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      initialPageNumber&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"1"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-8"&gt;&lt;a aria-hidden="true" href="#cb7-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      pagesToSkip&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"1"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-9"&gt;&lt;a aria-hidden="true" href="#cb7-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      fontSize&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"14"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-10"&gt;&lt;a aria-hidden="true" href="#cb7-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      areaHeight&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"18"&lt;/span&gt;&lt;span class="dt"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h4 id="description"&gt;Description&lt;/h4&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Title template definition. A string that can optionally contain
-placeholders ${title} for a title value taken from HTML&amp;rsquo;s TITLE tag,
+placeholders ${title} for a title value taken from HTML’s TITLE tag,
 ${page} for a page counter value.&lt;/li&gt;
 &lt;li&gt;Page number template definition. A string with placeholder ${page}
 for a page counter value.&lt;/li&gt;
@@ -552,7 +552,7 @@ provides a nice demarcation and seamless integration of the presentation
 generation&lt;/p&gt;
 &lt;p&gt;####Temporary saving generated PDF to hard drive With
 &lt;code&gt;&amp;lt;pd4ml:savefile&amp;gt;&lt;/code&gt; tag you have possibility to store
-just generated PDF to hard drive and redirect user&amp;rsquo;s browser to read the
+just generated PDF to hard drive and redirect user’s browser to read the
 PDF as static resource or to redirect the request to another URL for PDF
 post-processing. The tag should be nested within
 &lt;code&gt;&amp;lt;pd4ml:transform&amp;gt;&lt;/code&gt; and should not have a body.There
@@ -560,17 +560,17 @@ are two ways of generating the PDF and redirecting the browser.&lt;/p&gt;
 &lt;p&gt;####Routing the browser to the PDF generated Once the PDF is
 generated the user can be directed to the generated PDF using the
 following piece of code.&lt;/p&gt;
-&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;pd4ml:savefile&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb9-2"&gt;&lt;a aria-hidden="true" href="#cb9-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      uri=&lt;/span&gt;&lt;span class="st"&gt;"/WEB/savefile/saved/"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb9-3"&gt;&lt;a aria-hidden="true" href="#cb9-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      dir=&lt;/span&gt;&lt;span class="st"&gt;"D:/spool/generated_pdfs"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb9-4"&gt;&lt;a aria-hidden="true" href="#cb9-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      redirect=&lt;/span&gt;&lt;span class="st"&gt;"pdf"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb9-5"&gt;&lt;a aria-hidden="true" href="#cb9-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      debug=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="kw"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:savefile&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-2"&gt;&lt;a aria-hidden="true" href="#cb9-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      uri&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"/WEB/savefile/saved/"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-3"&gt;&lt;a aria-hidden="true" href="#cb9-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      dir&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"D:/spool/generated_pdfs"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-4"&gt;&lt;a aria-hidden="true" href="#cb9-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      redirect&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"pdf"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-5"&gt;&lt;a aria-hidden="true" href="#cb9-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      debug&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="dt"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The tag above forces PD4ML to save the generated PDF to
 D:/spool/generated_pdfs with an autogenerated name.It is expected, that
 local directory D:/spool/generated_pdfs corresponds to URL
 &lt;code&gt;http://yourserver.com/WEB/savefile/saved/&lt;/code&gt; (as given in
-&amp;ldquo;uri&amp;rdquo; attribute)&lt;/p&gt;
-&lt;p&gt;After generation PD4ML will send to client&amp;rsquo;s browser a redirect
+“uri” attribute)&lt;/p&gt;
+&lt;p&gt;After generation PD4ML will send to client’s browser a redirect
 command with URL like that:
 &lt;code&gt;http://yourserver.com/WEB/savefile/saved/generated_name.pdf&lt;/code&gt;
 where,&lt;/p&gt;
@@ -581,10 +581,10 @@ where,&lt;/p&gt;
 next page&lt;/h4&gt;
 &lt;p&gt;However if the browser needs to be redirected to the next page
 instead of the PDF generated, it can be done in the following way.&lt;/p&gt;
-&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;&amp;lt;pd4ml:savefile&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb10-2"&gt;&lt;a aria-hidden="true" href="#cb10-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      dir=&lt;/span&gt;&lt;span class="st"&gt;"D:/spool/generated_pdfs"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb10-3"&gt;&lt;a aria-hidden="true" href="#cb10-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      redirect=&lt;/span&gt;&lt;span class="st"&gt;"/mywebapp/send_pdf_by_email.jsp"&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb10-4"&gt;&lt;a aria-hidden="true" href="#cb10-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      debug=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="kw"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="dt"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kw"&gt;pd4ml:savefile&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb10-2"&gt;&lt;a aria-hidden="true" href="#cb10-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      dir&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"D:/spool/generated_pdfs"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb10-3"&gt;&lt;a aria-hidden="true" href="#cb10-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      redirect&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"/mywebapp/send_pdf_by_email.jsp"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb10-4"&gt;&lt;a aria-hidden="true" href="#cb10-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ot"&gt;      debug&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"false"&lt;/span&gt;&lt;span class="dt"&gt;/&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The tag above forces PD4ML to save the generated PDF to
 D:/spool/generated_pdfs with an auto generated name. After that it
 forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter
@@ -595,16 +595,16 @@ file name using,&lt;/p&gt;
 &lt;span id="cb11-3"&gt;&lt;a aria-hidden="true" href="#cb11-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;String&lt;/span&gt; path &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;"D:/spool/generated_pdfs"&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="st"&gt;"/"&lt;/span&gt; &lt;span class="op"&gt;+&lt;/span&gt; fileName&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Hence that JSP can read the just-generated PDF file and and perform
 post-processing or any other actions (like E-mail or File-Upload).&lt;/p&gt;
-&lt;p&gt;In both cases above you can predefine PDF file name with &amp;ldquo;name&amp;rdquo;
+&lt;p&gt;In both cases above you can predefine PDF file name with “name”
 attribute. If a file with the name is already exists in
 D:/spool/generated_pdfs, than the new file name is appended with an
 auto-incremented numeric value.&lt;/p&gt;
-&lt;h3 id="instructions-for-installation_1"&gt;Instructions for
+&lt;h3 id="instructions-for-installation"&gt;Instructions for
 Installation&lt;/h3&gt;
 &lt;p&gt;PD4ML is intended to be used with JDK1.3.1 and above .For deploying
 PD4ML as either Console application and for online generation, use the
-following jars available at the PD4ML site (Given in the references) &amp;bull;
-pd4ml.jar &amp;bull; pd4ml_tl.jar(for the tag library)&lt;/p&gt;
+following jars available at the PD4ML site (Given in the references) •
+pd4ml.jar • pd4ml_tl.jar(for the tag library)&lt;/p&gt;
 &lt;h4 id="professional-version-features"&gt;Professional Version
 Features&lt;/h4&gt;
 &lt;p&gt;Apart from the various features discussed above, the licensed
@@ -633,7 +633,7 @@ TXT. The primary output target is PDF.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;iText&lt;/strong&gt; &amp;gt; iText is an open source library that
 allows you to create and manipulate PDF documents. It enables developers
 looking to enhance web and other applications with dynamic PDF document
-generation and/or manipulation.&amp;rdquo; &amp;gt; - http://itextpdf.com/&lt;/p&gt;
+generation and/or manipulation.” &amp;gt; - http://itextpdf.com/&lt;/p&gt;
 &lt;h4 id="references"&gt;References&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class="uri" href="http://pd4ml.com/api/index.html"&gt;http://pd4ml.com/api/index.html&lt;/a&gt;&lt;/li&gt;
@@ -683,14 +683,14 @@ support&lt;/p&gt;
 previously a sub-project of the Jakarta Project, provides pure Java
 libraries for reading and writing files in Microsoft Office formats,
 such as Word, PowerPoint and Excel. The name was originally an acronym
-for &amp;ldquo;Poor Obfuscation Implementation&amp;rdquo;, referring humorously to the fact
+for “Poor Obfuscation Implementation”, referring humorously to the fact
 that the file formats seemed to be deliberately obfuscated, but poorly,
 since they were successfully reverse-engineered. This explanation - and
 those of the similar names for the various sub-projects - were removed
 from the official web-pages in order to better market the tools to
 businesses who would not consider such humour appropriate. The POI
 project is the master project for developing pure Java ports of file
-formats based on Microsoft&amp;rsquo;s OLE 2 Compound Document Format. OLE 2
+formats based on Microsoft’s OLE 2 Compound Document Format. OLE 2
 Compound Document Format is used by Microsoft Office Documents, as well
 as by programs using MFC property sets to serialize their document
 objects. - Wikipedia&lt;/p&gt;
@@ -713,7 +713,7 @@ Java.&lt;/li&gt;
 &lt;p&gt;Java Excel API is a mature, open source java API enabling developers
 to read, write, and modifiy Excel spreadsheets dynamically. Now java
 developers can read Excel spreadsheets, modify them with a convenient
-and simple API, and write the changes to any output stream (e.g.&amp;nbsp;disk,
+and simple API, and write the changes to any output stream (e.g. disk,
 HTTP, database, or any socket). - Wikipedia&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Some of the available features are: 1. Reads data from Excel 95, 97,
@@ -740,7 +740,7 @@ lists, column and cell formatting&lt;/li&gt;
 SDK)&lt;/p&gt;
 &lt;p&gt;Some of the available features are:&lt;/p&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;Compatible with Excel &amp;rsquo;97-2003 file formats&lt;/li&gt;
+&lt;li&gt;Compatible with Excel ’97-2003 file formats&lt;/li&gt;
 &lt;li&gt;Control over charts, formulas, and formatting from Java&lt;/li&gt;
 &lt;li&gt;Based on robust ExtenXLS 6 Codebase&lt;/li&gt;
 &lt;li&gt;Drop-in upgradability to ExtenXLS supported versions&lt;/li&gt;
@@ -817,7 +817,7 @@ table which acts as a queue and sends the pending mails. This reading
 SMTP server needs to address online mailing at times, this job may run
 more than the given five minutes. Also, if the number of records in the
 table is high, the Job exceeds the expected time of completion of five
-minutes. Hence it was decided to &amp;ldquo;chain&amp;rdquo; the jobs with a five minute
+minutes. Hence it was decided to “chain” the jobs with a five minute
 delay.&lt;/p&gt;
 &lt;h3 id="introduction-to-quartz"&gt;Introduction to Quartz&lt;/h3&gt;
 &lt;p&gt;Quartz is an open source job scheduling framework that provides
@@ -830,9 +830,9 @@ multiple jobs for a single event. While you can configure Quartz through
 a property file (in which you can specify a data source for JDBC
 transactions, global job and/or trigger listeners, plug-ins, thread
 pools, and more) it is not at all integrated with the application
-server&amp;rsquo;s context or references.&lt;/p&gt;
+server’s context or references.&lt;/p&gt;
 &lt;h3 id="jobs-and-triggers"&gt;Jobs and triggers&lt;/h3&gt;
-&lt;p&gt;The two fundamental units of Quartz&amp;rsquo;s scheduling package are jobs and
+&lt;p&gt;The two fundamental units of Quartz’s scheduling package are jobs and
 triggers. A job is an executable task that can be scheduled, while a
 trigger provides a schedule for a job. While these two entities could
 easily have been combined, their separation in Quartz is both
@@ -865,11 +865,11 @@ job to be executed&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Notice that the execute method takes a JobExecutionContext object
 as an argument. This object provides the runtime context around the job
 instance. Specifically, it gives access to the scheduler and trigger,
-which collaborated to initiate execution of the job as well as the job&amp;rsquo;s
+which collaborated to initiate execution of the job as well as the job’s
 JobDetail object. Quartz separates the execution and the surrounding
 state of a job by placing the state in a JobDetail object and having the
 JobDetail constructor initiate an instance of a job. The JobDetail
-object stores the job&amp;rsquo;s listeners, group, data map, description, and
+object stores the job’s listeners, group, data map, description, and
 other properties of the job.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;####Simple Trigger Example A trigger develops a schedule for job
 execution. Quartz offers a few different trigger options of varying
@@ -917,7 +917,7 @@ schedules to execute at a specific calendar time, given a maximum time
 of execution, or given a priority. Some of the advanced concepts include
 CronTriggers, Job Stores, and JobMap etc.,&lt;/p&gt;
 &lt;h3 id="need-for-job-chaining"&gt;Need for Job Chaining&lt;/h3&gt;
-&lt;p&gt;The job known as &amp;ldquo;MailProcessor&amp;rdquo; needs to be scheduled every 5
+&lt;p&gt;The job known as “MailProcessor” needs to be scheduled every 5
 minutes i.e., this job has to execute every five minutes. The code which
 was used for scheduling the job is given below:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Trigger mailProcTrigger = TriggerUtils.makeMinutelyTrigger(5);
@@ -937,9 +937,9 @@ will get triggered even before the first one completes.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;strong&gt;Solution&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Hence to resolve this, we need to chain the jobs such that the job
-gets &amp;ldquo;re-scheduled&amp;rdquo; only after the first job is completed. This is known
-as &amp;ldquo;Job-Chaining&amp;rdquo;&lt;/p&gt;
-&lt;h3 id="job-chaining-how-it-was-implemented"&gt;Job Chaining &amp;ndash; How it was
+gets “re-scheduled” only after the first job is completed. This is known
+as “Job-Chaining”&lt;/p&gt;
+&lt;h3 id="job-chaining-how-it-was-implemented"&gt;Job Chaining – How it was
 implemented&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;A Utility Method for returning the time 5 minutes from now and
@@ -969,21 +969,21 @@ instance&lt;/li&gt;
 &lt;h3 id="scheduling-the-job-for-the-first-run"&gt;Scheduling the Job for the
 First Run&lt;/h3&gt;
 &lt;ol type="1"&gt;
-&lt;li&gt;&lt;p&gt;Using the Utility methods the &amp;ldquo;MailProcessor&amp;rdquo; Job is scheduled to
+&lt;li&gt;&lt;p&gt;Using the Utility methods the “MailProcessor” Job is scheduled to
 run after Five minutes from the current Instance&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;Since a specific time instance is given for the Trigger, this Job
 will get Triggered only once&lt;/p&gt;
 &lt;p&gt;JobDetail mailJobDetail = new
-JobDetail(&amp;ldquo;MailProcessorJob&amp;rdquo;,Scheduler.DEFAULT_GROUP,
+JobDetail(“MailProcessorJob”,Scheduler.DEFAULT_GROUP,
 MailProcessor.class); sched.scheduleJob(mailJobDetail,VsimsUtil
-Util.getMailProcessorTrigger()); logger.info(&amp;ldquo;Mail Processor
-Scheduled&amp;rdquo;);&lt;/p&gt;&lt;/li&gt;
+Util.getMailProcessorTrigger()); logger.info(“Mail Processor
+Scheduled”);&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Note: &lt;em&gt;Since the Job is being scheduled for the first time we have
 to use sched.scheduleJob() for scheduling the job&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In the Execute method of the Job, once the Job gets fired for the
 first time by the Trigger created, the Job Execution steps are completed
-and then the job gets &amp;ldquo;re-scheduled&amp;rsquo; after five minutes using the same
+and then the job gets “re-scheduled’ after five minutes using the same
 Utility method&lt;/p&gt;
 &lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;public&lt;/span&gt; &lt;span class="dt"&gt;void&lt;/span&gt; &lt;span class="fu"&gt;execute&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;JobExecutionContext jobContext&lt;span class="op"&gt;)&lt;/span&gt; &lt;span class="kw"&gt;throws&lt;/span&gt; JobExecutionException &lt;span class="op"&gt;{&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;        logger&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;info&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"MailProcessor execute - start"&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
@@ -1072,7 +1072,7 @@ All of its methods are static.&lt;/p&gt;
 now provided by the Restriction class. The Restriction class provides
 almost all the required restrictions such as equals (eq()), logical and
 (and()), like (like()) Aggregation and Grouping are provided by the
-Projection class. Order class represents the &amp;ldquo;order by&amp;rdquo; clause of
+Projection class. Order class represents the “order by” clause of
 SQL.&lt;/p&gt;
 &lt;h3 id="order-interface"&gt;Order Interface&lt;/h3&gt;
 &lt;p&gt;In HQL (and SQL), the order by clause allows you to order your query
@@ -1086,7 +1086,7 @@ were added to the Critieria.&lt;/p&gt;
 &lt;p&gt;The following code shows how a simple Criteria query is built.&lt;/p&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;It selects the Insurance Object&lt;/li&gt;
-&lt;li&gt;Includes a Where clause insurance name like &amp;lsquo;%a%&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Includes a Where clause insurance name like ‘%a%’&lt;/li&gt;
 &lt;li&gt;Includes another Where clause investmentAmount value between 1000
 and 2500 inclusive&lt;/li&gt;
 &lt;li&gt;Sets the number of maximum results as 5&lt;/li&gt;
@@ -1133,7 +1133,7 @@ property&lt;/h3&gt;
 &lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Restrictions&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;sqlRestriction&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"lower({alias}.name) like lower(?)"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="st"&gt;"Fritz%"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt;Hibernate&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;STRING&lt;/span&gt;&lt;span class="op"&gt;)&lt;/span&gt; &lt;span class="op"&gt;)&lt;/span&gt; &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;All the static methods available in Restrictions are also
 available in the Expression API. Also it contains some additional
-methods such as ilike(&amp;ldquo;columnname&amp;rdquo;) which does a lower(columnname) in
+methods such as ilike(“columnname”) which does a lower(columnname) in
 the query.&lt;/em&gt;&lt;/p&gt;
 &lt;h3 id="disjunction-and-conjunction"&gt;Disjunction and Conjunction:&lt;/h3&gt;
 &lt;p&gt;Disjunction and Conjunction are excellent APIs which help perform
@@ -1224,7 +1224,7 @@ values and by providing extensibility of the Criterion Object.&lt;/p&gt;
 &lt;span id="cb17-8"&gt;&lt;a aria-hidden="true" href="#cb17-8" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;ignoreCase&lt;/span&gt;&lt;span class="op"&gt;()&lt;/span&gt; &lt;span class="co"&gt;//Queries are case insensitive&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-9"&gt;&lt;a aria-hidden="true" href="#cb17-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;excludeZeroes&lt;/span&gt;&lt;span class="op"&gt;()&lt;/span&gt;  &lt;span class="co"&gt;//zero-valued fields are ignored&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-10"&gt;&lt;a aria-hidden="true" href="#cb17-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;excludeProperty&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"doNotUse"&lt;/span&gt;&lt;span class="op"&gt;)&lt;/span&gt; &lt;span class="co"&gt;// this property is excluded&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb17-11"&gt;&lt;a aria-hidden="true" href="#cb17-11" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;enableLike&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;MatchMode&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;ANYWHERE&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt; &lt;span class="co"&gt;//query string matching uses &amp;lsquo;%X%&amp;rsquo;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb17-11"&gt;&lt;a aria-hidden="true" href="#cb17-11" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;enableLike&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;MatchMode&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;ANYWHERE&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt; &lt;span class="co"&gt;//query string matching uses ‘%X%’&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-12"&gt;&lt;a aria-hidden="true" href="#cb17-12" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb17-13"&gt;&lt;a aria-hidden="true" href="#cb17-13" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;// Using the Example Object and adding further restrictions&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-14"&gt;&lt;a aria-hidden="true" href="#cb17-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;List&lt;/span&gt; list &lt;span class="op"&gt;=&lt;/span&gt; session&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;createCriteria&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Accommodation&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;class&lt;/span&gt;&lt;span class="op"&gt;)&lt;/span&gt;&lt;/span&gt;

@@ -93,7 +93,14 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#chapter-7" title="Chapter 7">Chapter 7</a></li><li><a class="toc-href" href="#chapter-8" title="Chapter 8">Chapter 8</a></li><li><a class="toc-href" href="#chapter-9" title="Chapter 9">Chapter 9</a></li><li><a class="toc-href" href="#miscellaneous" title="Miscellaneous">Miscellaneous</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#chapter-7" id="toc-chapter-7">Chapter 7</a></li>
+<li><a href="#chapter-8" id="toc-chapter-8">Chapter 8</a></li>
+<li><a href="#chapter-9" id="toc-chapter-9">Chapter 9</a></li>
+<li><a href="#miscellaneous" id="toc-miscellaneous">Miscellaneous</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>I recently completed the Sun Certified Java Programmer from Sun
@@ -101,7 +108,7 @@ Microsystems and thought of sharing my notes and gotchas from the Kathy
 Sierra SCJP preparation book which was the best material to prepare for
 this certification. All the below notes are material extracted from this
 link:https://www.amazon.com/SCJP-Certified-Programmer-Java-310-065/dp/0071591060[Kathy
-Sierra&rsquo;s book]. The below notes are from the 2008 edition and might not
+Sierra’s book]. The below notes are from the 2008 edition and might not
 be reflective of the latest Chapter specifics.</p>
 <p>This is the continuation of Continued in <a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-1">Part 1</a>
 notes.</p>
@@ -225,7 +232,7 @@ in a new stack</li>
 <ul>
 <li>java.lang.Thread - static sleep(long), static yield(), final join(),
 final setPriority(int)</li>
-<li>java.lang.Object - final wait, final notify, final notifyAll()&rdquo;</li>
+<li>java.lang.Object - final wait, final notify, final notifyAll()”</li>
 </ul>
 <ol start="6" type="1">
 <li><code>sleep</code> - guaranteed to sleep for the given time except
@@ -262,7 +269,7 @@ a try-catch block for checked (InterruptedException)</li>
 <li>Synchronizing the code that calls the calculating method DOES NOT
 synchronize the action, the synchronized block needs to be applied to
 the method doing the actual calculation.</li>
-<li>Don&rsquo;t synchronize the run() method or the code inside it as there
+<li>Don’t synchronize the run() method or the code inside it as there
 might be multiple threads created and each will have its own run method.
 So synchronize the called method</li>
 <li>When two threads are created and a single object is used for
@@ -313,7 +320,7 @@ and expression is never void</li>
 label is NOT recogonized and hence compliation error occurs. Also,
 labels can be of the same name and the innermost one is taken into
 consideration</li>
-<li>Escape slashes are allowed only for b,t,n,f,r, &ldquo;,&rsquo;,<br/>
+<li>Escape slashes are allowed only for b,t,n,f,r, “,’,<br/>
 </li>
 <li><code>#,%</code> cannot be used in a variable name and a number
 cannot be used at the start of a variable name</li>

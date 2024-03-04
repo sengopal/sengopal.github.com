@@ -93,19 +93,29 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#introduction-to-velocity" title="Introduction to Velocity">Introduction to Velocity</a></li><li><a class="toc-href" href="#simple-velocity-template-example" title="Simple Velocity Template
-Example">Simple Velocity Template
-Example</a></li><li><a class="toc-href" href="#introduction-to-java-mail-api" title="Introduction to JAVA MAIL
-API">Introduction to JAVA MAIL
-API</a><ul><li><a class="toc-href" href="#javax.mail.session" title="javax.mail.Session">javax.mail.Session</a></li><li><a class="toc-href" href="#javax.mail.transport" title="javax.mail.Transport">javax.mail.Transport</a></li><li><a class="toc-href" href="#javax.mail.message" title="javax.mail.Message">javax.mail.Message</a></li><li><a class="toc-href" href="#simple-java-mail-example" title="Simple JAVA Mail Example">Simple JAVA Mail Example</a></li></ul></li><li><a class="toc-href" href="#project-usage_1" title="Project Usage">Project Usage</a></li><li><a class="toc-href" href="#step-by-step-explanation-of-the-code_1" title="Step-by-Step Explanation
-of the Code">Step-by-Step Explanation
-of the Code</a><ul><li><a class="toc-href" href="#sendmessage.java" title="SendMessage.java">SendMessage.java</a><ul><li><a class="toc-href" href="#mail.vm" title="Mail.vm">Mail.vm</a></li><li><a class="toc-href" href="#mail.properties" title="mail.properties">mail.properties</a></li></ul></li><li><a class="toc-href" href="#advantages_1" title="Advantages">Advantages</a><ul><li><a class="toc-href" href="#references" title="References">References</a></li></ul></li></ul></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#introduction-to-velocity" id="toc-introduction-to-velocity">Introduction to Velocity</a></li>
+<li><a href="#simple-velocity-template-example" id="toc-simple-velocity-template-example">Simple Velocity Template
+Example</a></li>
+<li><a href="#introduction-to-java-mail-api" id="toc-introduction-to-java-mail-api">Introduction to JAVA MAIL
+API</a></li>
+<li><a href="#project-usage" id="toc-project-usage">Project
+Usage</a></li>
+<li><a href="#step-by-step-explanation-of-the-code" id="toc-step-by-step-explanation-of-the-code">Step-by-Step Explanation
+of the Code</a>
+<ul>
+<li><a href="#sendmessage.java" id="toc-sendmessage.java">SendMessage.java</a></li>
+<li><a href="#advantages" id="toc-advantages">Advantages</a></li>
+</ul></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <h3 id="introduction-to-velocity">Introduction to Velocity</h3>
 <p>Velocity is an open source templating tool developed by an
 international volunteer community and hosted by the Apache Software
-Foundation&rsquo;s Jakarta Project. You can download the freely available
+Foundation’s Jakarta Project. You can download the freely available
 source code at the <a href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html#resources">Jakarta
 Velocity</a> Project Website.</p>
 <h3 id="simple-velocity-template-example">Simple Velocity Template
@@ -156,7 +166,7 @@ control and load the classes that represent the service provider
 implementations (SPI) for various mail protocols (Note: A service
 provider is a developer and/or vendor that provides an implementation
 for an API; examples of Java Mail API implementations include POP3,
-SMTP, and IMAP4 &ndash; some are available from Sun, others via third
+SMTP, and IMAP4 – some are available from Sun, others via third
 parties.)</p>
 <h4 id="javax.mail.transport">javax.mail.Transport</h4>
 <p>The javax.mail.Transport class is another provider-implemented class
@@ -210,7 +220,7 @@ as possible in order to make this class as lightweight as possible.</p>
 <p>As there are a lot of tutorials available for Velocity and Java Mail,
 this tutorial deals only with the integration of Velocity for easier and
 more customized mailing abilities.</p>
-<h3 id="project-usage_1">Project Usage</h3>
+<h3 id="project-usage">Project Usage</h3>
 <p>Our Project required nearly fifty different mail formats to be sent
 on various stages of the application. The difficult part being that the
 templates contained loads of dynamic data. Also these templates were
@@ -220,15 +230,15 @@ the application.</p>
 the mail which needs to be sent and used them for integrating the
 dynamic attributes into the layout and hence providing a seamless
 abstraction between the presentation and the business layer.</p>
-<h2 id="step-by-step-explanation-of-the-code_1">Step-by-Step Explanation
+<h2 id="step-by-step-explanation-of-the-code">Step-by-Step Explanation
 of the Code</h2>
 <h3 id="sendmessage.java">SendMessage.java</h3>
 <p><strong>Velocity Template Merging</strong></p>
 <ul>
 <li>The best practice for storing the non-variables such as the SMTP
 connect parameters, the template names etc., either in a properties file
-or in a constants interface. In this example, a properties file, &ldquo;mail.
-properties&rdquo; has been used. Using the ClassLoader the properties file is
+or in a constants interface. In this example, a properties file, “mail.
+properties” has been used. Using the ClassLoader the properties file is
 loaded</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>          <span class="bu">Properties</span> props <span class="op">=</span> <span class="kw">new</span> <span class="bu">Properties</span><span class="op">();</span></span>
@@ -241,7 +251,7 @@ the static method Velocity.getTemplate</li>
 <span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>          VelocityContext context <span class="op">=</span> <span class="kw">new</span> <span class="fu">VelocityContext</span><span class="op">();</span></span></code></pre></div>
 <ul>
 <li>Then the user defined MailBean is placed in the velocity Context
-under the name &ldquo;MailBean&rdquo;</li>
+under the name “MailBean”</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>          context<span class="op">.</span><span class="fu">put</span><span class="op">(</span><span class="st">"MailBean"</span> <span class="op">,</span> mailBean<span class="op">);</span></span></code></pre></div>
 <ul>
@@ -268,7 +278,7 @@ javax.mail.Session is obtained for the given SMTP Host</li>
 <span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a>          Session session <span class="op">=</span> Session<span class="op">.</span><span class="fu">getInstance</span><span class="op">(</span>sysProperties<span class="op">,</span> <span class="kw">null</span><span class="op">);</span></span></code></pre></div>
 <ul>
 <li><p>Since the e-mail needs to contain text and an image file, create
-a MimeMultipart with the subtype declared as &ldquo;related&rsquo; so that the image
+a MimeMultipart with the subtype declared as “related’ so that the image
 being put doesnt get lost if the images are blocked by the recipient</p>
 <pre><code>    MimeMultipart multipart = new MimeMultipart("related");</code></pre></li>
 </ul>
@@ -391,7 +401,7 @@ accessed using, <code>$MailBean.\[variable-name\]</code> Example:
 <h4 id="mail.properties">mail.properties</h4>
 <p>This file contains the connection and the other context parameter
 properties used by the java code</p>
-<h3 id="advantages_1">Advantages</h3>
+<h3 id="advantages">Advantages</h3>
 <p>Designed as an easy-to-use general templating tool, Velocity is
 useful in any Java application area that requires data formatting and
 presentation. Their salient advantages being:</p>

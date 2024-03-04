@@ -93,7 +93,28 @@
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#slicing-techniques" title="Slicing techniques">Slicing techniques</a></li><li><a class="toc-href" href="#remember" title="Remember">Remember</a></li><li><a class="toc-href" href="#media-queries" title="Media Queries">Media Queries</a></li><li><a class="toc-href" href="#types-of-selectors" title="Types of Selectors">Types of Selectors</a></li><li><a class="toc-href" href="#selectors-precedence" title="Selectors Precedence">Selectors Precedence</a></li><li><a class="toc-href" href="#hierarchy-of-precedence" title="Hierarchy of precedence">Hierarchy of precedence</a></li><li><a class="toc-href" href="#shorthand-syntax" title="Shorthand syntax">Shorthand syntax</a></li><li><a class="toc-href" href="#form-features-in-html5" title="Form features in HTML5">Form features in HTML5</a></li><li><a class="toc-href" href="#css-features-in-html5" title="CSS features in HTML5">CSS features in HTML5</a></li><li><a class="toc-href" href="#new-tags-in-html5" title="New Tags in HTML5">New Tags in HTML5</a></li><li><a class="toc-href" href="#important-links" title="Important Links">Important Links</a></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#slicing-techniques" id="toc-slicing-techniques">Slicing
+techniques</a></li>
+<li><a href="#remember" id="toc-remember">Remember</a></li>
+<li><a href="#media-queries" id="toc-media-queries">Media
+Queries</a></li>
+<li><a href="#types-of-selectors" id="toc-types-of-selectors">Types of
+Selectors</a></li>
+<li><a href="#selectors-precedence" id="toc-selectors-precedence">Selectors Precedence</a></li>
+<li><a href="#hierarchy-of-precedence" id="toc-hierarchy-of-precedence">Hierarchy of precedence</a></li>
+<li><a href="#shorthand-syntax" id="toc-shorthand-syntax">Shorthand
+syntax</a></li>
+<li><a href="#form-features-in-html5" id="toc-form-features-in-html5">Form features in HTML5</a></li>
+<li><a href="#css-features-in-html5" id="toc-css-features-in-html5">CSS
+features in HTML5</a></li>
+<li><a href="#new-tags-in-html5" id="toc-new-tags-in-html5">New Tags in
+HTML5</a></li>
+<li><a href="#important-links" id="toc-important-links">Important
+Links</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>The following are some of the important points that i had gathered
@@ -122,8 +143,8 @@ properties</li>
 <li>use the following (or use a reset)</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a>body{</span>
-<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="kw">padding</span>:<span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="kw">margin</span>:<span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="kw">padding</span><span class="ch">:</span><span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="kw">margin</span><span class="ch">:</span><span class="dv">0</span><span class="op">;</span></span>
 <span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>}</span></code></pre></div>
 <ol start="3" type="1">
 <li>Give Wrapper <code>margin:auto;</code> to make the whole container
@@ -152,11 +173,11 @@ decided</li>
 changing screen size</li>
 <li>Always use <code>margin,padding:0</code> - for reset</li>
 <li>Types of layouts - pure fluid / pure display oriented / hybrid ..
-Fluid Layout &hellip; system of relative layout instead of absolute pixels &hellip;
+Fluid Layout … system of relative layout instead of absolute pixels …
 height/width - only in percentages</li>
 </ol>
-<p>.. Adaptive Layout &hellip; using the <span class="citation" data-cites="media">(<strong>media?</strong>)</span> tags</p>
-<p>.. Responsive Layout &hellip; Mix of Fluid and adaptive layouts. PERCENTAGE
+<p>.. Adaptive Layout … using the <span class="citation" data-cites="media">(<strong>media?</strong>)</span> tags</p>
+<p>.. Responsive Layout … Mix of Fluid and adaptive layouts. PERCENTAGE
 + Media Tags</p>
 <ol start="4" type="1">
 <li>New way of setting the media value [source,html]</li>
@@ -165,8 +186,8 @@ height/width - only in percentages</li>
 <ol start="5" type="1">
 <li>Media query representation</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>        <span class="im">@media</span> <span class="dv">screen</span> <span class="kw">and</span> (<span class="kw">max-width</span>: <span class="dv">980</span><span class="dt">px</span>){</span>
-<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>            <span class="fu">....</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>        <span class="im">@media</span> <span class="an">screen</span> <span class="kw">and</span> <span class="fu">(</span><span class="kw">max-width</span><span class="ch">:</span> <span class="dv">980</span><span class="dt">px</span><span class="fu">)</span>{</span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>            ....</span>
 <span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a>        }</span></code></pre></div>
 <ol start="6" type="1">
 <li>Always create the smallest resolution first</li>
@@ -212,44 +233,44 @@ important than the other pseudo-element</em></li>
 </ol>
 <h3 id="shorthand-syntax">Shorthand syntax</h3>
 <p>###= background</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>    background<span class="in">: url(example.gif)</span>;</span>
-<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>    background-color<span class="in">: #eaeaea</span> ;</span>
-<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    background-repeat<span class="in">: repeat-x</span>;</span>
-<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>    background-position<span class="in">: top</span> left;</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>    background<span class="in">:</span> url<span class="in">(</span>example<span class="fu">.gif</span><span class="in">)</span>;</span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>    background-color<span class="in">:</span> <span class="pp">#eaeaea</span> ;</span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    background-repeat<span class="in">:</span> repeat-x;</span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>    background-position<span class="in">:</span> top left;</span></code></pre></div>
 <p>can be written as:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>background<span class="in">: #eaeaea</span> url(example<span class="fu">.gif</span>) repeat-x top left;</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>background<span class="in">:</span> <span class="pp">#eaeaea</span> url<span class="in">(</span>example<span class="fu">.gif</span><span class="in">)</span> repeat-x top left;</span></code></pre></div>
 <p>###= border</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a>    border-color<span class="in">: red</span>;</span>
-<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    border-width<span class="in">: 1px;</span></span>
-<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>    border-style<span class="in">: solid</span>;</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a>    border-color<span class="in">:</span> red;</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    border-width<span class="in">:</span> 1px;</span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>    border-style<span class="in">:</span> solid;</span></code></pre></div>
 <p>can be written as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>border<span class="in">: 1px solid</span> red;</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>border<span class="in">:</span> 1px solid red;</span></code></pre></div>
 <p>###= list</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a>    list-style-position<span class="in">: outside</span>;</span>
-<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>    list-style-image<span class="in">: none</span>;</span>
-<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>    list-style-type<span class="in">: disc</span>;</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a>    list-style-position<span class="in">:</span> outside;</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>    list-style-image<span class="in">:</span> none;</span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>    list-style-type<span class="in">:</span> disc;</span></code></pre></div>
 <p>can be written as:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a>list-style<span class="in">: disc</span> outside;`</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a>list-style<span class="in">:</span> disc outside;`</span></code></pre></div>
 <p>the general format for a list style is:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a>list-style<span class="in">: [list-style-type</span>] <span class="ex">[list-style-position]</span> <span class="ex">[list-style-image]</span>;</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a>list-style<span class="in">:</span> <span class="ex">[</span><span class="ss">list-style-type</span><span class="ex">]</span> <span class="ex">[</span><span class="ss">list-style-position</span><span class="ex">]</span> <span class="ex">[</span><span class="ss">list-style-image</span><span class="ex">]</span>;</span></code></pre></div>
 <h6 id="font">font</h6>
-<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a>    font-family<span class="in">: Arial</span><span class="op">,</span> Helvetica;</span>
-<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>    font-weight<span class="in">: bold</span>;</span>
-<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>    font-style<span class="in">: italic</span>;</span>
-<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>    font-size<span class="in">: 1em;</span></span>
-<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>    line-height<span class="in">: 1.5em;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a>    font-family<span class="in">:</span> Arial<span class="op">,</span> Helvetica;</span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>    font-weight<span class="in">:</span> bold;</span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>    font-style<span class="in">:</span> italic;</span>
+<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>    font-size<span class="in">:</span> 1em;</span>
+<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>    line-height<span class="in">:</span> 1<span class="fu">.5em</span>;</span></code></pre></div>
 <p>can be written as:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a>font<span class="in">: bold</span> italic 1em/1<span class="fu">.5em</span> Arial<span class="op">,</span> Helvetica;</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a>font<span class="in">:</span> bold italic 1em/1<span class="fu">.5em</span> Arial<span class="op">,</span> Helvetica;</span></code></pre></div>
 <p>###= margin The margin properties allows a shorthand for margin-top,
 margin-right, margin-bottom and margin-left.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=15px, left=20px */</span></span>
-<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>    margin<span class="in">: 10px 5px 15px 20px;</span></span>
+<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px 15px 20px;</span>
 <span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a></span>
 <span id="cb13-4"><a aria-hidden="true" href="#cb13-4" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=10px, left=5px*/</span></span>
-<span id="cb13-5"><a aria-hidden="true" href="#cb13-5" tabindex="-1"></a>    margin<span class="in">: 10px 5px;</span></span>
+<span id="cb13-5"><a aria-hidden="true" href="#cb13-5" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px;</span>
 <span id="cb13-6"><a aria-hidden="true" href="#cb13-6" tabindex="-1"></a></span>
 <span id="cb13-7"><a aria-hidden="true" href="#cb13-7" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=15px, left=5px*/</span></span>
-<span id="cb13-8"><a aria-hidden="true" href="#cb13-8" tabindex="-1"></a>    margin<span class="in">: 10px 5px 15px;</span></span></code></pre></div>
+<span id="cb13-8"><a aria-hidden="true" href="#cb13-8" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px 15px;</span></code></pre></div>
 <h3 id="form-features-in-html5">Form features in HTML5</h3>
 <ol type="1">
 <li>Placeholder text</li>

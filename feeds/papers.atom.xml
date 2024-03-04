@@ -58,7 +58,7 @@ size, and the model configurations&lt;/li&gt;
 points you did not understand | find references and resources that can
 help you&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="fifth-pass-replication_1"&gt;Fifth Pass [Replication]&lt;/h3&gt;
+&lt;h3 id="fifth-pass-replication"&gt;Fifth Pass [Replication]&lt;/h3&gt;
 &lt;p&gt;Train the model on the paper data if it is available and try to
 replicate the results if it is possible. If not possible, apply the
 model on just a subset of the data or just for one epoch to make sure
@@ -77,7 +77,7 @@ applied to fix them&lt;/p&gt;
 &lt;h4 id="references"&gt;References&lt;/h4&gt;
 &lt;p&gt;[1] Stanford CS230: Deep Learning | Autumn 2018 | Lecture 8 - Career
 Advice / Reading Research Papers. www.youtube.com,
-https://www.youtube.com/watch?v=733m6qBH-jI. Accessed 26 Nov.&amp;nbsp;2022.&lt;/p&gt;
-&lt;p&gt;[2] Hosni, Youssef. &amp;ldquo;How to Read Machine Learning Papers
-Effectively.&amp;rdquo; Medium, 9 Oct.&amp;nbsp;2022,
-https://pub.towardsai.net/how-to-read-machine-learning-papers-effectively-9c2df7906516.&lt;/p&gt;</content><category term="Papers"></category><category term="papers"></category><category term="reviews"></category><category term="machine-learning"></category></entry></feed>
+https://www.youtube.com/watch?v=733m6qBH-jI. Accessed 26 Nov. 2022.&lt;/p&gt;
+&lt;p&gt;[2] Hosni, Youssef. “How to Read Machine Learning Papers
+Effectively.” Medium, 9 Oct. 2022,
+https://pub.towardsai.net/how-to-read-machine-learning-papers-effectively-9c2df7906516.&lt;/p&gt;</content><category term="Papers"></category><category term="papers"></category><category term="reviews"></category><category term="ml-code"></category></entry></feed>

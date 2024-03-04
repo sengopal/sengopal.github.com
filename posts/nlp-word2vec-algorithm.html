@@ -89,19 +89,17 @@
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-tag"></i>
-                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/machine-learning.html">#machine-learning</a>            </li>
+                <a href="https://sengopal.github.io/tag/cs224n.html">#cs224n</a>,                 <a href="https://sengopal.github.io/tag/learning.html">#learning</a>,                 <a href="https://sengopal.github.io/tag/nlp.html">#nlp</a>,                 <a href="https://sengopal.github.io/tag/ml-code.html">#ml-code</a>            </li>
         </ul>
     </header>
     <div class="hidden-xs hidden-sm">
-        <div id="toc"><ul><li><a class="toc-href" href="#word2vec-algorithm" title="Word2vec algorithm">Word2vec algorithm</a><ul><li><a class="toc-href" href="#optimization-gradient-descent" title="Optimization: Gradient
-Descent">Optimization: Gradient
-Descent</a></li><li><a class="toc-href" href="#stochastic-gradient-descent" title="Stochastic Gradient Descent">Stochastic Gradient Descent</a></li><li><a class="toc-href" href="#note-about-sgd" title="Note about SGD">Note about SGD</a></li><li><a class="toc-href" href="#why-two-different-vectors-for-the-same-word" title="Why two different
-vectors for the same word">Why two different
-vectors for the same word</a></li></ul></li><li><a class="toc-href" href="#word2vec-model-functions_1" title="Word2Vec model functions">Word2Vec model functions</a><ul><li><a class="toc-href" href="#better-sampling-of-rare-words" title="Better sampling of rare
-words">Better sampling of rare
-words</a></li><li><a class="toc-href" href="#problems-with-co-occurence-matrix_1" title="Problems with co-occurence
-matrix">Problems with co-occurence
-matrix</a></li><li><a class="toc-href" href="#singular-value-decomposition" title="Singular Value Decomposition">Singular Value Decomposition</a></li><li><a class="toc-href" href="#coals" title="COALS">COALS</a></li><li><a class="toc-href" href="#word2vec-implementation-code" title="Word2Vec Implementation Code">Word2Vec Implementation Code</a></li><li><a class="toc-href" href="#references" title="References">References</a></li></ul></li></ul></div>
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#word2vec-algorithm" id="toc-word2vec-algorithm">Word2vec
+algorithm</a></li>
+<li><a href="#word2vec-model-functions" id="toc-word2vec-model-functions">Word2Vec model functions</a></li>
+</ul>
+</nav>
     </div>
     <div class="content">
         <p>This blog post captures the inner workings of the Word2Vec Algorithm,
@@ -125,10 +123,10 @@ Descent</h4>
 with respect to the parameters. The algorithm starts with random word
 vectors. They are initialized with small numbers, near 0 in each
 dimension. The loss function J uses a gradient descent algorithm, an
-iterative algorithm, that learns to maximize <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> by changing theta,
+iterative algorithm, that learns to maximize <span class="math inline"><em>J</em>(<em>θ</em>)</span> by changing theta,
 which represents the model weights. The idea of the algorithm is to
-calculate the gradient <span class="math inline"><em>J</em>(<em>&theta;</em>)</span>, from the current
-values of <span class="math inline"><em>&theta;</em></span>, by making a small
+calculate the gradient <span class="math inline"><em>J</em>(<em>θ</em>)</span>, from the current
+values of <span class="math inline"><em>θ</em></span>, by making a small
 step in the direction of the negative gradient to gradually move down
 towards the minimum.</p>
 <p><img src="/extras/images/nlp-word2vec-algorithm/gradient_descent.png"/></p>
@@ -145,7 +143,7 @@ learning rate, where J is a function of all windows in the corpus.</p>
 <p><img src="/extras/images/nlp-word2vec-algorithm/update_step.png"/></p>
 <p>Note that the denominator is a sum over every center word in the
 entire corpus, but they often have billions of words in the corpus,
-which makes computing the gradient of <span class="math inline"><em>J</em>(<em>&theta;</em>)</span> expensive, as we have
+which makes computing the gradient of <span class="math inline"><em>J</em>(<em>θ</em>)</span> expensive, as we have
 to iterate over the entire corpus. So a single gradient update takes a
 long time and optimization would be extremely slow.</p>
 <h4 id="stochastic-gradient-descent">Stochastic Gradient Descent</h4>
@@ -187,7 +185,7 @@ vectors for the same word</h4>
 word occurs in the same window as both a center and a context word, then
 a dot product of the same term with itself, makes it messier to work
 out.</p>
-<h3 id="word2vec-model-functions_1">Word2Vec model functions</h3>
+<h3 id="word2vec-model-functions">Word2Vec model functions</h3>
 <p>word2vec can operate in two different models 1. skip-gram model -
 where it predicts the context words given the center word in a bag of
 words style model. 2. Continuous Bag of Words model - where it predicts
@@ -208,13 +206,13 @@ function (sigmoid), which maps any real number to a probability between
 0 and 1 open interval. So for a large dot product. the logistic function
 would return 1.</p>
 <p>On average the dot product between the center word and context words,
-should be small if they most likely didn&rsquo;t actually occur in the
+should be small if they most likely didn’t actually occur in the
 context. This is achieved using the sigmoid function, which is symmetric
 and to make probability small, we can take the negative of the dot
 product i.e., The dot product of a random context word and the center
 word would be a small number, which is again negated to put through the
 sigmoid.</p>
-<p>The objective is to actually maximize the <span class="math inline"><em>J</em><sub><em>t</em></sub>(<em>&theta;</em>)</span>.</p>
+<p>The objective is to actually maximize the <span class="math inline"><em>J</em><sub><em>t</em></sub>(<em>θ</em>)</span>.</p>
 <p><img src="/extras/images/nlp-word2vec-algorithm/skip_gram_negative_sampling_2.png"/></p>
 <p>Comparing this to the earlier discussion of minimizing the negative
 log likelihood, where we use the negative log likelihood of the sigmoid
@@ -235,7 +233,7 @@ which renormalizes the probability distribution and dampens the
 difference between common and rare words to ensure that less frequent
 words are sampled more often, but still not nearly as much as if a
 uniform distribution was utilized.</p>
-<h4 id="problems-with-co-occurence-matrix_1">Problems with co-occurence
+<h4 id="problems-with-co-occurence-matrix">Problems with co-occurence
 matrix</h4>
 <p><img src="/extras/images/nlp-word2vec-algorithm/cooccurence-matrix.png"/></p>
 <ol type="1">
@@ -261,8 +259,8 @@ from largest down to smallest and discounting some of the smaller
 values, we can extract lower dimensional representations for our words
 which enables us to recover the original co-occurrence matrix. But it
 works poorly because we are expecting to have these normally distributed
-errors because we have exceedingly common words like &ldquo;a,&rdquo; &ldquo;the,&rdquo; and
-&ldquo;and&rdquo; and a very large number of rare words.</p>
+errors because we have exceedingly common words like “a,” “the,” and
+“and” and a very large number of rare words.</p>
 <p>We can use the log of the raw counts or cap the maximum count or
 remove the function words to address this issue and such methods were
 explored heavily in the 2000s.</p>
