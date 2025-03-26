@@ -71,8 +71,6 @@ parts involved in a machine learning project, specializing towards a
 specific application such as a recommendation system or a ranking
 capability etc.,. A simple forkable copy of this document is available
 at https://github.com/sengopal/ml-project-template as well.&lt;/p&gt;
-&lt;h1 id="model-and-research-documentation-template"&gt;Model and Research
-Documentation Template&lt;/h1&gt;
 &lt;h1 id="project-root"&gt;Project Root&lt;/h1&gt;
 &lt;p&gt;This document acts as the index README or the landing page for the
 machine learning project. The intent is to capture all the necessary
@@ -88,9 +86,17 @@ document.&lt;/p&gt;
 (Responsible, Accountable, Supporting, Consulted and Informed) structure
 as well as necessary. This section can also include the external team
 stakeholders etc.,&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="goals-and-definitions"&gt;1 Goals and Definitions&lt;/h2&gt;
+&lt;p&gt;This section tracks the primary goals, vision, metrics that are being
+impacted, scope and usecases.&lt;/p&gt;
 &lt;h3 id="business-objectives"&gt;1.1 Business Objectives&lt;/h3&gt;
+&lt;p&gt;The business objective focuses on the end customer and working
+backwards from the impact expected. This section provides the need for
+this project in the first place.&lt;/p&gt;
 &lt;h3 id="vision"&gt;1.2 Vision&lt;/h3&gt;
+&lt;p&gt;The vision explores the end vision of this experiment and can
+categorize iterative improvements or vision of the project delivery.&lt;/p&gt;
 &lt;h3 id="impact-metrics"&gt;1.3 Impact Metrics&lt;/h3&gt;
 &lt;p&gt;These are the output business metrics that are targeted for
 improvement. For a recommendation sytem this might be Null&amp;amp;Low
@@ -116,6 +122,11 @@ metrics that is being identified. These act as the baseline to measure
 and experiment the model improvements and other hypothesis.&lt;/p&gt;
 &lt;h3 id="data-reportingbusiness-intelligence-dashboards"&gt;1.8 Data
 reporting/business intelligence dashboards&lt;/h3&gt;
+&lt;p&gt;This section tracks the critical data reporting and intelligence
+dashboards that this project is expected to impact. Its critical to
+define the metrics and the dashboards to view the impact at the onset to
+ensure consensus around clarity of project outcome.&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="data-analysis"&gt;2 Data Analysis&lt;/h2&gt;
 &lt;h3 id="data-used"&gt;2.1 Data used&lt;/h3&gt;
 &lt;p&gt;Location of the training/validation/test data, data freshness,
@@ -130,7 +141,11 @@ documents any interesting relationships observed in the data.&lt;/p&gt;
 annotated datasets&lt;/h3&gt;
 &lt;p&gt;Human annotated datasets that act as golden datasets for final model
 performance evaluation - their exploratory analysis and locations&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="machine-learning-model"&gt;3 Machine Learning Model&lt;/h2&gt;
+&lt;p&gt;This section focuses on the machine learning part of the solution and
+acts as a checkpoint journalling of models trained and its
+performance.&lt;/p&gt;
 &lt;h3 id="baselines-for-model-performance"&gt;3.1 Baselines for model
 performance&lt;/h3&gt;
 &lt;p&gt;These are the baselines established for model finetuning based on
@@ -167,6 +182,7 @@ dimensions) and comparison metrics&lt;/p&gt;
 &lt;/ol&gt;
 &lt;h3 id="inference-deployments"&gt;3.5 Inference Deployments&lt;/h3&gt;
 &lt;p&gt;Pytorch - code format and styleguide - ​​&lt;a class="uri" href="https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model"&gt;https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model&lt;/a&gt;&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h3 id="ml-operations"&gt;4 ML Operations&lt;/h3&gt;
 &lt;p&gt;This section documents the ML operation pipelines once the model has
 been identified. There should be sub segments created for the below and
@@ -190,6 +206,7 @@ Quanitizations etc.,&lt;/li&gt;
 &lt;li&gt;Code changes and Deployments - Source code, K8s pods&lt;/li&gt;
 &lt;li&gt;Instructions for retraining, bulk inferencing etc.,&lt;/li&gt;
 &lt;/ol&gt;
+&lt;hr/&gt;
 &lt;h3 id="project-execution-and-rollout-plan"&gt;5 Project Execution and
 Rollout Plan&lt;/h3&gt;
 &lt;blockquote&gt;
@@ -217,7 +234,7 @@ time etc., 2. Data Monitoring - coverage, data drift, model metrics
 etc.,&lt;/p&gt;
 &lt;h3 id="playbook-for-faqs-and-commonly-known-issues"&gt;6.2 Playbook for
 FAQs and commonly known issues&lt;/h3&gt;
-&lt;h3 id="references"&gt;1.7 References&lt;/h3&gt;
+&lt;h3 id="references"&gt;7 References&lt;/h3&gt;
 &lt;p&gt;All other reference links such as 1. Internal documents 2. Refs to
 wiki, screenshots, Repos with any sample code 3. External - Inspiring
 work, papers for further literature review&lt;/p&gt;</content><category term="Machine Learning"></category><category term="ml-code"></category><category term="management"></category></entry><entry><title>float16 precision conversion to Base64</title><link href="https://sengopal.github.io/posts/float16-precision-conversion-to-base64.html" rel="alternate"></link><published>2023-02-20T00:00:00-08:00</published><updated>2023-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-02-20:/posts/float16-precision-conversion-to-base64.html</id><summary type="html">This post discusses the different methods in Python for converting float16 or half-precision floats to base64 and vice versa to ensure lossless transmission of numpy array data.</summary><content type="html">&lt;p&gt;With the advent of vector databases and large model based embeddings,

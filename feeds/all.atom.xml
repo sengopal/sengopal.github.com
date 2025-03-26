@@ -1,5 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2023-10-01T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.github.io/posts/feature-data-creation-for-time-series.html" rel="alternate"></link><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-10-01:/posts/feature-data-creation-for-time-series.html</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.github.io/" rel="alternate"></link><link href="https://sengopal.github.io/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.github.io/</id><updated>2024-05-18T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>LLM Inference Systems</title><link href="https://sengopal.github.io/posts/llm-inference-systems.html" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2024-05-18:/posts/llm-inference-systems.html</id><summary type="html">This post describes the different inference serving systems</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
+confusion about Triton, TensorRT, and TensorRT-LLM. These are all
+related to optimizing and deploying machine learning models, but with
+different purposes and use cases, specifically what inputs and outputs
+that they support.&lt;/p&gt;
+&lt;h3 id="triton"&gt;Triton&lt;/h3&gt;
+&lt;p&gt;Triton is an open-source inference &lt;strong&gt;server&lt;/strong&gt; (NVIDIA)
+designed to optimize and deploy machine learning models for inference
+workloads and supports multiple deep learning frameworks, including
+TensorFlow, PyTorch, and TensorRT. Triton supportsfeatures like
+batching, concurrent model execution, and dynamic batching to improve
+performance and efficiency.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inputs&lt;/strong&gt; Triton can accept inputs in various formats,
+such as images, text, or numerical data, depending on the machine
+learning model being deployed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outputs&lt;/strong&gt; The outputs depend on the specific machine
+learning model and its task, such as classification results, object
+detection bounding boxes, or text generation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tensorrt"&gt;TensorRT&lt;/h3&gt;
+&lt;p&gt;TensorRT is a high-performance deep learning inference optimizer and
+runtime &lt;strong&gt;library&lt;/strong&gt; developed by NVIDIA designed to
+optimize and accelerate the inference performance of deep learning
+models on NVIDIA GPUs. TensorRT can optimize models from various deep
+learning frameworks, including TensorFlow, PyTorch, and ONNX.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inputs&lt;/strong&gt; TensorRT accepts deep learning models in
+various formats, such as TensorFlow frozen graphs, PyTorch traced
+models, or ONNX models.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outputs&lt;/strong&gt; TensorRT optimizes the models for faster
+inference on NVIDIA GPUs, but it does not change the model’s output
+format. The outputs remain the same as the original model, such as
+classification probabilities, object detection bounding boxes, or
+segmentation masks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="tensorrt-llm"&gt;TensorRT-LLM&lt;/h3&gt;
+&lt;p&gt;TensorRT-LLM is a branch of TensorRT specifically designed for
+optimizing and deploying large language models (LLMs) on NVIDIA GPUs. It
+provides optimizations and techniques tailored for the efficient
+inference of LLMs, which can be computationally expensive due to their
+large size and complex architectures.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inputs&lt;/strong&gt; TensorRT-LLM accepts pre-trained LLM models
+in various formats, such as TensorFlow, PyTorch, or ONNX.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outputs&lt;/strong&gt; The outputs of TensorRT-LLM remain the same
+as the original LLM model, which typically involves generating text
+based on the input prompt or context.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TL;DR - Triton is an inference server that can deploy and optimize
+models from different frameworks, including TensorRT-optimized models.
+TensorRT is a library for optimizing and accelerating deep learning
+models for inference on NVIDIA GPUs. TensorRT-LLM is a specialized
+branch of TensorRT focused on optimizing and deploying large language
+models efficiently on NVIDIA GPUs.&lt;/p&gt;</content><category term="Large Language Models"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.github.io/posts/neuron-handling-nans.html" rel="alternate"></link><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2024-01-20:/posts/neuron-handling-nans.html</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
+or loss of precision issue. This is typically seen with NaN &lt;em&gt;(Not a
+Number)&lt;/em&gt; errors.&lt;/p&gt;
+&lt;p&gt;Neuron compiler suggests the following options to overcome the NaN
+issue.&lt;/p&gt;
+&lt;h3 id="compiler-flag---enable-saturate-infinity"&gt;Compiler flag:
+&lt;code&gt;--enable-saturate-infinity&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-7-0-40"&gt;Ref&lt;/a&gt;
+A computation that can generate +/- infinity is at a high risk of
+generating Not-a-Number (NaN) values when the infinity value is used in
+subsequent computations. This option helps avoid this by converting
++Inf/-Inf values to MAX/MIN_FLOAT before operations that could produce
+NaN values for +Inf/-Inf inputs on the target architecture. While this
+option helps to avoid NaN values, there is a potential performance
+degradation that occurs during model execution when this conversion is
+enabled.&lt;/p&gt;
+&lt;h3 id="compiler-flag---enable-mixed-precision-accumulation"&gt;Compiler
+flag: &lt;code&gt;--enable-mixed-precision-accumulation&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-13-66-0"&gt;Ref&lt;/a&gt;
+To perform intermediate calculations of reduction operators (such as the
+dot or reduce operators) in FP32 regardless of the operation’s defined
+datatype.&lt;/p&gt;
+&lt;h3 id="nans-due-to-saturation"&gt;NaNs due to saturation&lt;/h3&gt;
+&lt;p&gt;To triage an intermediate BF16 tensor, np.isnan would not work, since
+NumPy supports only &lt;code&gt;float16&lt;/code&gt;, &lt;code&gt;float32&lt;/code&gt;, and
+&lt;code&gt;float64&lt;/code&gt; by default and &lt;code&gt;bfloat16&lt;/code&gt; is not a
+standard NumPy dtype. The data typically looks like
+&lt;code&gt;bf16_hex = [0x3f80, 0xbf80, 0x4000, 0x7f80, 0xff80, 0x7fc0]&lt;/code&gt;.
+We can either try to use torch.isnan or convert to fp32 as below.&lt;/p&gt;
+&lt;h4 id="convert-to-fp32-for-printingchecking"&gt;Convert to fp32 for
+printing/checking&lt;/h4&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; bf16_to_float32(bits):&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="im"&gt;import&lt;/span&gt; struct&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# Pad with 16 zero bits to match float32&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;    f32_bits &lt;span class="op"&gt;=&lt;/span&gt; bits &lt;span class="op"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="dv"&gt;16&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; struct.unpack(&lt;span class="st"&gt;'f'&lt;/span&gt;, struct.pack(&lt;span class="st"&gt;'I'&lt;/span&gt;, f32_bits))[&lt;span class="dv"&gt;0&lt;/span&gt;]&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;converted &lt;span class="op"&gt;=&lt;/span&gt; [bf16_to_float32(b) &lt;span class="cf"&gt;for&lt;/span&gt; b &lt;span class="kw"&gt;in&lt;/span&gt; bf16_hex]&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(converted)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;To add Neuron available conversion method&lt;/em&gt;&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="neuron"></category></entry><entry><title>EFA and OpenFabrics</title><link href="https://sengopal.github.io/posts/efa-and-openfabrics.html" rel="alternate"></link><published>2023-12-29T00:00:00-08:00</published><updated>2023-12-29T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-12-29:/posts/efa-and-openfabrics.html</id><summary type="html">This post works through a high level overview of OpenMPI and EFA</summary><content type="html">&lt;p&gt;This post attempts to clarify the use of EFA and OpenMPI in
+multi-node inference, focusing on how components like the Matching
+Transport Layer (MTL), libfabric, and the OFI framework enable
+efficient, low-latency communication. Installing EFA for a node &lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html"&gt;Ref&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="matching-transport-layer-mtl"&gt;Matching Transport Layer
+(MTL)&lt;/h3&gt;
+&lt;p&gt;The Matching Transport Layer (MTL) is a component used in the Open
+MPI implementation when utilizing libfabric for managing two-sided
+tagged messages. MTL is responsible for matching message tags and
+ensuring that messages are delivered to the correct destination. This
+layer is designed to work closely with the underlying network fabric,
+such as EFA, to provide efficient and reliable message passing between
+nodes in a high-performance computing (HPC) environment.&lt;/p&gt;
+&lt;h3 id="efa-and-libfabric"&gt;EFA and Libfabric&lt;/h3&gt;
+&lt;p&gt;EFA integrates with the libfabric API, which is part of the
+OpenFabrics Interfaces (OFI) framework. This integration allows EFA to
+bypass the operating system kernel, reducing overhead and enabling
+low-latency, high-throughput communication directly with the network
+interface hardware. This is critical for scaling HPC and machine
+learning applications on AWS. By leveraging these components, AWS’s EFA
+can provide enhanced performance for HPC and ML applications, enabling
+efficient inter-node communication and supporting large-scale
+computational tasks.&lt;/p&gt;
+&lt;h3 id="openfabrics-interfaces-ofi"&gt;OpenFabrics Interfaces (OFI)&lt;/h3&gt;
+&lt;p&gt;OpenFabrics Interfaces (OFI) is a framework designed to expose
+communication services to middleware and applications, particularly in
+high-performance computing (HPC) environments. Here are the key aspects
+of OFI:&lt;/p&gt;
+&lt;h3 id="purpose-and-design"&gt;Purpose and Design&lt;/h3&gt;
+&lt;p&gt;OFI is specifically designed to meet the performance and scalability
+requirements of HPC applications such as Message Passing Interface (MPI)
+libraries, Symmetric Hierarchical Memory Access (SHMEM) libraries,
+Partitioned Global Address Space (PGAS) programming models, Database
+Management Systems (DBMS), and enterprise applications running in
+tightly coupled network environments. Its design aligns fabric services
+with application needs, providing a tight semantic fit between
+applications and the underlying fabric hardware. This reduces software
+overhead and improves efficiency when transmitting or receiving data
+over a fabric.&lt;/p&gt;
+&lt;h3 id="components"&gt;Components&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Libfabric&lt;/strong&gt;: The primary implementation of OFI is the
+libfabric library, which defines and exports the user-space API of OFI.
+Libfabric is designed to be independent of the underlying network
+protocols and the specific implementation of networking devices, making
+it versatile and widely applicable.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Provider Libraries&lt;/strong&gt;: These libraries interface with
+the hardware and provide the necessary services to the applications
+through libfabric.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kernel Services and Daemons&lt;/strong&gt;: These components
+support the user-space libraries and manage the communication between
+the application and the hardware.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Applications&lt;/strong&gt;: These are used to validate and
+benchmark the performance of the OFI framework.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://digitalcloud.training/aws-networking-eni-vs-efa-vs-ena/"&gt;Digital
+Cloud&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html"&gt;AWS
+Docs&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="AWS"></category><category term="neuron"></category></entry><entry><title>AI Compilers - A Study guide</title><link href="https://sengopal.github.io/posts/ai-compilers-a-study-guide.html" rel="alternate"></link><published>2023-12-22T00:00:00-08:00</published><updated>2023-12-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-12-22:/posts/ai-compilers-a-study-guide.html</id><summary type="html">A growing list/study guide of AI compilers, from foundational concepts like graph lowering and systolic arrays to practical tools like TorchDynamo and Glow.</summary><content type="html">&lt;p&gt;The following formulates a study guide for learning about AI
+compilers and systematically understanding the inner functions. These
+are targetted more towards Model and Framework level developers to build
+a deeper understanding of compiler functions.&lt;/p&gt;
+&lt;h4 id="ai-compilers-demystified---an-introduction"&gt;AI Compilers
+Demystified - An Introduction&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://medium.com/geekculture/ai-compilers-ae28afbc4907"&gt;Medium
+Article&lt;/a&gt; is a good high level summary of where AI compiler interacts
+with the frameworks and no learning about ML Accelerators is complete
+without learning about &lt;a href="https://cplu.medium.com/should-we-all-embrace-systolic-array-df3830f193dc"&gt;Systolic
+Arrays&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="alt text" src="/extras/images/compiler/compiler-structure.png"/&gt; &lt;em&gt;Ref: https://arxiv.org/abs/2002.03794&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id="ml-systems-for-tinyml"&gt;ML Systems for TinyML&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://harvard-edge.github.io/cs249r_book/contents/hw_acceleration/hw_acceleration.html"&gt;HW
+Acceleration&lt;/a&gt; provides an excellent end to end context on why ML
+compilers are necessary for compute optimization and the evolution of
+TPUs to ASICs. &lt;a href="https://github.com/harvard-edge/cs249r_book"&gt;CS249R&lt;/a&gt; is a good
+course for edgeML learning, but necessarily for compilers only.&lt;/p&gt;
+&lt;h4 id="glow-graph-lowering-compiler-techniques-for-neural-networks"&gt;Glow:
+Graph Lowering Compiler Techniques for Neural Networks&lt;/h4&gt;
+&lt;p&gt;The &lt;a href="https://arxiv.org/pdf/1805.00907"&gt;Glow&lt;/a&gt; paper
+discusses what is compilation and how optimized code is generated for
+different types of hardware and what IR (Intermediate representations)
+are. Though its outdated and replaced with TorchDynamo and
+TorchInductor, this paper sets up a good fundamental framework for
+understanding the inner mechanisms.&lt;/p&gt;
+&lt;h4 id="textbook---deeplearningsystems.ai"&gt;Textbook -
+Deeplearningsystems.ai&lt;/h4&gt;
+&lt;p&gt;A no-nonsense rich end-to-end textbook to understand the fundamentals
+of DL algorithms (Chapters 1-6) and Hardware and compiler level
+optimizations for these algorithms (Chapters 7-9)&lt;/p&gt;
+&lt;h4 id="a-simple-compiler-example"&gt;A simple compiler Example&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=mTq5PIBCizU"&gt;Build a
+Hardware Compiler for Machine Learning and Image Processing&lt;/a&gt; walks
+through in 10 minutes the concepts of building an Hardware accelerator
+for Image processing and ML algorithms using frameworks like Halide and
+others. The goal is to convert architecture-agnostic algorithm
+descriptions into hardware accelerators. It emphasizes using High-Level
+Synthesis (HLS) as a backend instead of directly targeting Verilog or
+VHDL. HLS allows compilers to emit HLS C++ code with directives,
+enhancing productivity despite potentially sacrificing some control over
+optimization. It goes into some of the design choices of handling
+optimizations affecting program semantics (e.g., quantization, bit width
+tuning) at the frontend which ensures optimizations directly impacting
+program outputs are addressed early in the compilation process. They
+utilize “for loops” as an intermediate representation and as a target
+output for HLS. Frameworks like TensorFlow, PyTorch, Halide, and TVM
+naturally express algorithms as dense linear algebra operations,
+simplifying translation to HLS-compatible constructs. They discuss loop
+transformations (e.g., fusion, unrolling) and memory optimizations
+(e.g., banking).&lt;/p&gt;
+&lt;h3 id="a-day-in-the-life-of-a-compiler-engineer"&gt;A day in the life of a
+Compiler Engineer&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=egZB5Uxki0I"&gt;Torchdynamo
+deep dive&lt;/a&gt; gives the viewer an idea on what issues does a Framework
+and compiler engineer faces during their development cycle. Edward from
+the PyTorch team discuss TorchDynamo, graph capture part of the
+torch.compile ecosystem which aims to capture Python code efficiently by
+capturing operations in a format suitable for compilation. TorchDynamo
+intercepts Python bytecode execution to generate and optimize
+computation graphs.He deep dives into bailouts in deep learning
+compilers and optimizations in symbolic evaluation during graph
+capture.&lt;/p&gt;
+&lt;h3 id="platforms-for-ai-accelerator-design"&gt;Platforms for AI
+accelerator design&lt;/h3&gt;
+&lt;p&gt;A concept platform for designing and evaluating ML Accelerators - &lt;a href="https://sites.google.com/berkeley.edu/gemminitutorialiiswc2021/"&gt;Gemmini&lt;/a&gt;
+| &lt;a href="https://berkeley.app.box.com/s/oc16092wrjhijigf065sctt2xosujsdi"&gt;Tutorial&lt;/a&gt;.
+An interesting read to understand what bottlenecks usually occur in
+accelerator design and challenges in designing generalized hardware.&lt;/p&gt;
+&lt;h3 id="references-for-further-readingscourses"&gt;References for further
+readings/courses&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Textbook: &lt;a href="https://www.amazon.com/Efficient-Processing-Deep-Neural-Networks/dp/168173835X"&gt;Efficient
+Processing of Deep Neural Networks&lt;/a&gt; by Vivienne Sze, Yu-Hsin Chen,
+Tien-Ju Yang and Joel S. Emer&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/MPSLab-ASU/ML-Accelerators"&gt;A survey of
+papers and books about ML Accelerators&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.bilibili.com/video/BV17J4m1h7Jf/?spm_id_from=333.788"&gt;EE290-2&lt;/a&gt;
+- Hardware for ML from Berkeley&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://abdelfattah-class.github.io/ece5545/"&gt;ECE 5545:
+Machine Learning Hardware and Systems&lt;/a&gt; - Well detailed course for ML
+HW and Systems design with &lt;a href="https://www.youtube.com/playlist?list=PL0mFAhrXqy9CuopJhAB8GVu_Oy7J0ery6"&gt;Course
+Videos&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://people.iith.ac.in/ramakrishna/C4ML-Jan19/"&gt;C4ML
+Course&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://courses.cs.washington.edu/courses/cse548/17sp/"&gt;WashU-cse548&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://people.cs.nycu.edu.tw/~ttyeh/course/2023_Fall/IOC5009/outline.html"&gt;IOC5009
+- Accelerator Architectures for Machine Learning&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="other-compiler-implementations"&gt;Other Compiler
+implementations&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="https://autokernel-docs-en.readthedocs.io/en/latest/blog/ai_compiler%20overview.html"&gt;AutoKernel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://aws.amazon.com/blogs/machine-learning/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/"&gt;NNVM&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>What is Neuron SDK</title><link href="https://sengopal.github.io/posts/what-is-neuron-sdk.html" rel="alternate"></link><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-12-20:/posts/what-is-neuron-sdk.html</id><summary type="html">This post introduces AWS Neuron SDK - an SDK that streamlines deep learning and generative AI workloads on AWS Inferentia and Trainium by integrating with frameworks like PyTorch and JAX.</summary><content type="html">&lt;p&gt;&lt;strong&gt;AWS Neuron&lt;/strong&gt; is a software development kit (SDK)
+designed to optimize deep learning and generative AI workloads on AWS
+Inferentia and AWS Trainium-powered Amazon EC2 instances. It integrates
+seamlessly with popular machine learning frameworks like PyTorch and
+JAX, enabling developers to build, train, and deploy high-performance
+models efficiently.&lt;/p&gt;
+&lt;h3 id="neuron-sdk-components"&gt;Neuron SDK Components&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Neuron Compiler&lt;/strong&gt;&lt;br/&gt;
+Translates machine learning models from frameworks such as PyTorch and
+JAX into executable code optimized for Inferentia and Trainium
+hardware.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Neuron Runtime&lt;/strong&gt;&lt;br/&gt;
+Serves as the execution engine, managing the efficient operation of
+compiled models on AWS hardware accelerators.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Developer Tools&lt;/strong&gt;&lt;br/&gt;
+Provides utilities for monitoring, profiling, and debugging, offering
+deep insights into model behavior and system performance.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="focus-areas"&gt;Focus Areas&lt;/h3&gt;
+&lt;h4 id="feature-enablement"&gt;1. Feature Enablement&lt;/h4&gt;
+&lt;p&gt;Integrates new inference features, such as floating-point
+quantization, to enhance model performance on Neuron hardware. This
+involves collaboration across the compiler, runtime, and tensor
+management components.&lt;/p&gt;
+&lt;h4 id="inference-techniques"&gt;2. Inference Techniques&lt;/h4&gt;
+&lt;p&gt;Implements advanced methods like speculative decoding and look-ahead
+decoding to improve inference speed for large language models, ensuring
+these techniques are effectively supported by Neuron hardware.&lt;/p&gt;
+&lt;h4 id="performance-optimization"&gt;3. Performance Optimization&lt;/h4&gt;
+&lt;p&gt;Various strategies are used to enhance efficiency, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Batching&lt;/strong&gt;&lt;br/&gt;
+Processes multiple inputs simultaneously to improve throughput,
+particularly useful for cost-sensitive applications.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Pipelining&lt;/strong&gt;&lt;br/&gt;
+Divides model execution across multiple NeuronCores to optimize data
+flow and reduce latency, ideal for latency-critical
+applications.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Overlapping Operations&lt;/strong&gt;&lt;br/&gt;
+Executes tasks concurrently, such as overlapping data loading with
+computation, to maximize resource utilization and minimize idle
+time.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Operator Fusion&lt;/strong&gt;&lt;br/&gt;
+Combines multiple operations into a single step to reduce memory
+overhead and improve computational efficiency.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Quantization&lt;/strong&gt;&lt;br/&gt;
+Reduces the precision of model weights and activations to lower memory
+usage and increase inference speed, with minimal impact on
+accuracy.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Custom C++ Operators&lt;/strong&gt;&lt;br/&gt;
+Develops tailored operators to optimize specific model components for
+enhanced performance in unique workloads.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+&lt;p&gt;For more detailed information, refer to the official &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
+Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.github.io/posts/feature-data-creation-for-time-series.html" rel="alternate"></link><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-10-01:/posts/feature-data-creation-for-time-series.html</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
 This post gives a quick review of how to convert the list of
 observations into features and labels to build a ML model to help
 predict the next observation.&lt;/p&gt;
@@ -71,8 +375,6 @@ parts involved in a machine learning project, specializing towards a
 specific application such as a recommendation system or a ranking
 capability etc.,. A simple forkable copy of this document is available
 at https://github.com/sengopal/ml-project-template as well.&lt;/p&gt;
-&lt;h1 id="model-and-research-documentation-template"&gt;Model and Research
-Documentation Template&lt;/h1&gt;
 &lt;h1 id="project-root"&gt;Project Root&lt;/h1&gt;
 &lt;p&gt;This document acts as the index README or the landing page for the
 machine learning project. The intent is to capture all the necessary
@@ -88,9 +390,17 @@ document.&lt;/p&gt;
 (Responsible, Accountable, Supporting, Consulted and Informed) structure
 as well as necessary. This section can also include the external team
 stakeholders etc.,&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="goals-and-definitions"&gt;1 Goals and Definitions&lt;/h2&gt;
+&lt;p&gt;This section tracks the primary goals, vision, metrics that are being
+impacted, scope and usecases.&lt;/p&gt;
 &lt;h3 id="business-objectives"&gt;1.1 Business Objectives&lt;/h3&gt;
+&lt;p&gt;The business objective focuses on the end customer and working
+backwards from the impact expected. This section provides the need for
+this project in the first place.&lt;/p&gt;
 &lt;h3 id="vision"&gt;1.2 Vision&lt;/h3&gt;
+&lt;p&gt;The vision explores the end vision of this experiment and can
+categorize iterative improvements or vision of the project delivery.&lt;/p&gt;
 &lt;h3 id="impact-metrics"&gt;1.3 Impact Metrics&lt;/h3&gt;
 &lt;p&gt;These are the output business metrics that are targeted for
 improvement. For a recommendation sytem this might be Null&amp;amp;Low
@@ -116,6 +426,11 @@ metrics that is being identified. These act as the baseline to measure
 and experiment the model improvements and other hypothesis.&lt;/p&gt;
 &lt;h3 id="data-reportingbusiness-intelligence-dashboards"&gt;1.8 Data
 reporting/business intelligence dashboards&lt;/h3&gt;
+&lt;p&gt;This section tracks the critical data reporting and intelligence
+dashboards that this project is expected to impact. Its critical to
+define the metrics and the dashboards to view the impact at the onset to
+ensure consensus around clarity of project outcome.&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="data-analysis"&gt;2 Data Analysis&lt;/h2&gt;
 &lt;h3 id="data-used"&gt;2.1 Data used&lt;/h3&gt;
 &lt;p&gt;Location of the training/validation/test data, data freshness,
@@ -130,7 +445,11 @@ documents any interesting relationships observed in the data.&lt;/p&gt;
 annotated datasets&lt;/h3&gt;
 &lt;p&gt;Human annotated datasets that act as golden datasets for final model
 performance evaluation - their exploratory analysis and locations&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h2 id="machine-learning-model"&gt;3 Machine Learning Model&lt;/h2&gt;
+&lt;p&gt;This section focuses on the machine learning part of the solution and
+acts as a checkpoint journalling of models trained and its
+performance.&lt;/p&gt;
 &lt;h3 id="baselines-for-model-performance"&gt;3.1 Baselines for model
 performance&lt;/h3&gt;
 &lt;p&gt;These are the baselines established for model finetuning based on
@@ -167,6 +486,7 @@ dimensions) and comparison metrics&lt;/p&gt;
 &lt;/ol&gt;
 &lt;h3 id="inference-deployments"&gt;3.5 Inference Deployments&lt;/h3&gt;
 &lt;p&gt;Pytorch - code format and styleguide - ​​&lt;a class="uri" href="https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model"&gt;https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model&lt;/a&gt;&lt;/p&gt;
+&lt;hr/&gt;
 &lt;h3 id="ml-operations"&gt;4 ML Operations&lt;/h3&gt;
 &lt;p&gt;This section documents the ML operation pipelines once the model has
 been identified. There should be sub segments created for the below and
@@ -190,6 +510,7 @@ Quanitizations etc.,&lt;/li&gt;
 &lt;li&gt;Code changes and Deployments - Source code, K8s pods&lt;/li&gt;
 &lt;li&gt;Instructions for retraining, bulk inferencing etc.,&lt;/li&gt;
 &lt;/ol&gt;
+&lt;hr/&gt;
 &lt;h3 id="project-execution-and-rollout-plan"&gt;5 Project Execution and
 Rollout Plan&lt;/h3&gt;
 &lt;blockquote&gt;
@@ -217,7 +538,7 @@ time etc., 2. Data Monitoring - coverage, data drift, model metrics
 etc.,&lt;/p&gt;
 &lt;h3 id="playbook-for-faqs-and-commonly-known-issues"&gt;6.2 Playbook for
 FAQs and commonly known issues&lt;/h3&gt;
-&lt;h3 id="references"&gt;1.7 References&lt;/h3&gt;
+&lt;h3 id="references"&gt;7 References&lt;/h3&gt;
 &lt;p&gt;All other reference links such as 1. Internal documents 2. Refs to
 wiki, screenshots, Repos with any sample code 3. External - Inspiring
 work, papers for further literature review&lt;/p&gt;</content><category term="Machine Learning"></category><category term="ml-code"></category><category term="management"></category></entry><entry><title>float16 precision conversion to Base64</title><link href="https://sengopal.github.io/posts/float16-precision-conversion-to-base64.html" rel="alternate"></link><published>2023-02-20T00:00:00-08:00</published><updated>2023-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2023-02-20:/posts/float16-precision-conversion-to-base64.html</id><summary type="html">This post discusses the different methods in Python for converting float16 or half-precision floats to base64 and vice versa to ensure lossless transmission of numpy array data.</summary><content type="html">&lt;p&gt;With the advent of vector databases and large model based embeddings,
@@ -695,7 +1016,7 @@ instantiation.&lt;/p&gt;
 &lt;p&gt;However, once the &lt;code&gt;new Constructor()&lt;/code&gt; is substituted with
 &lt;code&gt;new SafeConstructor()&lt;/code&gt;, the arbitrary code will fail with
 the following error confirming that the issue has been addressed.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="drawing" src="/extras/images/snakeyaml/safe_constructor_error.png" width="950"/&gt;&lt;/p&gt;</content><category term="Security"></category><category term="security"></category><category term="java"></category></entry><entry><title>NLP Glove Algorithm and further improvements on representation</title><link href="https://sengopal.github.io/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html" rel="alternate"></link><published>2022-04-10T00:00:00-07:00</published><updated>2022-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-04-10:/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html</id><summary type="html">A post detailing about the Glove algorithm, its variations and utilities and further improvements on word representation</summary><content type="html">&lt;p&gt;This lecture introduces the GLove model, the intuition behind the
+&lt;p&gt;&lt;img src="/extras/images/snakeyaml/safe_constructor_error.png"/&gt;&lt;/p&gt;</content><category term="Security"></category><category term="security"></category><category term="java"></category></entry><entry><title>NLP Glove Algorithm and further improvements on representation</title><link href="https://sengopal.github.io/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html" rel="alternate"></link><published>2022-04-10T00:00:00-07:00</published><updated>2022-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-04-10:/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html</id><summary type="html">A post detailing about the Glove algorithm, its variations and utilities and further improvements on word representation</summary><content type="html">&lt;p&gt;This lecture introduces the GLove model, the intuition behind the
 algorithm and different means to evaluate them.&lt;/p&gt;
 &lt;p&gt;Glove was an algorithm for word vectors that was made by Jeffrey
 Pennington, Richard Socher, and Christopher Manning in 2014 and acted as
@@ -960,7 +1281,7 @@ Algebraic Structure of Word Senses, with Applications to
 Polysemy&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://papers.nips.cc/paper/7368-on-the-dimensionality-of-word-embedding.pdf"&gt;On
 the Dimensionality of Word Embedding&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category><category term="ml-code"></category></entry><entry><title>NLP Word2Vec Algorithm</title><link href="https://sengopal.github.io/posts/nlp-word2vec-algorithm.html" rel="alternate"></link><published>2022-03-20T00:00:00-07:00</published><updated>2022-03-20T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-20:/posts/nlp-word2vec-algorithm.html</id><summary type="html">A post detailing more about the Word2Vec algorithm, its variations and utilities</summary><content type="html">&lt;p&gt;This blog post captures the inner workings of the Word2Vec Algorithm,
+&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>NLP Word2Vec Algorithm</title><link href="https://sengopal.github.io/posts/nlp-word2vec-algorithm.html" rel="alternate"></link><published>2022-03-20T00:00:00-07:00</published><updated>2022-03-20T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-20:/posts/nlp-word2vec-algorithm.html</id><summary type="html">A post detailing more about the Word2Vec algorithm, its variations and utilities</summary><content type="html">&lt;p&gt;This blog post captures the inner workings of the Word2Vec Algorithm,
 by roughly following the lecture patterns for the Cs224n course from
 Stanford.&lt;/p&gt;
 &lt;h3 id="word2vec-algorithm"&gt;Word2vec algorithm&lt;/h3&gt;
@@ -1140,7 +1461,7 @@ model investigation.&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=gqaHkPEZAew"&gt;Video&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category><category term="ml-code"></category></entry><entry><title>Introduction to NLP and Word Vectors</title><link href="https://sengopal.github.io/posts/introduction-to-nlp-and-word-vectors.html" rel="alternate"></link><published>2022-03-16T00:00:00-07:00</published><updated>2022-03-16T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-16:/posts/introduction-to-nlp-and-word-vectors.html</id><summary type="html">A post about Introduction to NLP and basics of Word Vectors</summary><content type="html">&lt;p&gt;This blog post and the following series captures the path of
+&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>Introduction to NLP and Word Vectors</title><link href="https://sengopal.github.io/posts/introduction-to-nlp-and-word-vectors.html" rel="alternate"></link><published>2022-03-16T00:00:00-07:00</published><updated>2022-03-16T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-03-16:/posts/introduction-to-nlp-and-word-vectors.html</id><summary type="html">A post about Introduction to NLP and basics of Word Vectors</summary><content type="html">&lt;p&gt;This blog post and the following series captures the path of
 understanding NLP, usage of Deep Learning in NLP and the various
 algorithms, by roughly following the lecture patterns for the Cs224n
 course from Stanford.&lt;/p&gt;
@@ -1522,7 +1843,7 @@ Representations of Words and Phrases and their Compositionality&lt;/a&gt;
 &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=8rXD5-xhemo"&gt;Video&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture01-wordvecs1.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category><category term="ml-code"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic.html</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
+&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.github.io/posts/using-fermats-little-theorum-for-modular-arithmetic.html" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.github.io,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic.html</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
 arithmetic problems and provides a neat little trick for finding the
 reminder for division by large numbers.&lt;/p&gt;
 &lt;h4 id="from-wikipedia"&gt;From Wikipedia&lt;/h4&gt;
@@ -1535,39 +1856,39 @@ is expressed as&lt;/p&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Using the Fermat’s little theorum for modular arithmetic, we know
 that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;&lt;em&gt;p&lt;/em&gt;&lt;/sup&gt; ≡ &lt;em&gt;a&lt;/em&gt;(&lt;em&gt;m&lt;/em&gt;&lt;em&gt;o&lt;/em&gt;&lt;em&gt;d&lt;/em&gt;&lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;Dividing by a on both sides, &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+&lt;li&gt;Dividing by a on both sides, &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;p&lt;/em&gt; − 1) ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
 for all &lt;span class="math inline"&gt;1 ≤ &lt;em&gt;a&lt;/em&gt; ≤ &lt;em&gt;p&lt;/em&gt; − 1&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;p&lt;/em&gt; − 1) ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
 if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+&lt;li&gt;&lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;p&lt;/em&gt; − 1)&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
 if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt; and
 k is a natural number.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h4 id="test-for-primality"&gt;Test for primality&lt;/h4&gt;
-&lt;p&gt;r is a prime number iff &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;r&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;r&lt;/em&gt;)&lt;/span&gt;
+&lt;p&gt;r is a prime number iff &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;r&lt;/em&gt; − 1) ≡ 1 (mod  &lt;em&gt;r&lt;/em&gt;)&lt;/span&gt;
 for &lt;span class="math inline"&gt;1 ≤ &lt;em&gt;a&lt;/em&gt; ≤ &lt;em&gt;r&lt;/em&gt; − 1&lt;/span&gt;&lt;/p&gt;
 &lt;h4 id="question-what-is-222006-pmod-3"&gt;Question: What is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt; (mod  3)&lt;/span&gt;&lt;/h4&gt;
-&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;p&lt;/em&gt; − 1) ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
 if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt; − 1)&lt;/span&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;So we can formulate that,&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(3−1)&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt; which
-becomes &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(&lt;/sup&gt;3 − 1) ≡ 1 (mod  3)&lt;/span&gt;
+which becomes &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;which means&lt;/p&gt;
-&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(2&lt;sup&gt;2006&lt;/sup&gt;)&lt;/sup&gt; ≡ 1 (mod  3)&lt;/span&gt;
-i.e., &lt;span class="math inline"&gt;(2&lt;sup&gt;2&lt;/sup&gt;)&lt;sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;&lt;/sup&gt; ≡ 1&lt;sup&gt;(2&lt;sup&gt;2005&lt;/sup&gt;)&lt;/sup&gt; (mod  3)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math inline"&gt;2&lt;sup&gt;(&lt;/sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;) ≡ 1 (mod  3)&lt;/span&gt;
+i.e., &lt;span class="math inline"&gt;(2&lt;sup&gt;2&lt;/sup&gt;)&lt;sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;&lt;/sup&gt; ≡ 1&lt;sup&gt;(&lt;/sup&gt;2&lt;sup&gt;2005&lt;/sup&gt;) (mod  3)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;So, the solution is &lt;span class="math inline"&gt;2&lt;sup&gt;2&lt;sup&gt;2006&lt;/sup&gt;&lt;/sup&gt; (mod  3) ≡ 1 (mod  3)&lt;/span&gt;&lt;/p&gt;
 &lt;h4 id="question-is-the-difference-between-530000-and-6123456-divisible-by-31"&gt;Question:
 Is the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; divisible by 31&lt;/h4&gt;
-&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/sup&gt;&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
+&lt;p&gt;From Fermat’s little theorum we know that &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt;&lt;sup&gt;(&lt;/sup&gt;&lt;em&gt;p&lt;/em&gt; − 1)&lt;em&gt;k&lt;/em&gt; ≡ 1 (mod  &lt;em&gt;p&lt;/em&gt;)&lt;/span&gt;
 if &lt;span class="math inline"&gt;&lt;em&gt;a&lt;/em&gt; (mod  &lt;em&gt;p&lt;/em&gt;) ≠ 0&lt;/span&gt; and
 k is a natural number.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt;−1)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The trick here is to make the power same as &lt;span class="math inline"&gt;(&lt;em&gt;p&lt;/em&gt; − 1)&lt;/span&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;we know that, &lt;span class="math inline"&gt;5&lt;sup&gt;(31−1)&lt;sup&gt;1000&lt;/sup&gt;&lt;/sup&gt; = (5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;we know that, &lt;span class="math inline"&gt;5&lt;sup&gt;(&lt;/sup&gt;31 − 1)&lt;sup&gt;1000&lt;/sup&gt; = (5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Rewriting the modular equation similar to Fermat’s little theorum
 &lt;span class="math inline"&gt;(5&lt;sup&gt;30&lt;/sup&gt;)&lt;sup&gt;1000&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;For the second part, dividing 12346 by 30 gives a reminder of 6 and a
@@ -1876,21 +2197,21 @@ support within our organization, the following database types were
 determined.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
-&lt;tr class="header"&gt;
+&lt;tr&gt;
 &lt;th&gt;Database&lt;/th&gt;
 &lt;th&gt;Storage for&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr class="odd"&gt;
+&lt;tr&gt;
 &lt;td&gt;Oracle&lt;/td&gt;
 &lt;td&gt;Partition scheme. Store Live data.&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class="even"&gt;
+&lt;tr&gt;
 &lt;td&gt;Cassandra&lt;/td&gt;
 &lt;td&gt;Heavy writes for Async metadata&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class="odd"&gt;
+&lt;tr&gt;
 &lt;td&gt;Cassandra&lt;/td&gt;
 &lt;td&gt;Heavy writes for Audit log&lt;/td&gt;
 &lt;/tr&gt;

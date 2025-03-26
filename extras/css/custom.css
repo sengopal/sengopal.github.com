@@ -73,3 +73,27 @@ tbody tr:nth-child(even) {
 tbody tr:nth-child(even) th {
   background-color: #25c;
 }
+
+.h1, h1 {
+  font-size: 1.75rem;
+}
+
+.h2, h2 {
+  font-size: 1.6rem;
+}
+
+.h3, h3 {
+  font-size: 1.5rem;
+}
+
+.h4, h4 {
+  font-size: 1.4rem;
+}
+
+.h5, h5 {
+  font-size: 1.3rem;
+}
+
+.h6, h6 {
+  font-size: 1.2rem;
+}

@@ -109,39 +109,39 @@ is expressed as</p>
 <ol type="1">
 <li>Using the Fermat’s little theorum for modular arithmetic, we know
 that <span class="math inline"><em>a</em><sup><em>p</em></sup> ≡ <em>a</em>(<em>m</em><em>o</em><em>d</em><em>p</em>)</span></li>
-<li>Dividing by a on both sides, <span class="math inline"><em>a</em><sup>(<em>p</em>−1)</sup> ≡ 1 (mod  <em>p</em>)</span>
+<li>Dividing by a on both sides, <span class="math inline"><em>a</em><sup>(</sup><em>p</em> − 1) ≡ 1 (mod  <em>p</em>)</span>
 for all <span class="math inline">1 ≤ <em>a</em> ≤ <em>p</em> − 1</span></li>
-<li><span class="math inline"><em>a</em><sup>(<em>p</em>−1)</sup> ≡ 1 (mod  <em>p</em>)</span>
+<li><span class="math inline"><em>a</em><sup>(</sup><em>p</em> − 1) ≡ 1 (mod  <em>p</em>)</span>
 if <span class="math inline"><em>a</em> (mod  <em>p</em>) ≠ 0</span></li>
-<li><span class="math inline"><em>a</em><sup>(<em>p</em>−1)</sup><em>k</em> ≡ 1 (mod  <em>p</em>)</span>
+<li><span class="math inline"><em>a</em><sup>(</sup><em>p</em> − 1)<em>k</em> ≡ 1 (mod  <em>p</em>)</span>
 if <span class="math inline"><em>a</em> (mod  <em>p</em>) ≠ 0</span> and
 k is a natural number.</li>
 </ol>
 <h4 id="test-for-primality">Test for primality</h4>
-<p>r is a prime number iff <span class="math inline"><em>a</em><sup>(<em>r</em>−1)</sup> ≡ 1 (mod  <em>r</em>)</span>
+<p>r is a prime number iff <span class="math inline"><em>a</em><sup>(</sup><em>r</em> − 1) ≡ 1 (mod  <em>r</em>)</span>
 for <span class="math inline">1 ≤ <em>a</em> ≤ <em>r</em> − 1</span></p>
 <h4 id="question-what-is-222006-pmod-3">Question: What is <span class="math inline">2<sup>2<sup>2006</sup></sup> (mod  3)</span></h4>
-<p>From Fermat’s little theorum we know that <span class="math inline"><em>a</em><sup>(<em>p</em>−1)</sup> ≡ 1 (mod  <em>p</em>)</span>
+<p>From Fermat’s little theorum we know that <span class="math inline"><em>a</em><sup>(</sup><em>p</em> − 1) ≡ 1 (mod  <em>p</em>)</span>
 if <span class="math inline"><em>a</em> (mod  <em>p</em>) ≠ 0</span></p>
 <blockquote>
-<p>The trick here is to make the power same as <span class="math inline">(<em>p</em>−1)</span></p>
+<p>The trick here is to make the power same as <span class="math inline">(<em>p</em> − 1)</span></p>
 </blockquote>
 <p>So we can formulate that,</p>
-<p><span class="math inline">2<sup>(3−1)</sup> ≡ 1 (mod  3)</span> which
-becomes <span class="math inline">2<sup>2</sup> ≡ 1 (mod  3)</span></p>
+<p><span class="math inline">2<sup>(</sup>3 − 1) ≡ 1 (mod  3)</span>
+which becomes <span class="math inline">2<sup>2</sup> ≡ 1 (mod  3)</span></p>
 <p>which means</p>
-<p><span class="math inline">2<sup>(2<sup>2006</sup>)</sup> ≡ 1 (mod  3)</span>
-i.e., <span class="math inline">(2<sup>2</sup>)<sup>2<sup>2005</sup></sup> ≡ 1<sup>(2<sup>2005</sup>)</sup> (mod  3)</span></p>
+<p><span class="math inline">2<sup>(</sup>2<sup>2006</sup>) ≡ 1 (mod  3)</span>
+i.e., <span class="math inline">(2<sup>2</sup>)<sup>2<sup>2005</sup></sup> ≡ 1<sup>(</sup>2<sup>2005</sup>) (mod  3)</span></p>
 <p>So, the solution is <span class="math inline">2<sup>2<sup>2006</sup></sup> (mod  3) ≡ 1 (mod  3)</span></p>
 <h4 id="question-is-the-difference-between-530000-and-6123456-divisible-by-31">Question:
 Is the difference between <span class="math inline">5<sup>30000</sup></span> and <span class="math inline">6<sup>123456</sup></span> divisible by 31</h4>
-<p>From Fermat’s little theorum we know that <span class="math inline"><em>a</em><sup>(<em>p</em>−1)</sup><em>k</em> ≡ 1 (mod  <em>p</em>)</span>
+<p>From Fermat’s little theorum we know that <span class="math inline"><em>a</em><sup>(</sup><em>p</em> − 1)<em>k</em> ≡ 1 (mod  <em>p</em>)</span>
 if <span class="math inline"><em>a</em> (mod  <em>p</em>) ≠ 0</span> and
 k is a natural number.</p>
 <blockquote>
-<p>The trick here is to make the power same as <span class="math inline">(<em>p</em>−1)</span></p>
+<p>The trick here is to make the power same as <span class="math inline">(<em>p</em> − 1)</span></p>
 </blockquote>
-<p>we know that, <span class="math inline">5<sup>(31−1)<sup>1000</sup></sup> = (5<sup>30</sup>)<sup>1000</sup></span></p>
+<p>we know that, <span class="math inline">5<sup>(</sup>31 − 1)<sup>1000</sup> = (5<sup>30</sup>)<sup>1000</sup></span></p>
 <p>Rewriting the modular equation similar to Fermat’s little theorum
 <span class="math inline">(5<sup>30</sup>)<sup>1000</sup> ≡ 1 (mod  31)</span></p>
 <p>For the second part, dividing 12346 by 30 gives a reminder of 6 and a
@@ -166,7 +166,6 @@ implies that it is indeed divisible by 31.</p>
     <div class="container">
 <div class="row">
     <ul class="col-sm-6 list-inline">
-        <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>

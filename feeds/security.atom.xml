@@ -49,4 +49,4 @@ instantiation.&lt;/p&gt;
 &lt;p&gt;However, once the &lt;code&gt;new Constructor()&lt;/code&gt; is substituted with
 &lt;code&gt;new SafeConstructor()&lt;/code&gt;, the arbitrary code will fail with
 the following error confirming that the issue has been addressed.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="drawing" src="/extras/images/snakeyaml/safe_constructor_error.png" width="950"/&gt;&lt;/p&gt;</content><category term="Security"></category><category term="security"></category><category term="java"></category></entry></feed>
+&lt;p&gt;&lt;img src="/extras/images/snakeyaml/safe_constructor_error.png"/&gt;&lt;/p&gt;</content><category term="Security"></category><category term="security"></category><category term="java"></category></entry></feed>

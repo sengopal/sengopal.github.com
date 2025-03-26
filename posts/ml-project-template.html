@@ -95,8 +95,6 @@
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
-<li><a href="#model-and-research-documentation-template" id="toc-model-and-research-documentation-template">Model and Research
-Documentation Template</a></li>
 <li><a href="#project-root" id="toc-project-root">Project Root</a>
 <ul>
 <li><a href="#versions" id="toc-versions">Versions</a></li>
@@ -149,7 +147,7 @@ Rollout Plan</a></li>
 <li><a href="#monitoring" id="toc-monitoring">6.1 Monitoring</a></li>
 <li><a href="#playbook-for-faqs-and-commonly-known-issues" id="toc-playbook-for-faqs-and-commonly-known-issues">6.2 Playbook for
 FAQs and commonly known issues</a></li>
-<li><a href="#references" id="toc-references">1.7 References</a></li>
+<li><a href="#references" id="toc-references">7 References</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -162,8 +160,6 @@ parts involved in a machine learning project, specializing towards a
 specific application such as a recommendation system or a ranking
 capability etc.,. A simple forkable copy of this document is available
 at https://github.com/sengopal/ml-project-template as well.</p>
-<h1 id="model-and-research-documentation-template">Model and Research
-Documentation Template</h1>
 <h1 id="project-root">Project Root</h1>
 <p>This document acts as the index README or the landing page for the
 machine learning project. The intent is to capture all the necessary
@@ -179,9 +175,17 @@ document.</p>
 (Responsible, Accountable, Supporting, Consulted and Informed) structure
 as well as necessary. This section can also include the external team
 stakeholders etc.,</p>
+<hr/>
 <h2 id="goals-and-definitions">1 Goals and Definitions</h2>
+<p>This section tracks the primary goals, vision, metrics that are being
+impacted, scope and usecases.</p>
 <h3 id="business-objectives">1.1 Business Objectives</h3>
+<p>The business objective focuses on the end customer and working
+backwards from the impact expected. This section provides the need for
+this project in the first place.</p>
 <h3 id="vision">1.2 Vision</h3>
+<p>The vision explores the end vision of this experiment and can
+categorize iterative improvements or vision of the project delivery.</p>
 <h3 id="impact-metrics">1.3 Impact Metrics</h3>
 <p>These are the output business metrics that are targeted for
 improvement. For a recommendation sytem this might be Null&amp;Low
@@ -207,6 +211,11 @@ metrics that is being identified. These act as the baseline to measure
 and experiment the model improvements and other hypothesis.</p>
 <h3 id="data-reportingbusiness-intelligence-dashboards">1.8 Data
 reporting/business intelligence dashboards</h3>
+<p>This section tracks the critical data reporting and intelligence
+dashboards that this project is expected to impact. Its critical to
+define the metrics and the dashboards to view the impact at the onset to
+ensure consensus around clarity of project outcome.</p>
+<hr/>
 <h2 id="data-analysis">2 Data Analysis</h2>
 <h3 id="data-used">2.1 Data used</h3>
 <p>Location of the training/validation/test data, data freshness,
@@ -221,7 +230,11 @@ documents any interesting relationships observed in the data.</p>
 annotated datasets</h3>
 <p>Human annotated datasets that act as golden datasets for final model
 performance evaluation - their exploratory analysis and locations</p>
+<hr/>
 <h2 id="machine-learning-model">3 Machine Learning Model</h2>
+<p>This section focuses on the machine learning part of the solution and
+acts as a checkpoint journalling of models trained and its
+performance.</p>
 <h3 id="baselines-for-model-performance">3.1 Baselines for model
 performance</h3>
 <p>These are the baselines established for model finetuning based on
@@ -258,6 +271,7 @@ dimensions) and comparison metrics</p>
 </ol>
 <h3 id="inference-deployments">3.5 Inference Deployments</h3>
 <p>Pytorch - code format and styleguide - ​​<a class="uri" href="https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model">https://github.com/IgorSusmelj/pytorch-styleguide#recommended-code-structure-for-training-your-model</a></p>
+<hr/>
 <h3 id="ml-operations">4 ML Operations</h3>
 <p>This section documents the ML operation pipelines once the model has
 been identified. There should be sub segments created for the below and
@@ -281,6 +295,7 @@ Quanitizations etc.,</li>
 <li>Code changes and Deployments - Source code, K8s pods</li>
 <li>Instructions for retraining, bulk inferencing etc.,</li>
 </ol>
+<hr/>
 <h3 id="project-execution-and-rollout-plan">5 Project Execution and
 Rollout Plan</h3>
 <blockquote>
@@ -308,7 +323,7 @@ time etc., 2. Data Monitoring - coverage, data drift, model metrics
 etc.,</p>
 <h3 id="playbook-for-faqs-and-commonly-known-issues">6.2 Playbook for
 FAQs and commonly known issues</h3>
-<h3 id="references">1.7 References</h3>
+<h3 id="references">7 References</h3>
 <p>All other reference links such as 1. Internal documents 2. Refs to
 wiki, screenshots, Repos with any sample code 3. External - Inspiring
 work, papers for further literature review</p>
@@ -321,7 +336,6 @@ work, papers for further literature review</p>
     <div class="container">
 <div class="row">
     <ul class="col-sm-6 list-inline">
-        <li class="list-inline-item"><a href="https://sengopal.github.io/#">Resume</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
         <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
