@@ -73,9 +73,6 @@
 
   <div class="main">
     <div class="container">
-      <h1>    Criteria API in Hibernate
-</h1>
-      <hr>
 <article class="article">
     <header>
         <ul class="list-inline">
@@ -92,6 +89,7 @@
                 <a href="https://sengopal.github.io/tag/development.html">#development</a>,                 <a href="https://sengopal.github.io/tag/coding.html">#coding</a>            </li>
         </ul>
     </header>
+    <h1>Criteria API in Hibernate</h1>
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
@@ -202,9 +200,9 @@ and 2500 inclusive</li>
 <span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a>crit<span class="op">.</span><span class="fu">setMaxResults</span><span class="op">(</span><span class="dv">5</span><span class="op">);</span> </span>
 <span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a><span class="bu">List</span> insurances <span class="op">=</span> crit<span class="op">.</span><span class="fu">list</span><span class="op">();</span></span>
 <span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="bu">Iterator</span> it <span class="op">=</span>insurances<span class="op">.</span><span class="fu">iterator</span><span class="op">();</span>it<span class="op">.</span><span class="fu">hasNext</span><span class="op">();){</span></span>
-<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>    Insurance insurance <span class="op">=</span> <span class="op">(</span>Insurance<span class="op">)</span> it<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
-<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ID: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getLngInsuranceId</span><span class="op">());</span></span>
-<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Name: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getInsuranceName</span><span class="op">());</span></span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>    Insurance insurance <span class="op">=</span> <span class="op">(</span>Insurance<span class="op">)</span> it<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"ID: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getLngInsuranceId</span><span class="op">());</span></span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Name: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getInsuranceName</span><span class="op">());</span></span>
 <span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>  <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">"Amount: "</span> <span class="op">+</span> insurance<span class="op">.</span><span class="fu">getInvestAmount</span><span class="op">());</span></span>
 <span id="cb4-12"><a aria-hidden="true" href="#cb4-12" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h3 id="criterion-chaining">Criterion Chaining</h3>
