@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>PDF Generation using PD4ML | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/pdf-generation-using-pd4ml">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/java.atom.xml">
+<meta name="description" content="Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet.">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2010-04-05T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Mon 05 April 2010
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/java">Java</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/pd4ml">#pd4ml</a>,                 <a href="https://sengopal.me/tag/java">#java</a>            </li>
+        </ul>
+    </header>
+    <h1>PDF Generation using PD4ML</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#project-usage" id="toc-project-usage">Project
+Usage</a></li>
+<li><a href="#introduction-to-pd4ml" id="toc-introduction-to-pd4ml">Introduction to PD4ML</a></li>
+<li><a href="#formatting-the-pdf-document-generated" id="toc-formatting-the-pdf-document-generated">Formatting the PDF
+document generated</a></li>
+<li><a href="#using-pd4ml-in-web-applications-for-online-pdf-generation" id="toc-using-pd4ml-in-web-applications-for-online-pdf-generation">Using
+PD4ML in Web applications for online PDF generation</a></li>
+<li><a href="#instructions-for-installation" id="toc-instructions-for-installation">Instructions for
+Installation</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <h3 id="project-usage">Project Usage</h3>
+<p>Our project required PDF generation at various stages of the
+application and the uploading the same into the FileNet FTP. PD4ML was
+used for generation and saving the file locally into the server from
+which the PDF got generated to the FileNet. PD4ML was used as our
+application used Struts framework and the data needed in the PDF was
+provided using STRUTS and the layout design was done using HTML and CSS.
+This provided us with a seamless abstraction between the presentation
+and the business layer for dynamic generation of PDFs online.</p>
+<h3 id="introduction-to-pd4ml">Introduction to PD4ML</h3>
+<p>PD4ML is a powerful PDF generating tool that uses HTML and CSS
+(Cascading Style Sheets) as page layout and content definition format.
+Written in 100% pure Java, it allows users to easily add PDF generation
+functionality to end products. PD4ML can be used either as a command
+line operation or in Web applications for online PDF generation from
+HTML and JSP templates.</p>
+<p>###PD4ML as a Command Line Operation PD4ML can be used for HTML to
+PDF transformation with a command line application. There are man ways
+for achieving this conversion. However the most commonly used methods
+are as follows:</p>
+<p>####Creating a PDF from an URL String The PDF can be generated using
+a html file whose URL can be in the render () method</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">zefer</span><span class="op">.</span><span class="im">pd4ml</span><span class="op">.</span><span class="im">PD4ML</span><span class="op">;</span></span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="kw">import</span> <span class="im">org</span><span class="op">.</span><span class="im">zefer</span><span class="op">.</span><span class="im">pd4ml</span><span class="op">.</span><span class="im">PD4Constants</span><span class="op">;</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a><span class="kw">......</span><span class="op">..</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a><span class="fu">File</span> f <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">"D:/tools/test.pdf"</span><span class="op">);</span></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a>java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileOutputStream</span> fos <span class="op">=</span> <span class="kw">new</span> java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileOutputStream</span><span class="op">(</span>f<span class="op">);</span></span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a>PD4ML pd4ml <span class="op">=</span> <span class="kw">new</span> <span class="fu">PD4ML</span><span class="op">();</span></span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a>pd4ml<span class="op">.</span><span class="fu">render</span><span class="op">(</span> urlstring<span class="op">,</span> fos <span class="op">);</span></span></code></pre></div>
+<p><strong>Steps Involved</strong></p>
+<ol type="1">
+<li>Import the PD4ML converter class</li>
+<li>Define HTML-to-PDF converting parameter values if needed such as
+user space width, HTML elements arrangement, vertical size etc.,</li>
+<li>Preparing output stream for PDF generation.</li>
+<li>Instantiating PD4ML converter.</li>
+<li>Passing to it HTML-to-PDF converting parameters.</li>
+<li>Performing HTML-to-PDF translation.</li>
+</ol>
+<p><strong>Converting HTML obtained from input stream to
+PDF</strong></p>
+<p>Using an URL for converting an HTML into a PDF is not mandatory.
+PD4ML can read a source HTML from input stream and then use the input
+stream for conversion into the PDF</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="bu">File</span> f <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">"D:/tools/test.pdf"</span><span class="op">);</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileOutputStream</span> fos <span class="op">=</span> <span class="kw">new</span> java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileOutputStream</span><span class="op">(</span>f<span class="op">);</span></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a><span class="bu">File</span> fz <span class="op">=</span> <span class="kw">new</span> <span class="bu">File</span><span class="op">(</span><span class="st">"D:/tools/yahoo.htm"</span><span class="op">);</span></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileInputStream</span> fis <span class="op">=</span> <span class="kw">new</span> java<span class="op">.</span><span class="fu">io</span><span class="op">.</span><span class="fu">FileInputStream</span><span class="op">(</span>fz<span class="op">);</span></span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a><span class="bu">InputStreamReader</span> isr <span class="op">=</span> <span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span> fis<span class="op">,</span> <span class="st">"UTF-8"</span> <span class="op">);</span></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a>PD4ML html <span class="op">=</span> <span class="kw">new</span> <span class="fu">PD4ML</span><span class="op">();</span></span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a><span class="bu">URL</span> base <span class="op">=</span> <span class="kw">new</span> <span class="bu">URL</span><span class="op">(</span> <span class="st">"file:D:/tools/"</span> <span class="op">);</span></span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a>html<span class="op">.</span><span class="fu">render</span><span class="op">(</span> isr<span class="op">,</span> fos<span class="op">,</span> base <span class="op">);</span></span></code></pre></div>
+<h3 id="formatting-the-pdf-document-generated">Formatting the PDF
+document generated</h3>
+<p>The PDF getting generated can be formatted using various methods.
+Some of the most commonly used ones are given below:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>PD4ML html <span class="op">=</span> <span class="kw">new</span> <span class="fu">PD4ML</span><span class="op">();</span></span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>html<span class="op">.</span><span class="fu">setPageSize</span><span class="op">(</span> <span class="kw">new</span> <span class="bu">Dimension</span><span class="op">(</span><span class="dv">450</span><span class="op">,</span> <span class="dv">450</span><span class="op">)</span> <span class="op">);</span></span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a><span class="co">//defines page size in points. A set of predefined page format constants is available in the PD4Constants interface.</span></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a>html<span class="op">.</span><span class="fu">setPageInsets</span><span class="op">(</span> <span class="kw">new</span> <span class="bu">Insets</span><span class="op">(</span><span class="dv">20</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span><span class="op">)</span> <span class="op">);</span></span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a><span class="co">//specifies page insets in points</span></span>
+<span id="cb3-6"><a aria-hidden="true" href="#cb3-6" tabindex="-1"></a>html<span class="op">.</span><span class="fu">setHtmlWidth</span><span class="op">(</span> <span class="dv">750</span> <span class="op">);</span></span>
+<span id="cb3-7"><a aria-hidden="true" href="#cb3-7" tabindex="-1"></a><span class="co">//defines desired HTML page width in screen pixels. Virtually it can be seen as a web browser window horizontal resize</span></span>
+<span id="cb3-8"><a aria-hidden="true" href="#cb3-8" tabindex="-1"></a>html<span class="op">.</span><span class="fu">enableImgSplit</span><span class="op">(</span> <span class="kw">false</span> <span class="op">);</span></span>
+<span id="cb3-9"><a aria-hidden="true" href="#cb3-9" tabindex="-1"></a><span class="co">//allows to disable image splitting by page breaks. By default the option is true (splitting enabled).</span></span></code></pre></div>
+<h4 id="for-generating-text-only-header-and-footer">For Generating
+Text-Only Header and Footer</h4>
+<p>Static or template text can be used for header and footer of the PDF
+document. The header and the footer can be set with various formats. Few
+of them are:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>PD4PageMark header <span class="op">=</span> <span class="kw">new</span> <span class="fu">PD4PageMark</span><span class="op">();</span></span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>header<span class="op">.</span><span class="fu">setAreaHeight</span><span class="op">(</span> <span class="dv">20</span> <span class="op">);</span></span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a><span class="co">//defines height of the header or footer area</span></span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>header<span class="op">.</span><span class="fu">setTitleTemplate</span><span class="op">(</span> <span class="st">"title: $[title]"</span> <span class="op">);</span></span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a><span class="co">//defines a template for page title representation.</span></span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a><span class="co">//No title is printed, if the titleTemplate is set to null. Default value is null.</span></span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a>header<span class="op">.</span><span class="fu">setTitleAlignment</span><span class="op">(</span> PD4PageMark<span class="op">.</span><span class="fu">CENTER_ALIGN</span> <span class="op">);</span></span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a><span class="co">//defines alignment for the page title string in the document's header of footer</span></span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>header<span class="op">.</span><span class="fu">setPageNumberAlignment</span><span class="op">(</span> PD4PageMark<span class="op">.</span><span class="fu">LEFT_ALIGN</span> <span class="op">);</span></span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a><span class="co">//defines alignment for the page numbers in the document's header of footer area</span></span>
+<span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>header<span class="op">.</span><span class="fu">setPageNumberTemplate</span><span class="op">(</span> <span class="st">"#$[page]"</span> <span class="op">);</span></span>
+<span id="cb4-12"><a aria-hidden="true" href="#cb4-12" tabindex="-1"></a><span class="co">//defines a template for page number representation</span></span>
+<span id="cb4-13"><a aria-hidden="true" href="#cb4-13" tabindex="-1"></a>PD4PageMark footer <span class="op">=</span> <span class="kw">new</span> <span class="fu">PD4PageMark</span><span class="op">();</span></span>
+<span id="cb4-14"><a aria-hidden="true" href="#cb4-14" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setAreaHeight</span><span class="op">(</span> <span class="dv">30</span> <span class="op">);</span></span>
+<span id="cb4-15"><a aria-hidden="true" href="#cb4-15" tabindex="-1"></a><span class="co">//Already explained above</span></span>
+<span id="cb4-16"><a aria-hidden="true" href="#cb4-16" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setFontSize</span><span class="op">(</span> <span class="dv">20</span> <span class="op">);</span></span>
+<span id="cb4-17"><a aria-hidden="true" href="#cb4-17" tabindex="-1"></a><span class="co">//sets font size for the header or footer</span></span>
+<span id="cb4-18"><a aria-hidden="true" href="#cb4-18" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setColor</span><span class="op">(</span> <span class="bu">Color</span><span class="op">.</span><span class="fu">red</span> <span class="op">);</span></span>
+<span id="cb4-19"><a aria-hidden="true" href="#cb4-19" tabindex="-1"></a><span class="co">//setColor() sets the color of header or footer text</span></span>
+<span id="cb4-20"><a aria-hidden="true" href="#cb4-20" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setPagesToSkip</span><span class="op">(</span> <span class="dv">1</span> <span class="op">);</span></span>
+<span id="cb4-21"><a aria-hidden="true" href="#cb4-21" tabindex="-1"></a><span class="co">//defines a number of pages from the document beginning, that should not be marked with the header or footer info</span></span>
+<span id="cb4-22"><a aria-hidden="true" href="#cb4-22" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setTitleTemplate</span><span class="op">(</span> <span class="st">"[ $[title] ]"</span> <span class="op">);</span></span>
+<span id="cb4-23"><a aria-hidden="true" href="#cb4-23" tabindex="-1"></a><span class="co">//Already explained above</span></span>
+<span id="cb4-24"><a aria-hidden="true" href="#cb4-24" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setPageNumberTemplate</span><span class="op">(</span> <span class="st">"page: $[page]"</span> <span class="op">);</span></span>
+<span id="cb4-25"><a aria-hidden="true" href="#cb4-25" tabindex="-1"></a><span class="co">//Already explained above</span></span>
+<span id="cb4-26"><a aria-hidden="true" href="#cb4-26" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setTitleAlignment</span><span class="op">(</span> PD4PageMark<span class="op">.</span><span class="fu">RIGHT_ALIGN</span> <span class="op">);</span></span>
+<span id="cb4-27"><a aria-hidden="true" href="#cb4-27" tabindex="-1"></a><span class="co">//Already explained above</span></span>
+<span id="cb4-28"><a aria-hidden="true" href="#cb4-28" tabindex="-1"></a>footer<span class="op">.</span><span class="fu">setPageNumberAlignment</span><span class="op">(</span> PD4PageMark<span class="op">.</span><span class="fu">LEFT_ALIGN</span> <span class="op">);</span></span>
+<span id="cb4-29"><a aria-hidden="true" href="#cb4-29" tabindex="-1"></a><span class="co">//Already explained above</span></span>
+<span id="cb4-30"><a aria-hidden="true" href="#cb4-30" tabindex="-1"></a></span>
+<span id="cb4-31"><a aria-hidden="true" href="#cb4-31" tabindex="-1"></a>pd4ml<span class="op">.</span><span class="fu">setPageHeader</span><span class="op">(</span> header <span class="op">);</span></span>
+<span id="cb4-32"><a aria-hidden="true" href="#cb4-32" tabindex="-1"></a>pd4ml<span class="op">.</span><span class="fu">setPageFooter</span><span class="op">(</span> footer <span class="op">);</span></span></code></pre></div>
+<h4 id="protecting-pdf-documents">Protecting PDF documents</h4>
+<p>A PDF document can be encrypted to protect its contents from
+unauthorized access. PD4ML supports PDF access permissions concept and
+allows a password to be specified for a document. If any passwords or
+access restrictions are specified with PD4ML.setPermissions (), the
+document is encrypted, and the permissions and information required to
+validate the passwords are stored to the resulting document.</p>
+<p>The possible restrictions are:</p>
+<ol type="1">
+<li>Modifying the document’s contents</li>
+<li>Copying or otherwise extracting text and graphics from the
+document</li>
+<li>Adding or modifying text annotations</li>
+<li>Printing the document</li>
+</ol>
+<p>The various types of pre-set Permissions available in the API
+are:</p>
+<ul>
+<li>AllowAssembly</li>
+<li>AllowContentExtraction</li>
+<li>AllowCopy</li>
+<li>AllowDegradedPrint</li>
+<li>AllowModify</li>
+<li>AllowPrint</li>
+</ul>
+<p>The PDF document produced by PD4ML can be protected with 40-bit or
+128-bit encryption using the various Permission levels given above.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="bu">String</span> password <span class="op">=</span> <span class="st">"empty"</span><span class="op">;</span></span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a><span class="dt">boolean</span> strongEncryption <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a><span class="dt">int</span> permissions <span class="op">=</span> PD4Constants<span class="op">.</span><span class="fu">AllowPrint</span> <span class="op">|</span> PD4Constants<span class="op">.</span><span class="fu">AllowCopy</span><span class="op">;</span></span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>pd4ml<span class="op">.</span><span class="fu">setPermissions</span><span class="op">(</span> password<span class="op">,</span> permissions<span class="op">,</span> strongEncryption <span class="op">);</span></span></code></pre></div>
+<p>Some of the other salient Features that are available with PD4ML
+are:</p>
+<ul>
+<li>Converting HTML headings or named anchors to PDF bookmarks</li>
+<li>Named anchors</li>
+<li>Inserting page breaks</li>
+<li>generating and sending PDF by email</li>
+</ul>
+<h3 id="using-pd4ml-in-web-applications-for-online-pdf-generation">Using
+PD4ML in Web applications for online PDF generation</h3>
+<p>PD4ML can be used in Web applications for online PDF generation from
+HTML, JSP and Servlet templates. A simple example is given below:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">taglib</span><span class="ot"> uri</span><span class="op">=</span><span class="st">"http://pd4ml.com/tlds/pd4ml/2.5"</span><span class="ot"> prefix</span><span class="op">=</span><span class="st">"pd4ml"</span><span class="dt">&gt;</span></span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">page</span><span class="ot"> contentType</span><span class="op">=</span><span class="st">"text/html; charset=UTF-8"</span><span class="dt">&gt;</span></span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:transform</span></span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a><span class="ot">      screenWidth</span><span class="op">=</span><span class="st">"400"</span></span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a><span class="ot">      pageFormat</span><span class="op">=</span><span class="st">"A5"</span></span>
+<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a><span class="ot">      pageOrientation</span><span class="op">=</span><span class="st">"landscape"</span></span>
+<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a><span class="ot">      pageInsets</span><span class="op">=</span><span class="st">"100,100,100,100,points"</span></span>
+<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a><span class="ot">      enableImageSplit</span><span class="op">=</span><span class="st">"false"</span><span class="dt">&gt;</span></span>
+<span id="cb6-10"><a aria-hidden="true" href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a aria-hidden="true" href="#cb6-11" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb6-12"><a aria-hidden="true" href="#cb6-12" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-13"><a aria-hidden="true" href="#cb6-13" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">title</span><span class="dt">&gt;</span>pd4ml test<span class="dt">&lt;/</span><span class="kw">title</span><span class="dt">&gt;</span></span>
+<span id="cb6-14"><a aria-hidden="true" href="#cb6-14" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">style</span><span class="ot"> type</span><span class="op">=</span><span class="st">"text/css"</span><span class="dt">&gt;</span></span>
+<span id="cb6-15"><a aria-hidden="true" href="#cb6-15" tabindex="-1"></a>                  body {</span>
+<span id="cb6-16"><a aria-hidden="true" href="#cb6-16" tabindex="-1"></a>                        <span class="kw">color</span><span class="ch">:</span> <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb6-17"><a aria-hidden="true" href="#cb6-17" tabindex="-1"></a>                        <span class="kw">background-color</span><span class="ch">:</span> <span class="cn">#FFFFFF</span><span class="op">;</span></span>
+<span id="cb6-18"><a aria-hidden="true" href="#cb6-18" tabindex="-1"></a>                        <span class="kw">font-family</span><span class="ch">:</span> <span class="dv">Tahoma</span><span class="op">,</span> <span class="st">"Sans-Serif"</span><span class="op">;</span></span>
+<span id="cb6-19"><a aria-hidden="true" href="#cb6-19" tabindex="-1"></a>                        <span class="kw">font-size</span><span class="ch">:</span> <span class="dv">10</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb6-20"><a aria-hidden="true" href="#cb6-20" tabindex="-1"></a>                  }</span>
+<span id="cb6-21"><a aria-hidden="true" href="#cb6-21" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span>
+<span id="cb6-22"><a aria-hidden="true" href="#cb6-22" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-23"><a aria-hidden="true" href="#cb6-23" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-24"><a aria-hidden="true" href="#cb6-24" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"images/logos.gif"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"125"</span><span class="ot"> height</span><span class="op">=</span><span class="st">"74"</span><span class="dt">&gt;</span></span>
+<span id="cb6-25"><a aria-hidden="true" href="#cb6-25" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb6-26"><a aria-hidden="true" href="#cb6-26" tabindex="-1"></a>            Hello, World!</span>
+<span id="cb6-27"><a aria-hidden="true" href="#cb6-27" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">pd4ml:page.break</span><span class="dt">/&gt;</span></span>
+<span id="cb6-28"><a aria-hidden="true" href="#cb6-28" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100%"</span><span class="ot"> style</span><span class="op">=</span><span class="st">"background-color: #f4f4f4; color: #000000"</span><span class="dt">&gt;</span></span>
+<span id="cb6-29"><a aria-hidden="true" href="#cb6-29" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-30"><a aria-hidden="true" href="#cb6-30" tabindex="-1"></a>            <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-31"><a aria-hidden="true" href="#cb6-31" tabindex="-1"></a>                  Hello, New Page!</span>
+<span id="cb6-32"><a aria-hidden="true" href="#cb6-32" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-33"><a aria-hidden="true" href="#cb6-33" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-34"><a aria-hidden="true" href="#cb6-34" tabindex="-1"></a>            <span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span>
+<span id="cb6-35"><a aria-hidden="true" href="#cb6-35" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-36"><a aria-hidden="true" href="#cb6-36" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb6-37"><a aria-hidden="true" href="#cb6-37" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">pd4ml:transform</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>In order to get a PDF output, we need to surround the HTML or JSP
+with <pd4ml:transform> tags or refer to the markup from an external
+PD4ML-enabled JSP or Servlets.</pd4ml:transform></p>
+<ol type="1">
+<li>PD4ML JSP taglib declaration and opening transform tag. JSP content
+surrounded with <code>&lt;pd4ml:transform&gt;</code> and
+<code>&lt;/pd4ml:transform&gt;</code> tags is passed to the PD4ML
+converter.</li>
+<li>Image should be referenced with relative path. Absolute URLs, like
+<code>src="http://myserver:80/path/to/img.gif"</code> are allowed as
+well, but <code>src="/path/to/img.gif"</code> is not allowed.</li>
+<li>The directive forces PD4ML converter to insert a page break to the
+output PDF.</li>
+<li>Closing of the transformation tag. Any content that appears after
+the tag is ignored.</li>
+</ol>
+<p>####Defining PDF document footer (or header) with JSP custom tag The
+header and/or footer for the PDF can be declared in the jsp in the
+following fashion.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:footer</span></span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a><span class="ot">      titleTemplate</span><span class="op">=</span><span class="st">"[${title}]"</span></span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a><span class="ot">      pageNumberTemplate</span><span class="op">=</span><span class="st">"page ${page}"</span></span>
+<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a><span class="ot">      titleAlignment</span><span class="op">=</span><span class="st">"left"</span></span>
+<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a><span class="ot">      pageNumberAlignment</span><span class="op">=</span><span class="st">"right"</span></span>
+<span id="cb7-6"><a aria-hidden="true" href="#cb7-6" tabindex="-1"></a><span class="ot">      color</span><span class="op">=</span><span class="st">"#008000"</span></span>
+<span id="cb7-7"><a aria-hidden="true" href="#cb7-7" tabindex="-1"></a><span class="ot">      initialPageNumber</span><span class="op">=</span><span class="st">"1"</span></span>
+<span id="cb7-8"><a aria-hidden="true" href="#cb7-8" tabindex="-1"></a><span class="ot">      pagesToSkip</span><span class="op">=</span><span class="st">"1"</span></span>
+<span id="cb7-9"><a aria-hidden="true" href="#cb7-9" tabindex="-1"></a><span class="ot">      fontSize</span><span class="op">=</span><span class="st">"14"</span></span>
+<span id="cb7-10"><a aria-hidden="true" href="#cb7-10" tabindex="-1"></a><span class="ot">      areaHeight</span><span class="op">=</span><span class="st">"18"</span><span class="dt">/&gt;</span></span></code></pre></div>
+<h4 id="description">Description</h4>
+<ol type="1">
+<li>Title template definition. A string that can optionally contain
+placeholders ${title} for a title value taken from HTML’s TITLE tag,
+${page} for a page counter value.</li>
+<li>Page number template definition. A string with placeholder ${page}
+for a page counter value.</li>
+<li>The attribute initializes internal page counter with the given
+value.</li>
+<li>The attribute defines, that 1 page should not contain footer
+information.</li>
+<li>Footer area height in points.</li>
+</ol>
+<h4 id="adding-dynamic-data">Adding Dynamic data</h4>
+<p>Dynamic data like data from session or scriplets can be used in the
+PDF generation. A Simple Example is given below.</p>
+<pre><code>  &lt;% String template = getFormattedDate() + ", page ${page} "; %&gt;
+  &lt;pd4ml:footer
+      pageNumberTemplate="&lt;%=template%&gt;"
+      .......
+      /&gt;</code></pre>
+<p>This means that the entire form generation for Presentation
+Frameworks like Struts etc., can be used just like a normal JSP. This
+provides a nice demarcation and seamless integration of the presentation
+(Format/Layout) of the PDF document and the business behind the
+generation</p>
+<p>####Temporary saving generated PDF to hard drive With
+<code>&lt;pd4ml:savefile&gt;</code> tag you have possibility to store
+just generated PDF to hard drive and redirect user’s browser to read the
+PDF as static resource or to redirect the request to another URL for PDF
+post-processing. The tag should be nested within
+<code>&lt;pd4ml:transform&gt;</code> and should not have a body.There
+are two ways of generating the PDF and redirecting the browser.</p>
+<p>####Routing the browser to the PDF generated Once the PDF is
+generated the user can be directed to the generated PDF using the
+following piece of code.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:savefile</span></span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a><span class="ot">      uri</span><span class="op">=</span><span class="st">"/WEB/savefile/saved/"</span></span>
+<span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a><span class="ot">      dir</span><span class="op">=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
+<span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a><span class="ot">      redirect</span><span class="op">=</span><span class="st">"pdf"</span></span>
+<span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a><span class="ot">      debug</span><span class="op">=</span><span class="st">"false"</span><span class="dt">/&gt;</span></span></code></pre></div>
+<p>The tag above forces PD4ML to save the generated PDF to
+D:/spool/generated_pdfs with an autogenerated name.It is expected, that
+local directory D:/spool/generated_pdfs corresponds to URL
+<code>http://yourserver.com/WEB/savefile/saved/</code> (as given in
+“uri” attribute)</p>
+<p>After generation PD4ML will send to client’s browser a redirect
+command with URL like that:
+<code>http://yourserver.com/WEB/savefile/saved/generated_name.pdf</code>
+where,</p>
+<p><code>http://yourserver.com</code> - Context path</p>
+<p><code>/WEB/savefile/saved</code> - URI given</p>
+<p><code>generated_name.pdf</code> - Auto generated file Name</p>
+<h4 id="routing-the-browser-to-the-next-page">Routing the browser to the
+next page</h4>
+<p>However if the browser needs to be redirected to the next page
+instead of the PDF generated, it can be done in the following way.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">pd4ml:savefile</span></span>
+<span id="cb10-2"><a aria-hidden="true" href="#cb10-2" tabindex="-1"></a><span class="ot">      dir</span><span class="op">=</span><span class="st">"D:/spool/generated_pdfs"</span></span>
+<span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a><span class="ot">      redirect</span><span class="op">=</span><span class="st">"/mywebapp/send_pdf_by_email.jsp"</span></span>
+<span id="cb10-4"><a aria-hidden="true" href="#cb10-4" tabindex="-1"></a><span class="ot">      debug</span><span class="op">=</span><span class="st">"false"</span><span class="dt">/&gt;</span></span></code></pre></div>
+<p>The tag above forces PD4ML to save the generated PDF to
+D:/spool/generated_pdfs with an auto generated name. After that it
+forwards to /mywebapp/send_pdf_by_email.jsp with a REQUEST parameter
+filename=<code>&lt;pdfname&gt;</code>. So send_pdf_by_email.jsp can read
+file name using,</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a><span class="bu">String</span> fileName <span class="op">=</span> request<span class="op">.</span><span class="fu">getParameter</span><span class="op">(</span><span class="st">"filename"</span><span class="op">);</span></span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a><span class="co">//Building the full path of the PDF generated</span></span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a><span class="bu">String</span> path <span class="op">=</span> <span class="st">"D:/spool/generated_pdfs"</span> <span class="op">+</span> <span class="st">"/"</span> <span class="op">+</span> fileName<span class="op">;</span></span></code></pre></div>
+<p>Hence that JSP can read the just-generated PDF file and and perform
+post-processing or any other actions (like E-mail or File-Upload).</p>
+<p>In both cases above you can predefine PDF file name with “name”
+attribute. If a file with the name is already exists in
+D:/spool/generated_pdfs, than the new file name is appended with an
+auto-incremented numeric value.</p>
+<h3 id="instructions-for-installation">Instructions for
+Installation</h3>
+<p>PD4ML is intended to be used with JDK1.3.1 and above .For deploying
+PD4ML as either Console application and for online generation, use the
+following jars available at the PD4ML site (Given in the references) •
+pd4ml.jar • pd4ml_tl.jar(for the tag library)</p>
+<h4 id="professional-version-features">Professional Version
+Features</h4>
+<p>Apart from the various features discussed above, the licensed
+professional version includes lots of additional features such as:</p>
+<ul>
+<li>TTF embedding</li>
+<li>Configuring Fonts directory</li>
+<li>Embedding fonts to PDF from Java API</li>
+<li>Embedding fonts to PDF from JSP</li>
+<li>Watermark images</li>
+<li>Table of contents</li>
+<li>General notes</li>
+</ul>
+<h4 id="other-libraries">Other libraries</h4>
+<p>Few other libraries that are available for PDF generation are <a href="http://xmlgraphics.apache.org/fop/">Apache FOP</a> and <a href="http://itextpdf.com/functionality">iText</a></p>
+<p><strong>Apache FOP</strong></p>
+<blockquote>
+<p>Apache FOP (Formatting Objects Processor) is a print formatter driven
+by XSL formatting objects (XSL-FO) and an output independent formatter.
+It is a Java application that reads a formatting object (FO) tree and
+renders the resulting pages to a specified output. Output formats
+currently supported include PDF, PS, PCL, AFP, XML (area tree
+representation), Print, AWT and PNG, and to a lesser extent, RTF and
+TXT. The primary output target is PDF.</p>
+</blockquote>
+<p><strong>iText</strong> &gt; iText is an open source library that
+allows you to create and manipulate PDF documents. It enables developers
+looking to enhance web and other applications with dynamic PDF document
+generation and/or manipulation.” &gt; - http://itextpdf.com/</p>
+<h4 id="references">References</h4>
+<ul>
+<li><a class="uri" href="http://pd4ml.com/api/index.html">http://pd4ml.com/api/index.html</a></li>
+<li><a class="uri" href="http://pd4ml.com/index.htm">http://pd4ml.com/index.htm</a></li>
+</ul>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Apr 2010). PDF Generation using PD4ML. sengopal.me. https://sengopal.me/pdf-generation-using-pd4ml</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2010pdfgenerationusingpd4ml,
+  title   = {PDF Generation using PD4ML},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2010},
+  month   = {Apr},
+  url     = {https://sengopal.me/pdf-generation-using-pd4ml}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

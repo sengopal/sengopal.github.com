@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>NLP Glove Algorithm and further improvements on representation | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/nlp-glove-algorithm-and-further-improvements-on-representation">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/nlp.atom.xml">
+<meta name="description" content="A post detailing about the Glove algorithm, its variations and utilities and further improvements on word representation">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2022-04-10T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Sun 10 April 2022
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/nlp">NLP</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/cs224n">#cs224n</a>,                 <a href="https://sengopal.me/tag/learning">#learning</a>,                 <a href="https://sengopal.me/tag/nlp">#nlp</a>            </li>
+        </ul>
+    </header>
+    <h1>NLP Glove Algorithm and further improvements on representation</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#analogies-and-meaning-components" id="toc-analogies-and-meaning-components">Analogies and Meaning
+components</a></li>
+<li><a href="#results" id="toc-results">Results</a></li>
+<li><a href="#evaluation-of-glove-algorithm" id="toc-evaluation-of-glove-algorithm">Evaluation of Glove
+algorithm</a></li>
+<li><a href="#evaluation-metrics" id="toc-evaluation-metrics">Evaluation
+Metrics</a></li>
+<li><a href="#better-data" id="toc-better-data">Better Data</a></li>
+<li><a href="#human-judgments-of-word-similarity" id="toc-human-judgments-of-word-similarity">Human judgments of word
+similarity</a></li>
+<li><a href="#extrinisic-evaluation" id="toc-extrinisic-evaluation">Extrinisic Evaluation</a></li>
+<li><a href="#word-senses-and-word-sense-ambiguity" id="toc-word-senses-and-word-sense-ambiguity">Word Senses and word sense
+ambiguity</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+<li><a href="#suggested-readings" id="toc-suggested-readings">Suggested
+Readings</a></li>
+<li><a href="#additional-readings" id="toc-additional-readings">Additional Readings</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>This lecture introduces the GLove model, the intuition behind the
+algorithm and different means to evaluate them.</p>
+<p>Glove was an algorithm for word vectors that was made by Jeffrey
+Pennington, Richard Socher, and Christopher Manning in 2014 and acted as
+the starting point of connecting together the linear algebra based
+methods on co-occurrence matrices like LSA and COALS with the models
+like skip-gram, CBOW and others, which were iterative neural updating
+algorithms. The earlier linear algebra methods actually had their
+advantages for fast training and efficient usage of statistics, the
+results weren’t as good perhaps because of disproportionate importance
+given to large counts in the main. Conversely, the neural models seemed
+to performing gradient updates on word-windows, and inefficiently using
+statistics versus the co-occurrence matrix. Though, it was actually
+easier to scale to a very large corpus by trading time for space.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_count_prediction.png"/></p>
+<p>The motivation was to use neural methods, which generated improved
+performance on many taskss, and identify the properties necessary to
+have these analogies work, such as going from male to female, queen to
+king. Or going from a verb to its agent, truck to driver.</p>
+<h3 id="analogies-and-meaning-components">Analogies and Meaning
+components</h3>
+<p>The intent behind the Glove design was to represent the “meaning”
+components as ratios of co-occurrence probabilities. As an example, the
+below illustrates the spectrum from solid to gas as in physics. The word
+“solid” co-occurs with the word “ice” often, while the word “gas”
+doesn’t occur with the word “ice” as many times. But the problem is the
+word “water” will also occur a lot with ice, while any other random word
+like the word “fashon”, doesn’t occur with the word “ice” many times. In
+contrast, if we look at words co-occurring with the word “steam”,
+“solid” won’t occur with “steam” many times, but “gas” will. The water
+will also co-occur again and “fashion” occurence will be small. So to
+determine the meaning component of traversing from gas to solid, it
+would be useful to look at the ratio of these co-occurrence
+probabilities.</p>
+<p>Because then we get a spectrum from large to small between solid and
+gas. Whereas for water and a random word, it basically cancels out and
+gives youI just wrote these numbers in.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_meaning_components.png"/></p>
+<p>In an actual large corpus, the following are actual co-occurrence
+probabilities.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_cooccurence_probabilities.png"/></p>
+<p>as noted the co-occurence probabilities cancel out for “water” and
+while for fashion is it low, both around 1. Whereas the ratio of
+probability of co-occurrence of solid with ice or steam is about 10. And
+for gas it’s about a 10th.</p>
+<h4 id="log-bi-linear-model">Log bi-linear model</h4>
+<p><img src="/extras/images/nlp-glove-algorithm/log_bilinear.png"/></p>
+<p>In order to capture these ratios of co-occurrence probabilities as
+linear meaning components within the word vector space, we can just add
+and subtract linear meaning components. This can be achieved using a
+log-bilinear model. So that <strong>the dot product between two word
+vectors attempts to approximate the log of the probability of
+co-occurrence.</strong> So if you do that, you then get this property
+that the difference between two vectors, its similarity to another word
+corresponds to the log of the probability ratio shown on the previous
+figure.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_loss_fn.png"/></p>
+<p>So the GloVe model attempts to unify the thinking between the
+co-occurrence matrix models and the neural models by being some way
+similar to a neural model 1. calculated on top of a co-occurrence matrix
+count. 2. Has an explicit loss function.</p>
+<p>And the explicit loss function is the diference of the dot product to
+the log of the co-occurrence. To prevent very common words from
+dominating, the effect of high word counts are capped using the
+<em>f</em> function. This structure allows the optimization of the
+<em>J</em> function directly on the co-occurrence count matrix,
+providing a fast training scalable to huge corpora.</p>
+<h4 id="objective-function-for-the-glove-model-log-bilinear-means">Objective
+function for the GloVe model / log-bilinear means</h4>
+<p><strong>log-bilinear</strong> - the “bi” is indicative of the two
+terms <em>wi</em> and <em>wj</em>, similar to an algebraic value of
+<em>ax</em> where the term i linear in <em>x</em> and <em>a</em> is a
+constant. The difference is squared to ensure that the term is always
+positive and J is a minimization problem. There are two bias terms for
+both words which can move things up and down for the word in general. So
+if in general probabilities are high for a certain word, this bias term
+can model specifically for that word.</p>
+<h4 id="explanation-for-fxij">Explanation for f(Xij)</h4>
+<p><em>f(Xij)</em> is provided to scale things depending on the
+frequency of a word because we want to pay more attention to words that
+are more common or word pairs that are more common. But there is a
+potential issue when we have extremely common words like function words.
+So the function <em>f(Xij)</em> typically pays attention to words that
+co-occurred together up until a certain point. And then the curve just
+goes flat, so it didn’t matter if it was even an extremely, extremely
+common word.</p>
+<h3 id="results">Results</h3>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_frog_results.png"/></p>
+<p>Nearest words to the word “frog” - We get “frogs”, “toad”, and then
+we get some complicated words. But it turns out they are all frogs,u
+ntil we get down to lizards.</p>
+<h3 id="evaluation-of-glove-algorithm">Evaluation of Glove
+algorithm</h3>
+<p>There are typically two ways of evaluation - Intrinsic and extrinsic.
+In an intrinsic evaluation we evaluate directly on the specific or
+intermediate subtasks that we’ve been working on. Intrinsic evaluations
+are fast to compute and help understand the component we’ve been working
+on.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_evaluate.png"/></p>
+<p>An extrinsic evaluation is to utilize a real task of interest, such
+as web search or machine translation and use that goal to improve
+performance on that task. However, such evaluation takes longer due to
+the extensiveness of the system involved. And sometimes it is difficult
+to attribute the result to the appropriateness of the word vectors or
+due to some other components of the system or if the interaction was
+just better with your previous version of the word vectors.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_intrinsic.png"/></p>
+<p>For intrinsic evaluation of word vectors, we can provide models with
+a big collection of word vector analogy problems, such as man is to
+woman as king is to blank? And tune the model to find the word that is
+closest, such as queen and produce an accuracy score of how often that
+the model evaluates it accurately.</p>
+<p>Note: Many times during such evaluation, the actual closest word is
+really just “king”. So to prevent this issue, the three input words are
+not allowed in the selection process, choosing only the nearest word
+that isn’t one of the input words.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_1.png"/></p>
+<p>From the GloVe vector examples above, they exhibit a strong linear
+component property such as the male-female dimension. For example,
+taking the vector difference of “man” and “woman” and adding the vector
+difference onto “brother”, the expectation is to get to “sister” and
+king, queen, and for many of these examples. But some examples may not
+work, such as starting from “emperor”, the vector might get to
+“countess” or “duchess” instead.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_2.png"/></p>
+<p>And these two examples illustrate that the Company to CEO and
+superlatives also move in roughly linear components.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_viz_3.png"/></p>
+<h3 id="evaluation-metrics">Evaluation Metrics</h3>
+<p>word2vec authors built a data set of analogies to evaluate different
+models on the accuracy of their analogies, including semantic and
+syntactic analogies. Unscaled co-occurrence counts via an SVD work
+terribly. Some scaling can get SVD of a scaled count matrix to work
+reasonably well, hence SVD-L is similar to the COALS model. They do a
+decent enough job without a neural network.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_eval_results.png"/></p>
+<p>The results also illustrate how word2vec and GloVe models performed
+and in 2014 was considered optimal. However, it might have scored better
+due to better data.</p>
+<h3 id="better-data">Better Data</h3>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_analogy_data.png"/></p>
+<p>The above image illustrates the semantic, syntactic and overall
+performance on word analogies of GloVe modelthat when trained on
+different subsets of data. One of the big advantage was that the GloVe
+model was partly trained on Wikipedia as well as other text. Whereas the
+word2vec model that was released was trained exclusively on Google News,
+which is not as good as even one quarter of the size amount of Wikipedia
+data for semantics. On the right end, with Common Crawl Web data, 42
+billion words, we get good scores again from the semantic side.</p>
+<p>The graph on the right then shows performance against the vector
+dimension. 25 dimensional vectors score poorly, while 100 dimensional
+vectors already work reasonably well, but still get significant gains
+for 200 and somewhat to 300 and recently 300 dimensional vectors seems
+to be the sweet spot, with the best known sets of word vectors,
+including the word2vec vectors and the GloVe vectors provide 300
+dimensional word vectors.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_intrinsic_eval_2.png"/></p>
+<h3 id="human-judgments-of-word-similarity">Human judgments of word
+similarity</h3>
+<p>Another intrinsic evaluation you can do is see how these models model
+human judgments of word similarity. So psychologists for several decades
+have actually taken human judgments of word similarity. Where literally
+you’re asking people for pairs of words like “professor” and “doctor” to
+give them a similarity score that’s being measured as some continuous
+quantity giving you a score between, say 0 and 10.</p>
+<p>They responses are then averaged over multiple human judgments as to
+how similar different words are. For example, “tiger” and “cat” are
+pretty similar. “Computer” and “internet” are pretty similar, while
+“Plane” and “cars” less similar. “Stock” and “CD” aren’t very similar at
+all but “stock” and “jaguar” are even less similar.</p>
+<p><img src="/extras/images/nlp-glove-algorithm/glove_correlation.png"/></p>
+<p>And in particular, we can measure a <strong>correlation coefficient
+</strong>of whether they give the same ordering of similarity judgments.
+And there are various different data sets of word similarities and
+scorinf of different models as to how well they do on such similarities.
+Plain SVD’s works comparatively better here for similarities than it did
+for analogies, not completely terrible because we no longer need that
+linear property. Scaled SVD’s work a lot better, Word2vec works a bit
+better than that and with similar minor advantages from the GloVe
+model.</p>
+<h3 id="extrinisic-evaluation">Extrinisic Evaluation</h3>
+<p>NER (named entity recognition) is an extrinsic task for identifying
+mentions of a person’s name or an organization name like a company or a
+location. Having good word vectors help perform named entity recognition
+effectively. Starting with a model with discrete features, which uses
+word identity as features, we can build a named entity model doing that
+and adding word vectors provides a better representation of the meaning
+of words. <img alt="Glove NER" src="/extras/images/nlp-glove-algorithm/glove_ner.png"/></p>
+<blockquote>
+<p><a href="https://arxiv.org/pdf/2203.13928.pdf">On the Intrinsic and
+Extrinsic Fairness Evaluation Metrics for Contextualized Language
+Representations</a> <em>by Yang Trista Cao et al.</em> is a good
+reference on these different evaluation metrics and underlying
+biases.</p>
+</blockquote>
+<h3 id="word-senses-and-word-sense-ambiguity">Word Senses and word sense
+ambiguity</h3>
+<p>There are different meanings of the word pike</p>
+<ul>
+<li>A sharp point or staff</li>
+<li>A type of elongated fish</li>
+<li>A railroad line or system</li>
+<li>A type of road</li>
+<li>The future (coming down the pike)</li>
+<li>A type of body position (as in diving)</li>
+<li>To kill or pierce with a pike</li>
+<li>To make one’s way (pike along)</li>
+<li>In Australian English, pike means to pull out from doing something:
+I reckon he could have climbed that cliff, but he piked!</li>
+</ul>
+<h4 id="improving-word-representations-via-global-context-and-multiple-word-prototypes-huang-et-al.-2012">Improving
+Word Representations Via Global Context And Multiple Word Prototypes
+(Huang et al. 2012)</h4>
+<p>The gut feeling is usually to have different vectors for each meaning
+of the same word, as it seems counter-intutive to have the same vector
+for all the different meanings. If “Pike”, and other words have
+<strong>“word sense”</strong> vectors. This paper attempted to improve
+the representation of words such as “pike”. The primary idea was to
+cluster word windows around words, retrain with each word assigned to
+multiple different clusters bank1, bank2, etc. And then for the clusters
+of word tokens, start treating them as if they were separate words and
+learning a word vector for each. So basically this does work and we can
+learn word vectors for different senses of a word. But actually this
+isn’t the majority way that things have then gone in practice. Primarily
+due to increased complexity, and it tends to be imperfect in its own way
+as we’re trying to take all the uses of the word “pike” and sort of cut
+them up into key different senses, where differences overlap and there
+is no clear distinction. It’s always very unclear how you cut word
+meaning into different senses.</p>
+<p>In an overall sense, the word vector is generated as a superposition
+of the word vectors for the different senses of a word, here
+“superposition” means no more or less a weighted sum. So the vector that
+we learn for “pike” will be a weighted average of the vectors that would
+have learned for the medieval weapons sense, plus the fish sense, plus
+the road sense, plus whatever other senses that you have, <strong>where
+the weighting that’s given to these different sense vectors corresponds
+to the frequencies of use of the different senses.</strong></p>
+<p>And adding up several different vectors into an average does not lose
+the real meanings of the word and it turns out that this average vector
+in applications, tends to self-disambiguate.</p>
+<h3 id="references">References</h3>
+<ol type="1">
+<li><a href="https://www.youtube.com/watch?v=gqaHkPEZAew">Video</a></li>
+<li><a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf">Slides</a></li>
+<li><a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf">Notes</a></li>
+</ol>
+<h3 id="suggested-readings">Suggested Readings</h3>
+<ol type="1">
+<li><a href="http://nlp.stanford.edu/pubs/glove.pdf">GloVe: Global
+Vectors for Word Representation</a> (original GloVe paper)</li>
+<li><a href="http://www.aclweb.org/anthology/Q15-1016">Improving
+Distributional Similarity with Lessons Learned from Word
+Embeddings</a></li>
+<li><a href="http://www.aclweb.org/anthology/D15-1036">Evaluation
+methods for unsupervised word embeddings</a></li>
+</ol>
+<h3 id="additional-readings">Additional Readings</h3>
+<ol type="1">
+<li><a href="http://aclweb.org/anthology/Q16-1028">A Latent Variable
+Model Approach to PMI-based Word Embeddings</a></li>
+<li><a href="https://transacl.org/ojs/index.php/tacl/article/viewFile/1346/320">Linear
+Algebraic Structure of Word Senses, with Applications to
+Polysemy</a></li>
+<li><a href="https://papers.nips.cc/paper/7368-on-the-dimensionality-of-word-embedding.pdf">On
+the Dimensionality of Word Embedding</a></li>
+</ol>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Apr 2022). NLP Glove Algorithm and further improvements on representation. sengopal.me. https://sengopal.me/nlp-glove-algorithm-and-further-improvements-on-representation</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2022nlpglovealgorithmandfurtherimprovementsonrepresentation,
+  title   = {NLP Glove Algorithm and further improvements on representation},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2022},
+  month   = {Apr},
+  url     = {https://sengopal.me/nlp-glove-algorithm-and-further-improvements-on-representation}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

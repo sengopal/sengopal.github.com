@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>NLP Word2Vec Algorithm | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/nlp-word2vec-algorithm">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/nlp.atom.xml">
+<meta name="description" content="A post detailing more about the Word2Vec algorithm, its variations and utilities">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2022-03-20T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Sun 20 March 2022
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/nlp">NLP</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/cs224n">#cs224n</a>,                 <a href="https://sengopal.me/tag/learning">#learning</a>,                 <a href="https://sengopal.me/tag/nlp">#nlp</a>            </li>
+        </ul>
+    </header>
+    <h1>NLP Word2Vec Algorithm</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#word2vec-algorithm" id="toc-word2vec-algorithm">Word2vec
+algorithm</a></li>
+<li><a href="#word2vec-model-functions" id="toc-word2vec-model-functions">Word2Vec model functions</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>This blog post captures the inner workings of the Word2Vec Algorithm,
+by roughly following the lecture patterns for the Cs224n course from
+Stanford.</p>
+<h3 id="word2vec-algorithm">Word2vec algorithm</h3>
+<p>Recalling the <em>Word2vec</em> algorithm from <a href="Introduction-to-nlp-and-word-vectors">Introduction-to-nlp-and-word-vectors</a>,
+the only parameters of this model are the word vectors. We have context
+word vectors and center word vectors for each word and then taking their
+dot product to get a probability, which gives a score of how likely a
+particular context word is to occur with the center word. Using the
+softmax transformation on the dot product converts the scores into
+probabilities. word2vec model is called a bag of words (BoW) model. BoW
+models does not pay any attention to word order or position, the
+distance of the context words from the center word while computing the
+probability estimate.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/word2vec_bow.png"/></p>
+<h4 id="optimization-gradient-descent">Optimization: Gradient
+Descent</h4>
+<p>The next step would be to determine the gradient of the loss function
+with respect to the parameters. The algorithm starts with random word
+vectors. They are initialized with small numbers, near 0 in each
+dimension. The loss function J uses a gradient descent algorithm, an
+iterative algorithm, that learns to maximize <span class="math inline"><em>J</em>(<em>θ</em>)</span> by changing theta,
+which represents the model weights. The idea of the algorithm is to
+calculate the gradient <span class="math inline"><em>J</em>(<em>θ</em>)</span>, from the current
+values of <span class="math inline"><em>θ</em></span>, by making a small
+step in the direction of the negative gradient to gradually move down
+towards the minimum.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/gradient_descent.png"/></p>
+<p>The simple gradient descent works the following way: The <strong>step
+size</strong> parameter of the algorithm determine the time taken and if
+the function converges. If the <strong>step size</strong> is too smal,
+it would take a long time to minimize the function while a large step
+can make the function diverge and keep getting bouncing back and forth.
+The algorithm steps a little bit in the negative direction of the
+gradient using the step size, which gives new parameter values. But ach
+individual parameter gets updated only a little bit by working out the
+partial derivative of J with respect to that parameter and by using the
+learning rate, where J is a function of all windows in the corpus.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/update_step.png"/></p>
+<p>Note that the denominator is a sum over every center word in the
+entire corpus, but they often have billions of words in the corpus,
+which makes computing the gradient of <span class="math inline"><em>J</em>(<em>θ</em>)</span> expensive, as we have
+to iterate over the entire corpus. So a single gradient update takes a
+long time and optimization would be extremely slow.</p>
+<h4 id="stochastic-gradient-descent">Stochastic Gradient Descent</h4>
+<p>The alternative to avoid the above issue is to use stochastic
+gradient descent. So rather than working out an estimate of the gradient
+based on the entire corpus, we take one center word or a small batch of
+32 center words, work out an estimate of the gradient based on them. Now
+that estimate of the gradient will be noisy and bad because only a small
+fraction of the corpus was used rather than the whole corpus. But
+nevertheless, we can use that estimate of the gradient to update the
+theta parameters in exactly the same way. So with a billion word corpus,
+with each center word, we can make a billion updates to the parameters
+as we pass through the corpus once rather than only making one more
+accurate update to the parameters using the entire corpus. So overall,
+we can learn several orders of magnitude more quickly.</p>
+<p>Neural nets have some quite counter intuitive properties and even
+though the stochastic gradient descent is noisy and bounces around, the
+complex networks learns better solutions than when using a plain and
+slow gradient descent.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/stochastic_grad_descent.png"/></p>
+<h4 id="note-about-sgd">Note about SGD</h4>
+<p>For example, when performing stochastic gradient update for one
+window, with one center word and window size of 5, there would be at
+most 11 distinct word types. So gradient information will be available
+for those 11 words but the other 100,000 words in our vocabulary will
+have no gradient update information, making it a very sparse gradient
+update. Thinking from a systems optimization perspective, we would
+ideally want to update the parameters only for a few words and there are
+many efficient ways to achieve that.</p>
+<blockquote>
+<p>Note: word vectors have been presented as column vectors, which is
+usually how mathematical notation prescribes, however in deep learning
+packages, word vectors are actually represented as row vectors</p>
+</blockquote>
+<p><img src="/extras/images/nlp-word2vec-algorithm/stochastic_grad_wordvec.png"/></p>
+<h4 id="why-two-different-vectors-for-the-same-word">Why two different
+vectors for the same word</h4>
+<p>If we use the same vector for context and center, and if the same
+word occurs in the same window as both a center and a context word, then
+a dot product of the same term with itself, makes it messier to work
+out.</p>
+<h3 id="word2vec-model-functions">Word2Vec model functions</h3>
+<p>word2vec can operate in two different models 1. skip-gram model -
+where it predicts the context words given the center word in a bag of
+words style model. 2. Continuous Bag of Words model - where it predicts
+the center word from a bag of context words.</p>
+<p>The original word2vec paper used the skip-gram model and used
+negative sampling also called SGNs (skip-grams negative sampling),
+instead of the naive softmax. This was due to the expensive cost of
+computing the denominator you have to iterate over every word in the
+vocabulary and work out these dot products for every word in the corpus
+for each window. While negative sampling trains binary logistic
+regression models for both the true pair of center word and the context
+word versus noise pairs where the true center word and randomly sample
+words from the vocabulary are paired, and updates only the related
+weights, instead of updating all of the weights.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/skip_gram_negative_sampling.png"/></p>
+<p>Instead of softmax, the dot product is passed through the logistic
+function (sigmoid), which maps any real number to a probability between
+0 and 1 open interval. So for a large dot product. the logistic function
+would return 1.</p>
+<p>On average the dot product between the center word and context words,
+should be small if they most likely didn’t actually occur in the
+context. This is achieved using the sigmoid function, which is symmetric
+and to make probability small, we can take the negative of the dot
+product i.e., The dot product of a random context word and the center
+word would be a small number, which is again negated to put through the
+sigmoid.</p>
+<p>The objective is to actually maximize the <span class="math inline"><em>J</em><sub><em>t</em></sub>(<em>θ</em>)</span>.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/skip_gram_negative_sampling_2.png"/></p>
+<p>Comparing this to the earlier discussion of minimizing the negative
+log likelihood, where we use the negative log likelihood of the sigmoid
+of the dot product and use k-negative samples of random words. This loss
+function would be minimized given this negation of the log of the dot
+product ,by making these dot products large, and the small k-negative
+dot products are negated which would be small postive after going
+through the sigmoid.</p>
+<h5 id="better-sampling-of-rare-words">Better sampling of rare
+words</h5>
+<p>While sampling, the authors of the word2vec sample the words based on
+their probability of occurrence using the unigram distribution of words,
+which defines how often words actually occur in the corpus. For example,
+in a billion word corpus, a particular word occurred 90 times in it, the
+90 divided by a billion, is the unigram probability of the word. It is
+also <span class="math inline">(3/4)<sup><em>t</em></sup><em>h</em></span> powered,
+which renormalizes the probability distribution and dampens the
+difference between common and rare words to ensure that less frequent
+words are sampled more often, but still not nearly as much as if a
+uniform distribution was utilized.</p>
+<h4 id="problems-with-co-occurence-matrix">Problems with co-occurence
+matrix</h4>
+<p><img src="/extras/images/nlp-word2vec-algorithm/cooccurence-matrix.png"/></p>
+<ol type="1">
+<li>Cooccurence matrices are huge very sparse For example with
+vocabulary of half a million words, we have half a million dimensional
+vector.</li>
+<li>Results tend to be noisier and less robust depending on what words
+are available in the corpus.</li>
+<li>So for better results we should work with low dimensional
+vectors.</li>
+<li>In practice the dimensionality of the vectors that are used are
+normally somewhere between 25 and 1,000.</li>
+</ol>
+<h4 id="singular-value-decomposition">Singular Value Decomposition</h4>
+<p><img src="/extras/images/nlp-word2vec-algorithm/singular-value-decomposition.png"/></p>
+<p>Singular value projection gives an optimal way under a certain
+definition of optimality, of producing a reduced dimensionality pair of
+matrices that maximally recovers the original matrix. So the cooccurence
+count matrix can be decomposed into three matrices - a diagonal matrix
+U, sigma, and a V transpose matrix. We can take advantage of the fact
+that the singular values inside the diagonal sigma matrix are ordered
+from largest down to smallest and discounting some of the smaller
+values, we can extract lower dimensional representations for our words
+which enables us to recover the original co-occurrence matrix. But it
+works poorly because we are expecting to have these normally distributed
+errors because we have exceedingly common words like “a,” “the,” and
+“and” and a very large number of rare words.</p>
+<p>We can use the log of the raw counts or cap the maximum count or
+remove the function words to address this issue and such methods were
+explored heavily in the 2000s.</p>
+<h4 id="coals">COALS</h4>
+<p><img src="/extras/images/nlp-word2vec-algorithm/coals-hacks.png"/></p>
+<p>Doug Rohde explored a number of these ideas as to how to improve the
+co-occurrence matrix in a model that he built that was called COALS. We
+get the same kind of linear semantic components, which can be used to
+identify analogies.</p>
+<p><img src="/extras/images/nlp-word2vec-algorithm/coals-analogies.png"/></p>
+<p>These vector components are not perfect, but are roughly parallel and
+roughly the same size. And so we have a meaning component there that we
+could add on to another word for analogies. We could determine drive is
+to driver as marry is to a priest. This acted as the basis for the Glove
+model investigation.</p>
+<h4 id="word2vec-implementation-code">Word2Vec Implementation Code</h4>
+<h4 id="references">References</h4>
+<ol type="1">
+<li><a href="https://www.youtube.com/watch?v=gqaHkPEZAew">Video</a></li>
+<li><a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf">Slides</a></li>
+<li><a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf">Notes</a></li>
+</ol>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Mar 2022). NLP Word2Vec Algorithm. sengopal.me. https://sengopal.me/nlp-word2vec-algorithm</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2022nlpword2vecalgorithm,
+  title   = {NLP Word2Vec Algorithm},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2022},
+  month   = {Mar},
+  url     = {https://sengopal.me/nlp-word2vec-algorithm}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

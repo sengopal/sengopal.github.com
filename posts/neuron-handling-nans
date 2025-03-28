@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Neuron - Handling NaNs | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/neuron-handling-nans">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="A runbook for triaging Neuron accuracy issues and means to verify the model accuracy">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2024-01-20T00:00:00-08:00">
+                <i class="fas fa-clock"></i>
+                Sat 20 January 2024
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/ml-code">#ml-code</a>,                 <a href="https://sengopal.me/tag/llm">#llm</a>,                 <a href="https://sengopal.me/tag/neuron">#neuron</a>            </li>
+        </ul>
+    </header>
+    <h1>Neuron - Handling NaNs</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#compiler-flag---enable-saturate-infinity" id="toc-compiler-flag---enable-saturate-infinity">Compiler flag:
+<code>--enable-saturate-infinity</code></a></li>
+<li><a href="#compiler-flag---enable-mixed-precision-accumulation" id="toc-compiler-flag---enable-mixed-precision-accumulation">Compiler
+flag: <code>--enable-mixed-precision-accumulation</code></a></li>
+<li><a href="#nans-due-to-saturation" id="toc-nans-due-to-saturation">NaNs due to saturation</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>LLMs work with floating point numbers and susceptible to saturation
+or loss of precision issue. This is typically seen with NaN <em>(Not a
+Number)</em> errors.</p>
+<p>Neuron compiler suggests the following options to overcome the NaN
+issue.</p>
+<h3 id="compiler-flag---enable-saturate-infinity">Compiler flag:
+<code>--enable-saturate-infinity</code></h3>
+<p><a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-7-0-40">Ref</a>
+A computation that can generate +/- infinity is at a high risk of
+generating Not-a-Number (NaN) values when the infinity value is used in
+subsequent computations. This option helps avoid this by converting
++Inf/-Inf values to MAX/MIN_FLOAT before operations that could produce
+NaN values for +Inf/-Inf inputs on the target architecture. While this
+option helps to avoid NaN values, there is a potential performance
+degradation that occurs during model execution when this conversion is
+enabled.</p>
+<h3 id="compiler-flag---enable-mixed-precision-accumulation">Compiler
+flag: <code>--enable-mixed-precision-accumulation</code></h3>
+<p><a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-13-66-0">Ref</a>
+To perform intermediate calculations of reduction operators (such as the
+dot or reduce operators) in FP32 regardless of the operation’s defined
+datatype.</p>
+<h3 id="nans-due-to-saturation">NaNs due to saturation</h3>
+<p>To triage an intermediate BF16 tensor, np.isnan would not work, since
+NumPy supports only <code>float16</code>, <code>float32</code>, and
+<code>float64</code> by default and <code>bfloat16</code> is not a
+standard NumPy dtype. The data typically looks like
+<code>bf16_hex = [0x3f80, 0xbf80, 0x4000, 0x7f80, 0xff80, 0x7fc0]</code>.
+We can either try to use torch.isnan or convert to fp32 as below.</p>
+<h4 id="convert-to-fp32-for-printingchecking">Convert to fp32 for
+printing/checking</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="kw">def</span> bf16_to_float32(bits):</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="im">import</span> struct</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="co"># Pad with 16 zero bits to match float32</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>    f32_bits <span class="op">=</span> bits <span class="op">&lt;&lt;</span> <span class="dv">16</span></span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a>    <span class="cf">return</span> struct.unpack(<span class="st">'f'</span>, struct.pack(<span class="st">'I'</span>, f32_bits))[<span class="dv">0</span>]</span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a>converted <span class="op">=</span> [bf16_to_float32(b) <span class="cf">for</span> b <span class="kw">in</span> bf16_hex]</span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a><span class="bu">print</span>(converted)</span></code></pre></div>
+<p><em>To add Neuron available conversion method</em></p>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Jan 2024). Neuron - Handling NaNs. sengopal.me. https://sengopal.me/neuron-handling-nans</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2024neuronhandlingnans,
+  title   = {Neuron - Handling NaNs},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2024},
+  month   = {Jan},
+  url     = {https://sengopal.me/neuron-handling-nans}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Studying for OCP - Oracle Certifed Professional - Part 1 | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-1">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/notes.atom.xml">
+<meta name="description" content="I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2009-02-12T00:00:00-08:00">
+                <i class="fas fa-clock"></i>
+                Thu 12 February 2009
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/notes">Notes</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/oracle">#oracle</a>,                 <a href="https://sengopal.me/tag/certification">#certification</a>,                 <a href="https://sengopal.me/tag/coding">#coding</a>,                 <a href="https://sengopal.me/tag/development">#development</a>,                 <a href="https://sengopal.me/tag/sql">#sql</a>            </li>
+        </ul>
+    </header>
+    <h1>Studying for OCP - Oracle Certifed Professional - Part 1</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#chapter-1" id="toc-chapter-1">Chapter 1</a></li>
+<li><a href="#chapter-2" id="toc-chapter-2">Chapter 2</a></li>
+<li><a href="#chapter-2-continued" id="toc-chapter-2-continued">Chapter
+2 Continued</a></li>
+<li><a href="#chapter-3" id="toc-chapter-3">CHAPTER 3</a></li>
+<li><a href="#chapter-4" id="toc-chapter-4">CHAPTER 4</a></li>
+<li><a href="#chapter-5" id="toc-chapter-5">Chapter 5</a></li>
+<li><a href="#chapter-6" id="toc-chapter-6">Chapter 6</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>I am studying for the Oracle Certified Professional certification and
+following are notes which are specific to the certification, from the
+prep book. These notes are also helpful for a refresher on SQL syntax
+and usability.</p>
+<h3 id="chapter-1">Chapter 1</h3>
+<ol type="1">
+<li>The client tier consists of two components: the users and the user
+processes. The server tier has three components: the server processes
+that execute the SQL, the instance, and the database itself.</li>
+<li>User Processes - SQL*Plus and SQL Developer</li>
+<li>Oracle Net - Proprietary client server software used by Oracle DB
+for communication</li>
+<li>Table &lt;###&gt; relation or an entity.</li>
+<li>Rows &lt;###&gt; records or tuples, and columns &lt;###&gt;
+attributes or fields.</li>
+<li>No. of rows &lt;###&gt; cardinality of the tuples.</li>
+<li>Hierarchical paradigm =&gt; Storing employees of each department
+seperately</li>
+</ol>
+<ul>
+<li>Rows are delimited by comma</li>
+<li>Data retrieval is faster, updation is difficult</li>
+</ul>
+<ol start="8" type="1">
+<li>Relation paradigm is useful in OLTP, DSS</li>
+<li>Normalization - BOOKS Table - ISBN, Title, Author,
+Publisher&amp;Address</li>
+</ol>
+<ul>
+<li>The first normal form is to remove the repeating groups - Make one
+primary key per table</li>
+<li>1st normal form - BOOKS - ISBN, Title, Publisher&amp;Address AUTHORS
+- Name, ISBN</li>
+<li>The second normal form removes columns from the table that are not
+dependent on the primary key</li>
+<li>2nd Normal form - BOOKS - ISBN, Title, Publisher, AUTHORS - -do- ,
+PUBLISHER - PUBLISHER,street, city, state</li>
+<li>Third normal form removes all columns that are interdependent</li>
+<li>3rd Normal form - PUBLISHERS - PUBLISHER, Address Code ADDRESSES -
+Address Code, Street, City, State</li>
+</ul>
+<ol start="10" type="1">
+<li><p>Every table should have a primary key defined.This is a
+requirement of the relational paradigm. Note that the Oracle database
+deviates from this standard: it is possible to define tables without a
+primary key</p></li>
+<li><p>Standards .. Primary key columns identified with a hash (#) ..
+Foreign key columns identified with a back slash () .. Mandatory columns
+(those that cannot be left empty) with an asterisk (*) .. Optional
+columns with a lowercase <code>o</code></p></li>
+<li><p>“crow’s feet” to indicate which sides of the relationship are the
+many and the one.</p></li>
+<li><p>SQL is managed by ISO and ANSI. .. ISO - Organisation
+Internationale de Normalisation, based in Geneva .. ANSI - American
+National Standards Institute, based in Washington, DC.</p></li>
+<li><p>SQL Commands .. Data Manipulation Language (DML) commands:
+SELECT, INSERT, UPDATE, DELETE, MERGE .. Data Definition Language (DDL)
+commands: CREATE, ALTER, DROP, RENAME, TRUNCATE, COMMENT .. Data Control
+Language (DCL) commands: GRANT, REVOKE .. Transaction Control Language
+(TCL) commands: COMMIT, ROLLBACK, SAVEPOINT</p></li>
+<li><p>SQL Tools .. SQL*Plus is a user process written in C. .. It
+establishes a session against an instance and a database over the Oracle
+Net protocol. .. The platforms for the client and the server can be
+different /u01/app/oracle/product/db_1/bin/sqlplus - typical location ..
+Env Variables required are: … The ORACLE_HOME - the set of files and
+directories containing the executable code and some of the configuration
+files. … PATH must include ORACLE_HOME/bin … LD_LIBRARY_PATH
+ORACLE_HOME/lib. [but in practice you may get away without setting this]
+… database username followed by a forward slash character as a
+delimiter, then a password followed by an @ symbol as a delimiter, and
+finally an Oracle Net connect identifier. … Ex: sqlplus
+system/oracle@orc1 … executable file sqlplus.exe, and the graphical
+version was sqlplusw.exe … Windows: D:\11.1.0_2.exe … Logon String:
+system/oracle@orcl … sqlplus /nolog - to prevent it from immediately
+presenting a login prompt
+HKEY_LOCAL_MACHINE/SOFTWARE/ORACLE/KEY_OraDb11g_home1 - Registry Key for
+Env Variables</p>
+<p>… sqlplus scott/tiger@orcl - resolves the server orc1 using
+tnsnames.ora or using LDAP [TNS - Transparent Network Substrate ] …
+sqlplus scott/tiger@linsrv1.bplc.co.za:1521/orcl.bplc.com - Complete
+details of server IP and port and the database service to connect to. …
+SQL Developer - JDK1.5 is the prerequisite</p></li>
+<li><p>Definitions .. A database user is a person who can log on to the
+database. .. A database schema is all the objects in the database owned
+by one user. .. CREATE SCHEMA command does not create a schema, it is
+used for creating objects in a schema. .. A schema is initially created
+empty, when a user is created with the CREATE USER command.</p></li>
+</ol>
+<ol start="17" type="1">
+<li>Notes .. SQL, PL/SQL, and Java can all run in the database .. Third
+normal form is the usual form aimed for by systems analysts when they
+normalize data into relational structures. .. SQL Developer needs a
+graphics terminal to display windows and JRE .. A schema and a user are
+inseparable.</li>
+</ol>
+<h3 id="chapter-2">Chapter 2</h3>
+<ol type="1">
+<li>DESC[RIBE] <schema>.tablename</schema></li>
+<li>access to a special table called DUAL, which belongs to the SYS
+schema</li>
+<li>NUMBER(p,s) -&gt; precision and scale -&gt; max number of digits
+given in precision</li>
+<li>CHAR data type utilizes storage inefficiently, padding any unused
+components with spaces.</li>
+<li>TIMESTAMP data type - introduction in Oracle 9i</li>
+<li>Three concepts from relational theory encompass the capability of
+the SELECT statement: projection, selection, and joining .. Projection
+refers to the restriction of attributes (columns) selected from a
+relation or table .. Selection refers to the restriction of the tuples
+or rows selected from a relation (table) .. Joining, as a relational
+concept, refers to the interaction of tables with each other in a
+query</li>
+<li>SELECT *|{[DISTINCT] column|expression [alias],…} FROM table;</li>
+<li>DISTINCT performs a distinct for the combination of columns. Ex:
+select distinct job_id, department_id from job_history;</li>
+<li>SQL*Plus always requires a statement terminator, and usually a
+semicolon is used.</li>
+<li>Individual statements in SQL scripts are commonly terminated by a
+line break (or carriage return) and a forward slash on the next line,
+instead of a semicolon.</li>
+<li>SELECT TABLE_NAME from USER_TABLES</li>
+<li>Hierarchy</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a>    <span class="op">(</span> <span class="op">)</span> <span class="op">-</span> Brackets or parentheses</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="op">/</span> <span class="op">-</span> Division</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="op">*</span> <span class="op">-</span> Multiplication</span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>    <span class="op">-</span> <span class="op">-</span> Subtraction</span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a>    <span class="op">+</span> <span class="op">-</span> Addition</span></code></pre></div>
+<p>NOTE: Operations with the same level of precedence are evaluated from
+left to right. If more than one operator with the same level of
+precedence is present in an expression, then these will be evaluated
+from left to right.</p>
+<h3 id="chapter-2-continued">Chapter 2 Continued</h3>
+<ol start="13" type="1">
+<li><p>select col1 [AS] <alias> -&gt; For column aliasing we can use
+[as] or just a space - &gt;using AS -&gt; good SQL coding habit</alias></p></li>
+<li><p>Most Common Errors .. ORA-00923: FROM keyword not found where
+expected .. ORA-00942: table or view does not exist</p></li>
+<li><p>Case preservation of an alias is only possible if the alias is
+double quoted and double quotes are needed if the alias is more than one
+word</p></li>
+<li><p>“ORA-00923: FROM keyword not found where expected” - multi word
+alias is not double quoted</p></li>
+<li><p>|| represent the character concatenation operator</p></li>
+<li><p>select ‘literal’||‘processing using the REGIONS table’ from
+regions;</p></li>
+<li><p>‘Plural’s with the literal ’Plural’’s</p></li>
+<li><p>double quotes cannot be used</p></li>
+<li><p>alternative quote (q) operator -&gt; wrapping symbols -&gt;
+(round brackets), {curly braces}, [square brackets], or
+<angle brackets=""></angle></p></li>
+<li><p>Using the q operator, the character delimiter can effectively be
+changed from a single quotation mark to any other character</p></li>
+<li><p>format-&gt; select q’X -&gt; q’ is the notation and X is the
+delimiter character Ex: select q’X’Test this String for Plural’s X’ “qX”
+from dual; ‘Test this String for Plural’s X’ -&gt; is the test
+string</p></li>
+<li><p>If we use one of the wrapping symbols, then q’&lt;‘sdfgdfgd&gt;’
+can be given where ‘&gt;’ is taken as the delimiter</p></li>
+<li><p>Any arithmetic calculation with a NULL value always returns NULL.
+even division by a null value results in null, unlike division by zero,
+which results in an error</p></li>
+<li><p>The character concatenation operators ignore null, whilst the
+arithmetic operations involving null values always result in
+null</p></li>
+<li><p>All arithmetic operations with null will give null as the answer,
+while concatenation will just ignore the null value and give the rest as
+the answer</p></li>
+</ol>
+<h3 id="chapter-3">CHAPTER 3</h3>
+<ol type="1">
+<li>SELECT *|{[DISTINCT] column|expression [alias],…} FROM table [WHERE
+condition(s)];</li>
+<li>where salary = 10000; where salary = ‘10000’;Both formats are
+acceptable to Oracle since an implicit data type conversion is performed
+when necessary.</li>
+<li>String concatenations and arithmetic operations can also be used in
+the WHERE clause</li>
+<li>The literals are automatically converted into DATE values based on
+the default date format, which is DD-MON-RR. [RR means 50-99 will be
+1950 to 1999 and 0-50 will be 2000 and 2050]</li>
+<li>That DATE values are only equal to each other if there is an exact
+match between all their components including day, month, year, hours,
+minutes, and seconds.</li>
+<li>The entire four-digit year component (YYYY) can been specified</li>
+<li>START_DATE + 30 returns a DATE 30 days later than the
+start_date</li>
+<li>END_DATE - START_DATE gives a NUMBEr</li>
+<li>Not Equal - != (or) &lt;&gt;</li>
+<li>Testing character inequality : the strings being compared on either
+side of the inequality operator are converted to a numeric
+representation of its character [same for &lt; or &gt;]</li>
+<li>The Oracle server stores dates in an internal numeric format, and
+these values are compared within the conditions.</li>
+<li>BETWEEN &lt;###&gt; &gt;= and &lt;=</li>
+<li>IN operator - equivalent to multiple ORs</li>
+<li>wildcards - % [0 or more characters] and _ [1 character]</li>
+<li>like ‘%’ - all rows with the values NOT NULL</li>
+<li>% and _ can be escaped using ‘' [backslash] and denoted as like ’a%’
+ESACPE ’'</li>
+<li>we can changed the Escape character as well</li>
+<li>For Null checks always use IS NULL</li>
+<li>FOR AND operator - If the row contains a NULL value that causes one
+of the conditions to evaluate to NULL, then that row is excluded</li>
+<li>SELECT * FROM EMPLOYEES WHERE SALARY LIKE ‘%80%’; - Oracle
+temporarily changes the NUMBER to CHAR data for the comparison</li>
+<li>Usage of NOT: where NOT (last_name=‘King’), where first_name NOT
+LIKE ‘R%’,where department_id NOT IN (10,20,30),where salary NOT BETWEEN
+1 and 3000,where commission_pct IS NOT NULL</li>
+<li>WHERE A and B or C or D and E, then a row will be returned if both
+conditions A and B are fulfilled, or only condition C is met, or only
+condition D is met, or both conditions D and E are fulfilled. Conditions
+seperated by AND needs both to be satisfied while OR needs only one of
+them to be satisfied</li>
+<li>Precedence</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a>    <span class="kw">NOT</span>] <span class="kw">LIKE</span>, <span class="kw">IS</span> [<span class="kw">NOT</span>] <span class="kw">NULL</span>, [<span class="kw">NOT</span>] <span class="kw">IN</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>    [<span class="kw">NOT</span>] <span class="kw">BETWEEN</span></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>    <span class="op">!=</span>,<span class="op">&lt;&gt;</span></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>    <span class="kw">NOT</span></span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a>    <span class="kw">AND</span></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a>    <span class="kw">OR</span></span></code></pre></div>
+<ol start="24" type="1">
+<li>SELECT *|{[DISTINCT] column|expression [alias],…} FROM table [WHERE
+condition(s)] [ORDER BY {col(s)|expr|numeric_pos} [ASC|DESC] [NULLS
+FIRST|LAST]];</li>
+<li>The default sort order is assumed to be NULLS LAST for ascending
+sorts and NULLS FIRST for descending sorts.</li>
+<li>If no ORDER BY clause is specified, the same query executed at
+different times may return the same set of results in different row
+order, so no assumptions should be made regarding the default row
+order.</li>
+<li>Positional sorting applies only to columns in the SELECT list that
+have a numeric position associated with them</li>
+<li>Composite Sorting: order by job_id desc, last_name, 3 desc;</li>
+<li>The ampersand character (&amp;) is the symbol chosen to designate a
+substitution variable in a statement and precedes the variable name with
+no spaces between them</li>
+<li>When the statement is executed, the Oracle server processes the
+statement, notices a substitution variable, and attempts to resolve this
+variable’s value in one of two ways. .. First, it checks whether the
+variable is defined in the user session. (The DEFINE command). .. If the
+variable is not defined, the user process prompts for a value that will
+be substituted in place of the variable. .. Once a value is submitted,
+the statement is complete and is executed by the Oracle server. .. The
+ampersand substitution variable is resolved at execution time and is
+sometimes known as runtime binding or runtime substitution.</li>
+<li>SUBSTITUTION: any alphanumeric name and invalid data type gives
+ORA-00904: invalid identifier error is returned.</li>
+<li>Date and Character literals need to be enclosed within quotes. Best
+Practice is to define the substitution with quotes so that the date and
+character will be quoted without the user need</li>
+<li>When the Oracle server encounters a double ampersand substitution
+variable, a session value is defined for that variable and you are not
+prompted to enter a value to be substituted for this variable in
+subsequent references.</li>
+<li>To undefine the SEARCH variable, you need to use the UNDEFINE
+command</li>
+<li>any element of a SQL statement is a candidate for substitution</li>
+<li>column name references do not require single quotes both when
+explicitly specified and when substituted via ampersand
+substitution</li>
+<li>DEFINE command can be used to retrieve a list of all the variables
+currently defined in your SQL session</li>
+<li>It can also be used to explicitly define a value for a variable
+referenced as a substitution variable by one or more statements during
+the lifetime of that session.</li>
+<li>SET DEFINE OFF -&gt; Makes &amp; as an ordinary character</li>
+<li>The VERIFY command controls whether the substitution variable
+submitted is displayed onscreen so you can verify that the correct
+substitution has occurred</li>
+<li>SET VERIFY ON|OFF</li>
+<li>VERIFY is switched ON, the query is executed, and you are prompted
+to input a value. Once the value is input and before the statement
+commences execution, Oracle displays the clause containing the reference
+to the substitution variable as the old clause with its line number and,
+immediately below this, the new clause displays the statement containing
+the substituted value.</li>
+<li>NULLS LAST can be applied in the ORDER BY clause for every column -
+ORDER BY 3 DESC NULLS LAST, 2 ASC;</li>
+</ol>
+<h3 id="chapter-4">CHAPTER 4</h3>
+<ol type="1">
+<li>case conversion - LOWER, UPPER, and INITCAP</li>
+<li>character manipulation - LENGTH, CONCAT, SUBSTR, INSTR, LPAD, RPAD,
+TRIM, and REPLACE</li>
+<li>CONCAT takes only two strings are parameters</li>
+<li>SUBSTR(string, start position, number of characters) - 1 indexed ..
+if the position is not found -&gt; gives no result .. if the length is
+larger, returns only the available characters</li>
+<li>INSTR -&gt; similar to indexOf -&gt; INSTR(source string, search
+item, [start position],[nth occurrence of search item]) -&gt; returns 0
+if not found</li>
+<li>LPAD(string, length after padding, padding string) and RPAD(string,
+length after padding, padding string)</li>
+<li>TRIM - &gt; by default trims spaces TRIM(‘#’ from ‘#PASS#WORD##’)
+-&gt; ‘PASS#WORD’</li>
+<li>REPLACE(string, search item, replacement item) - All the
+instances</li>
+<li>ROUND, TRUNC, MOD - Numeric functions</li>
+<li>ROUND(number, decimal precision) - round(42.39,1) = 42.4 -&gt;
+&gt;=5 will be rounded to its ceiling</li>
+<li>TRUNC -&gt; just drops the additional numerals - trunc(42.39,1) =
+42.3</li>
+<li>MOD(dividend, divisor) -&gt; mod(42,10) = 2</li>
+<li>MONTHS_BETWEEN, ADD_MONTHS, LAST_DAY, NEXT_DAY, SYSDATE, ROUND, and
+TRUNC -&gt; date functions</li>
+<li>MONTHS_BETWEEN(greater_date, smaller_date) -&gt;
+MONTHS_BETWEEN(‘2-JAN-2008’,‘01-JAN-2008’) -&gt; .0322 -&gt; stored as a
+decimal value. Need to TRUNC to get only the MONTHS value</li>
+<li>LAST_DAY(date 1) function returns the last day of the month that the
+specified date falls into,</li>
+<li>NEXT_DAY(date 1, day of the week) returns the date on which the next
+specified day of the week falls after the given date (if day of the week
+is not valid, throws error)</li>
+<li>SYSDATE function takes no parameters and returns a date value that
+represents the current server date and time</li>
+<li>ROUND(date, date precision format) and TRUNC(date, date precision
+format) round and truncate a given date value to the nearest date
+precision format like day, month, or year:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="fu">sysdate</span> <span class="op">=</span> <span class="dv">17</span><span class="op">-</span><span class="dt">DEC</span><span class="op">-</span><span class="dv">2007</span></span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">sysdate</span>,<span class="st">'month'</span>) <span class="op">=</span> <span class="dv">01</span><span class="op">-</span>JAN<span class="op">-</span><span class="dv">2008</span></span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a><span class="fu">trunc</span>(<span class="fu">sysdate</span>,<span class="st">'month'</span>) <span class="op">=</span> <span class="dv">01</span><span class="op">-</span><span class="dt">DEC</span><span class="op">-</span><span class="dv">2007</span></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a>[Works <span class="kw">only</span> <span class="kw">in</span> <span class="dv">11</span>g]</span></code></pre></div>
+<ol start="19" type="1">
+<li><p>Oracle’s implementation of SQL is compliant with the ANSI:1999
+(American National Standards Institute) standard for SQL. .. More
+recently, it claimed partial compliance to the SQL:2003 standard
+endorsed by both ISO (International Organization for Standardization)
+and ANSI. .. SQL functions have been standardized, and Oracle has
+documented those that are fully or partially compliant to the SQL:2003
+standard.</p></li>
+<li><p>Character Case Conversion Functions - If parameters are numeric
+or date value, it is implicitly converted into a string.</p></li>
+<li><p>select lower(‘The SUM’||‘100+100’||’ = ’||(100+100)) from dual
+-&gt; the sum 100+100 = 200. Calculations are done if inside
+bracket</p></li>
+<li><p>(SYSDATE+2) -&gt; Adds two days</p></li>
+<li><p>select initcap(‘init cap or init_cap or init%cap’) from dual
+-&gt; Init Cap Or Init_Cap Or Init%Cap .. space, _,%,!, $ are all used
+as word seperators. Punctuation or special characters are regarded as
+valid word separators.</p></li>
+<li><p>concat(1+2.14,’ approximates pi’) -&gt; 3.14 approximates
+pi</p></li>
+<li><p>LPAD(s, n, p) and RPAD(s, n, p), .. if the parameter n is smaller
+than or equal to the length of the source string s, then no padding
+occurs and only the first n characters of s are returned</p></li>
+<li><p>TRIM([trailing|leading|both] trimstring from s). .. TRIM(trailing
+trimstring from s) removes all occurrences of trimstring from the end of
+the string s if it is present .. TRIM(leading trimstring from s) removes
+all occurrences of trimstring from the beginning of the string s if it
+is present. .. TRIM(both trimstring from s) removes all occurrences of
+trimstring from the beginning and end of the string s if it is present
+.. [both appears to be optional]</p></li>
+<li><p>INSTR(source string, search string, [search start position], [nth
+occurrence]) .. A negative number for the start position gives the
+occurence from the End instead of the beginning .. However, if the
+Occurence is ignored, then it just does a absolute of the
+position</p></li>
+<li><p>SUBSTR(source string, start position, [number of characters to
+extract]) -&gt; negative number in start position begins the search from
+that position from the End of the String</p></li>
+<li><p>REPLACE(source string, search item, [replacement term]) If the
+replacement term parameter is omitted, each occurrence of the search
+item is removed from the source string</p></li>
+<li><p>If the specified decimal precision is n, the digit significant to
+the rounding is found (n + 1) places to the RIGHT of the decimal point.
+.. If it is negative, the digit significant to the rounding is found n
+places to the LEFT of the decimal point. .. If the numeric value of the
+significant digit is greater than or equal to 5, a “round up” occurs,
+else a “round down” occurs. .. round(1301.916718,-3) -&gt; 1000 ..
+round(1601.916718,-3) -&gt; 2000 .. round(1601.916718) -&gt;
+1602</p></li>
+<li><p>A numeric truncation is different from rounding because the
+resulting value drops the numbers at the decimal precision specified and
+does not attempt to round up or down if the decimal precision is
+positive. .. However, if the decimal precision specified (n) is
+negative, the input value is zeroed down from the nth decimal position.
+.. trunc(1301.916718,-3) -&gt; 1000 .. trunc(1601.916718,-3) -&gt; 1000
+.. trunc(1601.916718) -&gt; 1601</p></li>
+<li><p>The MOD function returns the numeric remainder of a division
+operation .. If the divisor is zero, no division by zero error is
+returned and the MOD function returns a zero instead .. If the divisor
+is larger than the dividend, then the MOD function returns the dividend
+as its result .. MOD(5.2,3) -&gt; 2.2 .. MOD(7,0) -&gt; 0 [result is 7
+in 10g] .. MOD(0,7) -&gt; 0 .. MOD(7,35) -&gt; 7</p></li>
+<li><p>The default format of the results comprises two digits that
+represent the day, a three-letter abbreviation of the month, and two
+digits representing the year component. .. By default, these components
+are separated with hyphens in SQL*Plus and forward slashes in SQL
+Developer 34.. Date Format Mask</p></li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>     DD     <span class="dt">Day</span> <span class="kw">of</span> <span class="kw">the</span> <span class="dt">month</span></span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>     MON    <span class="dt">Month</span> <span class="kw">of</span> <span class="kw">the</span> <span class="dt">year</span></span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>     YY     Two<span class="op">-</span>digit <span class="dt">year</span></span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>     YYYY   Four<span class="op">-</span>digit <span class="dt">year</span> <span class="kw">including</span> century</span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a>     RR Two<span class="op">-</span>digit <span class="dt">year</span> (<span class="dt">Year</span> <span class="dv">2000</span>–compliant)</span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a>     CC     Two<span class="op">-</span>digit century</span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a>     HH Hours <span class="kw">with</span> AM <span class="kw">and</span> PM</span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>     HH24   Twenty<span class="op">-</span>four<span class="op">-</span><span class="kw">hour</span> <span class="dt">time</span></span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a>     MI     Minutes</span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a>     SS Seconds</span></code></pre></div>
+<ol start="35" type="1">
+<li><p>The SYSDATE function returns the DD-MON-RR components of the
+current system date</p></li>
+<li><p>Date1 - Date2 = Num1; Date1 - Num1 = Date2; Date1 = Date2 +
+Num1;</p></li>
+<li><p>use 6/24 to add hours</p></li>
+<li><p>MONTHS_BETWEEN(start date, end date)</p></li>
+<li><p>ADD_MONTHS (start date, number of months) .. The number of months
+may be negative, resulting in a target date earlier than the start date
+being returned. .. The number of months may be fractional, but the
+fractional component is ignored and the integer component is
+used</p></li>
+<li><p>NEXT_DAY (start date, day of the week) .. The acceptable values
+are determined by the NLS_DATE_LANGUAGE database parameter but the
+default values are at least the first three characters of the day name
+or integer values, where 1 represents Sunday, 2 represents Monday, and
+so on. .. NEXT_DAY(‘02-JAN-2009’,‘WEDNE’) -&gt; Works using the First
+three chars ‘WED’</p></li>
+<li><p>LAST_DAY(start date)</p></li>
+<li><p>ROUND(source date, [date precision format]) -&gt; [No implicit
+conversion for DATE] .. The date precision format parameter specifies
+the degree of rounding and is optional. If it is absent, the default
+degree of rounding is day. .. The date precision formats include century
+(CC), year (YYYY or YEAR), quarter (Q), month (MM or MONTH), week (W),
+day (DD), hour (HH), and minute (MI)</p></li>
+<li><p>Rounding up to century is equivalent to adding one to the current
+century. .. Rounding up to the next month occurs if the day component is
+greater than 15(&gt; 15) , else rounding down to the beginning of the
+current month occurs. .. If the month falls between one and six, then
+rounding to year returns the date at the beginning of the current year,
+else it returns the date at the beginning of the following year</p></li>
+<li><p>TRUNC(source date, [date precision format]) .. The date precision
+format parameter specifies the degree of truncation and is optional. ..
+If it is absent, the default degree of truncation is day .. Any time
+component of the source date is set to midnight or 00:00:00 .. TRUNC is
+similar to ROUND, except it is always the FLOOR and never the CEILING ..
+TRUNC(TO_DATE(‘31-JAN-2009’),‘MM’) -&gt; 01-JAN-2009</p></li>
+<li><p>Functions dont need parameters</p></li>
+</ol>
+<h3 id="chapter-5">Chapter 5</h3>
+<ol type="1">
+<li>length(1234) -&gt; implicit conversion for numbers and dates to char
+-&gt; 4 is the result</li>
+<li>mod(‘11’,2) -&gt; implicit conversion - .. mod(‘$11’,2) -&gt;
+ORA-1722: invalid number</li>
+<li>Implicit date conversion should not have Time parameters [Check
+this]. Implicit conversion for dates can occur if the pattern follows
+<code>[D|DD] separator1 [MON|MONTH] separator2 [R|RR|YY|YYYY]</code>
+<em>separator1 and separator2 elements may be most punctuation marks,
+spaces, and tabs</em></li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="fu">add_months</span>(<span class="st">'1\january/8'</span>,<span class="dv">1</span>) <span class="op">-&gt;</span> <span class="dv">01</span><span class="op">/</span>FEB<span class="op">/</span><span class="dv">08</span></span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a><span class="fu">months_between</span>(<span class="st">'13*jan*8'</span>, <span class="st">'13/mar/2008'</span>) <span class="op">-&gt;</span> <span class="op">-</span><span class="dv">2</span></span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a><span class="fu">add_months</span>(<span class="st">'01$jan/08'</span>,<span class="dv">1</span>) <span class="op">-&gt;</span> <span class="dv">01</span><span class="op">/</span>FEB<span class="op">/</span><span class="dv">08</span></span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a><span class="fu">add_months</span>(<span class="st">'13!jana08'</span>,<span class="dv">1</span>) <span class="op">-&gt;</span> ORA<span class="op">-</span><span class="dv">1841</span>: (<span class="kw">full</span>) <span class="dt">year</span> must be <span class="kw">between</span> –<span class="dv">4713</span> <span class="kw">and</span> <span class="op">+</span><span class="dv">9999</span> <span class="kw">and</span> <span class="kw">not</span> be <span class="dv">0</span></span>
+<span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>jana <span class="kw">is</span> <span class="kw">not</span> a valid <span class="dt">month</span> <span class="op">-&gt;</span> <span class="kw">only</span> <span class="dv">3</span> characters <span class="kw">or</span> <span class="kw">full</span> <span class="dt">month</span> <span class="kw">is</span> allowed</span>
+<span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a><span class="fu">add_months</span>(<span class="st">'24-JAN-09 18:45'</span>,<span class="dv">1</span>) <span class="op">-&gt;</span> ORA<span class="op">-</span><span class="dv">1830</span>: <span class="dt">date</span> format picture ends <span class="kw">before</span> converting entire input string</span></code></pre></div>
+<ol start="4" type="1">
+<li>Optional national language support parameters (nls_parameters) are
+useful for specifying the language and format in which the names of date
+and numeric elements are returned</li>
+<li>Publicly available view called NLS_SESSION_PARAMETERS that contains
+the NLS parameters for your current session. The default NLS_CURRENCY
+value is the dollar symbol, but this can be changed at the user session
+level ALTER SESSION set NLS_CURRENCY=‘GBP’;</li>
+<li><code>TO_CHAR(number1, [format], [nls_parameter])</code></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a>Formats</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>   <span class="dv">9</span>  <span class="dt">Numeric</span> width</span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>   <span class="dv">0</span>  Displays <span class="kw">leading</span> zeros        Ex: <span class="dv">09999</span> <span class="dv">0012</span> <span class="dv">00012</span></span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a>   .  Position <span class="kw">of</span> <span class="dt">decimal</span> point</span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a>   D  <span class="dt">Decimal</span> separator position (period <span class="kw">is</span> <span class="kw">default</span>)</span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a>   ,  Position <span class="kw">of</span> comma symbol</span>
+<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a>   G  <span class="kw">Group</span> separator position (comma <span class="kw">is</span> <span class="kw">default</span>)</span>
+<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a>   $  Dollar <span class="fu">sign</span></span>
+<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a>   L  <span class="kw">Local</span> currency</span>
+<span id="cb6-10"><a aria-hidden="true" href="#cb6-10" tabindex="-1"></a>  MI  Position <span class="kw">of</span> <span class="kw">minus</span> <span class="fu">sign</span> <span class="cf">for</span> negatives</span>
+<span id="cb6-11"><a aria-hidden="true" href="#cb6-11" tabindex="-1"></a>  PR  Wrap negatives <span class="kw">in</span> parentheses</span>
+<span id="cb6-12"><a aria-hidden="true" href="#cb6-12" tabindex="-1"></a>EEEE  Scientific notation [Must be <span class="kw">only</span> <span class="dv">4</span> E<span class="st">'s and always gives in 1.xxxxxE+10 format]</span></span>
+<span id="cb6-13"><a aria-hidden="true" href="#cb6-13" tabindex="-1"></a><span class="st">   U  nls_dual_currency [if nls_dual_currency value is set]</span></span>
+<span id="cb6-14"><a aria-hidden="true" href="#cb6-14" tabindex="-1"></a><span class="st">   V  Multiplies by 10n times (n is the number of nines after V) Ex: 9999V99 3040 304000</span></span>
+<span id="cb6-15"><a aria-hidden="true" href="#cb6-15" tabindex="-1"></a><span class="st">   S + or - sign is prefixed</span></span></code></pre></div>
+<p>.. When a format mask is smaller than the number being converted, a
+string of hash symbols is returned instead. .. When a format mask
+contains fewer fractional components than the number, it is first
+rounded to the number of decimal places in the format mask before being
+converted.</p>
+<ol start="7" type="1">
+<li>TO_CHAR(date1, [format], [nls_parameter]) -&gt; Default is
+DD/MON/RR</li>
+</ol>
+<p>‘Month’ -&gt; January ‘MOnth’ -&gt; JANUARY ‘month’ -&gt; january</p>
+<p>‘Month’ -&gt; padded with spaces ‘fmMonth’ -&gt; Not padded with
+spaces</p>
+<p>Y-YYYY -&gt; Year digits RR -&gt; 2 digit year YEAR -&gt; Case
+Sensitive Full Year spelling MM, MON, MONTH -&gt; 2 digit, Three char,
+full month -&gt; case sensitive D, DD, DDD -&gt; day of week, month,
+year DY -&gt; 3 letter abbreviation DAY -&gt; Case Sensitive day</p>
+<p>only DAY, MONTH, YEAR are case sensitive AND PADDED NOT the shorter
+forms</p>
+<p>W, WW -&gt; week of month, year Q -&gt; Quarter CC -&gt; Century S
+before CC, YYYY, YEAR -&gt; sign (-) for BC I-IYYY -&gt; ISO year dates
+for Y-YYYY BC, AD, B.C. and A.D. -&gt; to display BC or AD J -&gt;
+Julian Day -&gt; days since 31 December 4713 BC IW -&gt; ISO standard
+week (1 to 53) RM -&gt; Roman numeral month</p>
+<p>AM, PM, A.M. and P.M.-&gt; Meridian Indicators HH, HH12 and HH24
+-&gt; Hour of day, 1-12 hours, and 0-23 hours MI, SS, SSSSS -&gt;
+Minutes. Seconds, Seconds past midnight</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>  <span class="op">-</span> <span class="op">/</span> . , ? # ! <span class="op">-&gt;</span> Punctuation marks <span class="cf">for</span> seperators</span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a>  <span class="ot">"any literal"</span> <span class="op">-&gt;</span> simply displays <span class="kw">the</span> <span class="dt">character</span> literal</span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a>  TH <span class="op">-&gt;</span> positional <span class="kw">or</span> ordinal text <span class="op">-&gt;</span> <span class="dv">12</span>th</span>
+<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a>  SP <span class="op">-&gt;</span> spelled <span class="kw">out</span> <span class="dt">number</span></span>
+<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a>  THSP <span class="kw">or</span> SPTH <span class="op">-&gt;</span> Spelled <span class="kw">out</span> <span class="kw">and</span> Ordinal <span class="dt">number</span> <span class="op">-&gt;</span> twelfth</span></code></pre></div>
+<ol start="8" type="1">
+<li>TO_DATE(string1, [format], [nls_parameter])</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="fu">to_date</span>(<span class="st">'25-DEC'</span>) <span class="op">-&gt;</span> ORA<span class="op">-</span><span class="dv">01840</span>: input <span class="fu">value</span> <span class="kw">not</span> <span class="dt">long</span> enough <span class="cf">for</span> <span class="dt">date</span> format</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a><span class="fu">to_date</span>(<span class="st">'25-DEC'</span>, <span class="st">'DD-MON'</span>) <span class="op">-&gt;</span> <span class="dv">25</span><span class="op">-</span><span class="dt">DEC</span><span class="op">-</span><span class="dv">2009</span></span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a><span class="fu">to_date</span>(<span class="st">'25-DEC-10'</span>, <span class="st">'fxDD-MON-YYYY'</span>) <span class="op">-&gt;</span> ORA<span class="op">-</span><span class="dv">01862</span>: <span class="kw">the</span> <span class="dt">numeric</span> <span class="fu">value</span> does <span class="kw">not</span> match <span class="kw">the</span> <span class="fu">length</span> <span class="kw">of</span> <span class="kw">the</span> format item</span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>  fx <span class="op">-&gt;</span> Makes strict checking</span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a><span class="fu">to_date</span>(<span class="st">'25-DEC-10'</span>, <span class="st">'DD-MON-YYYY'</span>) <span class="op">-&gt;</span> <span class="dv">25</span><span class="op">-</span><span class="dt">DEC</span><span class="op">-</span><span class="dv">10</span> <span class="op">-&gt;</span> takes <span class="kw">as</span> <span class="dv">0010</span></span>
+<span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a>Formats similar <span class="kw">to</span> Point <span class="dv">7</span> used <span class="cf">for</span> <span class="fu">TO_CHAR</span></span></code></pre></div>
+<ol start="9" type="1">
+<li>TO_NUMBER(string1, [format], [nls_parameter])</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="fu">to_number</span>(<span class="st">'$1,000.55'</span>)  <span class="op">-&gt;</span> ORA<span class="op">-</span><span class="dv">1722</span>: invalid <span class="dt">number</span>.</span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a><span class="fu">to_number</span>(<span class="st">'$1,000.55'</span>,<span class="st">'$999,999.99'</span>) <span class="op">-&gt;</span> <span class="fl">1000.55</span></span>
+<span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a><span class="cf">If</span> you <span class="fu">convert</span> a <span class="dt">number</span> <span class="kw">using</span> a shorter format mask, an error <span class="kw">is</span> returned <span class="op">-&gt;</span> RA<span class="op">-</span><span class="dv">1722</span>: invalid <span class="dt">number</span>.</span>
+<span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a aria-hidden="true" href="#cb9-6" tabindex="-1"></a><span class="fu">TO_NUMBER</span>(<span class="fl">123.56</span>,<span class="st">'999.9'</span>) returns an error, <span class="cf">while</span> <span class="fu">TO_CHAR</span>(<span class="fl">123.56</span>,<span class="st">'999.9'</span>) returns <span class="dv">123</span>.<span class="fl">6.</span></span></code></pre></div>
+<ol start="10" type="1">
+<li><p>NVL(original, ifnull) -&gt; both columns are mandatory :
+ORA-00909: invalid number of arguments. .. nvl(substr(‘abc’,4),‘No
+substring exists’) .. since there is no 4th character, it returns null
+and hence the ‘No substring exists’ is returned</p></li>
+<li><p>NVL2(original, ifnotnull, ifnull) .. The data types of the
+ifnotnull and ifnull parameters must be compatible, and they cannot be
+of type LONG. .. They must either be of the same type, or it must be
+possible to convert ifnull to the type of the ifnotnull parameter. -&gt;
+ORA-01722: invalid number .. The data type returned by the NVL2 function
+is the same as that of the ifnotnull parameter</p></li>
+<li><p>NULLIF(ifunequal, comparison_term) -&gt; returns NULL if both
+terms are equal else the first term .. NO IMPLICIT conmversion -&gt;
+nullif(‘24-JUL-2009’,‘24-JUL-09’) returns the first term as these are
+not equal</p></li>
+<li><p>COALESCE(expr1, expr2,…,exprn), where expr1 is returned if it is
+not null, else expr2 if it is not null, and so on ..
+COALESCE(expr1,expr2) = NVL(expr1,expr2) .. COALESCE(expr1,expr2,expr3)
+= NVL(expr1,NVL(expr2,expr3)) .. The data type COALESCE returns if a not
+null value is found is the same as that of the first not null parameter.
+.. To avoid an “ORA-00932: inconsistent data types” error, all not null
+parameters must have data types compatible with the first not null
+parameter</p></li>
+<li><p>The DECODE function is specific to Oracle, while the CASE
+expression is ANSI SQL compliant</p></li>
+<li><p>DECODE(expr1,comp1, iftrue1, [comp2,iftrue2…[ compN,iftrueN]],
+[iffalse])</p></li>
+<li><p>CASE search_expr</p></li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a><span class="cf">CASE</span> search_expr</span>
+<span id="cb10-2"><a aria-hidden="true" href="#cb10-2" tabindex="-1"></a>      <span class="cf">WHEN</span> comparison_expr1 <span class="cf">THEN</span> iftrue1</span>
+<span id="cb10-3"><a aria-hidden="true" href="#cb10-3" tabindex="-1"></a>      [<span class="cf">WHEN</span> comparison_expr2 <span class="cf">THEN</span> iftrue2</span>
+<span id="cb10-4"><a aria-hidden="true" href="#cb10-4" tabindex="-1"></a>      <span class="op">..</span></span>
+<span id="cb10-5"><a aria-hidden="true" href="#cb10-5" tabindex="-1"></a>      <span class="cf">WHEN</span> comparison_exprN <span class="cf">THEN</span> iftrueN</span>
+<span id="cb10-6"><a aria-hidden="true" href="#cb10-6" tabindex="-1"></a>      <span class="cf">ELSE</span> iffalse]</span>
+<span id="cb10-7"><a aria-hidden="true" href="#cb10-7" tabindex="-1"></a>    <span class="cf">END</span></span>
+<span id="cb10-8"><a aria-hidden="true" href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a aria-hidden="true" href="#cb10-9" tabindex="-1"></a>    <span class="cf">CASE</span></span>
+<span id="cb10-10"><a aria-hidden="true" href="#cb10-10" tabindex="-1"></a>      <span class="cf">WHEN</span> condition1 <span class="cf">THEN</span> iftrue1</span>
+<span id="cb10-11"><a aria-hidden="true" href="#cb10-11" tabindex="-1"></a>      [<span class="cf">WHEN</span> condition2 <span class="cf">THEN</span> iftrue2</span>
+<span id="cb10-12"><a aria-hidden="true" href="#cb10-12" tabindex="-1"></a>      <span class="op">..</span>.</span>
+<span id="cb10-13"><a aria-hidden="true" href="#cb10-13" tabindex="-1"></a>      <span class="cf">WHEN</span> conditionN <span class="cf">THEN</span> iftrueN</span>
+<span id="cb10-14"><a aria-hidden="true" href="#cb10-14" tabindex="-1"></a>      <span class="cf">ELSE</span> iffalse]</span>
+<span id="cb10-15"><a aria-hidden="true" href="#cb10-15" tabindex="-1"></a>    <span class="cf">END</span></span></code></pre></div>
+<h3 id="chapter-6">Chapter 6</h3>
+<ol type="1">
+<li>COUNT({*|[DISTINCT|ALL] expr}) ; .. The ALL keyword is part of the
+default syntax, so COUNT(ALL expr) and COUNT(expr) are equivalent ..
+These count the number of nonnull occurrences of expr in each group ..
+Data Type allowed: NUMBER, DATE, CHAR, or VARCHAR2</li>
+<li>AVG([DISTINCT|ALL] expr) -&gt; AVG(ALL expr) and AVG(expr) add the
+nonnull values of expr for each row and divide the sum by the number of
+nonnull rows in the group. .. Data Type allowed: NUMBER</li>
+<li>SUM([DISTINCT|ALL] expr) -&gt; Data Type allowed: NUMBER</li>
+<li>MAX([DISTINCT|ALL] expr); MIN([DISTINCT|ALL] expr) .. Data Type
+allowed: NUMBER, DATE, CHAR, or VARCHAR2</li>
+<li>VARIANCE([DISTINCT|ALL] expr); STDDEV([DISTINCT|ALL] expr); ..
+Statistical variance refers to the variability of scores in a sample or
+set of data. .. VARIANCE(DISTINCT expr) returns the variability of
+unique nonnull data in a group. .. STDDEV calculates statistical
+standard deviation, which is the degree of deviation from the mean value
+in a group. It is derived by finding the square root of the variance. ..
+Data Type allowed: NUMBER</li>
+<li>Group functions may only be nested two levels deep -&gt; ORA-00935:
+group function is nested too deeply.</li>
+<li>Select Statement</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">column</span>|expression|group_function(<span class="kw">column</span>|expression [alias]),<span class="op">..</span>.}</span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>   <span class="kw">FROM</span> <span class="kw">table</span></span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>   [<span class="kw">WHERE</span> condition(s)]</span>
+<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>   [<span class="kw">GROUP</span> <span class="kw">BY</span> {col(s)|expr}]</span>
+<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>   [<span class="kw">ORDER</span> <span class="kw">BY</span> {col(s)|expr|numeric_pos} [<span class="kw">ASC</span>|<span class="kw">DESC</span>] [<span class="kw">NULLS</span> <span class="fu">FIRST</span>|<span class="fu">LAST</span>]];</span></code></pre></div>
+<ol start="8" type="1">
+<li>If an item, which is not a group function, appears in the SELECT
+list and there is no GROUP BY clause, -&gt; ORA-00937: not a
+single-group group function .. If a GROUP BY clause is present but that
+item is not a grouping attribute, -&gt; ORA-00979: not a GROUP BY
+expression .. If a group function is placed in a WHERE clause -&gt;
+ORA-00934: group function is not allowed here</li>
+<li>Select Statement</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">column</span>|expression|group_function(<span class="kw">column</span>|expression [alias]),…}</span>
+<span id="cb12-2"><a aria-hidden="true" href="#cb12-2" tabindex="-1"></a>   <span class="kw">FROM</span> <span class="kw">table</span></span>
+<span id="cb12-3"><a aria-hidden="true" href="#cb12-3" tabindex="-1"></a>   [<span class="kw">WHERE</span> condition(s)]</span>
+<span id="cb12-4"><a aria-hidden="true" href="#cb12-4" tabindex="-1"></a>   [<span class="kw">GROUP</span> <span class="kw">BY</span> {col(s)|expr}]</span>
+<span id="cb12-5"><a aria-hidden="true" href="#cb12-5" tabindex="-1"></a>   [<span class="kw">HAVING</span> group_condition(s)]</span>
+<span id="cb12-6"><a aria-hidden="true" href="#cb12-6" tabindex="-1"></a>   [<span class="kw">ORDER</span> <span class="kw">BY</span> {col(s)|expr|numeric_pos} [<span class="kw">ASC</span>|<span class="kw">DESC</span>] [<span class="kw">NULLS</span> <span class="fu">FIRST</span>|<span class="fu">LAST</span>]];</span></code></pre></div>
+<ol start="10" type="1">
+<li><p>The HAVING clause can occur before the GROUP BY clause in the
+SELECT statement. .. However, it is more common to place the HAVING
+clause after the GROUP BY clause. .. All grouping is performed and group
+functions are executed prior to evaluating the HAVING clause</p></li>
+<li><p>NVL in Select clause only useful for display and NVL in WHERE or
+HAVING is useful for modifying the values being verified ..
+<code>NVL(x,0) -&gt; 0</code> ..
+<code>LENGTH(NVL(x,0)) -&gt; 1</code></p></li>
+</ol>
+<p>Continued in <a href="studying-for-ocp-oracle-certifed-professional-part-2">Part
+2</a></p>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Feb 2009). Studying for OCP - Oracle Certifed Professional - Part 1. sengopal.me. https://sengopal.me/studying-for-ocp-oracle-certifed-professional-part-1</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2009studyingforocporaclecertifedprofessionalpart1,
+  title   = {Studying for OCP - Oracle Certifed Professional - Part 1},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2009},
+  month   = {Feb},
+  url     = {https://sengopal.me/studying-for-ocp-oracle-certifed-professional-part-1}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Learning basics of CSS and quick notes | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/learning-basics-of-css-and-quick-notes">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/misc.atom.xml">
+<meta name="description" content="The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2008-09-03T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Wed 03 September 2008
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/misc">Misc</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/web">#web</a>,                 <a href="https://sengopal.me/tag/css">#css</a>,                 <a href="https://sengopal.me/tag/frontend">#frontend</a>,                 <a href="https://sengopal.me/tag/coding">#coding</a>,                 <a href="https://sengopal.me/tag/development">#development</a>            </li>
+        </ul>
+    </header>
+    <h1>Learning basics of CSS and quick notes</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#slicing-techniques" id="toc-slicing-techniques">Slicing
+techniques</a></li>
+<li><a href="#remember" id="toc-remember">Remember</a></li>
+<li><a href="#media-queries" id="toc-media-queries">Media
+Queries</a></li>
+<li><a href="#types-of-selectors" id="toc-types-of-selectors">Types of
+Selectors</a></li>
+<li><a href="#selectors-precedence" id="toc-selectors-precedence">Selectors Precedence</a></li>
+<li><a href="#hierarchy-of-precedence" id="toc-hierarchy-of-precedence">Hierarchy of precedence</a></li>
+<li><a href="#shorthand-syntax" id="toc-shorthand-syntax">Shorthand
+syntax</a></li>
+<li><a href="#form-features-in-html5" id="toc-form-features-in-html5">Form features in HTML5</a></li>
+<li><a href="#css-features-in-html5" id="toc-css-features-in-html5">CSS
+features in HTML5</a></li>
+<li><a href="#new-tags-in-html5" id="toc-new-tags-in-html5">New Tags in
+HTML5</a></li>
+<li><a href="#important-links" id="toc-important-links">Important
+Links</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>The following are some of the important points that i had gathered
+during my learning of CSS and HTML markup. It also contains the
+important factors to consider when converting a given PSD or image into
+a good HTML markup and CSS.</p>
+<h3 id="slicing-techniques">Slicing techniques</h3>
+<ol type="1">
+<li>Do not slice the logo</li>
+<li>Figure out the gradient for repeating along the x -axis</li>
+<li>Dont start with the slice tool from the toolbar</li>
+<li>Always design with a wrapper div - for a row or a column - to be
+enclosed as a container tag</li>
+<li>Decide upon only one type of slicing for a given layout - for the
+wrapper divs and then perform the slicing</li>
+<li>First horizontal - because the flow goes from right to left</li>
+<li>After selecting the slice, divide the slice and give the number of
+dividers you would need</li>
+<li>Save for Web and Devices - Gif and PNG for transparent ones</li>
+<li>Quality generally set up as 75-85%</li>
+</ol>
+<h3 id="remember">Remember</h3>
+<ol type="1">
+<li>height, width, padding, margin, float - main important
+properties</li>
+<li>use the following (or use a reset)</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a>body{</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="kw">padding</span><span class="ch">:</span><span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="kw">margin</span><span class="ch">:</span><span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>}</span></code></pre></div>
+<ol start="3" type="1">
+<li>Give Wrapper <code>margin:auto;</code> to make the whole container
+centered</li>
+<li>Give fixed width and height to get the margin auto to work
+properly</li>
+<li>Div dimensions: width + margin + padding + border</li>
+<li>Whenever u are adding a padding or margin, adjust the width or
+height appropriately</li>
+<li>Use <code>margin:auto;</code> to center the div within the
+container</li>
+<li><code>\#nav ul{ margin:0; padding:0;}</code> - remember for every UL
+block or use a reset</li>
+<li>Always use <code>ul{list-style-type: none;}</code></li>
+<li>Give <code>li{display:block}</code> and provide width &amp; height
+to get a BUTTON look and feel</li>
+<li>For vertical nav bar, when absolute position is used, use negative
+margin-left and margin-top of size half of the width and height of the
+div.</li>
+<li>Always the target browsers and supported resolutions needs to be
+decided</li>
+</ol>
+<h3 id="media-queries">Media Queries</h3>
+<ol type="1">
+<li>Change float to normal using the height/width/float properties for
+changing screen size</li>
+<li>Always use <code>margin,padding:0</code> - for reset</li>
+<li>Types of layouts - pure fluid / pure display oriented / hybrid ..
+Fluid Layout … system of relative layout instead of absolute pixels …
+height/width - only in percentages</li>
+</ol>
+<p>.. Adaptive Layout … using the <span class="citation" data-cites="media">(<strong>media?</strong>)</span> tags</p>
+<p>.. Responsive Layout … Mix of Fluid and adaptive layouts. PERCENTAGE
++ Media Tags</p>
+<ol start="4" type="1">
+<li>New way of setting the media value [source,html]</li>
+</ol>
+<pre><code>        &lt;meta name="viewport" content="initial-scale=1,width=device-width"&gt;</code></pre>
+<ol start="5" type="1">
+<li>Media query representation</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>        <span class="im">@media</span> <span class="an">screen</span> <span class="kw">and</span> <span class="fu">(</span><span class="kw">max-width</span><span class="ch">:</span> <span class="dv">980</span><span class="dt">px</span><span class="fu">)</span>{</span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>            ....</span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a>        }</span></code></pre></div>
+<ol start="6" type="1">
+<li>Always create the smallest resolution first</li>
+<li>Try to use different images with different srcs to cater to
+different sizes</li>
+</ol>
+<h3 id="types-of-selectors">Types of Selectors</h3>
+<ol type="1">
+<li>Tag</li>
+<li>Class</li>
+<li>Pseudo-element <code>[first-line, first-character]</code> <em>This
+is the LEAST important selector</em></li>
+<li>Contextual/Conditional - selective styling -
+<code>p strong{}</code></li>
+<li>Group/Compound selector - more than 1 tag</li>
+<li>Pseudo-class <code>[link,active,hover,visited]</code> - <em>MORE
+important than the other pseudo-element</em></li>
+<li>ID Selector</li>
+<li>when to use id vs class? .. Use Class references with Less weightage
+.. Use the TAG selectors first</li>
+</ol>
+<h3 id="selectors-precedence">Selectors Precedence</h3>
+<ol type="1">
+<li>The precedence for any style flows as :
+<code>inline &gt; Embedded &gt; External</code></li>
+<li>The precedence for any selector: id &gt; class &gt; tag</li>
+<li>For more details, refer to</li>
+</ol>
+<ul>
+<li>http://www.w3.org/TR/CSS21/cascade.html#specificity[Specificity]</li>
+<li>http://www.w3.org/TR/CSS2/selector.html[Selector]</li>
+<li>http://css-tricks.com/specifics-on-css-specificity/[CSS Tricks]</li>
+</ul>
+<h3 id="hierarchy-of-precedence">Hierarchy of precedence</h3>
+<ol type="1">
+<li>The ID selector</li>
+<li>The attribute selector</li>
+<li>The class selector</li>
+<li>The child selector</li>
+<li>The adjacent sibling selector - <code>.blog-img + p</code></li>
+<li>The descendant selector</li>
+<li>The tag selector</li>
+</ol>
+<h3 id="shorthand-syntax">Shorthand syntax</h3>
+<p>###= background</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a>    background<span class="in">:</span> url<span class="in">(</span>example<span class="fu">.gif</span><span class="in">)</span>;</span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>    background-color<span class="in">:</span> <span class="pp">#eaeaea</span> ;</span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    background-repeat<span class="in">:</span> repeat-x;</span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>    background-position<span class="in">:</span> top left;</span></code></pre></div>
+<p>can be written as:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a>background<span class="in">:</span> <span class="pp">#eaeaea</span> url<span class="in">(</span>example<span class="fu">.gif</span><span class="in">)</span> repeat-x top left;</span></code></pre></div>
+<p>###= border</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a>    border-color<span class="in">:</span> red;</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    border-width<span class="in">:</span> 1px;</span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>    border-style<span class="in">:</span> solid;</span></code></pre></div>
+<p>can be written as:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>border<span class="in">:</span> 1px solid red;</span></code></pre></div>
+<p>###= list</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a>    list-style-position<span class="in">:</span> outside;</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>    list-style-image<span class="in">:</span> none;</span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>    list-style-type<span class="in">:</span> disc;</span></code></pre></div>
+<p>can be written as:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a>list-style<span class="in">:</span> disc outside;`</span></code></pre></div>
+<p>the general format for a list style is:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a>list-style<span class="in">:</span> <span class="ex">[</span><span class="ss">list-style-type</span><span class="ex">]</span> <span class="ex">[</span><span class="ss">list-style-position</span><span class="ex">]</span> <span class="ex">[</span><span class="ss">list-style-image</span><span class="ex">]</span>;</span></code></pre></div>
+<h6 id="font">font</h6>
+<div class="sourceCode" id="cb11"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a>    font-family<span class="in">:</span> Arial<span class="op">,</span> Helvetica;</span>
+<span id="cb11-2"><a aria-hidden="true" href="#cb11-2" tabindex="-1"></a>    font-weight<span class="in">:</span> bold;</span>
+<span id="cb11-3"><a aria-hidden="true" href="#cb11-3" tabindex="-1"></a>    font-style<span class="in">:</span> italic;</span>
+<span id="cb11-4"><a aria-hidden="true" href="#cb11-4" tabindex="-1"></a>    font-size<span class="in">:</span> 1em;</span>
+<span id="cb11-5"><a aria-hidden="true" href="#cb11-5" tabindex="-1"></a>    line-height<span class="in">:</span> 1<span class="fu">.5em</span>;</span></code></pre></div>
+<p>can be written as:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb12-1"><a aria-hidden="true" href="#cb12-1" tabindex="-1"></a>font<span class="in">:</span> bold italic 1em/1<span class="fu">.5em</span> Arial<span class="op">,</span> Helvetica;</span></code></pre></div>
+<p>###= margin The margin properties allows a shorthand for margin-top,
+margin-right, margin-bottom and margin-left.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb13-1"><a aria-hidden="true" href="#cb13-1" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=15px, left=20px */</span></span>
+<span id="cb13-2"><a aria-hidden="true" href="#cb13-2" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px 15px 20px;</span>
+<span id="cb13-3"><a aria-hidden="true" href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a aria-hidden="true" href="#cb13-4" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=10px, left=5px*/</span></span>
+<span id="cb13-5"><a aria-hidden="true" href="#cb13-5" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px;</span>
+<span id="cb13-6"><a aria-hidden="true" href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a aria-hidden="true" href="#cb13-7" tabindex="-1"></a>    <span class="co">/* top=10px, right=5px, bottom=15px, left=5px*/</span></span>
+<span id="cb13-8"><a aria-hidden="true" href="#cb13-8" tabindex="-1"></a>    margin<span class="in">:</span> 10px 5px 15px;</span></code></pre></div>
+<h3 id="form-features-in-html5">Form features in HTML5</h3>
+<ol type="1">
+<li>Placeholder text</li>
+<li>Slider control</li>
+<li>Calendar/Date picker</li>
+<li>autocomplete</li>
+<li>Input type Search</li>
+</ol>
+<h3 id="css-features-in-html5">CSS features in HTML5</h3>
+<ol type="1">
+<li>Shadow - box shadow, text shadow</li>
+<li>Gradient</li>
+<li>Blur</li>
+<li>column text</li>
+<li>transform / transitions</li>
+<li>Rounded corners (using border radius)</li>
+<li>CSS Regions</li>
+<li>Exclusions</li>
+<li>Shaders</li>
+<li>Shadow DOM</li>
+<li>Multiple Images in background</li>
+<li>Alpha</li>
+<li>Font-faces</li>
+<li>Animation using Keyframes</li>
+<li><em>Position:fixed or other positioning important for animations to
+work</em></li>
+</ol>
+<h3 id="new-tags-in-html5">New Tags in HTML5</h3>
+<ol type="1">
+<li>New semantic tags - header, footer, nav, section, aside,
+article</li>
+<li>Multimedia tags - audio/sound,video</li>
+<li>Drawing based tags - canvas, svg</li>
+<li>Form based new tags - Date, slider, time, spinner</li>
+</ol>
+<h3 id="important-links">Important Links</h3>
+<ol type="1">
+<li><a href="http://css3generator.com/">Css3Generator</a></li>
+<li><a href="http://meyerweb.com/eric/tools/css/reset/">Reset</a></li>
+<li><a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/">Grid</a></li>
+<li><a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/">IE
+support</a></li>
+<li><a href="https://github.com/aFarkas/html5shiv">html5shiv</a></li>
+<li><a href="http://modernizr.com/">modernizer</a></li>
+<li><a href="http://html5boilerplate.com/">html5boilerplate</a></li>
+<li><a href="http://html.adobe.com/edge/inspect/">Adobe Inspect</a></li>
+<li><a href="http://brackets.io/">Brackets</a></li>
+</ol>
+    </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Sep 2008). Learning basics of CSS and quick notes. sengopal.me. https://sengopal.me/learning-basics-of-css-and-quick-notes</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2008learningbasicsofcssandquicknotes,
+  title   = {Learning basics of CSS and quick notes},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2008},
+  month   = {Sep},
+  url     = {https://sengopal.me/learning-basics-of-css-and-quick-notes}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>
