@@ -8,25 +8,41 @@
 
   <title>Criteria API in Hibernate | Senthilkumar Gopal
 </title>
-  <link rel="canonical" href="/posts/criteria-api-in-hibernate.html">
+  <link rel="canonical" href="https://sengopal.github.io/posts/criteria-api-in-hibernate.html">
 
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="https://sengopal.github.io/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.github.io/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.github.io/manifest.json">
     <meta name="theme-color" content="#333333">
 
-  <link rel="stylesheet" href="/theme/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/theme/css/all.min.css">
-  <link rel="stylesheet" href="/theme/css/pygments/default.min.css">
-  <link rel="stylesheet" href="/theme/css/theme.css">
-  <link rel="stylesheet" href="/extras/css/custom.css">
-  <link rel="stylesheet" href="/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/custom.css">
+  <link rel="stylesheet" href="https://sengopal.github.io/extras/css/skylighting-solarized-theme.css">
 
   <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
-        href="/feeds/all.atom.xml">
-
+        href="https://sengopal.github.io/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.github.io/feeds/java.atom.xml">
 <meta name="description" content="A post about the Criteria API available as part of the Hibernate API. This post also explores how to use the API perform SQL operations in a more object oriented manner.">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 
 
 </head>
@@ -36,14 +52,15 @@
     <div class="container">
 <div class="row">
   <div class="col-sm-12">
-    <h1 class="title"><a href="/">Senthilkumar Gopal</a></h1>
+    <h1 class="title"><a href="https://sengopal.github.io/">Senthilkumar Gopal</a></h1>
       <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
       <ul class="list-inline">
-            <li class="list-inline-item"><a href="/pages/about.html">About me</a></li>
-            <li class="list-inline-item"><a href="/pages/publications.html">Publications</a></li>
-            <li class="list-inline-item"><a href="/pages/software.html">Software</a></li>
-            <li class="list-inline-item"><a href="/pages/talks.html">Talks</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.github.io/pages/talks.html">Talks</a></li>
             <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.github.io/feeds/all.atom.xml" target="_blank"></a></li>
           <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
           <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
           <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
@@ -66,11 +83,11 @@
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-folder-open"></i>
-                <a href="/category/java.html">Java</a>
+                <a href="https://sengopal.github.io/category/java.html">Java</a>
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-tag"></i>
-                <a href="/tag/development.html">#development</a>,                 <a href="/tag/coding.html">#coding</a>            </li>
+                <a href="https://sengopal.github.io/tag/development.html">#development</a>,                 <a href="https://sengopal.github.io/tag/coding.html">#coding</a>            </li>
         </ul>
     </header>
     <h1>Criteria API in Hibernate</h1>
@@ -318,6 +335,22 @@ values and by providing extensibility of the Criterion Object.</p>
 <span id="cb17-16"><a aria-hidden="true" href="#cb17-16" tabindex="-1"></a>    <span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="bu">Expression</span><span class="op">.</span><span class="fu">between</span><span class="op">(</span><span class="st">"availabilityDate"</span><span class="op">,</span> startDate<span class="op">,</span> endDate<span class="op">))</span></span>
 <span id="cb17-17"><a aria-hidden="true" href="#cb17-17" tabindex="-1"></a>    <span class="op">.</span><span class="fu">list</span><span class="op">();</span></span></code></pre></div>
     </div>
+    <br/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (May 2008). Criteria API in Hibernate. sengopal.me. https://sengopal.github.io/criteria-api-in-hibernate</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2008criteriaapiinhibernate,
+  title   = {Criteria API in Hibernate},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2008},
+  month   = {May},
+  url     = {https://sengopal.github.io/criteria-api-in-hibernate}
+}</pre>
+    </div>
 </article>
     </div>
   </div>
@@ -326,9 +359,9 @@ values and by providing extensibility of the Criterion Object.</p>
     <div class="container">
 <div class="row">
     <ul class="col-sm-6 list-inline">
-        <li class="list-inline-item"><a href="/archives">Archives</a></li>
-        <li class="list-inline-item"><a href="/categories">Categories</a></li>
-        <li class="list-inline-item"><a href="/tags">Tags</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.github.io/tags">Tags</a></li>
     </ul>
     <p class="col-sm-6 text-sm-right text-muted">
         Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        

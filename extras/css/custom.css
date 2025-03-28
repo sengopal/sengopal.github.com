@@ -97,3 +97,18 @@ tbody tr:nth-child(even) th {
 .h6, h6 {
   font-size: 1.2rem;
 }
+
+.citation {
+  border-radius: 8px;
+  padding: 12px 18px 2px;
+  background-color: #e5e8eb;
+}
+
+blockquote {
+  border-left: .25em solid #e8b500;
+  color: #6a737d;
+  padding: 0 1em;
+  margin-left: 1.28em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
