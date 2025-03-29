@@ -112,3 +112,36 @@ blockquote {
 pre.sourceCode {
   padding: 1em;
 }
+/* for Footnotes for IEEE reference */
+.article .content a.footnote-ref {
+  text-decoration: none;
+}
+
+.footnote-ref sup {
+  font-size: 100%;
+  vertical-align: baseline;
+  margin: 0 2px;
+}
+
+.footnote-ref::before {
+  content: "[";
+}
+
+.footnote-ref::after {
+  content: "]";
+}
+
+.footnotes > hr {
+  display: none;
+}
+
+p > mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+p > span.math.display {
+  display: block;
+  text-align: center;
+}

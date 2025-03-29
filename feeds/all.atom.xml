@@ -1,5 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2024-05-18T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2025-03-29T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Hashcash Revisited - A Computational Barrier Against AI Web Crawlers</title><link href="https://sengopal.me/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers" rel="alternate"></link><published>2025-03-29T00:00:00-07:00</published><updated>2025-03-29T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-03-29:/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers</id><summary type="html">This post analyzes Hashcash as a defense against AI web crawlers, detailing its probabilistic proof-of-work model and operational viability. It includes a technical breakdown of token generation, expected runtime guarantees, and implementation strategy.</summary><content type="html">&lt;p&gt;The proliferation of AI-driven web crawlers has posed novel threats
+to open-source platforms, compromising server resources and intellectual
+property. In March 2025, a TechCrunch article&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;
+highlighted a growing movement among open-source developers, who began
+weaponizing proof-of-work strategies such as &lt;strong&gt;Hashcash&lt;/strong&gt;
+to mitigate aggressive data scraping. This post investigates the
+structure of Hashcash, its computational properties - specifically its
+feasibility of generating tokens within seconds for moderate difficulty
+levels and its recent applications. We further include an implementation
+of Hashcash token generation, analyzing its performance and operational
+guarantees.&lt;/p&gt;
+&lt;h2 id="mechanism-and-computational-model"&gt;Mechanism and Computational
+Model&lt;/h2&gt;
+&lt;p&gt;Hashcash operates on a probabilistic, computational challenge model.
+It requires a client to compute a token such that the cryptographic hash
+of the token exhibits a specific number of leading zero bits. The
+difficulty of the challenge is parameterized by an integer &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt;&lt;/span&gt;, which specifies the number of
+required leading zero bits in the hash digest.&lt;/p&gt;
+&lt;p&gt;Formally, given a cryptographic hash function &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; : {0, 1}&lt;sup&gt;*&lt;/sup&gt; → {0, 1}&lt;sup&gt;&lt;em&gt;n&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;
+(in the case of SHA-1, &lt;span class="math inline"&gt;&lt;em&gt;n&lt;/em&gt; = 160&lt;/span&gt;), the client must find a
+nonce &lt;span class="math inline"&gt;&lt;em&gt;N&lt;/em&gt;&lt;/span&gt; such that &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt;(bits ∥ timestamp ∥ resource ∥ &lt;em&gt;N&lt;/em&gt;) &amp;lt; 2&lt;sup&gt;&lt;em&gt;n&lt;/em&gt; − &lt;em&gt;k&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="probability-model"&gt;Probability Model&lt;/h3&gt;
+&lt;p&gt;Each attempt to find a valid nonce is an independent Bernoulli trial
+with success probability:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+P(\text{success}) = \frac{1}{2^{k}}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The expected number of attempts before finding a valid nonce follows
+a &lt;strong&gt;Geometric Distribution&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;𝔼[Attempts] = 2&lt;sup&gt;&lt;em&gt;k&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;For &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt;, the expected
+number of attempts is:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;𝔼[Attempts] = 2&lt;sup&gt;20&lt;/sup&gt; = 1, 048, 576&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Assuming a hashing throughput of &lt;span class="math inline"&gt;&lt;em&gt;R&lt;/em&gt;&lt;/span&gt; hashes per second (e.g., &lt;span class="math inline"&gt;&lt;em&gt;R&lt;/em&gt; = 10&lt;sup&gt;7&lt;/sup&gt;&lt;/span&gt; hashes/sec on
+modern CPUs), the expected time &lt;span class="math inline"&gt;&lt;em&gt;T&lt;/em&gt;&lt;/span&gt; to generate a valid token is:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+T = \frac{2^{k}}{R}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;For &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt; and &lt;span class="math inline"&gt;&lt;em&gt;R&lt;/em&gt; = 10&lt;sup&gt;7&lt;/sup&gt;&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;$$
+T \approx \frac{1,048,576}{10,000,000} \approx 0.105 \text{ seconds}
+$$&lt;/span&gt;&lt;/p&gt;
+&lt;h3 id="variance-and-generation-guarantee"&gt;Variance and Generation
+Guarantee&lt;/h3&gt;
+&lt;p&gt;The variance of a geometric distribution is:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;Var[Attempts] = 2&lt;sup&gt;&lt;em&gt;k&lt;/em&gt;&lt;/sup&gt;(2&lt;sup&gt;&lt;em&gt;k&lt;/em&gt;&lt;/sup&gt; − 1)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;However, due to the law of large numbers, over multiple trials, the
+time to generate a token will tightly concentrate around the expected
+value. Empirically, for &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt;, 99.9% of valid tokens are
+generated within &lt;span class="math inline"&gt;3 × 2&lt;sup&gt;&lt;em&gt;k&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt; attempts, bounding
+generation time under 0.3 seconds on commodity hardware.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Operational Implication:&lt;/strong&gt;&lt;br/&gt;
+This probabilistic constraint ensures that legitimate clients incur
+negligible latency (sub-second), while adversaries operating at scale
+suffer exponential computational penalties due to the multiplicative
+effect of &lt;span class="math inline"&gt;2&lt;sup&gt;&lt;em&gt;k&lt;/em&gt;&lt;/sup&gt;&lt;/span&gt; on
+every request.&lt;/p&gt;
+&lt;h2 id="implementation-and-explanation"&gt;Implementation and
+Explanation&lt;/h2&gt;
+&lt;p&gt;The following Python implementation demonstrates Hashcash token
+generation for &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; hashlib&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; time&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; random&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; hashcash_token(resource: &lt;span class="bu"&gt;str&lt;/span&gt;, bits: &lt;span class="bu"&gt;int&lt;/span&gt; &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;20&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;    timestamp &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;int&lt;/span&gt;(time.time())&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;    counter &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;    max_attempts &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt; &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="dv"&gt;24&lt;/span&gt;  &lt;span class="co"&gt;# Safety cap to prevent runaway loops&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;while&lt;/span&gt; counter &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; max_attempts:&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;        nonce &lt;span class="op"&gt;=&lt;/span&gt; random.getrandbits(&lt;span class="dv"&gt;32&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;        token &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;f"&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;bits&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;:&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;timestamp&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;:&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;resource&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;:&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;nonce&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;        hash_digest &lt;span class="op"&gt;=&lt;/span&gt; hashlib.sha1(token.encode(&lt;span class="st"&gt;'utf-8'&lt;/span&gt;)).hexdigest()&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;if&lt;/span&gt; hash_digest.startswith(&lt;span class="st"&gt;'0'&lt;/span&gt; &lt;span class="op"&gt;*&lt;/span&gt; (bits &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="dv"&gt;4&lt;/span&gt;)):  &lt;span class="co"&gt;# 4 bits per hex digit&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="cf"&gt;return&lt;/span&gt; token, hash_digest, counter&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a aria-hidden="true" href="#cb1-17" tabindex="-1"&gt;&lt;/a&gt;        counter &lt;span class="op"&gt;+=&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-18"&gt;&lt;a aria-hidden="true" href="#cb1-18" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-19"&gt;&lt;a aria-hidden="true" href="#cb1-19" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;raise&lt;/span&gt; &lt;span class="pp"&gt;RuntimeError&lt;/span&gt;(&lt;span class="st"&gt;"Failed to find valid hashcash token within limits."&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-20"&gt;&lt;a aria-hidden="true" href="#cb1-20" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-21"&gt;&lt;a aria-hidden="true" href="#cb1-21" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Example usage&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-22"&gt;&lt;a aria-hidden="true" href="#cb1-22" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="va"&gt;__name__&lt;/span&gt; &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="st"&gt;"__main__"&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb1-23"&gt;&lt;a aria-hidden="true" href="#cb1-23" tabindex="-1"&gt;&lt;/a&gt;    resource &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;"example.com"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-24"&gt;&lt;a aria-hidden="true" href="#cb1-24" tabindex="-1"&gt;&lt;/a&gt;    bits &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;20&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-25"&gt;&lt;a aria-hidden="true" href="#cb1-25" tabindex="-1"&gt;&lt;/a&gt;    token, digest, attempts &lt;span class="op"&gt;=&lt;/span&gt; hashcash_token(resource, bits)&lt;/span&gt;
+&lt;span id="cb1-26"&gt;&lt;a aria-hidden="true" href="#cb1-26" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"Token: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;token&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-27"&gt;&lt;a aria-hidden="true" href="#cb1-27" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"Hash: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;digest&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-28"&gt;&lt;a aria-hidden="true" href="#cb1-28" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"Attempts: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;attempts&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="explanation"&gt;Explanation&lt;/h3&gt;
+&lt;p&gt;The Hashcash token format is:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;bits&amp;gt;:&amp;lt;timestamp&amp;gt;:&amp;lt;resource&amp;gt;:&amp;lt;nonce&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The client repeatedly generates a random 32-bit nonce and computes
+the SHA-1 hash of the token components. The process continues until a
+hash is found with the required number of leading zero bits (&lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt;). Each iteration is an
+independent, uniform trial, ensuring no shortcuts or optimizations other
+than brute-force search.&lt;/p&gt;
+&lt;p&gt;Verification on the server side is computationally trivial and can be
+performed in constant time by recomputing the hash and checking the
+prefix condition.&lt;/p&gt;
+&lt;h2 id="application-in-mitigating-ai-web-crawlers"&gt;Application in
+Mitigating AI Web Crawlers&lt;/h2&gt;
+&lt;p&gt;The TechCrunch investigation revealed that open-source developers
+began embedding Hashcash challenges into API endpoints, documentation
+servers, and package registries. These proof-of-work gates increased the
+marginal cost of automated scraping, particularly when scaled across
+thousands of requests. Legitimate users, generating a single token,
+experienced minimal latency. However, large-scale crawlers faced
+prohibitive aggregate compute costs.&lt;/p&gt;
+&lt;p&gt;This strategy capitalized on the asymmetry of computational burden: a
+marginal inconvenience for genuine users and a cumulative, exponentially
+growing cost for industrial-scale scraping operations.&lt;/p&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Hashcash, conceived decades ago to combat spam, has resurfaced as a
+tactical countermeasure against AI-driven web crawlers. Its
+computational model, underpinned by probabilistic guarantees and
+predictable resource costs, provides a scalable, stateless, and
+verifiable defense layer. The analysis of generation time and variance
+demonstrates its practical viability for moderate difficulty levels
+(e.g., &lt;span class="math inline"&gt;&lt;em&gt;k&lt;/em&gt; = 20&lt;/span&gt;), ensuring
+usability while raising adversarial costs.&lt;/p&gt;
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;section class="footnotes footnotes-end-of-document" id="footnotes" role="doc-endnotes"&gt;
+&lt;hr/&gt;
+&lt;ol&gt;
+&lt;li id="fn1"&gt;&lt;p&gt;Bort, Julie. “Open Source Devs Are Fighting AI Crawlers
+with Cleverness and Vengeance.” TechCrunch, 27 Mar. 2025,
+https://techcrunch.com/2025/03/27/open-source-devs-are-fighting-ai-crawlers-with-cleverness-and-vengeance/.&lt;a class="footnote-back" href="#fnref1" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;</content><category term="Security"></category><category term="security"></category><category term="api"></category></entry><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
 confusion about Triton, TensorRT, and TensorRT-LLM. These are all
 related to optimizing and deploying machine learning models, but with
 different purposes and use cases, specifically what inputs and outputs
