@@ -2,10 +2,6 @@ body {
     font-family: muli,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
 }
 
-code {
-    font-size: 0.75em;
-}
-
 .warning {
 	background-color: #fff4f3;
 	border-left: 5px solid #ff6058;
@@ -111,4 +107,8 @@ blockquote {
   margin-left: 1.28em;
   margin-top: 2em;
   margin-bottom: 2em;
+}
+
+pre.sourceCode {
+  padding: 1em;
 }
