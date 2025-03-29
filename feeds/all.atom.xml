@@ -171,10 +171,6 @@ Tensor ∈ ℝ&lt;sup&gt;&lt;em&gt;B&lt;/em&gt; × block_size × &lt
 &lt;p&gt;During attention computation at position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt;, only the relevant blocks
 containing key-value pairs from positions &lt;span class="math inline"&gt;0&lt;/span&gt; to &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; − 1&lt;/span&gt; are loaded into memory.&lt;/p&gt;
 &lt;h3 id="example-illustration"&gt;Example Illustration&lt;/h3&gt;
-&lt;p&gt;Here’s your entire content block cleaned and fully formatted for
-Markdown with MathJAX, using &lt;code&gt;$&lt;/code&gt; and &lt;code&gt;$$&lt;/code&gt; properly
-and keeping &lt;code&gt;_&lt;/code&gt; intact:&lt;/p&gt;
-&lt;hr/&gt;
 &lt;p&gt;Consider the following configuration:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;/li&gt;
@@ -218,9 +214,9 @@ chunk.&lt;/li&gt;
 &lt;li&gt;It computes and caches the key-value tensors corresponding to these
 tokens.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Critically, &lt;strong&gt;Chunked Prefill performs full attention
-computation within each chunk&lt;/strong&gt;, meaning each token’s query
-attends to all preceding tokens, including those in prior chunks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Chunked Prefill performs full attention computation within
+each chunk&lt;/strong&gt;, meaning each token’s query attends to all preceding
+tokens, including those in prior chunks.&lt;/p&gt;
 &lt;p&gt;However, during prefill, the model &lt;strong&gt;does not compute attention
 outputs for future decoding tokens&lt;/strong&gt;; it only prepares the
 key-value cache required for the decoding phase.&lt;/p&gt;
@@ -255,9 +251,8 @@ Chunk 2, attention is computed over:&lt;/p&gt;
 &lt;li&gt;Cached key-values from Chunk 1 (positions 0–5)&lt;/li&gt;
 &lt;li&gt;Tokens 6–6 (preceding tokens in Chunk 2)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="combined-example-and-execution-flow"&gt;Combined Example and
-Execution Flow&lt;/h2&gt;
-&lt;h3 id="configuration"&gt;Configuration&lt;/h3&gt;
+&lt;h3 id="combined-example-and-execution-flow"&gt;Combined Example and
+Execution Flow&lt;/h3&gt;
 &lt;p&gt;Let:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;br/&gt;
@@ -274,7 +269,7 @@ Execution Flow&lt;/h2&gt;
 &lt;/li&gt;
 &lt;li&gt;Block size = 4&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="prefill-phase"&gt;Prefill Phase&lt;/h3&gt;
+&lt;h4 id="prefill-phase"&gt;Prefill Phase&lt;/h4&gt;
 &lt;p&gt;The model processes:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Chunk 1 (positions 0–5):&lt;/strong&gt;
@@ -293,7 +288,7 @@ Execution Flow&lt;/h2&gt;
 &lt;/ul&gt;
 &lt;p&gt;Each token in Chunk 2 attends to all cached key-value pairs from
 Chunk 1 and preceding tokens in Chunk 2.&lt;/p&gt;
-&lt;h3 id="decoding-phase"&gt;Decoding Phase&lt;/h3&gt;
+&lt;h4 id="decoding-phase"&gt;Decoding Phase&lt;/h4&gt;
 &lt;p&gt;During decoding, suppose the model is generating token at position
 &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 12&lt;/span&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -329,7 +324,8 @@ attention computation.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id="tensor-shapes-summary"&gt;Tensor Shapes Summary&lt;/h3&gt;
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;h4 id="tensor-shapes"&gt;Tensor Shapes&lt;/h4&gt;
 &lt;table&gt;
 &lt;colgroup&gt;
 &lt;col style="width: 46%"/&gt;
@@ -415,9 +411,8 @@ given sequence length, ensuring that the KV cache is allocated
 appropriately. By managing the KV cache in blocks and processing input
 in chunks, vLLM effectively balances memory usage and computational
 efficiency during attention operations.&lt;/p&gt;
-&lt;h2 id="sample-code-structure-with-paged-attention-and-chunked-prefill-implementation"&gt;Sample
-code structure with Paged Attention and Chunked Prefill
-Implementation&lt;/h2&gt;
+&lt;h2 id="sample-code-structure-with-paged-attention-and-chunked-prefill"&gt;Sample
+code structure with Paged Attention and Chunked Prefill&lt;/h2&gt;
 &lt;p&gt;To provide further clarity on the operational dynamics of
 &lt;strong&gt;Paged Attention&lt;/strong&gt; and &lt;strong&gt;Chunked Prefill&lt;/strong&gt;,
 the below includes a code walkthrough that models the mechanisms used in
