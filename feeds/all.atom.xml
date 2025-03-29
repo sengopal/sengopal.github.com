@@ -129,7 +129,431 @@ usability while raising adversarial costs.&lt;/p&gt;
 with Cleverness and Vengeance.” TechCrunch, 27 Mar. 2025,
 https://techcrunch.com/2025/03/27/open-source-devs-are-fighting-ai-crawlers-with-cleverness-and-vengeance/.&lt;a class="footnote-back" href="#fnref1" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Security"></category><category term="security"></category><category term="api"></category></entry><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
+&lt;/section&gt;</content><category term="Security"></category><category term="security"></category><category term="api"></category></entry><entry><title>Paged Attention and Chunked Prefill for LLM Inference</title><link href="https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference" rel="alternate"></link><published>2024-12-28T00:00:00-08:00</published><updated>2024-12-28T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-12-28:/posts/paged-attention-and-chunked-prefill-for-llm-inference</id><summary type="html">This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) impose significant memory and compute
+demands during inference, particularly when handling long sequences or
+large batch sizes. To address these challenges, the vLLM system
+introduces two key optimization techniques - Paged Attention&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; and Chunked Prefill&lt;a class="footnote-ref" href="#fn2" id="fnref2" role="doc-noteref"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;
+that target memory efficiency at different stages of inference. This
+post examines these techniques, clarifying their roles, mechanisms, and
+interplay. We demonstrate that they can be jointly employed to optimize
+both the prefill and decoding phases without conflict. Through tensor
+shape analysis and execution flow, we illustrate how these strategies
+improve throughput and memory utilization.&lt;/p&gt;
+&lt;h2 id="memory-bottlenecks-in-llm-inference"&gt;Memory Bottlenecks in LLM
+Inference&lt;/h2&gt;
+&lt;p&gt;Inference in autoregressive LLMs typically involves two phases:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;strong&gt;Prefill Phase:&lt;/strong&gt; The model processes a prompt
+sequence, computes hidden states, and builds key-value caches for
+subsequent decoding.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Decoding Phase:&lt;/strong&gt; The model generates tokens
+autoregressively, using previously computed key-value caches.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Both phases can be memory-intensive. In the prefill phase, peak
+memory usage can spike when processing long sequences. In the decoding
+phase, the cumulative storage of key-value tensors can saturate memory,
+particularly in multi-user, high-throughput settings.&lt;/p&gt;
+&lt;h2 id="paged-attention"&gt;Paged Attention&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Paged Attention&lt;/strong&gt; is a memory management strategy that
+organizes key-value tensors into fixed-size &lt;strong&gt;blocks&lt;/strong&gt;.
+Instead of pre-allocating memory proportional to the maximum possible
+sequence length, Paged Attention dynamically allocates and pages these
+blocks into memory as needed during attention score computation.&lt;/p&gt;
+&lt;h3 id="mechanism"&gt;Mechanism&lt;/h3&gt;
+&lt;p&gt;Let the input sequence have length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt;&lt;/span&gt;, batch size &lt;span class="math inline"&gt;&lt;em&gt;B&lt;/em&gt;&lt;/span&gt;, hidden size &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt;&lt;/span&gt;, and number of heads &lt;span class="math inline"&gt;&lt;em&gt;n&lt;/em&gt;&lt;sub&gt;head&lt;/sub&gt;&lt;/span&gt;. Without Paged
+Attention, key-value tensors are stored as:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;Keys,
+Values ∈ ℝ&lt;sup&gt;&lt;em&gt;B&lt;/em&gt; × &lt;em&gt;L&lt;/em&gt; × &lt;em&gt;n&lt;/em&gt;&lt;sub&gt;head&lt;/sub&gt; × &lt;em&gt;d&lt;/em&gt;&lt;sub&gt;head&lt;/sub&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Paged Attention partitions these tensors into &lt;strong&gt;blocks&lt;/strong&gt;
+of size &lt;code&gt;block_size&lt;/code&gt;. Each block stores:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;Block
+Tensor ∈ ℝ&lt;sup&gt;&lt;em&gt;B&lt;/em&gt; × block_size × &lt;em&gt;n&lt;/em&gt;&lt;sub&gt;head&lt;/sub&gt; × &lt;em&gt;d&lt;/em&gt;&lt;sub&gt;head&lt;/sub&gt;&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;During attention computation at position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt;, only the relevant blocks
+containing key-value pairs from positions &lt;span class="math inline"&gt;0&lt;/span&gt; to &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; − 1&lt;/span&gt; are loaded into memory.&lt;/p&gt;
+&lt;h3 id="example-illustration"&gt;Example Illustration&lt;/h3&gt;
+&lt;p&gt;Here’s your entire content block cleaned and fully formatted for
+Markdown with MathJAX, using &lt;code&gt;$&lt;/code&gt; and &lt;code&gt;$$&lt;/code&gt; properly
+and keeping &lt;code&gt;_&lt;/code&gt; intact:&lt;/p&gt;
+&lt;hr/&gt;
+&lt;p&gt;Consider the following configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Batch size &lt;span class="math inline"&gt;&lt;em&gt;B&lt;/em&gt; = 2&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Hidden size &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; = 8&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Number of heads &lt;span class="math inline"&gt;&lt;em&gt;n_head&lt;/em&gt; = 2&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Head dimension &lt;span class="math inline"&gt;&lt;em&gt;d_head&lt;/em&gt; = 4&lt;/span&gt;
+(since &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; = &lt;em&gt;n_head&lt;/em&gt; × &lt;em&gt;d_head&lt;/em&gt;&lt;/span&gt;)&lt;/li&gt;
+&lt;li&gt;Block size = 4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The key-value tensor shapes without Paged Attention would be:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math display"&gt;Keys,
+Values ∈ ℝ&lt;sup&gt;2 × 12 × 2 × 4&lt;/sup&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;With Paged Attention, the sequence is divided into:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Block 1: Positions 0–3 → Shape &lt;span class="math inline"&gt;(2, 4, 2, 4)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Block 2: Positions 4–7 → Shape &lt;span class="math inline"&gt;(2, 4, 2, 4)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Block 3: Positions 8–11 → Shape &lt;span class="math inline"&gt;(2, 4, 2, 4)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When computing attention for position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 9&lt;/span&gt;, the model dynamically
+loads:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Block 1: Positions 0–3&lt;/li&gt;
+&lt;li&gt;Block 2: Positions 4–7&lt;/li&gt;
+&lt;li&gt;First two positions of Block 3: Positions 8–9&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="chunked-prefill"&gt;Chunked Prefill&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Chunked Prefill&lt;/strong&gt; is an optimization technique applied
+during the prefill phase to control peak memory usage. It divides the
+input sequence into fixed-size &lt;strong&gt;chunks&lt;/strong&gt; and processes
+them sequentially, limiting memory allocation for hidden state and
+key-value computation.&lt;/p&gt;
+&lt;h3 id="mechanism-1"&gt;Mechanism&lt;/h3&gt;
+&lt;p&gt;Given a sequence of length ( L ), the sequence is partitioned into
+chunks of size &lt;code&gt;chunk_size&lt;/code&gt;. For each chunk:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;The model computes the hidden states for tokens within the
+chunk.&lt;/li&gt;
+&lt;li&gt;It computes and caches the key-value tensors corresponding to these
+tokens.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Critically, &lt;strong&gt;Chunked Prefill performs full attention
+computation within each chunk&lt;/strong&gt;, meaning each token’s query
+attends to all preceding tokens, including those in prior chunks.&lt;/p&gt;
+&lt;p&gt;However, during prefill, the model &lt;strong&gt;does not compute attention
+outputs for future decoding tokens&lt;/strong&gt;; it only prepares the
+key-value cache required for the decoding phase.&lt;/p&gt;
+&lt;h3 id="example"&gt;Example&lt;/h3&gt;
+&lt;p&gt;Using the same configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Batch size &lt;span class="math inline"&gt;&lt;em&gt;B&lt;/em&gt; = 2&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Hidden size &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; = 8&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Number of heads &lt;span class="math inline"&gt;&lt;em&gt;n_head&lt;/em&gt; = 2&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Head dimension &lt;span class="math inline"&gt;&lt;em&gt;d_head&lt;/em&gt; = 4&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;Chunk size = 6&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The sequence is divided into:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Chunk 1:&lt;/strong&gt; Positions 0–5&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Chunk 2:&lt;/strong&gt; Positions 6–11&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For each chunk:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hidden state tensor shape: &lt;span class="math inline"&gt;(2, 6, 8)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Key-value tensor shape: &lt;span class="math inline"&gt;(2, 6, 2, 4)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Attention Computation during Prefill:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;For token at position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 4&lt;/span&gt;
+in Chunk 1, attention is computed over positions 0–3 within Chunk
+1.&lt;br/&gt;
+For token at position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 7&lt;/span&gt; in
+Chunk 2, attention is computed over:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cached key-values from Chunk 1 (positions 0–5)&lt;/li&gt;
+&lt;li&gt;Tokens 6–6 (preceding tokens in Chunk 2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="combined-example-and-execution-flow"&gt;Combined Example and
+Execution Flow&lt;/h2&gt;
+&lt;h3 id="configuration"&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Let:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Batch size &lt;span class="math inline"&gt;&lt;em&gt;B&lt;/em&gt; = 2&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Hidden size &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; = 8&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Number of heads &lt;span class="math inline"&gt;&lt;em&gt;n_head&lt;/em&gt; = 2&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Head dimension &lt;span class="math inline"&gt;&lt;em&gt;d_head&lt;/em&gt; = 4&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Chunk size = 6&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Block size = 4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="prefill-phase"&gt;Prefill Phase&lt;/h3&gt;
+&lt;p&gt;The model processes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Chunk 1 (positions 0–5):&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Hidden states: &lt;span class="math inline"&gt;(2, 6, 8)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Key-value tensors cached: &lt;span class="math inline"&gt;(2, 6, 2, 4)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Chunk 2 (positions 6–11):&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;Hidden states: &lt;span class="math inline"&gt;(2, 6, 8)&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Key-value tensors cached: &lt;span class="math inline"&gt;(2, 6, 2, 4)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each token in Chunk 2 attends to all cached key-value pairs from
+Chunk 1 and preceding tokens in Chunk 2.&lt;/p&gt;
+&lt;h3 id="decoding-phase"&gt;Decoding Phase&lt;/h3&gt;
+&lt;p&gt;During decoding, suppose the model is generating token at position
+&lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 12&lt;/span&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The model computes attention for the query at &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt; = 12&lt;/span&gt; over all cached key-value
+tensors from positions 0–11.&lt;/li&gt;
+&lt;li&gt;Key-value tensors are organized in &lt;strong&gt;blocks&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Paged Attention dynamically loads the necessary blocks during
+attention computation.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: center;"&gt;Block&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Positions&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;Shape&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;0–3&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;(2, 4, 2, 4)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;4–7&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;(2, 4, 2, 4)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: center;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;8–11&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;(2, 4, 2, 4)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="tensor-shapes-summary"&gt;Tensor Shapes Summary&lt;/h3&gt;
+&lt;table&gt;
+&lt;colgroup&gt;
+&lt;col style="width: 46%"/&gt;
+&lt;col style="width: 53%"/&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th&gt;Tensor Shape&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Key/Value tensor (no paging)&lt;/td&gt;
+&lt;td&gt;(B, L, n_head, d_head)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Key/Value tensor in Paged Attention&lt;/td&gt;
+&lt;td&gt;(B, block_size, n_head, d_head) per block&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Key/Value tensor in Chunked Prefill&lt;/td&gt;
+&lt;td&gt;(B, chunk_size, n_head, d_head) per chunk&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+&lt;p&gt;A simple structure of how &lt;code&gt;block_size&lt;/code&gt; and
+&lt;code&gt;chunk_size&lt;/code&gt; are utilized in attention mechanisms is provided
+below.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Paged Attention and &lt;code&gt;block_size&lt;/code&gt;:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Paged Attention manages the Key-Value (KV) cache by dividing it into
+fixed-size blocks, allowing dynamic memory allocation and efficient
+handling of varying sequence lengths. The &lt;code&gt;block_size&lt;/code&gt;
+parameter determines the number of tokens each block can store. In vLLM,
+this is evident in the attention backend implementations.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example from &lt;code&gt;flash_attn.py&lt;/code&gt;:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Each block can contain up to block_size tokens.&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;block_tables: Optional[torch.Tensor]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In this snippet, &lt;code&gt;block_tables&lt;/code&gt; is a tensor that maps
+sequences to their respective blocks in the KV cache, with each block
+capable of holding up to &lt;code&gt;block_size&lt;/code&gt; tokens. This structure
+enables efficient memory usage by allocating only the necessary amount
+of memory based on the sequence length.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Chunked Prefill and &lt;code&gt;chunk_size&lt;/code&gt;:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Chunked Prefill processes long input sequences by dividing them into
+smaller chunks, reducing peak memory usage during the prefill phase. The
+&lt;code&gt;chunk_size&lt;/code&gt; parameter defines the size of these chunks. In
+vLLM, the attention backends handle chunking to ensure that memory
+constraints are respected during computation.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example from &lt;code&gt;pallas.py&lt;/code&gt;:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Make sure the chunk size is a multiple of 2.&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;chunk_size &lt;span class="op"&gt;=&lt;/span&gt; chunk_size &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt; &lt;span class="op"&gt;*&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;num_chunks &lt;span class="op"&gt;=&lt;/span&gt; (batch_size &lt;span class="op"&gt;+&lt;/span&gt; chunk_size &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;//&lt;/span&gt; chunk_size&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Here, the code ensures that &lt;code&gt;chunk_size&lt;/code&gt; is an even number
+and calculates &lt;code&gt;num_chunks&lt;/code&gt;, the total number of chunks
+needed to process the batch. This approach allows the model to handle
+large sequences by processing manageable chunks sequentially, thereby
+optimizing memory usage.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Integration in Attention Computation:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The interplay between chunk size and block size exposes a tunable
+trade-off between &lt;strong&gt;latency&lt;/strong&gt; and &lt;strong&gt;memory
+efficiency&lt;/strong&gt;. A smaller chunk size reduces peak memory during
+prefill but may increase latency due to more sequential chunk
+processing. A smaller block size reduces persistent memory overhead but
+may increase the number of memory page operations, potentially affecting
+throughput.&lt;/p&gt;
+&lt;p&gt;Adaptive strategies that adjust chunk and block sizes based on
+sequence length, batch size, and memory pressure may further improve
+resource utilization. During attention computation, especially in
+scenarios involving long sequences or large batches, vLLM’s attention
+backends utilize both &lt;code&gt;block_size&lt;/code&gt; and
+&lt;code&gt;chunk_size&lt;/code&gt; to manage memory effectively. The KV cache is
+organized into blocks of size &lt;code&gt;block_size&lt;/code&gt;, and input
+sequences are processed in chunks of size &lt;code&gt;chunk_size&lt;/code&gt;. This
+dual approach ensures that the model can handle extensive inputs without
+exceeding memory limitations.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Example from &lt;code&gt;flashinfer.py&lt;/code&gt;:&lt;/em&gt;&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Get the number of valid blocks based on sequence length.&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;block_table_bound &lt;span class="op"&gt;=&lt;/span&gt; seq_len &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="va"&gt;self&lt;/span&gt;.block_size &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt; &lt;span class="cf"&gt;if&lt;/span&gt; seq_len &lt;span class="op"&gt;%&lt;/span&gt; &lt;span class="va"&gt;self&lt;/span&gt;.block_size &lt;span class="op"&gt;!=&lt;/span&gt; &lt;span class="dv"&gt;0&lt;/span&gt; &lt;span class="cf"&gt;else&lt;/span&gt; seq_len &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="va"&gt;self&lt;/span&gt;.block_size&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This snippet calculates the number of valid blocks required for a
+given sequence length, ensuring that the KV cache is allocated
+appropriately. By managing the KV cache in blocks and processing input
+in chunks, vLLM effectively balances memory usage and computational
+efficiency during attention operations.&lt;/p&gt;
+&lt;h2 id="sample-code-structure-with-paged-attention-and-chunked-prefill-implementation"&gt;Sample
+code structure with Paged Attention and Chunked Prefill
+Implementation&lt;/h2&gt;
+&lt;p&gt;To provide further clarity on the operational dynamics of
+&lt;strong&gt;Paged Attention&lt;/strong&gt; and &lt;strong&gt;Chunked Prefill&lt;/strong&gt;,
+the below includes a code walkthrough that models the mechanisms used in
+the vLLM system. The following Python code captures the essential logic
+behind how the key-value (KV) cache is organized into blocks and how
+input sequences are processed in chunks.&lt;/p&gt;
+&lt;p&gt;This example is based on the configuration discussed earlier:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Batch size &lt;span class="math inline"&gt;&lt;em&gt;B&lt;/em&gt; = 2&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Sequence length &lt;span class="math inline"&gt;&lt;em&gt;L&lt;/em&gt; = 12&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Hidden size &lt;span class="math inline"&gt;&lt;em&gt;H&lt;/em&gt; = 8&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Number of attention heads &lt;span class="math inline"&gt;&lt;em&gt;n_head&lt;/em&gt; = 2&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Head dimension &lt;span class="math inline"&gt;&lt;em&gt;d_head&lt;/em&gt; = 4&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Block size &lt;span class="math inline"&gt;4&lt;/span&gt;&lt;br/&gt;
+&lt;/li&gt;
+&lt;li&gt;Chunk size &lt;span class="math inline"&gt;6&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Configuration&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;B &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;                     &lt;span class="co"&gt;# Batch size&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;L &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;12&lt;/span&gt;                    &lt;span class="co"&gt;# Sequence length&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;H &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;8&lt;/span&gt;                     &lt;span class="co"&gt;# Hidden size&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;n_head &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;                &lt;span class="co"&gt;# Number of heads&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;d_head &lt;span class="op"&gt;=&lt;/span&gt; H &lt;span class="op"&gt;//&lt;/span&gt; n_head      &lt;span class="co"&gt;# Head dimension&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;block_size &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;4&lt;/span&gt;            &lt;span class="co"&gt;# Paged Attention block size&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a aria-hidden="true" href="#cb4-10" tabindex="-1"&gt;&lt;/a&gt;chunk_size &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;6&lt;/span&gt;            &lt;span class="co"&gt;# Chunked Prefill size&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a aria-hidden="true" href="#cb4-11" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-12"&gt;&lt;a aria-hidden="true" href="#cb4-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Initialize key-value cache using block table&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-13"&gt;&lt;a aria-hidden="true" href="#cb4-13" tabindex="-1"&gt;&lt;/a&gt;num_blocks &lt;span class="op"&gt;=&lt;/span&gt; (L &lt;span class="op"&gt;+&lt;/span&gt; block_size &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;//&lt;/span&gt; block_size&lt;/span&gt;
+&lt;span id="cb4-14"&gt;&lt;a aria-hidden="true" href="#cb4-14" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-15"&gt;&lt;a aria-hidden="true" href="#cb4-15" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Each sequence in batch has its own block table mapping token idx to physical block&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-16"&gt;&lt;a aria-hidden="true" href="#cb4-16" tabindex="-1"&gt;&lt;/a&gt;block_table &lt;span class="op"&gt;=&lt;/span&gt; torch.arange(num_blocks).repeat(B, &lt;span class="dv"&gt;1&lt;/span&gt;)  &lt;span class="co"&gt;# [B, num_blocks]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-17"&gt;&lt;a aria-hidden="true" href="#cb4-17" tabindex="-1"&gt;&lt;/a&gt;kv_cache &lt;span class="op"&gt;=&lt;/span&gt; torch.randn(B, num_blocks, block_size, n_head, d_head)  &lt;span class="co"&gt;# KV store&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-18"&gt;&lt;a aria-hidden="true" href="#cb4-18" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-19"&gt;&lt;a aria-hidden="true" href="#cb4-19" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Dummy queries for current chunk&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-20"&gt;&lt;a aria-hidden="true" href="#cb4-20" tabindex="-1"&gt;&lt;/a&gt;Q &lt;span class="op"&gt;=&lt;/span&gt; torch.randn(B, chunk_size, n_head, d_head)&lt;/span&gt;
+&lt;span id="cb4-21"&gt;&lt;a aria-hidden="true" href="#cb4-21" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-22"&gt;&lt;a aria-hidden="true" href="#cb4-22" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Prefill processing loop (Chunked Prefill)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-23"&gt;&lt;a aria-hidden="true" href="#cb4-23" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt; b &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(B):&lt;/span&gt;
+&lt;span id="cb4-24"&gt;&lt;a aria-hidden="true" href="#cb4-24" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; chunk_start &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(&lt;span class="dv"&gt;0&lt;/span&gt;, L, chunk_size):&lt;/span&gt;
+&lt;span id="cb4-25"&gt;&lt;a aria-hidden="true" href="#cb4-25" tabindex="-1"&gt;&lt;/a&gt;        chunk_end &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="bu"&gt;min&lt;/span&gt;(chunk_start &lt;span class="op"&gt;+&lt;/span&gt; chunk_size, L)&lt;/span&gt;
+&lt;span id="cb4-26"&gt;&lt;a aria-hidden="true" href="#cb4-26" tabindex="-1"&gt;&lt;/a&gt;        curr_chunk_len &lt;span class="op"&gt;=&lt;/span&gt; chunk_end &lt;span class="op"&gt;-&lt;/span&gt; chunk_start&lt;/span&gt;
+&lt;span id="cb4-27"&gt;&lt;a aria-hidden="true" href="#cb4-27" tabindex="-1"&gt;&lt;/a&gt;        q &lt;span class="op"&gt;=&lt;/span&gt; Q[b, :curr_chunk_len]  &lt;span class="co"&gt;# [chunk_len, n_head, d_head]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-28"&gt;&lt;a aria-hidden="true" href="#cb4-28" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-29"&gt;&lt;a aria-hidden="true" href="#cb4-29" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="co"&gt;# Accumulate attention outputs&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-30"&gt;&lt;a aria-hidden="true" href="#cb4-30" tabindex="-1"&gt;&lt;/a&gt;        attn_out &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb4-31"&gt;&lt;a aria-hidden="true" href="#cb4-31" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-32"&gt;&lt;a aria-hidden="true" href="#cb4-32" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="co"&gt;# Compute attention over previous tokens using Paged Attention blocks&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-33"&gt;&lt;a aria-hidden="true" href="#cb4-33" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;for&lt;/span&gt; t &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(chunk_start, chunk_end):&lt;/span&gt;
+&lt;span id="cb4-34"&gt;&lt;a aria-hidden="true" href="#cb4-34" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="co"&gt;# For query at position t, get all keys from positions [0, t]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-35"&gt;&lt;a aria-hidden="true" href="#cb4-35" tabindex="-1"&gt;&lt;/a&gt;            t_block_idx &lt;span class="op"&gt;=&lt;/span&gt; t &lt;span class="op"&gt;//&lt;/span&gt; block_size&lt;/span&gt;
+&lt;span id="cb4-36"&gt;&lt;a aria-hidden="true" href="#cb4-36" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-37"&gt;&lt;a aria-hidden="true" href="#cb4-37" tabindex="-1"&gt;&lt;/a&gt;            context_keys &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb4-38"&gt;&lt;a aria-hidden="true" href="#cb4-38" tabindex="-1"&gt;&lt;/a&gt;            context_values &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb4-39"&gt;&lt;a aria-hidden="true" href="#cb4-39" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-40"&gt;&lt;a aria-hidden="true" href="#cb4-40" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="co"&gt;# Page in required blocks&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-41"&gt;&lt;a aria-hidden="true" href="#cb4-41" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="cf"&gt;for&lt;/span&gt; blk_id &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(t_block_idx &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;):  &lt;span class="co"&gt;# include current block&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-42"&gt;&lt;a aria-hidden="true" href="#cb4-42" tabindex="-1"&gt;&lt;/a&gt;                physical_block &lt;span class="op"&gt;=&lt;/span&gt; block_table[b, blk_id]&lt;/span&gt;
+&lt;span id="cb4-43"&gt;&lt;a aria-hidden="true" href="#cb4-43" tabindex="-1"&gt;&lt;/a&gt;                kv_block &lt;span class="op"&gt;=&lt;/span&gt; kv_cache[b, physical_block]   &lt;span class="co"&gt;# [block_size, n_head, d_head]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-44"&gt;&lt;a aria-hidden="true" href="#cb4-44" tabindex="-1"&gt;&lt;/a&gt;                context_keys.append(kv_block)&lt;/span&gt;
+&lt;span id="cb4-45"&gt;&lt;a aria-hidden="true" href="#cb4-45" tabindex="-1"&gt;&lt;/a&gt;                context_values.append(kv_block)  &lt;span class="co"&gt;# simplified: keys = values&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-46"&gt;&lt;a aria-hidden="true" href="#cb4-46" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-47"&gt;&lt;a aria-hidden="true" href="#cb4-47" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="co"&gt;# Flatten context into a single tensor [T', n_head, d_head]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-48"&gt;&lt;a aria-hidden="true" href="#cb4-48" tabindex="-1"&gt;&lt;/a&gt;            K &lt;span class="op"&gt;=&lt;/span&gt; torch.cat(context_keys, dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)[:t&lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;]  &lt;span class="co"&gt;# causal&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-49"&gt;&lt;a aria-hidden="true" href="#cb4-49" tabindex="-1"&gt;&lt;/a&gt;            V &lt;span class="op"&gt;=&lt;/span&gt; torch.cat(context_values, dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)[:t&lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;]&lt;/span&gt;
+&lt;span id="cb4-50"&gt;&lt;a aria-hidden="true" href="#cb4-50" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-51"&gt;&lt;a aria-hidden="true" href="#cb4-51" tabindex="-1"&gt;&lt;/a&gt;            q_t &lt;span class="op"&gt;=&lt;/span&gt; q[t &lt;span class="op"&gt;-&lt;/span&gt; chunk_start]  &lt;span class="co"&gt;# query vector at position t&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-52"&gt;&lt;a aria-hidden="true" href="#cb4-52" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-53"&gt;&lt;a aria-hidden="true" href="#cb4-53" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="co"&gt;# Scaled dot-product attention&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-54"&gt;&lt;a aria-hidden="true" href="#cb4-54" tabindex="-1"&gt;&lt;/a&gt;            scores &lt;span class="op"&gt;=&lt;/span&gt; torch.einsum(&lt;span class="st"&gt;"hd,thd-&amp;gt;t"&lt;/span&gt;, q_t, K) &lt;span class="op"&gt;/&lt;/span&gt; (d_head &lt;span class="op"&gt;**&lt;/span&gt; &lt;span class="fl"&gt;0.5&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-55"&gt;&lt;a aria-hidden="true" href="#cb4-55" tabindex="-1"&gt;&lt;/a&gt;            probs &lt;span class="op"&gt;=&lt;/span&gt; torch.softmax(scores, dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-56"&gt;&lt;a aria-hidden="true" href="#cb4-56" tabindex="-1"&gt;&lt;/a&gt;            ctx &lt;span class="op"&gt;=&lt;/span&gt; torch.einsum(&lt;span class="st"&gt;"t,thd-&amp;gt;hd"&lt;/span&gt;, probs, V)&lt;/span&gt;
+&lt;span id="cb4-57"&gt;&lt;a aria-hidden="true" href="#cb4-57" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-58"&gt;&lt;a aria-hidden="true" href="#cb4-58" tabindex="-1"&gt;&lt;/a&gt;            attn_out.append(ctx)&lt;/span&gt;
+&lt;span id="cb4-59"&gt;&lt;a aria-hidden="true" href="#cb4-59" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-60"&gt;&lt;a aria-hidden="true" href="#cb4-60" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="co"&gt;# Stack outputs: [chunk_len, n_head, d_head]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-61"&gt;&lt;a aria-hidden="true" href="#cb4-61" tabindex="-1"&gt;&lt;/a&gt;        attn_out &lt;span class="op"&gt;=&lt;/span&gt; torch.stack(attn_out, dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-62"&gt;&lt;a aria-hidden="true" href="#cb4-62" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"Chunk [&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;chunk_start&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;:&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;chunk_end&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;] attention output shape:"&lt;/span&gt;, attn_out.shape)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="operational-flow"&gt;Operational Flow&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The block_table holds logical-to-physical mappings of KV blocks
+for each sequence in the batch. Each block can store
+&lt;code&gt;block_size&lt;/code&gt; tokens.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The KV cache (kv_cache) is allocated as &lt;span class="math inline"&gt;[&lt;em&gt;B&lt;/em&gt;, num_blocks, block_size, &lt;em&gt;n_head&lt;/em&gt;, &lt;em&gt;d_head&lt;/em&gt;]&lt;/span&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For each chunk (driven by &lt;code&gt;chunk_size&lt;/code&gt;), queries are
+processed in a causal way: each query &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt; attends to all previous tokens
+(positions 0 to &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt;), using the
+paged blocks.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Only the relevant blocks (from block 0 up to block &lt;span class="math inline"&gt;⌊&lt;em&gt;t&lt;/em&gt;/block_size⌋&lt;/span&gt;) are paged
+in.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Attention is computed with the standard scaled dot-product
+mechanism using concatenated keys and values.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Paged Attention&lt;/strong&gt; ensures that the key-value cache
+is organized into fixed-size &lt;strong&gt;blocks&lt;/strong&gt;. Each token’s query
+accesses the minimum required set of blocks based on its position &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt;. This reduces persistent memory
+footprint and supports dynamic allocation.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Chunked Prefill&lt;/strong&gt; ensures that the input sequences
+are processed in &lt;strong&gt;chunks&lt;/strong&gt; of size &lt;span class="math inline"&gt;6&lt;/span&gt;. For each chunk, attention scores are
+computed incrementally over all previously processed tokens, including
+those in earlier chunks. This limits peak memory usage during the
+prefill phase.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Dynamic Paging&lt;/strong&gt; is setup such that for each token
+&lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt; in a chunk, only the blocks
+containing keys/values from positions &lt;span class="math inline"&gt;0&lt;/span&gt;
+to &lt;span class="math inline"&gt;&lt;em&gt;t&lt;/em&gt;&lt;/span&gt; are loaded, ensuring
+efficient memory utilization.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="conclusion"&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Paged Attention&lt;/strong&gt; and &lt;strong&gt;Chunked Prefill&lt;/strong&gt;
+are orthogonal strategies for optimizing LLM inference in
+memory-constrained environments. Paged Attention reduces persistent
+memory consumption during attention score computation by dynamically
+paging key-value blocks. Chunked Prefill mitigates peak memory usage
+during the prefill phase by processing input sequences in chunks. There
+are also exploration around kernel-level optimizations, fused attention
+score computation across blocks, and dynamic eviction policies for the
+block table to further improve inference throughput under multi-user,
+long-sequence workloads.&lt;/p&gt;
+&lt;h3 id="references"&gt;References&lt;/h3&gt;
+&lt;section class="footnotes footnotes-end-of-document" id="footnotes" role="doc-endnotes"&gt;
+&lt;hr/&gt;
+&lt;ol&gt;
+&lt;li id="fn1"&gt;&lt;p&gt;vLLM Paged Attention — vLLM.
+https://docs.vllm.ai/en/latest/design/kernel/paged_attention.html#vllm-paged-attention.
+Accessed 27 Mar. 2025.&lt;a class="footnote-back" href="#fnref1" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id="fn2"&gt;&lt;p&gt;Optimization and Tuning — vLLM.
+https://docs.vllm.ai/en/latest/performance/optimization.html#chunked-prefill.
+Accessed 27 Mar. 2025.&lt;a class="footnote-back" href="#fnref2" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;</content><category term="Large Language Models"></category><category term="ml-code"></category><category term="llm"></category><category term="vllm"></category><category term="serving"></category></entry><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
 confusion about Triton, TensorRT, and TensorRT-LLM. These are all
 related to optimizing and deploying machine learning models, but with
 different purposes and use cases, specifically what inputs and outputs
@@ -226,16 +650,16 @@ printing/checking&lt;/h4&gt;
 multi-node inference, focusing on how components like the Matching
 Transport Layer (MTL), libfabric, and the OFI framework enable
 efficient, low-latency communication. Installing EFA for a node &lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html"&gt;Ref&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="matching-transport-layer-mtl"&gt;Matching Transport Layer
-(MTL)&lt;/h3&gt;
-&lt;p&gt;The Matching Transport Layer (MTL) is a component used in the Open
-MPI implementation when utilizing libfabric for managing two-sided
-tagged messages. MTL is responsible for matching message tags and
-ensuring that messages are delivered to the correct destination. This
-layer is designed to work closely with the underlying network fabric,
-such as EFA, to provide efficient and reliable message passing between
-nodes in a high-performance computing (HPC) environment.&lt;/p&gt;
-&lt;h3 id="efa-and-libfabric"&gt;EFA and Libfabric&lt;/h3&gt;
+&lt;h3 id="terms-involved"&gt;Terms Involved&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Matching Transport Layer (MTL)&lt;/strong&gt; The Matching
+Transport Layer (MTL) is a component used in the Open MPI implementation
+when utilizing libfabric for managing two-sided tagged messages. MTL is
+responsible for matching message tags and ensuring that messages are
+delivered to the correct destination. This layer is designed to work
+closely with the underlying network fabric, such as EFA, to provide
+efficient and reliable message passing between nodes in a
+high-performance computing (HPC) environment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EFA&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;EFA integrates with the libfabric API, which is part of the
 OpenFabrics Interfaces (OFI) framework. This integration allows EFA to
 bypass the operating system kernel, reducing overhead and enabling
@@ -245,6 +669,36 @@ learning applications on AWS. By leveraging these components, AWS’s EFA
 can provide enhanced performance for HPC and ML applications, enabling
 efficient inter-node communication and supporting large-scale
 computational tasks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MPI (Message Passing Interface)&lt;/strong&gt; Communication
+protocol for parallel programming in distributed computing environments,
+particularly in HPC clusters. It provides a standardized way for
+processes to communicate with each other across nodes in a cluster,
+supporting point-to-point and collective communication.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OFED (OpenFabrics Enterprise Distribution)&lt;/strong&gt; Set of
+open-source software components that enable high-performance networking
+on clusters, especially those using InfiniBand and other
+high-performance fabrics. It provides the necessary drivers, libraries,
+and tools to enable low-latency, high-bandwidth communication between
+nodes in a cluster. OFED is commonly used in environments where RDMA
+(Remote Direct Memory Access) and InfiniBand technologies are deployed,
+facilitating direct memory access and efficient data transfer.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LibFabric&lt;/strong&gt; Low-level communication library designed
+to abstract hardware-specific communication protocols. It provides a
+unified API for building high-performance network communication systems
+and is often used for RDMA, shared memory, and other communication
+technologies. Libfabric allows applications to use different network
+fabrics (such as InfiniBand, iWARP, and RoCE) without being tightly
+coupled to a particular hardware implementation, making it highly
+flexible and adaptable for various cluster environments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;RDMA (Remote Direct Memory Access)&lt;/strong&gt; Allows for
+high-speed data transfer between nodes in a cluster without involving
+the CPU, offering significant reductions in latency and CPU utilization.
+By directly accessing the memory of a remote node, RDMA enables faster
+data transfers than traditional networking methods, making it ideal for
+applications that require large amounts of data to be exchanged between
+nodes with minimal overhead. RDMA is supported by technologies like
+InfiniBand and RoCE (RDMA over Converged Ethernet), and is critical in
+HPC, machine learning, and cloud computing environments.&lt;/p&gt;
 &lt;h3 id="openfabrics-interfaces-ofi"&gt;OpenFabrics Interfaces (OFI)&lt;/h3&gt;
 &lt;p&gt;OpenFabrics Interfaces (OFI) is a framework designed to expose
 communication services to middleware and applications, particularly in
@@ -433,7 +887,143 @@ enhanced performance in unique workloads.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 &lt;p&gt;For more detailed information, refer to the official &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
-Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"></link><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
+Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Neuron Glossary</title><link href="https://sengopal.me/posts/neuron-glossary" rel="alternate"></link><published>2023-12-13T00:00:00-08:00</published><updated>2023-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-13:/posts/neuron-glossary</id><summary type="html">This post acts as a running glossary for Neuron and HPC related terms and technologies.</summary><content type="html">&lt;p&gt;Last Updated on &lt;em&gt;Mar 12, 2024&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The following are a running list of new terms that are encountered
+while working on the Neuron stack. This acts as a jump off point into
+deeper dives into these terms and context behind them&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;FPGA (Field-Programmable Gate Array)&lt;/strong&gt; Unlike GPUs
+with a fixed design, FPGAs are essentially blank slates. They contain a
+fabric of programmable logic blocks that can be configured to perform
+specific tasks. This flexibility allows FPGAs to be customized for a
+wide range of applications, including cryptography, financial modeling,
+and high-frequency trading.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ASIC&lt;/strong&gt; An ASIC is a chip designed for a specific
+purpose. It offers high performance and efficiency for that particular
+task because the hardware is optimized for it. This aligns exactly with
+how Intel describes the Gaudi as a deep learning accelerator.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Arithmetic Intensity&lt;/strong&gt; Metric that quantifies the
+ratio of computational operations (measured in floating-point
+operations, or FLOPs) to data movement (measured in bytes) during a
+computation. It helps determine whether a particular operation is
+compute-bound or memory-bound. For example, applying the ReLU activation
+function to a tensor involves reading 2 bytes, performing 1 comparison
+operation, and writing 2 bytes per element, resulting in an arithmetic
+intensity of 1 FLOP per 4 bytes accessed. This low ratio indicates that
+such operations are typically memory-bound, meaning the time spent on
+memory accesses exceeds the time spent on computations. &lt;a href="https://astralord.github.io/posts/transformer-inference-optimization-toolset/"&gt;Ref&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gradient checkpointing /activation checkpointing&lt;/strong&gt; A
+technique to reduce memory usage by clearing activations of certain
+layers and recomputing them during a backward pass. Effectively, this
+trades extra computation time for reduced memory usage. If a module is
+checkpointed, at the end of a forward pass, the inputs to and outputs
+from the module stay in memory.&lt;a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-extended-features-pytorch-activation-checkpointing.html"&gt;ref&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Strength Reduction&lt;/strong&gt;&lt;br/&gt;
+This optimization replaces computationally expensive operations with
+equivalent but less costly ones. For example, replacing multiplication
+by a constant with a shift operation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Constant Folding&lt;/strong&gt;&lt;br/&gt;
+Evaluates constant expressions at compile time, replacing them with
+their computed values to reduce runtime computation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Subexpression Elimination&lt;/strong&gt;&lt;br/&gt;
+Identifies and eliminates duplicate calculations by reusing previously
+computed values, enhancing efficiency.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dead-Code Elimination&lt;/strong&gt;&lt;br/&gt;
+Removes code that does not affect the program’s outcome, such as
+computations whose results are never used, thereby streamlining the
+codebase.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Scalar Replacement&lt;/strong&gt;&lt;br/&gt;
+Replaces array references with scalar variables when possible, reducing
+memory access overhead and improving performance.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If-Conversion&lt;/strong&gt;&lt;br/&gt;
+Transforms conditional branches into conditional instructions,
+minimizing branch penalties and enhancing instruction-level
+parallelism.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Function Inlining&lt;/strong&gt;&lt;br/&gt;
+Substitutes the body of a called function directly into the calling
+code, eliminating call overhead and enabling further optimizations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Call Specialization&lt;/strong&gt;&lt;br/&gt;
+Tailors function calls based on known arguments, creating specialized
+versions of functions to improve performance.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Peephole Optimizations&lt;/strong&gt;&lt;br/&gt;
+Examines a small window of consecutive instructions to identify and
+replace inefficient sequences with more efficient ones, enhancing code
+quality.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Canonicalizing Loops&lt;/strong&gt;&lt;br/&gt;
+Transforms loops to start at index 0 and stride by 1, which simplifies
+the loop structure and may enable more optimizations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Generating Constants&lt;/strong&gt;&lt;br/&gt;
+Replaces index calculations with pre-computed constants, reducing the
+need for computation during program execution.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Eliminating Load/Store Pairs&lt;/strong&gt;&lt;br/&gt;
+Removes redundant load and store operations by combining them or
+eliminating unnecessary memory accesses.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;XLA (Accelerated Linear Algebra)&lt;/strong&gt;&lt;br/&gt;
+XLA is a domain-specific compiler for linear algebra that optimizes
+computations for machine learning models. It is particularly focused on
+optimizing TensorFlow computations and improving performance on hardware
+accelerators like GPUs and TPUs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TVM&lt;/strong&gt;&lt;br/&gt;
+TVM is an open-source deep learning compiler stack designed to optimize
+the performance of deep learning models across different hardware
+platforms. It provides a flexible and efficient way to deploy models on
+a wide range of devices, including CPUs, GPUs, and specialized
+accelerators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MLIR (Multi-Level Intermediate Representation)&lt;/strong&gt;&lt;br/&gt;
+MLIR is an intermediate representation used to define and optimize
+programs at multiple levels of abstraction. It is designed to facilitate
+cross-compiler optimizations and improve the portability and efficiency
+of code across different hardware architectures.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LLVM / GCC&lt;/strong&gt; LLVM is a modular and flexible compiler
+infrastructure consisting of reusable components that provide
+fine-grained control over code generation and optimization. Its
+intermediate representation (IR) is portable and efficient, allowing it
+to target various hardware architectures. In contrast, GCC is a
+monolithic compiler system that integrates the compiler, assembler,
+linker, and debugger, following a more traditional approach to code
+generation and optimizations with a long history of use in production
+environments. While LLVM’s modularity allows for greater extensibility
+and customization, GCC tends to be less modular, requiring deeper
+integration for adding features. LLVM excels in modern hardware
+optimizations, especially for GPUs and specialized accelerators, whereas
+GCC is more focused on traditional CPU-based platforms and embedded
+systems.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PCIe&lt;/strong&gt; high-speed interface standard used to connect
+peripheral devices, such as graphics cards, network cards, and storage
+devices, to the CPU and memory. It provides fast, low-latency data
+transfer with a scalable architecture, offering multiple lanes for
+simultaneous data communication. PCIe operates with a point-to-point
+architecture, where each device communicates directly with the CPU
+through a dedicated link, ensuring high performance and low overhead.
+Its speed and flexibility make it ideal for modern hardware
+accelerators, like GPUs and NVMe storage devices.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Memory-Mapped I/O (MMIO)&lt;/strong&gt; technique where I/O devices
+are mapped to specific memory addresses, allowing the CPU to communicate
+with them as if they were part of the system’s memory. This method
+provides a simple and efficient way to read from and write to I/O
+devices using standard memory access instructions, without the need for
+special I/O instructions. MMIO allows devices such as graphics cards,
+network interfaces, and other peripherals to interact directly with the
+processor and memory, enabling faster and more efficient data transfers,
+especially when working with high-performance devices like GPUs or
+custom accelerators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hypervisors&lt;/strong&gt; Hypervisors are software, firmware, or
+hardware components that enable virtualization by managing the creation
+and execution of virtual machines. Type 1 (bare-metal) run directly on
+the hardware, providing high performance and better isolation for VMs.
+Examples include VMware ESXi, Microsoft Hyper-V, and Xen. Type 2
+(hosted) run on top of a host operating system, with the hypervisor
+providing virtualized hardware resources to guest operating systems.
+Examples include VMware Workstation and Oracle VirtualBox.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SR-IOV (Single Root I/O Virtualization)&lt;/strong&gt; allows a
+single physical network interface card (NIC) or other I/O devices to
+appear as multiple separate virtual devices to virtual machines. It
+improves performance by allowing VMs to access I/O resources directly
+without the need for extensive virtualization overhead. SR-IOV enables
+better scalability and efficiency by allowing multiple VMs to share a
+single physical device while maintaining near-native performance. In
+SR-IOV-enabled systems, the hypervisor configures the physical device
+(e.g., NIC, GPU) to expose virtual interfaces, which are then directly
+assigned to virtual machines.&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"></link><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
 This post gives a quick review of how to convert the list of
 observations into features and labels to build a ML model to help
 predict the next observation.&lt;/p&gt;

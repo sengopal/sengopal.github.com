@@ -42,16 +42,16 @@ printing/checking&lt;/h4&gt;
 multi-node inference, focusing on how components like the Matching
 Transport Layer (MTL), libfabric, and the OFI framework enable
 efficient, low-latency communication. Installing EFA for a node &lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html"&gt;Ref&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id="matching-transport-layer-mtl"&gt;Matching Transport Layer
-(MTL)&lt;/h3&gt;
-&lt;p&gt;The Matching Transport Layer (MTL) is a component used in the Open
-MPI implementation when utilizing libfabric for managing two-sided
-tagged messages. MTL is responsible for matching message tags and
-ensuring that messages are delivered to the correct destination. This
-layer is designed to work closely with the underlying network fabric,
-such as EFA, to provide efficient and reliable message passing between
-nodes in a high-performance computing (HPC) environment.&lt;/p&gt;
-&lt;h3 id="efa-and-libfabric"&gt;EFA and Libfabric&lt;/h3&gt;
+&lt;h3 id="terms-involved"&gt;Terms Involved&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Matching Transport Layer (MTL)&lt;/strong&gt; The Matching
+Transport Layer (MTL) is a component used in the Open MPI implementation
+when utilizing libfabric for managing two-sided tagged messages. MTL is
+responsible for matching message tags and ensuring that messages are
+delivered to the correct destination. This layer is designed to work
+closely with the underlying network fabric, such as EFA, to provide
+efficient and reliable message passing between nodes in a
+high-performance computing (HPC) environment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EFA&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;EFA integrates with the libfabric API, which is part of the
 OpenFabrics Interfaces (OFI) framework. This integration allows EFA to
 bypass the operating system kernel, reducing overhead and enabling
@@ -61,6 +61,36 @@ learning applications on AWS. By leveraging these components, AWS’s EFA
 can provide enhanced performance for HPC and ML applications, enabling
 efficient inter-node communication and supporting large-scale
 computational tasks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MPI (Message Passing Interface)&lt;/strong&gt; Communication
+protocol for parallel programming in distributed computing environments,
+particularly in HPC clusters. It provides a standardized way for
+processes to communicate with each other across nodes in a cluster,
+supporting point-to-point and collective communication.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;OFED (OpenFabrics Enterprise Distribution)&lt;/strong&gt; Set of
+open-source software components that enable high-performance networking
+on clusters, especially those using InfiniBand and other
+high-performance fabrics. It provides the necessary drivers, libraries,
+and tools to enable low-latency, high-bandwidth communication between
+nodes in a cluster. OFED is commonly used in environments where RDMA
+(Remote Direct Memory Access) and InfiniBand technologies are deployed,
+facilitating direct memory access and efficient data transfer.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LibFabric&lt;/strong&gt; Low-level communication library designed
+to abstract hardware-specific communication protocols. It provides a
+unified API for building high-performance network communication systems
+and is often used for RDMA, shared memory, and other communication
+technologies. Libfabric allows applications to use different network
+fabrics (such as InfiniBand, iWARP, and RoCE) without being tightly
+coupled to a particular hardware implementation, making it highly
+flexible and adaptable for various cluster environments.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;RDMA (Remote Direct Memory Access)&lt;/strong&gt; Allows for
+high-speed data transfer between nodes in a cluster without involving
+the CPU, offering significant reductions in latency and CPU utilization.
+By directly accessing the memory of a remote node, RDMA enables faster
+data transfers than traditional networking methods, making it ideal for
+applications that require large amounts of data to be exchanged between
+nodes with minimal overhead. RDMA is supported by technologies like
+InfiniBand and RoCE (RDMA over Converged Ethernet), and is critical in
+HPC, machine learning, and cloud computing environments.&lt;/p&gt;
 &lt;h3 id="openfabrics-interfaces-ofi"&gt;OpenFabrics Interfaces (OFI)&lt;/h3&gt;
 &lt;p&gt;OpenFabrics Interfaces (OFI) is a framework designed to expose
 communication services to middleware and applications, particularly in
@@ -249,4 +279,140 @@ enhanced performance in unique workloads.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 &lt;p&gt;For more detailed information, refer to the official &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
-Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry></feed>
+Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Neuron Glossary</title><link href="https://sengopal.me/posts/neuron-glossary" rel="alternate"></link><published>2023-12-13T00:00:00-08:00</published><updated>2023-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-13:/posts/neuron-glossary</id><summary type="html">This post acts as a running glossary for Neuron and HPC related terms and technologies.</summary><content type="html">&lt;p&gt;Last Updated on &lt;em&gt;Mar 12, 2024&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The following are a running list of new terms that are encountered
+while working on the Neuron stack. This acts as a jump off point into
+deeper dives into these terms and context behind them&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;FPGA (Field-Programmable Gate Array)&lt;/strong&gt; Unlike GPUs
+with a fixed design, FPGAs are essentially blank slates. They contain a
+fabric of programmable logic blocks that can be configured to perform
+specific tasks. This flexibility allows FPGAs to be customized for a
+wide range of applications, including cryptography, financial modeling,
+and high-frequency trading.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ASIC&lt;/strong&gt; An ASIC is a chip designed for a specific
+purpose. It offers high performance and efficiency for that particular
+task because the hardware is optimized for it. This aligns exactly with
+how Intel describes the Gaudi as a deep learning accelerator.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Arithmetic Intensity&lt;/strong&gt; Metric that quantifies the
+ratio of computational operations (measured in floating-point
+operations, or FLOPs) to data movement (measured in bytes) during a
+computation. It helps determine whether a particular operation is
+compute-bound or memory-bound. For example, applying the ReLU activation
+function to a tensor involves reading 2 bytes, performing 1 comparison
+operation, and writing 2 bytes per element, resulting in an arithmetic
+intensity of 1 FLOP per 4 bytes accessed. This low ratio indicates that
+such operations are typically memory-bound, meaning the time spent on
+memory accesses exceeds the time spent on computations. &lt;a href="https://astralord.github.io/posts/transformer-inference-optimization-toolset/"&gt;Ref&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gradient checkpointing /activation checkpointing&lt;/strong&gt; A
+technique to reduce memory usage by clearing activations of certain
+layers and recomputing them during a backward pass. Effectively, this
+trades extra computation time for reduced memory usage. If a module is
+checkpointed, at the end of a forward pass, the inputs to and outputs
+from the module stay in memory.&lt;a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-extended-features-pytorch-activation-checkpointing.html"&gt;ref&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Strength Reduction&lt;/strong&gt;&lt;br/&gt;
+This optimization replaces computationally expensive operations with
+equivalent but less costly ones. For example, replacing multiplication
+by a constant with a shift operation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Constant Folding&lt;/strong&gt;&lt;br/&gt;
+Evaluates constant expressions at compile time, replacing them with
+their computed values to reduce runtime computation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common Subexpression Elimination&lt;/strong&gt;&lt;br/&gt;
+Identifies and eliminates duplicate calculations by reusing previously
+computed values, enhancing efficiency.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dead-Code Elimination&lt;/strong&gt;&lt;br/&gt;
+Removes code that does not affect the program’s outcome, such as
+computations whose results are never used, thereby streamlining the
+codebase.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Scalar Replacement&lt;/strong&gt;&lt;br/&gt;
+Replaces array references with scalar variables when possible, reducing
+memory access overhead and improving performance.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If-Conversion&lt;/strong&gt;&lt;br/&gt;
+Transforms conditional branches into conditional instructions,
+minimizing branch penalties and enhancing instruction-level
+parallelism.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Function Inlining&lt;/strong&gt;&lt;br/&gt;
+Substitutes the body of a called function directly into the calling
+code, eliminating call overhead and enabling further optimizations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Call Specialization&lt;/strong&gt;&lt;br/&gt;
+Tailors function calls based on known arguments, creating specialized
+versions of functions to improve performance.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Peephole Optimizations&lt;/strong&gt;&lt;br/&gt;
+Examines a small window of consecutive instructions to identify and
+replace inefficient sequences with more efficient ones, enhancing code
+quality.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Canonicalizing Loops&lt;/strong&gt;&lt;br/&gt;
+Transforms loops to start at index 0 and stride by 1, which simplifies
+the loop structure and may enable more optimizations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Generating Constants&lt;/strong&gt;&lt;br/&gt;
+Replaces index calculations with pre-computed constants, reducing the
+need for computation during program execution.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Eliminating Load/Store Pairs&lt;/strong&gt;&lt;br/&gt;
+Removes redundant load and store operations by combining them or
+eliminating unnecessary memory accesses.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;XLA (Accelerated Linear Algebra)&lt;/strong&gt;&lt;br/&gt;
+XLA is a domain-specific compiler for linear algebra that optimizes
+computations for machine learning models. It is particularly focused on
+optimizing TensorFlow computations and improving performance on hardware
+accelerators like GPUs and TPUs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TVM&lt;/strong&gt;&lt;br/&gt;
+TVM is an open-source deep learning compiler stack designed to optimize
+the performance of deep learning models across different hardware
+platforms. It provides a flexible and efficient way to deploy models on
+a wide range of devices, including CPUs, GPUs, and specialized
+accelerators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MLIR (Multi-Level Intermediate Representation)&lt;/strong&gt;&lt;br/&gt;
+MLIR is an intermediate representation used to define and optimize
+programs at multiple levels of abstraction. It is designed to facilitate
+cross-compiler optimizations and improve the portability and efficiency
+of code across different hardware architectures.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LLVM / GCC&lt;/strong&gt; LLVM is a modular and flexible compiler
+infrastructure consisting of reusable components that provide
+fine-grained control over code generation and optimization. Its
+intermediate representation (IR) is portable and efficient, allowing it
+to target various hardware architectures. In contrast, GCC is a
+monolithic compiler system that integrates the compiler, assembler,
+linker, and debugger, following a more traditional approach to code
+generation and optimizations with a long history of use in production
+environments. While LLVM’s modularity allows for greater extensibility
+and customization, GCC tends to be less modular, requiring deeper
+integration for adding features. LLVM excels in modern hardware
+optimizations, especially for GPUs and specialized accelerators, whereas
+GCC is more focused on traditional CPU-based platforms and embedded
+systems.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PCIe&lt;/strong&gt; high-speed interface standard used to connect
+peripheral devices, such as graphics cards, network cards, and storage
+devices, to the CPU and memory. It provides fast, low-latency data
+transfer with a scalable architecture, offering multiple lanes for
+simultaneous data communication. PCIe operates with a point-to-point
+architecture, where each device communicates directly with the CPU
+through a dedicated link, ensuring high performance and low overhead.
+Its speed and flexibility make it ideal for modern hardware
+accelerators, like GPUs and NVMe storage devices.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Memory-Mapped I/O (MMIO)&lt;/strong&gt; technique where I/O devices
+are mapped to specific memory addresses, allowing the CPU to communicate
+with them as if they were part of the system’s memory. This method
+provides a simple and efficient way to read from and write to I/O
+devices using standard memory access instructions, without the need for
+special I/O instructions. MMIO allows devices such as graphics cards,
+network interfaces, and other peripherals to interact directly with the
+processor and memory, enabling faster and more efficient data transfers,
+especially when working with high-performance devices like GPUs or
+custom accelerators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Hypervisors&lt;/strong&gt; Hypervisors are software, firmware, or
+hardware components that enable virtualization by managing the creation
+and execution of virtual machines. Type 1 (bare-metal) run directly on
+the hardware, providing high performance and better isolation for VMs.
+Examples include VMware ESXi, Microsoft Hyper-V, and Xen. Type 2
+(hosted) run on top of a host operating system, with the hypervisor
+providing virtualized hardware resources to guest operating systems.
+Examples include VMware Workstation and Oracle VirtualBox.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SR-IOV (Single Root I/O Virtualization)&lt;/strong&gt; allows a
+single physical network interface card (NIC) or other I/O devices to
+appear as multiple separate virtual devices to virtual machines. It
+improves performance by allowing VMs to access I/O resources directly
+without the need for extensive virtualization overhead. SR-IOV enables
+better scalability and efficiency by allowing multiple VMs to share a
+single physical device while maintaining near-native performance. In
+SR-IOV-enabled systems, the hypervisor configures the physical device
+(e.g., NIC, GPU) to expose virtual interfaces, which are then directly
+assigned to virtual machines.&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category></entry></feed>

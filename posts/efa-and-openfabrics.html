@@ -110,10 +110,8 @@
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
-<li><a href="#matching-transport-layer-mtl" id="toc-matching-transport-layer-mtl">Matching Transport Layer
-(MTL)</a></li>
-<li><a href="#efa-and-libfabric" id="toc-efa-and-libfabric">EFA and
-Libfabric</a></li>
+<li><a href="#terms-involved" id="toc-terms-involved">Terms
+Involved</a></li>
 <li><a href="#openfabrics-interfaces-ofi" id="toc-openfabrics-interfaces-ofi">OpenFabrics Interfaces
 (OFI)</a></li>
 <li><a href="#purpose-and-design" id="toc-purpose-and-design">Purpose
@@ -128,16 +126,16 @@ and Design</a></li>
 multi-node inference, focusing on how components like the Matching
 Transport Layer (MTL), libfabric, and the OFI framework enable
 efficient, low-latency communication. Installing EFA for a node <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html">Ref</a></p>
-<h3 id="matching-transport-layer-mtl">Matching Transport Layer
-(MTL)</h3>
-<p>The Matching Transport Layer (MTL) is a component used in the Open
-MPI implementation when utilizing libfabric for managing two-sided
-tagged messages. MTL is responsible for matching message tags and
-ensuring that messages are delivered to the correct destination. This
-layer is designed to work closely with the underlying network fabric,
-such as EFA, to provide efficient and reliable message passing between
-nodes in a high-performance computing (HPC) environment.</p>
-<h3 id="efa-and-libfabric">EFA and Libfabric</h3>
+<h3 id="terms-involved">Terms Involved</h3>
+<p><strong>Matching Transport Layer (MTL)</strong> The Matching
+Transport Layer (MTL) is a component used in the Open MPI implementation
+when utilizing libfabric for managing two-sided tagged messages. MTL is
+responsible for matching message tags and ensuring that messages are
+delivered to the correct destination. This layer is designed to work
+closely with the underlying network fabric, such as EFA, to provide
+efficient and reliable message passing between nodes in a
+high-performance computing (HPC) environment.</p>
+<p><strong>EFA</strong></p>
 <p>EFA integrates with the libfabric API, which is part of the
 OpenFabrics Interfaces (OFI) framework. This integration allows EFA to
 bypass the operating system kernel, reducing overhead and enabling
@@ -147,6 +145,36 @@ learning applications on AWS. By leveraging these components, AWS’s EFA
 can provide enhanced performance for HPC and ML applications, enabling
 efficient inter-node communication and supporting large-scale
 computational tasks.</p>
+<p><strong>MPI (Message Passing Interface)</strong> Communication
+protocol for parallel programming in distributed computing environments,
+particularly in HPC clusters. It provides a standardized way for
+processes to communicate with each other across nodes in a cluster,
+supporting point-to-point and collective communication.</p>
+<p><strong>OFED (OpenFabrics Enterprise Distribution)</strong> Set of
+open-source software components that enable high-performance networking
+on clusters, especially those using InfiniBand and other
+high-performance fabrics. It provides the necessary drivers, libraries,
+and tools to enable low-latency, high-bandwidth communication between
+nodes in a cluster. OFED is commonly used in environments where RDMA
+(Remote Direct Memory Access) and InfiniBand technologies are deployed,
+facilitating direct memory access and efficient data transfer.</p>
+<p><strong>LibFabric</strong> Low-level communication library designed
+to abstract hardware-specific communication protocols. It provides a
+unified API for building high-performance network communication systems
+and is often used for RDMA, shared memory, and other communication
+technologies. Libfabric allows applications to use different network
+fabrics (such as InfiniBand, iWARP, and RoCE) without being tightly
+coupled to a particular hardware implementation, making it highly
+flexible and adaptable for various cluster environments.</p>
+<p><strong>RDMA (Remote Direct Memory Access)</strong> Allows for
+high-speed data transfer between nodes in a cluster without involving
+the CPU, offering significant reductions in latency and CPU utilization.
+By directly accessing the memory of a remote node, RDMA enables faster
+data transfers than traditional networking methods, making it ideal for
+applications that require large amounts of data to be exchanged between
+nodes with minimal overhead. RDMA is supported by technologies like
+InfiniBand and RoCE (RDMA over Converged Ethernet), and is critical in
+HPC, machine learning, and cloud computing environments.</p>
 <h3 id="openfabrics-interfaces-ofi">OpenFabrics Interfaces (OFI)</h3>
 <p>OpenFabrics Interfaces (OFI) is a framework designed to expose
 communication services to middleware and applications, particularly in
