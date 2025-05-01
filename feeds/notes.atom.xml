@@ -1,5 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Notes</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/notes.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2009-02-20T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2" rel="alternate"></link><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Notes</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/notes.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2015-03-22T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Steps for secure Android Application development</title><link href="https://sengopal.me/posts/steps-for-secure-android-application-development" rel="alternate"></link><published>2015-03-22T00:00:00-07:00</published><updated>2015-03-22T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2015-03-22:/posts/steps-for-secure-android-application-development</id><summary type="html">In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.</summary><content type="html">&lt;p&gt;In a recent working session, some of the best practices for a secure
+Android application development were discussed. Following were some of
+the important aspects of the discussion. Other the usual standards of
+securing the APK and securing the server-side components, some of the
+development and secure coding practices are listed in this post. Its the
+responsibility of every Android app developer to keep themselves
+appraised about new threats using OWASP Mobile Top 10 Risks.&lt;/p&gt;
+&lt;h3 id="data-classification-and-handling-standards"&gt;Data classification
+and Handling Standards&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;All data persisted should be encrypted - sqlliteDB, files,
+dataprovider etc.,&lt;/li&gt;
+&lt;li&gt;Don’t transmit sensitive data to unapproved 3rd party.&lt;/li&gt;
+&lt;li&gt;Don’t put sensitive data into Intents&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="mobile-privacy"&gt;Mobile privacy&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Respect user’s privacy by collecting minimum amount of data&lt;/li&gt;
+&lt;li&gt;GPS &amp;amp; location data - fine grain vs. coarse grain GPS data&lt;/li&gt;
+&lt;li&gt;Contact Info&lt;/li&gt;
+&lt;li&gt;Microphone and Camera use&lt;/li&gt;
+&lt;li&gt;Tracking and Analytics IDs&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="attack-surface-analysis"&gt;Attack Surface Analysis&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Third party code automatically inherits app permissions. Treat new
+versions of library as a new version of your app.&lt;/li&gt;
+&lt;li&gt;Use Google Alerts for any security disclosures regarding the 3rd
+party library.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="securing-logs"&gt;Securing logs&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Do not enable crash logs by default. Get user consent before
+logging.&lt;/li&gt;
+&lt;li&gt;Do not store crash logs for too long&lt;/li&gt;
+&lt;li&gt;Do not send plain-text logs over HTTP&lt;/li&gt;
+&lt;li&gt;Mask sensitive user information in the logs - starbucks usecase&lt;/li&gt;
+&lt;li&gt;Minimize the number of permissions - dont ask for what you dont need
+- Incoming SMS messages -&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="securing-intents"&gt;Securing Intents&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use PendingIntents as delayed callbacks to private Broadcast
+receivers&lt;/li&gt;
+&lt;li&gt;Use Explicit intents as much as possible&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;context&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;sendBroadcast&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;intent&lt;span class="op"&gt;,&lt;/span&gt;&lt;span class="st"&gt;"custom-permission"&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;context&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;startActivity&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;intent&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="permissions-and-intents"&gt;Permissions and Intents&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use custom permission for 3rd party or other apps to subscribe for
+notifications&lt;/li&gt;
+&lt;li&gt;For sensitive activities, set FLAG_SECURE constant flag in
+WindowManager.LayoutParams&lt;/li&gt;
+&lt;li&gt;Perform intent data validation&lt;/li&gt;
+&lt;li&gt;For private activities, use explicit intent&lt;/li&gt;
+&lt;li&gt;Seperate services in AndroidManifest with explicit and seperate
+permissions&lt;/li&gt;
+&lt;li&gt;Use explicit intent to call Service&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;checkCallingPermission()&lt;/code&gt; to verify if permission is
+available to the caller&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="data-security"&gt;Data Security&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use record level delegation feature to share a specific record or
+file without sharing the entire database to provide minimum access.&lt;/li&gt;
+&lt;li&gt;Never trust the parameters passed to content providers. Sanatize for
+injection attacks.&lt;/li&gt;
+&lt;li&gt;Securing ContentProviders. Always set &lt;code&gt;exported=false&lt;/code&gt; in
+your &lt;strong&gt;AndroidManifest.xml&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Ppecify explicit permissions for reading and writing.&lt;/li&gt;
+&lt;li&gt;Use dynamic &lt;code&gt;grantUriPermissions&lt;/code&gt; attribute to true to
+grant permission for certain portion for certain amount of time.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="webview-security"&gt;WebView Security&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Disable JS and Plugin support if not needed&lt;/li&gt;
+&lt;li&gt;No local file access&lt;/li&gt;
+&lt;li&gt;Do not load 3rd party hosts unless validated&lt;/li&gt;
+&lt;li&gt;Do not follow redirect requests in the server response unless
+validated&lt;/li&gt;
+&lt;li&gt;If possible, use only https&lt;/li&gt;
+&lt;li&gt;Disable form auto-fill feature by using
+&lt;code&gt;WebView.WebSettings.setSaveFormData()&lt;/code&gt; as false&lt;/li&gt;
+&lt;li&gt;Reject unexpected content - only allow HTML for main page (reject
+PDFs etc.,)&lt;/li&gt;
+&lt;li&gt;Secure Page Rendering in WebView - shouldOverrideUrlLoading&lt;/li&gt;
+&lt;li&gt;Access Modifiers should not be trusted for sensitivity.&lt;/li&gt;
+&lt;li&gt;Clear the cache after Webview of a Sensitive page.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode java"&gt;&lt;code class="sourceCode java"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;onPageFinished&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Webview view&lt;span class="op"&gt;,&lt;/span&gt; &lt;span class="bu"&gt;String&lt;/span&gt; Url&lt;span class="op"&gt;){&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;        view&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;clearCache&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="kw"&gt;true&lt;/span&gt;&lt;span class="op"&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="op"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol start="11" type="1"&gt;
+&lt;li&gt;Ensure that UI Redressing (a.k.a) Tap jacking protection is setup to
+prevent click jacking Use
+&lt;code&gt;setFilterTouchesWhenObscured(true)&lt;/code&gt; or
+&lt;code&gt;android:setFilterTouchesWhenObscured&lt;/code&gt; for activity
+declaration.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="development-practices"&gt;Development practices&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Keep sensitive data in RAM no longer than required such as
+Encryption keys, Authn, Authz tokens, passwords.&lt;/li&gt;
+&lt;li&gt;Variables should be nullified after use&lt;/li&gt;
+&lt;li&gt;Use byte[] and char[] for sensitive data rather than Strings which
+helps in cleaning easier.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="internal-storage"&gt;Internal Storage&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Accessible only to your app&lt;/li&gt;
+&lt;li&gt;clean the cache using deleteFile()&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="external-storage"&gt;External Storage&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Globally readable and writable&lt;/li&gt;
+&lt;li&gt;Can be physically removed&lt;/li&gt;
+&lt;li&gt;Avoid using this storage for sensitive apps in general. Use
+&lt;code&gt;preferInternal&lt;/code&gt; to prevent app being installed in external
+storage.&lt;/li&gt;
+&lt;li&gt;Use Keychain API for system wide credentials&lt;/li&gt;
+&lt;li&gt;Use Keystore to stores its own credentials&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;file.delete()&lt;/code&gt; does not securely delete.&lt;/li&gt;
+&lt;li&gt;Always delete cache files when user logs out&lt;/li&gt;
+&lt;li&gt;Do not keep files with any sensitive data any longer than absolutely
+needed.&lt;/li&gt;
+&lt;li&gt;Do not create files with MODE_WORLD_READABLE or writeable&lt;/li&gt;
+&lt;li&gt;Do not use modes such as 0666, 0777, 0663 with chmod binary or
+syscalls accepting a file modes&lt;/li&gt;
+&lt;li&gt;Only share info using content providers instead of file system&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="cryptography"&gt;Cryptography&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Dont store plain-text secret key&lt;/li&gt;
+&lt;li&gt;Never roll your own CRYPTO libraries. use the approved ones&lt;/li&gt;
+&lt;li&gt;Never store secrets using string - only char[] and byte[]&lt;/li&gt;
+&lt;li&gt;Never seed SecureRandom&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="camera-feed"&gt;Camera feed&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use default CAmera app/services&lt;/li&gt;
+&lt;li&gt;Or, create SurfaceView to display a Camera Preview and click button
+to convert to Picture&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="url-connections"&gt;URL Connections&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use TLS instead of SSLv3.&lt;/li&gt;
+&lt;li&gt;Use only https&lt;/li&gt;
+&lt;li&gt;SSLSocket class can be used but with caution. It does not do
+hostname verification.&lt;/li&gt;
+&lt;li&gt;If overriding, check &lt;code&gt;getDefaultHostNameVerifier()&lt;/code&gt; or
+&lt;code&gt;HostNameVerifier.verify()&lt;/code&gt; returns boolean true.&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Notes"></category><category term="development"></category><category term="coding"></category><category term="android"></category><category term="security"></category></entry><entry><title>Git and Github secrets</title><link href="https://sengopal.me/posts/git-and-github-secrets" rel="alternate"></link><published>2014-01-23T00:00:00-08:00</published><updated>2014-01-23T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-23:/posts/git-and-github-secrets</id><summary type="html">Some git and github usage secrets for quick reference.</summary><content type="html">&lt;p&gt;Git commandline and Github are two of most used tools for a web
+developer. Especially in a team environment, we use these more than a
+few times in a day. Recently I came across a screencast held at Aloha
+Ruby Conference. Some of the important and amazing shortcuts and useful
+tips discussed were summarized below. Rather than using them all, we
+should start couple of them and start practising them which definitely
+improves our tooling and productivity.&lt;/p&gt;
+&lt;h3 id="github"&gt;Github&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Adding .diff or .patch to the URL provides more clearer
+textual representation&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode html"&gt;&lt;code class="sourceCode html"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.diff&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    https://github.com/sengopal/sengopal.github.com/commit/c1ed8ca37880bb6b369e5007fa88909aa1b73189.patch&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Remove Whitespace differences using&lt;/strong&gt;
+&lt;code&gt;?w=1&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cool octocat images @ octodex.github.com&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;URL Shortner : git.io&lt;/strong&gt; Usage:
+&lt;code&gt;gitio &amp;lt;url&amp;gt; &amp;lt;name?&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lexer and Highlighting Languages:&lt;/strong&gt; &lt;a href="https://github.com/github/linguist" title="Linguist"&gt;Linguist&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gist as Screenshot sharing and discussion tool&lt;/strong&gt;
+&lt;code&gt;&amp;lt;https://gist.github.com/&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Git + Hub super commands&lt;/strong&gt; Hub is a command line tool
+that wraps git in order to extend it with extra features and commands
+that make working with GitHub easier. &lt;a href="https://github.com/defunkt/hub" title="hub repo"&gt;hub repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Key Shortcuts&lt;/strong&gt; Press in repo page &lt;code&gt;t&lt;/code&gt; -
+for File Finder &lt;code&gt;w&lt;/code&gt; - branch selector &lt;code&gt;s&lt;/code&gt; - quick
+search&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="citation" data-cites="mention__"&gt;(&lt;strong&gt;mention__?&lt;/strong&gt;)&lt;/span&gt; - adds
+person to the conversation &lt;/strong&gt;@Organization/Team__ - adds the
+organization/team to the conversation&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;#&amp;lt;number&amp;gt;&lt;/code&gt; - &lt;strong&gt;autolinks to issue
+number&lt;/strong&gt; Example: using a commit message such as “closes
+&lt;code&gt;#1291&lt;/code&gt;” autolinks to the issue&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Adding&lt;/strong&gt; &lt;code&gt;?author=sengopal&lt;/code&gt; &lt;strong&gt;or
+email address to&lt;/strong&gt; &lt;code&gt;github.com/repo/commits/master&lt;/code&gt;
+&lt;strong&gt;gives the list of commits by that author.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Example:
+https://github.com/sengopal/immuno/commits/master?author=sengopal&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pulls needn’t be from a fork, but can be done from branches
+as well&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Github supports emoji’s which are available under&lt;/strong&gt; &lt;a href="http://emoji-cheat-sheet.com" title="Emoji-cheat-sheet"&gt;Emoji-cheat-sheet&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="git-line-quirks"&gt;Git line quirks&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --no-merged&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git branch --contains &amp;lt;sha&amp;gt;&lt;/code&gt; - which branch has
+this SHA&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git checkout &amp;lt;branch_name&amp;gt; --&amp;lt;path to file&amp;gt;&lt;/code&gt;
+- checkout that file from that branch into your current branch&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git log branchA ^branchB&lt;/code&gt; - commits in A not in
+B&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git fsck ==lost-found&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --stat&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -w&lt;/code&gt; - to avoid whitespace as
+commits&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -M&lt;/code&gt; - original commit and not the move
+commit&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git blame -C&lt;/code&gt; - same as M except looks in the same
+commit &lt;em&gt;-CC, -CCC are the other variations available&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git status -sb&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git diff HEAD^ --word-diff&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global help.autocorrect 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global rerere.enabled 1&lt;/code&gt; - long running
+branches, remembers merge conflicts&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git config --global color.ui 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git-amend&lt;/code&gt; - alias to
+&lt;code&gt;git commit --amend -C HEAD&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git undo&lt;/code&gt; - alias to
+&lt;code&gt;git reset --soft HEAD^&lt;/code&gt; - retains commit as staged&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git-count&lt;/code&gt; - alias to
+&lt;code&gt;git shortlog -sn&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git add -p&lt;/code&gt; - useful for logical commits&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;git show :/&amp;lt;query&amp;gt;&lt;/code&gt; - checks for the message or
+file name&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Commit Comparison&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;LINE Linking - #L16, #L16-25&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Advanced Compare View&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Range - &lt;code&gt;MASTER@{1.day.ago}...MASTER&lt;/code&gt; bookmark that page
+and see whats team upto in last 12 hours&lt;/p&gt;
+&lt;h3 id="key-git-commands-in-order-of-importance"&gt;Key Git commands in
+order of importance&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Clone – Creates a repository from a network or local location&lt;/li&gt;
+&lt;li&gt;Status – What is staged, and in the working directory&lt;/li&gt;
+&lt;li&gt;Log – history of commits&lt;/li&gt;
+&lt;li&gt;Add – make a file ready for staging&lt;/li&gt;
+&lt;li&gt;Commit – Move staged files to a commit&lt;/li&gt;
+&lt;li&gt;Reset – Clean an entire working directory&lt;/li&gt;
+&lt;li&gt;Pull – Perform a fetch &amp;amp; merge operation&lt;/li&gt;
+&lt;li&gt;Push – send your changes to the parent repository&lt;/li&gt;
+&lt;li&gt;Branch – to create a new branch&lt;/li&gt;
+&lt;li&gt;Checkout – to grab one or more files&lt;/li&gt;
+&lt;li&gt;Clean – removing files that exist only in the working directory&lt;/li&gt;
+&lt;li&gt;Fetch – Get changes from the parent repository to store within the
+current repo&lt;/li&gt;
+&lt;li&gt;Merge – Combine two or more commits into one&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Notes"></category><category term="lists"></category><category term="git"></category></entry><entry><title>Eight steps in choosing a database</title><link href="https://sengopal.me/posts/eight-steps-in-choosing-a-database" rel="alternate"></link><published>2014-01-20T00:00:00-08:00</published><updated>2014-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-20:/posts/eight-steps-in-choosing-a-database</id><summary type="html">This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities</summary><content type="html">&lt;p&gt;We are planning a database architecture rewrite for an existing
+service and the needs of the project are:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Consistent data with ACID compliance for LIVE data&lt;/li&gt;
+&lt;li&gt;Async writes and random reads for metadata&lt;/li&gt;
+&lt;li&gt;Fast and Async writes and very low reads for audit information&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Usually, experts suggest a multi-database solution, or polyglot
+persistence approach instead of a traditional monolithich RDBMS
+solution.&lt;/p&gt;
+&lt;h3 id="disadvantages-of-rdbms"&gt;Disadvantages of RDBMS&lt;/h3&gt;
+&lt;p&gt;Scaling a traditional RDBMS is difficult at best. Partitioning
+schemes, multi-master configurations, and redundancy systems offered by
+Oracle, SQL Server, and DB2 are expensive and problematic at best. They
+often fail to meet the needs of high-scale applications. Also, for short
+lived data and with different lifetime data, RDBMS does not fit the
+needs of such an application.&lt;/p&gt;
+&lt;h2 id="available-databases"&gt;Available Databases&lt;/h2&gt;
+&lt;p&gt;Some of the database types available as per this &lt;a href="https://dzone.com/articles/review-persistence-strategies"&gt;Dzone
+article&lt;/a&gt; are:&lt;/p&gt;
+&lt;h3 id="key-value-stores"&gt;Key-Value stores&lt;/h3&gt;
+&lt;p&gt;The most commonly used database solutions are Key-Value stores such
+as Aerospike, Redis, and Riak. These are available for easier install
+and application implementation.&lt;/p&gt;
+&lt;h3 id="column-family-databases"&gt;Column-Family databases&lt;/h3&gt;
+&lt;p&gt;The other common databases available are Cassandra and HBase are both
+based on Hadoop but have different write semantics. While HBase offers
+strong write integrity and Cassandra offers &lt;em&gt;eventual
+consistency&lt;/em&gt;. Also, Cassandra is ideal for high intense writes and
+random reads.&lt;/p&gt;
+&lt;h3 id="document-databases"&gt;Document Databases&lt;/h3&gt;
+&lt;p&gt;Document databases scale quite well and are great for web-based
+operational systems that operate on a single big entity, or systems that
+don’t require transactional integrity across entities. Typically,
+MongoDB and Couchbase are typically the leaders in this sector.&lt;/p&gt;
+&lt;h3 id="graph-databases"&gt;Graph Databases&lt;/h3&gt;
+&lt;p&gt;Social networks and recommendation systems are classic use cases for
+graph databases, but there are a few different types of graph databases.
+Some of them are custom made for operational purposes (Neo4j) while
+others are aimed more at analytics (Apache Giraph).&lt;/p&gt;
+&lt;p&gt;Using the above descriptions and also based on availability or
+support within our organization, the following database types were
+determined.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Database&lt;/th&gt;
+&lt;th&gt;Storage for&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Oracle&lt;/td&gt;
+&lt;td&gt;Partition scheme. Store Live data.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cassandra&lt;/td&gt;
+&lt;td&gt;Heavy writes for Async metadata&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cassandra&lt;/td&gt;
+&lt;td&gt;Heavy writes for Audit log&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</content><category term="Notes"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2" rel="alternate"></link><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
 following are notes which are specific to the certification, from the
 prep book. These notes are also helpful for a refresher on SQL syntax
 and usability.&lt;/p&gt;
@@ -2325,4 +2638,205 @@ except Boolean and Character)&lt;/li&gt;
 on string Objects which leads to Compilation Error&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Continued in &lt;a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-2"&gt;Part
-2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry></feed>
+2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry><entry><title>Learning basics of CSS and quick notes</title><link href="https://sengopal.me/posts/learning-basics-of-css-and-quick-notes" rel="alternate"></link><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-03:/posts/learning-basics-of-css-and-quick-notes</id><summary type="html">The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</summary><content type="html">&lt;p&gt;The following are some of the important points that i had gathered
+during my learning of CSS and HTML markup. It also contains the
+important factors to consider when converting a given PSD or image into
+a good HTML markup and CSS.&lt;/p&gt;
+&lt;h3 id="slicing-techniques"&gt;Slicing techniques&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Do not slice the logo&lt;/li&gt;
+&lt;li&gt;Figure out the gradient for repeating along the x -axis&lt;/li&gt;
+&lt;li&gt;Dont start with the slice tool from the toolbar&lt;/li&gt;
+&lt;li&gt;Always design with a wrapper div - for a row or a column - to be
+enclosed as a container tag&lt;/li&gt;
+&lt;li&gt;Decide upon only one type of slicing for a given layout - for the
+wrapper divs and then perform the slicing&lt;/li&gt;
+&lt;li&gt;First horizontal - because the flow goes from right to left&lt;/li&gt;
+&lt;li&gt;After selecting the slice, divide the slice and give the number of
+dividers you would need&lt;/li&gt;
+&lt;li&gt;Save for Web and Devices - Gif and PNG for transparent ones&lt;/li&gt;
+&lt;li&gt;Quality generally set up as 75-85%&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="remember"&gt;Remember&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;height, width, padding, margin, float - main important
+properties&lt;/li&gt;
+&lt;li&gt;use the following (or use a reset)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;body{&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;padding&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;margin&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;&lt;span class="op"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol start="3" type="1"&gt;
+&lt;li&gt;Give Wrapper &lt;code&gt;margin:auto;&lt;/code&gt; to make the whole container
+centered&lt;/li&gt;
+&lt;li&gt;Give fixed width and height to get the margin auto to work
+properly&lt;/li&gt;
+&lt;li&gt;Div dimensions: width + margin + padding + border&lt;/li&gt;
+&lt;li&gt;Whenever u are adding a padding or margin, adjust the width or
+height appropriately&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;margin:auto;&lt;/code&gt; to center the div within the
+container&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\#nav ul{ margin:0; padding:0;}&lt;/code&gt; - remember for every UL
+block or use a reset&lt;/li&gt;
+&lt;li&gt;Always use &lt;code&gt;ul{list-style-type: none;}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Give &lt;code&gt;li{display:block}&lt;/code&gt; and provide width &amp;amp; height
+to get a BUTTON look and feel&lt;/li&gt;
+&lt;li&gt;For vertical nav bar, when absolute position is used, use negative
+margin-left and margin-top of size half of the width and height of the
+div.&lt;/li&gt;
+&lt;li&gt;Always the target browsers and supported resolutions needs to be
+decided&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="media-queries"&gt;Media Queries&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Change float to normal using the height/width/float properties for
+changing screen size&lt;/li&gt;
+&lt;li&gt;Always use &lt;code&gt;margin,padding:0&lt;/code&gt; - for reset&lt;/li&gt;
+&lt;li&gt;Types of layouts - pure fluid / pure display oriented / hybrid ..
+Fluid Layout … system of relative layout instead of absolute pixels …
+height/width - only in percentages&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;.. Adaptive Layout … using the &lt;span class="citation" data-cites="media"&gt;(&lt;strong&gt;media?&lt;/strong&gt;)&lt;/span&gt; tags&lt;/p&gt;
+&lt;p&gt;.. Responsive Layout … Mix of Fluid and adaptive layouts. PERCENTAGE
++ Media Tags&lt;/p&gt;
+&lt;ol start="4" type="1"&gt;
+&lt;li&gt;New way of setting the media value [source,html]&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;        &amp;lt;meta name="viewport" content="initial-scale=1,width=device-width"&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start="5" type="1"&gt;
+&lt;li&gt;Media query representation&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="im"&gt;@media&lt;/span&gt; &lt;span class="an"&gt;screen&lt;/span&gt; &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="fu"&gt;(&lt;/span&gt;&lt;span class="kw"&gt;max-width&lt;/span&gt;&lt;span class="ch"&gt;:&lt;/span&gt; &lt;span class="dv"&gt;980&lt;/span&gt;&lt;span class="dt"&gt;px&lt;/span&gt;&lt;span class="fu"&gt;)&lt;/span&gt;{&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;            ....&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;        }&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ol start="6" type="1"&gt;
+&lt;li&gt;Always create the smallest resolution first&lt;/li&gt;
+&lt;li&gt;Try to use different images with different srcs to cater to
+different sizes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="types-of-selectors"&gt;Types of Selectors&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Tag&lt;/li&gt;
+&lt;li&gt;Class&lt;/li&gt;
+&lt;li&gt;Pseudo-element &lt;code&gt;[first-line, first-character]&lt;/code&gt; &lt;em&gt;This
+is the LEAST important selector&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Contextual/Conditional - selective styling -
+&lt;code&gt;p strong{}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Group/Compound selector - more than 1 tag&lt;/li&gt;
+&lt;li&gt;Pseudo-class &lt;code&gt;[link,active,hover,visited]&lt;/code&gt; - &lt;em&gt;MORE
+important than the other pseudo-element&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;ID Selector&lt;/li&gt;
+&lt;li&gt;when to use id vs class? .. Use Class references with Less weightage
+.. Use the TAG selectors first&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="selectors-precedence"&gt;Selectors Precedence&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;The precedence for any style flows as :
+&lt;code&gt;inline &amp;gt; Embedded &amp;gt; External&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;The precedence for any selector: id &amp;gt; class &amp;gt; tag&lt;/li&gt;
+&lt;li&gt;For more details, refer to&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;http://www.w3.org/TR/CSS21/cascade.html#specificity[Specificity]&lt;/li&gt;
+&lt;li&gt;http://www.w3.org/TR/CSS2/selector.html[Selector]&lt;/li&gt;
+&lt;li&gt;http://css-tricks.com/specifics-on-css-specificity/[CSS Tricks]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="hierarchy-of-precedence"&gt;Hierarchy of precedence&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;The ID selector&lt;/li&gt;
+&lt;li&gt;The attribute selector&lt;/li&gt;
+&lt;li&gt;The class selector&lt;/li&gt;
+&lt;li&gt;The child selector&lt;/li&gt;
+&lt;li&gt;The adjacent sibling selector - &lt;code&gt;.blog-img + p&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;The descendant selector&lt;/li&gt;
+&lt;li&gt;The tag selector&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="shorthand-syntax"&gt;Shorthand syntax&lt;/h3&gt;
+&lt;p&gt;###= background&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;    background&lt;span class="in"&gt;:&lt;/span&gt; url&lt;span class="in"&gt;(&lt;/span&gt;example&lt;span class="fu"&gt;.gif&lt;/span&gt;&lt;span class="in"&gt;)&lt;/span&gt;;&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    background-color&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="pp"&gt;#eaeaea&lt;/span&gt; ;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    background-repeat&lt;span class="in"&gt;:&lt;/span&gt; repeat-x;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    background-position&lt;span class="in"&gt;:&lt;/span&gt; top left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can be written as:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;background&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="pp"&gt;#eaeaea&lt;/span&gt; url&lt;span class="in"&gt;(&lt;/span&gt;example&lt;span class="fu"&gt;.gif&lt;/span&gt;&lt;span class="in"&gt;)&lt;/span&gt; repeat-x top left;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;###= border&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;    border-color&lt;span class="in"&gt;:&lt;/span&gt; red;&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    border-width&lt;span class="in"&gt;:&lt;/span&gt; 1px;&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    border-style&lt;span class="in"&gt;:&lt;/span&gt; solid;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can be written as:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;border&lt;span class="in"&gt;:&lt;/span&gt; 1px solid red;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;###= list&lt;/p&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;    list-style-position&lt;span class="in"&gt;:&lt;/span&gt; outside;&lt;/span&gt;
+&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;    list-style-image&lt;span class="in"&gt;:&lt;/span&gt; none;&lt;/span&gt;
+&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;    list-style-type&lt;span class="in"&gt;:&lt;/span&gt; disc;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can be written as:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;:&lt;/span&gt; disc outside;`&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;the general format for a list style is:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;list-style&lt;span class="in"&gt;:&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-type&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-position&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt; &lt;span class="ex"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;list-style-image&lt;/span&gt;&lt;span class="ex"&gt;]&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h6 id="font"&gt;font&lt;/h6&gt;
+&lt;div class="sourceCode" id="cb11"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb11-1"&gt;&lt;a aria-hidden="true" href="#cb11-1" tabindex="-1"&gt;&lt;/a&gt;    font-family&lt;span class="in"&gt;:&lt;/span&gt; Arial&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;
+&lt;span id="cb11-2"&gt;&lt;a aria-hidden="true" href="#cb11-2" tabindex="-1"&gt;&lt;/a&gt;    font-weight&lt;span class="in"&gt;:&lt;/span&gt; bold;&lt;/span&gt;
+&lt;span id="cb11-3"&gt;&lt;a aria-hidden="true" href="#cb11-3" tabindex="-1"&gt;&lt;/a&gt;    font-style&lt;span class="in"&gt;:&lt;/span&gt; italic;&lt;/span&gt;
+&lt;span id="cb11-4"&gt;&lt;a aria-hidden="true" href="#cb11-4" tabindex="-1"&gt;&lt;/a&gt;    font-size&lt;span class="in"&gt;:&lt;/span&gt; 1em;&lt;/span&gt;
+&lt;span id="cb11-5"&gt;&lt;a aria-hidden="true" href="#cb11-5" tabindex="-1"&gt;&lt;/a&gt;    line-height&lt;span class="in"&gt;:&lt;/span&gt; 1&lt;span class="fu"&gt;.5em&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can be written as:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb12"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb12-1"&gt;&lt;a aria-hidden="true" href="#cb12-1" tabindex="-1"&gt;&lt;/a&gt;font&lt;span class="in"&gt;:&lt;/span&gt; bold italic 1em/1&lt;span class="fu"&gt;.5em&lt;/span&gt; Arial&lt;span class="op"&gt;,&lt;/span&gt; Helvetica;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;###= margin The margin properties allows a shorthand for margin-top,
+margin-right, margin-bottom and margin-left.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb13"&gt;&lt;pre class="sourceCode css"&gt;&lt;code class="sourceCode css"&gt;&lt;span id="cb13-1"&gt;&lt;a aria-hidden="true" href="#cb13-1" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=15px, left=20px */&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb13-2"&gt;&lt;a aria-hidden="true" href="#cb13-2" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px 15px 20px;&lt;/span&gt;
+&lt;span id="cb13-3"&gt;&lt;a aria-hidden="true" href="#cb13-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb13-4"&gt;&lt;a aria-hidden="true" href="#cb13-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=10px, left=5px*/&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb13-5"&gt;&lt;a aria-hidden="true" href="#cb13-5" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px;&lt;/span&gt;
+&lt;span id="cb13-6"&gt;&lt;a aria-hidden="true" href="#cb13-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb13-7"&gt;&lt;a aria-hidden="true" href="#cb13-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;/* top=10px, right=5px, bottom=15px, left=5px*/&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb13-8"&gt;&lt;a aria-hidden="true" href="#cb13-8" tabindex="-1"&gt;&lt;/a&gt;    margin&lt;span class="in"&gt;:&lt;/span&gt; 10px 5px 15px;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="form-features-in-html5"&gt;Form features in HTML5&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Placeholder text&lt;/li&gt;
+&lt;li&gt;Slider control&lt;/li&gt;
+&lt;li&gt;Calendar/Date picker&lt;/li&gt;
+&lt;li&gt;autocomplete&lt;/li&gt;
+&lt;li&gt;Input type Search&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="css-features-in-html5"&gt;CSS features in HTML5&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Shadow - box shadow, text shadow&lt;/li&gt;
+&lt;li&gt;Gradient&lt;/li&gt;
+&lt;li&gt;Blur&lt;/li&gt;
+&lt;li&gt;column text&lt;/li&gt;
+&lt;li&gt;transform / transitions&lt;/li&gt;
+&lt;li&gt;Rounded corners (using border radius)&lt;/li&gt;
+&lt;li&gt;CSS Regions&lt;/li&gt;
+&lt;li&gt;Exclusions&lt;/li&gt;
+&lt;li&gt;Shaders&lt;/li&gt;
+&lt;li&gt;Shadow DOM&lt;/li&gt;
+&lt;li&gt;Multiple Images in background&lt;/li&gt;
+&lt;li&gt;Alpha&lt;/li&gt;
+&lt;li&gt;Font-faces&lt;/li&gt;
+&lt;li&gt;Animation using Keyframes&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Position:fixed or other positioning important for animations to
+work&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="new-tags-in-html5"&gt;New Tags in HTML5&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;New semantic tags - header, footer, nav, section, aside,
+article&lt;/li&gt;
+&lt;li&gt;Multimedia tags - audio/sound,video&lt;/li&gt;
+&lt;li&gt;Drawing based tags - canvas, svg&lt;/li&gt;
+&lt;li&gt;Form based new tags - Date, slider, time, spinner&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="important-links"&gt;Important Links&lt;/h3&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;a href="http://css3generator.com/"&gt;Css3Generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://meyerweb.com/eric/tools/css/reset/"&gt;Reset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://vandelaydesign.com/blog/design/resources-grid-based-design/"&gt;Grid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/"&gt;IE
+support&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aFarkas/html5shiv"&gt;html5shiv&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://modernizr.com/"&gt;modernizer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://html5boilerplate.com/"&gt;html5boilerplate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://html.adobe.com/edge/inspect/"&gt;Adobe Inspect&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://brackets.io/"&gt;Brackets&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Notes"></category><category term="web"></category><category term="css"></category><category term="frontend"></category><category term="coding"></category><category term="development"></category></entry></feed>

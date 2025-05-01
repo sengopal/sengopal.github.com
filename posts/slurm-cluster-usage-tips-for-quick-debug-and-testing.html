@@ -6,9 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Eight steps in choosing a database | Senthilkumar Gopal
+  <title>Slurm Cluster usage tips for quick debug and testing | Senthilkumar Gopal
 </title>
-  <link rel="canonical" href="https://sengopal.me/posts/eight-steps-in-choosing-a-database.html">
+  <link rel="canonical" href="https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing.html">
 
     <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
@@ -26,8 +26,8 @@
   <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
         href="https://sengopal.me/feeds/all.atom.xml">
   <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
-        href="https://sengopal.me/feeds/notes.atom.xml">
-<meta name="description" content="This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities">
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="This post covers practical Slurm commands and best practices to help you reserve, access, and work cleanly on nodes.">
 
 <script>
     MathJax = {
@@ -93,118 +93,92 @@
 <article class="article">
     <header>
         <ul class="list-inline">
-            <li class="list-inline-item text-muted" title="2014-01-20T00:00:00-08:00">
+            <li class="list-inline-item text-muted" title="2024-09-02T00:00:00-07:00">
                 <i class="fas fa-clock"></i>
-                Mon 20 January 2014
+                Mon 02 September 2024
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-folder-open"></i>
-                <a href="https://sengopal.me/category/notes">Notes</a>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-tag"></i>
-                <a href="https://sengopal.me/tag/backend">#backend</a>,                 <a href="https://sengopal.me/tag/services">#services</a>,                 <a href="https://sengopal.me/tag/database">#database</a>,                 <a href="https://sengopal.me/tag/architecture">#architecture</a>            </li>
+                <a href="https://sengopal.me/tag/ml-code">#ml-code</a>,                 <a href="https://sengopal.me/tag/llm">#llm</a>,                 <a href="https://sengopal.me/tag/ml-acceleration">#ml-acceleration</a>,                 <a href="https://sengopal.me/tag/slurm">#slurm</a>,                 <a href="https://sengopal.me/tag/hpc-concepts">#hpc-concepts</a>            </li>
         </ul>
     </header>
-    <h1>Eight steps in choosing a database</h1>
+    <h1>Slurm Cluster usage tips for quick debug and testing</h1>
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
-<li><a href="#disadvantages-of-rdbms" id="toc-disadvantages-of-rdbms">Disadvantages of RDBMS</a></li>
-<li><a href="#available-databases" id="toc-available-databases">Available Databases</a>
-<ul>
-<li><a href="#key-value-stores" id="toc-key-value-stores">Key-Value
-stores</a></li>
-<li><a href="#column-family-databases" id="toc-column-family-databases">Column-Family databases</a></li>
-<li><a href="#document-databases" id="toc-document-databases">Document
-Databases</a></li>
-<li><a href="#graph-databases" id="toc-graph-databases">Graph
-Databases</a></li>
-</ul></li>
+<li><a href="#caution-with-salloc" id="toc-caution-with-salloc">Caution
+with <code>salloc</code></a></li>
 </ul>
 </nav>
     </div>
     <div class="content">
-        <p>We are planning a database architecture rewrite for an existing
-service and the needs of the project are:</p>
-<ol type="1">
-<li>Consistent data with ACID compliance for LIVE data</li>
-<li>Async writes and random reads for metadata</li>
-<li>Fast and Async writes and very low reads for audit information</li>
-</ol>
-<p>Usually, experts suggest a multi-database solution, or polyglot
-persistence approach instead of a traditional monolithich RDBMS
-solution.</p>
-<h3 id="disadvantages-of-rdbms">Disadvantages of RDBMS</h3>
-<p>Scaling a traditional RDBMS is difficult at best. Partitioning
-schemes, multi-master configurations, and redundancy systems offered by
-Oracle, SQL Server, and DB2 are expensive and problematic at best. They
-often fail to meet the needs of high-scale applications. Also, for short
-lived data and with different lifetime data, RDBMS does not fit the
-needs of such an application.</p>
-<h2 id="available-databases">Available Databases</h2>
-<p>Some of the database types available as per this <a href="https://dzone.com/articles/review-persistence-strategies">Dzone
-article</a> are:</p>
-<h3 id="key-value-stores">Key-Value stores</h3>
-<p>The most commonly used database solutions are Key-Value stores such
-as Aerospike, Redis, and Riak. These are available for easier install
-and application implementation.</p>
-<h3 id="column-family-databases">Column-Family databases</h3>
-<p>The other common databases available are Cassandra and HBase are both
-based on Hadoop but have different write semantics. While HBase offers
-strong write integrity and Cassandra offers <em>eventual
-consistency</em>. Also, Cassandra is ideal for high intense writes and
-random reads.</p>
-<h3 id="document-databases">Document Databases</h3>
-<p>Document databases scale quite well and are great for web-based
-operational systems that operate on a single big entity, or systems that
-don’t require transactional integrity across entities. Typically,
-MongoDB and Couchbase are typically the leaders in this sector.</p>
-<h3 id="graph-databases">Graph Databases</h3>
-<p>Social networks and recommendation systems are classic use cases for
-graph databases, but there are a few different types of graph databases.
-Some of them are custom made for operational purposes (Neo4j) while
-others are aimed more at analytics (Apache Giraph).</p>
-<p>Using the above descriptions and also based on availability or
-support within our organization, the following database types were
-determined.</p>
-<table>
-<thead>
-<tr>
-<th>Database</th>
-<th>Storage for</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Oracle</td>
-<td>Partition scheme. Store Live data.</td>
-</tr>
-<tr>
-<td>Cassandra</td>
-<td>Heavy writes for Async metadata</td>
-</tr>
-<tr>
-<td>Cassandra</td>
-<td>Heavy writes for Audit log</td>
-</tr>
-</tbody>
-</table>
+        <p>The following is a cheatsheet for Slurm commands used for running
+tests, debugging, and reserving compute nodes.</p>
+<p>To start working with an idle node, you can allocate one exclusively
+using <code>salloc --exclusive -N 1</code>. This command requests a full
+node for your use, allowing direct work without interference. Once your
+allocation is granted, you can see which node you received by checking
+the job ID in <code>squeue</code>. Instead of SSHing manually into the
+node, it is cleaner and simpler to use
+<code>srun -N 1 --pty --exclusive bash</code> to start an interactive
+bash session directly on the node. This avoids common SSH permission
+errors.</p>
+<p>If you want to verify which nodes are idle before requesting one, you
+can run <code>sinfo -N -r -l</code>. This will list nodes and their
+states, helping you identify available resources. After allocation, if
+you need specific information about your node, you can retrieve detailed
+status using <code>scontrol show nodes</code>.</p>
+<p>There may be cases where you need a specific node due to setup
+constraints or to implement a particular network topology. In that case,
+instead of asking for a number of nodes, you can use
+<code>--nodelist</code> or <code>-w</code> followed by the desired node
+name when calling <code>salloc</code> or <code>sbatch</code>. Keep in
+mind that if a node is already exclusively allocated, your request will
+hang until the node becomes free.</p>
+<p>Sometimes, you may want to occupy a node for an extended period to
+perform manual debugging. A simple method is to submit a job that
+“sleeps” for a long time using
+<code>sbatch --nodes=1 --wrap "sleep 36000"</code>. This holds the node
+for about ten hours, giving you ample time to test and debug.</p>
+<h3 id="caution-with-salloc">Caution with <code>salloc</code></h3>
+<p>While using <code>salloc</code> for direct work is convenient, it is
+generally better to run structured jobs with <code>sbatch</code>
+whenever possible. Scheduled jobs are managed more fairly and usually
+have better priority than interactive ones. If you install custom
+dependencies or system-level libraries during your session, make sure
+they are isolated and do not impact other users. Using shared locations
+like <code>/shared_inference</code> can make it easier to move across
+nodes without repeated installations.</p>
+<p>If you have an active reservation on the cluster, you can submit jobs
+against it with
+<code>sbatch --reservation=dedicated_two your_script.sh</code>. You can
+check available reservations with <code>scontrol show res</code> and
+adjust your job submissions accordingly.</p>
+<p>Finally, if your workflow involves setting up environments or
+installing packages before running experiments, one efficient approach
+is to create a batch script that performs all setup steps and then
+blocks by running <code>/bin/bash</code>. This allows you to SSH or
+<code>srun</code> into the node and continue your work interactively
+without leaving stray processes.</p>
     </div>
     <hr/>
     <p>If you found this useful, please cite this post using</p>
     <blockquote class="blockquote-citation">
-        <p>Senthilkumar Gopal. (Jan 2014). Eight steps in choosing a database. sengopal.me. https://sengopal.me/posts/eight-steps-in-choosing-a-database</p>
+        <p>Senthilkumar Gopal. (Sep 2024). Slurm Cluster usage tips for quick debug and testing. sengopal.me. https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing</p>
     </blockquote>
     <p>or</p>
     <div class="citation">
-        <pre class="citation">@article{gopal2014eightstepsinchoosingadatabase,
-  title   = {Eight steps in choosing a database},
+        <pre class="citation">@article{gopal2024slurmclusterusagetipsforquickdebugandtesting,
+  title   = {Slurm Cluster usage tips for quick debug and testing},
   author  = {Senthilkumar Gopal},
   journal = {sengopal.me},
-  year    = {2014},
-  month   = {Jan},
-  url     = {https://sengopal.me/posts/eight-steps-in-choosing-a-database}
+  year    = {2024},
+  month   = {Sep},
+  url     = {https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing}
 }</pre>
     </div>
 </article>

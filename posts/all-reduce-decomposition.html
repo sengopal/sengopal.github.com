@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>All Reduce Decomposition | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/all-reduce-decomposition.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="This post works through the metrics that are critical for ML inference">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-67843911-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+      <p class="text-muted">Musings of a machine learning researcher, engineer and leader</p>
+      <ul class="list-inline">
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+            <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+            <li class=" list-inline-item text-muted">|</li>
+          <li class="list-inline-item"><a class="fas fa-rss" href="https://sengopal.me/feeds/all.atom.xml" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-speaker-deck" href="https://speakerdeck.com/sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-medium" href="https://medium.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+          <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+      </ul>
+  </div>
+</div>    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2023-12-20T00:00:00-08:00">
+                <i class="fas fa-clock"></i>
+                Wed 20 December 2023
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-tag"></i>
+                <a href="https://sengopal.me/tag/ml-code">#ml-code</a>,                 <a href="https://sengopal.me/tag/llm">#llm</a>,                 <a href="https://sengopal.me/tag/ml-acceleration">#ml-acceleration</a>,                 <a href="https://sengopal.me/tag/hpc-concept">#hpc-concept</a>            </li>
+        </ul>
+    </header>
+    <h1>All Reduce Decomposition</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#diagram-explanation" id="toc-diagram-explanation">Diagram
+Explanation</a></li>
+<li><a href="#citations" id="toc-citations">Citations</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>As part of LLM serving, AllReduce is a common, but expensive
+operation which also blocks compute utilization. A common improvement
+would be to replace AllGather with a computationally equivalent
+ReduceScatter + AllGather</p>
+<p><strong>ReduceScatter: </strong> In this step, each process performs
+a reduction operation (e.g., sum, product, max, min) on its input data.
+The resulting reduced values are then scattered across all processes,
+such that <strong>each process receives a distinct portion of the
+overall reduction result.</strong></p>
+<p><strong>AllGather:</strong> After the ReduceScatter step, each
+process holds a different portion of the overall reduction result. The
+AllGather operation then <strong>collects all these partial results from
+all processes</strong> and distributes the complete result to every
+process.</p>
+<p>By breaking down AllReduce into these two steps, it can potentially
+improve performance and communication efficiency, particularly in
+certain parallel computing architectures or communication patterns. Some
+parallel computing libraries or frameworks may implement AllReduce as a
+single operation or provide optimized implementations that combine the
+two steps for better performance.</p>
+<h2 id="diagram-explanation">Diagram Explanation</h2>
+<pre><code>     Initial State        Reduce-Scatter         AllGather          Final State
+   ┌───┬───┬───┬───┐    ┌───┬───┬───┬───┐    ┌───┬───┬───┬───┐    ┌───┬───┬───┬───┐
+D0 │ A │ B │ C │ D │ →  │ W │   │   │   │ →  │ W │ X │ Y │ Z │ →  │ W │ X │ Y │ Z │
+   ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤
+D1 │ E │ F │ G │ H │ →  │   │ X │   │   │ →  │ W │ X │ Y │ Z │ →  │ W │ X │ Y │ Z │
+   ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤
+D2 │ I │ J │ K │ L │ →  │   │   │ Y │   │ →  │ W │ X │ Y │ Z │ →  │ W │ X │ Y │ Z │
+   ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤    ├───┼───┼───┼───┤
+D3 │ M │ N │ O │ P │ →  │   │   │   │ Z │ →  │ W │ X │ Y │ Z │ →  │ W │ X │ Y │ Z │
+   └───┴───┴───┴───┘    └───┴───┴───┴───┘    └───┴───┴───┴───┘    └───┴───┴───┴───┘</code></pre>
+<p><strong>Explanation:</strong></p>
+<ol type="1">
+<li><p><strong>Initial State</strong>: Each device (D0, D1, D2, D3) has
+its own data (A-P).</p></li>
+<li><p><strong>Reduce-Scatter</strong>:</p>
+<ul>
+<li>Each device performs a partial reduction on a specific portion of
+the data.</li>
+<li>W = reduction of (A, E, I, M)</li>
+<li>X = reduction of (B, F, J, N)</li>
+<li>Y = reduction of (C, G, K, O)</li>
+<li>Z = reduction of (D, H, L, P)</li>
+<li>The results are scattered across devices.</li>
+</ul></li>
+<li><p><strong>AllGather</strong>:</p>
+<ul>
+<li>Each device gathers the partial results from all other devices.</li>
+<li>All devices now have the complete reduced result (W, X, Y, Z).</li>
+</ul></li>
+<li><p><strong>Final State</strong>: All devices have the same, complete
+reduced result.</p></li>
+</ol>
+<p>This decomposition can be more efficient than a direct AllReduce in
+certain network topologies and for large data sizes. It allows for
+better utilization of network bandwidth and can reduce overall
+communication time<a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"><sup>1</sup></a><a class="footnote-ref" href="#fn2" id="fnref2" role="doc-noteref"><sup>2</sup></a><a class="footnote-ref" href="#fn3" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<h2 id="citations">Citations</h2>
+<section class="footnotes footnotes-end-of-document" id="footnotes" role="doc-endnotes">
+<hr/>
+<ol>
+<li id="fn1"><p>https://marek.ai/allreduce-the-basis-of-multi-device-communication-for-neural-network-training.html<a class="footnote-back" href="#fnref1" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/operations.html<a class="footnote-back" href="#fnref2" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html<a class="footnote-back" href="#fnref3" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Dec 2023). All Reduce Decomposition. sengopal.me. https://sengopal.me/posts/all-reduce-decomposition</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2023allreducedecomposition,
+  title   = {All Reduce Decomposition},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2023},
+  month   = {Dec},
+  url     = {https://sengopal.me/posts/all-reduce-decomposition}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="row">
+    <ul class="col-sm-6 list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/categories">Categories</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/tags">Tags</a></li>
+    </ul>
+    <p class="col-sm-6 text-sm-right text-muted">
+        Opinions my own. Made with &#x2764; using <a href="https://github.com/getpelican/pelican" target="_blank">Pelican</a> / <a href="https://github.com/nairobilug/pelican-alchemy" target="_blank">&#x2728;</a>        
+    </p>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>
