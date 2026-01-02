@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/all.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2025-03-29T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Hashcash Revisited - A Computational Barrier Against AI Web Crawlers</title><link href="https://sengopal.me/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers" rel="alternate"></link><published>2025-03-29T00:00:00-07:00</published><updated>2025-03-29T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-03-29:/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers</id><summary type="html">This post analyzes Hashcash as a defense against AI web crawlers, detailing its probabilistic proof-of-work model and operational viability. It includes a technical breakdown of token generation, expected runtime guarantees, and implementation strategy.</summary><content type="html">&lt;p&gt;The proliferation of AI-driven web crawlers has posed novel threats
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/all.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2025-03-29T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Hashcash Revisited - A Computational Barrier Against AI Web Crawlers</title><link href="https://sengopal.me/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers" rel="alternate"/><published>2025-03-29T00:00:00-07:00</published><updated>2025-03-29T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-03-29:/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers</id><summary type="html">This post analyzes Hashcash as a defense against AI web crawlers, detailing its probabilistic proof-of-work model and operational viability. It includes a technical breakdown of token generation, expected runtime guarantees, and implementation strategy.</summary><content type="html">&lt;p&gt;The proliferation of AI-driven web crawlers has posed novel threats
 to open-source platforms, compromising server resources and intellectual
 property. In March 2025, a TechCrunch article&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;
 highlighted a growing movement among open-source developers, who began
@@ -129,7 +129,7 @@ usability while raising adversarial costs.&lt;/p&gt;
 with Cleverness and Vengeance.” TechCrunch, 27 Mar. 2025,
 https://techcrunch.com/2025/03/27/open-source-devs-are-fighting-ai-crawlers-with-cleverness-and-vengeance/.&lt;a class="footnote-back" href="#fnref1" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Security"></category><category term="security"></category><category term="api"></category></entry><entry><title>Paged Attention and Chunked Prefill for LLM Inference</title><link href="https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference" rel="alternate"></link><published>2024-12-28T00:00:00-08:00</published><updated>2024-12-28T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-12-28:/posts/paged-attention-and-chunked-prefill-for-llm-inference</id><summary type="html">This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) impose significant memory and compute
+&lt;/section&gt;</content><category term="Security"/><category term="security"/><category term="api"/></entry><entry><title>Paged Attention and Chunked Prefill for LLM Inference</title><link href="https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference" rel="alternate"/><published>2024-12-28T00:00:00-08:00</published><updated>2024-12-28T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-12-28:/posts/paged-attention-and-chunked-prefill-for-llm-inference</id><summary type="html">This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) impose significant memory and compute
 demands during inference, particularly when handling long sequences or
 large batch sizes. To address these challenges, the vLLM system
 introduces two key optimization techniques - Paged Attention&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; and Chunked Prefill&lt;a class="footnote-ref" href="#fn2" id="fnref2" role="doc-noteref"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;
@@ -548,7 +548,7 @@ Accessed 27 Mar. 2025.&lt;a class="footnote-back" href="#fnref1" role="doc-back
 https://docs.vllm.ai/en/latest/performance/optimization.html#chunked-prefill.
 Accessed 27 Mar. 2025.&lt;a class="footnote-back" href="#fnref2" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Large Language Models"></category><category term="ml-code"></category><category term="llm"></category><category term="vllm"></category><category term="serving"></category></entry><entry><title>Slurm Cluster usage tips for quick debug and testing</title><link href="https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing" rel="alternate"></link><published>2024-09-02T00:00:00-07:00</published><updated>2024-09-02T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-09-02:/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing</id><summary type="html">This post covers practical Slurm commands and best practices to help you reserve, access, and work cleanly on nodes.</summary><content type="html">&lt;p&gt;The following is a cheatsheet for Slurm commands used for running
+&lt;/section&gt;</content><category term="Large Language Models"/><category term="ml-code"/><category term="llm"/><category term="vllm"/><category term="serving"/></entry><entry><title>Slurm Cluster usage tips for quick debug and testing</title><link href="https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing" rel="alternate"/><published>2024-09-02T00:00:00-07:00</published><updated>2024-09-02T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-09-02:/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing</id><summary type="html">This post covers practical Slurm commands and best practices to help you reserve, access, and work cleanly on nodes.</summary><content type="html">&lt;p&gt;The following is a cheatsheet for Slurm commands used for running
 tests, debugging, and reserving compute nodes.&lt;/p&gt;
 &lt;p&gt;To start working with an idle node, you can allocate one exclusively
 using &lt;code&gt;salloc --exclusive -N 1&lt;/code&gt;. This command requests a full
@@ -595,7 +595,7 @@ installing packages before running experiments, one efficient approach
 is to create a batch script that performs all setup steps and then
 blocks by running &lt;code&gt;/bin/bash&lt;/code&gt;. This allows you to SSH or
 &lt;code&gt;srun&lt;/code&gt; into the node and continue your work interactively
-without leaving stray processes.&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="ml-acceleration"></category><category term="slurm"></category><category term="hpc-concepts"></category></entry><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"></link><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
+without leaving stray processes.&lt;/p&gt;</content><category term="ML Systems"/><category term="ml-code"/><category term="llm"/><category term="ml-acceleration"/><category term="slurm"/><category term="hpc-concepts"/></entry><entry><title>LLM Inference Systems</title><link href="https://sengopal.me/posts/llm-inference-systems" rel="alternate"/><published>2024-05-18T00:00:00-07:00</published><updated>2024-05-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-18:/posts/llm-inference-systems</id><summary type="html">A quick clarification between the terms - Triton, TensorRT, and TensorRT-LLM</summary><content type="html">&lt;p&gt;In my exploration of various inference systems, there is a general
 confusion about Triton, TensorRT, and TensorRT-LLM. These are all
 related to optimizing and deploying machine learning models, but with
 different purposes and use cases, specifically what inputs and outputs
@@ -649,7 +649,170 @@ models from different frameworks, including TensorRT-optimized models.
 TensorRT is a library for optimizing and accelerating deep learning
 models for inference on NVIDIA GPUs. TensorRT-LLM is a specialized
 branch of TensorRT focused on optimizing and deploying large language
-models efficiently on NVIDIA GPUs.&lt;/p&gt;</content><category term="Large Language Models"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"></link><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-01-20:/posts/neuron-handling-nans</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
+models efficiently on NVIDIA GPUs.&lt;/p&gt;</content><category term="Large Language Models"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Common Terms used in mathematical proofs</title><link href="https://sengopal.me/posts/common-terms-used-in-mathematical-proofs" rel="alternate"/><published>2024-05-09T00:00:00-07:00</published><updated>2024-05-09T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-09:/posts/common-terms-used-in-mathematical-proofs</id><summary type="html">This post explains common terms in mathematical writing—like theorem, lemma, axiom, and proof—using simple examples involving even numbers. It helps beginners understand how these terms structure mathematical reasoning.</summary><content type="html">&lt;p&gt;Whenever we read a book, a research paper, or solving homework
+problems, we come across terms like &lt;em&gt;theorem&lt;/em&gt;, &lt;em&gt;lemma&lt;/em&gt;,
+&lt;em&gt;axiom&lt;/em&gt;, and more. Each has a specific meaning and role in
+mathematical writing.&lt;/p&gt;
+&lt;p&gt;In this post, we’ll walk through these terms using a simple example:
+even and odd numbers.&lt;/p&gt;
+&lt;h2 id="axiom"&gt;&lt;strong&gt;Axiom&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A basic assumption accepted without
+proof. Axioms serve as the foundation for reasoning in a mathematical
+system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+“Every integer is either even or odd.”&lt;br/&gt;
+This is a basic truth we assume in number theory—no need to prove
+it.&lt;/p&gt;
+&lt;h2 id="definition"&gt;&lt;strong&gt;Definition&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A precise explanation of a mathematical
+concept.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+“An integer ( n ) is even if there exists an integer ( k ) such that ( n
+= 2k ).”&lt;br/&gt;
+This tells us exactly what “even” means and sets the groundwork for any
+future statements involving even numbers.&lt;/p&gt;
+&lt;h2 id="theorem"&gt;&lt;strong&gt;Theorem&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A major mathematical statement that must
+be proven using axioms, definitions, and previously proven results.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Theorem&lt;/strong&gt;: The sum of two even integers is even.&lt;br/&gt;
+This is a core fact that can be proven logically from the definition of
+even numbers.&lt;/p&gt;
+&lt;h2 id="lemma"&gt;&lt;strong&gt;Lemma&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A minor or intermediate result used to
+prove a more important theorem.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Lemma&lt;/strong&gt;: If ( a = 2k ) and ( b = 2m ), then ( a + b = 2(k
++ m) ).&lt;br/&gt;
+This helps us prove the theorem above, but is typically not interesting
+on its own.&lt;/p&gt;
+&lt;h2 id="proof"&gt;&lt;strong&gt;Proof&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A logical argument that demonstrates a
+statement is true, based on accepted premises.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example (Proof of Theorem)&lt;/strong&gt;:&lt;br/&gt;
+Let ( a = 2k ), ( b = 2m ). Then&lt;br/&gt;
+[ a + b = 2k + 2m = 2(k + m) ]&lt;br/&gt;
+Since ( k + m ) is an integer, ( a + b ) is divisible by 2, so it is
+even. ∎&lt;/p&gt;
+&lt;h2 id="corollary"&gt;&lt;strong&gt;Corollary&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A statement that follows directly and
+easily from a theorem.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Corollary&lt;/strong&gt;: The sum of any number of even integers is
+even.&lt;br/&gt;
+This follows by applying the theorem repeatedly.&lt;/p&gt;
+&lt;h2 id="proposition"&gt;&lt;strong&gt;Proposition&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A proven statement like a theorem, but
+generally considered less central or important.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Proposition&lt;/strong&gt;: If ( n ) is even, then ( n^2 ) is
+even.&lt;br/&gt;
+While this is useful, it’s not a deep result—but it still requires
+proof.&lt;/p&gt;
+&lt;h2 id="claim"&gt;&lt;strong&gt;Claim&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A statement asserted (and usually
+proven) as a step within a larger proof.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; (within a longer proof):&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: ( k + m ) is an integer.&lt;br/&gt;
+This might be a small step used to show that ( 2(k + m) ) is even.&lt;/p&gt;
+&lt;h2 id="conjecture"&gt;&lt;strong&gt;Conjecture&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A mathematical statement believed to be
+true but not yet proven or disproven.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Goldbach’s Conjecture&lt;/strong&gt;: Every even integer greater than
+2 is the sum of two primes.&lt;br/&gt;
+Despite much evidence, this remains unproven.&lt;/p&gt;
+&lt;h2 id="common-types-of-mathematical-proofs"&gt;&lt;strong&gt;Common Types of
+Mathematical Proofs&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Mathematical proofs are not all the same—different statements require
+different strategies. Below are five foundational proof techniques with
+clear, worked examples to help you understand how and when each method
+is used.&lt;/p&gt;
+&lt;h3 id="proof-by-construction"&gt;&lt;strong&gt;Proof by
+Construction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You prove that something exists by
+explicitly creating or exhibiting an example of it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: There exists an even prime number.&lt;br/&gt;
+&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+Consider the number ( 2 ).&lt;br/&gt;
+- ( 2 ) is divisible by ( 2 ), so it is even.&lt;br/&gt;
+- The only positive divisors of ( 2 ) are ( 1 ) and ( 2 ), so it is
+prime.&lt;br/&gt;
+Thus, an even prime exists. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-induction"&gt;&lt;strong&gt;Proof by Induction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: A method for proving statements about
+natural numbers. You prove the base case, then assume the statement for
+( n = k ) (the inductive hypothesis) and use it to prove the statement
+for ( n = k + 1 ).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Theorem&lt;/strong&gt;:&lt;br/&gt;
+For all ( n ),&lt;br/&gt;
+[ 1 + 2 + + n = ]&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Base case&lt;/strong&gt;: ( n = 1 ).&lt;br/&gt;
+LHS: ( 1 ), RHS: ( = 1 ). ✓&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Inductive hypothesis&lt;/strong&gt;: Assume the formula holds for (
+n = k ), i.e.,&lt;br/&gt;
+[ 1 + 2 + + k = ]&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Inductive step&lt;/strong&gt;: Show it holds for ( n = k+1 ).&lt;br/&gt;
+Add ( (k + 1) ) to both sides:&lt;br/&gt;
+[ 1 + 2 + + k + (k + 1) = + (k + 1) ]&lt;/p&gt;
+&lt;p&gt;Factor RHS:&lt;br/&gt;
+[ = ]&lt;/p&gt;
+&lt;p&gt;This matches the formula with ( n = k+1 ). ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-contradiction"&gt;&lt;strong&gt;Proof by
+Contradiction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You assume the negation of the statement
+you want to prove, then show that this assumption leads to a logical
+contradiction. This implies the original statement must be true.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: ( ) is irrational.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+Assume the opposite: that ( = ) where ( a ) and ( b ) are integers with
+no common factors.&lt;/p&gt;
+&lt;p&gt;Then: [ 2 = a^2 = 2b^2 ]&lt;/p&gt;
+&lt;p&gt;So ( a^2 ) is even ⇒ ( a ) must be even (since square of an odd is
+odd).&lt;br/&gt;
+Let ( a = 2k ). Then: [ a^2 = (2k)^2 = 4k^2 = 2b^2 b^2 = 2k^2 b ) is
+also even.&lt;/p&gt;
+&lt;p&gt;But now both ( a ) and ( b ) are even ⇒ they share a factor of 2,
+contradicting our assumption that the fraction is in lowest terms.&lt;br/&gt;
+Therefore, ( ) is irrational. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-contrapositive"&gt;&lt;strong&gt;Proof by
+Contrapositive&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: Instead of proving “If ( P ), then ( Q
+)”, you prove the logically equivalent statement: “If not ( Q ), then
+not ( P )”.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: If ( n^2 ) is even, then ( n ) is even.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof (contrapositive)&lt;/strong&gt;:&lt;br/&gt;
+We prove: &lt;em&gt;If ( n ) is odd, then ( n^2 ) is odd.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let ( n = 2k + 1 ) for some integer ( k ).&lt;br/&gt;
+Then: [ n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1 ]&lt;/p&gt;
+&lt;p&gt;This is of the form ( 2m + 1 ), so it is odd.&lt;br/&gt;
+Therefore, if ( n ) is odd, ( n^2 ) is odd ⇒ contrapositive is true ⇒
+original statement is true. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-exhaustion-case-analysis"&gt;&lt;strong&gt;Proof by Exhaustion
+(Case Analysis)&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You divide a problem into a finite
+number of cases and prove the statement holds in each one.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: For any integer ( n ), ( n^2 ) or ( 1 ).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+There are four residue classes mod 4: ( 0, 1, 2, 3 ). Consider all
+cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In all cases, ( n^2 ) or ( 1 ). ∎&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="algorithms"/><category term="learning"/></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"/><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-01-20:/posts/neuron-handling-nans</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
 or loss of precision issue. This is typically seen with NaN &lt;em&gt;(Not a
 Number)&lt;/em&gt; errors.&lt;/p&gt;
 &lt;p&gt;Neuron compiler suggests the following options to overcome the NaN
@@ -688,7 +851,7 @@ printing/checking&lt;/h4&gt;
 &lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;converted &lt;span class="op"&gt;=&lt;/span&gt; [bf16_to_float32(b) &lt;span class="cf"&gt;for&lt;/span&gt; b &lt;span class="kw"&gt;in&lt;/span&gt; bf16_hex]&lt;/span&gt;
 &lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(converted)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;em&gt;To add Neuron available conversion method&lt;/em&gt;&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="neuron"></category></entry><entry><title>EFA and OpenFabrics</title><link href="https://sengopal.me/posts/efa-and-openfabrics" rel="alternate"></link><published>2023-12-29T00:00:00-08:00</published><updated>2023-12-29T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-29:/posts/efa-and-openfabrics</id><summary type="html">This post works through a high level overview of OpenMPI and EFA</summary><content type="html">&lt;p&gt;This post attempts to clarify the use of EFA and OpenMPI in
+&lt;p&gt;&lt;em&gt;To add Neuron available conversion method&lt;/em&gt;&lt;/p&gt;</content><category term="Neuron"/><category term="ml-code"/><category term="llm"/><category term="neuron"/></entry><entry><title>EFA and OpenFabrics</title><link href="https://sengopal.me/posts/efa-and-openfabrics" rel="alternate"/><published>2023-12-29T00:00:00-08:00</published><updated>2023-12-29T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-29:/posts/efa-and-openfabrics</id><summary type="html">This post works through a high level overview of OpenMPI and EFA</summary><content type="html">&lt;p&gt;This post attempts to clarify the use of EFA and OpenMPI in
 multi-node inference, focusing on how components like the Matching
 Transport Layer (MTL), libfabric, and the OFI framework enable
 efficient, low-latency communication. Installing EFA for a node &lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa-start.html"&gt;Ref&lt;/a&gt;&lt;/p&gt;
@@ -779,7 +942,7 @@ benchmark the performance of the OFI framework.&lt;/li&gt;
 Cloud&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html"&gt;AWS
 Docs&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="AWS"></category><category term="neuron"></category></entry><entry><title>AI Compilers - A Study guide</title><link href="https://sengopal.me/posts/ai-compilers-a-study-guide" rel="alternate"></link><published>2023-12-22T00:00:00-08:00</published><updated>2023-12-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-22:/posts/ai-compilers-a-study-guide</id><summary type="html">A growing list/study guide of AI compilers, from foundational concepts like graph lowering and systolic arrays to practical tools like TorchDynamo and Glow.</summary><content type="html">&lt;p&gt;The following formulates a study guide for learning about AI
+&lt;/ol&gt;</content><category term="ML Systems"/><category term="ml-code"/><category term="llm"/><category term="AWS"/><category term="neuron"/></entry><entry><title>AI Compilers - A Study guide</title><link href="https://sengopal.me/posts/ai-compilers-a-study-guide" rel="alternate"/><published>2023-12-22T00:00:00-08:00</published><updated>2023-12-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-22:/posts/ai-compilers-a-study-guide</id><summary type="html">A growing list/study guide of AI compilers, from foundational concepts like graph lowering and systolic arrays to practical tools like TorchDynamo and Glow.</summary><content type="html">&lt;p&gt;The following formulates a study guide for learning about AI
 compilers and systematically understanding the inner functions. These
 are targetted more towards Model and Framework level developers to build
 a deeper understanding of compiler functions.&lt;/p&gt;
@@ -873,7 +1036,7 @@ implementations&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;&lt;a href="https://autokernel-docs-en.readthedocs.io/en/latest/blog/ai_compiler%20overview.html"&gt;AutoKernel&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://aws.amazon.com/blogs/machine-learning/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/"&gt;NNVM&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Aliasing on XLA</title><link href="https://sengopal.me/posts/aliasing-on-xla" rel="alternate"></link><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/aliasing-on-xla</id><summary type="html">This post explores the concept of aliasing in XLA, its significance, the mechanisms through which it is implemented, and future directions for extending aliasing optimizations.</summary><content type="html">&lt;p&gt;Modern machine learning models demand substantial memory, especially
+&lt;/ol&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Aliasing on XLA</title><link href="https://sengopal.me/posts/aliasing-on-xla" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/aliasing-on-xla</id><summary type="html">This post explores the concept of aliasing in XLA, its significance, the mechanisms through which it is implemented, and future directions for extending aliasing optimizations.</summary><content type="html">&lt;p&gt;Modern machine learning models demand substantial memory, especially
 during training and inference. To address this challenge, compilers like
 XLA (Accelerated Linear Algebra) implement memory optimizations such as
 aliasing. Aliasing allows different parts of a computation to share the
@@ -1096,7 +1259,7 @@ implementation. Morgan kaufmann, 1997.&lt;a class="footnote-back" href="#fnref3"
 &lt;li id="fn4"&gt;&lt;p&gt;Levental, Maksim. “Memory planning for deep neural
 networks.” arXiv preprint arXiv:2203.00448 (2022).&lt;a class="footnote-back" href="#fnref4" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="ml-acceleration"></category><category term="hpc-concept"></category></entry><entry><title>All Reduce Decomposition</title><link href="https://sengopal.me/posts/all-reduce-decomposition" rel="alternate"></link><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/all-reduce-decomposition</id><summary type="html">This post works through the metrics that are critical for ML inference</summary><content type="html">&lt;p&gt;As part of LLM serving, AllReduce is a common, but expensive
+&lt;/section&gt;</content><category term="ML Systems"/><category term="ml-code"/><category term="llm"/><category term="ml-acceleration"/><category term="hpc-concept"/></entry><entry><title>All Reduce Decomposition</title><link href="https://sengopal.me/posts/all-reduce-decomposition" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/all-reduce-decomposition</id><summary type="html">This post works through the metrics that are critical for ML inference</summary><content type="html">&lt;p&gt;As part of LLM serving, AllReduce is a common, but expensive
 operation which also blocks compute utilization. A common improvement
 would be to replace AllGather with a computationally equivalent
 ReduceScatter + AllGather&lt;/p&gt;
@@ -1161,7 +1324,7 @@ communication time&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-n
 &lt;li id="fn2"&gt;&lt;p&gt;https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/operations.html&lt;a class="footnote-back" href="#fnref2" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li id="fn3"&gt;&lt;p&gt;https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/collectives.html&lt;a class="footnote-back" href="#fnref3" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="ml-acceleration"></category><category term="hpc-concept"></category></entry><entry><title>Concept - Coalescing</title><link href="https://sengopal.me/posts/concept-coalescing" rel="alternate"></link><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/concept-coalescing</id><summary type="html">This post works through the metrics that are critical for ML inference</summary><content type="html">&lt;p&gt;Memory Coalescing is a fundamental performance consideration in HPC
+&lt;/section&gt;</content><category term="ML Systems"/><category term="ml-code"/><category term="llm"/><category term="ml-acceleration"/><category term="hpc-concept"/></entry><entry><title>Concept - Coalescing</title><link href="https://sengopal.me/posts/concept-coalescing" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/concept-coalescing</id><summary type="html">This post works through the metrics that are critical for ML inference</summary><content type="html">&lt;p&gt;Memory Coalescing is a fundamental performance consideration in HPC
 programming&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; and provides another dimension for
 memory efficiency and how &lt;strong&gt;aligned versus misaligned memory
 accesses&lt;/strong&gt; can significantly impact throughput.&lt;/p&gt;
@@ -1264,7 +1427,7 @@ Youtube tutorial&lt;a class="footnote-back" href="#fnref2" role="doc-backlink"&g
 &lt;li id="fn3"&gt;&lt;p&gt;https://homepages.math.uic.edu/~jan/mcs572f16/mcs572notes/lec35.html&lt;a class="footnote-back" href="#fnref3" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li id="fn4"&gt;&lt;p&gt;https://medium.com/distributed-knowledge/cuda-memory-management-use-cases-f9d340f7c704&lt;a class="footnote-back" href="#fnref4" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category><category term="ml-acceleration"></category></entry><entry><title>What is Neuron SDK</title><link href="https://sengopal.me/posts/what-is-neuron-sdk" rel="alternate"></link><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/what-is-neuron-sdk</id><summary type="html">This post introduces AWS Neuron SDK - an SDK that streamlines deep learning and generative AI workloads on AWS Inferentia and Trainium by integrating with frameworks like PyTorch and JAX.</summary><content type="html">&lt;p&gt;&lt;strong&gt;AWS Neuron&lt;/strong&gt; is a software development kit (SDK)
+&lt;/section&gt;</content><category term="ML Systems"/><category term="ml-code"/><category term="llm"/><category term="ml-acceleration"/></entry><entry><title>What is Neuron SDK</title><link href="https://sengopal.me/posts/what-is-neuron-sdk" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/what-is-neuron-sdk</id><summary type="html">This post introduces AWS Neuron SDK - an SDK that streamlines deep learning and generative AI workloads on AWS Inferentia and Trainium by integrating with frameworks like PyTorch and JAX.</summary><content type="html">&lt;p&gt;&lt;strong&gt;AWS Neuron&lt;/strong&gt; is a software development kit (SDK)
 designed to optimize deep learning and generative AI workloads on AWS
 Inferentia and AWS Trainium-powered Amazon EC2 instances. It integrates
 seamlessly with popular machine learning frameworks like PyTorch and
@@ -1320,7 +1483,7 @@ enhanced performance in unique workloads.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 &lt;p&gt;For more detailed information, refer to the official &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
-Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"></category><category term="neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Neuron Glossary</title><link href="https://sengopal.me/posts/neuron-glossary" rel="alternate"></link><published>2023-12-13T00:00:00-08:00</published><updated>2023-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-13:/posts/neuron-glossary</id><summary type="html">This post acts as a running glossary for Neuron and HPC related terms and technologies.</summary><content type="html">&lt;p&gt;Last Updated on &lt;em&gt;Mar 12, 2024&lt;/em&gt;&lt;/p&gt;
+Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Neuron Glossary</title><link href="https://sengopal.me/posts/neuron-glossary" rel="alternate"/><published>2023-12-13T00:00:00-08:00</published><updated>2023-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-13:/posts/neuron-glossary</id><summary type="html">This post acts as a running glossary for Neuron and HPC related terms and technologies.</summary><content type="html">&lt;p&gt;Last Updated on &lt;em&gt;Mar 12, 2024&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;The following are a running list of new terms that are encountered
 while working on the Neuron stack. This acts as a jump off point into
 deeper dives into these terms and context behind them&lt;/p&gt;
@@ -1456,7 +1619,7 @@ better scalability and efficiency by allowing multiple VMs to share a
 single physical device while maintaining near-native performance. In
 SR-IOV-enabled systems, the hypervisor configures the physical device
 (e.g., NIC, GPU) to expose virtual interfaces, which are then directly
-assigned to virtual machines.&lt;/p&gt;</content><category term="Neuron"></category><category term="ml-code"></category><category term="llm"></category></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"></link><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
+assigned to virtual machines.&lt;/p&gt;</content><category term="Neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"/><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
 This post gives a quick review of how to convert the list of
 observations into features and labels to build a ML model to help
 predict the next observation.&lt;/p&gt;
@@ -1522,7 +1685,7 @@ DataLoader.&lt;/p&gt;
 &lt;span id="cb2-8"&gt;&lt;a aria-hidden="true" href="#cb2-8" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
 &lt;span id="cb2-9"&gt;&lt;a aria-hidden="true" href="#cb2-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;x&lt;/span&gt; =  [[4 5 6 7]&lt;/span&gt;
 &lt;span id="cb2-10"&gt;&lt;a aria-hidden="true" href="#cb2-10" tabindex="-1"&gt;&lt;/a&gt; &lt;span class="ex"&gt;[3&lt;/span&gt; 4 5 6]]&lt;/span&gt;
-&lt;span id="cb2-11"&gt;&lt;a aria-hidden="true" href="#cb2-11" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;y&lt;/span&gt; =  [8 7]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Machine Learning"></category><category term="python"></category><category term="ml-code"></category><category term="pytorch"></category></entry><entry><title>ML Project Template</title><link href="https://sengopal.me/posts/ml-project-template" rel="alternate"></link><published>2023-09-23T00:00:00-07:00</published><updated>2023-09-23T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-09-23:/posts/ml-project-template</id><summary type="html">This post describes a typical machine learning project and ongoing documentation and tracking of its progress.</summary><content type="html">&lt;p&gt;Tracking and documenting an ongoing machine learning project is a
+&lt;span id="cb2-11"&gt;&lt;a aria-hidden="true" href="#cb2-11" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;y&lt;/span&gt; =  [8 7]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Machine Learning"/><category term="python"/><category term="ml-code"/><category term="pytorch"/></entry><entry><title>ML Project Template</title><link href="https://sengopal.me/posts/ml-project-template" rel="alternate"/><published>2023-09-23T00:00:00-07:00</published><updated>2023-09-23T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-09-23:/posts/ml-project-template</id><summary type="html">This post describes a typical machine learning project and ongoing documentation and tracking of its progress.</summary><content type="html">&lt;p&gt;Tracking and documenting an ongoing machine learning project is a
 task onto itself. The following is a starting document of all the moving
 parts involved in a machine learning project, specializing towards a
 specific application such as a recommendation system or a ranking
@@ -1694,7 +1857,7 @@ FAQs and commonly known issues&lt;/h3&gt;
 &lt;h3 id="references"&gt;7 References&lt;/h3&gt;
 &lt;p&gt;All other reference links such as 1. Internal documents 2. Refs to
 wiki, screenshots, Repos with any sample code 3. External - Inspiring
-work, papers for further literature review&lt;/p&gt;</content><category term="Machine Learning"></category><category term="ml-code"></category><category term="management"></category></entry><entry><title>float16 precision conversion to Base64</title><link href="https://sengopal.me/posts/float16-precision-conversion-to-base64" rel="alternate"></link><published>2023-02-20T00:00:00-08:00</published><updated>2023-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-02-20:/posts/float16-precision-conversion-to-base64</id><summary type="html">This post discusses the different methods in Python for converting float16 or half-precision floats to base64 and vice versa to ensure lossless transmission of numpy array data.</summary><content type="html">&lt;p&gt;With the advent of vector databases and large model based embeddings,
+work, papers for further literature review&lt;/p&gt;</content><category term="Machine Learning"/><category term="ml-code"/><category term="management"/></entry><entry><title>float16 precision conversion to Base64</title><link href="https://sengopal.me/posts/float16-precision-conversion-to-base64" rel="alternate"/><published>2023-02-20T00:00:00-08:00</published><updated>2023-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-02-20:/posts/float16-precision-conversion-to-base64</id><summary type="html">This post discusses the different methods in Python for converting float16 or half-precision floats to base64 and vice versa to ensure lossless transmission of numpy array data.</summary><content type="html">&lt;p&gt;With the advent of vector databases and large model based embeddings,
 with dimensions of 768 and 2048, building large scale indexes for
 performing ANN and storing these vectors have become expensive
 operations. There are many methods of reducing the vector’s memory
@@ -1791,7 +1954,7 @@ indicator&lt;/h3&gt;
 &lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt;(np.isclose(arr, convert_b64_to_f16(b64_emb), atol&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="fl"&gt;1e-5&lt;/span&gt;).&lt;span class="bu"&gt;all&lt;/span&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3 id="conclusion"&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;The same can be achieved using &lt;a href="https://stackoverflow.com/questions/6162651/half-precision-floating-point-in-java"&gt;Java/Scala&lt;/a&gt;
-as well.&lt;/p&gt;</content><category term="Machine Learning"></category><category term="backend"></category><category term="services"></category><category term="python"></category><category term="ml-code"></category></entry><entry><title>review-of-p-value</title><link href="https://sengopal.me/posts/review-of-p-value" rel="alternate"></link><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-12:/posts/review-of-p-value</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
+as well.&lt;/p&gt;</content><category term="Machine Learning"/><category term="backend"/><category term="services"/><category term="python"/><category term="ml-code"/></entry><entry><title>review-of-p-value</title><link href="https://sengopal.me/posts/review-of-p-value" rel="alternate"/><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-12:/posts/review-of-p-value</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
 used for experimentation. The standard definition of p-value &lt;strong&gt;is
 the probability that the null hypothesis is true.&lt;/strong&gt; p-value
 represents the probability that the world (created with math equations),
@@ -1848,7 +2011,7 @@ are. It is important to remember that p-value determines the probability
 of the null hypothesis, but not the scale of difference in the
 candidates of the experiment.&lt;/p&gt;
 &lt;p&gt;References (1) &lt;a href="https://www.youtube.com/watch?v=vemZtEM63GY&amp;amp;list=WL&amp;amp;index=93"&gt;StatsQuest&lt;/a&gt;
-(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.me/posts/review-of-combinatorics" rel="alternate"></link><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-03:/posts/review-of-combinatorics</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
+(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.me/posts/review-of-combinatorics" rel="alternate"/><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-03:/posts/review-of-combinatorics</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
 &lt;strong&gt;permutations, variations and combinations&lt;/strong&gt; which are
 variations with subtle differences.&lt;/p&gt;
 &lt;h2 id="permutation"&gt;Permutation&lt;/h2&gt;
@@ -1948,7 +2111,7 @@ Explained&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/"&gt;Book
 of Proofs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations"&gt;Quora&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category><category term="learning"></category></entry><entry><title>Scientific paper review template</title><link href="https://sengopal.me/posts/scientific-paper-review-template" rel="alternate"></link><published>2022-11-16T00:00:00-08:00</published><updated>2022-11-16T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-11-16:/posts/scientific-paper-review-template</id><summary type="html">A template to capture notes and reviews of scientific research papers</summary><content type="html">&lt;p&gt;Using some commonly available standards [1] and word of the crowd
+&lt;/ol&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/><category term="learning"/></entry><entry><title>Scientific paper review template</title><link href="https://sengopal.me/posts/scientific-paper-review-template" rel="alternate"/><published>2022-11-16T00:00:00-08:00</published><updated>2022-11-16T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-11-16:/posts/scientific-paper-review-template</id><summary type="html">A template to capture notes and reviews of scientific research papers</summary><content type="html">&lt;p&gt;Using some commonly available standards [1] and word of the crowd
 [2], following is a rough template of how to review a research paper and
 collect notes for future references.&lt;/p&gt;
 &lt;h3 id="first-pass"&gt;First Pass&lt;/h3&gt;
@@ -2029,7 +2192,7 @@ Advice / Reading Research Papers. www.youtube.com,
 https://www.youtube.com/watch?v=733m6qBH-jI. Accessed 26 Nov. 2022.&lt;/p&gt;
 &lt;p&gt;[2] Hosni, Youssef. “How to Read Machine Learning Papers
 Effectively.” Medium, 9 Oct. 2022,
-https://pub.towardsai.net/how-to-read-machine-learning-papers-effectively-9c2df7906516.&lt;/p&gt;</content><category term="Papers"></category><category term="papers"></category><category term="reviews"></category><category term="ml-code"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.me/posts/paradoxes-in-statistics" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-06-04:/posts/paradoxes-in-statistics</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+https://pub.towardsai.net/how-to-read-machine-learning-papers-effectively-9c2df7906516.&lt;/p&gt;</content><category term="Papers"/><category term="papers"/><category term="reviews"/><category term="ml-code"/></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.me/posts/paradoxes-in-statistics" rel="alternate"/><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-06-04:/posts/paradoxes-in-statistics</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
 about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
 &lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
 &lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
@@ -2115,7 +2278,7 @@ given population, low birth weight babies have a significantly higher
 mortality rate than others; thus, populations with a higher rate of low
 birth weights typically also have higher rates of child mortality than
 other populations.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Secure Constructor object for SnakeYAML</title><link href="https://sengopal.me/posts/secure-constructor-object-for-snakeyaml" rel="alternate"></link><published>2022-04-19T00:00:00-07:00</published><updated>2022-04-19T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-04-19:/posts/secure-constructor-object-for-snakeyaml</id><summary type="html">This post explores the pitfalls and steps to securely read an YAML file using SnakeYAML library</summary><content type="html">&lt;p&gt;We use &lt;a href="https://bitbucket.org/snakeyaml/snakeyaml/src/master/"&gt;SnakeYAML&lt;/a&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/></entry><entry><title>Secure Constructor object for SnakeYAML</title><link href="https://sengopal.me/posts/secure-constructor-object-for-snakeyaml" rel="alternate"/><published>2022-04-19T00:00:00-07:00</published><updated>2022-04-19T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-04-19:/posts/secure-constructor-object-for-snakeyaml</id><summary type="html">This post explores the pitfalls and steps to securely read an YAML file using SnakeYAML library</summary><content type="html">&lt;p&gt;We use &lt;a href="https://bitbucket.org/snakeyaml/snakeyaml/src/master/"&gt;SnakeYAML&lt;/a&gt;
 for simple parsing of YAML files in Java, as part of &lt;a href="https://github.com/eBay/ebay-oauth-java-client"&gt;ebay-oauth-java-client&lt;/a&gt;
 configuration. We were made aware of a vulnerability within the code due
 to the usage of &lt;code&gt;Yaml yaml = new Yaml()&lt;/code&gt; and then following
@@ -2165,7 +2328,7 @@ instantiation.&lt;/p&gt;
 &lt;p&gt;However, once the &lt;code&gt;new Constructor()&lt;/code&gt; is substituted with
 &lt;code&gt;new SafeConstructor()&lt;/code&gt;, the arbitrary code will fail with
 the following error confirming that the issue has been addressed.&lt;/p&gt;
-&lt;p&gt;&lt;img src="/extras/images/snakeyaml/safe_constructor_error.png"/&gt;&lt;/p&gt;</content><category term="Security"></category><category term="security"></category><category term="java"></category></entry><entry><title>NLP Glove Algorithm and further improvements on representation</title><link href="https://sengopal.me/posts/nlp-glove-algorithm-and-further-improvements-on-representation" rel="alternate"></link><published>2022-04-10T00:00:00-07:00</published><updated>2022-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-04-10:/posts/nlp-glove-algorithm-and-further-improvements-on-representation</id><summary type="html">A post detailing about the Glove algorithm, its variations and utilities and further improvements on word representation</summary><content type="html">&lt;p&gt;This lecture introduces the GLove model, the intuition behind the
+&lt;p&gt;&lt;img src="/extras/images/snakeyaml/safe_constructor_error.png"/&gt;&lt;/p&gt;</content><category term="Security"/><category term="security"/><category term="java"/></entry><entry><title>NLP Glove Algorithm and further improvements on representation</title><link href="https://sengopal.me/posts/nlp-glove-algorithm-and-further-improvements-on-representation" rel="alternate"/><published>2022-04-10T00:00:00-07:00</published><updated>2022-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-04-10:/posts/nlp-glove-algorithm-and-further-improvements-on-representation</id><summary type="html">A post detailing about the Glove algorithm, its variations and utilities and further improvements on word representation</summary><content type="html">&lt;p&gt;This lecture introduces the GLove model, the intuition behind the
 algorithm and different means to evaluate them.&lt;/p&gt;
 &lt;p&gt;Glove was an algorithm for word vectors that was made by Jeffrey
 Pennington, Richard Socher, and Christopher Manning in 2014 and acted as
@@ -2430,7 +2593,7 @@ Algebraic Structure of Word Senses, with Applications to
 Polysemy&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://papers.nips.cc/paper/7368-on-the-dimensionality-of-word-embedding.pdf"&gt;On
 the Dimensionality of Word Embedding&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>NLP Word2Vec Algorithm</title><link href="https://sengopal.me/posts/nlp-word2vec-algorithm" rel="alternate"></link><published>2022-03-20T00:00:00-07:00</published><updated>2022-03-20T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-03-20:/posts/nlp-word2vec-algorithm</id><summary type="html">A post detailing more about the Word2Vec algorithm, its variations and utilities</summary><content type="html">&lt;p&gt;This blog post captures the inner workings of the Word2Vec Algorithm,
+&lt;/ol&gt;</content><category term="NLP"/><category term="cs224n"/><category term="learning"/><category term="nlp"/></entry><entry><title>NLP Word2Vec Algorithm</title><link href="https://sengopal.me/posts/nlp-word2vec-algorithm" rel="alternate"/><published>2022-03-20T00:00:00-07:00</published><updated>2022-03-20T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-03-20:/posts/nlp-word2vec-algorithm</id><summary type="html">A post detailing more about the Word2Vec algorithm, its variations and utilities</summary><content type="html">&lt;p&gt;This blog post captures the inner workings of the Word2Vec Algorithm,
 by roughly following the lecture patterns for the Cs224n course from
 Stanford.&lt;/p&gt;
 &lt;h3 id="word2vec-algorithm"&gt;Word2vec algorithm&lt;/h3&gt;
@@ -2610,7 +2773,7 @@ model investigation.&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=gqaHkPEZAew"&gt;Video&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture02-wordvecs2.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes02-wordvecs2.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>Introduction to NLP and Word Vectors</title><link href="https://sengopal.me/posts/introduction-to-nlp-and-word-vectors" rel="alternate"></link><published>2022-03-16T00:00:00-07:00</published><updated>2022-03-16T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-03-16:/posts/introduction-to-nlp-and-word-vectors</id><summary type="html">A post about Introduction to NLP and basics of Word Vectors</summary><content type="html">&lt;p&gt;This blog post and the following series captures the path of
+&lt;/ol&gt;</content><category term="NLP"/><category term="cs224n"/><category term="learning"/><category term="nlp"/></entry><entry><title>Introduction to NLP and Word Vectors</title><link href="https://sengopal.me/posts/introduction-to-nlp-and-word-vectors" rel="alternate"/><published>2022-03-16T00:00:00-07:00</published><updated>2022-03-16T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-03-16:/posts/introduction-to-nlp-and-word-vectors</id><summary type="html">A post about Introduction to NLP and basics of Word Vectors</summary><content type="html">&lt;p&gt;This blog post and the following series captures the path of
 understanding NLP, usage of Deep Learning in NLP and the various
 algorithms, by roughly following the lecture patterns for the Cs224n
 course from Stanford.&lt;/p&gt;
@@ -2992,7 +3155,7 @@ Representations of Words and Phrases and their Compositionality&lt;/a&gt;
 &lt;li&gt;&lt;a href="https://www.youtube.com/watch?v=8rXD5-xhemo"&gt;Video&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/slides/cs224n-2022-lecture01-wordvecs1.pdf"&gt;Slides&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://web.stanford.edu/class/cs224n/readings/cs224n-2019-notes01-wordvecs1.pdf"&gt;Notes&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="NLP"></category><category term="cs224n"></category><category term="learning"></category><category term="nlp"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
+&lt;/ol&gt;</content><category term="NLP"/><category term="cs224n"/><category term="learning"/><category term="nlp"/></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic" rel="alternate"/><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
 arithmetic problems and provides a neat little trick for finding the
 reminder for division by large numbers.&lt;/p&gt;
 &lt;h4 id="from-wikipedia"&gt;From Wikipedia&lt;/h4&gt;
@@ -3052,7 +3215,7 @@ divisor of 4115. So the second part of the equation can be rewritten as,
 &lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;So the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; being divisible by 31 is
 simply written as, &lt;span class="math inline"&gt;1 (mod  31) − 1 (mod  31) = 0 (mod  31)&lt;/span&gt; which
-implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="fermat"></category><category term="modular-arithmetic"></category><category term="algorithms"></category><category term="learning"></category></entry><entry><title>Steps for secure Android Application development</title><link href="https://sengopal.me/posts/steps-for-secure-android-application-development" rel="alternate"></link><published>2015-03-22T00:00:00-07:00</published><updated>2015-03-22T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2015-03-22:/posts/steps-for-secure-android-application-development</id><summary type="html">In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.</summary><content type="html">&lt;p&gt;In a recent working session, some of the best practices for a secure
+implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="fermat"/><category term="modular-arithmetic"/><category term="algorithms"/><category term="learning"/></entry><entry><title>Steps for secure Android Application development</title><link href="https://sengopal.me/posts/steps-for-secure-android-application-development" rel="alternate"/><published>2015-03-22T00:00:00-07:00</published><updated>2015-03-22T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2015-03-22:/posts/steps-for-secure-android-application-development</id><summary type="html">In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.</summary><content type="html">&lt;p&gt;In a recent working session, some of the best practices for a secure
 Android application development were discussed. Following were some of
 the important aspects of the discussion. Other the usual standards of
 securing the APK and securing the server-side components, some of the
@@ -3204,7 +3367,7 @@ to convert to Picture&lt;/li&gt;
 hostname verification.&lt;/li&gt;
 &lt;li&gt;If overriding, check &lt;code&gt;getDefaultHostNameVerifier()&lt;/code&gt; or
 &lt;code&gt;HostNameVerifier.verify()&lt;/code&gt; returns boolean true.&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Notes"></category><category term="development"></category><category term="coding"></category><category term="android"></category><category term="security"></category></entry><entry><title>Git and Github secrets</title><link href="https://sengopal.me/posts/git-and-github-secrets" rel="alternate"></link><published>2014-01-23T00:00:00-08:00</published><updated>2014-01-23T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-23:/posts/git-and-github-secrets</id><summary type="html">Some git and github usage secrets for quick reference.</summary><content type="html">&lt;p&gt;Git commandline and Github are two of most used tools for a web
+&lt;/ol&gt;</content><category term="Notes"/><category term="development"/><category term="coding"/><category term="android"/><category term="security"/></entry><entry><title>Git and Github secrets</title><link href="https://sengopal.me/posts/git-and-github-secrets" rel="alternate"/><published>2014-01-23T00:00:00-08:00</published><updated>2014-01-23T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-23:/posts/git-and-github-secrets</id><summary type="html">Some git and github usage secrets for quick reference.</summary><content type="html">&lt;p&gt;Git commandline and Github are two of most used tools for a web
 developer. Especially in a team environment, we use these more than a
 few times in a day. Recently I came across a screencast held at Aloha
 Ruby Conference. Some of the important and amazing shortcuts and useful
@@ -3301,7 +3464,7 @@ order of importance&lt;/h3&gt;
 &lt;li&gt;Fetch – Get changes from the parent repository to store within the
 current repo&lt;/li&gt;
 &lt;li&gt;Merge – Combine two or more commits into one&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Notes"></category><category term="lists"></category><category term="git"></category></entry><entry><title>Eight steps in choosing a database</title><link href="https://sengopal.me/posts/eight-steps-in-choosing-a-database" rel="alternate"></link><published>2014-01-20T00:00:00-08:00</published><updated>2014-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-20:/posts/eight-steps-in-choosing-a-database</id><summary type="html">This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities</summary><content type="html">&lt;p&gt;We are planning a database architecture rewrite for an existing
+&lt;/ul&gt;</content><category term="Notes"/><category term="lists"/><category term="git"/></entry><entry><title>Eight steps in choosing a database</title><link href="https://sengopal.me/posts/eight-steps-in-choosing-a-database" rel="alternate"/><published>2014-01-20T00:00:00-08:00</published><updated>2014-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2014-01-20:/posts/eight-steps-in-choosing-a-database</id><summary type="html">This post chronicles the list of steps that were followed for selecting a database based on its attributes and capabilities</summary><content type="html">&lt;p&gt;We are planning a database architecture rewrite for an existing
 service and the needs of the project are:&lt;/p&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Consistent data with ACID compliance for LIVE data&lt;/li&gt;
@@ -3365,7 +3528,7 @@ determined.&lt;/p&gt;
 &lt;td&gt;Heavy writes for Audit log&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</content><category term="Notes"></category><category term="backend"></category><category term="services"></category><category term="database"></category><category term="architecture"></category></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.me/posts/java-mail-made-easy-using-velocity-templates" rel="alternate"></link><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates</id><summary type="html">For an emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.</summary><content type="html">&lt;h3 id="introduction-to-velocity"&gt;Introduction to Velocity&lt;/h3&gt;
+&lt;/table&gt;</content><category term="Notes"/><category term="backend"/><category term="services"/><category term="database"/><category term="architecture"/></entry><entry><title>Java Mail Made Easy using Velocity Templates</title><link href="https://sengopal.me/posts/java-mail-made-easy-using-velocity-templates" rel="alternate"/><published>2010-10-01T00:00:00-07:00</published><updated>2010-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2010-10-01:/posts/java-mail-made-easy-using-velocity-templates</id><summary type="html">For an emailing solution we used velocity templates for simpler generation of Java mail templates and data. This post explains the code and the setup to get this in simple steps.</summary><content type="html">&lt;h3 id="introduction-to-velocity"&gt;Introduction to Velocity&lt;/h3&gt;
 &lt;p&gt;Velocity is an open source templating tool developed by an
 international volunteer community and hosted by the Apache Software
 Foundation’s Jakarta Project. You can download the freely available
@@ -3678,7 +3841,7 @@ objects in the context.&lt;/li&gt;
 &lt;li&gt;&lt;a class="uri" href="http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html"&gt;http://www.javaworld.com/javaworld/jw-12-2001/jw-1228-velocity.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="uri" href="http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html"&gt;http://velocity.apache.org/engine/releases/velocity-1.5/user-guide.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="uri" href="http://www.javasoft.com/products/javamail"&gt;http://www.javasoft.com/products/javamail&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Java"></category><category term="javamail"></category><category term="java"></category><category term="velocity"></category></entry><entry><title>PDF Generation using PD4ML</title><link href="https://sengopal.me/posts/pdf-generation-using-pd4ml" rel="alternate"></link><published>2010-04-05T00:00:00-07:00</published><updated>2010-04-05T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2010-04-05:/posts/pdf-generation-using-pd4ml</id><summary type="html">Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet.</summary><content type="html">&lt;h3 id="project-usage"&gt;Project Usage&lt;/h3&gt;
+&lt;/ul&gt;</content><category term="Java"/><category term="javamail"/><category term="java"/><category term="velocity"/></entry><entry><title>PDF Generation using PD4ML</title><link href="https://sengopal.me/posts/pdf-generation-using-pd4ml" rel="alternate"/><published>2010-04-05T00:00:00-07:00</published><updated>2010-04-05T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2010-04-05:/posts/pdf-generation-using-pd4ml</id><summary type="html">Our Project required PDF generation at various stages of the application and the uploading the same into the FileNet FTP. PD4ML was used for generation and saving the file locally into the server from which the PDF got generated to the FileNet.</summary><content type="html">&lt;h3 id="project-usage"&gt;Project Usage&lt;/h3&gt;
 &lt;p&gt;Our project required PDF generation at various stages of the
 application and the uploading the same into the FileNet FTP. PD4ML was
 used for generation and saving the file locally into the server from
@@ -4004,7 +4167,7 @@ generation and/or manipulation.” &amp;gt; - http://itextpdf.com/&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class="uri" href="http://pd4ml.com/api/index.html"&gt;http://pd4ml.com/api/index.html&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="uri" href="http://pd4ml.com/index.htm"&gt;http://pd4ml.com/index.htm&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Java"></category><category term="pd4ml"></category><category term="java"></category></entry><entry><title>Spreadsheet generation using Java libraries</title><link href="https://sengopal.me/posts/spreadsheet-generation-using-java-libraries" rel="alternate"></link><published>2009-09-23T00:00:00-07:00</published><updated>2009-09-23T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-09-23:/posts/spreadsheet-generation-using-java-libraries</id><summary type="html">In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.</summary><content type="html">&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
+&lt;/ul&gt;</content><category term="Java"/><category term="pd4ml"/><category term="java"/></entry><entry><title>Spreadsheet generation using Java libraries</title><link href="https://sengopal.me/posts/spreadsheet-generation-using-java-libraries" rel="alternate"/><published>2009-09-23T00:00:00-07:00</published><updated>2009-09-23T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-09-23:/posts/spreadsheet-generation-using-java-libraries</id><summary type="html">In a recent working session, some of the best practices for a secure Android application development were discussed. Following were some of the important aspects of the discussion. Other the usual standards of securing the APK and securing the server-side components, some of the development and secure coding practices are listed in this post.</summary><content type="html">&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;Web Asset Tracker (WATr) is a web application which was mainly used
 to maintain various asset information using a RDBMS database. There rose
 a specific requirement where the application needs to render the data in
@@ -4176,7 +4339,7 @@ limited user experience and discussion forums&lt;/em&gt;&lt;/p&gt;
 &lt;li&gt;https://olex.openlogic.com/packages/jexcel-api&lt;/li&gt;
 &lt;li&gt;http://www.extentech.com/estore/product_features.jsp?product_group_id=228&lt;/li&gt;
 &lt;li&gt;http://sourceforge.net/projects/openxls/&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Java"></category><category term="java"></category><category term="api"></category><category term="library"></category><category term="coding"></category><category term="development"></category></entry><entry><title>Job chaining using Quartz</title><link href="https://sengopal.me/posts/job-chaining-using-quartz" rel="alternate"></link><published>2009-03-31T00:00:00-07:00</published><updated>2009-03-31T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-03-31:/posts/job-chaining-using-quartz</id><summary type="html">This post is about how we used Quartz library to chain jobs rather than scheduling for indeterminate running time. This post explains the development of the Job schedule and the code changes required.</summary><content type="html">&lt;h3 id="project-usage"&gt;Project Usage&lt;/h3&gt;
+&lt;/ul&gt;</content><category term="Java"/><category term="java"/><category term="api"/><category term="library"/><category term="coding"/><category term="development"/></entry><entry><title>Job chaining using Quartz</title><link href="https://sengopal.me/posts/job-chaining-using-quartz" rel="alternate"/><published>2009-03-31T00:00:00-07:00</published><updated>2009-03-31T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-03-31:/posts/job-chaining-using-quartz</id><summary type="html">This post is about how we used Quartz library to chain jobs rather than scheduling for indeterminate running time. This post explains the development of the Job schedule and the code changes required.</summary><content type="html">&lt;h3 id="project-usage"&gt;Project Usage&lt;/h3&gt;
 &lt;p&gt;Our Project had the requirement of reading a set of records from a
 table which acts as a queue and sends the pending mails. This reading
 /sending of mails has to happen every five minutes. However, since the
@@ -4380,7 +4543,7 @@ run. Thus we achieve chaining of the job runs&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://quartz.sourceforge.net/firstTutorial.html"&gt;Quartz&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www-128.ibm.com/developerworks/java/library/j-quartz/"&gt;IBM
 Quartz&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Java"></category><category term="quartz"></category><category term="java"></category></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2" rel="alternate"></link><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
+&lt;/ul&gt;</content><category term="Java"/><category term="quartz"/><category term="java"/></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 2</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2" rel="alternate"/><published>2009-02-20T00:00:00-08:00</published><updated>2009-02-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-20:/posts/studying-for-ocp-oracle-certifed-professional-part-2</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
 following are notes which are specific to the certification, from the
 prep book. These notes are also helpful for a refresher on SQL syntax
 and usability.&lt;/p&gt;
@@ -5453,7 +5616,7 @@ multiple sessions can be using it&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;A UNIQUE constraint on a column requires an index. -&amp;gt; If a
 UNIQUE or NONUNIQUE index already exists on the column, it will be
 used.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Notes"></category><category term="oracle"></category><category term="certification"></category><category term="coding"></category><category term="development"></category><category term="sql"></category></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 1</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-1" rel="alternate"></link><published>2009-02-12T00:00:00-08:00</published><updated>2009-02-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-12:/posts/studying-for-ocp-oracle-certifed-professional-part-1</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
+&lt;/ol&gt;</content><category term="Notes"/><category term="oracle"/><category term="certification"/><category term="coding"/><category term="development"/><category term="sql"/></entry><entry><title>Studying for OCP - Oracle Certifed Professional - Part 1</title><link href="https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-1" rel="alternate"/><published>2009-02-12T00:00:00-08:00</published><updated>2009-02-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2009-02-12:/posts/studying-for-ocp-oracle-certifed-professional-part-1</id><summary type="html">I am studying for the Oracle Certified Professional certification and following are notes which are specific to the certification, from the prep book. These notes are also helpful for a refresher on SQL syntax and usability.</summary><content type="html">&lt;p&gt;I am studying for the Oracle Certified Professional certification and
 following are notes which are specific to the certification, from the
 prep book. These notes are also helpful for a refresher on SQL syntax
 and usability.&lt;/p&gt;
@@ -6086,7 +6249,7 @@ HAVING is useful for modifying the values being verified ..
 &lt;code&gt;LENGTH(NVL(x,0)) -&amp;gt; 1&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Continued in &lt;a href="studying-for-ocp-oracle-certifed-professional-part-2"&gt;Part
-2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"></category><category term="oracle"></category><category term="certification"></category><category term="coding"></category><category term="development"></category><category term="sql"></category></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2</title><link href="https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2" rel="alternate"></link><published>2008-09-08T00:00:00-07:00</published><updated>2008-09-08T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-08:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2</id><summary type="html">I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.</summary><content type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun
+2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"/><category term="oracle"/><category term="certification"/><category term="coding"/><category term="development"/><category term="sql"/></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 2</title><link href="https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2" rel="alternate"/><published>2008-09-08T00:00:00-07:00</published><updated>2008-09-08T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-08:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2</id><summary type="html">I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.</summary><content type="html">&lt;p&gt;I recently completed the Sun Certified Java Programmer from Sun
 Microsystems and thought of sharing my notes and gotchas from the Kathy
 Sierra SCJP preparation book which was the best material to prepare for
 this certification. All the below notes are material extracted from this
@@ -6350,7 +6513,7 @@ execution&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;concat()&lt;/em&gt; is a method of String while append is for
 StringBuffer&lt;/li&gt;
 &lt;li&gt;All the methods in StringBuffer are synchronized&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Notes"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 1</title><link href="https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1" rel="alternate"></link><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-03:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1</id><summary type="html">I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.</summary><content type="html">&lt;h3 id="chapter-1"&gt;Chapter 1&lt;/h3&gt;
+&lt;/ol&gt;</content><category term="Notes"/><category term="java"/><category term="certification"/><category term="library"/><category term="coding"/><category term="development"/><category term="scjp"/><category term="kathy"/><category term="sierra"/></entry><entry><title>Aceing SCJP - Notes from Kathy Sierra Prep book - Part 1</title><link href="https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1" rel="alternate"/><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-03:/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1</id><summary type="html">I recently completed the Sun Certified Java Programmer from Sun Microsystems and thought of sharing my notes from the Kathy Sierra SCJP preparation book which was the best material to prepare for this certification.</summary><content type="html">&lt;h3 id="chapter-1"&gt;Chapter 1&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;Read the keywords list&lt;/li&gt;
 &lt;li&gt;Always check variable, class and method name for the keywords&lt;/li&gt;
@@ -6706,7 +6869,7 @@ except Boolean and Character)&lt;/li&gt;
 on string Objects which leads to Compilation Error&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Continued in &lt;a href="aceing-scjp-notes-from-kathy-sierra-prep-book-part-2"&gt;Part
-2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"></category><category term="java"></category><category term="certification"></category><category term="library"></category><category term="coding"></category><category term="development"></category><category term="scjp"></category><category term="kathy"></category><category term="sierra"></category></entry><entry><title>Learning basics of CSS and quick notes</title><link href="https://sengopal.me/posts/learning-basics-of-css-and-quick-notes" rel="alternate"></link><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-03:/posts/learning-basics-of-css-and-quick-notes</id><summary type="html">The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</summary><content type="html">&lt;p&gt;The following are some of the important points that i had gathered
+2&lt;/a&gt;&lt;/p&gt;</content><category term="Notes"/><category term="java"/><category term="certification"/><category term="library"/><category term="coding"/><category term="development"/><category term="scjp"/><category term="kathy"/><category term="sierra"/></entry><entry><title>Learning basics of CSS and quick notes</title><link href="https://sengopal.me/posts/learning-basics-of-css-and-quick-notes" rel="alternate"/><published>2008-09-03T00:00:00-07:00</published><updated>2008-09-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-09-03:/posts/learning-basics-of-css-and-quick-notes</id><summary type="html">The following are some of the important points that i had gathered during my learning of CSS and HTML markup. It also contains the important factors to consider when converting a given PSD or image into a good HTML markup and CSS.</summary><content type="html">&lt;p&gt;The following are some of the important points that i had gathered
 during my learning of CSS and HTML markup. It also contains the
 important factors to consider when converting a given PSD or image into
 a good HTML markup and CSS.&lt;/p&gt;
@@ -6907,7 +7070,7 @@ support&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://html5boilerplate.com/"&gt;html5boilerplate&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://html.adobe.com/edge/inspect/"&gt;Adobe Inspect&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://brackets.io/"&gt;Brackets&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Notes"></category><category term="web"></category><category term="css"></category><category term="frontend"></category><category term="coding"></category><category term="development"></category></entry><entry><title>Criteria API in Hibernate</title><link href="https://sengopal.me/posts/criteria-api-in-hibernate" rel="alternate"></link><published>2008-05-30T00:00:00-07:00</published><updated>2008-05-30T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-05-30:/posts/criteria-api-in-hibernate</id><summary type="html">A post about the Criteria API available as part of the Hibernate API. This post also explores how to use the API perform SQL operations in a more object oriented manner.</summary><content type="html">&lt;h3 id="drawbacks-of-hql"&gt;Drawbacks of HQL&lt;/h3&gt;
+&lt;/ol&gt;</content><category term="Notes"/><category term="web"/><category term="css"/><category term="frontend"/><category term="coding"/><category term="development"/></entry><entry><title>Criteria API in Hibernate</title><link href="https://sengopal.me/posts/criteria-api-in-hibernate" rel="alternate"/><published>2008-05-30T00:00:00-07:00</published><updated>2008-05-30T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2008-05-30:/posts/criteria-api-in-hibernate</id><summary type="html">A post about the Criteria API available as part of the Hibernate API. This post also explores how to use the API perform SQL operations in a more object oriented manner.</summary><content type="html">&lt;h3 id="drawbacks-of-hql"&gt;Drawbacks of HQL&lt;/h3&gt;
 &lt;p&gt;Currently HQL (Hibernate Query Language) is used widely to query data
 using Hibernate. However, there are many drawbacks such as:&lt;/p&gt;
 &lt;ol type="1"&gt;
@@ -7123,4 +7286,4 @@ values and by providing extensibility of the Criterion Object.&lt;/p&gt;
 &lt;span id="cb17-14"&gt;&lt;a aria-hidden="true" href="#cb17-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;List&lt;/span&gt; list &lt;span class="op"&gt;=&lt;/span&gt; session&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;createCriteria&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;Accommodation&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;class&lt;/span&gt;&lt;span class="op"&gt;)&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-15"&gt;&lt;a aria-hidden="true" href="#cb17-15" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;example&lt;span class="op"&gt;)&lt;/span&gt;&lt;/span&gt;
 &lt;span id="cb17-16"&gt;&lt;a aria-hidden="true" href="#cb17-16" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;add&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="bu"&gt;Expression&lt;/span&gt;&lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;between&lt;/span&gt;&lt;span class="op"&gt;(&lt;/span&gt;&lt;span class="st"&gt;"availabilityDate"&lt;/span&gt;&lt;span class="op"&gt;,&lt;/span&gt; startDate&lt;span class="op"&gt;,&lt;/span&gt; endDate&lt;span class="op"&gt;))&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb17-17"&gt;&lt;a aria-hidden="true" href="#cb17-17" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Java"></category><category term="development"></category><category term="coding"></category></entry></feed>
+&lt;span id="cb17-17"&gt;&lt;a aria-hidden="true" href="#cb17-17" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;.&lt;/span&gt;&lt;span class="fu"&gt;list&lt;/span&gt;&lt;span class="op"&gt;();&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="Java"/><category term="development"/><category term="coding"/></entry></feed>

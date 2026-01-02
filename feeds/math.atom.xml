@@ -1,5 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Math</title><link href="https://sengopal.me/" rel="alternate"></link><link href="https://sengopal.me/feeds/math.atom.xml" rel="self"></link><id>https://sengopal.me/</id><updated>2023-01-12T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>review-of-p-value</title><link href="https://sengopal.me/posts/review-of-p-value" rel="alternate"></link><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-12:/posts/review-of-p-value</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Math</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/math.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2024-05-09T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Common Terms used in mathematical proofs</title><link href="https://sengopal.me/posts/common-terms-used-in-mathematical-proofs" rel="alternate"/><published>2024-05-09T00:00:00-07:00</published><updated>2024-05-09T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-05-09:/posts/common-terms-used-in-mathematical-proofs</id><summary type="html">This post explains common terms in mathematical writing—like theorem, lemma, axiom, and proof—using simple examples involving even numbers. It helps beginners understand how these terms structure mathematical reasoning.</summary><content type="html">&lt;p&gt;Whenever we read a book, a research paper, or solving homework
+problems, we come across terms like &lt;em&gt;theorem&lt;/em&gt;, &lt;em&gt;lemma&lt;/em&gt;,
+&lt;em&gt;axiom&lt;/em&gt;, and more. Each has a specific meaning and role in
+mathematical writing.&lt;/p&gt;
+&lt;p&gt;In this post, we’ll walk through these terms using a simple example:
+even and odd numbers.&lt;/p&gt;
+&lt;h2 id="axiom"&gt;&lt;strong&gt;Axiom&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A basic assumption accepted without
+proof. Axioms serve as the foundation for reasoning in a mathematical
+system.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+“Every integer is either even or odd.”&lt;br/&gt;
+This is a basic truth we assume in number theory—no need to prove
+it.&lt;/p&gt;
+&lt;h2 id="definition"&gt;&lt;strong&gt;Definition&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A precise explanation of a mathematical
+concept.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+“An integer ( n ) is even if there exists an integer ( k ) such that ( n
+= 2k ).”&lt;br/&gt;
+This tells us exactly what “even” means and sets the groundwork for any
+future statements involving even numbers.&lt;/p&gt;
+&lt;h2 id="theorem"&gt;&lt;strong&gt;Theorem&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A major mathematical statement that must
+be proven using axioms, definitions, and previously proven results.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Theorem&lt;/strong&gt;: The sum of two even integers is even.&lt;br/&gt;
+This is a core fact that can be proven logically from the definition of
+even numbers.&lt;/p&gt;
+&lt;h2 id="lemma"&gt;&lt;strong&gt;Lemma&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A minor or intermediate result used to
+prove a more important theorem.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Lemma&lt;/strong&gt;: If ( a = 2k ) and ( b = 2m ), then ( a + b = 2(k
++ m) ).&lt;br/&gt;
+This helps us prove the theorem above, but is typically not interesting
+on its own.&lt;/p&gt;
+&lt;h2 id="proof"&gt;&lt;strong&gt;Proof&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A logical argument that demonstrates a
+statement is true, based on accepted premises.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example (Proof of Theorem)&lt;/strong&gt;:&lt;br/&gt;
+Let ( a = 2k ), ( b = 2m ). Then&lt;br/&gt;
+[ a + b = 2k + 2m = 2(k + m) ]&lt;br/&gt;
+Since ( k + m ) is an integer, ( a + b ) is divisible by 2, so it is
+even. ∎&lt;/p&gt;
+&lt;h2 id="corollary"&gt;&lt;strong&gt;Corollary&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A statement that follows directly and
+easily from a theorem.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Corollary&lt;/strong&gt;: The sum of any number of even integers is
+even.&lt;br/&gt;
+This follows by applying the theorem repeatedly.&lt;/p&gt;
+&lt;h2 id="proposition"&gt;&lt;strong&gt;Proposition&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A proven statement like a theorem, but
+generally considered less central or important.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Proposition&lt;/strong&gt;: If ( n ) is even, then ( n^2 ) is
+even.&lt;br/&gt;
+While this is useful, it’s not a deep result—but it still requires
+proof.&lt;/p&gt;
+&lt;h2 id="claim"&gt;&lt;strong&gt;Claim&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A statement asserted (and usually
+proven) as a step within a larger proof.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; (within a longer proof):&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: ( k + m ) is an integer.&lt;br/&gt;
+This might be a small step used to show that ( 2(k + m) ) is even.&lt;/p&gt;
+&lt;h2 id="conjecture"&gt;&lt;strong&gt;Conjecture&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Definition&lt;/strong&gt;: A mathematical statement believed to be
+true but not yet proven or disproven.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Goldbach’s Conjecture&lt;/strong&gt;: Every even integer greater than
+2 is the sum of two primes.&lt;br/&gt;
+Despite much evidence, this remains unproven.&lt;/p&gt;
+&lt;h2 id="common-types-of-mathematical-proofs"&gt;&lt;strong&gt;Common Types of
+Mathematical Proofs&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Mathematical proofs are not all the same—different statements require
+different strategies. Below are five foundational proof techniques with
+clear, worked examples to help you understand how and when each method
+is used.&lt;/p&gt;
+&lt;h3 id="proof-by-construction"&gt;&lt;strong&gt;Proof by
+Construction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You prove that something exists by
+explicitly creating or exhibiting an example of it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: There exists an even prime number.&lt;br/&gt;
+&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+Consider the number ( 2 ).&lt;br/&gt;
+- ( 2 ) is divisible by ( 2 ), so it is even.&lt;br/&gt;
+- The only positive divisors of ( 2 ) are ( 1 ) and ( 2 ), so it is
+prime.&lt;br/&gt;
+Thus, an even prime exists. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-induction"&gt;&lt;strong&gt;Proof by Induction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: A method for proving statements about
+natural numbers. You prove the base case, then assume the statement for
+( n = k ) (the inductive hypothesis) and use it to prove the statement
+for ( n = k + 1 ).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Theorem&lt;/strong&gt;:&lt;br/&gt;
+For all ( n ),&lt;br/&gt;
+[ 1 + 2 + + n = ]&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Base case&lt;/strong&gt;: ( n = 1 ).&lt;br/&gt;
+LHS: ( 1 ), RHS: ( = 1 ). ✓&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Inductive hypothesis&lt;/strong&gt;: Assume the formula holds for (
+n = k ), i.e.,&lt;br/&gt;
+[ 1 + 2 + + k = ]&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Inductive step&lt;/strong&gt;: Show it holds for ( n = k+1 ).&lt;br/&gt;
+Add ( (k + 1) ) to both sides:&lt;br/&gt;
+[ 1 + 2 + + k + (k + 1) = + (k + 1) ]&lt;/p&gt;
+&lt;p&gt;Factor RHS:&lt;br/&gt;
+[ = ]&lt;/p&gt;
+&lt;p&gt;This matches the formula with ( n = k+1 ). ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-contradiction"&gt;&lt;strong&gt;Proof by
+Contradiction&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You assume the negation of the statement
+you want to prove, then show that this assumption leads to a logical
+contradiction. This implies the original statement must be true.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: ( ) is irrational.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+Assume the opposite: that ( = ) where ( a ) and ( b ) are integers with
+no common factors.&lt;/p&gt;
+&lt;p&gt;Then: [ 2 = a^2 = 2b^2 ]&lt;/p&gt;
+&lt;p&gt;So ( a^2 ) is even ⇒ ( a ) must be even (since square of an odd is
+odd).&lt;br/&gt;
+Let ( a = 2k ). Then: [ a^2 = (2k)^2 = 4k^2 = 2b^2 b^2 = 2k^2 b ) is
+also even.&lt;/p&gt;
+&lt;p&gt;But now both ( a ) and ( b ) are even ⇒ they share a factor of 2,
+contradicting our assumption that the fraction is in lowest terms.&lt;br/&gt;
+Therefore, ( ) is irrational. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-contrapositive"&gt;&lt;strong&gt;Proof by
+Contrapositive&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: Instead of proving “If ( P ), then ( Q
+)”, you prove the logically equivalent statement: “If not ( Q ), then
+not ( P )”.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: If ( n^2 ) is even, then ( n ) is even.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof (contrapositive)&lt;/strong&gt;:&lt;br/&gt;
+We prove: &lt;em&gt;If ( n ) is odd, then ( n^2 ) is odd.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Let ( n = 2k + 1 ) for some integer ( k ).&lt;br/&gt;
+Then: [ n^2 = (2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1 ]&lt;/p&gt;
+&lt;p&gt;This is of the form ( 2m + 1 ), so it is odd.&lt;br/&gt;
+Therefore, if ( n ) is odd, ( n^2 ) is odd ⇒ contrapositive is true ⇒
+original statement is true. ∎&lt;/p&gt;
+&lt;hr/&gt;
+&lt;h3 id="proof-by-exhaustion-case-analysis"&gt;&lt;strong&gt;Proof by Exhaustion
+(Case Analysis)&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;What it is&lt;/strong&gt;: You divide a problem into a finite
+number of cases and prove the statement holds in each one.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;:&lt;br/&gt;
+&lt;strong&gt;Claim&lt;/strong&gt;: For any integer ( n ), ( n^2 ) or ( 1 ).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Proof&lt;/strong&gt;:&lt;br/&gt;
+There are four residue classes mod 4: ( 0, 1, 2, 3 ). Consider all
+cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;li&gt;( n n^2 )&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In all cases, ( n^2 ) or ( 1 ). ∎&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="algorithms"/><category term="learning"/></entry><entry><title>review-of-p-value</title><link href="https://sengopal.me/posts/review-of-p-value" rel="alternate"/><published>2023-01-12T00:00:00-08:00</published><updated>2023-01-12T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-12:/posts/review-of-p-value</id><summary type="html">This post describes a review of the basics regarding p-value</summary><content type="html">&lt;p&gt;p-value is one of the most commonly used statistical test and value
 used for experimentation. The standard definition of p-value &lt;strong&gt;is
 the probability that the null hypothesis is true.&lt;/strong&gt; p-value
 represents the probability that the world (created with math equations),
@@ -56,7 +219,7 @@ are. It is important to remember that p-value determines the probability
 of the null hypothesis, but not the scale of difference in the
 candidates of the experiment.&lt;/p&gt;
 &lt;p&gt;References (1) &lt;a href="https://www.youtube.com/watch?v=vemZtEM63GY&amp;amp;list=WL&amp;amp;index=93"&gt;StatsQuest&lt;/a&gt;
-(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.me/posts/review-of-combinatorics" rel="alternate"></link><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-03:/posts/review-of-combinatorics</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
+(2) &lt;a href="https://www.youtube.com/watch?v=JQc3yx0-Q9E"&gt;StatsQuest&lt;/a&gt;&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/></entry><entry><title>Review of Combinatorics</title><link href="https://sengopal.me/posts/review-of-combinatorics" rel="alternate"/><published>2023-01-03T00:00:00-08:00</published><updated>2023-01-03T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-01-03:/posts/review-of-combinatorics</id><summary type="html">This post reviews the basics of combinatorics and specifically the difference between permutations, variations and combinations.</summary><content type="html">&lt;p&gt;In the study of combinatorics, there are three different structures -
 &lt;strong&gt;permutations, variations and combinations&lt;/strong&gt; which are
 variations with subtle differences.&lt;/p&gt;
 &lt;h2 id="permutation"&gt;Permutation&lt;/h2&gt;
@@ -156,7 +319,7 @@ Explained&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.bookofproofs.org/branches/permutations-combinations-variations/"&gt;Book
 of Proofs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://www.quora.com/What-is-the-difference-between-variation-combination-and-permutations"&gt;Quora&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category><category term="learning"></category></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.me/posts/paradoxes-in-statistics" rel="alternate"></link><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-06-04:/posts/paradoxes-in-statistics</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
+&lt;/ol&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/><category term="learning"/></entry><entry><title>Paradoxes in statistics</title><link href="https://sengopal.me/posts/paradoxes-in-statistics" rel="alternate"/><published>2022-06-04T00:00:00-07:00</published><updated>2022-06-04T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-06-04:/posts/paradoxes-in-statistics</id><summary type="html">This post describes some of the well known paradoxes in statistics</summary><content type="html">&lt;p&gt;Came across this &lt;a href="https://twitter.com/maartenvsmeden/status/1356147552362639366"&gt;tweet&lt;/a&gt;
 about statistical paradoxes and wanted to learn what they mean.&lt;/p&gt;
 &lt;h3 id="absence-of-evidence-fallacy"&gt;Absence of evidence fallacy&lt;/h3&gt;
 &lt;p&gt;The absence of evidence fallacy occurs when someone uses a lack of
@@ -242,7 +405,7 @@ given population, low birth weight babies have a significantly higher
 mortality rate than others; thus, populations with a higher rate of low
 birth weights typically also have higher rates of child mortality than
 other populations.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="statistics"></category></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic" rel="alternate"></link><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Low_birth-weight_paradox"&gt;Reference&lt;/a&gt;&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="statistics"/></entry><entry><title>Using Fermat’s little theorum for modular arithmetic</title><link href="https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic" rel="alternate"/><published>2022-01-19T00:00:00-08:00</published><updated>2022-01-19T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2022-01-19:/posts/using-fermats-little-theorum-for-modular-arithmetic</id><summary type="html">This post discusses Fermat’s little theorum and its usage in modular arithmetic</summary><content type="html">&lt;p&gt;Fermat’s little theorum is a fundamental theorum for any modular
 arithmetic problems and provides a neat little trick for finding the
 reminder for division by large numbers.&lt;/p&gt;
 &lt;h4 id="from-wikipedia"&gt;From Wikipedia&lt;/h4&gt;
@@ -302,4 +465,4 @@ divisor of 4115. So the second part of the equation can be rewritten as,
 &lt;p&gt;&lt;span class="math inline"&gt;6&lt;sup&gt;6&lt;/sup&gt; ≡ 1 (mod  31)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;So the difference between &lt;span class="math inline"&gt;5&lt;sup&gt;30000&lt;/sup&gt;&lt;/span&gt; and &lt;span class="math inline"&gt;6&lt;sup&gt;123456&lt;/sup&gt;&lt;/span&gt; being divisible by 31 is
 simply written as, &lt;span class="math inline"&gt;1 (mod  31) − 1 (mod  31) = 0 (mod  31)&lt;/span&gt; which
-implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"></category><category term="math"></category><category term="fermat"></category><category term="modular-arithmetic"></category><category term="algorithms"></category><category term="learning"></category></entry></feed>
+implies that it is indeed divisible by 31.&lt;/p&gt;</content><category term="Math"/><category term="math"/><category term="fermat"/><category term="modular-arithmetic"/><category term="algorithms"/><category term="learning"/></entry></feed>

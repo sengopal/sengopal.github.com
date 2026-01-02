@@ -6,140 +6,147 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.me/</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/archives.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/author/senthilkumar-gopal.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/author/senthilkumar-gopal2.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/author/senthilkumar-gopal3.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/author/senthilkumar-gopal4.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/authors.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/categories.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/java.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/large-language-models.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/machine-learning.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/math.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
+<changefreq>hourly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://sengopal.me/category/ml-systems.html</loc>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/neuron.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/nlp.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/notes.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/papers.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/category/security.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/index2.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/index3.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/index4.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -160,7 +167,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.me/pages/software.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -173,259 +180,266 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1.html</loc>
+<loc>https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-1</loc>
 <lastmod>2008-09-03T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2.html</loc>
+<loc>https://sengopal.me/posts/aceing-scjp-notes-from-kathy-sierra-prep-book-part-2</loc>
 <lastmod>2008-09-08T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/ai-compilers-a-study-guide.html</loc>
+<loc>https://sengopal.me/posts/ai-compilers-a-study-guide</loc>
 <lastmod>2023-12-22T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/aliasing-on-xla.html</loc>
+<loc>https://sengopal.me/posts/aliasing-on-xla</loc>
 <lastmod>2023-12-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/all-reduce-decomposition.html</loc>
+<loc>https://sengopal.me/posts/all-reduce-decomposition</loc>
 <lastmod>2023-12-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/concept-coalescing.html</loc>
+<loc>https://sengopal.me/posts/common-terms-used-in-mathematical-proofs</loc>
+<lastmod>2024-05-09T00:00:00-07:00</lastmod>
+<changefreq>always</changefreq>
+<priority>1.0</priority>
+</url>
+
+<url>
+<loc>https://sengopal.me/posts/concept-coalescing</loc>
 <lastmod>2023-12-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/criteria-api-in-hibernate.html</loc>
+<loc>https://sengopal.me/posts/criteria-api-in-hibernate</loc>
 <lastmod>2008-05-30T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/efa-and-openfabrics.html</loc>
+<loc>https://sengopal.me/posts/efa-and-openfabrics</loc>
 <lastmod>2023-12-29T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/eight-steps-in-choosing-a-database.html</loc>
+<loc>https://sengopal.me/posts/eight-steps-in-choosing-a-database</loc>
 <lastmod>2014-01-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/feature-data-creation-for-time-series.html</loc>
+<loc>https://sengopal.me/posts/feature-data-creation-for-time-series</loc>
 <lastmod>2023-10-01T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/float16-precision-conversion-to-base64.html</loc>
+<loc>https://sengopal.me/posts/float16-precision-conversion-to-base64</loc>
 <lastmod>2023-02-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/git-and-github-secrets.html</loc>
+<loc>https://sengopal.me/posts/git-and-github-secrets</loc>
 <lastmod>2014-01-23T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers.html</loc>
+<loc>https://sengopal.me/posts/hashcash-revisited-a-computational-barrier-against-ai-web-crawlers</loc>
 <lastmod>2025-03-29T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/introduction-to-nlp-and-word-vectors.html</loc>
+<loc>https://sengopal.me/posts/introduction-to-nlp-and-word-vectors</loc>
 <lastmod>2022-03-16T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/java-mail-made-easy-using-velocity-templates.html</loc>
+<loc>https://sengopal.me/posts/java-mail-made-easy-using-velocity-templates</loc>
 <lastmod>2010-10-01T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/job-chaining-using-quartz.html</loc>
+<loc>https://sengopal.me/posts/job-chaining-using-quartz</loc>
 <lastmod>2009-03-31T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/learning-basics-of-css-and-quick-notes.html</loc>
+<loc>https://sengopal.me/posts/learning-basics-of-css-and-quick-notes</loc>
 <lastmod>2008-09-03T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/llm-inference-systems.html</loc>
+<loc>https://sengopal.me/posts/llm-inference-systems</loc>
 <lastmod>2024-05-18T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/ml-project-template.html</loc>
+<loc>https://sengopal.me/posts/ml-project-template</loc>
 <lastmod>2023-09-23T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/neuron-glossary.html</loc>
+<loc>https://sengopal.me/posts/neuron-glossary</loc>
 <lastmod>2023-12-13T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/neuron-handling-nans.html</loc>
+<loc>https://sengopal.me/posts/neuron-handling-nans</loc>
 <lastmod>2024-01-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/nlp-glove-algorithm-and-further-improvements-on-representation.html</loc>
+<loc>https://sengopal.me/posts/nlp-glove-algorithm-and-further-improvements-on-representation</loc>
 <lastmod>2022-04-10T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/nlp-word2vec-algorithm.html</loc>
+<loc>https://sengopal.me/posts/nlp-word2vec-algorithm</loc>
 <lastmod>2022-03-20T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference.html</loc>
+<loc>https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference</loc>
 <lastmod>2024-12-28T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/paradoxes-in-statistics.html</loc>
+<loc>https://sengopal.me/posts/paradoxes-in-statistics</loc>
 <lastmod>2022-06-04T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/pdf-generation-using-pd4ml.html</loc>
+<loc>https://sengopal.me/posts/pdf-generation-using-pd4ml</loc>
 <lastmod>2010-04-05T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/review-of-combinatorics.html</loc>
+<loc>https://sengopal.me/posts/review-of-combinatorics</loc>
 <lastmod>2023-01-03T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/review-of-p-value.html</loc>
+<loc>https://sengopal.me/posts/review-of-p-value</loc>
 <lastmod>2023-01-12T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/scientific-paper-review-template.html</loc>
+<loc>https://sengopal.me/posts/scientific-paper-review-template</loc>
 <lastmod>2022-11-16T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/secure-constructor-object-for-snakeyaml.html</loc>
+<loc>https://sengopal.me/posts/secure-constructor-object-for-snakeyaml</loc>
 <lastmod>2022-04-19T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing.html</loc>
+<loc>https://sengopal.me/posts/slurm-cluster-usage-tips-for-quick-debug-and-testing</loc>
 <lastmod>2024-09-02T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/spreadsheet-generation-using-java-libraries.html</loc>
+<loc>https://sengopal.me/posts/spreadsheet-generation-using-java-libraries</loc>
 <lastmod>2009-09-23T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/steps-for-secure-android-application-development.html</loc>
+<loc>https://sengopal.me/posts/steps-for-secure-android-application-development</loc>
 <lastmod>2015-03-22T00:00:00-07:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-1.html</loc>
+<loc>https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-1</loc>
 <lastmod>2009-02-12T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2.html</loc>
+<loc>https://sengopal.me/posts/studying-for-ocp-oracle-certifed-professional-part-2</loc>
 <lastmod>2009-02-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic.html</loc>
+<loc>https://sengopal.me/posts/using-fermats-little-theorum-for-modular-arithmetic</loc>
 <lastmod>2022-01-19T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://sengopal.me/posts/what-is-neuron-sdk.html</loc>
+<loc>https://sengopal.me/posts/what-is-neuron-sdk</loc>
 <lastmod>2023-12-20T00:00:00-08:00</lastmod>
 <changefreq>always</changefreq>
 <priority>1.0</priority>
@@ -433,371 +447,371 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://sengopal.me/sitemap.xml</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/algorithms.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/android.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/api.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/architecture.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/aws.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/backend.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/certification.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/coding.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/cs224n.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/css.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/database.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/development.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/fermat.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/frontend.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/git.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/hpc-concept.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/hpc-concepts.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/java.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/javamail.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/kathy.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/learning.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/library.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/lists.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/llm.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/llm2.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/management.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/math.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/ml-acceleration.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/ml-code.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/ml-code2.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/modular-arithmetic.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/neuron.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/nlp.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/oracle.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/papers.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/pd4ml.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/python.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/pytorch.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/quartz.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/reviews.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/scjp.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/security.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/services.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/serving.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/sierra.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/slurm.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/sql.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/statistics.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/velocity.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/vllm.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tag/web.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://sengopal.me/tags.html</loc>
-<lastmod>2025-04-30T21:43:33-00:00</lastmod>
+<lastmod>2026-01-01T17:34:39-00:00</lastmod>
 <changefreq>hourly</changefreq>
 <priority>0.5</priority>
 </url>
