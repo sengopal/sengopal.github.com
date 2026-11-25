@@ -531,7 +531,158 @@ usability while raising adversarial costs.&lt;/p&gt;
 with Cleverness and Vengeance.” TechCrunch, 27 Mar. 2025,
 https://techcrunch.com/2025/03/27/open-source-devs-are-fighting-ai-crawlers-with-cleverness-and-vengeance/.&lt;a class="footnote-back" href="#fnref1" role="doc-backlink"&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;</content><category term="Math"/><category term="security"/><category term="api"/></entry><entry><title>Paged Attention and Chunked Prefill for LLM Inference</title><link href="https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference" rel="alternate"/><published>2024-12-28T00:00:00-08:00</published><updated>2024-12-28T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-12-28:/posts/paged-attention-and-chunked-prefill-for-llm-inference</id><summary type="html">This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) impose significant memory and compute
+&lt;/section&gt;</content><category term="Math"/><category term="security"/><category term="api"/></entry><entry><title>Segment Sums and Segmented Softmax</title><link href="https://sengopal.me/posts/segment-sums-and-segmented-softmax" rel="alternate"/><published>2025-01-20T00:00:00-08:00</published><updated>2025-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-01-20:/posts/segment-sums-and-segmented-softmax</id><summary type="html">Segment sums reduce the rows of a tensor by group label. A segmented softmax built from them normalizes the scores of many packed sequences at once, and the way it is written decides whether a compiled graph grows with the number of sequences.</summary><content type="html">&lt;p&gt;A segment sum adds up the rows of a tensor that share a label. Its
+inputs are a data tensor and a vector of segment IDs, one per row, and
+row &lt;code&gt;s&lt;/code&gt; of the output is the sum of the data rows whose ID is
+&lt;code&gt;s&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;out[s] = sum of data[i] for every i where segment_ids[i] == s&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The same pattern works with other reductions, such as max, min and
+mean. Frameworks expose it under different names. TensorFlow has &lt;a href="https://www.tensorflow.org/api_docs/python/tf/math/unsorted_segment_sum"&gt;&lt;code&gt;tf.math.unsorted_segment_sum&lt;/code&gt;&lt;/a&gt;,
+JAX has &lt;a href="https://docs.jax.dev/en/latest/_autosummary/jax.ops.segment_sum.html"&gt;&lt;code&gt;jax.ops.segment_sum&lt;/code&gt;&lt;/a&gt;,
+and PyTorch has &lt;a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.index_add_.html"&gt;&lt;code&gt;index_add_&lt;/code&gt;&lt;/a&gt;
+and &lt;a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.scatter_reduce_.html"&gt;&lt;code&gt;scatter_reduce_&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="a-small-example"&gt;A small example&lt;/h2&gt;
+&lt;p&gt;Six values in three segments:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;data &lt;span class="op"&gt;=&lt;/span&gt; torch.tensor([&lt;span class="fl"&gt;1.&lt;/span&gt;, &lt;span class="fl"&gt;2.&lt;/span&gt;, &lt;span class="fl"&gt;3.&lt;/span&gt;, &lt;span class="fl"&gt;4.&lt;/span&gt;, &lt;span class="fl"&gt;5.&lt;/span&gt;, &lt;span class="fl"&gt;6.&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;ids &lt;span class="op"&gt;=&lt;/span&gt; torch.tensor([&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;torch.zeros(&lt;span class="dv"&gt;3&lt;/span&gt;).index_add_(&lt;span class="dv"&gt;0&lt;/span&gt;, ids, data)&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# tensor([ 3., 12.,  6.])&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The segment IDs label rows, so a 2D input needs one ID per row, not
+one per element. Each row is reduced as a whole:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;x &lt;span class="op"&gt;=&lt;/span&gt; torch.tensor([[&lt;span class="fl"&gt;1.&lt;/span&gt;, &lt;span class="fl"&gt;2.&lt;/span&gt;], [&lt;span class="fl"&gt;3.&lt;/span&gt;, &lt;span class="fl"&gt;4.&lt;/span&gt;], [&lt;span class="fl"&gt;5.&lt;/span&gt;, &lt;span class="fl"&gt;6.&lt;/span&gt;]])&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;rid &lt;span class="op"&gt;=&lt;/span&gt; torch.tensor([&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;torch.zeros(&lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;).index_add_(&lt;span class="dv"&gt;0&lt;/span&gt;, rid, x)&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# tensor([[4., 6.],&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;#         [5., 6.]])&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The number of segments sets the output shape.
+&lt;code&gt;tf.math.segment_sum&lt;/code&gt; infers it from the largest ID and
+requires sorted IDs. The unsorted TensorFlow variant and the JAX
+function take &lt;code&gt;num_segments&lt;/code&gt; as an argument. A compiled graph
+needs a fixed output shape, so code that will be compiled passes
+&lt;code&gt;num_segments&lt;/code&gt; explicitly.&lt;/p&gt;
+&lt;h2 id="segmented-softmax"&gt;Segmented softmax&lt;/h2&gt;
+&lt;p&gt;A softmax over each segment needs two segment reductions, a max for
+numerical stability and a sum for the denominator:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;m[s]   = max of scores[i] in segment s
+e[i]   = exp(scores[i] - m[segment_ids[i]])
+out[i] = e[i] / (sum of e[j] in segment s)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Each segment’s outputs sum to 1, and the segments do not affect each
+other.&lt;/p&gt;
+&lt;p&gt;LLM serving with continuous batching produces this situation. The
+tokens or KV cache blocks of several sequences are packed along one
+dimension of a single tensor, and the attention softmax for each
+sequence must cover only that sequence’s entries. Here the segment ID of
+an entry is the sequence it belongs to.&lt;/p&gt;
+&lt;p&gt;transformers-neuronx, the AWS Neuron library for LLM inference, has a
+&lt;code&gt;blockwise_softmax&lt;/code&gt; function for its paged KV cache. The
+function is in &lt;a href="https://github.com/aws-neuron/transformers-neuronx/blob/1ade6d74224a89fb6366ded52153e2f32781e20d/src/transformers_neuronx/layers/attention_utils.py"&gt;&lt;code&gt;layers/attention_utils.py&lt;/code&gt;&lt;/a&gt;,
+published in December 2024. The logits have one row per active cache
+block, and &lt;code&gt;block_to_seq&lt;/code&gt; maps each block to its sequence.
+The function first reduces within each block, then calls
+&lt;code&gt;blockwise_reduce_max&lt;/code&gt; and &lt;code&gt;blockwise_reduce_sum&lt;/code&gt;
+to combine the blocks of each sequence. Those two functions are segment
+reductions with &lt;code&gt;block_to_seq&lt;/code&gt; as the segment IDs.&lt;/p&gt;
+&lt;h2 id="three-ways-to-write-it"&gt;Three ways to write it&lt;/h2&gt;
+&lt;p&gt;The three versions below compute the same result. They differ in how
+many operations they put into the graph and which hardware units do the
+work.&lt;/p&gt;
+&lt;h3 id="a-loop-over-segments"&gt;A loop over segments&lt;/h3&gt;
+&lt;p&gt;The direct version masks out every other segment, reduces, and writes
+the result back to the rows of the current segment:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; softmax_loop(scores, ids, num_segments):&lt;/span&gt;
+&lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;    out &lt;span class="op"&gt;=&lt;/span&gt; torch.empty_like(scores)&lt;/span&gt;
+&lt;span id="cb5-3"&gt;&lt;a aria-hidden="true" href="#cb5-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; s &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(num_segments):&lt;/span&gt;
+&lt;span id="cb5-4"&gt;&lt;a aria-hidden="true" href="#cb5-4" tabindex="-1"&gt;&lt;/a&gt;        mask &lt;span class="op"&gt;=&lt;/span&gt; ids &lt;span class="op"&gt;==&lt;/span&gt; s&lt;/span&gt;
+&lt;span id="cb5-5"&gt;&lt;a aria-hidden="true" href="#cb5-5" tabindex="-1"&gt;&lt;/a&gt;        m &lt;span class="op"&gt;=&lt;/span&gt; torch.where(mask, scores, &lt;span class="bu"&gt;float&lt;/span&gt;(&lt;span class="st"&gt;"-inf"&lt;/span&gt;)).&lt;span class="bu"&gt;max&lt;/span&gt;()&lt;/span&gt;
+&lt;span id="cb5-6"&gt;&lt;a aria-hidden="true" href="#cb5-6" tabindex="-1"&gt;&lt;/a&gt;        e &lt;span class="op"&gt;=&lt;/span&gt; torch.where(mask, torch.exp(scores &lt;span class="op"&gt;-&lt;/span&gt; m), &lt;span class="fl"&gt;0.0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb5-7"&gt;&lt;a aria-hidden="true" href="#cb5-7" tabindex="-1"&gt;&lt;/a&gt;        out &lt;span class="op"&gt;=&lt;/span&gt; torch.where(mask, e &lt;span class="op"&gt;/&lt;/span&gt; e.&lt;span class="bu"&gt;sum&lt;/span&gt;(), out)&lt;/span&gt;
+&lt;span id="cb5-8"&gt;&lt;a aria-hidden="true" href="#cb5-8" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; out&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The two transformers-neuronx functions follow this structure. Each
+one loops over &lt;code&gt;range(num_seqs)&lt;/code&gt;, and each iteration emits a
+constant, a compare, a masked select, a reduction, a broadcast and a
+second masked select:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt; seq_id &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(num_seqs):&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    seq_full &lt;span class="op"&gt;=&lt;/span&gt; hlo.full(seq_id, s32, o_sizes)&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    seq_mask &lt;span class="op"&gt;=&lt;/span&gt; hlo.equal(seq_iota, seq_full)&lt;/span&gt;
+&lt;span id="cb6-4"&gt;&lt;a aria-hidden="true" href="#cb6-4" tabindex="-1"&gt;&lt;/a&gt;    masked_logits &lt;span class="op"&gt;=&lt;/span&gt; hlo.masked_select(seq_mask, logits, zero)&lt;/span&gt;
+&lt;span id="cb6-5"&gt;&lt;a aria-hidden="true" href="#cb6-5" tabindex="-1"&gt;&lt;/a&gt;    output_br &lt;span class="op"&gt;=&lt;/span&gt; hlo.broadcast(hlo.reduce_sum(masked_logits, dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;, keepdim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;True&lt;/span&gt;), o_sizes, [&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb6-6"&gt;&lt;a aria-hidden="true" href="#cb6-6" tabindex="-1"&gt;&lt;/a&gt;    output &lt;span class="op"&gt;=&lt;/span&gt; hlo.masked_select(seq_mask, output_br, output)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This Python loop runs while the graph is being traced, so the
+compiled graph contains one copy of the body per sequence. With a
+maximum of 64 sequences, the two reductions together emit 768 HLO
+instructions where a fixed-size formulation needs a handful. The graph
+and its compile time grow with the batch size. Every copy also reads the
+full logits tensor, so the memory traffic grows with the number of
+sequences too.&lt;/p&gt;
+&lt;h3 id="scatter-and-gather"&gt;Scatter and gather&lt;/h3&gt;
+&lt;p&gt;A scatter with a reduction writes each entry into the slot of its
+segment and combines collisions with max or add. A gather with the
+segment IDs then reads each segment’s result back to its entries:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; softmax_scatter(scores, ids, num_segments):&lt;/span&gt;
+&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;    m &lt;span class="op"&gt;=&lt;/span&gt; torch.full((num_segments,), &lt;span class="bu"&gt;float&lt;/span&gt;(&lt;span class="st"&gt;"-inf"&lt;/span&gt;)).scatter_reduce(&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="dv"&gt;0&lt;/span&gt;, ids, scores, &lt;span class="bu"&gt;reduce&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"amax"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;    e &lt;span class="op"&gt;=&lt;/span&gt; torch.exp(scores &lt;span class="op"&gt;-&lt;/span&gt; m[ids])&lt;/span&gt;
+&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;    denom &lt;span class="op"&gt;=&lt;/span&gt; torch.zeros(num_segments).index_add_(&lt;span class="dv"&gt;0&lt;/span&gt;, ids, e)&lt;/span&gt;
+&lt;span id="cb7-6"&gt;&lt;a aria-hidden="true" href="#cb7-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; e &lt;span class="op"&gt;/&lt;/span&gt; denom[ids]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The graph has the same number of operations for any number of
+segments. XLA’s scatter instruction takes the combining function as an
+argument, so both the max and the sum map onto it. How fast scatter and
+gather run depends on the backend and on how well it handles
+data-dependent addresses.&lt;/p&gt;
+&lt;h3 id="one-hot-matrix-multiplication"&gt;One-hot matrix
+multiplication&lt;/h3&gt;
+&lt;p&gt;A one-hot matrix &lt;code&gt;onehot[i, s]&lt;/code&gt; is 1 when entry
+&lt;code&gt;i&lt;/code&gt; belongs to segment &lt;code&gt;s&lt;/code&gt;. Multiplying by its
+transpose sums each segment, and multiplying by the matrix itself
+broadcasts each segment’s value back to its entries:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; softmax_onehot(scores, ids, num_segments):&lt;/span&gt;
+&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;    onehot &lt;span class="op"&gt;=&lt;/span&gt; torch.nn.functional.one_hot(ids, num_segments).to(scores.dtype)&lt;/span&gt;
+&lt;span id="cb8-3"&gt;&lt;a aria-hidden="true" href="#cb8-3" tabindex="-1"&gt;&lt;/a&gt;    m &lt;span class="op"&gt;=&lt;/span&gt; torch.where(onehot.&lt;span class="bu"&gt;bool&lt;/span&gt;(), scores[:, &lt;span class="va"&gt;None&lt;/span&gt;], &lt;span class="bu"&gt;float&lt;/span&gt;(&lt;span class="st"&gt;"-inf"&lt;/span&gt;)).amax(dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb8-4"&gt;&lt;a aria-hidden="true" href="#cb8-4" tabindex="-1"&gt;&lt;/a&gt;    e &lt;span class="op"&gt;=&lt;/span&gt; torch.exp(scores &lt;span class="op"&gt;-&lt;/span&gt; onehot &lt;span class="op"&gt;@&lt;/span&gt; m)&lt;/span&gt;
+&lt;span id="cb8-5"&gt;&lt;a aria-hidden="true" href="#cb8-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; e &lt;span class="op"&gt;/&lt;/span&gt; (onehot &lt;span class="op"&gt;@&lt;/span&gt; (onehot.T &lt;span class="op"&gt;@&lt;/span&gt; e))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The sums and broadcasts become matrix multiplications, which run on
+the matrix units of an accelerator. A max cannot be written as a matmul,
+so the max uses a masked reduction over an
+&lt;code&gt;[entries, segments]&lt;/code&gt; tensor. That tensor is the cost of this
+version. Its size is the number of entries times the number of segments,
+times the size of any trailing dimensions. Many of the multiplications
+are by zero, which is acceptable when the matrix units would otherwise
+sit idle.&lt;/p&gt;
+&lt;h2 id="checking-the-versions"&gt;Checking the versions&lt;/h2&gt;
+&lt;p&gt;The three functions agree, and each segment of the result sums to
+1:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;torch.manual_seed(&lt;span class="dv"&gt;0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb9-2"&gt;&lt;a aria-hidden="true" href="#cb9-2" tabindex="-1"&gt;&lt;/a&gt;scores &lt;span class="op"&gt;=&lt;/span&gt; torch.randn(&lt;span class="dv"&gt;10&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb9-3"&gt;&lt;a aria-hidden="true" href="#cb9-3" tabindex="-1"&gt;&lt;/a&gt;ids &lt;span class="op"&gt;=&lt;/span&gt; torch.tensor([&lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;0&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;2&lt;/span&gt;, &lt;span class="dv"&gt;3&lt;/span&gt;])&lt;/span&gt;
+&lt;span id="cb9-4"&gt;&lt;a aria-hidden="true" href="#cb9-4" tabindex="-1"&gt;&lt;/a&gt;a &lt;span class="op"&gt;=&lt;/span&gt; softmax_loop(scores, ids, &lt;span class="dv"&gt;4&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb9-5"&gt;&lt;a aria-hidden="true" href="#cb9-5" tabindex="-1"&gt;&lt;/a&gt;b &lt;span class="op"&gt;=&lt;/span&gt; softmax_scatter(scores, ids, &lt;span class="dv"&gt;4&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb9-6"&gt;&lt;a aria-hidden="true" href="#cb9-6" tabindex="-1"&gt;&lt;/a&gt;c &lt;span class="op"&gt;=&lt;/span&gt; softmax_onehot(scores, ids, &lt;span class="dv"&gt;4&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb9-7"&gt;&lt;a aria-hidden="true" href="#cb9-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;assert&lt;/span&gt; torch.allclose(a, b) &lt;span class="kw"&gt;and&lt;/span&gt; torch.allclose(a, c)&lt;/span&gt;
+&lt;span id="cb9-8"&gt;&lt;a aria-hidden="true" href="#cb9-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;assert&lt;/span&gt; torch.allclose(torch.zeros(&lt;span class="dv"&gt;4&lt;/span&gt;).index_add_(&lt;span class="dv"&gt;0&lt;/span&gt;, ids, a), torch.ones(&lt;span class="dv"&gt;4&lt;/span&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="choosing-an-approach"&gt;Choosing an approach&lt;/h2&gt;
+&lt;p&gt;For a compiled graph, a loop whose trip count is a tensor size or a
+batch limit makes the graph grow with that size. The scatter and one-hot
+versions keep the operation count fixed. Scatter does the least
+arithmetic. The one-hot version runs on the matrix units and uses no
+data-dependent addressing, at the price of an
+&lt;code&gt;[entries, segments]&lt;/code&gt; intermediate. Which one is faster
+depends on the backend, so the choice comes from measuring both at the
+batch sizes the server runs.&lt;/p&gt;
+&lt;p&gt;A fused attention kernel can avoid the segmented softmax altogether.
+If the kernel receives a mask that marks which cached positions each
+query may attend to, it can run an ordinary softmax with the masked
+positions set to a large negative value. The mask then keeps the
+sequences apart.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/transformers-neuronx/blob/1ade6d74224a89fb6366ded52153e2f32781e20d/src/transformers_neuronx/layers/attention_utils.py"&gt;&lt;code&gt;attention_utils.py&lt;/code&gt;
+in transformers-neuronx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.tensorflow.org/api_docs/python/tf/math/unsorted_segment_sum"&gt;&lt;code&gt;tf.math.unsorted_segment_sum&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.jax.dev/en/latest/_autosummary/jax.ops.segment_sum.html"&gt;&lt;code&gt;jax.ops.segment_sum&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.scatter_reduce_.html"&gt;&lt;code&gt;torch.Tensor.scatter_reduce_&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="LLM-Inference"/><category term="kernels"/><category term="xla"/><category term="softmax"/><category term="continuous-batching"/><category term="pytorch"/></entry><entry><title>Paged Attention and Chunked Prefill for LLM Inference</title><link href="https://sengopal.me/posts/paged-attention-and-chunked-prefill-for-llm-inference" rel="alternate"/><published>2024-12-28T00:00:00-08:00</published><updated>2024-12-28T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-12-28:/posts/paged-attention-and-chunked-prefill-for-llm-inference</id><summary type="html">This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.</summary><content type="html">&lt;p&gt;Large Language Models (LLMs) impose significant memory and compute
 demands during inference, particularly when handling long sequences or
 large batch sizes. To address these challenges, the vLLM system
 introduces two key optimization techniques - Paged Attention&lt;a class="footnote-ref" href="#fn1" id="fnref1" role="doc-noteref"&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; and Chunked Prefill&lt;a class="footnote-ref" href="#fn2" id="fnref2" role="doc-noteref"&gt;&lt;sup&gt;2&lt;/sup&gt;&lt;/a&gt;

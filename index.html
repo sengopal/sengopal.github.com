@@ -130,6 +130,29 @@
     <article class="row teaser">
       <header class="col-sm-4 text-muted">
         <ul>
+          <li title="2025-01-20T00:00:00-08:00">
+            <i class="fas fa-clock"></i>
+            Mon 20 January 2025
+          </li>
+          <li>
+            <i class="fas fa-folder-open"></i>
+            <a href="https://sengopal.me/category/llm-inference">LLM-Inference</a>
+          </li>
+        </ul>
+      </header>
+      <div class="col-sm-8">
+        <h4 class="title">
+          <a href="https://sengopal.me/posts/segment-sums-and-segmented-softmax">Segment Sums and Segmented Softmax</a>
+        </h4>
+        <div class="content">
+          Segment sums reduce the rows of a tensor by group label. A segmented softmax built from them normalizes the scores of many packed sequences at once, and the way it is written decides whether a compiled graph grows with the number of sequences.
+        </div>
+      </div>
+    </article>
+      <hr>
+    <article class="row teaser">
+      <header class="col-sm-4 text-muted">
+        <ul>
           <li title="2024-12-28T00:00:00-08:00">
             <i class="fas fa-clock"></i>
             Sat 28 December 2024
@@ -261,29 +284,6 @@
         </h4>
         <div class="content">
           The gap between the top two tokens at each generation step shows where a model is uncertain, and where two hardware paths can select different tokens without either being incorrect.
-        </div>
-      </div>
-    </article>
-      <hr>
-    <article class="row teaser">
-      <header class="col-sm-4 text-muted">
-        <ul>
-          <li title="2024-04-10T00:00:00-07:00">
-            <i class="fas fa-clock"></i>
-            Wed 10 April 2024
-          </li>
-          <li>
-            <i class="fas fa-folder-open"></i>
-            <a href="https://sengopal.me/category/neuron">Neuron</a>
-          </li>
-        </ul>
-      </header>
-      <div class="col-sm-8">
-        <h4 class="title">
-          <a href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging">A Simple Tensor Comparison Utility for Accuracy Debugging</a>
-        </h4>
-        <div class="content">
-          A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.
         </div>
       </div>
     </article>

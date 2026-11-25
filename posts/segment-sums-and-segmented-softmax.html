@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Segment Sums and Segmented Softmax | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/segment-sums-and-segmented-softmax.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/llm-inference.atom.xml">
+<meta name="description" content="Segment sums reduce the rows of a tensor by group label. A segmented softmax built from them normalizes the scores of many packed sequences at once, and the way it is written decides whether a compiled graph grows with the number of sequences.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2025-01-20T00:00:00-08:00">
+                <i class="fas fa-clock"></i>
+                Mon 20 January 2025
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/llm-inference">LLM-Inference</a>
+            </li>
+        </ul>
+    </header>
+    <h1>Segment Sums and Segmented Softmax</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#a-small-example" id="toc-a-small-example">A small
+example</a></li>
+<li><a href="#segmented-softmax" id="toc-segmented-softmax">Segmented
+softmax</a></li>
+<li><a href="#three-ways-to-write-it" id="toc-three-ways-to-write-it">Three ways to write it</a>
+<ul>
+<li><a href="#a-loop-over-segments" id="toc-a-loop-over-segments">A loop
+over segments</a></li>
+<li><a href="#scatter-and-gather" id="toc-scatter-and-gather">Scatter
+and gather</a></li>
+<li><a href="#one-hot-matrix-multiplication" id="toc-one-hot-matrix-multiplication">One-hot matrix
+multiplication</a></li>
+</ul></li>
+<li><a href="#checking-the-versions" id="toc-checking-the-versions">Checking the versions</a></li>
+<li><a href="#choosing-an-approach" id="toc-choosing-an-approach">Choosing an approach</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>A segment sum adds up the rows of a tensor that share a label. Its
+inputs are a data tensor and a vector of segment IDs, one per row, and
+row <code>s</code> of the output is the sum of the data rows whose ID is
+<code>s</code>:</p>
+<pre><code>out[s] = sum of data[i] for every i where segment_ids[i] == s</code></pre>
+<p>The same pattern works with other reductions, such as max, min and
+mean. Frameworks expose it under different names. TensorFlow has <a href="https://www.tensorflow.org/api_docs/python/tf/math/unsorted_segment_sum"><code>tf.math.unsorted_segment_sum</code></a>,
+JAX has <a href="https://docs.jax.dev/en/latest/_autosummary/jax.ops.segment_sum.html"><code>jax.ops.segment_sum</code></a>,
+and PyTorch has <a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.index_add_.html"><code>index_add_</code></a>
+and <a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.scatter_reduce_.html"><code>scatter_reduce_</code></a>.</p>
+<h2 id="a-small-example">A small example</h2>
+<p>Six values in three segments:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>data <span class="op">=</span> torch.tensor([<span class="fl">1.</span>, <span class="fl">2.</span>, <span class="fl">3.</span>, <span class="fl">4.</span>, <span class="fl">5.</span>, <span class="fl">6.</span>])</span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>ids <span class="op">=</span> torch.tensor([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a>torch.zeros(<span class="dv">3</span>).index_add_(<span class="dv">0</span>, ids, data)</span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a><span class="co"># tensor([ 3., 12.,  6.])</span></span></code></pre></div>
+<p>The segment IDs label rows, so a 2D input needs one ID per row, not
+one per element. Each row is reduced as a whole:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a>x <span class="op">=</span> torch.tensor([[<span class="fl">1.</span>, <span class="fl">2.</span>], [<span class="fl">3.</span>, <span class="fl">4.</span>], [<span class="fl">5.</span>, <span class="fl">6.</span>]])</span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a>rid <span class="op">=</span> torch.tensor([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a>torch.zeros(<span class="dv">2</span>, <span class="dv">2</span>).index_add_(<span class="dv">0</span>, rid, x)</span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a><span class="co"># tensor([[4., 6.],</span></span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a><span class="co">#         [5., 6.]])</span></span></code></pre></div>
+<p>The number of segments sets the output shape.
+<code>tf.math.segment_sum</code> infers it from the largest ID and
+requires sorted IDs. The unsorted TensorFlow variant and the JAX
+function take <code>num_segments</code> as an argument. A compiled graph
+needs a fixed output shape, so code that will be compiled passes
+<code>num_segments</code> explicitly.</p>
+<h2 id="segmented-softmax">Segmented softmax</h2>
+<p>A softmax over each segment needs two segment reductions, a max for
+numerical stability and a sum for the denominator:</p>
+<pre><code>m[s]   = max of scores[i] in segment s
+e[i]   = exp(scores[i] - m[segment_ids[i]])
+out[i] = e[i] / (sum of e[j] in segment s)</code></pre>
+<p>Each segment’s outputs sum to 1, and the segments do not affect each
+other.</p>
+<p>LLM serving with continuous batching produces this situation. The
+tokens or KV cache blocks of several sequences are packed along one
+dimension of a single tensor, and the attention softmax for each
+sequence must cover only that sequence’s entries. Here the segment ID of
+an entry is the sequence it belongs to.</p>
+<p>transformers-neuronx, the AWS Neuron library for LLM inference, has a
+<code>blockwise_softmax</code> function for its paged KV cache. The
+function is in <a href="https://github.com/aws-neuron/transformers-neuronx/blob/1ade6d74224a89fb6366ded52153e2f32781e20d/src/transformers_neuronx/layers/attention_utils.py"><code>layers/attention_utils.py</code></a>,
+published in December 2024. The logits have one row per active cache
+block, and <code>block_to_seq</code> maps each block to its sequence.
+The function first reduces within each block, then calls
+<code>blockwise_reduce_max</code> and <code>blockwise_reduce_sum</code>
+to combine the blocks of each sequence. Those two functions are segment
+reductions with <code>block_to_seq</code> as the segment IDs.</p>
+<h2 id="three-ways-to-write-it">Three ways to write it</h2>
+<p>The three versions below compute the same result. They differ in how
+many operations they put into the graph and which hardware units do the
+work.</p>
+<h3 id="a-loop-over-segments">A loop over segments</h3>
+<p>The direct version masks out every other segment, reduces, and writes
+the result back to the rows of the current segment:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="kw">def</span> softmax_loop(scores, ids, num_segments):</span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>    out <span class="op">=</span> torch.empty_like(scores)</span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(num_segments):</span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>        mask <span class="op">=</span> ids <span class="op">==</span> s</span>
+<span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>        m <span class="op">=</span> torch.where(mask, scores, <span class="bu">float</span>(<span class="st">"-inf"</span>)).<span class="bu">max</span>()</span>
+<span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a>        e <span class="op">=</span> torch.where(mask, torch.exp(scores <span class="op">-</span> m), <span class="fl">0.0</span>)</span>
+<span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a>        out <span class="op">=</span> torch.where(mask, e <span class="op">/</span> e.<span class="bu">sum</span>(), out)</span>
+<span id="cb5-8"><a aria-hidden="true" href="#cb5-8" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div>
+<p>The two transformers-neuronx functions follow this structure. Each
+one loops over <code>range(num_seqs)</code>, and each iteration emits a
+constant, a compare, a masked select, a reduction, a broadcast and a
+second masked select:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="cf">for</span> seq_id <span class="kw">in</span> <span class="bu">range</span>(num_seqs):</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    seq_full <span class="op">=</span> hlo.full(seq_id, s32, o_sizes)</span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>    seq_mask <span class="op">=</span> hlo.equal(seq_iota, seq_full)</span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a>    masked_logits <span class="op">=</span> hlo.masked_select(seq_mask, logits, zero)</span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a>    output_br <span class="op">=</span> hlo.broadcast(hlo.reduce_sum(masked_logits, dim<span class="op">=</span><span class="dv">0</span>, keepdim<span class="op">=</span><span class="va">True</span>), o_sizes, [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a>    output <span class="op">=</span> hlo.masked_select(seq_mask, output_br, output)</span></code></pre></div>
+<p>This Python loop runs while the graph is being traced, so the
+compiled graph contains one copy of the body per sequence. With a
+maximum of 64 sequences, the two reductions together emit 768 HLO
+instructions where a fixed-size formulation needs a handful. The graph
+and its compile time grow with the batch size. Every copy also reads the
+full logits tensor, so the memory traffic grows with the number of
+sequences too.</p>
+<h3 id="scatter-and-gather">Scatter and gather</h3>
+<p>A scatter with a reduction writes each entry into the slot of its
+segment and combines collisions with max or add. A gather with the
+segment IDs then reads each segment’s result back to its entries:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="kw">def</span> softmax_scatter(scores, ids, num_segments):</span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a>    m <span class="op">=</span> torch.full((num_segments,), <span class="bu">float</span>(<span class="st">"-inf"</span>)).scatter_reduce(</span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a>        <span class="dv">0</span>, ids, scores, <span class="bu">reduce</span><span class="op">=</span><span class="st">"amax"</span>)</span>
+<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a>    e <span class="op">=</span> torch.exp(scores <span class="op">-</span> m[ids])</span>
+<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a>    denom <span class="op">=</span> torch.zeros(num_segments).index_add_(<span class="dv">0</span>, ids, e)</span>
+<span id="cb7-6"><a aria-hidden="true" href="#cb7-6" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> denom[ids]</span></code></pre></div>
+<p>The graph has the same number of operations for any number of
+segments. XLA’s scatter instruction takes the combining function as an
+argument, so both the max and the sum map onto it. How fast scatter and
+gather run depends on the backend and on how well it handles
+data-dependent addresses.</p>
+<h3 id="one-hot-matrix-multiplication">One-hot matrix
+multiplication</h3>
+<p>A one-hot matrix <code>onehot[i, s]</code> is 1 when entry
+<code>i</code> belongs to segment <code>s</code>. Multiplying by its
+transpose sums each segment, and multiplying by the matrix itself
+broadcasts each segment’s value back to its entries:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="kw">def</span> softmax_onehot(scores, ids, num_segments):</span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a>    onehot <span class="op">=</span> torch.nn.functional.one_hot(ids, num_segments).to(scores.dtype)</span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a>    m <span class="op">=</span> torch.where(onehot.<span class="bu">bool</span>(), scores[:, <span class="va">None</span>], <span class="bu">float</span>(<span class="st">"-inf"</span>)).amax(dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>    e <span class="op">=</span> torch.exp(scores <span class="op">-</span> onehot <span class="op">@</span> m)</span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a>    <span class="cf">return</span> e <span class="op">/</span> (onehot <span class="op">@</span> (onehot.T <span class="op">@</span> e))</span></code></pre></div>
+<p>The sums and broadcasts become matrix multiplications, which run on
+the matrix units of an accelerator. A max cannot be written as a matmul,
+so the max uses a masked reduction over an
+<code>[entries, segments]</code> tensor. That tensor is the cost of this
+version. Its size is the number of entries times the number of segments,
+times the size of any trailing dimensions. Many of the multiplications
+are by zero, which is acceptable when the matrix units would otherwise
+sit idle.</p>
+<h2 id="checking-the-versions">Checking the versions</h2>
+<p>The three functions agree, and each segment of the result sums to
+1:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)</span>
+<span id="cb9-2"><a aria-hidden="true" href="#cb9-2" tabindex="-1"></a>scores <span class="op">=</span> torch.randn(<span class="dv">10</span>)</span>
+<span id="cb9-3"><a aria-hidden="true" href="#cb9-3" tabindex="-1"></a>ids <span class="op">=</span> torch.tensor([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb9-4"><a aria-hidden="true" href="#cb9-4" tabindex="-1"></a>a <span class="op">=</span> softmax_loop(scores, ids, <span class="dv">4</span>)</span>
+<span id="cb9-5"><a aria-hidden="true" href="#cb9-5" tabindex="-1"></a>b <span class="op">=</span> softmax_scatter(scores, ids, <span class="dv">4</span>)</span>
+<span id="cb9-6"><a aria-hidden="true" href="#cb9-6" tabindex="-1"></a>c <span class="op">=</span> softmax_onehot(scores, ids, <span class="dv">4</span>)</span>
+<span id="cb9-7"><a aria-hidden="true" href="#cb9-7" tabindex="-1"></a><span class="cf">assert</span> torch.allclose(a, b) <span class="kw">and</span> torch.allclose(a, c)</span>
+<span id="cb9-8"><a aria-hidden="true" href="#cb9-8" tabindex="-1"></a><span class="cf">assert</span> torch.allclose(torch.zeros(<span class="dv">4</span>).index_add_(<span class="dv">0</span>, ids, a), torch.ones(<span class="dv">4</span>))</span></code></pre></div>
+<h2 id="choosing-an-approach">Choosing an approach</h2>
+<p>For a compiled graph, a loop whose trip count is a tensor size or a
+batch limit makes the graph grow with that size. The scatter and one-hot
+versions keep the operation count fixed. Scatter does the least
+arithmetic. The one-hot version runs on the matrix units and uses no
+data-dependent addressing, at the price of an
+<code>[entries, segments]</code> intermediate. Which one is faster
+depends on the backend, so the choice comes from measuring both at the
+batch sizes the server runs.</p>
+<p>A fused attention kernel can avoid the segmented softmax altogether.
+If the kernel receives a mask that marks which cached positions each
+query may attend to, it can run an ordinary softmax with the masked
+positions set to a large negative value. The mask then keeps the
+sequences apart.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/aws-neuron/transformers-neuronx/blob/1ade6d74224a89fb6366ded52153e2f32781e20d/src/transformers_neuronx/layers/attention_utils.py"><code>attention_utils.py</code>
+in transformers-neuronx</a></li>
+<li><a href="https://www.tensorflow.org/api_docs/python/tf/math/unsorted_segment_sum"><code>tf.math.unsorted_segment_sum</code></a></li>
+<li><a href="https://docs.jax.dev/en/latest/_autosummary/jax.ops.segment_sum.html"><code>jax.ops.segment_sum</code></a></li>
+<li><a href="https://docs.pytorch.org/docs/main/generated/torch.Tensor.scatter_reduce_.html"><code>torch.Tensor.scatter_reduce_</code></a></li>
+</ul>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Jan 2025). Segment Sums and Segmented Softmax. sengopal.me. https://sengopal.me/posts/segment-sums-and-segmented-softmax</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2025segmentsumssegmented,
+  title   = {Segment Sums and Segmented Softmax},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2025},
+  month   = {Jan},
+  url     = {https://sengopal.me/posts/segment-sums-and-segmented-softmax}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>
