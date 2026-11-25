@@ -371,6 +371,11 @@ values and by providing extensibility of the Criterion Object.</p>
   </footer>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
 </body>
 
 </html>
