@@ -405,7 +405,229 @@ al., 2023)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://arxiv.org/abs/2205.14135"&gt;FlashAttention: Fast and
 Memory-Efficient Exact Attention with IO-Awareness (Dao et al.,
 2022)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="nki"/><category term="kernels"/><category term="kv-cache"/><category term="vllm"/><category term="paged-attention"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="nki"/><category term="kernels"/><category term="kv-cache"/><category term="vllm"/><category term="paged-attention"/></entry><entry><title>EKS Cluster Setup for Trn1 Multi-Node Workloads</title><link href="https://sengopal.me/posts/eks-cluster-setup-for-trn1-multi-node-workloads" rel="alternate"/><published>2025-01-22T00:00:00-08:00</published><updated>2025-01-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-01-22:/posts/eks-cluster-setup-for-trn1-multi-node-workloads</id><summary type="html">A development setup for multi-node Trn1 workloads on EKS, using long-running MPIJob pods, a shared FSx volume and rsync from a laptop, so that a code change does not need a new container image.</summary><content type="html">&lt;p&gt;A multi-node job on Trn1 instances under EKS can run as an MPI job,
+with one launcher process that starts the work on every node. If the job
+runs a fixed command from the container image, each code change needs a
+new image, a push to the registry and a new deployment. The setup below
+keeps the pods running between changes. Testing a change then takes only
+a file sync and an &lt;code&gt;mpirun&lt;/code&gt; command.&lt;/p&gt;
+&lt;h2 id="cluster-layout"&gt;Cluster layout&lt;/h2&gt;
+&lt;p&gt;The cluster has three parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Trn1 worker nodes&lt;/strong&gt; run the model. Each worker pod
+requests the Neuron devices and EFA interfaces of its node.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A launcher pod&lt;/strong&gt; runs &lt;code&gt;mpirun&lt;/code&gt;, which
+starts the processes on the workers. It needs no accelerator, so it can
+run on a CPU node.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A shared FSx for Lustre volume&lt;/strong&gt; holds code,
+checkpoints and logs. Every pod mounts it at &lt;code&gt;/shared&lt;/code&gt;, and
+its contents survive pod restarts. The &lt;a href="https://github.com/kubernetes-sigs/aws-fsx-csi-driver"&gt;FSx for
+Lustre CSI driver&lt;/a&gt; provides the volume to the pods.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/72825d50ced09056dfdb54cd1ad3caa56c3f7b25/containers/tutorials/k8s-neuron-device-plugin.rst"&gt;Neuron
+device plugin&lt;/a&gt; registers two resources.
+&lt;code&gt;aws.amazon.com/neuron&lt;/code&gt; allocates whole Neuron devices, and
+&lt;code&gt;aws.amazon.com/neuroncore&lt;/code&gt; allocates single NeuronCores. The
+&lt;a href="https://github.com/aws-samples/aws-efa-eks"&gt;EFA device
+plugin&lt;/a&gt; registers EFA interfaces as
+&lt;code&gt;vpc.amazonaws.com/efa&lt;/code&gt;. A trn1.32xlarge has 16 Neuron
+devices and 8 EFA devices, and a trn1n.32xlarge has 16 EFA devices. A
+worker pod that uses a whole trn1.32xlarge requests 16 and 8.&lt;/p&gt;
+&lt;p&gt;EFA traffic between nodes needs a security group that allows all
+traffic between its members, as the &lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/f25691d3b8bf4a7196d573d21df7210cd499ec35/frameworks/torch/torch-neuronx/setup-trn1-multi-node-execution.rst"&gt;Neuron
+multi-node setup guide&lt;/a&gt; describes. The worker node group uses that
+security group.&lt;/p&gt;
+&lt;h2 id="the-mpi-operator"&gt;The MPI operator&lt;/h2&gt;
+&lt;p&gt;The Kubeflow &lt;a href="https://github.com/kubeflow/mpi-operator/tree/v0.6.0"&gt;MPI
+operator&lt;/a&gt; runs an &lt;code&gt;MPIJob&lt;/code&gt; as one launcher and a set of
+workers. With the &lt;code&gt;v2beta1&lt;/code&gt; API and Open MPI, the operator
+does the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It creates the worker pods and a headless Service, so each worker
+has a stable host name.&lt;/li&gt;
+&lt;li&gt;It writes a hostfile that lists the workers into a ConfigMap. It
+mounts the hostfile in the launcher at &lt;code&gt;/etc/mpi/hostfile&lt;/code&gt;
+and sets &lt;code&gt;OMPI_MCA_orte_default_hostfile&lt;/code&gt;, so
+&lt;code&gt;mpirun&lt;/code&gt; finds the workers without a &lt;code&gt;--hostfile&lt;/code&gt;
+flag.&lt;/li&gt;
+&lt;li&gt;It generates an SSH key pair, stores it in a Secret and mounts it at
+&lt;code&gt;/root/.ssh&lt;/code&gt; in every pod. &lt;code&gt;mpirun&lt;/code&gt; reaches the
+workers over SSH, so each worker container must run an SSH server.&lt;/li&gt;
+&lt;li&gt;With &lt;code&gt;launcherCreationPolicy: WaitForWorkersReady&lt;/code&gt;, it
+creates the launcher only after every worker is ready. The default,
+&lt;code&gt;AtStartup&lt;/code&gt;, creates the launcher at once.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The parts of the spec that change between experiments are the
+launcher command, the worker command and the number of workers:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode yaml"&gt;&lt;code class="sourceCode yaml"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;apiVersion&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; kubeflow.org/v2beta1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;kind&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; MPIJob&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;metadata&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; trn1-job&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;slotsPerWorker&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;launcherCreationPolicy&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; WaitForWorkersReady&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;mpiReplicaSpecs&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="fu"&gt;Launcher&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;replicas&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;template&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;          &lt;/span&gt;&lt;span class="fu"&gt;containers&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;            &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; launcher&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;image&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &amp;lt;inference image&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;command&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="kw"&gt;[&lt;/span&gt;&lt;span class="st"&gt;"mpirun"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"--allow-run-as-root"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"-np"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"2"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"python3"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"/shared/run.py"&lt;/span&gt;&lt;span class="kw"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a aria-hidden="true" href="#cb1-17" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="fu"&gt;Worker&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-18"&gt;&lt;a aria-hidden="true" href="#cb1-18" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;replicas&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;2&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-19"&gt;&lt;a aria-hidden="true" href="#cb1-19" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;template&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-20"&gt;&lt;a aria-hidden="true" href="#cb1-20" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-21"&gt;&lt;a aria-hidden="true" href="#cb1-21" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;          &lt;/span&gt;&lt;span class="fu"&gt;containers&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-22"&gt;&lt;a aria-hidden="true" href="#cb1-22" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;            &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; worker&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-23"&gt;&lt;a aria-hidden="true" href="#cb1-23" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;image&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &amp;lt;inference image&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-24"&gt;&lt;a aria-hidden="true" href="#cb1-24" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;command&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="kw"&gt;[&lt;/span&gt;&lt;span class="st"&gt;"bash"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"-c"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"mkdir -p /run/sshd &amp;amp;&amp;amp; /usr/sbin/sshd -De"&lt;/span&gt;&lt;span class="kw"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-25"&gt;&lt;a aria-hidden="true" href="#cb1-25" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;resources&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-26"&gt;&lt;a aria-hidden="true" href="#cb1-26" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;                &lt;/span&gt;&lt;span class="fu"&gt;limits&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-27"&gt;&lt;a aria-hidden="true" href="#cb1-27" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;                  &lt;/span&gt;&lt;span class="fu"&gt;aws.amazon.com/neuron&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;16&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-28"&gt;&lt;a aria-hidden="true" href="#cb1-28" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;                  &lt;/span&gt;&lt;span class="fu"&gt;vpc.amazonaws.com/efa&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;8&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The worker runs &lt;code&gt;sshd&lt;/code&gt; in the foreground (&lt;code&gt;-D&lt;/code&gt;)
+and logs to stderr (&lt;code&gt;-e&lt;/code&gt;). Debian and Ubuntu builds of
+&lt;code&gt;sshd&lt;/code&gt; refuse to start without the &lt;code&gt;/run/sshd&lt;/code&gt;
+directory, which a container does not create on its own. The operator’s
+&lt;a href="https://github.com/kubeflow/mpi-operator/blob/v0.6.0/examples/v2beta1/pi/pi.yaml"&gt;example
+job&lt;/a&gt; also runs &lt;code&gt;sshd -De&lt;/code&gt; as its worker command. The full
+spec also sets the FSx volume mount and the node selectors.&lt;/p&gt;
+&lt;h2 id="long-running-pods-for-development"&gt;Long-running pods for
+development&lt;/h2&gt;
+&lt;p&gt;For development, the launcher command becomes
+&lt;code&gt;sleep infinity&lt;/code&gt;. The workers already run &lt;code&gt;sshd&lt;/code&gt;,
+which keeps them alive. All pods stay up until the job is deleted, and
+code runs in them interactively:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode yaml"&gt;&lt;code class="sourceCode yaml"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;metadata&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &amp;lt;user&amp;gt;-dev&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;slotsPerWorker&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;mpiReplicaSpecs&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="fu"&gt;Launcher&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-7"&gt;&lt;a aria-hidden="true" href="#cb2-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;replicas&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-8"&gt;&lt;a aria-hidden="true" href="#cb2-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;template&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-9"&gt;&lt;a aria-hidden="true" href="#cb2-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-10"&gt;&lt;a aria-hidden="true" href="#cb2-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;          &lt;/span&gt;&lt;span class="fu"&gt;containers&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-11"&gt;&lt;a aria-hidden="true" href="#cb2-11" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;            &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; launcher&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-12"&gt;&lt;a aria-hidden="true" href="#cb2-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;command&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="kw"&gt;[&lt;/span&gt;&lt;span class="st"&gt;"sleep"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"infinity"&lt;/span&gt;&lt;span class="kw"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-13"&gt;&lt;a aria-hidden="true" href="#cb2-13" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="fu"&gt;Worker&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-14"&gt;&lt;a aria-hidden="true" href="#cb2-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;replicas&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="dv"&gt;2&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-15"&gt;&lt;a aria-hidden="true" href="#cb2-15" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;template&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-16"&gt;&lt;a aria-hidden="true" href="#cb2-16" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-17"&gt;&lt;a aria-hidden="true" href="#cb2-17" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;          &lt;/span&gt;&lt;span class="fu"&gt;containers&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-18"&gt;&lt;a aria-hidden="true" href="#cb2-18" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;            &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; worker&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-19"&gt;&lt;a aria-hidden="true" href="#cb2-19" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;              &lt;/span&gt;&lt;span class="fu"&gt;command&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="kw"&gt;[&lt;/span&gt;&lt;span class="st"&gt;"bash"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"-c"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"mkdir -p /run/sshd &amp;amp;&amp;amp; /usr/sbin/sshd -De"&lt;/span&gt;&lt;span class="kw"&gt;]&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;On a shared cluster, a user-name prefix on the job name gives each
+developer a separate job. The operator labels every pod with the job
+name and its role, and those labels select the pods:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;kubectl&lt;/span&gt; apply &lt;span class="at"&gt;-f&lt;/span&gt; dev.yaml&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;kubectl&lt;/span&gt; get pods &lt;span class="at"&gt;-l&lt;/span&gt; training.kubeflow.org/job-name=&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;-dev&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;LAUNCHER&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;$(&lt;/span&gt;&lt;span class="ex"&gt;kubectl&lt;/span&gt; get pods &lt;span class="at"&gt;-o&lt;/span&gt; name &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;-l&lt;/span&gt; training.kubeflow.org/job-name=&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;-dev,training.kubeflow.org/job-role=launcher&lt;span class="va"&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a aria-hidden="true" href="#cb3-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;kubectl&lt;/span&gt; exec &lt;span class="at"&gt;-it&lt;/span&gt; &lt;span class="st"&gt;"&lt;/span&gt;&lt;span class="va"&gt;$LAUNCHER&lt;/span&gt;&lt;span class="st"&gt;"&lt;/span&gt; &lt;span class="at"&gt;--&lt;/span&gt; bash&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="running-code-across-the-workers"&gt;Running code across the
+workers&lt;/h2&gt;
+&lt;p&gt;Inside the launcher, &lt;code&gt;mpirun&lt;/code&gt; reads the hostfile and
+connects to the workers over SSH. With one slot per worker,
+&lt;code&gt;-np 2&lt;/code&gt; starts one process on each of the two workers:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;mpirun&lt;/span&gt; &lt;span class="at"&gt;--allow-run-as-root&lt;/span&gt; &lt;span class="at"&gt;-np&lt;/span&gt; 2 hostname&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The code under development lives on the shared volume. The
+&lt;code&gt;-x&lt;/code&gt; option of &lt;a href="https://www.open-mpi.org/doc/v4.1/man1/mpirun.1.php"&gt;Open MPI’s
+&lt;code&gt;mpirun&lt;/code&gt;&lt;/a&gt; exports an environment variable from the
+launcher to every process:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;export&lt;/span&gt; &lt;span class="va"&gt;PYTHONPATH&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;/shared/&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;/src:&lt;span class="va"&gt;$PYTHONPATH&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;mpirun&lt;/span&gt; &lt;span class="at"&gt;--allow-run-as-root&lt;/span&gt; &lt;span class="at"&gt;-np&lt;/span&gt; 2 &lt;span class="at"&gt;-x&lt;/span&gt; PYTHONPATH python3 /shared/&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;/run.py&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Without &lt;code&gt;-x PYTHONPATH&lt;/code&gt;, the worker processes use the
+image’s default &lt;code&gt;PYTHONPATH&lt;/code&gt;. They then import the package
+installed in the image instead of the working copy on
+&lt;code&gt;/shared&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="syncing-code-from-a-laptop"&gt;Syncing code from a laptop&lt;/h2&gt;
+&lt;p&gt;rsync can use &lt;code&gt;kubectl exec&lt;/code&gt; as its remote shell, so edits
+on a laptop reach a pod without exposing an SSH server outside the
+cluster. The krsync script from a &lt;a href="https://serverfault.com/questions/741670/rsync-files-to-a-kubernetes-pod"&gt;Server
+Fault answer&lt;/a&gt; wraps this. The pod needs the &lt;code&gt;rsync&lt;/code&gt;
+binary, which many images lack. On a Debian or Ubuntu image, the
+launcher installs it with:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;apt-get&lt;/span&gt; update &lt;span class="kw"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="ex"&gt;apt-get&lt;/span&gt; install &lt;span class="at"&gt;-y&lt;/span&gt; rsync&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Putting this step in the launcher command avoids repeating it after
+every restart. A short script syncs a directory to the shared volume
+through the launcher pod:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# sync.sh&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;pod&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;$(&lt;/span&gt;&lt;span class="ex"&gt;kubectl&lt;/span&gt; get pods &lt;span class="at"&gt;-o&lt;/span&gt; name &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;-l&lt;/span&gt; training.kubeflow.org/job-name=&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;-dev,training.kubeflow.org/job-role=launcher&lt;span class="va"&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;pod&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;${pod&lt;/span&gt;&lt;span class="op"&gt;#&lt;/span&gt;pod/&lt;span class="va"&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;./krsync.sh&lt;/span&gt; &lt;span class="at"&gt;-a&lt;/span&gt; ~/work/src/ &lt;span class="st"&gt;"&lt;/span&gt;&lt;span class="va"&gt;$pod&lt;/span&gt;&lt;span class="st"&gt;"&lt;/span&gt;:/shared/&lt;span class="op"&gt;&amp;lt;&lt;/span&gt;user&lt;span class="op"&gt;&amp;gt;&lt;/span&gt;/src/&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Running the script in a loop keeps the pod’s copy within a few
+seconds of the laptop:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;while&lt;/span&gt; &lt;span class="fu"&gt;true&lt;/span&gt;&lt;span class="kw"&gt;;&lt;/span&gt; &lt;span class="cf"&gt;do&lt;/span&gt; &lt;span class="ex"&gt;./sync.sh&lt;/span&gt;&lt;span class="kw"&gt;;&lt;/span&gt; &lt;span class="fu"&gt;sleep&lt;/span&gt; 1&lt;span class="kw"&gt;;&lt;/span&gt; &lt;span class="cf"&gt;done&lt;/span&gt; &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; sync.log &lt;span class="dv"&gt;2&lt;/span&gt;&lt;span class="op"&gt;&amp;gt;&amp;amp;&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt; &lt;span class="kw"&gt;&amp;amp;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The files land on FSx, so the workers see them as soon as the
+launcher does.&lt;/p&gt;
+&lt;h2 id="a-separate-pod-for-the-aws-cli"&gt;A separate pod for the AWS
+CLI&lt;/h2&gt;
+&lt;p&gt;Downloading a checkpoint from S3 needs the AWS CLI, and the inference
+image may not include it. A small pod that runs the public
+&lt;code&gt;amazon/aws-cli&lt;/code&gt; image and mounts the same FSx volume handles
+these transfers without changing the inference image:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode yaml"&gt;&lt;code class="sourceCode yaml"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;apiVersion&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; v1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-2"&gt;&lt;a aria-hidden="true" href="#cb9-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;kind&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; Pod&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-3"&gt;&lt;a aria-hidden="true" href="#cb9-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;metadata&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-4"&gt;&lt;a aria-hidden="true" href="#cb9-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; aws-cli&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-5"&gt;&lt;a aria-hidden="true" href="#cb9-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;spec&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-6"&gt;&lt;a aria-hidden="true" href="#cb9-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;serviceAccountName&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &amp;lt;account with S3 access&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-7"&gt;&lt;a aria-hidden="true" href="#cb9-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;containers&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-8"&gt;&lt;a aria-hidden="true" href="#cb9-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; aws-cli&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-9"&gt;&lt;a aria-hidden="true" href="#cb9-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;image&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; amazon/aws-cli&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-10"&gt;&lt;a aria-hidden="true" href="#cb9-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;command&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="kw"&gt;[&lt;/span&gt;&lt;span class="st"&gt;"sleep"&lt;/span&gt;&lt;span class="kw"&gt;,&lt;/span&gt;&lt;span class="at"&gt; &lt;/span&gt;&lt;span class="st"&gt;"infinity"&lt;/span&gt;&lt;span class="kw"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-11"&gt;&lt;a aria-hidden="true" href="#cb9-11" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;volumeMounts&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-12"&gt;&lt;a aria-hidden="true" href="#cb9-12" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; fsx&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-13"&gt;&lt;a aria-hidden="true" href="#cb9-13" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;          &lt;/span&gt;&lt;span class="fu"&gt;mountPath&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; /shared&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-14"&gt;&lt;a aria-hidden="true" href="#cb9-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;  &lt;/span&gt;&lt;span class="fu"&gt;volumes&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-15"&gt;&lt;a aria-hidden="true" href="#cb9-15" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;    &lt;/span&gt;&lt;span class="kw"&gt;- &lt;/span&gt;&lt;span class="fu"&gt;name&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; fsx&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-16"&gt;&lt;a aria-hidden="true" href="#cb9-16" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;      &lt;/span&gt;&lt;span class="fu"&gt;persistentVolumeClaim&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb9-17"&gt;&lt;a aria-hidden="true" href="#cb9-17" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;        &lt;/span&gt;&lt;span class="fu"&gt;claimName&lt;/span&gt;&lt;span class="kw"&gt;:&lt;/span&gt;&lt;span class="at"&gt; &amp;lt;fsx claim&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The service account maps to an IAM role with read access to the
+bucket, through &lt;a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html"&gt;IAM
+roles for service accounts&lt;/a&gt;. A file that this pod copies into
+&lt;code&gt;/shared&lt;/code&gt; is visible to the launcher and the workers.&lt;/p&gt;
+&lt;h2 id="the-development-loop"&gt;The development loop&lt;/h2&gt;
+&lt;p&gt;A working session with this setup has six steps:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Apply the development job and wait for the pods to reach
+&lt;code&gt;Running&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Start the sync loop on the laptop.&lt;/li&gt;
+&lt;li&gt;Open a shell in the launcher pod.&lt;/li&gt;
+&lt;li&gt;Run the test with &lt;code&gt;mpirun ... -x PYTHONPATH&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Edit on the laptop, wait for the sync, and run the same command
+again.&lt;/li&gt;
+&lt;li&gt;Delete the job with
+&lt;code&gt;kubectl delete mpijob &amp;lt;user&amp;gt;-dev&lt;/code&gt; at the end of the
+session to release the Trn1 nodes.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;A new image is needed only when the dependencies change.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubeflow/mpi-operator/tree/v0.6.0"&gt;Kubeflow MPI
+operator, v0.6.0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/72825d50ced09056dfdb54cd1ad3caa56c3f7b25/containers/tutorials/k8s-neuron-device-plugin.rst"&gt;Neuron
+device plugin for Kubernetes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/72825d50ced09056dfdb54cd1ad3caa56c3f7b25/containers/tutorials/k8s-prerequisite.rst"&gt;Neuron
+Kubernetes prerequisites&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/f25691d3b8bf4a7196d573d21df7210cd499ec35/frameworks/torch/torch-neuronx/setup-trn1-multi-node-execution.rst"&gt;Setting
+up Trn1 for multi-node execution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-samples/aws-efa-eks"&gt;EFA device
+plugin for EKS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/kubernetes-sigs/aws-fsx-csi-driver"&gt;FSx
+for Lustre CSI driver&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.open-mpi.org/doc/v4.1/man1/mpirun.1.php"&gt;Open
+MPI 4.1 &lt;code&gt;mpirun&lt;/code&gt; manual&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html"&gt;IAM
+roles for service accounts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://serverfault.com/questions/741670/rsync-files-to-a-kubernetes-pod"&gt;rsync
+files to a Kubernetes pod (Server Fault)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="eks"/><category term="kubernetes"/><category term="mpi"/><category term="trn1"/><category term="multi-node"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
 should establish the size of the worst and the typical difference,
 whether the argmax agrees, and whether sampling from each distribution
 gives the same result. The utility below answers each of these
