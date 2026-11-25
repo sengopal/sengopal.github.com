@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  Working on Dynamo | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/dynamo/index.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  
+  <meta name="description" content="The skills that help an engineer do well on NVIDIA Dynamo.">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+  <article class="article">
+    <div class="content">
+      <p><a href="https://github.com/ai-dynamo/dynamo">Dynamo</a> is NVIDIA’s
+open-source, datacenter-scale inference stack. It runs above engines
+such as vLLM, SGLang and TensorRT-LLM, and turns many GPUs across many
+nodes into one serving system. The work touches Rust services, Python
+engine integrations, GPU data movement, distributed systems and
+Kubernetes, often in the same week. This page describes the skills I see
+in engineers who do well on the project. Nobody arrives with all of
+them. Most people come in strong in two or three areas and pick up the
+rest on the job.</p>
+<h4 id="systems-fundamentals">Systems fundamentals</h4>
+<p>Everything else on this page builds on a strong grasp of computer
+architecture and operating systems. You should know how caches, memory
+hierarchies, NUMA, PCIe and interrupts shape performance. You should
+also know how the kernel schedules threads, manages virtual memory and
+moves data through the network stack. Much of Dynamo’s work happens
+where hardware and software meet. Examples are a pinned buffer that a
+NIC can reach directly, a thread that wakes on the wrong NUMA node, or a
+copy that crosses PCIe when it could stay on NVLink. Engineers who
+understand these interactions can explain a performance result instead
+of only reporting it, and that is what leads to the right
+optimization.</p>
+<h4 id="rust-and-async-systems-programming">Rust and async systems
+programming</h4>
+<p>The core of Dynamo is written in Rust. The HTTP frontend, the router,
+request handling and the runtime that connects workers are async Rust
+services built on Tokio. You should be comfortable with ownership and
+lifetimes across <code>async</code> boundaries, with cancellation, and
+with streams that carry tokens back to a client one at a time. Much of
+the hard work is in the paths that go wrong: a client disconnects
+mid-stream, a worker dies during decode, or a node drains for an
+upgrade. Engineers who do well here think about those cases first and
+write tests for them.</p>
+<h4 id="python-and-the-engine-layer">Python and the engine layer</h4>
+<p>Each backend worker is a Python process that wraps an inference
+engine, and it talks to the Rust runtime through PyO3 bindings. That
+boundary is where many subtle bugs live, such as the GIL, event loops on
+both sides, and object lifetimes across languages. You need to read the
+vLLM, SGLang and TensorRT-LLM code well enough to know what the engine
+does with a request. That includes the scheduler, the KV cache manager,
+and how the engine reports metrics and errors.</p>
+<h4 id="how-llm-inference-works">How LLM inference works</h4>
+<p>Most design decisions in Dynamo follow from how an LLM serves a
+request. You should know the difference between prefill and decode, and
+why one is compute-bound and the other memory-bound. You should
+understand how the KV cache grows and gets evicted, and why prefix reuse
+matters for routing. Continuous batching, chunked prefill, speculative
+decoding, quantization, and tensor, pipeline, data and expert
+parallelism all show up in day-to-day work. Disaggregated serving, where
+prefill and decode run on separate GPU pools, is one of Dynamo’s central
+features. To reason about it you need to know what it costs to move a KV
+cache between those pools.</p>
+<h4 id="gpu-communication-and-data-movement">GPU communication and data
+movement</h4>
+<p>Moving bytes between GPUs, hosts and storage is often the bottleneck.
+Dynamo uses <a href="https://github.com/ai-dynamo/nixl">NIXL</a> to
+transfer KV cache blocks over NVLink, InfiniBand or RoCE, and to offload
+them to host memory and storage. You will get more done if you
+understand RDMA, GPUDirect, UCX, the NVLink and network topology of the
+machines you run on, and what NCCL collectives do during tensor and
+expert parallelism. Some CUDA knowledge helps too: streams, events,
+pinned memory and asynchronous copies. You rarely need to write kernels,
+but you do need to read a profile and tell whether the GPU is computing,
+waiting on memory or waiting on the network.</p>
+<h4 id="distributed-systems">Distributed systems</h4>
+<p>A Dynamo deployment is a distributed system with a frontend, routers,
+prefill workers, decode workers and a planner that scales them. You
+should be comfortable with service discovery, leases, health checks and
+backpressure. You should also know the failure modes that come with
+them: split views of membership, retries that double the load, and slow
+nodes that look healthy. The KV-aware router picks a worker by
+estimating how much of a request’s prefix is already cached. The planner
+adds and removes workers to meet latency targets. Both depend on
+accurate, timely state from across the cluster. Request migration,
+cancellation and graceful shutdown are what keep a long generation alive
+when a worker goes away.</p>
+<h4 id="kubernetes-and-deployment">Kubernetes and deployment</h4>
+<p>Most production users run Dynamo on Kubernetes. The Dynamo operator
+manages a whole inference graph as one custom resource. You should know
+how operators and custom resources work, how pods get scheduled onto GPU
+nodes, and how multi-node workers are placed together. Helm, container
+images, and the NVIDIA GPU and network operators are part of the daily
+routine. Many bugs reported by users turn out to be deployment problems,
+so being able to read a cluster’s state quickly saves a lot of time.</p>
+<h4 id="performance-engineering">Performance engineering</h4>
+<p>Performance is the reason Dynamo exists, so every change needs
+numbers behind it. You should be able to design a benchmark that matches
+a real workload, with realistic input and output lengths, concurrency
+and prefix reuse. You should report time to first token, inter-token
+latency and throughput at the percentiles that matter. Nsight Systems,
+<code>perf</code>, flame graphs and tokio-console are the usual tools
+for finding where time goes. Prometheus metrics and tracing tell you
+what happened in a deployment after the fact. The best results come from
+engineers who form a hypothesis, measure, and change one thing at a
+time.</p>
+<h4 id="working-in-the-open">Working in the open</h4>
+<p>Dynamo is developed on GitHub with contributors inside and outside
+NVIDIA. Clear pull requests, design proposals that others can review,
+and patient answers to user issues are part of the job. Many of the most
+useful changes start in a GitHub issue from someone running Dynamo in
+production. You will also work upstream with the vLLM, SGLang and
+TensorRT-LLM communities, so it helps to know how those projects review
+and merge code.</p>
+<h4 id="ways-to-stand-out">Ways to stand out</h4>
+<p>Some experience is not required but makes a candidate stand out.</p>
+<p>Experience with parallel programming models such as MPI and SHMEM
+helps a lot. So does hands-on work with at least one communication
+runtime, such as MPI, NCCL, NVSHMEM, OpenSHMEM, UCX or UCC. People who
+have written parallel code with CUDA, MPI, OpenMP, OpenACC or pthreads
+already think about synchronization, data placement and overlap of
+compute with communication. Those same ideas drive KV cache transfer and
+multi-node serving.</p>
+<p>A background in RDMA and high-performance networking is also
+valuable. That includes InfiniBand, RoCE, Ethernet and EFA, along with
+network architecture and topologies such as fat trees, rails and NVLink
+domains. Add a working knowledge of HPC and of ML and deep learning
+fundamentals, and you can reason about a deployment from the model down
+to the wire.</p>
+<p>Experience implementing or directly using GPU programming APIs such
+as CUDA, OpenCL, OpenGL or Vulkan shows that you understand how work and
+memory get onto a GPU. That understanding helps when you read a profile
+or debug a transfer.</p>
+<p>Finally, the project moves fast. People who can balance several
+projects with competing priorities, and say clearly what they will and
+won’t get to, are the ones others rely on.</p>
+    </div>
+  </article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+</body>
+
+</html>
