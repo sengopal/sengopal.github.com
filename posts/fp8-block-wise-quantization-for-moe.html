@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>FP8 Block-wise Quantization for MoE | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/fp8-block-wise-quantization-for-moe.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/llm-inference.atom.xml">
+<meta name="description" content="How 128×128 block-wise FP8 quantization works, what it fixes compared with a single per-tensor scale, and how vLLM and TensorRT-LLM load block-scaled MoE weights.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2025-08-06T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Wed 06 August 2025
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/llm-inference">LLM-Inference</a>
+            </li>
+        </ul>
+    </header>
+    <h1>FP8 Block-wise Quantization for MoE</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#the-fp8-e4m3-format" id="toc-the-fp8-e4m3-format">The FP8
+E4M3 format</a></li>
+<li><a href="#the-cast" id="toc-the-cast">The cast</a></li>
+<li><a href="#per-tensor-and-per-block-scales" id="toc-per-tensor-and-per-block-scales">Per-tensor and per-block
+scales</a></li>
+<li><a href="#applying-the-scales-in-the-matrix-multiplication" id="toc-applying-the-scales-in-the-matrix-multiplication">Applying the
+scales in the matrix multiplication</a></li>
+<li><a href="#block-scaled-moe-checkpoints" id="toc-block-scaled-moe-checkpoints">Block-scaled MoE
+checkpoints</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>FP8 stores a number in one byte, half the size of BF16, and FP8
+matrix multiplication runs at twice the BF16 rate on recent GPUs. The
+format has a much smaller range than BF16, so a tensor is scaled into
+that range before the cast and scaled back afterward. Block-wise
+quantization gives each 128×128 block of a weight matrix its own scale.
+DeepSeek-V3 trained and released its weights this way, and vLLM and
+TensorRT-LLM can serve such checkpoints directly.</p>
+<h2 id="the-fp8-e4m3-format">The FP8 E4M3 format</h2>
+<p>The <a href="https://arxiv.org/abs/2209.05433">FP8 formats paper</a>
+by Micikevicius et al. defines two encodings. E4M3 has 4 exponent bits
+and 3 mantissa bits, and E5M2 has 5 and 2. The paper recommends E4M3 for
+weights and activations, which need precision, and E5M2 for gradients,
+which need range. PyTorch calls the E4M3 variant
+<code>torch.float8_e4m3fn</code>. The <code>fn</code> suffix means
+finite: the format has no infinity, and it uses the freed bit patterns
+to extend the largest value to 448.</p>
+<p>With 3 mantissa bits, the gap between neighboring E4M3 values is 1/8
+of a power of two. A cast rounds 100 to 96, for example. The normal
+values span from 2⁻⁶ (about 0.0156) to 448, a ratio of about 28,000.
+Smaller values become subnormal, with fewer significant bits, and values
+below 2⁻¹⁰ round to zero.</p>
+<h2 id="the-cast">The cast</h2>
+<p>A scale maps the largest magnitude in a group of values to 448. The
+cast below comes from the tests of <a href="https://github.com/deepseek-ai/DeepGEMM/blob/96b31fd6bbe3eea736999776d50c706efab7fb36/tests/test_core.py">DeepGEMM</a>,
+DeepSeek’s FP8 GEMM library (MIT license). It computes one scale per
+128×128 block:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Tuple</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a><span class="kw">def</span> ceil_div(x: <span class="bu">int</span>, y: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a>    <span class="cf">return</span> (x <span class="op">+</span> y <span class="op">-</span> <span class="dv">1</span>) <span class="op">//</span> y</span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a><span class="kw">def</span> per_block_cast_to_fp8(x: torch.Tensor) <span class="op">-&gt;</span> Tuple[torch.Tensor, torch.Tensor]:</span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a>    <span class="cf">assert</span> x.dim() <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a>    m, n <span class="op">=</span> x.shape</span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a>    x_padded <span class="op">=</span> torch.zeros((ceil_div(m, <span class="dv">128</span>) <span class="op">*</span> <span class="dv">128</span>, ceil_div(n, <span class="dv">128</span>) <span class="op">*</span> <span class="dv">128</span>),</span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a>                           dtype<span class="op">=</span>x.dtype, device<span class="op">=</span>x.device)</span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a>    x_padded[:m, :n] <span class="op">=</span> x</span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a>    x_view <span class="op">=</span> x_padded.view(<span class="op">-</span><span class="dv">1</span>, <span class="dv">128</span>, x_padded.size(<span class="dv">1</span>) <span class="op">//</span> <span class="dv">128</span>, <span class="dv">128</span>)</span>
+<span id="cb1-14"><a aria-hidden="true" href="#cb1-14" tabindex="-1"></a>    x_amax <span class="op">=</span> x_view.<span class="bu">abs</span>().<span class="bu">float</span>().amax(dim<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">3</span>), keepdim<span class="op">=</span><span class="va">True</span>).clamp(<span class="fl">1e-4</span>)</span>
+<span id="cb1-15"><a aria-hidden="true" href="#cb1-15" tabindex="-1"></a>    x_scaled <span class="op">=</span> (x_view <span class="op">*</span> (<span class="fl">448.0</span> <span class="op">/</span> x_amax)).to(torch.float8_e4m3fn)</span>
+<span id="cb1-16"><a aria-hidden="true" href="#cb1-16" tabindex="-1"></a>    <span class="cf">return</span> (x_scaled.view_as(x_padded)[:m, :n].contiguous(),</span>
+<span id="cb1-17"><a aria-hidden="true" href="#cb1-17" tabindex="-1"></a>            (x_amax <span class="op">/</span> <span class="fl">448.0</span>).view(x_view.size(<span class="dv">0</span>), x_view.size(<span class="dv">2</span>)))</span></code></pre></div>
+<p>The function pads the matrix with zeros to a multiple of 128 in both
+dimensions. It then views the padded matrix as
+<code>(m/128, 128, n/128, 128)</code>, so that dimensions 1 and 3 index
+the rows and columns inside a block. <code>amax(dim=(1, 3))</code> finds
+the largest magnitude in each block. The clamp at <code>1e-4</code>
+keeps an all-zero block, such as one made entirely of padding, from
+dividing by zero.</p>
+<p>The function returns two tensors. The first is the FP8 matrix with
+the original shape. The second holds one FP32 scale per block, with
+shape <code>(ceil(m/128), ceil(n/128))</code>. The original value is
+approximately the FP8 value times the scale of its block. A 4096×4096
+weight has 1,024 blocks, so its scales take 4 KB next to 16 MB of FP8
+data.</p>
+<h2 id="per-tensor-and-per-block-scales">Per-tensor and per-block
+scales</h2>
+<p>A per-tensor scale maps the largest value in the whole matrix to 448.
+The rest of the matrix scales down with it, and small values can fall
+below the normal range of E4M3. A per-block scale confines that effect
+to the 128×128 block that holds the large value.</p>
+<p>The experiment below measures how much this matters. It builds a
+4096×4096 BF16 matrix with entries drawn from a normal distribution with
+standard deviation 0.02, then places 64 outliers at a chosen multiple of
+that typical size. It quantizes the matrix both ways and measures the
+relative error of the non-outlier entries, together with the fraction of
+non-zero entries that the cast rounds to zero:</p>
+<table>
+<colgroup>
+<col style="width: 20%"/>
+<col style="width: 20%"/>
+<col style="width: 20%"/>
+<col style="width: 20%"/>
+<col style="width: 20%"/>
+</colgroup>
+<thead>
+<tr>
+<th>Outlier size</th>
+<th>Per-tensor error</th>
+<th>Per-block error</th>
+<th>Zeroed, per-tensor</th>
+<th>Zeroed, per-block</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10×</td>
+<td>2.65%</td>
+<td>2.64%</td>
+<td>0.0%</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>100×</td>
+<td>2.65%</td>
+<td>2.64%</td>
+<td>0.0%</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>1,000×</td>
+<td>2.65%</td>
+<td>2.64%</td>
+<td>0.2%</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>10,000×</td>
+<td>2.71%</td>
+<td>2.65%</td>
+<td>1.7%</td>
+<td>0.1%</td>
+</tr>
+<tr>
+<td>100,000×</td>
+<td>12.59%</td>
+<td>3.98%</td>
+<td>17.2%</td>
+<td>1.0%</td>
+</tr>
+</tbody>
+</table>
+<p>Up to outliers about 1,000 times the typical value, both methods give
+the same error of about 2.6%. That error comes from rounding to 3
+mantissa bits, and a finer scale cannot reduce it. Per-tensor scaling
+starts to lose small values only when the outliers approach the 28,000:1
+normal range of E4M3. In that regime, per-block scaling keeps the error
+close to the rounding floor.</p>
+<p>Trained weight matrices rarely have outliers that large. Activations
+can. <a href="https://arxiv.org/abs/2208.07339">LLM.int8()</a> (Dettmers
+et al., 2022) found a few hidden dimensions with extreme magnitudes in
+every layer of transformers from about 6.7B parameters up. The <a href="https://arxiv.org/abs/2412.19437">DeepSeek-V3 technical report</a>
+cites this sensitivity to activation outliers as the reason for
+fine-grained scaling. It quantizes activations in 1×128 tiles, one scale
+per token per 128 channels, computed at run time, and weights in 128×128
+blocks.</p>
+<h2 id="applying-the-scales-in-the-matrix-multiplication">Applying the
+scales in the matrix multiplication</h2>
+<p>In <code>Y = X Wᵀ</code>, the reduction runs over the hidden
+dimension in steps of 128. Within one step, every activation value
+shares one tile scale and every weight value shares one block scale. The
+kernel computes the FP8 partial product for the step and multiplies it
+by the two scales before adding it to an FP32 accumulator. The
+DeepSeek-V3 report describes this design and its second purpose.
+Tensor-core accumulation of FP8 products on H800 GPUs keeps fewer bits
+than FP32, so the kernel moves the partial sums to FP32 every 128
+elements, which is also where the scales apply.</p>
+<h2 id="block-scaled-moe-checkpoints">Block-scaled MoE checkpoints</h2>
+<p>An MoE layer has separate gate, up and down projection weights for
+each expert, and each of these matrices has its own block scales. The
+DeepSeek-V3 checkpoint declares the scheme in its
+<code>config.json</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="st">"quantization_config"</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a>  <span class="dt">"quant_method"</span><span class="fu">:</span> <span class="st">"fp8"</span><span class="fu">,</span></span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a>  <span class="dt">"fmt"</span><span class="fu">:</span> <span class="st">"e4m3"</span><span class="fu">,</span></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a>  <span class="dt">"activation_scheme"</span><span class="fu">:</span> <span class="st">"dynamic"</span><span class="fu">,</span></span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a>  <span class="dt">"weight_block_size"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">128</span><span class="ot">,</span> <span class="dv">128</span><span class="ot">]</span></span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><code>dynamic</code> means the activation scales are computed at run
+time. The <a href="https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/ec67248f61244f350422cdfd2e78258af58edff9/README_WEIGHTS.md">weight
+documentation</a> names the per-block scale tensor
+<code>weight_scale_inv</code> and stores it in FP32 next to each FP8
+weight.</p>
+<p>Serving frameworks read this configuration and select block-scaled
+kernels:</p>
+<ul>
+<li><strong>vLLM.</strong> The FP8 quantization method in <a href="https://github.com/vllm-project/vllm/blob/c3e0e9337ef0af04d2d18b263a6a0f7deed75856/vllm/model_executor/layers/quantization/fp8.py"><code>fp8.py</code></a>
+accepts <code>weight_block_size</code>. Setting the environment variable
+<code>VLLM_USE_DEEP_GEMM=1</code> routes supported FP8 GEMMs to
+DeepGEMM.</li>
+<li><strong>TensorRT-LLM.</strong> The quantization algorithm
+<code>QuantAlgo.FP8_BLOCK_SCALES</code> selects block scaling. Its
+PyTorch MoE layer, built by <a href="https://github.com/NVIDIA/TensorRT-LLM/blob/8cf3faa26a1b2335f011624eb37154fe6d76db98/tensorrt_llm/_torch/modules/fused_moe/create_moe.py"><code>create_moe</code></a>,
+has several backends. The <code>TRTLLM</code> backend supports only
+block-scaled FP8 or NVFP4 weights and falls back to the
+<code>CUTLASS</code> backend otherwise.</li>
+</ul>
+<p>The kernels differ in speed by token count, so a comparison between
+backends sweeps the number of tokens from decode sizes up to prefill
+sizes.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2209.05433">FP8 Formats for Deep
+Learning (Micikevicius et al., 2022)</a></li>
+<li><a href="https://arxiv.org/abs/2208.07339">LLM.int8(): 8-bit Matrix
+Multiplication for Transformers at Scale (Dettmers et al.,
+2022)</a></li>
+<li><a href="https://arxiv.org/abs/2412.19437">DeepSeek-V3 Technical
+Report (DeepSeek-AI, 2024)</a></li>
+<li><a href="https://github.com/deepseek-ai/DeepGEMM/blob/96b31fd6bbe3eea736999776d50c706efab7fb36/tests/test_core.py">DeepGEMM
+<code>tests/test_core.py</code></a></li>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/ec67248f61244f350422cdfd2e78258af58edff9/README_WEIGHTS.md">DeepSeek-V3
+weight documentation</a></li>
+<li><a href="https://github.com/vllm-project/vllm/blob/c3e0e9337ef0af04d2d18b263a6a0f7deed75856/vllm/model_executor/layers/quantization/fp8.py">vLLM
+FP8 quantization method</a></li>
+<li><a href="https://github.com/NVIDIA/TensorRT-LLM/blob/8cf3faa26a1b2335f011624eb37154fe6d76db98/tensorrt_llm/_torch/modules/fused_moe/create_moe.py">TensorRT-LLM
+<code>create_moe</code></a></li>
+</ul>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Aug 2025). FP8 Block-wise Quantization for MoE. sengopal.me. https://sengopal.me/posts/fp8-block-wise-quantization-for-moe</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2025fp8blockwise,
+  title   = {FP8 Block-wise Quantization for MoE},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2025},
+  month   = {Aug},
+  url     = {https://sengopal.me/posts/fp8-block-wise-quantization-for-moe}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,5 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - LLM-Inference</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/llm-inference.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2025-01-20T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Segment Sums and Segmented Softmax</title><link href="https://sengopal.me/posts/segment-sums-and-segmented-softmax" rel="alternate"/><published>2025-01-20T00:00:00-08:00</published><updated>2025-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-01-20:/posts/segment-sums-and-segmented-softmax</id><summary type="html">Segment sums reduce the rows of a tensor by group label. A segmented softmax built from them normalizes the scores of many packed sequences at once, and the way it is written decides whether a compiled graph grows with the number of sequences.</summary><content type="html">&lt;p&gt;A segment sum adds up the rows of a tensor that share a label. Its
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - LLM-Inference</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/llm-inference.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2025-08-06T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>FP8 Block-wise Quantization for MoE</title><link href="https://sengopal.me/posts/fp8-block-wise-quantization-for-moe" rel="alternate"/><published>2025-08-06T00:00:00-07:00</published><updated>2025-08-06T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-08-06:/posts/fp8-block-wise-quantization-for-moe</id><summary type="html">How 128×128 block-wise FP8 quantization works, what it fixes compared with a single per-tensor scale, and how vLLM and TensorRT-LLM load block-scaled MoE weights.</summary><content type="html">&lt;p&gt;FP8 stores a number in one byte, half the size of BF16, and FP8
+matrix multiplication runs at twice the BF16 rate on recent GPUs. The
+format has a much smaller range than BF16, so a tensor is scaled into
+that range before the cast and scaled back afterward. Block-wise
+quantization gives each 128×128 block of a weight matrix its own scale.
+DeepSeek-V3 trained and released its weights this way, and vLLM and
+TensorRT-LLM can serve such checkpoints directly.&lt;/p&gt;
+&lt;h2 id="the-fp8-e4m3-format"&gt;The FP8 E4M3 format&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://arxiv.org/abs/2209.05433"&gt;FP8 formats paper&lt;/a&gt;
+by Micikevicius et al. defines two encodings. E4M3 has 4 exponent bits
+and 3 mantissa bits, and E5M2 has 5 and 2. The paper recommends E4M3 for
+weights and activations, which need precision, and E5M2 for gradients,
+which need range. PyTorch calls the E4M3 variant
+&lt;code&gt;torch.float8_e4m3fn&lt;/code&gt;. The &lt;code&gt;fn&lt;/code&gt; suffix means
+finite: the format has no infinity, and it uses the freed bit patterns
+to extend the largest value to 448.&lt;/p&gt;
+&lt;p&gt;With 3 mantissa bits, the gap between neighboring E4M3 values is 1/8
+of a power of two. A cast rounds 100 to 96, for example. The normal
+values span from 2⁻⁶ (about 0.0156) to 448, a ratio of about 28,000.
+Smaller values become subnormal, with fewer significant bits, and values
+below 2⁻¹⁰ round to zero.&lt;/p&gt;
+&lt;h2 id="the-cast"&gt;The cast&lt;/h2&gt;
+&lt;p&gt;A scale maps the largest magnitude in a group of values to 448. The
+cast below comes from the tests of &lt;a href="https://github.com/deepseek-ai/DeepGEMM/blob/96b31fd6bbe3eea736999776d50c706efab7fb36/tests/test_core.py"&gt;DeepGEMM&lt;/a&gt;,
+DeepSeek’s FP8 GEMM library (MIT license). It computes one scale per
+128×128 block:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;from&lt;/span&gt; typing &lt;span class="im"&gt;import&lt;/span&gt; Tuple&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; ceil_div(x: &lt;span class="bu"&gt;int&lt;/span&gt;, y: &lt;span class="bu"&gt;int&lt;/span&gt;) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="bu"&gt;int&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; (x &lt;span class="op"&gt;+&lt;/span&gt; y &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;//&lt;/span&gt; y&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; per_block_cast_to_fp8(x: torch.Tensor) &lt;span class="op"&gt;-&amp;gt;&lt;/span&gt; Tuple[torch.Tensor, torch.Tensor]:&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt; x.dim() &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="dv"&gt;2&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;    m, n &lt;span class="op"&gt;=&lt;/span&gt; x.shape&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;    x_padded &lt;span class="op"&gt;=&lt;/span&gt; torch.zeros((ceil_div(m, &lt;span class="dv"&gt;128&lt;/span&gt;) &lt;span class="op"&gt;*&lt;/span&gt; &lt;span class="dv"&gt;128&lt;/span&gt;, ceil_div(n, &lt;span class="dv"&gt;128&lt;/span&gt;) &lt;span class="op"&gt;*&lt;/span&gt; &lt;span class="dv"&gt;128&lt;/span&gt;),&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;                           dtype&lt;span class="op"&gt;=&lt;/span&gt;x.dtype, device&lt;span class="op"&gt;=&lt;/span&gt;x.device)&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;    x_padded[:m, :n] &lt;span class="op"&gt;=&lt;/span&gt; x&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;    x_view &lt;span class="op"&gt;=&lt;/span&gt; x_padded.view(&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;128&lt;/span&gt;, x_padded.size(&lt;span class="dv"&gt;1&lt;/span&gt;) &lt;span class="op"&gt;//&lt;/span&gt; &lt;span class="dv"&gt;128&lt;/span&gt;, &lt;span class="dv"&gt;128&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;    x_amax &lt;span class="op"&gt;=&lt;/span&gt; x_view.&lt;span class="bu"&gt;abs&lt;/span&gt;().&lt;span class="bu"&gt;float&lt;/span&gt;().amax(dim&lt;span class="op"&gt;=&lt;/span&gt;(&lt;span class="dv"&gt;1&lt;/span&gt;, &lt;span class="dv"&gt;3&lt;/span&gt;), keepdim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;True&lt;/span&gt;).clamp(&lt;span class="fl"&gt;1e-4&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;    x_scaled &lt;span class="op"&gt;=&lt;/span&gt; (x_view &lt;span class="op"&gt;*&lt;/span&gt; (&lt;span class="fl"&gt;448.0&lt;/span&gt; &lt;span class="op"&gt;/&lt;/span&gt; x_amax)).to(torch.float8_e4m3fn)&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; (x_scaled.view_as(x_padded)[:m, :n].contiguous(),&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a aria-hidden="true" href="#cb1-17" tabindex="-1"&gt;&lt;/a&gt;            (x_amax &lt;span class="op"&gt;/&lt;/span&gt; &lt;span class="fl"&gt;448.0&lt;/span&gt;).view(x_view.size(&lt;span class="dv"&gt;0&lt;/span&gt;), x_view.size(&lt;span class="dv"&gt;2&lt;/span&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The function pads the matrix with zeros to a multiple of 128 in both
+dimensions. It then views the padded matrix as
+&lt;code&gt;(m/128, 128, n/128, 128)&lt;/code&gt;, so that dimensions 1 and 3 index
+the rows and columns inside a block. &lt;code&gt;amax(dim=(1, 3))&lt;/code&gt; finds
+the largest magnitude in each block. The clamp at &lt;code&gt;1e-4&lt;/code&gt;
+keeps an all-zero block, such as one made entirely of padding, from
+dividing by zero.&lt;/p&gt;
+&lt;p&gt;The function returns two tensors. The first is the FP8 matrix with
+the original shape. The second holds one FP32 scale per block, with
+shape &lt;code&gt;(ceil(m/128), ceil(n/128))&lt;/code&gt;. The original value is
+approximately the FP8 value times the scale of its block. A 4096×4096
+weight has 1,024 blocks, so its scales take 4 KB next to 16 MB of FP8
+data.&lt;/p&gt;
+&lt;h2 id="per-tensor-and-per-block-scales"&gt;Per-tensor and per-block
+scales&lt;/h2&gt;
+&lt;p&gt;A per-tensor scale maps the largest value in the whole matrix to 448.
+The rest of the matrix scales down with it, and small values can fall
+below the normal range of E4M3. A per-block scale confines that effect
+to the 128×128 block that holds the large value.&lt;/p&gt;
+&lt;p&gt;The experiment below measures how much this matters. It builds a
+4096×4096 BF16 matrix with entries drawn from a normal distribution with
+standard deviation 0.02, then places 64 outliers at a chosen multiple of
+that typical size. It quantizes the matrix both ways and measures the
+relative error of the non-outlier entries, together with the fraction of
+non-zero entries that the cast rounds to zero:&lt;/p&gt;
+&lt;table&gt;
+&lt;colgroup&gt;
+&lt;col style="width: 20%"/&gt;
+&lt;col style="width: 20%"/&gt;
+&lt;col style="width: 20%"/&gt;
+&lt;col style="width: 20%"/&gt;
+&lt;col style="width: 20%"/&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Outlier size&lt;/th&gt;
+&lt;th&gt;Per-tensor error&lt;/th&gt;
+&lt;th&gt;Per-block error&lt;/th&gt;
+&lt;th&gt;Zeroed, per-tensor&lt;/th&gt;
+&lt;th&gt;Zeroed, per-block&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;10×&lt;/td&gt;
+&lt;td&gt;2.65%&lt;/td&gt;
+&lt;td&gt;2.64%&lt;/td&gt;
+&lt;td&gt;0.0%&lt;/td&gt;
+&lt;td&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;100×&lt;/td&gt;
+&lt;td&gt;2.65%&lt;/td&gt;
+&lt;td&gt;2.64%&lt;/td&gt;
+&lt;td&gt;0.0%&lt;/td&gt;
+&lt;td&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1,000×&lt;/td&gt;
+&lt;td&gt;2.65%&lt;/td&gt;
+&lt;td&gt;2.64%&lt;/td&gt;
+&lt;td&gt;0.2%&lt;/td&gt;
+&lt;td&gt;0.0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10,000×&lt;/td&gt;
+&lt;td&gt;2.71%&lt;/td&gt;
+&lt;td&gt;2.65%&lt;/td&gt;
+&lt;td&gt;1.7%&lt;/td&gt;
+&lt;td&gt;0.1%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;100,000×&lt;/td&gt;
+&lt;td&gt;12.59%&lt;/td&gt;
+&lt;td&gt;3.98%&lt;/td&gt;
+&lt;td&gt;17.2%&lt;/td&gt;
+&lt;td&gt;1.0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Up to outliers about 1,000 times the typical value, both methods give
+the same error of about 2.6%. That error comes from rounding to 3
+mantissa bits, and a finer scale cannot reduce it. Per-tensor scaling
+starts to lose small values only when the outliers approach the 28,000:1
+normal range of E4M3. In that regime, per-block scaling keeps the error
+close to the rounding floor.&lt;/p&gt;
+&lt;p&gt;Trained weight matrices rarely have outliers that large. Activations
+can. &lt;a href="https://arxiv.org/abs/2208.07339"&gt;LLM.int8()&lt;/a&gt; (Dettmers
+et al., 2022) found a few hidden dimensions with extreme magnitudes in
+every layer of transformers from about 6.7B parameters up. The &lt;a href="https://arxiv.org/abs/2412.19437"&gt;DeepSeek-V3 technical report&lt;/a&gt;
+cites this sensitivity to activation outliers as the reason for
+fine-grained scaling. It quantizes activations in 1×128 tiles, one scale
+per token per 128 channels, computed at run time, and weights in 128×128
+blocks.&lt;/p&gt;
+&lt;h2 id="applying-the-scales-in-the-matrix-multiplication"&gt;Applying the
+scales in the matrix multiplication&lt;/h2&gt;
+&lt;p&gt;In &lt;code&gt;Y = X Wᵀ&lt;/code&gt;, the reduction runs over the hidden
+dimension in steps of 128. Within one step, every activation value
+shares one tile scale and every weight value shares one block scale. The
+kernel computes the FP8 partial product for the step and multiplies it
+by the two scales before adding it to an FP32 accumulator. The
+DeepSeek-V3 report describes this design and its second purpose.
+Tensor-core accumulation of FP8 products on H800 GPUs keeps fewer bits
+than FP32, so the kernel moves the partial sums to FP32 every 128
+elements, which is also where the scales apply.&lt;/p&gt;
+&lt;h2 id="block-scaled-moe-checkpoints"&gt;Block-scaled MoE checkpoints&lt;/h2&gt;
+&lt;p&gt;An MoE layer has separate gate, up and down projection weights for
+each expert, and each of these matrices has its own block scales. The
+DeepSeek-V3 checkpoint declares the scheme in its
+&lt;code&gt;config.json&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode json"&gt;&lt;code class="sourceCode json"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="st"&gt;"quantization_config"&lt;/span&gt;&lt;span class="er"&gt;:&lt;/span&gt; &lt;span class="fu"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="dt"&gt;"quant_method"&lt;/span&gt;&lt;span class="fu"&gt;:&lt;/span&gt; &lt;span class="st"&gt;"fp8"&lt;/span&gt;&lt;span class="fu"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="dt"&gt;"fmt"&lt;/span&gt;&lt;span class="fu"&gt;:&lt;/span&gt; &lt;span class="st"&gt;"e4m3"&lt;/span&gt;&lt;span class="fu"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="dt"&gt;"activation_scheme"&lt;/span&gt;&lt;span class="fu"&gt;:&lt;/span&gt; &lt;span class="st"&gt;"dynamic"&lt;/span&gt;&lt;span class="fu"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="dt"&gt;"weight_block_size"&lt;/span&gt;&lt;span class="fu"&gt;:&lt;/span&gt; &lt;span class="ot"&gt;[&lt;/span&gt;&lt;span class="dv"&gt;128&lt;/span&gt;&lt;span class="ot"&gt;,&lt;/span&gt; &lt;span class="dv"&gt;128&lt;/span&gt;&lt;span class="ot"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;dynamic&lt;/code&gt; means the activation scales are computed at run
+time. The &lt;a href="https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/ec67248f61244f350422cdfd2e78258af58edff9/README_WEIGHTS.md"&gt;weight
+documentation&lt;/a&gt; names the per-block scale tensor
+&lt;code&gt;weight_scale_inv&lt;/code&gt; and stores it in FP32 next to each FP8
+weight.&lt;/p&gt;
+&lt;p&gt;Serving frameworks read this configuration and select block-scaled
+kernels:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;vLLM.&lt;/strong&gt; The FP8 quantization method in &lt;a href="https://github.com/vllm-project/vllm/blob/c3e0e9337ef0af04d2d18b263a6a0f7deed75856/vllm/model_executor/layers/quantization/fp8.py"&gt;&lt;code&gt;fp8.py&lt;/code&gt;&lt;/a&gt;
+accepts &lt;code&gt;weight_block_size&lt;/code&gt;. Setting the environment variable
+&lt;code&gt;VLLM_USE_DEEP_GEMM=1&lt;/code&gt; routes supported FP8 GEMMs to
+DeepGEMM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TensorRT-LLM.&lt;/strong&gt; The quantization algorithm
+&lt;code&gt;QuantAlgo.FP8_BLOCK_SCALES&lt;/code&gt; selects block scaling. Its
+PyTorch MoE layer, built by &lt;a href="https://github.com/NVIDIA/TensorRT-LLM/blob/8cf3faa26a1b2335f011624eb37154fe6d76db98/tensorrt_llm/_torch/modules/fused_moe/create_moe.py"&gt;&lt;code&gt;create_moe&lt;/code&gt;&lt;/a&gt;,
+has several backends. The &lt;code&gt;TRTLLM&lt;/code&gt; backend supports only
+block-scaled FP8 or NVFP4 weights and falls back to the
+&lt;code&gt;CUTLASS&lt;/code&gt; backend otherwise.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The kernels differ in speed by token count, so a comparison between
+backends sweeps the number of tokens from decode sizes up to prefill
+sizes.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2209.05433"&gt;FP8 Formats for Deep
+Learning (Micikevicius et al., 2022)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2208.07339"&gt;LLM.int8(): 8-bit Matrix
+Multiplication for Transformers at Scale (Dettmers et al.,
+2022)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2412.19437"&gt;DeepSeek-V3 Technical
+Report (DeepSeek-AI, 2024)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/deepseek-ai/DeepGEMM/blob/96b31fd6bbe3eea736999776d50c706efab7fb36/tests/test_core.py"&gt;DeepGEMM
+&lt;code&gt;tests/test_core.py&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://huggingface.co/deepseek-ai/DeepSeek-V3/blob/ec67248f61244f350422cdfd2e78258af58edff9/README_WEIGHTS.md"&gt;DeepSeek-V3
+weight documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/vllm-project/vllm/blob/c3e0e9337ef0af04d2d18b263a6a0f7deed75856/vllm/model_executor/layers/quantization/fp8.py"&gt;vLLM
+FP8 quantization method&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/NVIDIA/TensorRT-LLM/blob/8cf3faa26a1b2335f011624eb37154fe6d76db98/tensorrt_llm/_torch/modules/fused_moe/create_moe.py"&gt;TensorRT-LLM
+&lt;code&gt;create_moe&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="LLM-Inference"/><category term="fp8"/><category term="quantization"/><category term="moe"/><category term="vllm"/><category term="tensorrt-llm"/></entry><entry><title>Segment Sums and Segmented Softmax</title><link href="https://sengopal.me/posts/segment-sums-and-segmented-softmax" rel="alternate"/><published>2025-01-20T00:00:00-08:00</published><updated>2025-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-01-20:/posts/segment-sums-and-segmented-softmax</id><summary type="html">Segment sums reduce the rows of a tensor by group label. A segmented softmax built from them normalizes the scores of many packed sequences at once, and the way it is written decides whether a compiled graph grows with the number of sequences.</summary><content type="html">&lt;p&gt;A segment sum adds up the rows of a tensor that share a label. Its
 inputs are a data tensor and a vector of segment IDs, one per row, and
 row &lt;code&gt;s&lt;/code&gt; of the output is the sum of the data rows whose ID is
 &lt;code&gt;s&lt;/code&gt;:&lt;/p&gt;

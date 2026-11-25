@@ -627,7 +627,147 @@ MPI 4.1 &lt;code&gt;mpirun&lt;/code&gt; manual&lt;/a&gt;&lt;/li&gt;
 roles for service accounts&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://serverfault.com/questions/741670/rsync-files-to-a-kubernetes-pod"&gt;rsync
 files to a Kubernetes pod (Server Fault)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="eks"/><category term="kubernetes"/><category term="mpi"/><category term="trn1"/><category term="multi-node"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="eks"/><category term="kubernetes"/><category term="mpi"/><category term="trn1"/><category term="multi-node"/></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"/><published>2024-04-15T00:00:00-07:00</published><updated>2024-04-15T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-15:/posts/neuron-handling-nans</id><summary type="html">Where NaN values come from in BF16 inference, two neuronx-cc options that reduce them, and how to find NaN and Inf values in a BF16 tensor dumped as raw bits.</summary><content type="html">&lt;p&gt;A NaN (Not a Number) in a model’s output usually starts as an
+infinity or an invalid operation in one intermediate tensor, then
+spreads through every later operation that reads it. Under IEEE 754
+rules, &lt;code&gt;inf - inf&lt;/code&gt;, &lt;code&gt;0 * inf&lt;/code&gt; and
+&lt;code&gt;inf / inf&lt;/code&gt; all produce NaN, and any arithmetic with a NaN
+input produces NaN.&lt;/p&gt;
+&lt;p&gt;In LLM inference, the common sources are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Overflow to infinity.&lt;/strong&gt; A value larger than the
+largest finite number of the data type becomes infinity. The largest
+finite FP16 value is 65,504. BF16 has the same exponent range as FP32,
+and its largest finite value is about 3.39 × 10³⁸, so overflow is rarer
+in BF16, but it can still happen in a sum of many large values or in
+&lt;code&gt;exp&lt;/code&gt; of a large input.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fully masked rows in attention.&lt;/strong&gt; An attention mask
+sets blocked positions to negative infinity before the softmax. If every
+position in a row is blocked, the softmax subtracts the row maximum,
+which is also negative infinity, and computes
+&lt;code&gt;exp(-inf - (-inf))&lt;/code&gt;. The result is NaN for the whole row. A
+padded row in a batch is a typical case. Masks that use a large finite
+negative value instead of infinity avoid this.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Precision loss in reductions.&lt;/strong&gt; A long sum or a
+variance computed in BF16 loses low-order bits. The result is wrong
+rather than NaN. A variance computed as E[x²] − E[x]² can then come out
+negative or zero and produce NaN or infinity in a later square root or
+division.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="compiler-options-in-neuronx-cc"&gt;Compiler options in
+neuronx-cc&lt;/h2&gt;
+&lt;p&gt;The Neuron compiler, &lt;code&gt;neuronx-cc&lt;/code&gt;, has two options that
+address these cases.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--enable-saturate-infinity&lt;/code&gt;&lt;/strong&gt; was added in
+compiler version 2.7.0.40 in June 2023. It converts positive and
+negative infinity to the largest and smallest finite values before
+operations that would turn an infinite input into NaN. As of April 2024,
+the &lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/af9672847cb569b92f0492d92fd464a013820a51/compiler/neuronx-cc/api-reference-guide/neuron-compiler-cli-reference-guide.rst"&gt;compiler
+reference&lt;/a&gt; limits it to the matrix-multiply transpose computations
+that the compiler introduces. The conversion has a runtime cost.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--enable-mixed-precision-accumulation&lt;/code&gt;&lt;/strong&gt;
+was added in compiler version 2.13.66.0 in April 2024. It performs the
+intermediate steps of reduction operators, such as dot products, softmax
+and layer normalization, in FP32, and casts the result back to the
+model’s data type, for example BF16. This keeps the extra precision of
+FP32 inside the reduction while the tensors stay in BF16.&lt;/p&gt;
+&lt;p&gt;Both options apply at compile time. With torch-neuronx, the
+&lt;code&gt;NEURON_CC_FLAGS&lt;/code&gt; environment variable passes them to the
+compiler:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;export&lt;/span&gt; &lt;span class="va"&gt;NEURON_CC_FLAGS&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"--enable-saturate-infinity --enable-mixed-precision-accumulation"&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="finding-nan-values-in-a-bf16-dump"&gt;Finding NaN values in a BF16
+dump&lt;/h2&gt;
+&lt;p&gt;An intermediate tensor saved from a device run is often a buffer of
+raw 16-bit values. NumPy has no &lt;code&gt;bfloat16&lt;/code&gt; data type, so
+&lt;code&gt;np.isnan&lt;/code&gt; cannot read these values directly. A BF16 value is
+the upper 16 bits of the FP32 value with the same sign and exponent.
+Shifting the bits left by 16 gives a valid FP32 bit pattern:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;BF16 bits&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0x3f80&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;1.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0xbf80&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;-1.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0x4000&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;2.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0x7f80&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;+inf&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0xff80&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;-inf&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0x7fc0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NaN&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The conversion in NumPy works on the whole buffer at once:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; numpy &lt;span class="im"&gt;as&lt;/span&gt; np&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;raw &lt;span class="op"&gt;=&lt;/span&gt; np.array([&lt;span class="bn"&gt;0x3f80&lt;/span&gt;, &lt;span class="bn"&gt;0xbf80&lt;/span&gt;, &lt;span class="bn"&gt;0x4000&lt;/span&gt;, &lt;span class="bn"&gt;0x7f80&lt;/span&gt;, &lt;span class="bn"&gt;0xff80&lt;/span&gt;, &lt;span class="bn"&gt;0x7fc0&lt;/span&gt;], dtype&lt;span class="op"&gt;=&lt;/span&gt;np.uint16)&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;f32 &lt;span class="op"&gt;=&lt;/span&gt; (raw.astype(np.uint32) &lt;span class="op"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="dv"&gt;16&lt;/span&gt;).view(np.float32)&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(f32)            &lt;span class="co"&gt;# [  1.  -1.   2.  inf -inf  nan]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-7"&gt;&lt;a aria-hidden="true" href="#cb2-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(np.isnan(f32))  &lt;span class="co"&gt;# [False False False False False  True]&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-8"&gt;&lt;a aria-hidden="true" href="#cb2-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(np.isinf(f32))  &lt;span class="co"&gt;# [False False False  True  True False]&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;PyTorch supports &lt;code&gt;bfloat16&lt;/code&gt; directly. Reinterpreting the
+same bits as a BF16 tensor lets &lt;code&gt;torch.isnan&lt;/code&gt; and
+&lt;code&gt;torch.isinf&lt;/code&gt; run on them without a copy to FP32:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;t &lt;span class="op"&gt;=&lt;/span&gt; torch.from_numpy(raw.view(np.int16)).view(torch.bfloat16)&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;torch.isnan(t)  &lt;span class="co"&gt;# tensor([False, False, False, False, False,  True])&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="locating-the-first-nan"&gt;Locating the first NaN&lt;/h2&gt;
+&lt;p&gt;A NaN in the final logits says little about where it started. The
+first check is whether the NaN reproduces on CPU with the same inputs
+and BF16 weights. If it does, the model itself produces it, and forward
+hooks in eager mode record the first module whose output contains NaN or
+infinity:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; find_first_nonfinite(model, inputs):&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    found &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;def&lt;/span&gt; hook(module, args, output):&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; found &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="bu"&gt;isinstance&lt;/span&gt;(output, torch.Tensor) &lt;span class="kw"&gt;and&lt;/span&gt; &lt;span class="kw"&gt;not&lt;/span&gt; torch.isfinite(output).&lt;span class="bu"&gt;all&lt;/span&gt;():&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;            found.append(module)&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;    handles &lt;span class="op"&gt;=&lt;/span&gt; [m.register_forward_hook(hook) &lt;span class="cf"&gt;for&lt;/span&gt; m &lt;span class="kw"&gt;in&lt;/span&gt; model.modules()]&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;try&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a aria-hidden="true" href="#cb4-10" tabindex="-1"&gt;&lt;/a&gt;        model(&lt;span class="op"&gt;*&lt;/span&gt;inputs)&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a aria-hidden="true" href="#cb4-11" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;finally&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb4-12"&gt;&lt;a aria-hidden="true" href="#cb4-12" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;for&lt;/span&gt; h &lt;span class="kw"&gt;in&lt;/span&gt; handles:&lt;/span&gt;
+&lt;span id="cb4-13"&gt;&lt;a aria-hidden="true" href="#cb4-13" tabindex="-1"&gt;&lt;/a&gt;            h.remove()&lt;/span&gt;
+&lt;span id="cb4-14"&gt;&lt;a aria-hidden="true" href="#cb4-14" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; found[&lt;span class="dv"&gt;0&lt;/span&gt;] &lt;span class="cf"&gt;if&lt;/span&gt; found &lt;span class="cf"&gt;else&lt;/span&gt; &lt;span class="va"&gt;None&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A module’s hook runs when its forward pass returns, so a layer’s hook
+fires before the hook of the container that holds it. The first module
+recorded is the innermost, earliest module with a non-finite output.&lt;/p&gt;
+&lt;p&gt;If the NaN appears only on the device, the compiled graph differs
+from the eager model, for example in casts the compiler inserted or in
+the precision of a reduction. Recompiling with the two options above is
+a quick test of those two causes.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/710a67a6e5e90bb429eee43a6d98b97ef39453e9/release-notes/compiler/neuronx-cc/index.rst"&gt;neuronx-cc
+release notes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/af9672847cb569b92f0492d92fd464a013820a51/compiler/neuronx-cc/api-reference-guide/neuron-compiler-cli-reference-guide.rst"&gt;neuronx-cc
+command-line reference&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/aws-neuron/aws-neuron-sdk/blob/710a67a6e5e90bb429eee43a6d98b97ef39453e9/frameworks/torch/torch-neuronx/api-reference-guide/training/torch-neuron-envvars.rst"&gt;torch-neuronx
+environment variables&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Neuron"/><category term="ml-code"/><category term="llm"/><category term="neuron"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
 should establish the size of the worst and the typical difference,
 whether the argmax agrees, and whether sampling from each distribution
 gives the same result. The utility below answers each of these
@@ -798,46 +938,7 @@ boundaries.&lt;/li&gt;
 &lt;code&gt;max_diff&lt;/code&gt; of 0.1 can come from a single outlier or from a
 uniform 0.1 offset across the tensor. The standard deviation offers a
 hint, and a histogram provides a definitive answer.&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="accuracy"/><category term="debugging"/><category term="tensor"/><category term="validation"/></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"/><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-01-20:/posts/neuron-handling-nans</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
-or loss of precision issue. This is typically seen with NaN &lt;em&gt;(Not a
-Number)&lt;/em&gt; errors.&lt;/p&gt;
-&lt;p&gt;Neuron compiler suggests the following options to overcome the NaN
-issue.&lt;/p&gt;
-&lt;h3 id="compiler-flag---enable-saturate-infinity"&gt;Compiler flag:
-&lt;code&gt;--enable-saturate-infinity&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-7-0-40"&gt;Ref&lt;/a&gt;
-A computation that can generate +/- infinity is at a high risk of
-generating Not-a-Number (NaN) values when the infinity value is used in
-subsequent computations. This option helps avoid this by converting
-+Inf/-Inf values to MAX/MIN_FLOAT before operations that could produce
-NaN values for +Inf/-Inf inputs on the target architecture. While this
-option helps to avoid NaN values, there is a potential performance
-degradation that occurs during model execution when this conversion is
-enabled.&lt;/p&gt;
-&lt;h3 id="compiler-flag---enable-mixed-precision-accumulation"&gt;Compiler
-flag: &lt;code&gt;--enable-mixed-precision-accumulation&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/release-notes/compiler/neuronx-cc/index.html#neuron-compiler-2-13-66-0"&gt;Ref&lt;/a&gt;
-To perform intermediate calculations of reduction operators (such as the
-dot or reduce operators) in FP32 regardless of the operation’s defined
-datatype.&lt;/p&gt;
-&lt;h3 id="nans-due-to-saturation"&gt;NaNs due to saturation&lt;/h3&gt;
-&lt;p&gt;To triage an intermediate BF16 tensor, np.isnan would not work, since
-NumPy supports only &lt;code&gt;float16&lt;/code&gt;, &lt;code&gt;float32&lt;/code&gt;, and
-&lt;code&gt;float64&lt;/code&gt; by default and &lt;code&gt;bfloat16&lt;/code&gt; is not a
-standard NumPy dtype. The data typically looks like
-&lt;code&gt;bf16_hex = [0x3f80, 0xbf80, 0x4000, 0x7f80, 0xff80, 0x7fc0]&lt;/code&gt;.
-We can either try to use torch.isnan or convert to fp32 as below.&lt;/p&gt;
-&lt;h4 id="convert-to-fp32-for-printingchecking"&gt;Convert to fp32 for
-printing/checking&lt;/h4&gt;
-&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; bf16_to_float32(bits):&lt;/span&gt;
-&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="im"&gt;import&lt;/span&gt; struct&lt;/span&gt;
-&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# Pad with 16 zero bits to match float32&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;    f32_bits &lt;span class="op"&gt;=&lt;/span&gt; bits &lt;span class="op"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="dv"&gt;16&lt;/span&gt;&lt;/span&gt;
-&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; struct.unpack(&lt;span class="st"&gt;'f'&lt;/span&gt;, struct.pack(&lt;span class="st"&gt;'I'&lt;/span&gt;, f32_bits))[&lt;span class="dv"&gt;0&lt;/span&gt;]&lt;/span&gt;
-&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
-&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;converted &lt;span class="op"&gt;=&lt;/span&gt; [bf16_to_float32(b) &lt;span class="cf"&gt;for&lt;/span&gt; b &lt;span class="kw"&gt;in&lt;/span&gt; bf16_hex]&lt;/span&gt;
-&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;print&lt;/span&gt;(converted)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;em&gt;To add Neuron available conversion method&lt;/em&gt;&lt;/p&gt;</content><category term="Neuron"/><category term="ml-code"/><category term="llm"/><category term="neuron"/></entry><entry><title>AI Compilers - A Study guide</title><link href="https://sengopal.me/posts/ai-compilers-a-study-guide" rel="alternate"/><published>2023-12-22T00:00:00-08:00</published><updated>2023-12-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-22:/posts/ai-compilers-a-study-guide</id><summary type="html">A growing list/study guide of AI compilers, from foundational concepts like graph lowering and systolic arrays to practical tools like TorchDynamo and Glow.</summary><content type="html">&lt;p&gt;The following formulates a study guide for learning about AI
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="accuracy"/><category term="debugging"/><category term="tensor"/><category term="validation"/></entry><entry><title>AI Compilers - A Study guide</title><link href="https://sengopal.me/posts/ai-compilers-a-study-guide" rel="alternate"/><published>2023-12-22T00:00:00-08:00</published><updated>2023-12-22T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-22:/posts/ai-compilers-a-study-guide</id><summary type="html">A growing list/study guide of AI compilers, from foundational concepts like graph lowering and systolic arrays to practical tools like TorchDynamo and Glow.</summary><content type="html">&lt;p&gt;The following formulates a study guide for learning about AI
 compilers and systematically understanding the inner functions. These
 are targetted more towards Model and Framework level developers to build
 a deeper understanding of compiler functions.&lt;/p&gt;
