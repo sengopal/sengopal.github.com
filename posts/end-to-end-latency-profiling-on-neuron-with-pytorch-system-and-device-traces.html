@@ -6,9 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Torch Profiler Walk-Through for Neuron Latency | Senthilkumar Gopal
+  <title>End-to-End Latency Profiling on Neuron with PyTorch, System and Device Traces | Senthilkumar Gopal
 </title>
-  <link rel="canonical" href="https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency.html">
+  <link rel="canonical" href="https://sengopal.me/posts/end-to-end-latency-profiling-on-neuron-with-pytorch-system-and-device-traces.html">
 
     <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
     <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
@@ -27,7 +27,7 @@
         href="https://sengopal.me/feeds/all.atom.xml">
   <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
         href="https://sengopal.me/feeds/neuron.atom.xml">
-<meta name="description" content="Using the PyTorch profiler together with neuron-profile to break down LLM inference latency on Neuron, with SQL queries over the Perfetto trace for context encoding and token generation.">
+<meta name="description" content="End-to-end profiling of LLM inference on Neuron at three levels, the PyTorch profiler on the host, the Neuron runtime system trace across executions, and neuron-profile inside a single NEFF.">
 
 <script>
     MathJax = {
@@ -79,9 +79,9 @@
 <article class="article">
     <header>
         <ul class="list-inline">
-            <li class="list-inline-item text-muted" title="2025-06-03T00:00:00-07:00">
+            <li class="list-inline-item text-muted" title="2026-11-24T00:00:00-08:00">
                 <i class="fas fa-clock"></i>
-                Tue 03 June 2025
+                Tue 24 November 2026
             </li>
             <li class="list-inline-item">
                 <i class="fas fa-folder-open"></i>
@@ -89,7 +89,7 @@
             </li>
         </ul>
     </header>
-    <h1>Torch Profiler Walk-Through for Neuron Latency</h1>
+    <h1>End-to-End Latency Profiling on Neuron with PyTorch, System and Device Traces</h1>
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
@@ -97,11 +97,19 @@
 a profiler</a></li>
 <li><a href="#capturing-a-pytorch-profile" id="toc-capturing-a-pytorch-profile">Capturing a PyTorch
 profile</a></li>
-<li><a href="#viewing-the-trace" id="toc-viewing-the-trace">Viewing the
-trace</a></li>
-<li><a href="#querying-the-trace-with-sql" id="toc-querying-the-trace-with-sql">Querying the trace with
-SQL</a></li>
-<li><a href="#moving-to-the-device-view" id="toc-moving-to-the-device-view">Moving to the device view</a></li>
+<li><a href="#viewing-the-pytorch-trace" id="toc-viewing-the-pytorch-trace">Viewing the PyTorch trace</a></li>
+<li><a href="#querying-the-pytorch-trace-with-sql" id="toc-querying-the-pytorch-trace-with-sql">Querying the PyTorch trace
+with SQL</a></li>
+<li><a href="#capturing-a-system-trace" id="toc-capturing-a-system-trace">Capturing a system trace</a>
+<ul>
+<li><a href="#capturing-with-environment-variables" id="toc-capturing-with-environment-variables">Capturing with environment
+variables</a></li>
+<li><a href="#capturing-with-the-runtime-api" id="toc-capturing-with-the-runtime-api">Capturing with the runtime
+API</a></li>
+<li><a href="#event-types" id="toc-event-types">Event types</a></li>
+<li><a href="#analyzing-the-system-trace" id="toc-analyzing-the-system-trace">Analyzing the system trace</a></li>
+</ul></li>
+<li><a href="#capturing-a-device-profile" id="toc-capturing-a-device-profile">Capturing a device profile</a></li>
 <li><a href="#viewing-the-device-profile" id="toc-viewing-the-device-profile">Viewing the device profile</a></li>
 <li><a href="#a-worked-example" id="toc-a-worked-example">A worked
 example</a></li>
@@ -110,12 +118,15 @@ example</a></li>
 </nav>
     </div>
     <div class="content">
-        <p>The PyTorch profiler records what the host CPU does, including
-framework code, input preparation, and the calls that dispatch work to
-the Neuron device. <code>neuron-profile</code> records what the device
-does once it receives that work. A latency investigation starts with the
-PyTorch profile and moves to <code>neuron-profile</code> when the device
-is the bottleneck.</p>
+        <p>Inference latency on Neuron can be measured at three levels. The
+PyTorch profiler records what the host CPU does, including framework
+code, input preparation, and the calls that dispatch work to the device.
+The Neuron runtime system trace records runtime and device events across
+the whole run, such as each model execution on a NeuronCore and each
+collective operation. <code>neuron-profile</code> records what happens
+inside the device during a single execution of a compiled model (NEFF).
+An investigation usually moves through the three levels in that order,
+from the broadest view to the narrowest.</p>
 <h2 id="choosing-a-profiler">Choosing a profiler</h2>
 <p>The <strong>PyTorch profiler</strong> captures:</p>
 <ul>
@@ -127,17 +138,24 @@ for the result</li>
 <li>The split between context encoding, which processes the prompt, and
 token generation, which produces one token per step</li>
 </ul>
-<p>The <strong>Neuron profiler</strong> captures:</p>
+<p>The <strong>system trace</strong> captures:</p>
 <ul>
-<li>Activity inside the device during a single execution of a compiled
-model (NEFF)</li>
+<li>The start and end of every NEFF execution on every NeuronCore</li>
+<li>Collective operations and the barriers between them</li>
+<li>Model switches, tensor reads and writes, and numerical errors</li>
+<li>Idle gaps between executions and the timing between NeuronCores</li>
+</ul>
+<p>The <strong>device profile</strong> captures:</p>
+<ul>
+<li>Activity inside one NEFF execution</li>
 <li>Per-engine activity, DMA transfers, collectives and semaphores</li>
 </ul>
 <p>When time to first token or per-token latency is higher than
 expected, the PyTorch profile shows whether the time goes to the host or
-the device. If the host dominates, the investigation continues in the
-framework code. If the device dominates, it continues in
-<code>neuron-profile</code>.</p>
+the device. The system trace shows how device executions are spaced
+across the run and across NeuronCores, which exposes gaps, stalls and
+long tails that a single execution does not show. The device profile
+then explains a slow execution operator by operator.</p>
 <h2 id="capturing-a-pytorch-profile">Capturing a PyTorch profile</h2>
 <p>A minimal capture around a <code>transformers-neuronx</code>
 generation call:</p>
@@ -164,13 +182,14 @@ call is named <code>neuron::_parallel_executor_run</code>, and its
 duration covers dispatching the work and waiting for the device to
 finish. Operator names can differ between SDK versions, so the names in
 the queries below should be checked against the trace first.</p>
-<h2 id="viewing-the-trace">Viewing the trace</h2>
+<h2 id="viewing-the-pytorch-trace">Viewing the PyTorch trace</h2>
 <p><a href="https://ui.perfetto.dev/">Perfetto</a> opens Chrome trace
 files directly in the browser and handles large traces better than the
 older <code>chrome://tracing</code> viewer. Each operator appears as a
 slice on a timeline. Hovering over a slice shows its duration, and
 selecting a range of slices shows aggregate statistics.</p>
-<h2 id="querying-the-trace-with-sql">Querying the trace with SQL</h2>
+<h2 id="querying-the-pytorch-trace-with-sql">Querying the PyTorch trace
+with SQL</h2>
 <p>Perfetto loads the trace into a database and accepts SQL in its query
 tab. The <code>slice</code> table holds one row per slice, with the
 start time <code>ts</code> and duration <code>dur</code> in
@@ -211,16 +230,109 @@ and dropping the first row gives the mean per-token latency:</p>
 each record the call, the queries should filter on a single thread
 first. Percentiles are easiest to compute by exporting the query result
 and processing it with NumPy.</p>
-<h2 id="moving-to-the-device-view">Moving to the device view</h2>
-<p>The PyTorch profile shows which device call is slow.
-<code>neuron-profile</code> shows what happens inside that call. The
-usual sequence is:</p>
-<ol type="1">
-<li>Use the PyTorch profile to identify the slow phase, context encoding
-or token generation, and the NEFF that runs it.</li>
-<li>Capture a device profile of that NEFF:</li>
-</ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="ex">neuron-profile</span> capture <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
+<h2 id="capturing-a-system-trace">Capturing a system trace</h2>
+<p>The PyTorch profile sees each device call as a single host-side
+slice. The Neuron runtime system trace records what the runtime and the
+NeuronCores do during those calls, continuously and for every core,
+while the application runs normally. It does not show the instructions
+inside an execution. An event says that a NEFF ran on a NeuronCore from
+one time to another, not which engine instruction ran at a given
+moment.</p>
+<h3 id="capturing-with-environment-variables">Capturing with environment
+variables</h3>
+<p>The runtime captures a system trace for an unmodified application
+when <code>NEURON_RT_INSPECT_ENABLE</code> is set (<a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.31.0/tools/neuron-explorer/overview-system-profiles.html">system
+profiles overview</a>, <a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.31.0/tools/neuron-explorer/how-to-profile-workload.html">capture
+guide</a>):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">NEURON_RT_INSPECT_ENABLE</span><span class="op">=</span>1</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">NEURON_RT_INSPECT_OUTPUT_DIR</span><span class="op">=</span>./inspect-output</span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a><span class="bu">export</span> <span class="va">NEURON_RT_INSPECT_EVENT_FILTER_NC</span><span class="op">=</span>0-3</span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a><span class="bu">export</span> <span class="va">NEURON_RT_INSPECT_EVENT_FILTER_TYPE</span><span class="op">=</span>hardware</span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a><span class="ex">python</span> run_inference.py</span></code></pre></div>
+<p>The other <code>NEURON_RT_INSPECT_*</code> variables have no effect
+unless <code>NEURON_RT_INSPECT_ENABLE=1</code> is set. The two filter
+variables restrict capture to NeuronCores 0 to 3 and to hardware events.
+<code>NEURON_RT_INSPECT_DEVICE_PROFILE=1</code> also captures device
+profiles of the executed NEFFs. The trace covers the whole lifetime of
+the process, and Neuron Explorer opens the output directory:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">neuron-explorer</span> view <span class="at">-d</span> ./inspect-output</span></code></pre></div>
+<h3 id="capturing-with-the-runtime-api">Capturing with the runtime
+API</h3>
+<p>For control over when capture starts and stops, the runtime exposes
+the trace through a C API in <code>nrt_sys_trace.h</code> (<a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/neuron-runtime/api/nrt_sys_trace.html">API
+reference</a>). The runtime stores events in per-NeuronCore ring
+buffers, so the trace can run for a long time with bounded memory.
+Events are returned as a JSON string and can be fetched only once. The
+ring buffers are freed when tracing stops, so the events must be fetched
+before <code>nrt_sys_trace_stop()</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb8-2"><a aria-hidden="true" href="#cb8-2" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;nrt/nrt_sys_trace.h&gt;</span></span>
+<span id="cb8-3"><a aria-hidden="true" href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a aria-hidden="true" href="#cb8-4" tabindex="-1"></a>nrt_sys_trace_config_t <span class="op">*</span>config <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb8-5"><a aria-hidden="true" href="#cb8-5" tabindex="-1"></a>nrt_sys_trace_config_allocate<span class="op">(&amp;</span>config<span class="op">);</span></span>
+<span id="cb8-6"><a aria-hidden="true" href="#cb8-6" tabindex="-1"></a>nrt_sys_trace_config_set_defaults<span class="op">(</span>config<span class="op">);</span></span>
+<span id="cb8-7"><a aria-hidden="true" href="#cb8-7" tabindex="-1"></a>nrt_sys_trace_start<span class="op">(</span>config<span class="op">);</span></span>
+<span id="cb8-8"><a aria-hidden="true" href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a aria-hidden="true" href="#cb8-9" tabindex="-1"></a><span class="co">/* Run the workload: an inference batch or a training step. */</span></span>
+<span id="cb8-10"><a aria-hidden="true" href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a aria-hidden="true" href="#cb8-11" tabindex="-1"></a><span class="dt">char</span> <span class="op">*</span>events <span class="op">=</span> NULL<span class="op">;</span></span>
+<span id="cb8-12"><a aria-hidden="true" href="#cb8-12" tabindex="-1"></a><span class="dt">size_t</span> size <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-13"><a aria-hidden="true" href="#cb8-13" tabindex="-1"></a>nrt_sys_trace_fetch_events<span class="op">(&amp;</span>events<span class="op">,</span> <span class="op">&amp;</span>size<span class="op">,</span> NULL<span class="op">);</span></span>
+<span id="cb8-14"><a aria-hidden="true" href="#cb8-14" tabindex="-1"></a>fwrite<span class="op">(</span>events<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> size<span class="op">,</span> output_file<span class="op">);</span></span>
+<span id="cb8-15"><a aria-hidden="true" href="#cb8-15" tabindex="-1"></a>nrt_sys_trace_buffer_free<span class="op">(</span>events<span class="op">);</span></span>
+<span id="cb8-16"><a aria-hidden="true" href="#cb8-16" tabindex="-1"></a></span>
+<span id="cb8-17"><a aria-hidden="true" href="#cb8-17" tabindex="-1"></a>nrt_sys_trace_stop<span class="op">();</span></span>
+<span id="cb8-18"><a aria-hidden="true" href="#cb8-18" tabindex="-1"></a>nrt_sys_trace_config_free<span class="op">(</span>config<span class="op">);</span></span></code></pre></div>
+<p>The configuration controls how much the trace captures:</p>
+<ul>
+<li><code>nrt_sys_trace_config_set_max_events_per_nc()</code> sets the
+capacity of the ring buffers.</li>
+<li><code>nrt_sys_trace_config_set_capture_enabled_for_nc()</code> turns
+capture on or off for a NeuronCore. The runtime allocates no ring buffer
+for a disabled core.</li>
+<li><code>nrt_sys_trace_config_set_capture_enabled_for_event_type()</code>
+turns capture on or off for an event type.</li>
+</ul>
+<p>An unfiltered trace of a long run produces a very large number of
+events. Restricting capture to the event types and NeuronCores under
+investigation keeps the trace small enough to analyze.</p>
+<h3 id="event-types">Event types</h3>
+<p><code>nrt_sys_trace_get_event_types()</code> returns the full list of
+event types for the installed runtime. The hardware events include:</p>
+<ul>
+<li><code>nc_exec_running</code>, the execution of a NEFF on a
+NeuronCore</li>
+<li><code>cc_running</code> and <code>cc_exec_barrier</code>, collective
+operations and their barriers</li>
+<li><code>nrt_model_switch</code>, a switch between loaded models</li>
+<li><code>numerical_err</code>, a numerical error such as a NaN or an
+infinity</li>
+<li><code>timestamp_sync_point</code>, a timestamp synchronization
+event</li>
+<li><code>hw_notify</code>, a hardware notification</li>
+</ul>
+<p>The software events cover runtime activity on the host, such as
+<code>model_load</code>, <code>nrt_execute</code>,
+<code>tensor_read</code> and <code>tensor_write</code>.</p>
+<h3 id="analyzing-the-system-trace">Analyzing the system trace</h3>
+<p>Neuron Explorer shows the events on a timeline. Events fetched
+through the API are plain JSON, which a short Python script can process.
+Typical analyses include:</p>
+<ul>
+<li>The distribution of NEFF execution durations from
+<code>nc_exec_running</code> events</li>
+<li>The intervals between the starts of consecutive executions, which
+include any host-side gap</li>
+<li>The time spent in <code>cc_exec_barrier</code>, which shows
+NeuronCores waiting on each other in a collective</li>
+<li>The timing of <code>numerical_err</code> events relative to the
+executions around them</li>
+</ul>
+<h2 id="capturing-a-device-profile">Capturing a device profile</h2>
+<p>The PyTorch profile and the system trace show which NEFF execution is
+slow. <code>neuron-profile</code> shows what happens inside that
+execution:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a aria-hidden="true" href="#cb9-1" tabindex="-1"></a><span class="ex">neuron-profile</span> capture <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
 <p>The capture runs the NEFF on the device and writes the trace to an
 NTFF file. Models that run across several NeuronCores need the
 multi-worker options described in the <a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/tools/neuron-sys-tools/neuron-profile-user-guide.html">Neuron
@@ -230,12 +342,17 @@ Profile user guide</a>.</p>
 be installed and initialized once on the instance. The user guide lists
 the installation steps. After that, the following command processes the
 profile and prints a local URL, usually on port 3001:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">neuron-profile</span> view <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a aria-hidden="true" href="#cb10-1" tabindex="-1"></a><span class="ex">neuron-profile</span> view <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
 <p>When the profile runs on a remote instance, SSH port forwarding makes
 the viewer reachable from a laptop:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="fu">ssh</span> my-instance <span class="at">-L</span> 3001:localhost:3001 <span class="at">-L</span> 8086:localhost:8086</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a aria-hidden="true" href="#cb11-1" tabindex="-1"></a><span class="fu">ssh</span> my-instance <span class="at">-L</span> 3001:localhost:3001 <span class="at">-L</span> 8086:localhost:8086</span></code></pre></div>
 <p>The viewer is then available at
 <code>http://localhost:3001</code>.</p>
+<p>Newer Neuron SDK releases replace <code>neuron-profile</code> with
+<code>neuron-explorer</code>, which takes the same capture arguments
+(<code>neuron-explorer capture -n file.neff -s profile.ntff</code>) and
+needs no InfluxDB installation (<a href="https://awsdocs-neuron.readthedocs-hosted.com/en/latest/tools/neuron-explorer/migration-faq.html">migration
+guide</a>).</p>
 <h2 id="a-worked-example">A worked example</h2>
 <p>Consider a generation of 100 tokens that takes 800 ms when the
 expected latency is 400 ms.</p>
@@ -251,40 +368,48 @@ so it is the phase to investigate.</li>
 <li><strong>Host or device.</strong> The durations of the token
 generation calls are close to the gaps between them, so little time is
 spent on the host between tokens. The time goes to the device.</li>
+<li><strong>System trace.</strong> The <code>nc_exec_running</code>
+events for the token generation NEFF show the same duration on every
+NeuronCore, and the <code>cc_exec_barrier</code> events show each core
+waiting a large share of every step. The time goes to collectives, not
+to computation on one slow core.</li>
 <li><strong>Device profile.</strong> A <code>neuron-profile</code>
-capture of the token generation NEFF shows which engines are busy and
-which wait on DMA or collectives, which narrows the problem to specific
-operators.</li>
+capture of the token generation NEFF shows which engines wait on DMA or
+collectives, which narrows the problem to specific operators.</li>
 </ol>
 <h2 id="practices">Practices</h2>
-<p><strong>Capture both profiles.</strong> The PyTorch profile locates
-the slow phase, and the device profile shows which operators in that
-phase take the time.</p>
-<p><strong>Reuse the queries.</strong> Running the same SQL queries on
-every profile gives a record of normal values for a model, and a
-regression shows up as a departure from those values.</p>
+<p><strong>Move from broad to narrow.</strong> The PyTorch profile
+locates the slow phase, the system trace shows how executions behave
+across the run and across NeuronCores, and the device profile shows
+which operators in an execution take the time.</p>
+<p><strong>Reuse the queries.</strong> Running the same SQL queries and
+scripts on every profile gives a record of normal values for a model,
+and a regression shows up as a departure from those values.</p>
 <p><strong>Exclude warm-up.</strong> The first execution includes
 one-time costs such as loading the model and filling caches. A warm-up
 run before the profiled run keeps these costs out of the
 measurement.</p>
+<p><strong>Filter the system trace.</strong> Capturing only the relevant
+event types and NeuronCores keeps long traces small enough to
+analyze.</p>
 <p><strong>Script long traces.</strong> For long captures, scripted
-analysis with the Perfetto trace processor is faster than scrolling
-through the UI.</p>
+analysis with the Perfetto trace processor or a Python script over the
+system trace is faster than scrolling through a UI.</p>
     </div>
     <hr/>
     <p>If you found this useful, please cite this post using</p>
     <blockquote class="blockquote-citation">
-        <p>Senthilkumar Gopal. (Jun 2025). Torch Profiler Walk-Through for Neuron Latency. sengopal.me. https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency</p>
+        <p>Senthilkumar Gopal. (Nov 2026). End-to-End Latency Profiling on Neuron with PyTorch, System and Device Traces. sengopal.me. https://sengopal.me/posts/end-to-end-latency-profiling-on-neuron-with-pytorch-system-and-device-traces</p>
     </blockquote>
     <p>or</p>
     <div class="citation">
-        <pre class="citation">@article{gopal2025torchprofilerwalkthroughforneuronlatency,
-  title   = {Torch Profiler Walk-Through for Neuron Latency},
+        <pre class="citation">@article{gopal2026endtoendlatencyprofilingonneuronwithpytorchsystemanddevicetraces,
+  title   = {End-to-End Latency Profiling on Neuron with PyTorch, System and Device Traces},
   author  = {Senthilkumar Gopal},
   journal = {sengopal.me},
-  year    = {2025},
-  month   = {Jun},
-  url     = {https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency}
+  year    = {2026},
+  month   = {Nov},
+  url     = {https://sengopal.me/posts/end-to-end-latency-profiling-on-neuron-with-pytorch-system-and-device-traces}
 }</pre>
     </div>
 </article>
