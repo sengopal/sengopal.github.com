@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>BCSR Format for Block-Sparse Matrices | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/bcsr-format-for-block-sparse-matrices.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/machine-learning.atom.xml">
+<meta name="description" content="Block Compressed Sparse Row (BCSR) stores a sparse matrix as dense blocks plus a small index, so a kernel can skip empty regions and run dense multiplications on the rest.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2024-10-09T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Wed 09 October 2024
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/machine-learning">Machine-Learning</a>
+            </li>
+        </ul>
+    </header>
+    <h1>BCSR Format for Block-Sparse Matrices</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#csr-as-the-starting-point" id="toc-csr-as-the-starting-point">CSR as the starting point</a></li>
+<li><a href="#the-block-layout" id="toc-the-block-layout">The block
+layout</a></li>
+<li><a href="#multiplying-a-bcsr-matrix" id="toc-multiplying-a-bcsr-matrix">Multiplying a BCSR matrix</a></li>
+<li><a href="#where-block-sparsity-appears" id="toc-where-block-sparsity-appears">Where block sparsity
+appears</a></li>
+<li><a href="#limits-of-the-format" id="toc-limits-of-the-format">Limits
+of the format</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>Block Compressed Sparse Row (BCSR), also called Block Sparse Row
+(BSR), stores a sparse matrix as a list of dense blocks together with
+the indices that locate them. It suits matrices whose non-zero values
+cluster into blocks, which is common for block-sparse attention,
+structured pruning and mixture-of-experts (MoE) layers. SciPy provides
+it as <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.bsr_matrix.html"><code>scipy.sparse.bsr_matrix</code></a>,
+and GPU sparse libraries provide block-sparse kernels that use it.</p>
+<h2 id="csr-as-the-starting-point">CSR as the starting point</h2>
+<p>Compressed Sparse Row (CSR) stores a sparse matrix in three
+arrays:</p>
+<ul>
+<li><code>values[]</code> holds every non-zero value in row-major
+order.</li>
+<li><code>col_indices[]</code> holds the column of each non-zero
+value.</li>
+<li><code>row_ptr[]</code> holds, for each row, the offset of its first
+value in <code>values</code>. Row <code>i</code> occupies
+<code>values[row_ptr[i]:row_ptr[i+1]]</code>.</li>
+</ul>
+<p>CSR works well for very sparse matrices with scattered non-zeros. For
+moderately sparse matrices it has two drawbacks. It stores one index for
+every value. With BF16 values and 32-bit indices, the indices take twice
+as much space as the values, so at 50% density a CSR matrix is larger
+than the dense matrix. Its scattered access pattern also cannot feed the
+dense tile operations that matrix multiply units are built for.</p>
+<h2 id="the-block-layout">The block layout</h2>
+<p>BCSR applies the same scheme to blocks instead of individual values.
+The matrix is divided into a grid of fixed-size blocks, for example
+32×32. Every block that contains a non-zero value is stored in full,
+including any zeros inside it:</p>
+<ul>
+<li><code>values[]</code> holds every non-zero block as a dense
+<code>BR × BK</code> array.</li>
+<li><code>col_indices[]</code> holds the block column of each stored
+block.</li>
+<li><code>row_ptr[]</code> holds, for each block row, the offset of its
+first block.</li>
+</ul>
+<p>Consider a matrix divided into a 4×4 grid of blocks, where four
+blocks, A to D, contain non-zero values:</p>
+<pre><code>block column:   0   1   2   3
+block row 0   [ .   A   .   . ]
+block row 1   [ .   .   .   . ]
+block row 2   [ B   .   .   C ]
+block row 3   [ .   .   D   . ]</code></pre>
+<p>Its BCSR representation is:</p>
+<pre><code>values      = [A, B, C, D]
+col_indices = [1, 0, 3, 2]
+row_ptr     = [0, 1, 1, 3, 4]</code></pre>
+<p>Block row 1 is empty, so <code>row_ptr[1]</code> and
+<code>row_ptr[2]</code> are equal. Block row 2 holds blocks B and C, at
+positions 1 and 2 of <code>values</code>.</p>
+<p>BCSR stores one index per block, so the index overhead falls by a
+factor of the block area. A 32×32 block of BF16 values occupies 2,048
+bytes and needs one 4-byte column index, an overhead of about 0.2%. At
+50% block density, the BCSR matrix is close to half the size of the
+dense matrix.</p>
+<h2 id="multiplying-a-bcsr-matrix">Multiplying a BCSR matrix</h2>
+<p>A product of a BCSR matrix with a dense matrix walks the stored
+blocks one block row at a time:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="co"># A is BCSR with shape [M, K] and block size [BR, BK].</span></span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="co"># x is dense with shape [K, N], and out is dense with shape [M, N].</span></span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a><span class="co"># M is a multiple of BR and K is a multiple of BK.</span></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(M <span class="op">//</span> BR):                      <span class="co"># block row of A</span></span>
+<span id="cb3-6"><a aria-hidden="true" href="#cb3-6" tabindex="-1"></a>    <span class="cf">for</span> ptr <span class="kw">in</span> <span class="bu">range</span>(A.row_ptr[i], A.row_ptr[i <span class="op">+</span> <span class="dv">1</span>]):</span>
+<span id="cb3-7"><a aria-hidden="true" href="#cb3-7" tabindex="-1"></a>        j <span class="op">=</span> A.col_indices[ptr]                <span class="co"># block column of A</span></span>
+<span id="cb3-8"><a aria-hidden="true" href="#cb3-8" tabindex="-1"></a>        block <span class="op">=</span> A.values[ptr]                 <span class="co"># dense [BR, BK] block</span></span>
+<span id="cb3-9"><a aria-hidden="true" href="#cb3-9" tabindex="-1"></a>        out[i<span class="op">*</span>BR:(i<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>BR, :] <span class="op">+=</span> block <span class="op">@</span> x[j<span class="op">*</span>BK:(j<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>BK, :]</span></code></pre></div>
+<p>Each step of the inner loop is a dense multiplication of one block
+with a slice of <code>x</code>. The work is proportional to the number
+of stored blocks, so empty blocks cost nothing. Zeros inside a stored
+block are still multiplied.</p>
+<p>The block size is chosen to match the hardware. A block that matches
+the tile size of the matrix multiply unit keeps the unit fully used. A
+smaller block leaves part of the unit idle on each operation. A larger
+block wastes storage and computation on the zeros it contains.</p>
+<h2 id="where-block-sparsity-appears">Where block sparsity appears</h2>
+<p><strong>Block-sparse attention.</strong> Attention patterns such as
+sliding windows and fixed global tokens leave whole blocks of the
+attention matrix empty, so the attention computation maps onto
+block-sparse products.</p>
+<p><strong>Structured pruning.</strong> Pruning that removes whole
+blocks of weights produces matrices that BCSR stores without waste.</p>
+<p><strong>Mixture-of-experts.</strong> <a href="https://arxiv.org/abs/2211.15841">MegaBlocks</a> (Gale et al.,
+2022) expresses the expert computation in an MoE layer as block-sparse
+matrix products. Each expert multiplies only the tokens routed to it,
+and the number of tokens per expert can vary without padding or dropping
+tokens. MegaBlocks extends BCSR with explicit row indices for each
+block, which it calls blocked-CSR-COO, and with transpose indices that
+let a kernel walk the matrix in column order without copying it. The
+backward pass needs that column-order access for products with the
+transposed matrix.</p>
+<h2 id="limits-of-the-format">Limits of the format</h2>
+<p>BCSR saves storage and computation in proportion to the fraction of
+empty blocks. It does not help when the non-zero values are scattered so
+that almost every block contains at least one of them. In that case BCSR
+stores nearly every block, and the work matches a dense
+multiplication.</p>
+<p>In 2:4 sparsity, at most two values in every group of four
+consecutive values are non-zero. NVIDIA sparse tensor cores store the
+non-zero values together with a small amount of metadata that records
+their positions within each group. BCSR would store almost every block
+of such a matrix.</p>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Oct 2024). BCSR Format for Block-Sparse Matrices. sengopal.me. https://sengopal.me/posts/bcsr-format-for-block-sparse-matrices</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2024bcsrformatblocksparse,
+  title   = {BCSR Format for Block-Sparse Matrices},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2024},
+  month   = {Oct},
+  url     = {https://sengopal.me/posts/bcsr-format-for-block-sparse-matrices}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>

@@ -84,6 +84,29 @@
     <article class="row teaser">
       <header class="col-sm-4 text-muted">
         <ul>
+          <li title="2025-07-02T00:00:00-07:00">
+            <i class="fas fa-clock"></i>
+            Wed 02 July 2025
+          </li>
+          <li>
+            <i class="fas fa-folder-open"></i>
+            <a href="https://sengopal.me/category/neuron">Neuron</a>
+          </li>
+        </ul>
+      </header>
+      <div class="col-sm-8">
+        <h4 class="title">
+          <a href="https://sengopal.me/posts/block-kv-paged-attention-in-vllms-nki-kernel">Block KV Paged Attention in vLLM’s NKI Kernel</a>
+        </h4>
+        <div class="content">
+          How vLLM’s NKI flash paged attention kernel reads a block KV cache on Neuron, from the block table and mask layout to vectorized DMA loads, online softmax and the cache update.
+        </div>
+      </div>
+    </article>
+      <hr>
+    <article class="row teaser">
+      <header class="col-sm-4 text-muted">
+        <ul>
           <li title="2025-03-29T00:00:00-07:00">
             <i class="fas fa-clock"></i>
             Sat 29 March 2025
@@ -123,6 +146,29 @@
         </h4>
         <div class="content">
           This post explains how Paged Attention and Chunked Prefill optimize memory and computation in vLLM by organizing key-value caches into dynamic blocks and processing input sequences in manageable chunks. It includes a simple walkthrough with tensor shapes and code to showcase their integration for LLM inference.
+        </div>
+      </div>
+    </article>
+      <hr>
+    <article class="row teaser">
+      <header class="col-sm-4 text-muted">
+        <ul>
+          <li title="2024-10-09T00:00:00-07:00">
+            <i class="fas fa-clock"></i>
+            Wed 09 October 2024
+          </li>
+          <li>
+            <i class="fas fa-folder-open"></i>
+            <a href="https://sengopal.me/category/machine-learning">Machine-Learning</a>
+          </li>
+        </ul>
+      </header>
+      <div class="col-sm-8">
+        <h4 class="title">
+          <a href="https://sengopal.me/posts/bcsr-format-for-block-sparse-matrices">BCSR Format for Block-Sparse Matrices</a>
+        </h4>
+        <div class="content">
+          Block Compressed Sparse Row (BCSR) stores a sparse matrix as dense blocks plus a small index, so a kernel can skip empty regions and run dense multiplications on the rest.
         </div>
       </div>
     </article>
@@ -241,56 +287,10 @@
         </div>
       </div>
     </article>
-      <hr>
-    <article class="row teaser">
-      <header class="col-sm-4 text-muted">
-        <ul>
-          <li title="2024-01-20T00:00:00-08:00">
-            <i class="fas fa-clock"></i>
-            Sat 20 January 2024
-          </li>
-          <li>
-            <i class="fas fa-folder-open"></i>
-            <a href="https://sengopal.me/category/neuron">Neuron</a>
-          </li>
-        </ul>
-      </header>
-      <div class="col-sm-8">
-        <h4 class="title">
-          <a href="https://sengopal.me/posts/neuron-handling-nans">Neuron - Handling NaNs</a>
-        </h4>
-        <div class="content">
-          A runbook for triaging Neuron accuracy issues and means to verify the model accuracy
-        </div>
-      </div>
-    </article>
-      <hr>
-    <article class="row teaser">
-      <header class="col-sm-4 text-muted">
-        <ul>
-          <li title="2023-12-29T00:00:00-08:00">
-            <i class="fas fa-clock"></i>
-            Fri 29 December 2023
-          </li>
-          <li>
-            <i class="fas fa-folder-open"></i>
-            <a href="https://sengopal.me/category/systems">Systems</a>
-          </li>
-        </ul>
-      </header>
-      <div class="col-sm-8">
-        <h4 class="title">
-          <a href="https://sengopal.me/posts/efa-and-openfabrics">EFA and OpenFabrics</a>
-        </h4>
-        <div class="content">
-          This post works through a high level overview of OpenMPI and EFA
-        </div>
-      </div>
-    </article>
   <hr>
   <ul class="pagination">
     <li class="page-item">
-      <span class="page-link">1 of 4</span>
+      <span class="page-link">1 of 5</span>
     </li>
       <li class="page-item">
         <a class="page-link" href="https://sengopal.me/index2.html">

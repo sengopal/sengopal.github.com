@@ -192,7 +192,220 @@ run before the profiled run keeps these costs out of the
 measurement.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Script long traces.&lt;/strong&gt; For long captures, scripted
 analysis with the Perfetto trace processor or a Python script over the
-system profile is faster than scrolling through a UI.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="torch-profile"/><category term="profiling"/><category term="system-profile"/><category term="perfetto"/><category term="latency"/><category term="debugging"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
+system profile is faster than scrolling through a UI.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="torch-profile"/><category term="profiling"/><category term="system-profile"/><category term="perfetto"/><category term="latency"/><category term="debugging"/></entry><entry><title>Block KV Paged Attention in vLLM’s NKI Kernel</title><link href="https://sengopal.me/posts/block-kv-paged-attention-in-vllms-nki-kernel" rel="alternate"/><published>2025-07-02T00:00:00-07:00</published><updated>2025-07-02T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-07-02:/posts/block-kv-paged-attention-in-vllms-nki-kernel</id><summary type="html">How vLLM’s NKI flash paged attention kernel reads a block KV cache on Neuron, from the block table and mask layout to vectorized DMA loads, online softmax and the cache update.</summary><content type="html">&lt;p&gt;vLLM stores the KV cache in fixed-size blocks of tokens. Each request
+owns a list of blocks, recorded in a block table, and blocks can be
+shared between requests that start with the same prefix. This layout,
+introduced with &lt;a href="https://arxiv.org/abs/2309.06180"&gt;PagedAttention&lt;/a&gt;, lets memory
+grow with the number of tokens actually in use, and it is the basis for
+automatic prefix caching and chunked prefill. An attention kernel for
+this layout has to read keys and values through the block table instead
+of from one contiguous buffer.&lt;/p&gt;
+&lt;p&gt;vLLM’s Neuron backend includes such a kernel, written in the Neuron
+Kernel Interface (NKI): &lt;code&gt;flash_paged_attention&lt;/code&gt; in &lt;a href="https://github.com/vllm-project/vllm/blob/879f69bed375968ce02e003883752754beb36111/vllm/attention/ops/nki_flash_attn.py"&gt;&lt;code&gt;vllm/attention/ops/nki_flash_attn.py&lt;/code&gt;&lt;/a&gt;.
+The code excerpts below come from that file at the linked commit.&lt;/p&gt;
+&lt;h2 id="inputs-and-layout"&gt;Inputs and layout&lt;/h2&gt;
+&lt;p&gt;The kernel signature lists the tensors it works on:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="at"&gt;@nki.jit&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; flash_paged_attention(&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    query,          &lt;span class="co"&gt;# (1, n_heads, d, seq_q)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;    key,            &lt;span class="co"&gt;# (1, n_kv_heads, d, seq_k)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    value,          &lt;span class="co"&gt;# (1, n_kv_heads, seq_v, d)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;    kv_cache,       &lt;span class="co"&gt;# (2, num_blocks, n_kv_heads, block_size, d)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;    block_tables,   &lt;span class="co"&gt;# (num_active_blocks, )&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;    mask,           &lt;span class="co"&gt;# (seq_q, num_active_blocks * block_size + seq_q)&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;    softmax_scale&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;None&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;    mixed_precision&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;True&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;    LARGE_TILE_SZ&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;2048&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;    return_debug_tensors&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;False&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;):&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Four properties of this interface shape the rest of the kernel:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Continuous batching with a batch size of 1.&lt;/strong&gt; The
+batch dimension is always 1. The tokens of all requests in a step are
+concatenated along the sequence dimension, so &lt;code&gt;seq_q&lt;/code&gt; is the
+total number of new tokens in the step.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A flat block table.&lt;/strong&gt; &lt;code&gt;block_tables&lt;/code&gt; lists
+every cache block that any request in the step reads, in one array. It
+is not a per-request table.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A mask that encodes the requests.&lt;/strong&gt; &lt;code&gt;mask&lt;/code&gt;
+has one row per new token and one column per cached token plus one per
+new token. A token may attend to a cached position only if that position
+belongs to the same request. Each request’s prefix-cache hits and
+chunked-prefill history therefore appear as ordinary cached blocks in
+this mask.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A fused K/V cache.&lt;/strong&gt; Keys and values share one
+tensor, with keys at index 0 and values at index 1 of the first
+dimension.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The kernel launches on a two-dimensional grid of batch and KV head.
+For grouped-query attention, each program handles one KV head and loops
+over the query heads that share it:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;batch_id &lt;span class="op"&gt;=&lt;/span&gt; nl.program_id(axis&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;head_id &lt;span class="op"&gt;=&lt;/span&gt; nl.program_id(axis&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;...&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;q_h_per_k_h &lt;span class="op"&gt;=&lt;/span&gt; h &lt;span class="op"&gt;//&lt;/span&gt; k_h&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The kernel asserts a head dimension of at most 128, which matches the
+128 partitions of the on-chip SBUF memory.&lt;/p&gt;
+&lt;h2 id="two-passes-over-the-keys"&gt;Two passes over the keys&lt;/h2&gt;
+&lt;p&gt;The kernel computes attention in two passes, both feeding the same
+online-softmax accumulators:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;A loop over the cached context, one tile of
+&lt;code&gt;LARGE_TILE_SZ&lt;/code&gt; tokens (2,048 by default) at a time. These
+tiles use the mask and no causal structure.&lt;/li&gt;
+&lt;li&gt;One pass over the new tokens of the step, using &lt;code&gt;key&lt;/code&gt; and
+&lt;code&gt;value&lt;/code&gt; directly and applying the causal mask.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first pass looks like this, with the loads and indexing
+trimmed:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt; large_k_tile_idx &lt;span class="kw"&gt;in&lt;/span&gt; nl.sequential_range(&lt;span class="dv"&gt;0&lt;/span&gt;, num_large_k_tile):&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;    load_kv_tile_from_cache(cur_k_tile, cur_v_tile, kv_cache,&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;                            block_tables_sbuf, large_k_tile_idx, ...)&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; i &lt;span class="kw"&gt;in&lt;/span&gt; nl.affine_range(n_tile_q):&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;        cur_mask &lt;span class="op"&gt;=&lt;/span&gt; nl.load(mask[nl.ds(i &lt;span class="op"&gt;*&lt;/span&gt; B_P_SIZE, B_P_SIZE),&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a aria-hidden="true" href="#cb3-6" tabindex="-1"&gt;&lt;/a&gt;                                nl.ds(large_k_tile_idx &lt;span class="op"&gt;*&lt;/span&gt; LARGE_TILE_SZ,&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a aria-hidden="true" href="#cb3-7" tabindex="-1"&gt;&lt;/a&gt;                                      LARGE_TILE_SZ)])&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a aria-hidden="true" href="#cb3-8" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;for&lt;/span&gt; i_q_h &lt;span class="kw"&gt;in&lt;/span&gt; nl.affine_range(q_h_per_k_h):&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a aria-hidden="true" href="#cb3-9" tabindex="-1"&gt;&lt;/a&gt;            ...&lt;/span&gt;
+&lt;span id="cb3-10"&gt;&lt;a aria-hidden="true" href="#cb3-10" tabindex="-1"&gt;&lt;/a&gt;            _flash_attention_core(q_tile, cur_k_tile, cur_v_tile,&lt;/span&gt;
+&lt;span id="cb3-11"&gt;&lt;a aria-hidden="true" href="#cb3-11" tabindex="-1"&gt;&lt;/a&gt;                                  o_buffer[i, i_q_h], l_buffer[i, i_q_h],&lt;/span&gt;
+&lt;span id="cb3-12"&gt;&lt;a aria-hidden="true" href="#cb3-12" tabindex="-1"&gt;&lt;/a&gt;                                  m_buffer[i, i_q_h], ...,&lt;/span&gt;
+&lt;span id="cb3-13"&gt;&lt;a aria-hidden="true" href="#cb3-13" tabindex="-1"&gt;&lt;/a&gt;                                  tile_mask&lt;span class="op"&gt;=&lt;/span&gt;cur_mask,&lt;/span&gt;
+&lt;span id="cb3-14"&gt;&lt;a aria-hidden="true" href="#cb3-14" tabindex="-1"&gt;&lt;/a&gt;                                  use_causal_mask&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;False&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb3-15"&gt;&lt;a aria-hidden="true" href="#cb3-15" tabindex="-1"&gt;&lt;/a&gt;                                  initialize&lt;span class="op"&gt;=&lt;/span&gt;large_k_tile_idx &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="dv"&gt;0&lt;/span&gt;, ...)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The outer loop is a &lt;code&gt;sequential_range&lt;/code&gt; because each tile
+updates the accumulators that the next tile reads. The query tiles and
+query heads inside it are independent, so they use
+&lt;code&gt;affine_range&lt;/code&gt;, which lets the compiler reorder and overlap
+them.&lt;/p&gt;
+&lt;p&gt;The cached context length must be a multiple of
+&lt;code&gt;LARGE_TILE_SZ&lt;/code&gt;, and the number of blocks in a tile must be a
+power of two. The caller must pad the block table to meet these
+conditions, and the mask hides the padded positions.&lt;/p&gt;
+&lt;h2 id="reading-blocks-with-vectorized-dma"&gt;Reading blocks with
+vectorized DMA&lt;/h2&gt;
+&lt;p&gt;Loading a tile means gathering up to
+&lt;code&gt;LARGE_TILE_SZ / block_size&lt;/code&gt; blocks that can sit anywhere in
+the cache. The kernel turns this gather into indirect DMA loads that use
+the block table as the index.&lt;/p&gt;
+&lt;p&gt;First, &lt;code&gt;load_block_tables&lt;/code&gt; copies the block table from HBM
+into SBUF, reshaped to one row per tile. Then
+&lt;code&gt;transform_block_tables_for_indirect_load&lt;/code&gt; prepares the
+indices for the loads. It folds the KV head into the block index,
+because the cache is flattened to three dimensions, and it transposes
+the table so that the block indices for a tile lie along the 128 SBUF
+partitions:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; num_head &lt;span class="op"&gt;&amp;gt;&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;# fuse num_block and num_head dimension&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    block_tables_partition &lt;span class="op"&gt;=&lt;/span&gt; block_tables_partition &lt;span class="op"&gt;*&lt;/span&gt; num_head &lt;span class="op"&gt;+&lt;/span&gt; head_id&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A single load then fetches one block per partition:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;loaded &lt;span class="op"&gt;=&lt;/span&gt; nl.load(kv_cache[&lt;span class="dv"&gt;0&lt;/span&gt;, block_tables[load_idx, i_p, large_k_tile_idx], i_f])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The DMA engines reach full parallelism when a load spans all 128
+partitions. When a tile has fewer than 128 blocks, for example 2,048
+tokens in blocks of 32 tokens gives 64 blocks, the kernel splits each
+block into &lt;code&gt;block_size_tiling_factor&lt;/code&gt; smaller pieces so that
+one load still covers 128 partitions:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; num_blocks_per_large_tile &lt;span class="op"&gt;&amp;lt;&lt;/span&gt; B_P_SIZE:&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    block_size_tiling_factor &lt;span class="op"&gt;=&lt;/span&gt; B_P_SIZE &lt;span class="op"&gt;//&lt;/span&gt; num_blocks_per_large_tile&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;assert&lt;/span&gt; block_size &lt;span class="op"&gt;%&lt;/span&gt; block_size_tiling_factor &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="dv"&gt;0&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-4"&gt;&lt;a aria-hidden="true" href="#cb6-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;else&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb6-5"&gt;&lt;a aria-hidden="true" href="#cb6-5" tabindex="-1"&gt;&lt;/a&gt;    block_size_tiling_factor &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-6"&gt;&lt;a aria-hidden="true" href="#cb6-6" tabindex="-1"&gt;&lt;/a&gt;tiled_block_size &lt;span class="op"&gt;=&lt;/span&gt; block_size &lt;span class="op"&gt;//&lt;/span&gt; block_size_tiling_factor&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This split changes the order in which tokens arrive in SBUF. The
+tensor engine consumes a tile column by column, so after the split it
+visits tokens with a stride instead of in sequence. The host-side helper
+&lt;code&gt;reorder_context_mask&lt;/code&gt; transposes the context part of the
+mask to the same order. The caller must apply it before launching the
+kernel, or the mask and the keys refer to different tokens.&lt;/p&gt;
+&lt;p&gt;Keys are loaded with tokens on the partitions and then transposed
+with &lt;code&gt;nl.transpose&lt;/code&gt;, because the &lt;code&gt;Q @ K^T&lt;/code&gt; matmul
+needs the head dimension on the partitions. Values stay in the loaded
+layout, which already matches the &lt;code&gt;P @ V&lt;/code&gt; matmul.&lt;/p&gt;
+&lt;h2 id="online-softmax"&gt;Online softmax&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;_flash_attention_core&lt;/code&gt; processes one 128-token query tile
+against one key tile with the online softmax of FlashAttention. Each
+query row keeps three accumulators in SBUF: the running maximum score
+&lt;code&gt;m_buffer&lt;/code&gt;, the log of the running softmax denominator
+&lt;code&gt;l_buffer&lt;/code&gt;, and the unnormalized output
+&lt;code&gt;o_buffer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For each key tile, the core computes the scores in 512-column pieces
+and replaces masked positions with a large negative constant:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;qk_res_buf[:, k_i_b_f_slice] &lt;span class="op"&gt;=&lt;/span&gt; nl.where(&lt;/span&gt;
+&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;    tile_mask[:, k_i_b_f_slice],&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;    qk_psum[:, nl.ds(&lt;span class="dv"&gt;0&lt;/span&gt;, B_F_SIZE)],&lt;/span&gt;
+&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="fl"&gt;9984.0&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;    dtype&lt;span class="op"&gt;=&lt;/span&gt;acc_type,&lt;/span&gt;
+&lt;span id="cb7-6"&gt;&lt;a aria-hidden="true" href="#cb7-6" tabindex="-1"&gt;&lt;/a&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;It then takes the new row maximum, rescales the previous output by
+&lt;code&gt;exp(m_previous - m_current)&lt;/code&gt;, computes
+&lt;code&gt;exp(score - m_current)&lt;/code&gt; with a fused activation and row sum,
+multiplies by &lt;code&gt;V&lt;/code&gt;, and adds the result to the output. The
+log-denominator is updated in log space:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;l_exp &lt;span class="op"&gt;=&lt;/span&gt; nl.add(nl.exp(nl.subtract(l_prev, m_current)), ps)&lt;/span&gt;
+&lt;span id="cb8-2"&gt;&lt;a aria-hidden="true" href="#cb8-2" tabindex="-1"&gt;&lt;/a&gt;l_buffer[:, &lt;span class="dv"&gt;0&lt;/span&gt;] &lt;span class="op"&gt;=&lt;/span&gt; nl.add(m_current, nl.log(l_exp))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;After both passes, the kernel normalizes the output once per query
+tile:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb9"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb9-1"&gt;&lt;a aria-hidden="true" href="#cb9-1" tabindex="-1"&gt;&lt;/a&gt;out &lt;span class="op"&gt;=&lt;/span&gt; nl.multiply(o_buffer[i, i_q_h],&lt;/span&gt;
+&lt;span id="cb9-2"&gt;&lt;a aria-hidden="true" href="#cb9-2" tabindex="-1"&gt;&lt;/a&gt;                  nl.exp(m_buffer[i, i_q_h] &lt;span class="op"&gt;-&lt;/span&gt; l_buffer[i, i_q_h]),&lt;/span&gt;
+&lt;span id="cb9-3"&gt;&lt;a aria-hidden="true" href="#cb9-3" tabindex="-1"&gt;&lt;/a&gt;                  dtype&lt;span class="op"&gt;=&lt;/span&gt;kernel_dtype)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Because the accumulators carry the full softmax state, the order of
+the tiles does not change the result. The cached context can come first
+and the new tokens last.&lt;/p&gt;
+&lt;p&gt;With &lt;code&gt;mixed_precision=True&lt;/code&gt;, the matmuls run in BF16 and
+the scores, maxima and sums accumulate in FP32.&lt;/p&gt;
+&lt;h2 id="skipping-work-in-the-causal-pass"&gt;Skipping work in the causal
+pass&lt;/h2&gt;
+&lt;p&gt;In the second pass, the new tokens attend to each other causally. The
+core skips a 512-column piece of the score matrix entirely when every
+key in it comes after every query in the tile:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb10"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb10-1"&gt;&lt;a aria-hidden="true" href="#cb10-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; use_causal_mask:&lt;/span&gt;
+&lt;span id="cb10-2"&gt;&lt;a aria-hidden="true" href="#cb10-2" tabindex="-1"&gt;&lt;/a&gt;    multiplication_required_selection &lt;span class="op"&gt;=&lt;/span&gt; (q_tile_idx &lt;span class="op"&gt;*&lt;/span&gt; B_P_SIZE&lt;/span&gt;
+&lt;span id="cb10-3"&gt;&lt;a aria-hidden="true" href="#cb10-3" tabindex="-1"&gt;&lt;/a&gt;                                         &lt;span class="op"&gt;&amp;gt;=&lt;/span&gt; k_i &lt;span class="op"&gt;*&lt;/span&gt; B_F_SIZE)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Skipped pieces are filled with the large negative constant without a
+matmul. For a long prefill this removes up to half of the score
+computation in the second pass. The mask still handles the diagonal
+pieces and the boundaries between requests.&lt;/p&gt;
+&lt;h2 id="writing-the-new-tokens-to-the-cache"&gt;Writing the new tokens to
+the cache&lt;/h2&gt;
+&lt;p&gt;The attention kernel reads the cache but does not write to it. A
+separate function, &lt;code&gt;reshape_and_cache&lt;/code&gt;, writes the keys and
+values of the new tokens. vLLM gives each new token a slot number in
+&lt;code&gt;slot_mapping&lt;/code&gt;. The block is the slot divided by the block
+size, and the offset within the block is the remainder:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb11"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb11-1"&gt;&lt;a aria-hidden="true" href="#cb11-1" tabindex="-1"&gt;&lt;/a&gt;block_indices &lt;span class="op"&gt;=&lt;/span&gt; torch.div(slot_mapping, block_size, rounding_mode&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"floor"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb11-2"&gt;&lt;a aria-hidden="true" href="#cb11-2" tabindex="-1"&gt;&lt;/a&gt;block_offsets &lt;span class="op"&gt;=&lt;/span&gt; slot_mapping &lt;span class="op"&gt;%&lt;/span&gt; block_size&lt;/span&gt;
+&lt;span id="cb11-3"&gt;&lt;a aria-hidden="true" href="#cb11-3" tabindex="-1"&gt;&lt;/a&gt;head_indices &lt;span class="op"&gt;=&lt;/span&gt; torch.arange(n_kv_head, device&lt;span class="op"&gt;=&lt;/span&gt;key.device)&lt;/span&gt;
+&lt;span id="cb11-4"&gt;&lt;a aria-hidden="true" href="#cb11-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb11-5"&gt;&lt;a aria-hidden="true" href="#cb11-5" tabindex="-1"&gt;&lt;/a&gt;kv_cache.index_put_(&lt;/span&gt;
+&lt;span id="cb11-6"&gt;&lt;a aria-hidden="true" href="#cb11-6" tabindex="-1"&gt;&lt;/a&gt;    (torch.tensor([&lt;span class="dv"&gt;0&lt;/span&gt;], device&lt;span class="op"&gt;=&lt;/span&gt;key.device), block_indices[:, &lt;span class="va"&gt;None&lt;/span&gt;],&lt;/span&gt;
+&lt;span id="cb11-7"&gt;&lt;a aria-hidden="true" href="#cb11-7" tabindex="-1"&gt;&lt;/a&gt;     head_indices[&lt;span class="va"&gt;None&lt;/span&gt;, :], block_offsets[:, &lt;span class="va"&gt;None&lt;/span&gt;]), key)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The same call with index 1 writes the values. This function is plain
+PyTorch, not an NKI kernel.&lt;/p&gt;
+&lt;h2 id="how-serving-features-map-onto-the-kernel"&gt;How serving features
+map onto the kernel&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Prefix caching.&lt;/strong&gt; When requests share a prefix, the
+scheduler points their block tables at the same physical blocks. The
+kernel only sees block indices and a mask, so shared blocks need no
+special handling.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Chunked prefill.&lt;/strong&gt; A prompt that is split into chunks
+reaches the kernel as a sequence of steps. In each step, the chunk’s
+tokens are the new tokens and the earlier chunks are cached blocks.
+Decode tokens from other requests can share the same step, since each
+request is a range of rows and columns in the mask.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Grouped-query attention.&lt;/strong&gt; The grid runs over KV
+heads, and each program reuses one loaded key and value tile for all the
+query heads that share it.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/vllm-project/vllm/blob/879f69bed375968ce02e003883752754beb36111/vllm/attention/ops/nki_flash_attn.py"&gt;&lt;code&gt;nki_flash_attn.py&lt;/code&gt;
+in vLLM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2309.06180"&gt;Efficient Memory
+Management for Large Language Model Serving with PagedAttention (Kwon et
+al., 2023)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2205.14135"&gt;FlashAttention: Fast and
+Memory-Efficient Exact Attention with IO-Awareness (Dao et al.,
+2022)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="nki"/><category term="kernels"/><category term="kv-cache"/><category term="vllm"/><category term="paged-attention"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
 should establish the size of the worst and the typical difference,
 whether the argmax agrees, and whether sampling from each distribution
 gives the same result. The utility below answers each of these

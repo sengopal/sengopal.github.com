@@ -1,5 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Machine-Learning</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/machine-learning.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2023-10-01T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"/><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Machine-Learning</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/machine-learning.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2024-10-09T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>BCSR Format for Block-Sparse Matrices</title><link href="https://sengopal.me/posts/bcsr-format-for-block-sparse-matrices" rel="alternate"/><published>2024-10-09T00:00:00-07:00</published><updated>2024-10-09T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-10-09:/posts/bcsr-format-for-block-sparse-matrices</id><summary type="html">Block Compressed Sparse Row (BCSR) stores a sparse matrix as dense blocks plus a small index, so a kernel can skip empty regions and run dense multiplications on the rest.</summary><content type="html">&lt;p&gt;Block Compressed Sparse Row (BCSR), also called Block Sparse Row
+(BSR), stores a sparse matrix as a list of dense blocks together with
+the indices that locate them. It suits matrices whose non-zero values
+cluster into blocks, which is common for block-sparse attention,
+structured pruning and mixture-of-experts (MoE) layers. SciPy provides
+it as &lt;a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.bsr_matrix.html"&gt;&lt;code&gt;scipy.sparse.bsr_matrix&lt;/code&gt;&lt;/a&gt;,
+and GPU sparse libraries provide block-sparse kernels that use it.&lt;/p&gt;
+&lt;h2 id="csr-as-the-starting-point"&gt;CSR as the starting point&lt;/h2&gt;
+&lt;p&gt;Compressed Sparse Row (CSR) stores a sparse matrix in three
+arrays:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;values[]&lt;/code&gt; holds every non-zero value in row-major
+order.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;col_indices[]&lt;/code&gt; holds the column of each non-zero
+value.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;row_ptr[]&lt;/code&gt; holds, for each row, the offset of its first
+value in &lt;code&gt;values&lt;/code&gt;. Row &lt;code&gt;i&lt;/code&gt; occupies
+&lt;code&gt;values[row_ptr[i]:row_ptr[i+1]]&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CSR works well for very sparse matrices with scattered non-zeros. For
+moderately sparse matrices it has two drawbacks. It stores one index for
+every value. With BF16 values and 32-bit indices, the indices take twice
+as much space as the values, so at 50% density a CSR matrix is larger
+than the dense matrix. Its scattered access pattern also cannot feed the
+dense tile operations that matrix multiply units are built for.&lt;/p&gt;
+&lt;h2 id="the-block-layout"&gt;The block layout&lt;/h2&gt;
+&lt;p&gt;BCSR applies the same scheme to blocks instead of individual values.
+The matrix is divided into a grid of fixed-size blocks, for example
+32×32. Every block that contains a non-zero value is stored in full,
+including any zeros inside it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;values[]&lt;/code&gt; holds every non-zero block as a dense
+&lt;code&gt;BR × BK&lt;/code&gt; array.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;col_indices[]&lt;/code&gt; holds the block column of each stored
+block.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;row_ptr[]&lt;/code&gt; holds, for each block row, the offset of its
+first block.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Consider a matrix divided into a 4×4 grid of blocks, where four
+blocks, A to D, contain non-zero values:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;block column:   0   1   2   3
+block row 0   [ .   A   .   . ]
+block row 1   [ .   .   .   . ]
+block row 2   [ B   .   .   C ]
+block row 3   [ .   .   D   . ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Its BCSR representation is:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;values      = [A, B, C, D]
+col_indices = [1, 0, 3, 2]
+row_ptr     = [0, 1, 1, 3, 4]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Block row 1 is empty, so &lt;code&gt;row_ptr[1]&lt;/code&gt; and
+&lt;code&gt;row_ptr[2]&lt;/code&gt; are equal. Block row 2 holds blocks B and C, at
+positions 1 and 2 of &lt;code&gt;values&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;BCSR stores one index per block, so the index overhead falls by a
+factor of the block area. A 32×32 block of BF16 values occupies 2,048
+bytes and needs one 4-byte column index, an overhead of about 0.2%. At
+50% block density, the BCSR matrix is close to half the size of the
+dense matrix.&lt;/p&gt;
+&lt;h2 id="multiplying-a-bcsr-matrix"&gt;Multiplying a BCSR matrix&lt;/h2&gt;
+&lt;p&gt;A product of a BCSR matrix with a dense matrix walks the stored
+blocks one block row at a time:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# A is BCSR with shape [M, K] and block size [BR, BK].&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# x is dense with shape [K, N], and out is dense with shape [M, N].&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# M is a multiple of BR and K is a multiple of BK.&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;for&lt;/span&gt; i &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(M &lt;span class="op"&gt;//&lt;/span&gt; BR):                      &lt;span class="co"&gt;# block row of A&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a aria-hidden="true" href="#cb3-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; ptr &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(A.row_ptr[i], A.row_ptr[i &lt;span class="op"&gt;+&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;]):&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a aria-hidden="true" href="#cb3-7" tabindex="-1"&gt;&lt;/a&gt;        j &lt;span class="op"&gt;=&lt;/span&gt; A.col_indices[ptr]                &lt;span class="co"&gt;# block column of A&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a aria-hidden="true" href="#cb3-8" tabindex="-1"&gt;&lt;/a&gt;        block &lt;span class="op"&gt;=&lt;/span&gt; A.values[ptr]                 &lt;span class="co"&gt;# dense [BR, BK] block&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a aria-hidden="true" href="#cb3-9" tabindex="-1"&gt;&lt;/a&gt;        out[i&lt;span class="op"&gt;*&lt;/span&gt;BR:(i&lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;span class="op"&gt;*&lt;/span&gt;BR, :] &lt;span class="op"&gt;+=&lt;/span&gt; block &lt;span class="op"&gt;@&lt;/span&gt; x[j&lt;span class="op"&gt;*&lt;/span&gt;BK:(j&lt;span class="op"&gt;+&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;span class="op"&gt;*&lt;/span&gt;BK, :]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Each step of the inner loop is a dense multiplication of one block
+with a slice of &lt;code&gt;x&lt;/code&gt;. The work is proportional to the number
+of stored blocks, so empty blocks cost nothing. Zeros inside a stored
+block are still multiplied.&lt;/p&gt;
+&lt;p&gt;The block size is chosen to match the hardware. A block that matches
+the tile size of the matrix multiply unit keeps the unit fully used. A
+smaller block leaves part of the unit idle on each operation. A larger
+block wastes storage and computation on the zeros it contains.&lt;/p&gt;
+&lt;h2 id="where-block-sparsity-appears"&gt;Where block sparsity appears&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Block-sparse attention.&lt;/strong&gt; Attention patterns such as
+sliding windows and fixed global tokens leave whole blocks of the
+attention matrix empty, so the attention computation maps onto
+block-sparse products.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Structured pruning.&lt;/strong&gt; Pruning that removes whole
+blocks of weights produces matrices that BCSR stores without waste.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Mixture-of-experts.&lt;/strong&gt; &lt;a href="https://arxiv.org/abs/2211.15841"&gt;MegaBlocks&lt;/a&gt; (Gale et al.,
+2022) expresses the expert computation in an MoE layer as block-sparse
+matrix products. Each expert multiplies only the tokens routed to it,
+and the number of tokens per expert can vary without padding or dropping
+tokens. MegaBlocks extends BCSR with explicit row indices for each
+block, which it calls blocked-CSR-COO, and with transpose indices that
+let a kernel walk the matrix in column order without copying it. The
+backward pass needs that column-order access for products with the
+transposed matrix.&lt;/p&gt;
+&lt;h2 id="limits-of-the-format"&gt;Limits of the format&lt;/h2&gt;
+&lt;p&gt;BCSR saves storage and computation in proportion to the fraction of
+empty blocks. It does not help when the non-zero values are scattered so
+that almost every block contains at least one of them. In that case BCSR
+stores nearly every block, and the work matches a dense
+multiplication.&lt;/p&gt;
+&lt;p&gt;In 2:4 sparsity, at most two values in every group of four
+consecutive values are non-zero. NVIDIA sparse tensor cores store the
+non-zero values together with a small amount of metadata that records
+their positions within each group. BCSR would store almost every block
+of such a matrix.&lt;/p&gt;</content><category term="Machine-Learning"/><category term="kernels"/><category term="sparse"/><category term="bcsr"/><category term="data-formats"/><category term="moe"/></entry><entry><title>Feature data creation for Time Series</title><link href="https://sengopal.me/posts/feature-data-creation-for-time-series" rel="alternate"/><published>2023-10-01T00:00:00-07:00</published><updated>2023-10-01T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-10-01:/posts/feature-data-creation-for-time-series</id><summary type="html">A quick review of feature creation for time series data.</summary><content type="html">&lt;p&gt;Timeseries data is a list of observations in a constant interval.
 This post gives a quick review of how to convert the list of
 observations into features and labels to build a ML model to help
 predict the next observation.&lt;/p&gt;
