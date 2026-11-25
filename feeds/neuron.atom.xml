@@ -1,5 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Neuron</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/neuron.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2024-01-20T00:00:00-08:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"/><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-01-20:/posts/neuron-handling-nans</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Neuron</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/neuron.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2024-04-10T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
+should establish the size of the worst and the typical difference,
+whether the argmax agrees, and whether sampling from each distribution
+gives the same result. The utility below answers each of these
+questions.&lt;/p&gt;
+&lt;p&gt;The utility is most useful in numerics debugging. Typical cases
+include comparing logits between hardware paths, validating
+quantization, and checking a kernel against a reference. It serves as
+the next step when &lt;code&gt;torch.allclose&lt;/code&gt; returns
+&lt;code&gt;False&lt;/code&gt; and the cause of the mismatch is unknown.&lt;/p&gt;
+&lt;h2 id="the-comparator"&gt;The comparator&lt;/h2&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; csv&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;from&lt;/span&gt; datetime &lt;span class="im"&gt;import&lt;/span&gt; datetime, timezone&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; compare_logits(first: torch.Tensor, second: torch.Tensor, name: &lt;span class="bu"&gt;str&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;"""Compare two tensors element-wise. Prints summary stats and argmax agreement."""&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;    diff &lt;span class="op"&gt;=&lt;/span&gt; torch.&lt;span class="bu"&gt;abs&lt;/span&gt;(first &lt;span class="op"&gt;-&lt;/span&gt; second)&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;    max_diff &lt;span class="op"&gt;=&lt;/span&gt; diff.&lt;span class="bu"&gt;max&lt;/span&gt;()&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;    min_diff &lt;span class="op"&gt;=&lt;/span&gt; diff.&lt;span class="bu"&gt;min&lt;/span&gt;()&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;    avg_diff &lt;span class="op"&gt;=&lt;/span&gt; diff.mean()&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;    stddev &lt;span class="op"&gt;=&lt;/span&gt; diff.std()&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;    first_min, first_max &lt;span class="op"&gt;=&lt;/span&gt; first.&lt;span class="bu"&gt;min&lt;/span&gt;(), first.&lt;span class="bu"&gt;max&lt;/span&gt;()&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;    second_min, second_max &lt;span class="op"&gt;=&lt;/span&gt; second.&lt;span class="bu"&gt;min&lt;/span&gt;(), second.&lt;span class="bu"&gt;max&lt;/span&gt;()&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-17"&gt;&lt;a aria-hidden="true" href="#cb1-17" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;name&lt;span class="sc"&gt;.&lt;/span&gt;upper()&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;: "&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-18"&gt;&lt;a aria-hidden="true" href="#cb1-18" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="ss"&gt;f"max_diff=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;max_diff&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, min_diff=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;min_diff&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, "&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-19"&gt;&lt;a aria-hidden="true" href="#cb1-19" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="ss"&gt;f"avg_diff=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;avg_diff&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, stddev=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;stddev&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, "&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-20"&gt;&lt;a aria-hidden="true" href="#cb1-20" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="ss"&gt;f"first range=[&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;first_min&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;first_max&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;], "&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-21"&gt;&lt;a aria-hidden="true" href="#cb1-21" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="ss"&gt;f"second range=[&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;second_min&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;, &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;second_max&lt;span class="sc"&gt;:.5f}&lt;/span&gt;&lt;span class="ss"&gt;]"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-22"&gt;&lt;a aria-hidden="true" href="#cb1-22" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"ArgMax first=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;torch&lt;span class="sc"&gt;.&lt;/span&gt;argmax(first)&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;, second=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;torch&lt;span class="sc"&gt;.&lt;/span&gt;argmax(second)&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A typical call:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;compare_logits(cpu_logits, neuron_logits, &lt;span class="st"&gt;"fp32-vs-bf16-bf-decode-step-0"&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FP32-VS-BF16-BF-DECODE-STEP-0: max_diff=0.13281, min_diff=0.00000,
+avg_diff=0.00742, stddev=0.01089, first range=[-20.3125, 18.5000],
+second range=[-20.4063, 18.5000]
+ArgMax first=842, second=842&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Each value has the following interpretation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;max_diff&lt;/code&gt;&lt;/strong&gt; is the largest element-wise
+difference. Near a logit value of 18, one BF16 ULP is
+&lt;code&gt;0.125&lt;/code&gt;. The value of &lt;code&gt;0.13281&lt;/code&gt; here is just over
+one ULP, which is acceptable for BF16.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;avg_diff&lt;/code&gt;&lt;/strong&gt; is the typical difference.
+When it is much smaller than &lt;code&gt;max_diff&lt;/code&gt;, a few outliers
+account for the worst case.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;stddev&lt;/code&gt;&lt;/strong&gt; is the spread of the
+differences. For spread-out rounding noise, the standard deviation of
+the absolute difference is close to the mean. A standard deviation
+several times the mean indicates that the error is concentrated in a few
+elements.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Argmax agreement&lt;/strong&gt; indicates whether greedy decoding
+selects the same token. If the argmax differs, the generated output will
+differ. &lt;code&gt;torch.argmax&lt;/code&gt; without a &lt;code&gt;dim&lt;/code&gt; argument
+returns an index into the flattened tensor, so the check applies to the
+logits of a single step.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="top-k-sampling-check"&gt;Top-K sampling check&lt;/h2&gt;
+&lt;p&gt;When generation uses top-K sampling instead of greedy decoding, the
+sampled tokens should also be compared:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; printTop(next_token_scores, name, top_k&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;5&lt;/span&gt;, seed&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;    torch.manual_seed(seed)&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;    topk_values, topk_indices &lt;span class="op"&gt;=&lt;/span&gt; torch.topk(next_token_scores, top_k)&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;    probs &lt;span class="op"&gt;=&lt;/span&gt; torch.nn.functional.softmax(topk_values, dim&lt;span class="op"&gt;=-&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-5"&gt;&lt;a aria-hidden="true" href="#cb4-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-6"&gt;&lt;a aria-hidden="true" href="#cb4-6" tabindex="-1"&gt;&lt;/a&gt;    inputs_in_topk &lt;span class="op"&gt;=&lt;/span&gt; torch.multinomial(probs, num_samples&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;, replacement&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;True&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-7"&gt;&lt;a aria-hidden="true" href="#cb4-7" tabindex="-1"&gt;&lt;/a&gt;    inputs &lt;span class="op"&gt;=&lt;/span&gt; torch.gather(topk_indices, &lt;span class="dv"&gt;0&lt;/span&gt;, inputs_in_topk)&lt;/span&gt;
+&lt;span id="cb4-8"&gt;&lt;a aria-hidden="true" href="#cb4-8" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"TopK-&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;top_k&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt; for &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;name&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;inputs&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-9"&gt;&lt;a aria-hidden="true" href="#cb4-9" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb4-10"&gt;&lt;a aria-hidden="true" href="#cb4-10" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# inside compare_logits, optionally:&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-11"&gt;&lt;a aria-hidden="true" href="#cb4-11" tabindex="-1"&gt;&lt;/a&gt;printTop(first, &lt;span class="st"&gt;"first"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb4-12"&gt;&lt;a aria-hidden="true" href="#cb4-12" tabindex="-1"&gt;&lt;/a&gt;printTop(second, &lt;span class="st"&gt;"second"&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This function samples one token from the top-K distribution of each
+tensor. Both calls use the same seed, so identical distributions produce
+the same token. If the argmax agrees but the sampled tokens differ for
+several seeds, the two distributions differ in shape even though their
+peaks match.&lt;/p&gt;
+&lt;h2 id="bulk-comparison-with-csv-output"&gt;Bulk comparison with CSV
+output&lt;/h2&gt;
+&lt;p&gt;Comparing many tensors at once, such as the output of every layer,
+calls for a version that writes a CSV file:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; write_to_csv(results, filename&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;None&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;    csv_headers &lt;span class="op"&gt;=&lt;/span&gt; [&lt;span class="st"&gt;"Param"&lt;/span&gt;, &lt;span class="st"&gt;"Max Diff"&lt;/span&gt;, &lt;span class="st"&gt;"Min Diff"&lt;/span&gt;, &lt;span class="st"&gt;"Mean Diff"&lt;/span&gt;, &lt;span class="st"&gt;"Std. Dev Diff"&lt;/span&gt;]&lt;/span&gt;
+&lt;span id="cb5-3"&gt;&lt;a aria-hidden="true" href="#cb5-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;if&lt;/span&gt; filename &lt;span class="kw"&gt;is&lt;/span&gt; &lt;span class="va"&gt;None&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb5-4"&gt;&lt;a aria-hidden="true" href="#cb5-4" tabindex="-1"&gt;&lt;/a&gt;        ts &lt;span class="op"&gt;=&lt;/span&gt; datetime.now(timezone.utc).strftime(&lt;span class="st"&gt;'%Y%m&lt;/span&gt;&lt;span class="sc"&gt;%d&lt;/span&gt;&lt;span class="st"&gt;T%H%M%S'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb5-5"&gt;&lt;a aria-hidden="true" href="#cb5-5" tabindex="-1"&gt;&lt;/a&gt;        filename &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;f"tensor-diffs-&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;ts&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;.csv"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-6"&gt;&lt;a aria-hidden="true" href="#cb5-6" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-7"&gt;&lt;a aria-hidden="true" href="#cb5-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;with&lt;/span&gt; &lt;span class="bu"&gt;open&lt;/span&gt;(filename, &lt;span class="st"&gt;'w'&lt;/span&gt;, newline&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;''&lt;/span&gt;) &lt;span class="im"&gt;as&lt;/span&gt; f:&lt;/span&gt;
+&lt;span id="cb5-8"&gt;&lt;a aria-hidden="true" href="#cb5-8" tabindex="-1"&gt;&lt;/a&gt;        writer &lt;span class="op"&gt;=&lt;/span&gt; csv.writer(f)&lt;/span&gt;
+&lt;span id="cb5-9"&gt;&lt;a aria-hidden="true" href="#cb5-9" tabindex="-1"&gt;&lt;/a&gt;        writer.writerow(csv_headers)&lt;/span&gt;
+&lt;span id="cb5-10"&gt;&lt;a aria-hidden="true" href="#cb5-10" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;for&lt;/span&gt; row &lt;span class="kw"&gt;in&lt;/span&gt; results:&lt;/span&gt;
+&lt;span id="cb5-11"&gt;&lt;a aria-hidden="true" href="#cb5-11" tabindex="-1"&gt;&lt;/a&gt;            writer.writerow(row)&lt;/span&gt;
+&lt;span id="cb5-12"&gt;&lt;a aria-hidden="true" href="#cb5-12" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-13"&gt;&lt;a aria-hidden="true" href="#cb5-13" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-14"&gt;&lt;a aria-hidden="true" href="#cb5-14" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; get_statistics(name: &lt;span class="bu"&gt;str&lt;/span&gt;, bf16: torch.Tensor, fp32: torch.Tensor):&lt;/span&gt;
+&lt;span id="cb5-15"&gt;&lt;a aria-hidden="true" href="#cb5-15" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;"""Compute summary statistics for one bf16 vs fp32 comparison and return the CSV row."""&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-16"&gt;&lt;a aria-hidden="true" href="#cb5-16" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"&lt;/span&gt;&lt;span class="ch"&gt;\n&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;name&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt; ..."&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb5-17"&gt;&lt;a aria-hidden="true" href="#cb5-17" tabindex="-1"&gt;&lt;/a&gt;    diff &lt;span class="op"&gt;=&lt;/span&gt; torch.&lt;span class="bu"&gt;abs&lt;/span&gt;(bf16 &lt;span class="op"&gt;-&lt;/span&gt; fp32)&lt;/span&gt;
+&lt;span id="cb5-18"&gt;&lt;a aria-hidden="true" href="#cb5-18" tabindex="-1"&gt;&lt;/a&gt;    mean_diff &lt;span class="op"&gt;=&lt;/span&gt; torch.mean(diff)&lt;/span&gt;
+&lt;span id="cb5-19"&gt;&lt;a aria-hidden="true" href="#cb5-19" tabindex="-1"&gt;&lt;/a&gt;    std_diff &lt;span class="op"&gt;=&lt;/span&gt; torch.std(diff)&lt;/span&gt;
+&lt;span id="cb5-20"&gt;&lt;a aria-hidden="true" href="#cb5-20" tabindex="-1"&gt;&lt;/a&gt;    max_diff &lt;span class="op"&gt;=&lt;/span&gt; torch.&lt;span class="bu"&gt;max&lt;/span&gt;(diff)&lt;/span&gt;
+&lt;span id="cb5-21"&gt;&lt;a aria-hidden="true" href="#cb5-21" tabindex="-1"&gt;&lt;/a&gt;    min_diff &lt;span class="op"&gt;=&lt;/span&gt; torch.&lt;span class="bu"&gt;min&lt;/span&gt;(diff)&lt;/span&gt;
+&lt;span id="cb5-22"&gt;&lt;a aria-hidden="true" href="#cb5-22" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-23"&gt;&lt;a aria-hidden="true" href="#cb5-23" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"  Max_diff: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;max_diff&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;, Min_diff: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;min_diff&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;, "&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-24"&gt;&lt;a aria-hidden="true" href="#cb5-24" tabindex="-1"&gt;&lt;/a&gt;          &lt;span class="ss"&gt;f"Mean_diff: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;mean_diff&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;, StdDev: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;std_diff&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb5-25"&gt;&lt;a aria-hidden="true" href="#cb5-25" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb5-26"&gt;&lt;a aria-hidden="true" href="#cb5-26" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; [name, max_diff.item(), min_diff.item(), mean_diff.item(), std_diff.item()]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A typical loop over layers:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; compare_tensors():&lt;/span&gt;
+&lt;span id="cb6-2"&gt;&lt;a aria-hidden="true" href="#cb6-2" tabindex="-1"&gt;&lt;/a&gt;    layer_count &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="dv"&gt;32&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb6-3"&gt;&lt;a aria-hidden="true" href="#cb6-3" tabindex="-1"&gt;&lt;/a&gt;    results &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb6-4"&gt;&lt;a aria-hidden="true" href="#cb6-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; layer_idx &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(layer_count):&lt;/span&gt;
+&lt;span id="cb6-5"&gt;&lt;a aria-hidden="true" href="#cb6-5" tabindex="-1"&gt;&lt;/a&gt;        bf16 &lt;span class="op"&gt;=&lt;/span&gt; torch.load(&lt;span class="ss"&gt;f'/tmp/bf16_layer_&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;layer_idx&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;_out.pt'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb6-6"&gt;&lt;a aria-hidden="true" href="#cb6-6" tabindex="-1"&gt;&lt;/a&gt;        fp32 &lt;span class="op"&gt;=&lt;/span&gt; torch.load(&lt;span class="ss"&gt;f'/tmp/fp32_layer_&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;layer_idx&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;_out.pt'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb6-7"&gt;&lt;a aria-hidden="true" href="#cb6-7" tabindex="-1"&gt;&lt;/a&gt;        results.append(get_statistics(&lt;span class="ss"&gt;f'layer_&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;layer_idx&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;_out'&lt;/span&gt;, bf16, fp32))&lt;/span&gt;
+&lt;span id="cb6-8"&gt;&lt;a aria-hidden="true" href="#cb6-8" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb6-9"&gt;&lt;a aria-hidden="true" href="#cb6-9" tabindex="-1"&gt;&lt;/a&gt;    write_to_csv(results)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Output CSV:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode csv"&gt;&lt;code class="sourceCode csv"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;Param,Max Diff&lt;span class="va"&gt;,&lt;/span&gt;Min Diff&lt;span class="st"&gt;,&lt;/span&gt;Mean Diff&lt;span class="bu"&gt;,&lt;/span&gt;Std. Dev Diff&lt;/span&gt;
+&lt;span id="cb7-2"&gt;&lt;a aria-hidden="true" href="#cb7-2" tabindex="-1"&gt;&lt;/a&gt;layer_0_out,0.0078125&lt;span class="va"&gt;,&lt;/span&gt;0.0&lt;span class="st"&gt;,&lt;/span&gt;0.001234&lt;span class="bu"&gt;,&lt;/span&gt;0.000874&lt;/span&gt;
+&lt;span id="cb7-3"&gt;&lt;a aria-hidden="true" href="#cb7-3" tabindex="-1"&gt;&lt;/a&gt;layer_1_out,0.0107422&lt;span class="va"&gt;,&lt;/span&gt;0.0&lt;span class="st"&gt;,&lt;/span&gt;0.002145&lt;span class="bu"&gt;,&lt;/span&gt;0.001231&lt;/span&gt;
+&lt;span id="cb7-4"&gt;&lt;a aria-hidden="true" href="#cb7-4" tabindex="-1"&gt;&lt;/a&gt;layer_2_out,0.0146484&lt;span class="va"&gt;,&lt;/span&gt;0.0&lt;span class="st"&gt;,&lt;/span&gt;0.003012&lt;span class="bu"&gt;,&lt;/span&gt;0.001682&lt;/span&gt;
+&lt;span id="cb7-5"&gt;&lt;a aria-hidden="true" href="#cb7-5" tabindex="-1"&gt;&lt;/a&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Plotting these columns shows how the error grows from layer to layer,
+and the shape of the curve usually indicates the cause:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Gradual, steady growth&lt;/strong&gt; is expected. Each layer adds
+its own BF16 rounding error to the residual stream.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;A sudden jump or rapid growth&lt;/strong&gt; indicates a bug. Some
+operation amplifies the error instead of allowing it to dissipate, and
+the first layer with the jump is where to look.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flat or very slow growth&lt;/strong&gt; indicates that the
+implementation limits error accumulation, for example by accumulating
+matrix multiplications or collectives in FP32.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="use-cases"&gt;Use cases&lt;/h2&gt;
+&lt;p&gt;The utility applies to three common debugging scenarios.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quantization validation.&lt;/strong&gt; A model is cast from BF16
+to FP8, and the per-layer outputs of the two versions are compared. The
+CSV records the error that each layer adds, which shows whether the
+quantization is too lossy.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cross-hardware comparison.&lt;/strong&gt; The same model runs on
+GPU and on Neuron, and the logits are saved after each batch and
+compared. A layer with a much larger difference than the others is the
+first candidate for investigation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Kernel validation.&lt;/strong&gt; The output of a new NKI kernel is
+compared against a PyTorch reference. A mismatched argmax at a step
+where the top token clearly leads indicates incorrect math. A large
+&lt;code&gt;max_diff&lt;/code&gt; with a matching argmax indicates correct math with
+numeric inaccuracy.&lt;/p&gt;
+&lt;p&gt;The utility deliberately omits plotting, tolerance settings and a
+pass/fail verdict. The appropriate tolerance depends on the use case, so
+that decision belongs to the caller.&lt;/p&gt;
+&lt;h2 id="limitations"&gt;Limitations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Whether the difference matters for the model’s
+output.&lt;/strong&gt; Two outputs can differ by 5% and still sample the same
+token. Two others can differ by 0.1% and produce different sequences,
+when that small difference falls on a step where the top two tokens are
+nearly tied. The utility measures numeric similarity, not behavioral
+similarity.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Where the divergence started.&lt;/strong&gt; Locating the first
+divergent layer requires calling the utility at several layer
+boundaries.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Whether the difference is structured.&lt;/strong&gt; A
+&lt;code&gt;max_diff&lt;/code&gt; of 0.1 can come from a single outlier or from a
+uniform 0.1 offset across the tensor. The standard deviation offers a
+hint, and a histogram provides a definitive answer.&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="accuracy"/><category term="debugging"/><category term="tensor"/><category term="validation"/></entry><entry><title>Neuron - Handling NaNs</title><link href="https://sengopal.me/posts/neuron-handling-nans" rel="alternate"/><published>2024-01-20T00:00:00-08:00</published><updated>2024-01-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-01-20:/posts/neuron-handling-nans</id><summary type="html">A runbook for triaging Neuron accuracy issues and means to verify the model accuracy</summary><content type="html">&lt;p&gt;LLMs work with floating point numbers and susceptible to saturation
 or loss of precision issue. This is typically seen with NaN &lt;em&gt;(Not a
 Number)&lt;/em&gt; errors.&lt;/p&gt;
 &lt;p&gt;Neuron compiler suggests the following options to overcome the NaN

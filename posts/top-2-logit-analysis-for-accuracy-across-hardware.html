@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Top-2 Logit Analysis for Accuracy Across Hardware | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/top-2-logit-analysis-for-accuracy-across-hardware.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/llm-inference.atom.xml">
+<meta name="description" content="The gap between the top two tokens at each generation step shows where a model is uncertain, and where two hardware paths can select different tokens without either being incorrect.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2024-04-18T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Thu 18 April 2024
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/llm-inference">LLM-Inference</a>
+            </li>
+        </ul>
+    </header>
+    <h1>Top-2 Logit Analysis for Accuracy Across Hardware</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#step-1-dump-logits-offline" id="toc-step-1-dump-logits-offline">Step 1: dump logits offline</a></li>
+<li><a href="#step-2-analyze-the-deltas" id="toc-step-2-analyze-the-deltas">Step 2: analyze the deltas</a></li>
+<li><a href="#reading-the-plot" id="toc-reading-the-plot">Reading the
+plot</a></li>
+<li><a href="#cross-hardware-validation" id="toc-cross-hardware-validation">Cross-hardware validation</a></li>
+<li><a href="#probabilities-or-logits" id="toc-probabilities-or-logits">Probabilities or logits</a></li>
+<li><a href="#extending-the-analysis" id="toc-extending-the-analysis">Extending the analysis</a></li>
+<li><a href="#practical-notes" id="toc-practical-notes">Practical
+notes</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>When a model selects an unexpected token, the gap between the top two
+candidates at that step is a useful first measurement. A small gap
+indicates that the model is uncertain, and sampling at that step is
+close to a coin flip. A large gap indicates that the model is confident.
+Plotting the gap across all generation steps shows which steps are
+stable and which are sensitive to small numeric changes.</p>
+<h2 id="step-1-dump-logits-offline">Step 1: dump logits offline</h2>
+<p>The TensorRT-LLM <code>run.py</code> script can write both context
+and generation logits to disk.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="co"># dump_logits.sh</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a><span class="co"># Generates a npy array on disk with the generated logits</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a><span class="va">script</span><span class="op">=</span><span class="st">"run.py"</span></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a><span class="va">engine_dir</span><span class="op">=</span><span class="st">"r8_trt_logits/8-gpu/"</span></span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a><span class="va">input_csv</span><span class="op">=</span><span class="st">"tokenizer_input.csv"</span></span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a><span class="ex">mpirun</span> <span class="at">-np</span> 8 <span class="at">--allow-run-as-root</span> python <span class="va">${script}</span> <span class="dt">\</span></span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a>  <span class="at">--input_file</span> <span class="va">${input_csv}</span> <span class="dt">\</span></span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a>  <span class="at">--output_csv</span> outputs.csv <span class="dt">\</span></span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a>  <span class="at">--output_logits_npy</span> logits.npy <span class="dt">\</span></span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a>  <span class="at">--top_p</span> 1.0 <span class="dt">\</span></span>
+<span id="cb1-14"><a aria-hidden="true" href="#cb1-14" tabindex="-1"></a>  <span class="at">--temperature</span> 1.0 <span class="dt">\</span></span>
+<span id="cb1-15"><a aria-hidden="true" href="#cb1-15" tabindex="-1"></a>  <span class="at">--max_output_len</span> 100 <span class="dt">\</span></span>
+<span id="cb1-16"><a aria-hidden="true" href="#cb1-16" tabindex="-1"></a>  <span class="at">--engine_dir</span> <span class="st">"</span><span class="va">${engine_dir}</span><span class="st">"</span></span></code></pre></div>
+<p>The flags have the following roles:</p>
+<ul>
+<li><code>--input_file</code> reads the tokenized input prompts from a
+CSV file.</li>
+<li><code>--output_csv</code> writes the generated text.</li>
+<li><code>--output_logits_npy</code> writes the per-step logits as a
+<code>.npy</code> file.</li>
+<li><code>--top_p 1.0 --temperature 1.0</code> keeps the full
+distribution with no truncation.</li>
+<li><code>--max_output_len 100</code> generates 100 output tokens.</li>
+<li><code>mpirun -np 8</code> runs the engine across 8 GPUs with tensor
+parallelism.</li>
+</ul>
+<p>The engine must be built with
+<code>--gather_generation_logits</code>, otherwise it does not return
+generation logits.</p>
+<p>The resulting <code>logits.npy</code> has shape
+<code>(batch_size, beam_size, token_gen_steps, vocab_size)</code>. For
+greedy decoding with <code>beam_size=1</code> and
+<code>batch_size=1</code>, a 100-token generation produces a tensor of
+shape <code>(1, 1, 100, vocab_size)</code>.</p>
+<h2 id="step-2-analyze-the-deltas">Step 2: analyze the deltas</h2>
+<p>The following script loads the dump and plots the gap:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="co"># analyze_logits.py</span></span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-5"><a aria-hidden="true" href="#cb2-5" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a aria-hidden="true" href="#cb2-6" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb2-7"><a aria-hidden="true" href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a aria-hidden="true" href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a aria-hidden="true" href="#cb2-9" tabindex="-1"></a><span class="kw">def</span> diff2(logits_at_step, step<span class="op">=-</span><span class="dv">1</span>):</span>
+<span id="cb2-10"><a aria-hidden="true" href="#cb2-10" tabindex="-1"></a>    <span class="co">"""Difference between the top-2 logits at a single step."""</span></span>
+<span id="cb2-11"><a aria-hidden="true" href="#cb2-11" tabindex="-1"></a>    top2 <span class="op">=</span> torch.topk(logits_at_step, <span class="dv">2</span>).values</span>
+<span id="cb2-12"><a aria-hidden="true" href="#cb2-12" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"step </span><span class="sc">{</span>step<span class="sc">}</span><span class="ss">: top2=</span><span class="sc">{</span>top2<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-13"><a aria-hidden="true" href="#cb2-13" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">abs</span>(top2[<span class="dv">0</span>].item() <span class="op">-</span> top2[<span class="dv">1</span>].item())</span>
+<span id="cb2-14"><a aria-hidden="true" href="#cb2-14" tabindex="-1"></a></span>
+<span id="cb2-15"><a aria-hidden="true" href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a aria-hidden="true" href="#cb2-16" tabindex="-1"></a><span class="kw">def</span> plot(values):</span>
+<span id="cb2-17"><a aria-hidden="true" href="#cb2-17" tabindex="-1"></a>    df <span class="op">=</span> pd.Series(values)</span>
+<span id="cb2-18"><a aria-hidden="true" href="#cb2-18" tabindex="-1"></a>    df.plot(</span>
+<span id="cb2-19"><a aria-hidden="true" href="#cb2-19" tabindex="-1"></a>        ylabel<span class="op">=</span><span class="st">"diff of top two probabilities"</span>,</span>
+<span id="cb2-20"><a aria-hidden="true" href="#cb2-20" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"token generation steps"</span>,</span>
+<span id="cb2-21"><a aria-hidden="true" href="#cb2-21" tabindex="-1"></a>        legend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb2-22"><a aria-hidden="true" href="#cb2-22" tabindex="-1"></a>    )</span>
+<span id="cb2-23"><a aria-hidden="true" href="#cb2-23" tabindex="-1"></a>    plt.hlines(y<span class="op">=</span><span class="fl">0.0</span>, xmin<span class="op">=</span><span class="dv">0</span>, xmax<span class="op">=</span><span class="bu">len</span>(values),</span>
+<span id="cb2-24"><a aria-hidden="true" href="#cb2-24" tabindex="-1"></a>               colors<span class="op">=</span><span class="st">'red'</span>, linestyles<span class="op">=</span><span class="st">'-'</span>, lw<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb2-25"><a aria-hidden="true" href="#cb2-25" tabindex="-1"></a>               label<span class="op">=</span><span class="st">'no diff in probs'</span>)</span>
+<span id="cb2-26"><a aria-hidden="true" href="#cb2-26" tabindex="-1"></a></span>
+<span id="cb2-27"><a aria-hidden="true" href="#cb2-27" tabindex="-1"></a></span>
+<span id="cb2-28"><a aria-hidden="true" href="#cb2-28" tabindex="-1"></a><span class="kw">def</span> main():</span>
+<span id="cb2-29"><a aria-hidden="true" href="#cb2-29" tabindex="-1"></a>    gen_logits <span class="op">=</span> torch.from_numpy(np.load(sys.argv[<span class="dv">1</span>]))</span>
+<span id="cb2-30"><a aria-hidden="true" href="#cb2-30" tabindex="-1"></a>    batch_sz, beam_sz, token_gen_steps, vocab_size <span class="op">=</span> gen_logits.shape</span>
+<span id="cb2-31"><a aria-hidden="true" href="#cb2-31" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"logits shape: </span><span class="sc">{</span>gen_logits<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-32"><a aria-hidden="true" href="#cb2-32" tabindex="-1"></a></span>
+<span id="cb2-33"><a aria-hidden="true" href="#cb2-33" tabindex="-1"></a>    logits_diff <span class="op">=</span> []</span>
+<span id="cb2-34"><a aria-hidden="true" href="#cb2-34" tabindex="-1"></a>    probs_diff <span class="op">=</span> []</span>
+<span id="cb2-35"><a aria-hidden="true" href="#cb2-35" tabindex="-1"></a>    <span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(token_gen_steps):</span>
+<span id="cb2-36"><a aria-hidden="true" href="#cb2-36" tabindex="-1"></a>        logits_at_step <span class="op">=</span> gen_logits[<span class="dv">0</span>][<span class="dv">0</span>][step]</span>
+<span id="cb2-37"><a aria-hidden="true" href="#cb2-37" tabindex="-1"></a>        logits_diff.append(diff2(logits_at_step, step))</span>
+<span id="cb2-38"><a aria-hidden="true" href="#cb2-38" tabindex="-1"></a></span>
+<span id="cb2-39"><a aria-hidden="true" href="#cb2-39" tabindex="-1"></a>        probs_at_step <span class="op">=</span> torch.softmax(logits_at_step, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb2-40"><a aria-hidden="true" href="#cb2-40" tabindex="-1"></a>        probs_diff.append(diff2(probs_at_step, step))</span>
+<span id="cb2-41"><a aria-hidden="true" href="#cb2-41" tabindex="-1"></a></span>
+<span id="cb2-42"><a aria-hidden="true" href="#cb2-42" tabindex="-1"></a>        <span class="co"># When probabilities are exactly tied (which shouldn't happen in fp32):</span></span>
+<span id="cb2-43"><a aria-hidden="true" href="#cb2-43" tabindex="-1"></a>        <span class="cf">if</span> probs_diff <span class="kw">and</span> probs_diff[<span class="op">-</span><span class="dv">1</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-44"><a aria-hidden="true" href="#cb2-44" tabindex="-1"></a>            past_ids <span class="op">=</span> torch.argmax(gen_logits[<span class="dv">0</span>][<span class="dv">0</span>], dim<span class="op">=</span><span class="dv">1</span>)[:step]</span>
+<span id="cb2-45"><a aria-hidden="true" href="#cb2-45" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"  TIE at step </span><span class="sc">{</span>step<span class="sc">}</span><span class="ss">; previous tokens: </span><span class="sc">{</span>past_ids<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-46"><a aria-hidden="true" href="#cb2-46" tabindex="-1"></a></span>
+<span id="cb2-47"><a aria-hidden="true" href="#cb2-47" tabindex="-1"></a>    plot(probs_diff)</span>
+<span id="cb2-48"><a aria-hidden="true" href="#cb2-48" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span><span class="st">"upper right"</span>)</span>
+<span id="cb2-49"><a aria-hidden="true" href="#cb2-49" tabindex="-1"></a>    plt.show()</span>
+<span id="cb2-50"><a aria-hidden="true" href="#cb2-50" tabindex="-1"></a></span>
+<span id="cb2-51"><a aria-hidden="true" href="#cb2-51" tabindex="-1"></a></span>
+<span id="cb2-52"><a aria-hidden="true" href="#cb2-52" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb2-53"><a aria-hidden="true" href="#cb2-53" tabindex="-1"></a>    main()</span></code></pre></div>
+<p>The script runs as
+<code>python analyze_logits.py logits.npy</code>.</p>
+<p>It computes two values per step:</p>
+<ul>
+<li><strong><code>logits_diff</code></strong> is the gap between the top
+two raw logits. It measures the model’s confidence in raw units.</li>
+<li><strong><code>probs_diff</code></strong> is the gap between the top
+two probabilities after softmax. It measures how close the step is to a
+coin flip.</li>
+</ul>
+<h2 id="reading-the-plot">Reading the plot</h2>
+<p>Most plots contain three kinds of steps. The thresholds below are
+working heuristics, not fixed constants.</p>
+<p><strong>High-confidence steps</strong> have a <code>probs_diff</code>
+above 0.3. Greedy decoding and sampling produce the same token. On
+simple prompts, a well-trained model spends most of its steps in this
+range.</p>
+<p><strong>Borderline steps</strong> have a <code>probs_diff</code>
+between 0.05 and 0.3. The model prefers one token, but sampling can
+still select the second. Temperature affects the output at these
+steps.</p>
+<p><strong>Coin-flip steps</strong> have a <code>probs_diff</code> below
+0.05. The top two tokens are nearly tied, so a different hardware path
+or a small numeric difference can change the sampled token. Divergence
+between CPU and Neuron, or between BF16 and FP32, tends to occur at
+these steps.</p>
+<p>The shape of the whole curve also characterizes the model:</p>
+<ul>
+<li>When nearly every step is high-confidence, the prompts lie well
+within what the model has learned, and its outputs repeat across
+runs.</li>
+<li>When coin-flip steps are frequent, sampling produces varied outputs
+from run to run.</li>
+<li>A bimodal curve indicates confident early steps, constrained by the
+prefix, followed by open-ended later steps.</li>
+</ul>
+<h2 id="cross-hardware-validation">Cross-hardware validation</h2>
+<p>When a Neuron model is validated against a GPU model, this analysis
+identifies where divergence is expected. The relevant quantity is the
+logit gap, because the numeric noise enters through the logits. Near a
+logit value of 20, one BF16 ULP is 0.125. When the top-two logit gap is
+within a few ULPs, the two hardware paths can rank the top two tokens
+differently, and neither result is incorrect. For two nearly tied
+tokens, a logit gap of 0.125 corresponds to a probability gap of at most
+about 0.06, so such steps already fall in the coin-flip range.</p>
+<p>The validation procedure is as follows:</p>
+<ol type="1">
+<li>Run the model on GPU as the reference and dump the logits.</li>
+<li>Run the model on Neuron as the target and dump the logits.</li>
+<li>For each step, read <code>logits_diff</code> from the reference
+run.</li>
+<li>If <code>logits_diff</code> is well above the expected logit error,
+for example several BF16 ULPs at the logit’s magnitude, the tokens are
+expected to match.</li>
+<li>If <code>logits_diff</code> is within that error, a token mismatch
+is acceptable.</li>
+</ol>
+<p>Consider a run that diverges at step 47. If step 47 is a coin-flip
+step, the divergence is expected. If step 47 is a high-confidence step,
+the divergence indicates a real bug. The script distinguishes between
+the two cases. The <a href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging"><code>compare_logits</code></a>
+utility complements this check by measuring how the two logit tensors
+differ at a given step.</p>
+<h2 id="probabilities-or-logits">Probabilities or logits</h2>
+<p>The analysis can use either the raw logits or the probabilities after
+softmax.</p>
+<p><strong>The logits diff</strong> is easier to compare against the
+resolution of the data type. Near a logit value of 20, one BF16 ULP is
+0.125, so a gap of 1.2 is well above the noise.</p>
+<p><strong>The probabilities diff</strong> maps directly to sampling
+behavior. If the top two tokens have probabilities 0.6 and 0.4, the diff
+is 0.2, and sampling at temperature 1.0 selects the second token 40% of
+the time.</p>
+<p>Both values are inexpensive to compute, so the script records
+both.</p>
+<h2 id="extending-the-analysis">Extending the analysis</h2>
+<p>With <code>probs_diff</code> available for every step, several
+further analyses require only a few lines of code.</p>
+<p><strong>A histogram of <code>probs_diff</code></strong> across all
+steps summarizes the model’s confidence on a set of prompts. When most
+of the mass lies near zero, the output depends heavily on the sampling
+settings.</p>
+<p><strong>Per-step entropy</strong>, <code>−Σ p log p</code> over the
+full distribution, captures more information than the top-two gap.</p>
+<p><strong>Top-K agreement between two models</strong> compares the
+top-K token sets from two models at each step. It provides a finer
+measure of agreement than argmax alone.</p>
+<p><strong>Confidence after specific tokens</strong> tests whether the
+model becomes less confident after it produces certain tokens. This
+analysis can expose systematic sampling instability.</p>
+<h2 id="practical-notes">Practical notes</h2>
+<p><strong>Memory.</strong> A 100-step generation with a 128k vocabulary
+in FP32 occupies about 50 MB per request. Storing the dump as float16
+halves this, provided the analysis tolerates the lower precision.</p>
+<p><strong>MPI and multiple GPUs.</strong> In a tensor-parallel model,
+only rank 0 holds the gathered logits. The dump should be written from
+rank 0 only, otherwise each rank writes a partial copy.</p>
+<p><strong>Beam search.</strong> With <code>beam_size &gt; 1</code>, the
+dump contains one distribution per beam. The analysis still applies, but
+each beam has its own confidence curve.</p>
+<p><strong>Sampling parameters.</strong> The dump contains the logits
+before top-p, top-k and temperature are applied. The analysis can
+therefore be repeated with different sampling settings without running
+the model again.</p>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Apr 2024). Top-2 Logit Analysis for Accuracy Across Hardware. sengopal.me. https://sengopal.me/posts/top-2-logit-analysis-for-accuracy-across-hardware</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2024top2logitanalysisforaccuracyacrosshardware,
+  title   = {Top-2 Logit Analysis for Accuracy Across Hardware},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2024},
+  month   = {Apr},
+  url     = {https://sengopal.me/posts/top-2-logit-analysis-for-accuracy-across-hardware}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>

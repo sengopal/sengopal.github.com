@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>A Simple Tensor Comparison Utility for Accuracy Debugging | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2024-04-10T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Wed 10 April 2024
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
+            </li>
+        </ul>
+    </header>
+    <h1>A Simple Tensor Comparison Utility for Accuracy Debugging</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#the-comparator" id="toc-the-comparator">The
+comparator</a></li>
+<li><a href="#top-k-sampling-check" id="toc-top-k-sampling-check">Top-K
+sampling check</a></li>
+<li><a href="#bulk-comparison-with-csv-output" id="toc-bulk-comparison-with-csv-output">Bulk comparison with CSV
+output</a></li>
+<li><a href="#use-cases" id="toc-use-cases">Use cases</a></li>
+<li><a href="#limitations" id="toc-limitations">Limitations</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>When two tensors that are expected to match do not, the investigation
+should establish the size of the worst and the typical difference,
+whether the argmax agrees, and whether sampling from each distribution
+gives the same result. The utility below answers each of these
+questions.</p>
+<p>The utility is most useful in numerics debugging. Typical cases
+include comparing logits between hardware paths, validating
+quantization, and checking a kernel against a reference. It serves as
+the next step when <code>torch.allclose</code> returns
+<code>False</code> and the cause of the mismatch is unknown.</p>
+<h2 id="the-comparator">The comparator</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime, timezone</span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a><span class="kw">def</span> compare_logits(first: torch.Tensor, second: torch.Tensor, name: <span class="bu">str</span>):</span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a>    <span class="co">"""Compare two tensors element-wise. Prints summary stats and argmax agreement."""</span></span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a>    diff <span class="op">=</span> torch.<span class="bu">abs</span>(first <span class="op">-</span> second)</span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a>    max_diff <span class="op">=</span> diff.<span class="bu">max</span>()</span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a>    min_diff <span class="op">=</span> diff.<span class="bu">min</span>()</span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a>    avg_diff <span class="op">=</span> diff.mean()</span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a>    stddev <span class="op">=</span> diff.std()</span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a aria-hidden="true" href="#cb1-14" tabindex="-1"></a>    first_min, first_max <span class="op">=</span> first.<span class="bu">min</span>(), first.<span class="bu">max</span>()</span>
+<span id="cb1-15"><a aria-hidden="true" href="#cb1-15" tabindex="-1"></a>    second_min, second_max <span class="op">=</span> second.<span class="bu">min</span>(), second.<span class="bu">max</span>()</span>
+<span id="cb1-16"><a aria-hidden="true" href="#cb1-16" tabindex="-1"></a></span>
+<span id="cb1-17"><a aria-hidden="true" href="#cb1-17" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>name<span class="sc">.</span>upper()<span class="sc">}</span><span class="ss">: "</span></span>
+<span id="cb1-18"><a aria-hidden="true" href="#cb1-18" tabindex="-1"></a>          <span class="ss">f"max_diff=</span><span class="sc">{</span>max_diff<span class="sc">:.5f}</span><span class="ss">, min_diff=</span><span class="sc">{</span>min_diff<span class="sc">:.5f}</span><span class="ss">, "</span></span>
+<span id="cb1-19"><a aria-hidden="true" href="#cb1-19" tabindex="-1"></a>          <span class="ss">f"avg_diff=</span><span class="sc">{</span>avg_diff<span class="sc">:.5f}</span><span class="ss">, stddev=</span><span class="sc">{</span>stddev<span class="sc">:.5f}</span><span class="ss">, "</span></span>
+<span id="cb1-20"><a aria-hidden="true" href="#cb1-20" tabindex="-1"></a>          <span class="ss">f"first range=[</span><span class="sc">{</span>first_min<span class="sc">:.5f}</span><span class="ss">, </span><span class="sc">{</span>first_max<span class="sc">:.5f}</span><span class="ss">], "</span></span>
+<span id="cb1-21"><a aria-hidden="true" href="#cb1-21" tabindex="-1"></a>          <span class="ss">f"second range=[</span><span class="sc">{</span>second_min<span class="sc">:.5f}</span><span class="ss">, </span><span class="sc">{</span>second_max<span class="sc">:.5f}</span><span class="ss">]"</span>)</span>
+<span id="cb1-22"><a aria-hidden="true" href="#cb1-22" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"ArgMax first=</span><span class="sc">{</span>torch<span class="sc">.</span>argmax(first)<span class="sc">}</span><span class="ss">, second=</span><span class="sc">{</span>torch<span class="sc">.</span>argmax(second)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div>
+<p>A typical call:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a>compare_logits(cpu_logits, neuron_logits, <span class="st">"fp32-vs-bf16-bf-decode-step-0"</span>)</span></code></pre></div>
+<p>Output:</p>
+<pre><code>FP32-VS-BF16-BF-DECODE-STEP-0: max_diff=0.13281, min_diff=0.00000,
+avg_diff=0.00742, stddev=0.01089, first range=[-20.3125, 18.5000],
+second range=[-20.4063, 18.5000]
+ArgMax first=842, second=842</code></pre>
+<p>Each value has the following interpretation:</p>
+<ul>
+<li><strong><code>max_diff</code></strong> is the largest element-wise
+difference. Near a logit value of 18, one BF16 ULP is
+<code>0.125</code>. The value of <code>0.13281</code> here is just over
+one ULP, which is acceptable for BF16.</li>
+<li><strong><code>avg_diff</code></strong> is the typical difference.
+When it is much smaller than <code>max_diff</code>, a few outliers
+account for the worst case.</li>
+<li><strong><code>stddev</code></strong> is the spread of the
+differences. For spread-out rounding noise, the standard deviation of
+the absolute difference is close to the mean. A standard deviation
+several times the mean indicates that the error is concentrated in a few
+elements.</li>
+<li><strong>Argmax agreement</strong> indicates whether greedy decoding
+selects the same token. If the argmax differs, the generated output will
+differ. <code>torch.argmax</code> without a <code>dim</code> argument
+returns an index into the flattened tensor, so the check applies to the
+logits of a single step.</li>
+</ul>
+<h2 id="top-k-sampling-check">Top-K sampling check</h2>
+<p>When generation uses top-K sampling instead of greedy decoding, the
+sampled tokens should also be compared:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a><span class="kw">def</span> printTop(next_token_scores, name, top_k<span class="op">=</span><span class="dv">5</span>, seed<span class="op">=</span><span class="dv">0</span>):</span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a>    torch.manual_seed(seed)</span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a>    topk_values, topk_indices <span class="op">=</span> torch.topk(next_token_scores, top_k)</span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a>    probs <span class="op">=</span> torch.nn.functional.softmax(topk_values, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb4-5"><a aria-hidden="true" href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a aria-hidden="true" href="#cb4-6" tabindex="-1"></a>    inputs_in_topk <span class="op">=</span> torch.multinomial(probs, num_samples<span class="op">=</span><span class="dv">1</span>, replacement<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-7"><a aria-hidden="true" href="#cb4-7" tabindex="-1"></a>    inputs <span class="op">=</span> torch.gather(topk_indices, <span class="dv">0</span>, inputs_in_topk)</span>
+<span id="cb4-8"><a aria-hidden="true" href="#cb4-8" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"TopK-</span><span class="sc">{</span>top_k<span class="sc">}</span><span class="ss"> for </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>inputs<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-9"><a aria-hidden="true" href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a aria-hidden="true" href="#cb4-10" tabindex="-1"></a><span class="co"># inside compare_logits, optionally:</span></span>
+<span id="cb4-11"><a aria-hidden="true" href="#cb4-11" tabindex="-1"></a>printTop(first, <span class="st">"first"</span>)</span>
+<span id="cb4-12"><a aria-hidden="true" href="#cb4-12" tabindex="-1"></a>printTop(second, <span class="st">"second"</span>)</span></code></pre></div>
+<p>This function samples one token from the top-K distribution of each
+tensor. Both calls use the same seed, so identical distributions produce
+the same token. If the argmax agrees but the sampled tokens differ for
+several seeds, the two distributions differ in shape even though their
+peaks match.</p>
+<h2 id="bulk-comparison-with-csv-output">Bulk comparison with CSV
+output</h2>
+<p>Comparing many tensors at once, such as the output of every layer,
+calls for a version that writes a CSV file:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="kw">def</span> write_to_csv(results, filename<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a>    csv_headers <span class="op">=</span> [<span class="st">"Param"</span>, <span class="st">"Max Diff"</span>, <span class="st">"Min Diff"</span>, <span class="st">"Mean Diff"</span>, <span class="st">"Std. Dev Diff"</span>]</span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    <span class="cf">if</span> filename <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>        ts <span class="op">=</span> datetime.now(timezone.utc).strftime(<span class="st">'%Y%m</span><span class="sc">%d</span><span class="st">T%H%M%S'</span>)</span>
+<span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>        filename <span class="op">=</span> <span class="ss">f"tensor-diffs-</span><span class="sc">{</span>ts<span class="sc">}</span><span class="ss">.csv"</span></span>
+<span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">'w'</span>, newline<span class="op">=</span><span class="st">''</span>) <span class="im">as</span> f:</span>
+<span id="cb5-8"><a aria-hidden="true" href="#cb5-8" tabindex="-1"></a>        writer <span class="op">=</span> csv.writer(f)</span>
+<span id="cb5-9"><a aria-hidden="true" href="#cb5-9" tabindex="-1"></a>        writer.writerow(csv_headers)</span>
+<span id="cb5-10"><a aria-hidden="true" href="#cb5-10" tabindex="-1"></a>        <span class="cf">for</span> row <span class="kw">in</span> results:</span>
+<span id="cb5-11"><a aria-hidden="true" href="#cb5-11" tabindex="-1"></a>            writer.writerow(row)</span>
+<span id="cb5-12"><a aria-hidden="true" href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a aria-hidden="true" href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a aria-hidden="true" href="#cb5-14" tabindex="-1"></a><span class="kw">def</span> get_statistics(name: <span class="bu">str</span>, bf16: torch.Tensor, fp32: torch.Tensor):</span>
+<span id="cb5-15"><a aria-hidden="true" href="#cb5-15" tabindex="-1"></a>    <span class="co">"""Compute summary statistics for one bf16 vs fp32 comparison and return the CSV row."""</span></span>
+<span id="cb5-16"><a aria-hidden="true" href="#cb5-16" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> ..."</span>)</span>
+<span id="cb5-17"><a aria-hidden="true" href="#cb5-17" tabindex="-1"></a>    diff <span class="op">=</span> torch.<span class="bu">abs</span>(bf16 <span class="op">-</span> fp32)</span>
+<span id="cb5-18"><a aria-hidden="true" href="#cb5-18" tabindex="-1"></a>    mean_diff <span class="op">=</span> torch.mean(diff)</span>
+<span id="cb5-19"><a aria-hidden="true" href="#cb5-19" tabindex="-1"></a>    std_diff <span class="op">=</span> torch.std(diff)</span>
+<span id="cb5-20"><a aria-hidden="true" href="#cb5-20" tabindex="-1"></a>    max_diff <span class="op">=</span> torch.<span class="bu">max</span>(diff)</span>
+<span id="cb5-21"><a aria-hidden="true" href="#cb5-21" tabindex="-1"></a>    min_diff <span class="op">=</span> torch.<span class="bu">min</span>(diff)</span>
+<span id="cb5-22"><a aria-hidden="true" href="#cb5-22" tabindex="-1"></a></span>
+<span id="cb5-23"><a aria-hidden="true" href="#cb5-23" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Max_diff: </span><span class="sc">{</span>max_diff<span class="sc">}</span><span class="ss">, Min_diff: </span><span class="sc">{</span>min_diff<span class="sc">}</span><span class="ss">, "</span></span>
+<span id="cb5-24"><a aria-hidden="true" href="#cb5-24" tabindex="-1"></a>          <span class="ss">f"Mean_diff: </span><span class="sc">{</span>mean_diff<span class="sc">}</span><span class="ss">, StdDev: </span><span class="sc">{</span>std_diff<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb5-25"><a aria-hidden="true" href="#cb5-25" tabindex="-1"></a></span>
+<span id="cb5-26"><a aria-hidden="true" href="#cb5-26" tabindex="-1"></a>    <span class="cf">return</span> [name, max_diff.item(), min_diff.item(), mean_diff.item(), std_diff.item()]</span></code></pre></div>
+<p>A typical loop over layers:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="kw">def</span> compare_tensors():</span>
+<span id="cb6-2"><a aria-hidden="true" href="#cb6-2" tabindex="-1"></a>    layer_count <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb6-3"><a aria-hidden="true" href="#cb6-3" tabindex="-1"></a>    results <span class="op">=</span> []</span>
+<span id="cb6-4"><a aria-hidden="true" href="#cb6-4" tabindex="-1"></a>    <span class="cf">for</span> layer_idx <span class="kw">in</span> <span class="bu">range</span>(layer_count):</span>
+<span id="cb6-5"><a aria-hidden="true" href="#cb6-5" tabindex="-1"></a>        bf16 <span class="op">=</span> torch.load(<span class="ss">f'/tmp/bf16_layer_</span><span class="sc">{</span>layer_idx<span class="sc">}</span><span class="ss">_out.pt'</span>)</span>
+<span id="cb6-6"><a aria-hidden="true" href="#cb6-6" tabindex="-1"></a>        fp32 <span class="op">=</span> torch.load(<span class="ss">f'/tmp/fp32_layer_</span><span class="sc">{</span>layer_idx<span class="sc">}</span><span class="ss">_out.pt'</span>)</span>
+<span id="cb6-7"><a aria-hidden="true" href="#cb6-7" tabindex="-1"></a>        results.append(get_statistics(<span class="ss">f'layer_</span><span class="sc">{</span>layer_idx<span class="sc">}</span><span class="ss">_out'</span>, bf16, fp32))</span>
+<span id="cb6-8"><a aria-hidden="true" href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a aria-hidden="true" href="#cb6-9" tabindex="-1"></a>    write_to_csv(results)</span></code></pre></div>
+<p>Output CSV:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode csv"><code class="sourceCode csv"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a>Param,Max Diff<span class="va">,</span>Min Diff<span class="st">,</span>Mean Diff<span class="bu">,</span>Std. Dev Diff</span>
+<span id="cb7-2"><a aria-hidden="true" href="#cb7-2" tabindex="-1"></a>layer_0_out,0.0078125<span class="va">,</span>0.0<span class="st">,</span>0.001234<span class="bu">,</span>0.000874</span>
+<span id="cb7-3"><a aria-hidden="true" href="#cb7-3" tabindex="-1"></a>layer_1_out,0.0107422<span class="va">,</span>0.0<span class="st">,</span>0.002145<span class="bu">,</span>0.001231</span>
+<span id="cb7-4"><a aria-hidden="true" href="#cb7-4" tabindex="-1"></a>layer_2_out,0.0146484<span class="va">,</span>0.0<span class="st">,</span>0.003012<span class="bu">,</span>0.001682</span>
+<span id="cb7-5"><a aria-hidden="true" href="#cb7-5" tabindex="-1"></a>...</span></code></pre></div>
+<p>Plotting these columns shows how the error grows from layer to layer,
+and the shape of the curve usually indicates the cause:</p>
+<ul>
+<li><strong>Gradual, steady growth</strong> is expected. Each layer adds
+its own BF16 rounding error to the residual stream.</li>
+<li><strong>A sudden jump or rapid growth</strong> indicates a bug. Some
+operation amplifies the error instead of allowing it to dissipate, and
+the first layer with the jump is where to look.</li>
+<li><strong>Flat or very slow growth</strong> indicates that the
+implementation limits error accumulation, for example by accumulating
+matrix multiplications or collectives in FP32.</li>
+</ul>
+<h2 id="use-cases">Use cases</h2>
+<p>The utility applies to three common debugging scenarios.</p>
+<p><strong>Quantization validation.</strong> A model is cast from BF16
+to FP8, and the per-layer outputs of the two versions are compared. The
+CSV records the error that each layer adds, which shows whether the
+quantization is too lossy.</p>
+<p><strong>Cross-hardware comparison.</strong> The same model runs on
+GPU and on Neuron, and the logits are saved after each batch and
+compared. A layer with a much larger difference than the others is the
+first candidate for investigation.</p>
+<p><strong>Kernel validation.</strong> The output of a new NKI kernel is
+compared against a PyTorch reference. A mismatched argmax at a step
+where the top token clearly leads indicates incorrect math. A large
+<code>max_diff</code> with a matching argmax indicates correct math with
+numeric inaccuracy.</p>
+<p>The utility deliberately omits plotting, tolerance settings and a
+pass/fail verdict. The appropriate tolerance depends on the use case, so
+that decision belongs to the caller.</p>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li><strong>Whether the difference matters for the model’s
+output.</strong> Two outputs can differ by 5% and still sample the same
+token. Two others can differ by 0.1% and produce different sequences,
+when that small difference falls on a step where the top two tokens are
+nearly tied. The utility measures numeric similarity, not behavioral
+similarity.</li>
+<li><strong>Where the divergence started.</strong> Locating the first
+divergent layer requires calling the utility at several layer
+boundaries.</li>
+<li><strong>Whether the difference is structured.</strong> A
+<code>max_diff</code> of 0.1 can come from a single outlier or from a
+uniform 0.1 offset across the tensor. The standard deviation offers a
+hint, and a histogram provides a definitive answer.</li>
+</ul>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Apr 2024). A Simple Tensor Comparison Utility for Accuracy Debugging. sengopal.me. https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2024asimpletensorcomparisonutilityforaccuracydebugging,
+  title   = {A Simple Tensor Comparison Utility for Accuracy Debugging},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2024},
+  month   = {Apr},
+  url     = {https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>

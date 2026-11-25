@@ -472,4 +472,208 @@ models from different frameworks, including TensorRT-optimized models.
 TensorRT is a library for optimizing and accelerating deep learning
 models for inference on NVIDIA GPUs. TensorRT-LLM is a specialized
 branch of TensorRT focused on optimizing and deploying large language
-models efficiently on NVIDIA GPUs.&lt;/p&gt;</content><category term="LLM-Inference"/><category term="ml-code"/><category term="llm"/></entry></feed>
+models efficiently on NVIDIA GPUs.&lt;/p&gt;</content><category term="LLM-Inference"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Top-2 Logit Analysis for Accuracy Across Hardware</title><link href="https://sengopal.me/posts/top-2-logit-analysis-for-accuracy-across-hardware" rel="alternate"/><published>2024-04-18T00:00:00-07:00</published><updated>2024-04-18T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-18:/posts/top-2-logit-analysis-for-accuracy-across-hardware</id><summary type="html">The gap between the top two tokens at each generation step shows where a model is uncertain, and where two hardware paths can select different tokens without either being incorrect.</summary><content type="html">&lt;p&gt;When a model selects an unexpected token, the gap between the top two
+candidates at that step is a useful first measurement. A small gap
+indicates that the model is uncertain, and sampling at that step is
+close to a coin flip. A large gap indicates that the model is confident.
+Plotting the gap across all generation steps shows which steps are
+stable and which are sensitive to small numeric changes.&lt;/p&gt;
+&lt;h2 id="step-1-dump-logits-offline"&gt;Step 1: dump logits offline&lt;/h2&gt;
+&lt;p&gt;The TensorRT-LLM &lt;code&gt;run.py&lt;/code&gt; script can write both context
+and generation logits to disk.&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;#!/bin/bash&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# dump_logits.sh&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Generates a npy array on disk with the generated logits&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;script&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"run.py"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;engine_dir&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"r8_trt_logits/8-gpu/"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;input_csv&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"tokenizer_input.csv"&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;mpirun&lt;/span&gt; &lt;span class="at"&gt;-np&lt;/span&gt; 8 &lt;span class="at"&gt;--allow-run-as-root&lt;/span&gt; python &lt;span class="va"&gt;${script}&lt;/span&gt; &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--input_file&lt;/span&gt; &lt;span class="va"&gt;${input_csv}&lt;/span&gt; &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--output_csv&lt;/span&gt; outputs.csv &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--output_logits_npy&lt;/span&gt; logits.npy &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--top_p&lt;/span&gt; 1.0 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-14"&gt;&lt;a aria-hidden="true" href="#cb1-14" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--temperature&lt;/span&gt; 1.0 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-15"&gt;&lt;a aria-hidden="true" href="#cb1-15" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--max_output_len&lt;/span&gt; 100 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-16"&gt;&lt;a aria-hidden="true" href="#cb1-16" tabindex="-1"&gt;&lt;/a&gt;  &lt;span class="at"&gt;--engine_dir&lt;/span&gt; &lt;span class="st"&gt;"&lt;/span&gt;&lt;span class="va"&gt;${engine_dir}&lt;/span&gt;&lt;span class="st"&gt;"&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The flags have the following roles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;--input_file&lt;/code&gt; reads the tokenized input prompts from a
+CSV file.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--output_csv&lt;/code&gt; writes the generated text.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--output_logits_npy&lt;/code&gt; writes the per-step logits as a
+&lt;code&gt;.npy&lt;/code&gt; file.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--top_p 1.0 --temperature 1.0&lt;/code&gt; keeps the full
+distribution with no truncation.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;--max_output_len 100&lt;/code&gt; generates 100 output tokens.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mpirun -np 8&lt;/code&gt; runs the engine across 8 GPUs with tensor
+parallelism.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The engine must be built with
+&lt;code&gt;--gather_generation_logits&lt;/code&gt;, otherwise it does not return
+generation logits.&lt;/p&gt;
+&lt;p&gt;The resulting &lt;code&gt;logits.npy&lt;/code&gt; has shape
+&lt;code&gt;(batch_size, beam_size, token_gen_steps, vocab_size)&lt;/code&gt;. For
+greedy decoding with &lt;code&gt;beam_size=1&lt;/code&gt; and
+&lt;code&gt;batch_size=1&lt;/code&gt;, a 100-token generation produces a tensor of
+shape &lt;code&gt;(1, 1, 100, vocab_size)&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="step-2-analyze-the-deltas"&gt;Step 2: analyze the deltas&lt;/h2&gt;
+&lt;p&gt;The following script loads the dump and plots the gap:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# analyze_logits.py&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; numpy &lt;span class="im"&gt;as&lt;/span&gt; np&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; torch&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; pandas &lt;span class="im"&gt;as&lt;/span&gt; pd&lt;/span&gt;
+&lt;span id="cb2-5"&gt;&lt;a aria-hidden="true" href="#cb2-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; matplotlib.pyplot &lt;span class="im"&gt;as&lt;/span&gt; plt&lt;/span&gt;
+&lt;span id="cb2-6"&gt;&lt;a aria-hidden="true" href="#cb2-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;import&lt;/span&gt; sys&lt;/span&gt;
+&lt;span id="cb2-7"&gt;&lt;a aria-hidden="true" href="#cb2-7" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-8"&gt;&lt;a aria-hidden="true" href="#cb2-8" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-9"&gt;&lt;a aria-hidden="true" href="#cb2-9" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; diff2(logits_at_step, step&lt;span class="op"&gt;=-&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;):&lt;/span&gt;
+&lt;span id="cb2-10"&gt;&lt;a aria-hidden="true" href="#cb2-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="co"&gt;"""Difference between the top-2 logits at a single step."""&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-11"&gt;&lt;a aria-hidden="true" href="#cb2-11" tabindex="-1"&gt;&lt;/a&gt;    top2 &lt;span class="op"&gt;=&lt;/span&gt; torch.topk(logits_at_step, &lt;span class="dv"&gt;2&lt;/span&gt;).values&lt;/span&gt;
+&lt;span id="cb2-12"&gt;&lt;a aria-hidden="true" href="#cb2-12" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"step &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;step&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;: top2=&lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;top2&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-13"&gt;&lt;a aria-hidden="true" href="#cb2-13" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;return&lt;/span&gt; &lt;span class="bu"&gt;abs&lt;/span&gt;(top2[&lt;span class="dv"&gt;0&lt;/span&gt;].item() &lt;span class="op"&gt;-&lt;/span&gt; top2[&lt;span class="dv"&gt;1&lt;/span&gt;].item())&lt;/span&gt;
+&lt;span id="cb2-14"&gt;&lt;a aria-hidden="true" href="#cb2-14" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-15"&gt;&lt;a aria-hidden="true" href="#cb2-15" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-16"&gt;&lt;a aria-hidden="true" href="#cb2-16" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; plot(values):&lt;/span&gt;
+&lt;span id="cb2-17"&gt;&lt;a aria-hidden="true" href="#cb2-17" tabindex="-1"&gt;&lt;/a&gt;    df &lt;span class="op"&gt;=&lt;/span&gt; pd.Series(values)&lt;/span&gt;
+&lt;span id="cb2-18"&gt;&lt;a aria-hidden="true" href="#cb2-18" tabindex="-1"&gt;&lt;/a&gt;    df.plot(&lt;/span&gt;
+&lt;span id="cb2-19"&gt;&lt;a aria-hidden="true" href="#cb2-19" tabindex="-1"&gt;&lt;/a&gt;        ylabel&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"diff of top two probabilities"&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb2-20"&gt;&lt;a aria-hidden="true" href="#cb2-20" tabindex="-1"&gt;&lt;/a&gt;        xlabel&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"token generation steps"&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb2-21"&gt;&lt;a aria-hidden="true" href="#cb2-21" tabindex="-1"&gt;&lt;/a&gt;        legend&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="va"&gt;False&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb2-22"&gt;&lt;a aria-hidden="true" href="#cb2-22" tabindex="-1"&gt;&lt;/a&gt;    )&lt;/span&gt;
+&lt;span id="cb2-23"&gt;&lt;a aria-hidden="true" href="#cb2-23" tabindex="-1"&gt;&lt;/a&gt;    plt.hlines(y&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="fl"&gt;0.0&lt;/span&gt;, xmin&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;0&lt;/span&gt;, xmax&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="bu"&gt;len&lt;/span&gt;(values),&lt;/span&gt;
+&lt;span id="cb2-24"&gt;&lt;a aria-hidden="true" href="#cb2-24" tabindex="-1"&gt;&lt;/a&gt;               colors&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'red'&lt;/span&gt;, linestyles&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'-'&lt;/span&gt;, lw&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb2-25"&gt;&lt;a aria-hidden="true" href="#cb2-25" tabindex="-1"&gt;&lt;/a&gt;               label&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'no diff in probs'&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-26"&gt;&lt;a aria-hidden="true" href="#cb2-26" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-27"&gt;&lt;a aria-hidden="true" href="#cb2-27" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-28"&gt;&lt;a aria-hidden="true" href="#cb2-28" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;def&lt;/span&gt; main():&lt;/span&gt;
+&lt;span id="cb2-29"&gt;&lt;a aria-hidden="true" href="#cb2-29" tabindex="-1"&gt;&lt;/a&gt;    gen_logits &lt;span class="op"&gt;=&lt;/span&gt; torch.from_numpy(np.load(sys.argv[&lt;span class="dv"&gt;1&lt;/span&gt;]))&lt;/span&gt;
+&lt;span id="cb2-30"&gt;&lt;a aria-hidden="true" href="#cb2-30" tabindex="-1"&gt;&lt;/a&gt;    batch_sz, beam_sz, token_gen_steps, vocab_size &lt;span class="op"&gt;=&lt;/span&gt; gen_logits.shape&lt;/span&gt;
+&lt;span id="cb2-31"&gt;&lt;a aria-hidden="true" href="#cb2-31" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"logits shape: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;gen_logits&lt;span class="sc"&gt;.&lt;/span&gt;shape&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-32"&gt;&lt;a aria-hidden="true" href="#cb2-32" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-33"&gt;&lt;a aria-hidden="true" href="#cb2-33" tabindex="-1"&gt;&lt;/a&gt;    logits_diff &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb2-34"&gt;&lt;a aria-hidden="true" href="#cb2-34" tabindex="-1"&gt;&lt;/a&gt;    probs_diff &lt;span class="op"&gt;=&lt;/span&gt; []&lt;/span&gt;
+&lt;span id="cb2-35"&gt;&lt;a aria-hidden="true" href="#cb2-35" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="cf"&gt;for&lt;/span&gt; step &lt;span class="kw"&gt;in&lt;/span&gt; &lt;span class="bu"&gt;range&lt;/span&gt;(token_gen_steps):&lt;/span&gt;
+&lt;span id="cb2-36"&gt;&lt;a aria-hidden="true" href="#cb2-36" tabindex="-1"&gt;&lt;/a&gt;        logits_at_step &lt;span class="op"&gt;=&lt;/span&gt; gen_logits[&lt;span class="dv"&gt;0&lt;/span&gt;][&lt;span class="dv"&gt;0&lt;/span&gt;][step]&lt;/span&gt;
+&lt;span id="cb2-37"&gt;&lt;a aria-hidden="true" href="#cb2-37" tabindex="-1"&gt;&lt;/a&gt;        logits_diff.append(diff2(logits_at_step, step))&lt;/span&gt;
+&lt;span id="cb2-38"&gt;&lt;a aria-hidden="true" href="#cb2-38" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-39"&gt;&lt;a aria-hidden="true" href="#cb2-39" tabindex="-1"&gt;&lt;/a&gt;        probs_at_step &lt;span class="op"&gt;=&lt;/span&gt; torch.softmax(logits_at_step, dim&lt;span class="op"&gt;=-&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-40"&gt;&lt;a aria-hidden="true" href="#cb2-40" tabindex="-1"&gt;&lt;/a&gt;        probs_diff.append(diff2(probs_at_step, step))&lt;/span&gt;
+&lt;span id="cb2-41"&gt;&lt;a aria-hidden="true" href="#cb2-41" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-42"&gt;&lt;a aria-hidden="true" href="#cb2-42" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="co"&gt;# When probabilities are exactly tied (which shouldn't happen in fp32):&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-43"&gt;&lt;a aria-hidden="true" href="#cb2-43" tabindex="-1"&gt;&lt;/a&gt;        &lt;span class="cf"&gt;if&lt;/span&gt; probs_diff &lt;span class="kw"&gt;and&lt;/span&gt; probs_diff[&lt;span class="op"&gt;-&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;] &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="dv"&gt;0&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb2-44"&gt;&lt;a aria-hidden="true" href="#cb2-44" tabindex="-1"&gt;&lt;/a&gt;            past_ids &lt;span class="op"&gt;=&lt;/span&gt; torch.argmax(gen_logits[&lt;span class="dv"&gt;0&lt;/span&gt;][&lt;span class="dv"&gt;0&lt;/span&gt;], dim&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)[:step]&lt;/span&gt;
+&lt;span id="cb2-45"&gt;&lt;a aria-hidden="true" href="#cb2-45" tabindex="-1"&gt;&lt;/a&gt;            &lt;span class="bu"&gt;print&lt;/span&gt;(&lt;span class="ss"&gt;f"  TIE at step &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;step&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;; previous tokens: &lt;/span&gt;&lt;span class="sc"&gt;{&lt;/span&gt;past_ids&lt;span class="sc"&gt;}&lt;/span&gt;&lt;span class="ss"&gt;"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-46"&gt;&lt;a aria-hidden="true" href="#cb2-46" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-47"&gt;&lt;a aria-hidden="true" href="#cb2-47" tabindex="-1"&gt;&lt;/a&gt;    plot(probs_diff)&lt;/span&gt;
+&lt;span id="cb2-48"&gt;&lt;a aria-hidden="true" href="#cb2-48" tabindex="-1"&gt;&lt;/a&gt;    plt.legend(loc&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"upper right"&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb2-49"&gt;&lt;a aria-hidden="true" href="#cb2-49" tabindex="-1"&gt;&lt;/a&gt;    plt.show()&lt;/span&gt;
+&lt;span id="cb2-50"&gt;&lt;a aria-hidden="true" href="#cb2-50" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-51"&gt;&lt;a aria-hidden="true" href="#cb2-51" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb2-52"&gt;&lt;a aria-hidden="true" href="#cb2-52" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;if&lt;/span&gt; &lt;span class="va"&gt;__name__&lt;/span&gt; &lt;span class="op"&gt;==&lt;/span&gt; &lt;span class="st"&gt;"__main__"&lt;/span&gt;:&lt;/span&gt;
+&lt;span id="cb2-53"&gt;&lt;a aria-hidden="true" href="#cb2-53" tabindex="-1"&gt;&lt;/a&gt;    main()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The script runs as
+&lt;code&gt;python analyze_logits.py logits.npy&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;It computes two values per step:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;logits_diff&lt;/code&gt;&lt;/strong&gt; is the gap between the top
+two raw logits. It measures the model’s confidence in raw units.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;probs_diff&lt;/code&gt;&lt;/strong&gt; is the gap between the top
+two probabilities after softmax. It measures how close the step is to a
+coin flip.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="reading-the-plot"&gt;Reading the plot&lt;/h2&gt;
+&lt;p&gt;Most plots contain three kinds of steps. The thresholds below are
+working heuristics, not fixed constants.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;High-confidence steps&lt;/strong&gt; have a &lt;code&gt;probs_diff&lt;/code&gt;
+above 0.3. Greedy decoding and sampling produce the same token. On
+simple prompts, a well-trained model spends most of its steps in this
+range.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Borderline steps&lt;/strong&gt; have a &lt;code&gt;probs_diff&lt;/code&gt;
+between 0.05 and 0.3. The model prefers one token, but sampling can
+still select the second. Temperature affects the output at these
+steps.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Coin-flip steps&lt;/strong&gt; have a &lt;code&gt;probs_diff&lt;/code&gt; below
+0.05. The top two tokens are nearly tied, so a different hardware path
+or a small numeric difference can change the sampled token. Divergence
+between CPU and Neuron, or between BF16 and FP32, tends to occur at
+these steps.&lt;/p&gt;
+&lt;p&gt;The shape of the whole curve also characterizes the model:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;When nearly every step is high-confidence, the prompts lie well
+within what the model has learned, and its outputs repeat across
+runs.&lt;/li&gt;
+&lt;li&gt;When coin-flip steps are frequent, sampling produces varied outputs
+from run to run.&lt;/li&gt;
+&lt;li&gt;A bimodal curve indicates confident early steps, constrained by the
+prefix, followed by open-ended later steps.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="cross-hardware-validation"&gt;Cross-hardware validation&lt;/h2&gt;
+&lt;p&gt;When a Neuron model is validated against a GPU model, this analysis
+identifies where divergence is expected. The relevant quantity is the
+logit gap, because the numeric noise enters through the logits. Near a
+logit value of 20, one BF16 ULP is 0.125. When the top-two logit gap is
+within a few ULPs, the two hardware paths can rank the top two tokens
+differently, and neither result is incorrect. For two nearly tied
+tokens, a logit gap of 0.125 corresponds to a probability gap of at most
+about 0.06, so such steps already fall in the coin-flip range.&lt;/p&gt;
+&lt;p&gt;The validation procedure is as follows:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Run the model on GPU as the reference and dump the logits.&lt;/li&gt;
+&lt;li&gt;Run the model on Neuron as the target and dump the logits.&lt;/li&gt;
+&lt;li&gt;For each step, read &lt;code&gt;logits_diff&lt;/code&gt; from the reference
+run.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;logits_diff&lt;/code&gt; is well above the expected logit error,
+for example several BF16 ULPs at the logit’s magnitude, the tokens are
+expected to match.&lt;/li&gt;
+&lt;li&gt;If &lt;code&gt;logits_diff&lt;/code&gt; is within that error, a token mismatch
+is acceptable.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Consider a run that diverges at step 47. If step 47 is a coin-flip
+step, the divergence is expected. If step 47 is a high-confidence step,
+the divergence indicates a real bug. The script distinguishes between
+the two cases. The &lt;a href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging"&gt;&lt;code&gt;compare_logits&lt;/code&gt;&lt;/a&gt;
+utility complements this check by measuring how the two logit tensors
+differ at a given step.&lt;/p&gt;
+&lt;h2 id="probabilities-or-logits"&gt;Probabilities or logits&lt;/h2&gt;
+&lt;p&gt;The analysis can use either the raw logits or the probabilities after
+softmax.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The logits diff&lt;/strong&gt; is easier to compare against the
+resolution of the data type. Near a logit value of 20, one BF16 ULP is
+0.125, so a gap of 1.2 is well above the noise.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The probabilities diff&lt;/strong&gt; maps directly to sampling
+behavior. If the top two tokens have probabilities 0.6 and 0.4, the diff
+is 0.2, and sampling at temperature 1.0 selects the second token 40% of
+the time.&lt;/p&gt;
+&lt;p&gt;Both values are inexpensive to compute, so the script records
+both.&lt;/p&gt;
+&lt;h2 id="extending-the-analysis"&gt;Extending the analysis&lt;/h2&gt;
+&lt;p&gt;With &lt;code&gt;probs_diff&lt;/code&gt; available for every step, several
+further analyses require only a few lines of code.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A histogram of &lt;code&gt;probs_diff&lt;/code&gt;&lt;/strong&gt; across all
+steps summarizes the model’s confidence on a set of prompts. When most
+of the mass lies near zero, the output depends heavily on the sampling
+settings.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Per-step entropy&lt;/strong&gt;, &lt;code&gt;−Σ p log p&lt;/code&gt; over the
+full distribution, captures more information than the top-two gap.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Top-K agreement between two models&lt;/strong&gt; compares the
+top-K token sets from two models at each step. It provides a finer
+measure of agreement than argmax alone.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Confidence after specific tokens&lt;/strong&gt; tests whether the
+model becomes less confident after it produces certain tokens. This
+analysis can expose systematic sampling instability.&lt;/p&gt;
+&lt;h2 id="practical-notes"&gt;Practical notes&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Memory.&lt;/strong&gt; A 100-step generation with a 128k vocabulary
+in FP32 occupies about 50 MB per request. Storing the dump as float16
+halves this, provided the analysis tolerates the lower precision.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MPI and multiple GPUs.&lt;/strong&gt; In a tensor-parallel model,
+only rank 0 holds the gathered logits. The dump should be written from
+rank 0 only, otherwise each rank writes a partial copy.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Beam search.&lt;/strong&gt; With &lt;code&gt;beam_size &amp;gt; 1&lt;/code&gt;, the
+dump contains one distribution per beam. The analysis still applies, but
+each beam has its own confidence curve.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sampling parameters.&lt;/strong&gt; The dump contains the logits
+before top-p, top-k and temperature are applied. The analysis can
+therefore be repeated with different sampling settings without running
+the model again.&lt;/p&gt;</content><category term="LLM-Inference"/><category term="neuron"/><category term="tensorrt-llm"/><category term="logits"/><category term="sampling"/><category term="debugging"/><category term="visualization"/></entry></feed>
