@@ -1,5 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Neuron</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/neuron.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2024-04-10T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Senthilkumar Gopal - Neuron</title><link href="https://sengopal.me/" rel="alternate"/><link href="https://sengopal.me/feeds/neuron.atom.xml" rel="self"/><id>https://sengopal.me/</id><updated>2025-06-03T00:00:00-07:00</updated><subtitle>Musings of a machine learning researcher, engineer and leader</subtitle><entry><title>Torch Profiler Walk-Through for Neuron Latency</title><link href="https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency" rel="alternate"/><published>2025-06-03T00:00:00-07:00</published><updated>2025-06-03T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-06-03:/posts/torch-profiler-walk-through-for-neuron-latency</id><summary type="html">Using the PyTorch profiler together with neuron-profile to break down LLM inference latency on Neuron, with SQL queries over the Perfetto trace for context encoding and token generation.</summary><content type="html">&lt;p&gt;The PyTorch profiler records what the host CPU does, including
+framework code, input preparation, and the calls that dispatch work to
+the Neuron device. &lt;code&gt;neuron-profile&lt;/code&gt; records what the device
+does once it receives that work. A latency investigation starts with the
+PyTorch profile and moves to &lt;code&gt;neuron-profile&lt;/code&gt; when the device
+is the bottleneck.&lt;/p&gt;
+&lt;h2 id="choosing-a-profiler"&gt;Choosing a profiler&lt;/h2&gt;
+&lt;p&gt;The &lt;strong&gt;PyTorch profiler&lt;/strong&gt; captures:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU activity, including PyTorch operators and framework
+overhead&lt;/li&gt;
+&lt;li&gt;Input preparation on the host&lt;/li&gt;
+&lt;li&gt;The duration of each call to the Neuron device, including the wait
+for the result&lt;/li&gt;
+&lt;li&gt;The split between context encoding, which processes the prompt, and
+token generation, which produces one token per step&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;strong&gt;Neuron profiler&lt;/strong&gt; captures:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Activity inside the device during a single execution of a compiled
+model (NEFF)&lt;/li&gt;
+&lt;li&gt;Per-engine activity, DMA transfers, collectives and semaphores&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When time to first token or per-token latency is higher than
+expected, the PyTorch profile shows whether the time goes to the host or
+the device. If the host dominates, the investigation continues in the
+framework code. If the device dominates, it continues in
+&lt;code&gt;neuron-profile&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="capturing-a-pytorch-profile"&gt;Capturing a PyTorch profile&lt;/h2&gt;
+&lt;p&gt;A minimal capture around a &lt;code&gt;transformers-neuronx&lt;/code&gt;
+generation call:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode python"&gt;&lt;code class="sourceCode python"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="im"&gt;from&lt;/span&gt; torch.profiler &lt;span class="im"&gt;import&lt;/span&gt; profile, ProfilerActivity&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="co"&gt;# Warm-up run, excluded from the profile.&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;model.sample(input_ids&lt;span class="op"&gt;=&lt;/span&gt;input_ids, sequence_length&lt;span class="op"&gt;=&lt;/span&gt;input_length &lt;span class="op"&gt;+&lt;/span&gt; output_size, top_k&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;)&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="cf"&gt;with&lt;/span&gt; profile(activities&lt;span class="op"&gt;=&lt;/span&gt;[ProfilerActivity.CPU]) &lt;span class="im"&gt;as&lt;/span&gt; prof:&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;    model.sample(&lt;/span&gt;
+&lt;span id="cb1-8"&gt;&lt;a aria-hidden="true" href="#cb1-8" tabindex="-1"&gt;&lt;/a&gt;        input_ids&lt;span class="op"&gt;=&lt;/span&gt;input_ids,&lt;/span&gt;
+&lt;span id="cb1-9"&gt;&lt;a aria-hidden="true" href="#cb1-9" tabindex="-1"&gt;&lt;/a&gt;        sequence_length&lt;span class="op"&gt;=&lt;/span&gt;input_length &lt;span class="op"&gt;+&lt;/span&gt; output_size,&lt;/span&gt;
+&lt;span id="cb1-10"&gt;&lt;a aria-hidden="true" href="#cb1-10" tabindex="-1"&gt;&lt;/a&gt;        top_k&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="dv"&gt;1&lt;/span&gt;,&lt;/span&gt;
+&lt;span id="cb1-11"&gt;&lt;a aria-hidden="true" href="#cb1-11" tabindex="-1"&gt;&lt;/a&gt;    )&lt;/span&gt;
+&lt;span id="cb1-12"&gt;&lt;a aria-hidden="true" href="#cb1-12" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb1-13"&gt;&lt;a aria-hidden="true" href="#cb1-13" tabindex="-1"&gt;&lt;/a&gt;prof.export_chrome_trace(&lt;span class="st"&gt;"torch_profile.json"&lt;/span&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;ProfilerActivity.CPU&lt;/code&gt; records the host-side operators.
+The warm-up call keeps one-time costs, such as loading the model onto
+the device and filling caches, out of the measurement. The exported file
+uses the Chrome trace JSON format.&lt;/p&gt;
+&lt;p&gt;Each call into the Neuron runtime appears in the trace as a host-side
+operator. In the &lt;code&gt;transformers-neuronx&lt;/code&gt; traces used here, the
+call is named &lt;code&gt;neuron::_parallel_executor_run&lt;/code&gt;, and its
+duration covers dispatching the work and waiting for the device to
+finish. Operator names can differ between SDK versions, so the names in
+the queries below should be checked against the trace first.&lt;/p&gt;
+&lt;h2 id="viewing-the-trace"&gt;Viewing the trace&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://ui.perfetto.dev/"&gt;Perfetto&lt;/a&gt; opens Chrome trace
+files directly in the browser and handles large traces better than the
+older &lt;code&gt;chrome://tracing&lt;/code&gt; viewer. Each operator appears as a
+slice on a timeline. Hovering over a slice shows its duration, and
+selecting a range of slices shows aggregate statistics.&lt;/p&gt;
+&lt;h2 id="querying-the-trace-with-sql"&gt;Querying the trace with SQL&lt;/h2&gt;
+&lt;p&gt;Perfetto loads the trace into a database and accepts SQL in its query
+tab. The &lt;code&gt;slice&lt;/code&gt; table holds one row per slice, with the
+start time &lt;code&gt;ts&lt;/code&gt; and duration &lt;code&gt;dur&lt;/code&gt; in
+nanoseconds.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Duration of each device call.&lt;/strong&gt; Dividing by
+&lt;code&gt;1e6&lt;/code&gt; converts nanoseconds to milliseconds:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb2"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb2-1"&gt;&lt;a aria-hidden="true" href="#cb2-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; ts, dur &lt;span class="op"&gt;/&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;e6 &lt;span class="kw"&gt;AS&lt;/span&gt; duration_ms&lt;/span&gt;
+&lt;span id="cb2-2"&gt;&lt;a aria-hidden="true" href="#cb2-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;FROM&lt;/span&gt; slice&lt;/span&gt;
+&lt;span id="cb2-3"&gt;&lt;a aria-hidden="true" href="#cb2-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;WHERE&lt;/span&gt; name &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;'neuron::_parallel_executor_run'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb2-4"&gt;&lt;a aria-hidden="true" href="#cb2-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;ORDER&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; ts;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Context encoding latency.&lt;/strong&gt; The first device call of a
+generation processes the prompt, so its duration approximates the
+context encoding latency:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; dur &lt;span class="op"&gt;/&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;e6 &lt;span class="kw"&gt;AS&lt;/span&gt; context_encoding_ms&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;FROM&lt;/span&gt; slice&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;WHERE&lt;/span&gt; name &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;'neuron::_parallel_executor_run'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;ORDER&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; ts&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;LIMIT&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Per-token latency.&lt;/strong&gt; The time between the starts of
+two consecutive device calls is the latency of one generated token as
+the application sees it, including any host-side gap between calls.
+&lt;code&gt;LAG()&lt;/code&gt; returns the previous row’s timestamp, and the first
+call has no predecessor:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb4"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb4-1"&gt;&lt;a aria-hidden="true" href="#cb4-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; (ts &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="fu"&gt;LAG&lt;/span&gt;(ts) &lt;span class="kw"&gt;OVER&lt;/span&gt; (&lt;span class="kw"&gt;ORDER&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; ts)) &lt;span class="op"&gt;/&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;e6 &lt;span class="kw"&gt;AS&lt;/span&gt; token_latency_ms&lt;/span&gt;
+&lt;span id="cb4-2"&gt;&lt;a aria-hidden="true" href="#cb4-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;FROM&lt;/span&gt; slice&lt;/span&gt;
+&lt;span id="cb4-3"&gt;&lt;a aria-hidden="true" href="#cb4-3" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;WHERE&lt;/span&gt; name &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;'neuron::_parallel_executor_run'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb4-4"&gt;&lt;a aria-hidden="true" href="#cb4-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;ORDER&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; ts;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Average token generation latency.&lt;/strong&gt; Averaging the gaps
+and dropping the first row gives the mean per-token latency:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb5"&gt;&lt;pre class="sourceCode sql"&gt;&lt;code class="sourceCode sql"&gt;&lt;span id="cb5-1"&gt;&lt;a aria-hidden="true" href="#cb5-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;SELECT&lt;/span&gt; &lt;span class="fu"&gt;AVG&lt;/span&gt;(token_latency_ms) &lt;span class="kw"&gt;AS&lt;/span&gt; avg_token_latency_ms&lt;/span&gt;
+&lt;span id="cb5-2"&gt;&lt;a aria-hidden="true" href="#cb5-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;FROM&lt;/span&gt; (&lt;/span&gt;
+&lt;span id="cb5-3"&gt;&lt;a aria-hidden="true" href="#cb5-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;SELECT&lt;/span&gt; (ts &lt;span class="op"&gt;-&lt;/span&gt; &lt;span class="fu"&gt;LAG&lt;/span&gt;(ts) &lt;span class="kw"&gt;OVER&lt;/span&gt; (&lt;span class="kw"&gt;ORDER&lt;/span&gt; &lt;span class="kw"&gt;BY&lt;/span&gt; ts)) &lt;span class="op"&gt;/&lt;/span&gt; &lt;span class="dv"&gt;1&lt;/span&gt;e6 &lt;span class="kw"&gt;AS&lt;/span&gt; token_latency_ms&lt;/span&gt;
+&lt;span id="cb5-4"&gt;&lt;a aria-hidden="true" href="#cb5-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;FROM&lt;/span&gt; slice&lt;/span&gt;
+&lt;span id="cb5-5"&gt;&lt;a aria-hidden="true" href="#cb5-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="kw"&gt;WHERE&lt;/span&gt; name &lt;span class="op"&gt;=&lt;/span&gt; &lt;span class="st"&gt;'neuron::_parallel_executor_run'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb5-6"&gt;&lt;a aria-hidden="true" href="#cb5-6" tabindex="-1"&gt;&lt;/a&gt;)&lt;/span&gt;
+&lt;span id="cb5-7"&gt;&lt;a aria-hidden="true" href="#cb5-7" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="kw"&gt;WHERE&lt;/span&gt; token_latency_ms &lt;span class="kw"&gt;IS&lt;/span&gt; &lt;span class="kw"&gt;NOT&lt;/span&gt; &lt;span class="kw"&gt;NULL&lt;/span&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;These queries assume one slice per device call. If several threads
+each record the call, the queries should filter on a single thread
+first. Percentiles are easiest to compute by exporting the query result
+and processing it with NumPy.&lt;/p&gt;
+&lt;h2 id="moving-to-the-device-view"&gt;Moving to the device view&lt;/h2&gt;
+&lt;p&gt;The PyTorch profile shows which device call is slow.
+&lt;code&gt;neuron-profile&lt;/code&gt; shows what happens inside that call. The
+usual sequence is:&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;Use the PyTorch profile to identify the slow phase, context encoding
+or token generation, and the NEFF that runs it.&lt;/li&gt;
+&lt;li&gt;Capture a device profile of that NEFF:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="sourceCode" id="cb6"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb6-1"&gt;&lt;a aria-hidden="true" href="#cb6-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;neuron-profile&lt;/span&gt; capture &lt;span class="at"&gt;-n&lt;/span&gt; file.neff &lt;span class="at"&gt;-s&lt;/span&gt; profile.ntff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The capture runs the NEFF on the device and writes the trace to an
+NTFF file. Models that run across several NeuronCores need the
+multi-worker options described in the &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/tools/neuron-sys-tools/neuron-profile-user-guide.html"&gt;Neuron
+Profile user guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="viewing-the-device-profile"&gt;Viewing the device profile&lt;/h2&gt;
+&lt;p&gt;The web viewer stores the processed trace in InfluxDB 2.x, which must
+be installed and initialized once on the instance. The user guide lists
+the installation steps. After that, the following command processes the
+profile and prints a local URL, usually on port 3001:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb7"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb7-1"&gt;&lt;a aria-hidden="true" href="#cb7-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;neuron-profile&lt;/span&gt; view &lt;span class="at"&gt;-n&lt;/span&gt; file.neff &lt;span class="at"&gt;-s&lt;/span&gt; profile.ntff&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When the profile runs on a remote instance, SSH port forwarding makes
+the viewer reachable from a laptop:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb8"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb8-1"&gt;&lt;a aria-hidden="true" href="#cb8-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="fu"&gt;ssh&lt;/span&gt; my-instance &lt;span class="at"&gt;-L&lt;/span&gt; 3001:localhost:3001 &lt;span class="at"&gt;-L&lt;/span&gt; 8086:localhost:8086&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The viewer is then available at
+&lt;code&gt;http://localhost:3001&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id="a-worked-example"&gt;A worked example&lt;/h2&gt;
+&lt;p&gt;Consider a generation of 100 tokens that takes 800 ms when the
+expected latency is 400 ms.&lt;/p&gt;
+&lt;ol type="1"&gt;
+&lt;li&gt;&lt;strong&gt;PyTorch profile.&lt;/strong&gt; Capture one generation after a
+warm-up run and open it in Perfetto.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Context encoding.&lt;/strong&gt; The context encoding query
+returns 150 ms. Context encoding accounts for less than a fifth of the
+total.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Token generation.&lt;/strong&gt; The average token latency query
+returns 6.5 ms. Over 100 tokens, token generation accounts for 650 ms,
+so it is the phase to investigate.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Host or device.&lt;/strong&gt; The durations of the token
+generation calls are close to the gaps between them, so little time is
+spent on the host between tokens. The time goes to the device.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Device profile.&lt;/strong&gt; A &lt;code&gt;neuron-profile&lt;/code&gt;
+capture of the token generation NEFF shows which engines are busy and
+which wait on DMA or collectives, which narrows the problem to specific
+operators.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="practices"&gt;Practices&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Capture both profiles.&lt;/strong&gt; The PyTorch profile locates
+the slow phase, and the device profile shows which operators in that
+phase take the time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reuse the queries.&lt;/strong&gt; Running the same SQL queries on
+every profile gives a record of normal values for a model, and a
+regression shows up as a departure from those values.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Exclude warm-up.&lt;/strong&gt; The first execution includes
+one-time costs such as loading the model and filling caches. A warm-up
+run before the profiled run keeps these costs out of the
+measurement.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Script long traces.&lt;/strong&gt; For long captures, scripted
+analysis with the Perfetto trace processor is faster than scrolling
+through the UI.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="torch-profile"/><category term="profiling"/><category term="perfetto"/><category term="latency"/><category term="debugging"/></entry><entry><title>A Simple Tensor Comparison Utility for Accuracy Debugging</title><link href="https://sengopal.me/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging" rel="alternate"/><published>2024-04-10T00:00:00-07:00</published><updated>2024-04-10T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2024-04-10:/posts/a-simple-tensor-comparison-utility-for-accuracy-debugging</id><summary type="html">A small utility for comparing two tensors during accuracy debugging. It reports the maximum, mean and spread of the difference, checks argmax and top-K agreement, and writes per-layer results to CSV.</summary><content type="html">&lt;p&gt;When two tensors that are expected to match do not, the investigation
 should establish the size of the worst and the typical difference,
 whether the argmax agrees, and whether sampling from each distribution
 gives the same result. The utility below answers each of these
@@ -303,196 +462,154 @@ implementations&lt;/h3&gt;
 &lt;ol type="1"&gt;
 &lt;li&gt;&lt;a href="https://autokernel-docs-en.readthedocs.io/en/latest/blog/ai_compiler%20overview.html"&gt;AutoKernel&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://aws.amazon.com/blogs/machine-learning/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/"&gt;NNVM&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>What is Neuron SDK</title><link href="https://sengopal.me/posts/what-is-neuron-sdk" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/what-is-neuron-sdk</id><summary type="html">This post introduces AWS Neuron SDK - an SDK that streamlines deep learning and generative AI workloads on AWS Inferentia and Trainium by integrating with frameworks like PyTorch and JAX.</summary><content type="html">&lt;p&gt;&lt;strong&gt;AWS Neuron&lt;/strong&gt; is a software development kit (SDK)
-designed to optimize deep learning and generative AI workloads on AWS
-Inferentia and AWS Trainium-powered Amazon EC2 instances. It integrates
-seamlessly with popular machine learning frameworks like PyTorch and
-JAX, enabling developers to build, train, and deploy high-performance
-models efficiently.&lt;/p&gt;
-&lt;h3 id="neuron-sdk-components"&gt;Neuron SDK Components&lt;/h3&gt;
+&lt;/ol&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>AWS Neuron SDK, an Overview and Glossary</title><link href="https://sengopal.me/posts/what-is-neuron-sdk" rel="alternate"/><published>2023-12-20T00:00:00-08:00</published><updated>2023-12-20T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-20:/posts/what-is-neuron-sdk</id><summary type="html">An overview of the AWS Neuron SDK for Inferentia and Trainium, followed by a glossary of the hardware, compiler and systems terms that come up when working on the Neuron stack.</summary><content type="html">&lt;p&gt;&lt;strong&gt;AWS Neuron&lt;/strong&gt; is the software development kit (SDK) for
+running deep learning and generative AI workloads on Amazon EC2
+instances built on AWS Inferentia and AWS Trainium. It integrates with
+PyTorch and TensorFlow, so models written in those frameworks can be
+compiled, trained and deployed on Neuron hardware with few code
+changes.&lt;/p&gt;
+&lt;h2 id="neuron-sdk-components"&gt;Neuron SDK components&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Neuron Compiler.&lt;/strong&gt; The compiler translates a model
+from the framework’s graph representation into a Neuron Executable File
+Format (NEFF) file, which contains code optimized for Inferentia and
+Trainium.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Neuron Runtime.&lt;/strong&gt; The runtime loads NEFF files onto
+the NeuronCores, manages device memory, and executes the compiled
+models.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Framework integrations.&lt;/strong&gt; Libraries such as
+&lt;code&gt;torch-neuronx&lt;/code&gt;, &lt;code&gt;transformers-neuronx&lt;/code&gt; and
+NeuronX Distributed connect the frameworks to the compiler and runtime,
+and provide model-parallel building blocks for large models.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Developer tools.&lt;/strong&gt; Tools such as
+&lt;code&gt;neuron-top&lt;/code&gt;, &lt;code&gt;neuron-monitor&lt;/code&gt; and
+&lt;code&gt;neuron-profile&lt;/code&gt; report device utilization, and profile and
+debug compiled models.&lt;/p&gt;
+&lt;h2 id="inference-performance-techniques"&gt;Inference performance
+techniques&lt;/h2&gt;
+&lt;p&gt;Neuron applies several techniques to improve inference
+performance:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Neuron Compiler&lt;/strong&gt;&lt;br/&gt;
-Translates machine learning models from frameworks such as PyTorch and
-JAX into executable code optimized for Inferentia and Trainium
-hardware.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Neuron Runtime&lt;/strong&gt;&lt;br/&gt;
-Serves as the execution engine, managing the efficient operation of
-compiled models on AWS hardware accelerators.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Developer Tools&lt;/strong&gt;&lt;br/&gt;
-Provides utilities for monitoring, profiling, and debugging, offering
-deep insights into model behavior and system performance.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Batching&lt;/strong&gt; processes multiple inputs together to
+raise throughput, which suits cost-sensitive workloads.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pipelining&lt;/strong&gt; splits a model across multiple
+NeuronCores so that each core holds part of the model’s weights on chip.
+This reduces data movement for latency-sensitive workloads.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Overlapping operations&lt;/strong&gt; run independent work
+concurrently, such as loading data while computing, so that the hardware
+spends less time idle.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Operator fusion&lt;/strong&gt; combines several operations into
+one, which reduces intermediate memory traffic.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Quantization&lt;/strong&gt; lowers the precision of weights and
+activations to reduce memory use and increase speed, usually with a
+small loss in accuracy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Speculative decoding&lt;/strong&gt; uses a small draft model to
+propose several tokens, which the large model then verifies in a single
+pass.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Custom C++ operators&lt;/strong&gt; implement operations that the
+compiler does not handle well, for specific model components.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id="focus-areas"&gt;Focus Areas&lt;/h3&gt;
-&lt;h4 id="feature-enablement"&gt;Feature Enablement&lt;/h4&gt;
-&lt;p&gt;Integrates new inference features, such as floating-point
-quantization, to enhance model performance on Neuron hardware. This
-involves collaboration across the compiler, runtime, and tensor
-management components.&lt;/p&gt;
-&lt;h4 id="inference-techniques"&gt;Inference Techniques&lt;/h4&gt;
-&lt;p&gt;Implements advanced methods like speculative decoding and look-ahead
-decoding to improve inference speed for large language models, ensuring
-these techniques are effectively supported by Neuron hardware.&lt;/p&gt;
-&lt;h4 id="performance-optimization"&gt;Performance Optimization&lt;/h4&gt;
-&lt;p&gt;Various strategies are used to enhance efficiency, including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Batching&lt;/strong&gt;&lt;br/&gt;
-Processes multiple inputs simultaneously to improve throughput,
-particularly useful for cost-sensitive applications.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Pipelining&lt;/strong&gt;&lt;br/&gt;
-Divides model execution across multiple NeuronCores to optimize data
-flow and reduce latency, ideal for latency-critical
-applications.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Overlapping Operations&lt;/strong&gt;&lt;br/&gt;
-Executes tasks concurrently, such as overlapping data loading with
-computation, to maximize resource utilization and minimize idle
-time.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Operator Fusion&lt;/strong&gt;&lt;br/&gt;
-Combines multiple operations into a single step to reduce memory
-overhead and improve computational efficiency.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Quantization&lt;/strong&gt;&lt;br/&gt;
-Reduces the precision of model weights and activations to lower memory
-usage and increase inference speed, with minimal impact on
-accuracy.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Custom C++ Operators&lt;/strong&gt;&lt;br/&gt;
-Develops tailored operators to optimize specific model components for
-enhanced performance in unique workloads.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr/&gt;
-&lt;p&gt;For more detailed information, refer to the official &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
-Documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry><entry><title>Neuron Glossary</title><link href="https://sengopal.me/posts/neuron-glossary" rel="alternate"/><published>2023-12-13T00:00:00-08:00</published><updated>2023-12-13T00:00:00-08:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2023-12-13:/posts/neuron-glossary</id><summary type="html">This post acts as a running glossary for Neuron and HPC related terms and technologies.</summary><content type="html">&lt;p&gt;Last Updated on &lt;em&gt;Mar 12, 2024&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;The following are a running list of new terms that are encountered
-while working on the Neuron stack. This acts as a jump off point into
-deeper dives into these terms and context behind them&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;FPGA (Field-Programmable Gate Array)&lt;/strong&gt; Unlike GPUs
-with a fixed design, FPGAs are essentially blank slates. They contain a
-fabric of programmable logic blocks that can be configured to perform
-specific tasks. This flexibility allows FPGAs to be customized for a
-wide range of applications, including cryptography, financial modeling,
+&lt;h2 id="glossary"&gt;Glossary&lt;/h2&gt;
+&lt;p&gt;The following terms come up frequently when working on the Neuron
+stack.&lt;/p&gt;
+&lt;h3 id="hardware"&gt;Hardware&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;FPGA (Field-Programmable Gate Array).&lt;/strong&gt; An FPGA
+contains a fabric of programmable logic blocks that can be configured
+after manufacturing to perform specific tasks. A GPU has a fixed design.
+This flexibility makes FPGAs common in cryptography, financial modeling
 and high-frequency trading.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;ASIC&lt;/strong&gt; An ASIC is a chip designed for a specific
-purpose. It offers high performance and efficiency for that particular
-task because the hardware is optimized for it. This aligns exactly with
-how Intel describes the Gaudi as a deep learning accelerator.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Arithmetic Intensity&lt;/strong&gt; Metric that quantifies the
-ratio of computational operations (measured in floating-point
-operations, or FLOPs) to data movement (measured in bytes) during a
-computation. It helps determine whether a particular operation is
-compute-bound or memory-bound. For example, applying the ReLU activation
-function to a tensor involves reading 2 bytes, performing 1 comparison
-operation, and writing 2 bytes per element, resulting in an arithmetic
-intensity of 1 FLOP per 4 bytes accessed. This low ratio indicates that
-such operations are typically memory-bound, meaning the time spent on
-memory accesses exceeds the time spent on computations. &lt;a href="https://astralord.github.io/posts/transformer-inference-optimization-toolset/"&gt;Ref&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Gradient checkpointing /activation checkpointing&lt;/strong&gt; A
-technique to reduce memory usage by clearing activations of certain
-layers and recomputing them during a backward pass. Effectively, this
-trades extra computation time for reduced memory usage. If a module is
-checkpointed, at the end of a forward pass, the inputs to and outputs
-from the module stay in memory.&lt;a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-extended-features-pytorch-activation-checkpointing.html"&gt;ref&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Strength Reduction&lt;/strong&gt;&lt;br/&gt;
-This optimization replaces computationally expensive operations with
-equivalent but less costly ones. For example, replacing multiplication
-by a constant with a shift operation.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Constant Folding&lt;/strong&gt;&lt;br/&gt;
-Evaluates constant expressions at compile time, replacing them with
-their computed values to reduce runtime computation.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Common Subexpression Elimination&lt;/strong&gt;&lt;br/&gt;
-Identifies and eliminates duplicate calculations by reusing previously
-computed values, enhancing efficiency.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Dead-Code Elimination&lt;/strong&gt;&lt;br/&gt;
-Removes code that does not affect the program’s outcome, such as
-computations whose results are never used, thereby streamlining the
-codebase.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Scalar Replacement&lt;/strong&gt;&lt;br/&gt;
-Replaces array references with scalar variables when possible, reducing
-memory access overhead and improving performance.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;If-Conversion&lt;/strong&gt;&lt;br/&gt;
-Transforms conditional branches into conditional instructions,
-minimizing branch penalties and enhancing instruction-level
-parallelism.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Function Inlining&lt;/strong&gt;&lt;br/&gt;
-Substitutes the body of a called function directly into the calling
-code, eliminating call overhead and enabling further optimizations.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Call Specialization&lt;/strong&gt;&lt;br/&gt;
-Tailors function calls based on known arguments, creating specialized
-versions of functions to improve performance.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Peephole Optimizations&lt;/strong&gt;&lt;br/&gt;
-Examines a small window of consecutive instructions to identify and
-replace inefficient sequences with more efficient ones, enhancing code
-quality.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Canonicalizing Loops&lt;/strong&gt;&lt;br/&gt;
-Transforms loops to start at index 0 and stride by 1, which simplifies
-the loop structure and may enable more optimizations.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Generating Constants&lt;/strong&gt;&lt;br/&gt;
-Replaces index calculations with pre-computed constants, reducing the
-need for computation during program execution.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Eliminating Load/Store Pairs&lt;/strong&gt;&lt;br/&gt;
-Removes redundant load and store operations by combining them or
-eliminating unnecessary memory accesses.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;XLA (Accelerated Linear Algebra)&lt;/strong&gt;&lt;br/&gt;
-XLA is a domain-specific compiler for linear algebra that optimizes
-computations for machine learning models. It is particularly focused on
-optimizing TensorFlow computations and improving performance on hardware
-accelerators like GPUs and TPUs.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;TVM&lt;/strong&gt;&lt;br/&gt;
-TVM is an open-source deep learning compiler stack designed to optimize
-the performance of deep learning models across different hardware
-platforms. It provides a flexible and efficient way to deploy models on
-a wide range of devices, including CPUs, GPUs, and specialized
-accelerators.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;MLIR (Multi-Level Intermediate Representation)&lt;/strong&gt;&lt;br/&gt;
-MLIR is an intermediate representation used to define and optimize
-programs at multiple levels of abstraction. It is designed to facilitate
-cross-compiler optimizations and improve the portability and efficiency
-of code across different hardware architectures.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;LLVM / GCC&lt;/strong&gt; LLVM is a modular and flexible compiler
-infrastructure consisting of reusable components that provide
-fine-grained control over code generation and optimization. Its
-intermediate representation (IR) is portable and efficient, allowing it
-to target various hardware architectures. In contrast, GCC is a
-monolithic compiler system that integrates the compiler, assembler,
-linker, and debugger, following a more traditional approach to code
-generation and optimizations with a long history of use in production
-environments. While LLVM’s modularity allows for greater extensibility
-and customization, GCC tends to be less modular, requiring deeper
-integration for adding features. LLVM excels in modern hardware
-optimizations, especially for GPUs and specialized accelerators, whereas
-GCC is more focused on traditional CPU-based platforms and embedded
-systems.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;PCIe&lt;/strong&gt; high-speed interface standard used to connect
-peripheral devices, such as graphics cards, network cards, and storage
-devices, to the CPU and memory. It provides fast, low-latency data
-transfer with a scalable architecture, offering multiple lanes for
-simultaneous data communication. PCIe operates with a point-to-point
-architecture, where each device communicates directly with the CPU
-through a dedicated link, ensuring high performance and low overhead.
-Its speed and flexibility make it ideal for modern hardware
-accelerators, like GPUs and NVMe storage devices.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Memory-Mapped I/O (MMIO)&lt;/strong&gt; technique where I/O devices
-are mapped to specific memory addresses, allowing the CPU to communicate
-with them as if they were part of the system’s memory. This method
-provides a simple and efficient way to read from and write to I/O
-devices using standard memory access instructions, without the need for
-special I/O instructions. MMIO allows devices such as graphics cards,
-network interfaces, and other peripherals to interact directly with the
-processor and memory, enabling faster and more efficient data transfers,
-especially when working with high-performance devices like GPUs or
-custom accelerators.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Hypervisors&lt;/strong&gt; Hypervisors are software, firmware, or
-hardware components that enable virtualization by managing the creation
-and execution of virtual machines. Type 1 (bare-metal) run directly on
-the hardware, providing high performance and better isolation for VMs.
-Examples include VMware ESXi, Microsoft Hyper-V, and Xen. Type 2
-(hosted) run on top of a host operating system, with the hypervisor
-providing virtualized hardware resources to guest operating systems.
-Examples include VMware Workstation and Oracle VirtualBox.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;SR-IOV (Single Root I/O Virtualization)&lt;/strong&gt; allows a
-single physical network interface card (NIC) or other I/O devices to
-appear as multiple separate virtual devices to virtual machines. It
-improves performance by allowing VMs to access I/O resources directly
-without the need for extensive virtualization overhead. SR-IOV enables
-better scalability and efficiency by allowing multiple VMs to share a
-single physical device while maintaining near-native performance. In
-SR-IOV-enabled systems, the hypervisor configures the physical device
-(e.g., NIC, GPU) to expose virtual interfaces, which are then directly
-assigned to virtual machines.&lt;/p&gt;</content><category term="Neuron"/><category term="ml-code"/><category term="llm"/></entry></feed>
+&lt;p&gt;&lt;strong&gt;ASIC (Application-Specific Integrated Circuit).&lt;/strong&gt; An
+ASIC is a chip designed for one purpose, and its hardware is optimized
+for that task. Inferentia and Trainium are ASICs designed for deep
+learning inference and training.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PCIe (Peripheral Component Interconnect Express).&lt;/strong&gt;
+PCIe is a high-speed interface standard that connects devices such as
+GPUs, accelerators, network cards and NVMe storage to the CPU and
+memory. Each device connects through a point-to-point link made of one
+or more lanes, which a root complex or PCIe switch routes. Devices can
+also transfer data directly to each other through peer-to-peer
+transfers.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Memory-Mapped I/O (MMIO).&lt;/strong&gt; With MMIO, a device’s
+registers and memory appear at specific addresses in the CPU’s address
+space. The CPU communicates with the device using ordinary load and
+store instructions instead of special I/O instructions.&lt;/p&gt;
+&lt;h3 id="performance"&gt;Performance&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Arithmetic intensity.&lt;/strong&gt; Arithmetic intensity is the
+ratio of computation, measured in floating-point operations (FLOPs), to
+data movement, measured in bytes. It indicates whether an operation is
+compute-bound or memory-bound. For example, applying ReLU to a BF16
+tensor reads 2 bytes, performs 1 comparison and writes 2 bytes per
+element, which gives an arithmetic intensity of 1 FLOP per 4 bytes. At
+such a low ratio, memory access takes longer than computation, so the
+operation is memory-bound (&lt;a href="https://astralord.github.io/posts/transformer-inference-optimization-toolset/"&gt;reference&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gradient checkpointing (activation checkpointing).&lt;/strong&gt;
+Gradient checkpointing reduces memory use by discarding the activations
+of selected layers during the forward pass and recomputing them during
+the backward pass. It trades extra computation for lower memory use. For
+a checkpointed module, only the module’s inputs and outputs stay in
+memory after the forward pass (&lt;a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-extended-features-pytorch-activation-checkpointing.html"&gt;reference&lt;/a&gt;).&lt;/p&gt;
+&lt;h3 id="compiler-optimizations"&gt;Compiler optimizations&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Strength reduction&lt;/strong&gt; replaces an expensive operation
+with an equivalent cheaper one, for example replacing multiplication by
+a power of two with a bit shift.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Constant folding&lt;/strong&gt; evaluates constant expressions at
+compile time and replaces them with their values.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Common subexpression elimination&lt;/strong&gt; computes a repeated
+expression once and reuses the result.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dead-code elimination&lt;/strong&gt; removes code that does not
+affect the program’s output, such as computations whose results are
+never used.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Scalar replacement&lt;/strong&gt; replaces array references with
+scalar variables where possible, which reduces memory accesses.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If-conversion&lt;/strong&gt; turns conditional branches into
+predicated or conditional instructions, which removes branch penalties
+and exposes more instruction-level parallelism.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Function inlining&lt;/strong&gt; replaces a function call with the
+body of the function, which removes the call overhead and enables
+further optimization.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Call specialization&lt;/strong&gt; creates a specialized version of
+a function for arguments known at compile time.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Peephole optimization&lt;/strong&gt; examines a small window of
+consecutive instructions and replaces inefficient sequences with faster
+ones.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Loop canonicalization&lt;/strong&gt; rewrites loops to start at
+index 0 and step by 1, which simplifies analysis and enables further
+loop optimizations.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Constant generation&lt;/strong&gt; replaces index calculations with
+precomputed constants.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Load/store elimination&lt;/strong&gt; removes redundant pairs of
+loads and stores to the same memory location.&lt;/p&gt;
+&lt;h3 id="compiler-frameworks"&gt;Compiler frameworks&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;XLA (Accelerated Linear Algebra).&lt;/strong&gt; XLA is a
+domain-specific compiler for linear algebra that optimizes machine
+learning computations for accelerators. It originated in TensorFlow and
+also serves JAX and PyTorch through PyTorch/XLA. The Neuron PyTorch
+integration builds on PyTorch/XLA.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TVM.&lt;/strong&gt; TVM is an open-source deep learning compiler
+stack that optimizes models for many hardware targets, including CPUs,
+GPUs and specialized accelerators.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MLIR (Multi-Level Intermediate Representation).&lt;/strong&gt; MLIR
+is a compiler infrastructure for defining intermediate representations
+at several levels of abstraction. It lets compilers share optimizations
+and lower programs step by step toward different hardware.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;LLVM and GCC.&lt;/strong&gt; LLVM is a modular compiler
+infrastructure built from reusable libraries around a common
+intermediate representation (IR). Many compilers for GPUs and
+accelerators use LLVM as their back end because its components are easy
+to reuse. GCC is a compiler collection with a long history in production
+systems, and it supports a very wide range of CPU architectures. LLVM’s
+library design makes it easier to embed in other tools.&lt;/p&gt;
+&lt;h3 id="virtualization"&gt;Virtualization&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Hypervisor.&lt;/strong&gt; A hypervisor creates and runs virtual
+machines. A Type 1 (bare-metal) hypervisor runs directly on the hardware
+and provides strong isolation and performance, for example VMware ESXi,
+Microsoft Hyper-V, Xen and the AWS Nitro Hypervisor. A Type 2 (hosted)
+hypervisor runs on a host operating system, for example VMware
+Workstation and Oracle VirtualBox.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SR-IOV (Single Root I/O Virtualization).&lt;/strong&gt; SR-IOV lets
+one physical PCIe device, such as a network card, appear as several
+separate devices. The device exposes a physical function (PF) and
+multiple virtual functions (VFs). The hypervisor assigns VFs directly to
+virtual machines, which then access the device with near-native
+performance and little virtualization overhead.&lt;/p&gt;
+&lt;p&gt;For more detail, see the &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/"&gt;AWS Neuron
+documentation&lt;/a&gt;.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="ml-code"/><category term="llm"/></entry></feed>

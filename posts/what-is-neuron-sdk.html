@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>What is Neuron SDK | Senthilkumar Gopal
+  <title>AWS Neuron SDK, an Overview and Glossary | Senthilkumar Gopal
 </title>
   <link rel="canonical" href="https://sengopal.me/posts/what-is-neuron-sdk.html">
 
@@ -27,7 +27,7 @@
         href="https://sengopal.me/feeds/all.atom.xml">
   <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
         href="https://sengopal.me/feeds/neuron.atom.xml">
-<meta name="description" content="This post introduces AWS Neuron SDK - an SDK that streamlines deep learning and generative AI workloads on AWS Inferentia and Trainium by integrating with frameworks like PyTorch and JAX.">
+<meta name="description" content="An overview of the AWS Neuron SDK for Inferentia and Trainium, followed by a glossary of the hardware, compiler and systems terms that come up when working on the Neuron stack.">
 
 <script>
     MathJax = {
@@ -89,83 +89,187 @@
             </li>
         </ul>
     </header>
-    <h1>What is Neuron SDK</h1>
+    <h1>AWS Neuron SDK, an Overview and Glossary</h1>
     <div class="hidden-xs hidden-sm">
         <nav class="toc" role="doc-toc">
 <ul>
-<li><a href="#neuron-sdk-components" id="toc-neuron-sdk-components">Neuron SDK Components</a></li>
-<li><a href="#focus-areas" id="toc-focus-areas">Focus Areas</a></li>
+<li><a href="#neuron-sdk-components" id="toc-neuron-sdk-components">Neuron SDK components</a></li>
+<li><a href="#inference-performance-techniques" id="toc-inference-performance-techniques">Inference performance
+techniques</a></li>
+<li><a href="#glossary" id="toc-glossary">Glossary</a>
+<ul>
+<li><a href="#hardware" id="toc-hardware">Hardware</a></li>
+<li><a href="#performance" id="toc-performance">Performance</a></li>
+<li><a href="#compiler-optimizations" id="toc-compiler-optimizations">Compiler optimizations</a></li>
+<li><a href="#compiler-frameworks" id="toc-compiler-frameworks">Compiler
+frameworks</a></li>
+<li><a href="#virtualization" id="toc-virtualization">Virtualization</a></li>
+</ul></li>
 </ul>
 </nav>
     </div>
     <div class="content">
-        <p><strong>AWS Neuron</strong> is a software development kit (SDK)
-designed to optimize deep learning and generative AI workloads on AWS
-Inferentia and AWS Trainium-powered Amazon EC2 instances. It integrates
-seamlessly with popular machine learning frameworks like PyTorch and
-JAX, enabling developers to build, train, and deploy high-performance
-models efficiently.</p>
-<h3 id="neuron-sdk-components">Neuron SDK Components</h3>
+        <p><strong>AWS Neuron</strong> is the software development kit (SDK) for
+running deep learning and generative AI workloads on Amazon EC2
+instances built on AWS Inferentia and AWS Trainium. It integrates with
+PyTorch and TensorFlow, so models written in those frameworks can be
+compiled, trained and deployed on Neuron hardware with few code
+changes.</p>
+<h2 id="neuron-sdk-components">Neuron SDK components</h2>
+<p><strong>Neuron Compiler.</strong> The compiler translates a model
+from the framework’s graph representation into a Neuron Executable File
+Format (NEFF) file, which contains code optimized for Inferentia and
+Trainium.</p>
+<p><strong>Neuron Runtime.</strong> The runtime loads NEFF files onto
+the NeuronCores, manages device memory, and executes the compiled
+models.</p>
+<p><strong>Framework integrations.</strong> Libraries such as
+<code>torch-neuronx</code>, <code>transformers-neuronx</code> and
+NeuronX Distributed connect the frameworks to the compiler and runtime,
+and provide model-parallel building blocks for large models.</p>
+<p><strong>Developer tools.</strong> Tools such as
+<code>neuron-top</code>, <code>neuron-monitor</code> and
+<code>neuron-profile</code> report device utilization, and profile and
+debug compiled models.</p>
+<h2 id="inference-performance-techniques">Inference performance
+techniques</h2>
+<p>Neuron applies several techniques to improve inference
+performance:</p>
 <ul>
-<li><p><strong>Neuron Compiler</strong><br/>
-Translates machine learning models from frameworks such as PyTorch and
-JAX into executable code optimized for Inferentia and Trainium
-hardware.</p></li>
-<li><p><strong>Neuron Runtime</strong><br/>
-Serves as the execution engine, managing the efficient operation of
-compiled models on AWS hardware accelerators.</p></li>
-<li><p><strong>Developer Tools</strong><br/>
-Provides utilities for monitoring, profiling, and debugging, offering
-deep insights into model behavior and system performance.</p></li>
+<li><strong>Batching</strong> processes multiple inputs together to
+raise throughput, which suits cost-sensitive workloads.</li>
+<li><strong>Pipelining</strong> splits a model across multiple
+NeuronCores so that each core holds part of the model’s weights on chip.
+This reduces data movement for latency-sensitive workloads.</li>
+<li><strong>Overlapping operations</strong> run independent work
+concurrently, such as loading data while computing, so that the hardware
+spends less time idle.</li>
+<li><strong>Operator fusion</strong> combines several operations into
+one, which reduces intermediate memory traffic.</li>
+<li><strong>Quantization</strong> lowers the precision of weights and
+activations to reduce memory use and increase speed, usually with a
+small loss in accuracy.</li>
+<li><strong>Speculative decoding</strong> uses a small draft model to
+propose several tokens, which the large model then verifies in a single
+pass.</li>
+<li><strong>Custom C++ operators</strong> implement operations that the
+compiler does not handle well, for specific model components.</li>
 </ul>
-<h3 id="focus-areas">Focus Areas</h3>
-<h4 id="feature-enablement">Feature Enablement</h4>
-<p>Integrates new inference features, such as floating-point
-quantization, to enhance model performance on Neuron hardware. This
-involves collaboration across the compiler, runtime, and tensor
-management components.</p>
-<h4 id="inference-techniques">Inference Techniques</h4>
-<p>Implements advanced methods like speculative decoding and look-ahead
-decoding to improve inference speed for large language models, ensuring
-these techniques are effectively supported by Neuron hardware.</p>
-<h4 id="performance-optimization">Performance Optimization</h4>
-<p>Various strategies are used to enhance efficiency, including:</p>
-<ul>
-<li><p><strong>Batching</strong><br/>
-Processes multiple inputs simultaneously to improve throughput,
-particularly useful for cost-sensitive applications.</p></li>
-<li><p><strong>Pipelining</strong><br/>
-Divides model execution across multiple NeuronCores to optimize data
-flow and reduce latency, ideal for latency-critical
-applications.</p></li>
-<li><p><strong>Overlapping Operations</strong><br/>
-Executes tasks concurrently, such as overlapping data loading with
-computation, to maximize resource utilization and minimize idle
-time.</p></li>
-<li><p><strong>Operator Fusion</strong><br/>
-Combines multiple operations into a single step to reduce memory
-overhead and improve computational efficiency.</p></li>
-<li><p><strong>Quantization</strong><br/>
-Reduces the precision of model weights and activations to lower memory
-usage and increase inference speed, with minimal impact on
-accuracy.</p></li>
-<li><p><strong>Custom C++ Operators</strong><br/>
-Develops tailored operators to optimize specific model components for
-enhanced performance in unique workloads.</p></li>
-</ul>
-<hr/>
-<p>For more detailed information, refer to the official <a href="https://awsdocs-neuron.readthedocs-hosted.com/">AWS Neuron
-Documentation</a>.</p>
+<h2 id="glossary">Glossary</h2>
+<p>The following terms come up frequently when working on the Neuron
+stack.</p>
+<h3 id="hardware">Hardware</h3>
+<p><strong>FPGA (Field-Programmable Gate Array).</strong> An FPGA
+contains a fabric of programmable logic blocks that can be configured
+after manufacturing to perform specific tasks. A GPU has a fixed design.
+This flexibility makes FPGAs common in cryptography, financial modeling
+and high-frequency trading.</p>
+<p><strong>ASIC (Application-Specific Integrated Circuit).</strong> An
+ASIC is a chip designed for one purpose, and its hardware is optimized
+for that task. Inferentia and Trainium are ASICs designed for deep
+learning inference and training.</p>
+<p><strong>PCIe (Peripheral Component Interconnect Express).</strong>
+PCIe is a high-speed interface standard that connects devices such as
+GPUs, accelerators, network cards and NVMe storage to the CPU and
+memory. Each device connects through a point-to-point link made of one
+or more lanes, which a root complex or PCIe switch routes. Devices can
+also transfer data directly to each other through peer-to-peer
+transfers.</p>
+<p><strong>Memory-Mapped I/O (MMIO).</strong> With MMIO, a device’s
+registers and memory appear at specific addresses in the CPU’s address
+space. The CPU communicates with the device using ordinary load and
+store instructions instead of special I/O instructions.</p>
+<h3 id="performance">Performance</h3>
+<p><strong>Arithmetic intensity.</strong> Arithmetic intensity is the
+ratio of computation, measured in floating-point operations (FLOPs), to
+data movement, measured in bytes. It indicates whether an operation is
+compute-bound or memory-bound. For example, applying ReLU to a BF16
+tensor reads 2 bytes, performs 1 comparison and writes 2 bytes per
+element, which gives an arithmetic intensity of 1 FLOP per 4 bytes. At
+such a low ratio, memory access takes longer than computation, so the
+operation is memory-bound (<a href="https://astralord.github.io/posts/transformer-inference-optimization-toolset/">reference</a>).</p>
+<p><strong>Gradient checkpointing (activation checkpointing).</strong>
+Gradient checkpointing reduces memory use by discarding the activations
+of selected layers during the forward pass and recomputing them during
+the backward pass. It trades extra computation for lower memory use. For
+a checkpointed module, only the module’s inputs and outputs stay in
+memory after the forward pass (<a href="https://docs.aws.amazon.com/sagemaker/latest/dg/model-parallel-extended-features-pytorch-activation-checkpointing.html">reference</a>).</p>
+<h3 id="compiler-optimizations">Compiler optimizations</h3>
+<p><strong>Strength reduction</strong> replaces an expensive operation
+with an equivalent cheaper one, for example replacing multiplication by
+a power of two with a bit shift.</p>
+<p><strong>Constant folding</strong> evaluates constant expressions at
+compile time and replaces them with their values.</p>
+<p><strong>Common subexpression elimination</strong> computes a repeated
+expression once and reuses the result.</p>
+<p><strong>Dead-code elimination</strong> removes code that does not
+affect the program’s output, such as computations whose results are
+never used.</p>
+<p><strong>Scalar replacement</strong> replaces array references with
+scalar variables where possible, which reduces memory accesses.</p>
+<p><strong>If-conversion</strong> turns conditional branches into
+predicated or conditional instructions, which removes branch penalties
+and exposes more instruction-level parallelism.</p>
+<p><strong>Function inlining</strong> replaces a function call with the
+body of the function, which removes the call overhead and enables
+further optimization.</p>
+<p><strong>Call specialization</strong> creates a specialized version of
+a function for arguments known at compile time.</p>
+<p><strong>Peephole optimization</strong> examines a small window of
+consecutive instructions and replaces inefficient sequences with faster
+ones.</p>
+<p><strong>Loop canonicalization</strong> rewrites loops to start at
+index 0 and step by 1, which simplifies analysis and enables further
+loop optimizations.</p>
+<p><strong>Constant generation</strong> replaces index calculations with
+precomputed constants.</p>
+<p><strong>Load/store elimination</strong> removes redundant pairs of
+loads and stores to the same memory location.</p>
+<h3 id="compiler-frameworks">Compiler frameworks</h3>
+<p><strong>XLA (Accelerated Linear Algebra).</strong> XLA is a
+domain-specific compiler for linear algebra that optimizes machine
+learning computations for accelerators. It originated in TensorFlow and
+also serves JAX and PyTorch through PyTorch/XLA. The Neuron PyTorch
+integration builds on PyTorch/XLA.</p>
+<p><strong>TVM.</strong> TVM is an open-source deep learning compiler
+stack that optimizes models for many hardware targets, including CPUs,
+GPUs and specialized accelerators.</p>
+<p><strong>MLIR (Multi-Level Intermediate Representation).</strong> MLIR
+is a compiler infrastructure for defining intermediate representations
+at several levels of abstraction. It lets compilers share optimizations
+and lower programs step by step toward different hardware.</p>
+<p><strong>LLVM and GCC.</strong> LLVM is a modular compiler
+infrastructure built from reusable libraries around a common
+intermediate representation (IR). Many compilers for GPUs and
+accelerators use LLVM as their back end because its components are easy
+to reuse. GCC is a compiler collection with a long history in production
+systems, and it supports a very wide range of CPU architectures. LLVM’s
+library design makes it easier to embed in other tools.</p>
+<h3 id="virtualization">Virtualization</h3>
+<p><strong>Hypervisor.</strong> A hypervisor creates and runs virtual
+machines. A Type 1 (bare-metal) hypervisor runs directly on the hardware
+and provides strong isolation and performance, for example VMware ESXi,
+Microsoft Hyper-V, Xen and the AWS Nitro Hypervisor. A Type 2 (hosted)
+hypervisor runs on a host operating system, for example VMware
+Workstation and Oracle VirtualBox.</p>
+<p><strong>SR-IOV (Single Root I/O Virtualization).</strong> SR-IOV lets
+one physical PCIe device, such as a network card, appear as several
+separate devices. The device exposes a physical function (PF) and
+multiple virtual functions (VFs). The hypervisor assigns VFs directly to
+virtual machines, which then access the device with near-native
+performance and little virtualization overhead.</p>
+<p>For more detail, see the <a href="https://awsdocs-neuron.readthedocs-hosted.com/">AWS Neuron
+documentation</a>.</p>
     </div>
     <hr/>
     <p>If you found this useful, please cite this post using</p>
     <blockquote class="blockquote-citation">
-        <p>Senthilkumar Gopal. (Dec 2023). What is Neuron SDK. sengopal.me. https://sengopal.me/posts/what-is-neuron-sdk</p>
+        <p>Senthilkumar Gopal. (Dec 2023). AWS Neuron SDK, an Overview and Glossary. sengopal.me. https://sengopal.me/posts/what-is-neuron-sdk</p>
     </blockquote>
     <p>or</p>
     <div class="citation">
         <pre class="citation">@article{gopal2023whatisneuronsdk,
-  title   = {What is Neuron SDK},
+  title   = {AWS Neuron SDK, an Overview and Glossary},
   author  = {Senthilkumar Gopal},
   journal = {sengopal.me},
   year    = {2023},

@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Torch Profiler Walk-Through for Neuron Latency | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="Using the PyTorch profiler together with neuron-profile to break down LLM inference latency on Neuron, with SQL queries over the Perfetto trace for context encoding and token generation.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2025-06-03T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Tue 03 June 2025
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
+            </li>
+        </ul>
+    </header>
+    <h1>Torch Profiler Walk-Through for Neuron Latency</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#choosing-a-profiler" id="toc-choosing-a-profiler">Choosing
+a profiler</a></li>
+<li><a href="#capturing-a-pytorch-profile" id="toc-capturing-a-pytorch-profile">Capturing a PyTorch
+profile</a></li>
+<li><a href="#viewing-the-trace" id="toc-viewing-the-trace">Viewing the
+trace</a></li>
+<li><a href="#querying-the-trace-with-sql" id="toc-querying-the-trace-with-sql">Querying the trace with
+SQL</a></li>
+<li><a href="#moving-to-the-device-view" id="toc-moving-to-the-device-view">Moving to the device view</a></li>
+<li><a href="#viewing-the-device-profile" id="toc-viewing-the-device-profile">Viewing the device profile</a></li>
+<li><a href="#a-worked-example" id="toc-a-worked-example">A worked
+example</a></li>
+<li><a href="#practices" id="toc-practices">Practices</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>The PyTorch profiler records what the host CPU does, including
+framework code, input preparation, and the calls that dispatch work to
+the Neuron device. <code>neuron-profile</code> records what the device
+does once it receives that work. A latency investigation starts with the
+PyTorch profile and moves to <code>neuron-profile</code> when the device
+is the bottleneck.</p>
+<h2 id="choosing-a-profiler">Choosing a profiler</h2>
+<p>The <strong>PyTorch profiler</strong> captures:</p>
+<ul>
+<li>CPU activity, including PyTorch operators and framework
+overhead</li>
+<li>Input preparation on the host</li>
+<li>The duration of each call to the Neuron device, including the wait
+for the result</li>
+<li>The split between context encoding, which processes the prompt, and
+token generation, which produces one token per step</li>
+</ul>
+<p>The <strong>Neuron profiler</strong> captures:</p>
+<ul>
+<li>Activity inside the device during a single execution of a compiled
+model (NEFF)</li>
+<li>Per-engine activity, DMA transfers, collectives and semaphores</li>
+</ul>
+<p>When time to first token or per-token latency is higher than
+expected, the PyTorch profile shows whether the time goes to the host or
+the device. If the host dominates, the investigation continues in the
+framework code. If the device dominates, it continues in
+<code>neuron-profile</code>.</p>
+<h2 id="capturing-a-pytorch-profile">Capturing a PyTorch profile</h2>
+<p>A minimal capture around a <code>transformers-neuronx</code>
+generation call:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="im">from</span> torch.profiler <span class="im">import</span> profile, ProfilerActivity</span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a><span class="co"># Warm-up run, excluded from the profile.</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>model.sample(input_ids<span class="op">=</span>input_ids, sequence_length<span class="op">=</span>input_length <span class="op">+</span> output_size, top_k<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a><span class="cf">with</span> profile(activities<span class="op">=</span>[ProfilerActivity.CPU]) <span class="im">as</span> prof:</span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a>    model.sample(</span>
+<span id="cb1-8"><a aria-hidden="true" href="#cb1-8" tabindex="-1"></a>        input_ids<span class="op">=</span>input_ids,</span>
+<span id="cb1-9"><a aria-hidden="true" href="#cb1-9" tabindex="-1"></a>        sequence_length<span class="op">=</span>input_length <span class="op">+</span> output_size,</span>
+<span id="cb1-10"><a aria-hidden="true" href="#cb1-10" tabindex="-1"></a>        top_k<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-11"><a aria-hidden="true" href="#cb1-11" tabindex="-1"></a>    )</span>
+<span id="cb1-12"><a aria-hidden="true" href="#cb1-12" tabindex="-1"></a></span>
+<span id="cb1-13"><a aria-hidden="true" href="#cb1-13" tabindex="-1"></a>prof.export_chrome_trace(<span class="st">"torch_profile.json"</span>)</span></code></pre></div>
+<p><code>ProfilerActivity.CPU</code> records the host-side operators.
+The warm-up call keeps one-time costs, such as loading the model onto
+the device and filling caches, out of the measurement. The exported file
+uses the Chrome trace JSON format.</p>
+<p>Each call into the Neuron runtime appears in the trace as a host-side
+operator. In the <code>transformers-neuronx</code> traces used here, the
+call is named <code>neuron::_parallel_executor_run</code>, and its
+duration covers dispatching the work and waiting for the device to
+finish. Operator names can differ between SDK versions, so the names in
+the queries below should be checked against the trace first.</p>
+<h2 id="viewing-the-trace">Viewing the trace</h2>
+<p><a href="https://ui.perfetto.dev/">Perfetto</a> opens Chrome trace
+files directly in the browser and handles large traces better than the
+older <code>chrome://tracing</code> viewer. Each operator appears as a
+slice on a timeline. Hovering over a slice shows its duration, and
+selecting a range of slices shows aggregate statistics.</p>
+<h2 id="querying-the-trace-with-sql">Querying the trace with SQL</h2>
+<p>Perfetto loads the trace into a database and accepts SQL in its query
+tab. The <code>slice</code> table holds one row per slice, with the
+start time <code>ts</code> and duration <code>dur</code> in
+nanoseconds.</p>
+<p><strong>Duration of each device call.</strong> Dividing by
+<code>1e6</code> converts nanoseconds to milliseconds:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a aria-hidden="true" href="#cb2-1" tabindex="-1"></a><span class="kw">SELECT</span> ts, dur <span class="op">/</span> <span class="dv">1</span>e6 <span class="kw">AS</span> duration_ms</span>
+<span id="cb2-2"><a aria-hidden="true" href="#cb2-2" tabindex="-1"></a><span class="kw">FROM</span> slice</span>
+<span id="cb2-3"><a aria-hidden="true" href="#cb2-3" tabindex="-1"></a><span class="kw">WHERE</span> name <span class="op">=</span> <span class="st">'neuron::_parallel_executor_run'</span></span>
+<span id="cb2-4"><a aria-hidden="true" href="#cb2-4" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> ts;</span></code></pre></div>
+<p><strong>Context encoding latency.</strong> The first device call of a
+generation processes the prompt, so its duration approximates the
+context encoding latency:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="kw">SELECT</span> dur <span class="op">/</span> <span class="dv">1</span>e6 <span class="kw">AS</span> context_encoding_ms</span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="kw">FROM</span> slice</span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a><span class="kw">WHERE</span> name <span class="op">=</span> <span class="st">'neuron::_parallel_executor_run'</span></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> ts</span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">1</span>;</span></code></pre></div>
+<p><strong>Per-token latency.</strong> The time between the starts of
+two consecutive device calls is the latency of one generated token as
+the application sees it, including any host-side gap between calls.
+<code>LAG()</code> returns the previous row’s timestamp, and the first
+call has no predecessor:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a aria-hidden="true" href="#cb4-1" tabindex="-1"></a><span class="kw">SELECT</span> (ts <span class="op">-</span> <span class="fu">LAG</span>(ts) <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> ts)) <span class="op">/</span> <span class="dv">1</span>e6 <span class="kw">AS</span> token_latency_ms</span>
+<span id="cb4-2"><a aria-hidden="true" href="#cb4-2" tabindex="-1"></a><span class="kw">FROM</span> slice</span>
+<span id="cb4-3"><a aria-hidden="true" href="#cb4-3" tabindex="-1"></a><span class="kw">WHERE</span> name <span class="op">=</span> <span class="st">'neuron::_parallel_executor_run'</span></span>
+<span id="cb4-4"><a aria-hidden="true" href="#cb4-4" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> ts;</span></code></pre></div>
+<p><strong>Average token generation latency.</strong> Averaging the gaps
+and dropping the first row gives the mean per-token latency:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a aria-hidden="true" href="#cb5-1" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">AVG</span>(token_latency_ms) <span class="kw">AS</span> avg_token_latency_ms</span>
+<span id="cb5-2"><a aria-hidden="true" href="#cb5-2" tabindex="-1"></a><span class="kw">FROM</span> (</span>
+<span id="cb5-3"><a aria-hidden="true" href="#cb5-3" tabindex="-1"></a>    <span class="kw">SELECT</span> (ts <span class="op">-</span> <span class="fu">LAG</span>(ts) <span class="kw">OVER</span> (<span class="kw">ORDER</span> <span class="kw">BY</span> ts)) <span class="op">/</span> <span class="dv">1</span>e6 <span class="kw">AS</span> token_latency_ms</span>
+<span id="cb5-4"><a aria-hidden="true" href="#cb5-4" tabindex="-1"></a>    <span class="kw">FROM</span> slice</span>
+<span id="cb5-5"><a aria-hidden="true" href="#cb5-5" tabindex="-1"></a>    <span class="kw">WHERE</span> name <span class="op">=</span> <span class="st">'neuron::_parallel_executor_run'</span></span>
+<span id="cb5-6"><a aria-hidden="true" href="#cb5-6" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a aria-hidden="true" href="#cb5-7" tabindex="-1"></a><span class="kw">WHERE</span> token_latency_ms <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>;</span></code></pre></div>
+<p>These queries assume one slice per device call. If several threads
+each record the call, the queries should filter on a single thread
+first. Percentiles are easiest to compute by exporting the query result
+and processing it with NumPy.</p>
+<h2 id="moving-to-the-device-view">Moving to the device view</h2>
+<p>The PyTorch profile shows which device call is slow.
+<code>neuron-profile</code> shows what happens inside that call. The
+usual sequence is:</p>
+<ol type="1">
+<li>Use the PyTorch profile to identify the slow phase, context encoding
+or token generation, and the NEFF that runs it.</li>
+<li>Capture a device profile of that NEFF:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a aria-hidden="true" href="#cb6-1" tabindex="-1"></a><span class="ex">neuron-profile</span> capture <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
+<p>The capture runs the NEFF on the device and writes the trace to an
+NTFF file. Models that run across several NeuronCores need the
+multi-worker options described in the <a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/tools/neuron-sys-tools/neuron-profile-user-guide.html">Neuron
+Profile user guide</a>.</p>
+<h2 id="viewing-the-device-profile">Viewing the device profile</h2>
+<p>The web viewer stores the processed trace in InfluxDB 2.x, which must
+be installed and initialized once on the instance. The user guide lists
+the installation steps. After that, the following command processes the
+profile and prints a local URL, usually on port 3001:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a aria-hidden="true" href="#cb7-1" tabindex="-1"></a><span class="ex">neuron-profile</span> view <span class="at">-n</span> file.neff <span class="at">-s</span> profile.ntff</span></code></pre></div>
+<p>When the profile runs on a remote instance, SSH port forwarding makes
+the viewer reachable from a laptop:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a aria-hidden="true" href="#cb8-1" tabindex="-1"></a><span class="fu">ssh</span> my-instance <span class="at">-L</span> 3001:localhost:3001 <span class="at">-L</span> 8086:localhost:8086</span></code></pre></div>
+<p>The viewer is then available at
+<code>http://localhost:3001</code>.</p>
+<h2 id="a-worked-example">A worked example</h2>
+<p>Consider a generation of 100 tokens that takes 800 ms when the
+expected latency is 400 ms.</p>
+<ol type="1">
+<li><strong>PyTorch profile.</strong> Capture one generation after a
+warm-up run and open it in Perfetto.</li>
+<li><strong>Context encoding.</strong> The context encoding query
+returns 150 ms. Context encoding accounts for less than a fifth of the
+total.</li>
+<li><strong>Token generation.</strong> The average token latency query
+returns 6.5 ms. Over 100 tokens, token generation accounts for 650 ms,
+so it is the phase to investigate.</li>
+<li><strong>Host or device.</strong> The durations of the token
+generation calls are close to the gaps between them, so little time is
+spent on the host between tokens. The time goes to the device.</li>
+<li><strong>Device profile.</strong> A <code>neuron-profile</code>
+capture of the token generation NEFF shows which engines are busy and
+which wait on DMA or collectives, which narrows the problem to specific
+operators.</li>
+</ol>
+<h2 id="practices">Practices</h2>
+<p><strong>Capture both profiles.</strong> The PyTorch profile locates
+the slow phase, and the device profile shows which operators in that
+phase take the time.</p>
+<p><strong>Reuse the queries.</strong> Running the same SQL queries on
+every profile gives a record of normal values for a model, and a
+regression shows up as a departure from those values.</p>
+<p><strong>Exclude warm-up.</strong> The first execution includes
+one-time costs such as loading the model and filling caches. A warm-up
+run before the profiled run keeps these costs out of the
+measurement.</p>
+<p><strong>Script long traces.</strong> For long captures, scripted
+analysis with the Perfetto trace processor is faster than scrolling
+through the UI.</p>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Jun 2025). Torch Profiler Walk-Through for Neuron Latency. sengopal.me. https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2025torchprofilerwalkthroughforneuronlatency,
+  title   = {Torch Profiler Walk-Through for Neuron Latency},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2025},
+  month   = {Jun},
+  url     = {https://sengopal.me/posts/torch-profiler-walk-through-for-neuron-latency}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>
