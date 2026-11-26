@@ -192,7 +192,209 @@ run before the profiled run keeps these costs out of the
 measurement.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Script long traces.&lt;/strong&gt; For long captures, scripted
 analysis with the Perfetto trace processor or a Python script over the
-system profile is faster than scrolling through a UI.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="torch-profile"/><category term="profiling"/><category term="system-profile"/><category term="perfetto"/><category term="latency"/><category term="debugging"/></entry><entry><title>Block KV Paged Attention in vLLM’s NKI Kernel</title><link href="https://sengopal.me/posts/block-kv-paged-attention-in-vllms-nki-kernel" rel="alternate"/><published>2025-07-02T00:00:00-07:00</published><updated>2025-07-02T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-07-02:/posts/block-kv-paged-attention-in-vllms-nki-kernel</id><summary type="html">How vLLM’s NKI flash paged attention kernel reads a block KV cache on Neuron, from the block table and mask layout to vectorized DMA loads, online softmax and the cache update.</summary><content type="html">&lt;p&gt;vLLM stores the KV cache in fixed-size blocks of tokens. Each request
+system profile is faster than scrolling through a UI.&lt;/p&gt;</content><category term="Neuron"/><category term="neuron"/><category term="torch-profile"/><category term="profiling"/><category term="system-profile"/><category term="perfetto"/><category term="latency"/><category term="debugging"/></entry><entry><title>Benchmarking vLLM on Neuron with LLMPerf</title><link href="https://sengopal.me/posts/benchmarking-vllm-on-neuron-with-llmperf" rel="alternate"/><published>2025-08-25T00:00:00-07:00</published><updated>2025-08-25T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-08-25:/posts/benchmarking-vllm-on-neuron-with-llmperf</id><summary type="html">How LLMPerf measures a vLLM server on Neuron, where its latency and token counts differ from the usual definitions, and how the choice of prompts, sampling parameters and run length changes the result.</summary><content type="html">&lt;p&gt;A speed benchmark of an inference server measures throughput and
+latency. Server-level throughput is the number of output tokens the
+server produces per second, and it determines how many instances a given
+load needs. Request-level latency is the time to first token (TTFT) and
+the time per output token, and it determines whether a service meets its
+latency targets. Both depend on the number of concurrent requests, the
+prompts, the sampling parameters and the length of the run. This post
+describes how to measure them for a vLLM server on Trainium or
+Inferentia with the &lt;a href="https://github.com/ray-project/llmperf/tree/f1d6bed47e4501b0e371082b41601b59ab55269f"&gt;LLMPerf&lt;/a&gt;
+client. It also covers three LLMPerf definitions that differ from the
+usual ones.&lt;/p&gt;
+&lt;h2 id="setup"&gt;Setup&lt;/h2&gt;
+&lt;p&gt;The server is vLLM with the Neuron backend, serving the
+OpenAI-compatible API. The client is LLMPerf, which sends streaming chat
+completion requests at a fixed concurrency and records the timing of
+every streamed chunk. Client and server run on the same instance and
+talk over the loopback interface, so network latency between hosts does
+not enter the measurements.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/vllm-user-guide.html"&gt;Neuron
+vLLM user guide&lt;/a&gt; for Neuron SDK 2.25 starts the server with the NxD
+Inference backend:&lt;/p&gt;
+&lt;div class="sourceCode" id="cb1"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb1-1"&gt;&lt;a aria-hidden="true" href="#cb1-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="va"&gt;VLLM_NEURON_FRAMEWORK&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'neuronx-distributed-inference'&lt;/span&gt; &lt;span class="ex"&gt;python&lt;/span&gt; &lt;span class="at"&gt;-m&lt;/span&gt; vllm.entrypoints.openai.api_server &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-2"&gt;&lt;a aria-hidden="true" href="#cb1-2" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--model&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;"meta-llama/Llama-3.1-8B-Instruct"&lt;/span&gt; &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-3"&gt;&lt;a aria-hidden="true" href="#cb1-3" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--max-num-seqs&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;4 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-4"&gt;&lt;a aria-hidden="true" href="#cb1-4" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--max-model-len&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;2048 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-5"&gt;&lt;a aria-hidden="true" href="#cb1-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--tensor-parallel-size&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;8 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-6"&gt;&lt;a aria-hidden="true" href="#cb1-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--port&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;8000 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb1-7"&gt;&lt;a aria-hidden="true" href="#cb1-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--device&lt;/span&gt; &lt;span class="st"&gt;"neuron"&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;--max-num-seqs&lt;/code&gt; is the largest batch the server runs at
+once, and a Neuron model is compiled for that batch size. A client
+concurrency above it only adds queueing time to TTFT.
+&lt;code&gt;--max-model-len&lt;/code&gt; has to cover the longest prompt plus the
+largest number of output tokens the client requests.&lt;/p&gt;
+&lt;h2 id="metrics-in-llmperf"&gt;Metrics in LLMPerf&lt;/h2&gt;
+&lt;p&gt;LLMPerf records these values for every request:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;ttft_s&lt;/code&gt;&lt;/strong&gt;: the time from sending the
+request to receiving the first streamed chunk with content. On a server
+that is not overloaded, this is mostly the prefill of the prompt.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;end_to_end_latency_s&lt;/code&gt;&lt;/strong&gt;: the time from
+sending the request to the end of the stream.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;inter_token_latency_s&lt;/code&gt;&lt;/strong&gt;: the time per
+output token.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;number_input_tokens&lt;/code&gt;&lt;/strong&gt; and
+&lt;strong&gt;&lt;code&gt;number_output_tokens&lt;/code&gt;&lt;/strong&gt;: the prompt length
+and the number of generated tokens. A request can stop before its
+&lt;code&gt;max_tokens&lt;/code&gt; limit, so the output count can be lower than
+requested.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;request_output_throughput_token_per_s&lt;/code&gt;&lt;/strong&gt;:
+output tokens divided by the end-to-end latency of that request.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At the end of a run, LLMPerf reports
+&lt;code&gt;mean_output_throughput_token_per_s&lt;/code&gt;, the sum of output
+tokens over all completed requests divided by the wall-clock time of the
+run. This is the server-level throughput. The per-request throughput
+times the concurrency approximates it only while the client keeps every
+slot busy.&lt;/p&gt;
+&lt;h3 id="inter-token-latency-includes-ttft"&gt;Inter-token latency includes
+TTFT&lt;/h3&gt;
+&lt;p&gt;The OpenAI client in LLMPerf appends the TTFT to the list of gaps
+between chunks, and the benchmark then divides the sum of that list by
+the number of output tokens. The result is close to end-to-end latency
+divided by output tokens:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;LLMPerf:     ITL = (TTFT + time between first and last token) / output_tokens
+Excluded:    ITL = (end_to_end_latency - TTFT) / (output_tokens - 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With long prompts or a queue at the server, TTFT is large, and the
+first definition reports a higher per-token latency than the decode
+steps actually take. The &lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/llm-inference-benchmarking-guide.html"&gt;Neuron
+LLM inference benchmarking guide&lt;/a&gt; treats TTFT and time per output
+token as separate metrics and supplies a patch for LLMPerf that excludes
+TTFT from the second one. A report that gives ITL should say which
+definition it uses.&lt;/p&gt;
+&lt;h3 id="token-counts-use-a-llama-2-tokenizer"&gt;Token counts use a Llama 2
+tokenizer&lt;/h3&gt;
+&lt;p&gt;LLMPerf builds prompts and counts output tokens with the
+&lt;code&gt;hf-internal-testing/llama-tokenizer&lt;/code&gt;, a Llama 2 tokenizer.
+For any other model, including Llama 3, these counts differ from the
+number of tokens the model processed. The throughput and per-token
+latency that LLMPerf computes from them are off by the same ratio. The
+same Neuron patch adds an option to use the tokenizer of the model under
+test.&lt;/p&gt;
+&lt;h3 id="concurrency"&gt;Concurrency&lt;/h3&gt;
+&lt;p&gt;Before a fix merged in &lt;a href="https://github.com/ray-project/llmperf/commit/f1d6bed47e4501b0e371082b41601b59ab55269f"&gt;December
+2024&lt;/a&gt;, LLMPerf waited for a full group of
+&lt;code&gt;num_concurrent_requests&lt;/code&gt; requests to finish before sending
+the next requests. The server ran at the target concurrency only at the
+start of each group, and the measured throughput was lower than the
+server could sustain. Results from older versions of LLMPerf understate
+throughput at a given concurrency.&lt;/p&gt;
+&lt;h2 id="client-invocation"&gt;Client invocation&lt;/h2&gt;
+&lt;div class="sourceCode" id="cb3"&gt;&lt;pre class="sourceCode bash"&gt;&lt;code class="sourceCode bash"&gt;&lt;span id="cb3-1"&gt;&lt;a aria-hidden="true" href="#cb3-1" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;export&lt;/span&gt; &lt;span class="va"&gt;OPENAI_API_BASE&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'http://localhost:8000/v1'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-2"&gt;&lt;a aria-hidden="true" href="#cb3-2" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="bu"&gt;export&lt;/span&gt; &lt;span class="va"&gt;OPENAI_API_KEY&lt;/span&gt;&lt;span class="op"&gt;=&lt;/span&gt;&lt;span class="st"&gt;'EMPTY'&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-3"&gt;&lt;a aria-hidden="true" href="#cb3-3" tabindex="-1"&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id="cb3-4"&gt;&lt;a aria-hidden="true" href="#cb3-4" tabindex="-1"&gt;&lt;/a&gt;&lt;span class="ex"&gt;python&lt;/span&gt; token_benchmark_ray.py &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-5"&gt;&lt;a aria-hidden="true" href="#cb3-5" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--model&lt;/span&gt; meta-llama/Llama-3.1-8B-Instruct &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-6"&gt;&lt;a aria-hidden="true" href="#cb3-6" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--llm-api&lt;/span&gt; openai &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-7"&gt;&lt;a aria-hidden="true" href="#cb3-7" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--mean-input-tokens&lt;/span&gt; 550 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-8"&gt;&lt;a aria-hidden="true" href="#cb3-8" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--stddev-input-tokens&lt;/span&gt; 150 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-9"&gt;&lt;a aria-hidden="true" href="#cb3-9" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--mean-output-tokens&lt;/span&gt; 800 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-10"&gt;&lt;a aria-hidden="true" href="#cb3-10" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--stddev-output-tokens&lt;/span&gt; 200 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-11"&gt;&lt;a aria-hidden="true" href="#cb3-11" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--num-concurrent-requests&lt;/span&gt; 4 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-12"&gt;&lt;a aria-hidden="true" href="#cb3-12" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--max-num-completed-requests&lt;/span&gt; 1000 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-13"&gt;&lt;a aria-hidden="true" href="#cb3-13" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--timeout&lt;/span&gt; 21600 &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-14"&gt;&lt;a aria-hidden="true" href="#cb3-14" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--additional-sampling-params&lt;/span&gt; &lt;span class="st"&gt;'{"temperature": 0.5, "top_p": 0.9}'&lt;/span&gt; &lt;span class="dt"&gt;\&lt;/span&gt;&lt;/span&gt;
+&lt;span id="cb3-15"&gt;&lt;a aria-hidden="true" href="#cb3-15" tabindex="-1"&gt;&lt;/a&gt;    &lt;span class="at"&gt;--results-dir&lt;/span&gt; results/&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;LLMPerf draws the input and output lengths of each request from
+normal distributions with the given means and standard deviations. The
+output length becomes the &lt;code&gt;max_tokens&lt;/code&gt; of the request. The
+run ends when &lt;code&gt;--max-num-completed-requests&lt;/code&gt; requests have
+finished or the &lt;code&gt;--timeout&lt;/code&gt; in seconds expires, whichever
+comes first.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;--additional-sampling-params&lt;/code&gt; sets the sampling
+parameters on every request. Without it, the server uses its own
+defaults, which may differ from the parameters that production clients
+send. Temperature and top-p affect when a model emits its
+end-of-sequence token, so they also affect output lengths and
+throughput.&lt;/p&gt;
+&lt;h2 id="prompts"&gt;Prompts&lt;/h2&gt;
+&lt;p&gt;LLMPerf’s default prompt is a block of Shakespeare sonnet lines,
+padded to the sampled input length, with an instruction to stream random
+lines from it for the requested number of tokens without emitting an
+end-of-sequence token. Without speculative decoding, the cost of a
+decode step depends on the batch size and the sequence lengths, and the
+content of the prompt has little effect. The synthetic prompt works for
+this case.&lt;/p&gt;
+&lt;p&gt;With speculative decoding, the speedup depends on how many draft
+tokens the target model accepts per step. &lt;a href="https://arxiv.org/abs/2211.17192"&gt;Leviathan et al. (2023)&lt;/a&gt;
+report acceptance rates that vary by task and by model pair, so the
+synthetic prompt gives an unrepresentative speedup. A benchmark of
+speculative decoding uses prompts from real tasks, grouped by task type.
+The following public datasets cover the common task types:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Task type&lt;/th&gt;
+&lt;th&gt;Datasets&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Coding&lt;/td&gt;
+&lt;td&gt;HumanEval, MBXP&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Reasoning&lt;/td&gt;
+&lt;td&gt;GSM8K, BIG-bench arithmetic&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Summarization&lt;/td&gt;
+&lt;td&gt;DialogSum, WikiLingua&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Question answering&lt;/td&gt;
+&lt;td&gt;SQuAD v2, QuAC&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Conversation&lt;/td&gt;
+&lt;td&gt;MultiWOZ 2.2, DSTC11 track 5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mixed&lt;/td&gt;
+&lt;td&gt;ShareGPT&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The metrics are averaged over the datasets in each task type, and
+then over task types, so each type carries equal weight regardless of
+how many datasets it has. Using these datasets requires changing
+LLMPerf’s prompt source, which is the sonnet file.&lt;/p&gt;
+&lt;p&gt;Dataset prompts usually come without the chat template the model was
+trained with. vLLM’s &lt;code&gt;/v1/chat/completions&lt;/code&gt; endpoint, which
+LLMPerf calls, applies the model’s template on the server. A prompt that
+already contains the template would then receive it twice. The template
+has to be applied in exactly one place, either the client or the
+server.&lt;/p&gt;
+&lt;h2 id="run-length"&gt;Run length&lt;/h2&gt;
+&lt;p&gt;A run of 1,000 requests at low concurrency takes minutes, which is
+enough to compare configurations. A run of an hour or more shows whether
+throughput and latency stay constant under sustained load and whether
+server memory grows over time. Running the chosen configuration for that
+long checks it before it serves traffic.&lt;/p&gt;
+&lt;h2 id="from-measurements-to-capacity"&gt;From measurements to
+capacity&lt;/h2&gt;
+&lt;p&gt;LLMPerf reports p25 through p99 for every per-request metric. A sweep
+over concurrency, compared with a latency target such as a p99 TTFT of 1
+s and a p99 ITL of 50 ms, finds the highest concurrency that meets the
+target. The server-level output throughput at that concurrency is the
+capacity of one instance. The instance’s hourly price divided by that
+throughput gives the cost per output token. A stricter latency target
+lowers the usable concurrency, which raises the cost per token.&lt;/p&gt;
+&lt;h2 id="references"&gt;References&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/ray-project/llmperf/tree/f1d6bed47e4501b0e371082b41601b59ab55269f"&gt;LLMPerf,
+commit f1d6bed&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/ray-project/llmperf/commit/f1d6bed47e4501b0e371082b41601b59ab55269f"&gt;LLMPerf
+concurrency fix (#59)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/llm-inference-benchmarking-guide.html"&gt;LLM
+inference benchmarking guide, Neuron SDK 2.25&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/vllm-user-guide.html"&gt;vLLM
+user guide for NxD Inference, Neuron SDK 2.25&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://arxiv.org/abs/2211.17192"&gt;Fast Inference from
+Transformers via Speculative Decoding (Leviathan et al., 2023)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Neuron"/><category term="neuron"/><category term="benchmarking"/><category term="vllm"/><category term="llmperf"/><category term="inference"/></entry><entry><title>Block KV Paged Attention in vLLM’s NKI Kernel</title><link href="https://sengopal.me/posts/block-kv-paged-attention-in-vllms-nki-kernel" rel="alternate"/><published>2025-07-02T00:00:00-07:00</published><updated>2025-07-02T00:00:00-07:00</updated><author><name>Senthilkumar Gopal</name></author><id>tag:sengopal.me,2025-07-02:/posts/block-kv-paged-attention-in-vllms-nki-kernel</id><summary type="html">How vLLM’s NKI flash paged attention kernel reads a block KV cache on Neuron, from the block table and mask layout to vectorized DMA loads, online softmax and the cache update.</summary><content type="html">&lt;p&gt;vLLM stores the KV cache in fixed-size blocks of tokens. Each request
 owns a list of blocks, recorded in a block table, and blocks can be
 shared between requests that start with the same prefix. This layout,
 introduced with &lt;a href="https://arxiv.org/abs/2309.06180"&gt;PagedAttention&lt;/a&gt;, lets memory

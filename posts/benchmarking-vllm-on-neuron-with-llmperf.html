@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Benchmarking vLLM on Neuron with LLMPerf | Senthilkumar Gopal
+</title>
+  <link rel="canonical" href="https://sengopal.me/posts/benchmarking-vllm-on-neuron-with-llmperf.html">
+
+    <link rel="apple-touch-icon" href="https://sengopal.me/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://sengopal.me/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="https://sengopal.me/manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/all.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/pygments/default.min.css">
+  <link rel="stylesheet" href="https://sengopal.me/theme/css/theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/skylighting-solarized-theme.css">
+  <link rel="stylesheet" href="https://sengopal.me/extras/css/custom.css">
+
+  <link rel="alternate" type="application/atom+xml" title="Full Atom Feed"
+        href="https://sengopal.me/feeds/all.atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Categories Atom Feed"
+        href="https://sengopal.me/feeds/neuron.atom.xml">
+<meta name="description" content="How LLMPerf measures a vLLM server on Neuron, where its latency and token counts differ from the usual definitions, and how the choice of prompts, sampling parameters and run length changes the result.">
+
+<script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        processEnvironments: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-27Z9TN38F1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-27Z9TN38F1');
+  </script>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+<div class="d-flex flex-wrap justify-content-between align-items-baseline">
+  <h1 class="title"><a href="https://sengopal.me/">Senthilkumar Gopal</a></h1>
+    <ul class="list-inline social mb-0">
+        <li class="list-inline-item"><a class="fab fa-github" href="https://github.com/sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-google-scholar" href="https://scholar.google.com/citations?user=bs8WraEAAAAJ&hl=en" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-twitter" href="https://twitter.com/@sengopal" target="_blank"></a></li>
+        <li class="list-inline-item"><a class="fab fa-linkedin" href="https://www.linkedin.com/in/senthilkumargopal" target="_blank"></a></li>
+    </ul>
+</div>
+  <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/about.html">About me</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/publications.html">Publications</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/software.html">Software</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/pages/talks.html">Talks</a></li>
+  </ul>
+    </div>
+  </header>
+
+  <div class="main">
+    <div class="container">
+<article class="article">
+    <header>
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted" title="2025-08-25T00:00:00-07:00">
+                <i class="fas fa-clock"></i>
+                Mon 25 August 2025
+            </li>
+            <li class="list-inline-item">
+                <i class="fas fa-folder-open"></i>
+                <a href="https://sengopal.me/category/neuron">Neuron</a>
+            </li>
+        </ul>
+    </header>
+    <h1>Benchmarking vLLM on Neuron with LLMPerf</h1>
+    <div class="hidden-xs hidden-sm">
+        <nav class="toc" role="doc-toc">
+<ul>
+<li><a href="#setup" id="toc-setup">Setup</a></li>
+<li><a href="#metrics-in-llmperf" id="toc-metrics-in-llmperf">Metrics in
+LLMPerf</a>
+<ul>
+<li><a href="#inter-token-latency-includes-ttft" id="toc-inter-token-latency-includes-ttft">Inter-token latency includes
+TTFT</a></li>
+<li><a href="#token-counts-use-a-llama-2-tokenizer" id="toc-token-counts-use-a-llama-2-tokenizer">Token counts use a Llama 2
+tokenizer</a></li>
+<li><a href="#concurrency" id="toc-concurrency">Concurrency</a></li>
+</ul></li>
+<li><a href="#client-invocation" id="toc-client-invocation">Client
+invocation</a></li>
+<li><a href="#prompts" id="toc-prompts">Prompts</a></li>
+<li><a href="#run-length" id="toc-run-length">Run length</a></li>
+<li><a href="#from-measurements-to-capacity" id="toc-from-measurements-to-capacity">From measurements to
+capacity</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</nav>
+    </div>
+    <div class="content">
+        <p>A speed benchmark of an inference server measures throughput and
+latency. Server-level throughput is the number of output tokens the
+server produces per second, and it determines how many instances a given
+load needs. Request-level latency is the time to first token (TTFT) and
+the time per output token, and it determines whether a service meets its
+latency targets. Both depend on the number of concurrent requests, the
+prompts, the sampling parameters and the length of the run. This post
+describes how to measure them for a vLLM server on Trainium or
+Inferentia with the <a href="https://github.com/ray-project/llmperf/tree/f1d6bed47e4501b0e371082b41601b59ab55269f">LLMPerf</a>
+client. It also covers three LLMPerf definitions that differ from the
+usual ones.</p>
+<h2 id="setup">Setup</h2>
+<p>The server is vLLM with the Neuron backend, serving the
+OpenAI-compatible API. The client is LLMPerf, which sends streaming chat
+completion requests at a fixed concurrency and records the timing of
+every streamed chunk. Client and server run on the same instance and
+talk over the loopback interface, so network latency between hosts does
+not enter the measurements.</p>
+<p>The <a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/vllm-user-guide.html">Neuron
+vLLM user guide</a> for Neuron SDK 2.25 starts the server with the NxD
+Inference backend:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a aria-hidden="true" href="#cb1-1" tabindex="-1"></a><span class="va">VLLM_NEURON_FRAMEWORK</span><span class="op">=</span><span class="st">'neuronx-distributed-inference'</span> <span class="ex">python</span> <span class="at">-m</span> vllm.entrypoints.openai.api_server <span class="dt">\</span></span>
+<span id="cb1-2"><a aria-hidden="true" href="#cb1-2" tabindex="-1"></a>    <span class="at">--model</span><span class="op">=</span><span class="st">"meta-llama/Llama-3.1-8B-Instruct"</span> <span class="dt">\</span></span>
+<span id="cb1-3"><a aria-hidden="true" href="#cb1-3" tabindex="-1"></a>    <span class="at">--max-num-seqs</span><span class="op">=</span>4 <span class="dt">\</span></span>
+<span id="cb1-4"><a aria-hidden="true" href="#cb1-4" tabindex="-1"></a>    <span class="at">--max-model-len</span><span class="op">=</span>2048 <span class="dt">\</span></span>
+<span id="cb1-5"><a aria-hidden="true" href="#cb1-5" tabindex="-1"></a>    <span class="at">--tensor-parallel-size</span><span class="op">=</span>8 <span class="dt">\</span></span>
+<span id="cb1-6"><a aria-hidden="true" href="#cb1-6" tabindex="-1"></a>    <span class="at">--port</span><span class="op">=</span>8000 <span class="dt">\</span></span>
+<span id="cb1-7"><a aria-hidden="true" href="#cb1-7" tabindex="-1"></a>    <span class="at">--device</span> <span class="st">"neuron"</span></span></code></pre></div>
+<p><code>--max-num-seqs</code> is the largest batch the server runs at
+once, and a Neuron model is compiled for that batch size. A client
+concurrency above it only adds queueing time to TTFT.
+<code>--max-model-len</code> has to cover the longest prompt plus the
+largest number of output tokens the client requests.</p>
+<h2 id="metrics-in-llmperf">Metrics in LLMPerf</h2>
+<p>LLMPerf records these values for every request:</p>
+<ul>
+<li><strong><code>ttft_s</code></strong>: the time from sending the
+request to receiving the first streamed chunk with content. On a server
+that is not overloaded, this is mostly the prefill of the prompt.</li>
+<li><strong><code>end_to_end_latency_s</code></strong>: the time from
+sending the request to the end of the stream.</li>
+<li><strong><code>inter_token_latency_s</code></strong>: the time per
+output token.</li>
+<li><strong><code>number_input_tokens</code></strong> and
+<strong><code>number_output_tokens</code></strong>: the prompt length
+and the number of generated tokens. A request can stop before its
+<code>max_tokens</code> limit, so the output count can be lower than
+requested.</li>
+<li><strong><code>request_output_throughput_token_per_s</code></strong>:
+output tokens divided by the end-to-end latency of that request.</li>
+</ul>
+<p>At the end of a run, LLMPerf reports
+<code>mean_output_throughput_token_per_s</code>, the sum of output
+tokens over all completed requests divided by the wall-clock time of the
+run. This is the server-level throughput. The per-request throughput
+times the concurrency approximates it only while the client keeps every
+slot busy.</p>
+<h3 id="inter-token-latency-includes-ttft">Inter-token latency includes
+TTFT</h3>
+<p>The OpenAI client in LLMPerf appends the TTFT to the list of gaps
+between chunks, and the benchmark then divides the sum of that list by
+the number of output tokens. The result is close to end-to-end latency
+divided by output tokens:</p>
+<pre><code>LLMPerf:     ITL = (TTFT + time between first and last token) / output_tokens
+Excluded:    ITL = (end_to_end_latency - TTFT) / (output_tokens - 1)</code></pre>
+<p>With long prompts or a queue at the server, TTFT is large, and the
+first definition reports a higher per-token latency than the decode
+steps actually take. The <a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/llm-inference-benchmarking-guide.html">Neuron
+LLM inference benchmarking guide</a> treats TTFT and time per output
+token as separate metrics and supplies a patch for LLMPerf that excludes
+TTFT from the second one. A report that gives ITL should say which
+definition it uses.</p>
+<h3 id="token-counts-use-a-llama-2-tokenizer">Token counts use a Llama 2
+tokenizer</h3>
+<p>LLMPerf builds prompts and counts output tokens with the
+<code>hf-internal-testing/llama-tokenizer</code>, a Llama 2 tokenizer.
+For any other model, including Llama 3, these counts differ from the
+number of tokens the model processed. The throughput and per-token
+latency that LLMPerf computes from them are off by the same ratio. The
+same Neuron patch adds an option to use the tokenizer of the model under
+test.</p>
+<h3 id="concurrency">Concurrency</h3>
+<p>Before a fix merged in <a href="https://github.com/ray-project/llmperf/commit/f1d6bed47e4501b0e371082b41601b59ab55269f">December
+2024</a>, LLMPerf waited for a full group of
+<code>num_concurrent_requests</code> requests to finish before sending
+the next requests. The server ran at the target concurrency only at the
+start of each group, and the measured throughput was lower than the
+server could sustain. Results from older versions of LLMPerf understate
+throughput at a given concurrency.</p>
+<h2 id="client-invocation">Client invocation</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a aria-hidden="true" href="#cb3-1" tabindex="-1"></a><span class="bu">export</span> <span class="va">OPENAI_API_BASE</span><span class="op">=</span><span class="st">'http://localhost:8000/v1'</span></span>
+<span id="cb3-2"><a aria-hidden="true" href="#cb3-2" tabindex="-1"></a><span class="bu">export</span> <span class="va">OPENAI_API_KEY</span><span class="op">=</span><span class="st">'EMPTY'</span></span>
+<span id="cb3-3"><a aria-hidden="true" href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a aria-hidden="true" href="#cb3-4" tabindex="-1"></a><span class="ex">python</span> token_benchmark_ray.py <span class="dt">\</span></span>
+<span id="cb3-5"><a aria-hidden="true" href="#cb3-5" tabindex="-1"></a>    <span class="at">--model</span> meta-llama/Llama-3.1-8B-Instruct <span class="dt">\</span></span>
+<span id="cb3-6"><a aria-hidden="true" href="#cb3-6" tabindex="-1"></a>    <span class="at">--llm-api</span> openai <span class="dt">\</span></span>
+<span id="cb3-7"><a aria-hidden="true" href="#cb3-7" tabindex="-1"></a>    <span class="at">--mean-input-tokens</span> 550 <span class="dt">\</span></span>
+<span id="cb3-8"><a aria-hidden="true" href="#cb3-8" tabindex="-1"></a>    <span class="at">--stddev-input-tokens</span> 150 <span class="dt">\</span></span>
+<span id="cb3-9"><a aria-hidden="true" href="#cb3-9" tabindex="-1"></a>    <span class="at">--mean-output-tokens</span> 800 <span class="dt">\</span></span>
+<span id="cb3-10"><a aria-hidden="true" href="#cb3-10" tabindex="-1"></a>    <span class="at">--stddev-output-tokens</span> 200 <span class="dt">\</span></span>
+<span id="cb3-11"><a aria-hidden="true" href="#cb3-11" tabindex="-1"></a>    <span class="at">--num-concurrent-requests</span> 4 <span class="dt">\</span></span>
+<span id="cb3-12"><a aria-hidden="true" href="#cb3-12" tabindex="-1"></a>    <span class="at">--max-num-completed-requests</span> 1000 <span class="dt">\</span></span>
+<span id="cb3-13"><a aria-hidden="true" href="#cb3-13" tabindex="-1"></a>    <span class="at">--timeout</span> 21600 <span class="dt">\</span></span>
+<span id="cb3-14"><a aria-hidden="true" href="#cb3-14" tabindex="-1"></a>    <span class="at">--additional-sampling-params</span> <span class="st">'{"temperature": 0.5, "top_p": 0.9}'</span> <span class="dt">\</span></span>
+<span id="cb3-15"><a aria-hidden="true" href="#cb3-15" tabindex="-1"></a>    <span class="at">--results-dir</span> results/</span></code></pre></div>
+<p>LLMPerf draws the input and output lengths of each request from
+normal distributions with the given means and standard deviations. The
+output length becomes the <code>max_tokens</code> of the request. The
+run ends when <code>--max-num-completed-requests</code> requests have
+finished or the <code>--timeout</code> in seconds expires, whichever
+comes first.</p>
+<p><code>--additional-sampling-params</code> sets the sampling
+parameters on every request. Without it, the server uses its own
+defaults, which may differ from the parameters that production clients
+send. Temperature and top-p affect when a model emits its
+end-of-sequence token, so they also affect output lengths and
+throughput.</p>
+<h2 id="prompts">Prompts</h2>
+<p>LLMPerf’s default prompt is a block of Shakespeare sonnet lines,
+padded to the sampled input length, with an instruction to stream random
+lines from it for the requested number of tokens without emitting an
+end-of-sequence token. Without speculative decoding, the cost of a
+decode step depends on the batch size and the sequence lengths, and the
+content of the prompt has little effect. The synthetic prompt works for
+this case.</p>
+<p>With speculative decoding, the speedup depends on how many draft
+tokens the target model accepts per step. <a href="https://arxiv.org/abs/2211.17192">Leviathan et al. (2023)</a>
+report acceptance rates that vary by task and by model pair, so the
+synthetic prompt gives an unrepresentative speedup. A benchmark of
+speculative decoding uses prompts from real tasks, grouped by task type.
+The following public datasets cover the common task types:</p>
+<table>
+<thead>
+<tr>
+<th>Task type</th>
+<th>Datasets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coding</td>
+<td>HumanEval, MBXP</td>
+</tr>
+<tr>
+<td>Reasoning</td>
+<td>GSM8K, BIG-bench arithmetic</td>
+</tr>
+<tr>
+<td>Summarization</td>
+<td>DialogSum, WikiLingua</td>
+</tr>
+<tr>
+<td>Question answering</td>
+<td>SQuAD v2, QuAC</td>
+</tr>
+<tr>
+<td>Conversation</td>
+<td>MultiWOZ 2.2, DSTC11 track 5</td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td>ShareGPT</td>
+</tr>
+</tbody>
+</table>
+<p>The metrics are averaged over the datasets in each task type, and
+then over task types, so each type carries equal weight regardless of
+how many datasets it has. Using these datasets requires changing
+LLMPerf’s prompt source, which is the sonnet file.</p>
+<p>Dataset prompts usually come without the chat template the model was
+trained with. vLLM’s <code>/v1/chat/completions</code> endpoint, which
+LLMPerf calls, applies the model’s template on the server. A prompt that
+already contains the template would then receive it twice. The template
+has to be applied in exactly one place, either the client or the
+server.</p>
+<h2 id="run-length">Run length</h2>
+<p>A run of 1,000 requests at low concurrency takes minutes, which is
+enough to compare configurations. A run of an hour or more shows whether
+throughput and latency stay constant under sustained load and whether
+server memory grows over time. Running the chosen configuration for that
+long checks it before it serves traffic.</p>
+<h2 id="from-measurements-to-capacity">From measurements to
+capacity</h2>
+<p>LLMPerf reports p25 through p99 for every per-request metric. A sweep
+over concurrency, compared with a latency target such as a p99 TTFT of 1
+s and a p99 ITL of 50 ms, finds the highest concurrency that meets the
+target. The server-level output throughput at that concurrency is the
+capacity of one instance. The instance’s hourly price divided by that
+throughput gives the cost per output token. A stricter latency target
+lowers the usable concurrency, which raises the cost per token.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://github.com/ray-project/llmperf/tree/f1d6bed47e4501b0e371082b41601b59ab55269f">LLMPerf,
+commit f1d6bed</a></li>
+<li><a href="https://github.com/ray-project/llmperf/commit/f1d6bed47e4501b0e371082b41601b59ab55269f">LLMPerf
+concurrency fix (#59)</a></li>
+<li><a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/llm-inference-benchmarking-guide.html">LLM
+inference benchmarking guide, Neuron SDK 2.25</a></li>
+<li><a href="https://awsdocs-neuron.readthedocs-hosted.com/en/v2.25.0/libraries/nxd-inference/developer_guides/vllm-user-guide.html">vLLM
+user guide for NxD Inference, Neuron SDK 2.25</a></li>
+<li><a href="https://arxiv.org/abs/2211.17192">Fast Inference from
+Transformers via Speculative Decoding (Leviathan et al., 2023)</a></li>
+</ul>
+    </div>
+    <hr/>
+    <p>If you found this useful, please cite this post using</p>
+    <blockquote class="blockquote-citation">
+        <p>Senthilkumar Gopal. (Aug 2025). Benchmarking vLLM on Neuron with LLMPerf. sengopal.me. https://sengopal.me/posts/benchmarking-vllm-on-neuron-with-llmperf</p>
+    </blockquote>
+    <p>or</p>
+    <div class="citation">
+        <pre class="citation">@article{gopal2025benchmarkingvllm,
+  title   = {Benchmarking vLLM on Neuron with LLMPerf},
+  author  = {Senthilkumar Gopal},
+  journal = {sengopal.me},
+  year    = {2025},
+  month   = {Aug},
+  url     = {https://sengopal.me/posts/benchmarking-vllm-on-neuron-with-llmperf}
+}</pre>
+    </div>
+</article>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<div class="text-center">
+    <ul class="list-inline mb-2">
+        <li class="list-inline-item"><a href="https://sengopal.me/archives">Archives</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/llm-inference">LLM-Inference</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/machine-learning">Machine-Learning</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/math">Math</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/neuron">Neuron</a></li>
+        <li class="list-inline-item"><a href="https://sengopal.me/category/systems">Systems</a></li>
+        <li class="list-inline-item"><a class="fas fa-rss footer-rss" href="https://sengopal.me/feeds/all.atom.xml" title="RSS feed"></a></li>
+    </ul>
+    <div><small class="text-muted">Views are my own, not my employer.</small></div>
+</div>    </div>
+  </footer>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" crossorigin="anonymous"></script>
+  <script>
+    document.querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.hostname !== location.hostname) { a.target = '_blank'; a.rel = 'noopener'; }
+    });
+  </script>
+</body>
+
+</html>
